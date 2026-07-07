@@ -39,6 +39,78 @@ def _evidence(row: dict[str, Any]) -> list[str]:
     ]
 
 
+def _priority_lane(rank: int, row: dict[str, Any]) -> str:
+    if rank == 1:
+        return "top wet-lab bet"
+    if row["known_regulon_targets"] > 0:
+        return "known-regulon anchor"
+    if row["rest_de"] <= 25 and (row["k562_de"] is None or row["k562_de"] <= 5):
+        return "clean specificity"
+    if row["strongest_condition"] == "Stim48hr":
+        return "late activation follow-up"
+    if row["stim_max_de"] >= 1000:
+        return "large-footprint follow-up"
+    return "bench follow-up"
+
+
+def _primary_readout(row: dict[str, Any]) -> str:
+    if row["strongest_condition"] == "Stim8hr":
+        return "Stim8hr transcriptional program"
+    if row["strongest_condition"] == "Stim48hr":
+        return "Stim48hr transcriptional program"
+    return "stimulated CD4+ transcriptional program"
+
+
+def _why_interesting(rank: int, row: dict[str, Any]) -> str:
+    gene = row["gene"]
+    k562 = row["k562_de"]
+    transfer = f"K562 DE {k562}" if k562 is not None else "no K562 measurement"
+    if rank == 1:
+        return (
+            f"{gene} has the largest stimulated footprint in the campaign, "
+            f"{row['stim_max_de']} DE genes at {row['strongest_condition']}, with {transfer}."
+        )
+    if row["known_regulon_targets"] > 0:
+        return (
+            f"{gene} carries a literature regulon anchor while still passing the CD4-specific "
+            f"proposal filters, giving the follow-up a known comparison set."
+        )
+    if row["rest_de"] <= 25:
+        return (
+            f"{gene} is nearly silent at Rest but crosses the campaign threshold after stimulation, "
+            f"with {transfer}."
+        )
+    return (
+        f"{gene} passes the non-canonical, on-target, CD4-specific filter with "
+        f"{row['stim_max_de']} DE genes at {row['strongest_condition']}."
+    )
+
+
+def _main_risk(row: dict[str, Any]) -> str:
+    if row["k562_de"] is None and row["rpe1_de"] is None:
+        return "proposal-only because non-immune transfer is inferred from available rows, not both cell types."
+    if row["rest_de"] > 250:
+        return "proposal-only because Rest DE is close to the campaign ceiling."
+    if row["known_regulon_targets"] > 0:
+        return "proposal-only because the known regulon gives context but does not establish this CD4+ claim."
+    return "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint."
+
+
+def _what_would_weaken(row: dict[str, Any]) -> str:
+    if row["k562_de"] is None and row["rpe1_de"] is None:
+        return "A broad non-immune effect in a follow-up transfer assay would lower priority."
+    if row["rest_de"] > 250:
+        return "A larger Rest effect on replicate would make this look less activation-specific."
+    return "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+
+
+def _review_summary(rank: int, row: dict[str, Any]) -> str:
+    return (
+        f"{_priority_lane(rank, row)}: {_why_interesting(rank, row)} "
+        f"Primary readout: {_primary_readout(row)}."
+    )
+
+
 def _campaign_row(rank: int, row: dict[str, Any]) -> dict[str, Any]:
     gene = row["gene"]
     return {
@@ -64,6 +136,12 @@ def _campaign_row(rank: int, row: dict[str, Any]) -> dict[str, Any]:
             f"and {row['known_regulon_targets']} CollecTRI targets"
         ),
         "evidence": _evidence(row),
+        "priority_lane": _priority_lane(rank, row),
+        "primary_readout": _primary_readout(row),
+        "why_interesting": _why_interesting(rank, row),
+        "main_risk": _main_risk(row),
+        "what_would_weaken": _what_would_weaken(row),
+        "review_summary": _review_summary(rank, row),
         "assay": row["validation_assay"],
     }
 
@@ -98,7 +176,8 @@ def build_campaign(limit: int = 20) -> dict[str, Any]:
 def _write_csv(rows: list[dict[str, Any]], out_csv: Path) -> None:
     fields = [
         "rank", "gene", "status", "trust_boundary", "score", "stim_max_de", "strongest_condition",
-        "rest_de", "k562_de", "rpe1_de", "known_regulon_targets", "rationale", "assay",
+        "rest_de", "k562_de", "rpe1_de", "known_regulon_targets", "priority_lane",
+        "primary_readout", "why_interesting", "main_risk", "what_would_weaken", "rationale", "assay",
     ]
     with out_csv.open("w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
@@ -123,6 +202,18 @@ def _markdown(campaign: dict[str, Any]) -> str:
         lines.append(
             f"| {row['rank']} | {row['gene']} | {row['stim_max_de']} | {row['rest_de']} | "
             f"{k562} | {row['known_regulon_targets']} | {row['score']} |"
+        )
+    lines += [
+        "",
+        "## Review lane",
+        "",
+        "| rank | gene | lane | why it is interesting | What would weaken it | primary readout |",
+        "|---:|---|---|---|---|---|",
+    ]
+    for row in campaign["candidates"][:12]:
+        lines.append(
+            f"| {row['rank']} | {row['gene']} | {row['priority_lane']} | "
+            f"{row['why_interesting']} | {row['what_would_weaken']} | {row['primary_readout']} |"
         )
     lines += [
         "",

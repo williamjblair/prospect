@@ -44,6 +44,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "top wet-lab bet",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "PGGT1B has the largest stimulated footprint in the campaign, 3014 DE genes at Stim8hr, with K562 DE 1.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "top wet-lab bet: PGGT1B has the largest stimulated footprint in the campaign, 3014 DE genes at Stim8hr, with K562 DE 1. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -71,6 +77,12 @@
         "5 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "RCC1L passes the non-canonical, on-target, CD4-specific filter with 1167 DE genes at Stim48hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "late activation follow-up: RCC1L passes the non-canonical, on-target, CD4-specific filter with 1167 DE genes at Stim48hr. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -98,6 +110,12 @@
         "20 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "MCAT passes the non-canonical, on-target, CD4-specific filter with 780 DE genes at Stim48hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "late activation follow-up: MCAT passes the non-canonical, on-target, CD4-specific filter with 780 DE genes at Stim48hr. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -125,6 +143,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "bench follow-up",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "RWDD2B passes the non-canonical, on-target, CD4-specific filter with 720 DE genes at Stim8hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "bench follow-up: RWDD2B passes the non-canonical, on-target, CD4-specific filter with 720 DE genes at Stim8hr. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -152,6 +176,12 @@
         "13 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "CCDC22 passes the non-canonical, on-target, CD4-specific filter with 619 DE genes at Stim48hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "late activation follow-up: CCDC22 passes the non-canonical, on-target, CD4-specific filter with 619 DE genes at Stim48hr. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -179,6 +209,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "GAS2L1 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "clean specificity: GAS2L1 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -206,6 +242,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "SNAP29 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "clean specificity: SNAP29 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -233,6 +275,12 @@
         "13 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "CYB5RL is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 13.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "late activation follow-up: CYB5RL is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 13. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -260,6 +308,12 @@
         "not measured DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "LETM2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement.",
+      "main_risk": "proposal-only because non-immune transfer is inferred from available rows, not both cell types.",
+      "what_would_weaken": "A broad non-immune effect in a follow-up transfer assay would lower priority.",
+      "review_summary": "clean specificity: LETM2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -287,6 +341,12 @@
         "not measured DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "DAPK2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement.",
+      "main_risk": "proposal-only because non-immune transfer is inferred from available rows, not both cell types.",
+      "what_would_weaken": "A broad non-immune effect in a follow-up transfer assay would lower priority.",
+      "review_summary": "clean specificity: DAPK2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -314,6 +374,12 @@
         "0 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "bench follow-up",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "SCO2 passes the non-canonical, on-target, CD4-specific filter with 369 DE genes at Stim8hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "bench follow-up: SCO2 passes the non-canonical, on-target, CD4-specific filter with 369 DE genes at Stim8hr. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -341,6 +407,12 @@
         "0 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "CCDC136 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 0.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "clean specificity: CCDC136 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 0. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -368,6 +440,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "clean specificity",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "MITD1 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "clean specificity: MITD1 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -395,6 +473,12 @@
         "not measured DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "bench follow-up",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "GZMB passes the non-canonical, on-target, CD4-specific filter with 496 DE genes at Stim8hr.",
+      "main_risk": "proposal-only because non-immune transfer is inferred from available rows, not both cell types.",
+      "what_would_weaken": "A broad non-immune effect in a follow-up transfer assay would lower priority.",
+      "review_summary": "bench follow-up: GZMB passes the non-canonical, on-target, CD4-specific filter with 496 DE genes at Stim8hr. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -422,6 +506,12 @@
         "0 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "FANCL passes the non-canonical, on-target, CD4-specific filter with 329 DE genes at Stim48hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "late activation follow-up: FANCL passes the non-canonical, on-target, CD4-specific filter with 329 DE genes at Stim48hr. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -449,6 +539,12 @@
         "not measured DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "late activation follow-up",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "TNNC1 passes the non-canonical, on-target, CD4-specific filter with 260 DE genes at Stim48hr.",
+      "main_risk": "proposal-only because non-immune transfer is inferred from available rows, not both cell types.",
+      "what_would_weaken": "A broad non-immune effect in a follow-up transfer assay would lower priority.",
+      "review_summary": "late activation follow-up: TNNC1 passes the non-canonical, on-target, CD4-specific filter with 260 DE genes at Stim48hr. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -476,6 +572,12 @@
         "1 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "bench follow-up",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "BCKDHA passes the non-canonical, on-target, CD4-specific filter with 374 DE genes at Stim8hr.",
+      "main_risk": "proposal-only because Rest DE is close to the campaign ceiling.",
+      "what_would_weaken": "A larger Rest effect on replicate would make this look less activation-specific.",
+      "review_summary": "bench follow-up: BCKDHA passes the non-canonical, on-target, CD4-specific filter with 374 DE genes at Stim8hr. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -503,6 +605,12 @@
         "5 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ],
+      "priority_lane": "bench follow-up",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "ZC3H12A passes the non-canonical, on-target, CD4-specific filter with 261 DE genes at Stim8hr.",
+      "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+      "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority.",
+      "review_summary": "bench follow-up: ZC3H12A passes the non-canonical, on-target, CD4-specific filter with 261 DE genes at Stim8hr. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -530,6 +638,12 @@
         "0 DE genes in K562 and not measured in RPE1",
         "59 CollecTRI targets"
       ],
+      "priority_lane": "known-regulon anchor",
+      "primary_readout": "Stim8hr transcriptional program",
+      "why_interesting": "IRF4 carries a literature regulon anchor while still passing the CD4-specific proposal filters, giving the follow-up a known comparison set.",
+      "main_risk": "proposal-only because Rest DE is close to the campaign ceiling.",
+      "what_would_weaken": "A larger Rest effect on replicate would make this look less activation-specific.",
+      "review_summary": "known-regulon anchor: IRF4 carries a literature regulon anchor while still passing the CD4-specific proposal filters, giving the follow-up a known comparison set. Primary readout: Stim8hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     },
     {
@@ -557,6 +671,12 @@
         "2 DE genes in K562 and not measured in RPE1",
         "15 CollecTRI targets"
       ],
+      "priority_lane": "known-regulon anchor",
+      "primary_readout": "Stim48hr transcriptional program",
+      "why_interesting": "RXRB carries a literature regulon anchor while still passing the CD4-specific proposal filters, giving the follow-up a known comparison set.",
+      "main_risk": "proposal-only because Rest DE is close to the campaign ceiling.",
+      "what_would_weaken": "A larger Rest effect on replicate would make this look less activation-specific.",
+      "review_summary": "known-regulon anchor: RXRB carries a literature regulon anchor while still passing the CD4-specific proposal filters, giving the follow-up a known comparison set. Primary readout: Stim48hr transcriptional program.",
       "assay": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h"
     }
   ]

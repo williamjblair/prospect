@@ -1,6 +1,6 @@
 # Findings
 
-Three findings, mined deterministically from the released Marson CD4+ CRISPRi Perturb-seq
+Five findings, mined deterministically from the released Marson CD4+ CRISPRi Perturb-seq
 DE-stats table (`examples/data/atlas_backbone.json`). Every threshold lives in
 `frontier/predicates.py`, so a finding never drifts from the number that justifies it. Nothing
 here is a live recompute; each claim re-derives from the frozen table, and each becomes a

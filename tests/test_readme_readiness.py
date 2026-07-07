@@ -7,6 +7,7 @@ README = ROOT / "README.md"
 
 def test_readme_lists_current_commands_and_artifacts():
     text = README.read_text()
+    findings = (ROOT / "docs" / "FINDINGS.md").read_text()
 
     for command in [
         "./prospect verify",
@@ -26,6 +27,9 @@ def test_readme_lists_current_commands_and_artifacts():
         "/data/lab_packet.json",
     ]:
         assert artifact in text
+
+    assert "Five findings" in findings
+    assert "Three findings" not in findings
 
 
 if __name__ == "__main__":

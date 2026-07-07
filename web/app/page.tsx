@@ -53,6 +53,8 @@ type AgentCampaign = {
     rank: number; gene: string; status: string; trust_boundary: string; score: number;
     stim_max_de: number; strongest_condition: string; rest_de: number; k562_de: number | null;
     rpe1_de: number | null; known_regulon_targets: number; rationale: string; assay: string;
+    priority_lane: string; primary_readout: string; why_interesting: string; main_risk: string;
+    what_would_weaken: string; review_summary: string;
   }[];
 };
 type LabPacket = {
@@ -1040,10 +1042,10 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
         </a>
       </div>
       <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 780, borderCollapse: "collapse" }}>
+        <table style={{ width: "100%", minWidth: 1120, borderCollapse: "collapse" }}>
           <thead>
             <tr className="t-label">
-              {["rank", "gene", "status", "stim max", "Rest", "K562", "regulon", "score"].map((h) => (
+              {["rank", "gene", "lane", "status", "stim max", "Rest", "K562", "review", "risk"].map((h) => (
                 <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
               ))}
             </tr>
@@ -1055,6 +1057,9 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
                 <td style={{ padding: "8px 12px" }}>
                   <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
                 </td>
+                <td style={{ padding: "8px 12px", maxWidth: 150 }}>
+                  <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>{r.priority_lane}</span>
+                </td>
                 <td style={{ padding: "8px 12px" }}>
                   <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{r.status.replace(/_/g, " ")}</span>
                 </td>
@@ -1063,8 +1068,8 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
                 </td>
                 <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.rest_de)}</td>
                 <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de == null ? "·" : fmt(r.k562_de)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.known_regulon_targets}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{fmt(r.score)}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", maxWidth: 270, color: "var(--ink-2)" }}>{r.why_interesting}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", maxWidth: 250, color: "var(--ink-3)" }}>{r.what_would_weaken}</td>
               </tr>
             ))}
           </tbody>

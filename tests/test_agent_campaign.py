@@ -30,6 +30,10 @@ def test_campaign_ranks_many_proposal_only_candidates():
     assert "hypothesis to test" in by_gene["PGGT1B"]["rationale"]
     assert "verified" not in json.dumps(campaign).lower()
     assert "true" not in json.dumps(campaign).lower()
+    assert by_gene["PGGT1B"]["priority_lane"] == "top wet-lab bet"
+    assert by_gene["PGGT1B"]["primary_readout"] == "Stim8hr transcriptional program"
+    assert "largest stimulated footprint" in by_gene["PGGT1B"]["why_interesting"]
+    assert "proposal-only" in by_gene["PGGT1B"]["main_risk"]
 
 
 def test_campaign_keeps_filters_and_evidence_atoms():
@@ -43,6 +47,13 @@ def test_campaign_keeps_filters_and_evidence_atoms():
     assert all(r["cross_cell_type"] == "cell-type-specific" for r in rows)
     assert all(r["known_regulon_targets"] == 0 for r in rows[:10])
     assert all(len(r["evidence"]) >= 4 for r in rows)
+    assert {r["priority_lane"] for r in rows[:12]} >= {
+        "top wet-lab bet",
+        "late activation follow-up",
+        "clean specificity",
+    }
+    assert all(r["review_summary"] for r in rows)
+    assert all(r["what_would_weaken"] for r in rows)
 
 
 def test_campaign_writes_json_csv_and_markdown(tmp_path):
@@ -58,6 +69,8 @@ def test_campaign_writes_json_csv_and_markdown(tmp_path):
     assert "Agent campaign leaderboard" in doc
     assert "evidence_attached" in doc
     assert "proposal only" in doc
+    assert "Review lane" in doc
+    assert "What would weaken it" in doc
     assert "PGGT1B" in out_csv.read_text()
 
 

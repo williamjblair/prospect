@@ -27,6 +27,23 @@ The campaign widens the single-agent result into a ranked bench of follow-up hyp
 | 19 | IRF4 | 567 | 325 | 0 | 59 | 553 |
 | 20 | RXRB | 422 | 308 | 2 | 15 | 469 |
 
+## Review lane
+
+| rank | gene | lane | why it is interesting | What would weaken it | primary readout |
+|---:|---|---|---|---|---|
+| 1 | PGGT1B | top wet-lab bet | PGGT1B has the largest stimulated footprint in the campaign, 3014 DE genes at Stim8hr, with K562 DE 1. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim8hr transcriptional program |
+| 2 | RCC1L | late activation follow-up | RCC1L passes the non-canonical, on-target, CD4-specific filter with 1167 DE genes at Stim48hr. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+| 3 | MCAT | late activation follow-up | MCAT passes the non-canonical, on-target, CD4-specific filter with 780 DE genes at Stim48hr. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+| 4 | RWDD2B | bench follow-up | RWDD2B passes the non-canonical, on-target, CD4-specific filter with 720 DE genes at Stim8hr. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim8hr transcriptional program |
+| 5 | CCDC22 | late activation follow-up | CCDC22 passes the non-canonical, on-target, CD4-specific filter with 619 DE genes at Stim48hr. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+| 6 | GAS2L1 | clean specificity | GAS2L1 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+| 7 | SNAP29 | clean specificity | SNAP29 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 1. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim8hr transcriptional program |
+| 8 | CYB5RL | late activation follow-up | CYB5RL is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 13. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+| 9 | LETM2 | clean specificity | LETM2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement. | A broad non-immune effect in a follow-up transfer assay would lower priority. | Stim48hr transcriptional program |
+| 10 | DAPK2 | clean specificity | DAPK2 is nearly silent at Rest but crosses the campaign threshold after stimulation, with no K562 measurement. | A broad non-immune effect in a follow-up transfer assay would lower priority. | Stim48hr transcriptional program |
+| 11 | SCO2 | bench follow-up | SCO2 passes the non-canonical, on-target, CD4-specific filter with 369 DE genes at Stim8hr. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim8hr transcriptional program |
+| 12 | CCDC136 | clean specificity | CCDC136 is nearly silent at Rest but crosses the campaign threshold after stimulation, with K562 DE 0. | Loss of the stimulated DE footprint after orthogonal knockdown would lower priority. | Stim48hr transcriptional program |
+
 Rebuild:
 
 ```bash

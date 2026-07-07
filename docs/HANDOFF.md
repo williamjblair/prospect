@@ -73,9 +73,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   It keeps status at `evidence_attached`, binds exact local facts, adds literature context, and gives
   a stimulated CD4+ assay readout.
 - **Agent campaign leaderboard** (`frontier/agent_campaign.py`, `./prospect campaign`): 20
-  proposal-only follow-ups ranked by frozen Prospect facts, exported to `examples/data/agent_campaign.*`
-  and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the single-agent result without moving
-  accepted state.
+  proposal-only follow-ups ranked by frozen Prospect facts, with deterministic review lanes,
+  primary readouts, and "what would weaken it" triage fields, exported to
+  `examples/data/agent_campaign.*` and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the
+  single-agent result without moving accepted state.
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -186,7 +187,7 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 
 **Bigger swings (higher ceiling, in rough priority):**
 - **Agent campaign next pass**: optionally run additional Claude tool-use episodes against the campaign
-  rows and attach narrative comparisons, while keeping the leaderboard proposal-only.
+  rows and compare them to the deterministic review lanes, while keeping the leaderboard proposal-only.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B next pass**: extend the shipped deep dive with more literature triangulation and, if time
