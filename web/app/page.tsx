@@ -286,6 +286,10 @@ export default function Page() {
 function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom, dist = d.stats.dist;
   const order = ["constitutive_regulator", "condition_specific_regulator", "reproduced_non_regulator", "unverifiable_no_kd"];
+  const demoClaims = [...d.demo].sort((a, b) => {
+    const rank: Record<string, number> = { unsupported: 0, refuted: 1, needs_qualification: 2, asserted: 3, supported: 4 };
+    return (rank[a.status] ?? 9) - (rank[b.status] ?? 9);
+  });
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
   return (
     <div style={{ display: "grid", gap: 26 }}>
@@ -353,11 +357,26 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
             </span>
           ))}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
-          {d.demo.map((x, i) => (
-            <span key={i} className="chip" title={x.reason} style={{ ["--tone" as any]: DEMOC[x.status] }}>
-              {x.gene} · {x.status.replace(/_/g, " ")}
-            </span>
+      </section>
+
+      <section style={{ display: "grid", gap: 10 }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Opening claim checks</div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "70ch" }}>
+            Start with claims a model can assert quickly. The checker keeps each verdict typed and grounded in the frozen table.
+          </p>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 10 }}>
+          {demoClaims.slice(0, 3).map((x) => (
+            <div key={`${x.gene}-${x.status}`} style={{ padding: "12px 14px", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)",
+              background: "var(--paper-raised)", display: "grid", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span className="t-mono" style={{ fontWeight: 700 }}>{x.gene}</span>
+                <span className="chip" style={{ ["--tone" as any]: DEMOC[x.status] }}>{x.status.replace(/_/g, " ")}</span>
+              </div>
+              <p className="t-body-sm" style={{ margin: 0, color: "var(--ink)" }}>{x.text}</p>
+              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{x.reason}</p>
+            </div>
           ))}
         </div>
       </section>

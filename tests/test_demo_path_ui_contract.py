@@ -15,6 +15,18 @@ def test_overview_exposes_judge_demo_path_tabs():
     assert "Demo path" in source
 
 
+def test_overview_renders_visible_claim_check_strip():
+    source = PAGE.read_text()
+
+    assert "Opening claim checks" in source
+    assert "const demoClaims" in source
+    assert "demoClaims.slice(0, 3).map" in source
+    assert "key={`${x.gene}-${x.status}`}" in source
+    assert "{x.text}" in source
+    assert "{x.reason}" in source
+
+
 if __name__ == "__main__":
     test_overview_exposes_judge_demo_path_tabs()
+    test_overview_renders_visible_claim_check_strip()
     print("PASS: demo path UI contract")

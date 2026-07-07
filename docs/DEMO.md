@@ -4,7 +4,7 @@ The arc is refusal, then reveal, then number. Never open on the map. Open on a m
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
-**0:00 · Refusal.** Overview tab. Read the AI claim on the demo chips: *"CRISPRi of A1BG drives
+**0:00 · Refusal.** Overview tab. Read the AI claim on the opening claim cards: *"CRISPRi of A1BG drives
 a broad activation program in stimulated CD4 T cells, a promising target."* It sounds right. The
 frozen checker marks it **unsupported**: A1BG was never knocked down, so the perturbation did not
 happen. The claim has no basis. One line: an AI can assert this in a second; confirming it is the
