@@ -1,0 +1,6 @@
+[
+ {"text":"VAV1 is a major regulator of the stimulated CD4 T-cell transcriptome.","gene":"VAV1","condition":"Stim48hr","asserts_major":true},
+ {"text":"CRISPRi of A1BG drives a broad activation program in stimulated CD4 T cells.","gene":"A1BG","condition":"Stim48hr","asserts_major":true},
+ {"text":"BCL10 regulates CD4 T-cell state.","gene":"BCL10","asserts_effect":true},
+ {"text":"A1BG is a promising therapeutic target.","gene":"A1BG","condition":"Stim48hr","strength":"promising_target"}
+]
