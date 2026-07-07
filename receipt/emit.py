@@ -95,7 +95,7 @@ def from_agent():
     if not h:
         return None
     sig = json.load(open(os.path.join(DATA, "agent_run.sig.json"))) if os.path.exists(os.path.join(DATA, "agent_run.sig.json")) else {}
-    atoms = [EvidenceAtom(fact=e, value="verified by tool call", source="frozen-data tool") for e in h.get("evidence", [])]
+    atoms = [EvidenceAtom(fact=e, value="frozen-data lookup", source="frozen-data tool") for e in h.get("evidence", [])]
     acc = Acceptance(signer=sig.get("signer", ""), delta_id=sig.get("delta_id", ""),
                      pubkey=sig.get("pubkey", ""), signature=sig.get("signature", "")) if sig else None
     return Receipt(

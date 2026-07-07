@@ -14,9 +14,7 @@
 /*
   Prospect: observatory-notebook design tokens.
 
-  Ported from Episteme atlas-platform's design-system (
-  packages/design-system/styles/globals.css) at v0.175. The palette
-  is "scientific cartography through restraint": warm paper canvas,
+  The palette is "scientific cartography through restraint": warm paper canvas,
   deep navy ink, brass-gold as kintsugi thread for calibration +
   focus rings. Cards earn separation from a hairline rule plus a
   faint cast, not from glow blur.
@@ -45,12 +43,12 @@
   --cinnabar: oklch(49.5% 0.128 35);
   --plum: oklch(49% 0.07 330); /* a clean 5th categorical hue (a 5th field/series); plum, kept off cinnabar's refutation red */
 
-  /* ── The five semantic state hue families (Component Vocabulary V2) ──
+  /* ── The five semantic state hue families (Observatory components) ──
      Three strengths each , solid / tint / line , every one a color-mix
      derivation over the named materials above, oklch-harmonized to paper
      and ink. No new hues enter the system here; dark mode follows the
      material overrides in .dark automatically.
-       verified/banked  green  (moss)
+       reproduced/accepted green  (moss)
        open/attention   brass
        in-review        blue-ink (field-blue)
        refuted          red    (cinnabar)
@@ -116,7 +114,7 @@
   --ink: oklch(25% 0.03 262); /* primary: body ink */
   --ink-2: oklch(43% 0.026 258); /* secondary: metadata */
   --ink-3: oklch(53.5% 0.018 250); /* quiet metadata , 4.76:1 paper / 4.55:1 recessed, the text floor */
-  /* --ink-4 is a NON-TEXT tone (WORLD_CLASS_SITE_PLAN 1.11): dividers,
+  /* --ink-4 is a NON-TEXT tone (Observatory rule 1.11): dividers,
      sigils, placeholders, disabled glyphs. The old oklch(70% 0.012 250)
      measured ~2.3:1 on recessed paper and read near-grey. Retuned darker
      and held in the cold indigo-ink family (the whole light ink ramp is
@@ -135,7 +133,7 @@
   --gold-line: oklch(78.5% 0.072 88); /* tertiary-line: pale gold hairlines */
   --gold-soft: oklch(89.6% 0.052 89); /* the wash: selection, hover, glow */
 
-  /* ── Data-viz ramps (VISUAL_RICHNESS §1.4): derived from the materials,
+  /* ── Data-viz ramps (visual richness §1.4): derived from the materials,
      never invented, so .dark re-derives automatically. Cinnabar appears
      only where refutation/adoption semantics apply; stone = null/other. */
   --viz-seq-1: color-mix(in oklab, var(--brass-gold) 12%, var(--paper));
@@ -201,12 +199,12 @@
   --radius-xl: 16px;
 
   /* Lacquer: the darkest surface in either theme, the ProofWell ground
-     only (WORLD_CLASS_SITE_PLAN 1.1). A warm sumi-black; text on it is
+     only (Observatory rule 1.1). A warm sumi-black; text on it is
      --ink-on, accents are --lantern and --gold-soft only. */
   --lacquer: oklch(20% 0.035 260);
 
   /* The row-height unit. Ledgers, tables, catalogue rows, stat strips
-     all land on this grid (WORLD_CLASS_SITE_PLAN 1.4). The sidebar's
+     all land on this grid (Observatory rule 1.4). The sidebar's
      28px rows are the one sanctioned exception. */
   --row-unit: 40px;
 
@@ -227,7 +225,7 @@
   --track-caps: 0.08em;
 
   /* Type as state: the grade ramp (lib/signal-code.ts). Three wght steps
-     on tabular numerals , claimed light, frozen-verified full ink,
+     on tabular numerals , claimed light, frozen-data full ink,
      superseded hairline-light beside its seam. Honest name: a weight
      ramp, not a GRAD axis (neither face carries one). The value moves
      exactly once, on a state transition; it never animates. */
@@ -324,7 +322,7 @@
   --plum: oklch(66% 0.08 330);
 
   /* Lacquer goes deeper still on the night sheet (the ProofWell stays the
-     darkest surface in both themes, WORLD_CLASS_SITE_PLAN 1.1). */
+     darkest surface in both themes, Observatory rule 1.1). */
   --lacquer: oklch(11% 0.03 260);
 
   --background: var(--paper);
@@ -482,8 +480,8 @@ body {
   color: var(--ink);
 }
 
-/* Verified emphasis: the one heavier numeral weight (the grade ramp's
-   verified step), named once instead of inline style={{fontWeight:430}}. */
+/* Reproduced emphasis: the one heavier numeral weight (the grade ramp's
+   reproduced step), named once instead of inline style={{fontWeight:430}}. */
 .num-verified {
   font-weight: var(--grade-verified);
 }
@@ -516,7 +514,7 @@ body {
    claims , the workhorse. */
 .t-body {
   font-family: var(--font-inter), system-ui, sans-serif;
-  /* 14px even, the instrument scale (WORLD_CLASS_SITE_PLAN 1.5). */
+  /* 14px even, the instrument scale (Observatory rule 1.5). */
   font-size: 14px;
   line-height: 1.55;
   letter-spacing: var(--track-text);
@@ -563,7 +561,7 @@ body {
 
 /* The instrument voice: every ledger row and table cell. JetBrains Mono
    on the 40px grid, contextual alternates off so hashes never ligate
-   (WORLD_CLASS_SITE_PLAN 1.5). */
+   (Observatory rule 1.5). */
 .t-instrument {
   font-family: var(--font-mono), ui-monospace, "JetBrains Mono", Menlo, monospace;
   font-size: 13px;
@@ -572,7 +570,7 @@ body {
   font-feature-settings: "tnum" 1, "calt" 0;
 }
 
-/* Evidence-type utilities (WORLD_CLASS_SITE_PLAN 1.6). Applied
+/* Evidence-type utilities (Observatory rule 1.6). Applied
    mechanically: .plate-caption on every figure caption. */
 .plate-caption {
   font-family: var(--font-inter), system-ui, sans-serif;
@@ -602,7 +600,7 @@ body {
 .fz-lg  { font-size: 20px; }
 .fz-xl  { font-size: 28px; }
 
-/* The one shadow in the system (WORLD_CLASS_SITE_PLAN 1.10): the shell
+/* The one shadow in the system (Observatory rule 1.10): the shell
    content card only. Warm ink, never black, never gold. In dark the card
    keeps only the 1px ring (the cast shadows resolve to transparent
    because --ink there is near-white at low alpha). */
@@ -616,7 +614,7 @@ body {
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 14%, transparent);
 }
 
-/* ── The button system (Component Vocabulary V2 §2.1) ────────────────────
+/* ── The button system (Observatory components §2.1) ────────────────────
    Every action is a real Button. Four skins, three heights (28/32/40),
    radius 6. Press = deeper tint, NEVER movement , the motion doctrine
    holds. One .btn-primary per page (the adoption gesture, brass: the
@@ -737,7 +735,7 @@ body {
   background: var(--paper);
 }
 
-/* ── The chip recipe (Component Vocabulary V2 §2) ────────────────────────
+/* ── The chip recipe (Observatory components §2) ────────────────────────
    One tint recipe over a tone custom property; tones come only from the
    named materials. StatusChip bodies must equal the signal's material;
    TagChip tones are taxonomy, never state. Chips are static, 1–2 words. */
@@ -1259,7 +1257,7 @@ a:hover > .card-paper {
   font-feature-settings: "onum" 1;
 }
 
-/* The GitHub overlay-link (WORLD_CLASS_SITE_PLAN 4.1): a row's title is
+/* The GitHub overlay-link (Observatory rule 4.1): a row's title is
    the anchor and stretches an invisible ::after over the whole row, so
    the row is clickable while the markup stays valid (no control nested
    in an anchor). Interactive children sit above it with `relative z-10`.
@@ -1271,14 +1269,14 @@ a:hover > .card-paper {
   z-index: 1;
 }
 
-/* Hash anchors land below the sticky chrome (WORLD_CLASS_SITE_PLAN 2.6):
+/* Hash anchors land below the sticky chrome (Observatory rule 2.6):
    the content scrolls inside #main-content, so scroll-padding lives on
    the container, not html. The offset clears a ruler plus a date head. */
 #main-content {
   scroll-padding-top: 56px;
 }
 
-/* Display math never widens the page (WORLD_CLASS_SITE_PLAN 1.12): a long
+/* Display math never widens the page (Observatory rule 1.12): a long
    Erdős statement scrolls inside its own block. The math-text component
    wraps every KaTeX display block in .math-scroll; this is the single
    overflow contract for math, replacing the one-off reproduce-line fix. */
@@ -1339,7 +1337,7 @@ a:hover > .card-paper {
    The canvas is --sidebar (paper-sumi); the sidebar floats directly on
    it with no border of its own; the content is a rounded card
    (bg-background, one hairline, observatory shadow) with the header
-   inside and its own scroll region. Same anatomy as atlas-platform's
+   inside and its own scroll region. Same anatomy as Prospect's
    layout-shell. */
 .peek-panel {
   top: 48px;
@@ -1442,7 +1440,7 @@ a:hover > .card-paper {
   --cinnabar: var(--vermilion-bright);
   /* Lift the signal materials for the night ground so the map's state lens
      reads: the five --state-* families derive from these, exactly as in .dark.
-     Without this the verified/review nodes paint daylight-dark on twilight. */
+     Without this the reproduced/review nodes paint daylight-dark on twilight. */
   --moss: oklch(60% 0.055 128);
   --brass: oklch(62% 0.095 83);
   --winter: oklch(76% 0.045 236);
@@ -1609,7 +1607,7 @@ kbd {
 .star:hover .star-core {
   fill: var(--ink);
 }
-/* A verified problem is a LIT star , gold, and it stays gold on hover (the
+/* A reproduced item is a lit mark , gold, and it stays gold on hover (the
    one warm light on the map; the keystone vocabulary of the brand mark). */
 .star .star-core.star-lit,
 .star:hover .star-core.star-lit {
@@ -1871,7 +1869,7 @@ kbd {
   }
 
   /* The inset shell sheds its chrome on EVERY printed page
-     (WORLD_CLASS_SITE_PLAN 2.6.2): the sidebar, header, skip link, and
+     (Observatory rule 2.6.2): the sidebar, header, skip link, and
      footer machine row go; the provider and the inner scroll region
      unwrap to natural height (window-based print pagination is dead
      inside an overflow:auto container otherwise); the content card drops
@@ -1913,7 +1911,7 @@ kbd {
   }
 }
 
-/* ── Forced colors (Windows High Contrast, WORLD_CLASS_SITE_PLAN 1.12) ────
+/* ── Forced colors (Windows High Contrast, Observatory rule 1.12) ────
    The ink-percentage hairlines and the gold focus ring vanish under
    forced-colors; restore structure with system colors and real borders,
    and route the focus ring to the system Highlight. */

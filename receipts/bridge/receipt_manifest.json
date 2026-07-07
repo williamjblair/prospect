@@ -9,10 +9,33 @@
     "rcpt_19d5e07b08f10701",
     "rcpt_b93886216e70f075",
     "rcpt_5fc079845283ef6e",
-    "rcpt_0895746d0698adc2"
+    "rcpt_9b0c29c407ab05c8"
   ],
   "replay": "./prospect verify",
   "mcp_command": "./prospect mcp",
+  "protocol_path": [
+    {
+      "step": 1,
+      "method": "prospect.receipt.schema",
+      "action": "discover the receipt contract",
+      "result": "schema_returned",
+      "accepted": false
+    },
+    {
+      "step": 2,
+      "method": "prospect.receipt.validate",
+      "action": "check fields, typed status, replay, and acceptance shape",
+      "result": "structural_errors_or_valid",
+      "accepted": false
+    },
+    {
+      "step": 3,
+      "method": "prospect.receipt.submit",
+      "action": "submit the receipt across the boundary",
+      "result": "proposal_only",
+      "accepted": false
+    }
+  ],
   "exported_files": [
     "receipt_contract.json",
     "receipt_manifest.json",
