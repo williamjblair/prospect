@@ -29,6 +29,20 @@ class MarsonPerturbseqChecker:
     def _row(self, gene: str, condition: str):
         return self._by.get((gene, condition))
 
+    def check_direction(self, gene, condition, claimed):
+        """Verify a directionality claim ('up' or 'down') against released n_up/n_down."""
+        r = self._row(gene, condition)
+        if r is None:
+            return ("unsupported", f"{gene} not found in {condition}.")
+        up, down = int(r.n_up_genes), int(r.n_down_genes)
+        if up + down < 3:
+            return ("unsupported", f"{gene} has no substantial effect in {condition} to have a direction "
+                    f"({up} up / {down} down).")
+        actual = "up" if up > down else "down"
+        if actual == claimed:
+            return ("supported", f"{gene}: {up} up / {down} down — mostly {actual}regulates, as claimed.")
+        return ("refuted", f"{gene} mostly {actual}regulates ({up} up / {down} down), not {claimed}.")
+
     def check(self, claim: Claim) -> Verdict:
         # Interpretive claims are never graded from this data.
         if claim.strength in ("promising_target", "mechanism", "clinical"):

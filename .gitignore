@@ -12,3 +12,5 @@ report.html
 examples/data/claims_*.jsonl
 examples/data/run_stats_*.json
 examples/data/phantom_summary*.json
+frontier/.prospect_signing_key
+frontier/edges_raw.jsonl
