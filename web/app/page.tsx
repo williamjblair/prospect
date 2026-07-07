@@ -19,6 +19,14 @@ type Edge = { t?: string; s?: string; d: string; e: number };
 type Contra = { gene: string; claimant: string; claim: string; verdict: string; reason: string };
 type Finding = { kind: string; claim: string; status: string; n_genes: number; genes: string[]; evidence: any; cid: string };
 type Cite = { pmid: string; doi: string; first_author: string; journal: string; year: number; canonical_role: string };
+type FindingIndex = {
+  status: string;
+  source: string;
+  items: {
+    rank: number; kind: string; title: string; status: string; challenge_status: string; n_genes: number;
+    cid: string; question: string; readout: string; takeaway: string; demo_genes: string[];
+  }[];
+};
 type PGGT1BDeepDive = {
   gene: string;
   status: string;
@@ -52,6 +60,7 @@ type Data = {
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
+  finding_index?: FindingIndex | null;
   findings: Finding[]; citations: Record<string, Cite>;
   proposal?: { model: string; proposed: number; admitted: number; rejected: number; cost_usd: number;
     delta_id: string; items: { gene: string; verdict: string; rationale: string }[] } | null;
@@ -1054,6 +1063,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           essentiality artifact a naive ranking surfaces, and confirms the split against a second cell type.
         </p>
       </div>
+      {d.finding_index && <FindingsIndex index={d.finding_index} />}
       {order.map((k) => {
         const f = byKind[k] as Finding | undefined;
         if (!f) return null;
@@ -1082,6 +1092,47 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </section>
       )}
     </div>
+  );
+}
+
+function FindingsIndex({ index }: { index: FindingIndex }) {
+  return (
+    <section style={{ display: "grid", gap: 10, padding: "2px 0 8px" }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Scannable findings index</div>
+          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
+            Five reproduced finding objects, ordered for the demo: recover known biology, catch overclaiming,
+            resist the housekeeping artifact, transfer the checker, then recover regulons.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/finding_index.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gap: 0, borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+        {index.items.map((item) => (
+          <div key={item.kind} style={{ display: "grid", gridTemplateColumns: "44px minmax(0, 1fr)", gap: 12,
+            alignItems: "start", padding: "10px 0", borderTop: item.rank === 1 ? "none" : "1px solid var(--rule-faint)" }}>
+            <span className="t-mono fz-sm" style={{ color: "var(--ink-3)" }}>F{item.rank}</span>
+            <div style={{ display: "grid", gap: 4 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <span className="t-body-sm" style={{ fontWeight: 700 }}>{item.title}</span>
+                <span className="chip" style={{ ["--tone" as any]: item.challenge_status === "contradicted" ? "var(--cinnabar)" : "var(--moss)" }}>
+                  {item.challenge_status === "contradicted" ? "contradiction surfaced" : item.status.replace(/_/g, " ")}
+                </span>
+                <span className="t-mono fz-sm" style={{ color: "var(--ink-3)" }}>{fmt(item.n_genes)} genes</span>
+              </div>
+              <p className="t-body-sm" style={{ margin: 0 }}>{item.readout}</p>
+              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{item.takeaway}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Source <span className="t-mono">{index.source}</span>. The index summarizes signed objects; evidence tables below carry the numbers.
+      </p>
+    </section>
   );
 }
 

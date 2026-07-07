@@ -15,10 +15,11 @@ contradicted** by the measured data, pooled across four frontier models on one f
 the tie-in: on the genes the field targets most, PD-1, TIM-3, IL-2, the overclaim rate is **64%**.
 Models overstate the famous genes more than random ones.
 
-**0:40 · Findings.** Findings tab. Finding 01: the TCR cascade, silent at rest and moving 5,000+
-genes once stimulated (CD3E 4 → 5,711). The screen rebuilt a textbook pathway from knockout effects
-with no priors. Finding 02: PD-1, TIM-3, CTLA-4 change almost nothing on knockdown, each a
-literature-vs-data contradiction cited to the review that calls it a regulator.
+**0:40 · Findings.** Findings tab. Start with the scannable index: five reproduced finding objects,
+ordered as recover, catch, resist, transfer, recover regulons. Finding 01: the TCR cascade, silent
+at rest and moving 5,000+ genes once stimulated (CD3E 4 → 5,711). Finding 02: PD-1, TIM-3, CTLA-4
+change almost nothing on knockdown, each a literature-vs-data contradiction cited to the review that
+calls it a regulator.
 
 **1:05 · The moat.** Finding 04, verifier transfer. The same claim, run through
 `get_checker("marson")` and `get_checker("replogle")`. Essentiality genes reshape a non-immune cell

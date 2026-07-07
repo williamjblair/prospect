@@ -29,6 +29,9 @@ the graph on its own word. On top of it:
   immunology; a cross-cell-type transfer confirming the split against two non-immune cell types; and
   recovery of known TF regulons (CollecTRI) from perturbation alone, at 4x enrichment (p≈1e-26).
 - **An overclaiming benchmark** across Haiku, Sonnet, Opus, and Fable on one frozen corpus.
+- **A scannable findings index** over the five signed finding objects, so a judge can see the arc
+  before reading evidence tables: recover known biology, catch overclaiming, resist the artifact,
+  transfer the checker, recover regulons.
 - **A closed loop and an autonomous agent**: `prospect propose` (Claude proposes, the verifier
   decides, a human signs) and `prospect agent` (a real tool-use loop where Claude searches and
   verifies against frozen data, converging on a novel hypothesis).
@@ -81,6 +84,7 @@ the graph on its own word. On top of it:
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
+./prospect findings-index         # build the scannable finding index
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
 python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted

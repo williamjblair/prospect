@@ -73,6 +73,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   proposal-only follow-ups ranked by frozen Prospect facts, exported to `examples/data/agent_campaign.*`
   and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the single-agent result without moving
   accepted state.
+- **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
+  five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
+  and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
+  before the evidence tables.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -106,10 +110,10 @@ verified state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|findings-index|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the PGGT1B packet, the campaign leaderboard, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the finding index, the PGGT1B packet, the campaign leaderboard, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -140,7 +144,8 @@ wet-lab validation shortlist.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`. Gitignored (regenerable):
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`, `finding_index.json`.
+Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
 
@@ -167,7 +172,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 Nothing is required; the entry is complete and strong. Prioritized options if continuing:
 
 **Polish follow-ups (small, safe):**
-- The Findings tab stacks five dense evidence tables; add rhythm / a scannable index between them.
+- Add one more visual rhythm pass to the dense evidence tables below the shipped findings index.
 - About 55% of `web/app/globals.css` is dead tokens ported from a prior project (ledger, almanac,
   event-ruler, star, provenance-thread, etc.); safe to prune, lowers the "scaffolding drift" tell.
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
