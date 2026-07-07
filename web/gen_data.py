@@ -21,6 +21,13 @@ JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pub
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
 
+PUBLIC_CLASS = {
+    "verified_non_regulator": "reproduced_non_regulator",
+}
+
+def public_class(value):
+    return PUBLIC_CLASS.get(value, value)
+
 nodes = jl(os.path.join(FR, "nodes.jsonl"))
 edges = jl(os.path.join(FR, "edges.jsonl"))
 contradictions = jl(os.path.join(FR, "contradictions.jsonl"))
@@ -68,11 +75,11 @@ sig = json.load(open(os.path.join(FR, "frontier.sig.json"))) if os.path.exists(o
 def compact(n):
     C = {c: {"s": v["status"], "de": v["n_de"], "dn": v["n_downstream"], "es": round(v["effect_size"], 2)}
          for c, v in n["conditions"].items()}
-    return {"g": n["gene"], "cls": n["type"], "st": n["status"], "od": n.get("out_degree", 0),
+    return {"g": n["gene"], "cls": public_class(n["type"]), "st": n["status"], "od": n.get("out_degree", 0),
             "id": n.get("in_degree", 0), "C": C}
 
 atlas = [compact(n) for n in nodes]
-dist = Counter(n["type"] for n in nodes)
+dist = Counter(public_class(n["type"]) for n in nodes)
 OUTa, INa = defaultdict(list), defaultdict(list)
 for e in edges:
     OUTa[e["source"]].append({"t": e["target"], "d": e["direction"], "e": round(e["effect_size"], 1)})

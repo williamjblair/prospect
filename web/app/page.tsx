@@ -122,7 +122,7 @@ const CL = ["R", "8", "48"];
 const CLASS: Record<string, [string, string]> = {
   constitutive_regulator: ["var(--moss)", "constitutive regulator"],
   condition_specific_regulator: ["var(--field-blue)", "condition-specific regulator"],
-  verified_non_regulator: ["var(--stone)", "reproduced non-regulator"],
+  reproduced_non_regulator: ["var(--stone)", "reproduced non-regulator"],
   unverifiable_no_kd: ["var(--brass)", "couldn’t test (no knockdown)"],
   off_target: ["var(--cinnabar)", "off-target"],
 };
@@ -263,7 +263,7 @@ export default function Page() {
 
 function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom, dist = d.stats.dist;
-  const order = ["constitutive_regulator", "condition_specific_regulator", "verified_non_regulator", "unverifiable_no_kd"];
+  const order = ["constitutive_regulator", "condition_specific_regulator", "reproduced_non_regulator", "unverifiable_no_kd"];
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
   return (
     <div style={{ display: "grid", gap: 26 }}>
