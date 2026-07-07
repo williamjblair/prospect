@@ -1,0 +1,10 @@
+{
+  "model": "claude-opus-4-8",
+  "tag": "opus",
+  "n": 237,
+  "input_tokens": 3398,
+  "output_tokens": 20698,
+  "cost_usd": 0.5344,
+  "ai_major_claims": 45,
+  "refuted": 20
+}

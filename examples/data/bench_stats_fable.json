@@ -1,0 +1,10 @@
+{
+  "model": "claude-fable-5",
+  "tag": "fable",
+  "n": 237,
+  "input_tokens": 3398,
+  "output_tokens": 31694,
+  "cost_usd": 1.6187,
+  "ai_major_claims": 35,
+  "refuted": 17
+}

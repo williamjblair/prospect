@@ -63,13 +63,35 @@ Genes: %s"""
 
 def ask_claude(client, model, genes):
     import re
-    msg = client.messages.create(
-        model=model, max_tokens=4000,
-        messages=[{"role": "user", "content": PROMPT % ", ".join(genes)}])
+    payload = dict(model=model, max_tokens=4000,
+                   messages=[{"role": "user", "content": PROMPT % ", ".join(genes)}])
+    # Fable's safety classifiers can false-positive on life-sciences prompts; opt into the
+    # server-side refusal fallback to Opus so a decline is transparently re-served in-call.
+    if "fable" in model:
+        try:
+            msg = client.beta.messages.create(
+                betas=["server-side-fallback-2026-06-01"],
+                fallbacks=[{"model": "claude-opus-4-8"}], **payload)
+        except TypeError:
+            msg = client.messages.create(**payload)   # SDK without the fallback param
+    else:
+        msg = client.messages.create(**payload)
+    if getattr(msg, "stop_reason", "") == "refusal":
+        return [], msg.usage.input_tokens, msg.usage.output_tokens   # discard a refused batch
     text = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
     m = re.search(r"\[.*\]", text, re.S)
     judgments = json.loads(m.group(0)) if m else []
     return judgments, msg.usage.input_tokens, msg.usage.output_tokens
+
+def load_corpus(path):
+    """Return [(gene, class, buckets)] from a frozen benchmark_corpus.json (core + effector_focus)."""
+    c = json.load(open(path))
+    m = {}  # gene -> [class, set(buckets)]
+    for bucket in ("core", "effector_focus"):
+        for row in c.get(bucket, []):
+            e = m.setdefault(row["gene"], [row["class"], set()])
+            e[1].add("core" if bucket == "core" else "effector")
+    return [(g, cls, sorted(bk)) for g, (cls, bk) in m.items()]
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
@@ -77,12 +99,14 @@ def main(argv=None):
     ap.add_argument("--model", default="claude-haiku-4-5")
     ap.add_argument("--batch", type=int, default=20)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--corpus", default=None, help="frozen benchmark_corpus.json — grade exactly these genes")
     a = ap.parse_args(argv)
     load_env()
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set. Put it in ~/personal/prospect/.env")
     tag = tag_for(a.model)
-    out = a.out or os.path.join(ROOT, "examples", "data", f"claims_{tag}.jsonl")
+    prefix = "bench" if a.corpus else "claims"
+    out = a.out or os.path.join(ROOT, "examples", "data", f"{prefix}_{tag}.jsonl")
 
     import anthropic
     from engine.schema import Claim
@@ -91,11 +115,14 @@ def main(argv=None):
     checker = MarsonPerturbseqChecker(os.path.join(ROOT, "examples", "data", "marson_de_full.csv"))
     backbone = json.load(open(os.path.join(ROOT, "examples", "data", "atlas_backbone.json")))
 
-    picks = sample_genes(backbone, a.n)
+    if a.corpus:
+        picks = load_corpus(a.corpus)          # [(gene, class, buckets)]
+    else:
+        picks = [(g, c, ["core"]) for g, c in sample_genes(backbone, a.n)]
     done = set()
     if os.path.exists(out):
         done = {json.loads(l)["gene"] for l in open(out)}
-    picks = [(g, c) for g, c in picks if g not in done]
+    picks = [p for p in picks if p[0] not in done]
 
     fh = open(out, "a")
     tin = tout = 0
@@ -103,18 +130,19 @@ def main(argv=None):
     for i in range(0, len(picks), a.batch):
         chunk = picks[i:i + a.batch]
         try:
-            judgments, ti, to = ask_claude(client, a.model, [g for g, _ in chunk])
+            judgments, ti, to = ask_claude(client, a.model, [g for g, _, _ in chunk])
             tin += ti; tout += to
         except Exception as e:
             print("batch error:", str(e)[:120]); continue
         jmap = {j.get("gene"): j for j in judgments if isinstance(j, dict)}
-        for g, cls in chunk:
+        for g, cls, buckets in chunk:
             j = jmap.get(g)
             if not j: continue
             claim = Claim(text=j.get("claim", f"{g} is a major regulator"), gene=g,
                           condition="Stim48hr", asserts_major=bool(j.get("major_regulator")))
             v = checker.check(claim)
-            rec = {"gene": g, "truth_class": cls, "ai_major": bool(j.get("major_regulator")),
+            rec = {"gene": g, "truth_class": cls, "buckets": buckets,
+                   "ai_major": bool(j.get("major_regulator")),
                    "ai_confidence": j.get("confidence"), "ai_claim": j.get("claim"),
                    "verdict": v.status, "reason": v.reason}
             fh.write(json.dumps(rec) + "\n"); fh.flush()
@@ -126,10 +154,10 @@ def main(argv=None):
 
     pin, pout = price_for(a.model)
     cost = tin/1e6*pin + tout/1e6*pout
-    stats = {"model": a.model, "tag": tag, "n": a.n,
+    stats = {"model": a.model, "tag": tag, "n": len(picks),
              "input_tokens": tin, "output_tokens": tout, "cost_usd": round(cost, 4),
              "ai_major_claims": ai_major, "refuted": phantom}
-    json.dump(stats, open(os.path.join(ROOT, "examples", "data", f"run_stats_{tag}.json"), "w"), indent=2)
+    json.dump(stats, open(os.path.join(ROOT, "examples", "data", f"{prefix}_stats_{tag}.json"), "w"), indent=2)
     print(f"\n{a.model}: {tin+tout:,} tokens, ${cost:.4f} · AI-major {ai_major}, refuted {phantom}")
     return 0
 

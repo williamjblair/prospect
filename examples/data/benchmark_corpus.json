@@ -1,0 +1,961 @@
+{
+  "seed": 7,
+  "per_class": 55,
+  "core": [
+    {
+      "gene": "TRAPPC9",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TIAL1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "BEX4",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "TAB3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ZNF784",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CD69",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PSMF1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "MGST3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PHF12",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "NKX2-2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "FBXO40",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "GZMM",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ILK",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "SUV39H1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "IL13RA1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SPAG9",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ZEB1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "COQ5",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SLC35A4",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "WASF2",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ZNF286A",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "DGAT1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "INPP5E",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ACSF2",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NUBPL",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "KAT2B",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ETV1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "DDX3X",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SIRT2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "E2F8",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CCDC152",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NFS1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "LENG9",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "APBB2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "RUFY2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "GATA3",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "COPRS",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "CKB",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "IER3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ATG4C",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TBC1D25",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ME2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CMSS1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "MFN2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ZWINT",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PPP1CA",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "FOXD4L3",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "GNAI2",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PDPK1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "KCNQ5",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "UBA6",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CCDC25",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "PLAT",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "TNS3",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CMTM7",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "KNL1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "NDUFA9",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "KDM2B",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ATP10D",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "SLC25A42",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ASXL1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "KCNQ1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PKIA",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "FAM111B",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "DUS1L",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "HK1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "SLC29A3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "RC3H2",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "KLHL36",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ELAPOR1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CORO2A",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TTC39C",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SESN1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "LRRN3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "GDF11",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CNOT7",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SLC25A29",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PRKAB1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "HSD3B7",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "DIPK1B",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "KDM2A",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "DNM3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CYTH3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "C3orf18",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "NAP1L2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "VPS45",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "TCAF2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "MICU3",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SALL1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "TBC1D32",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NEDD4L",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "WIPI2",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "SIAH3",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SIK3",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PFKFB1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "UBE2D1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CXCR3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ERLEC1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "RCSD1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CASP10",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "LZTFL1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ADPRM",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "GNA12",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PLEKHM3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "RNFT1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "HFE",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ATP5F1D",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PTMS",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NEMP2",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "SAXO4",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SEC24A",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SLC26A1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PAK1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SH2B3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CRADD",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "USP3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "NIPAL4",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SOX21",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "APOE",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ZNF622",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "CHMP2B",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NOSIP",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ZIC4",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "UFM1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "TGFBI",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "DAG1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "RAB32",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PPP1R9B",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "DERA",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "IFITM1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ELK1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "EPS8",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "FBXL6",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "MARCHF1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "N4BP2L2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "C22orf23",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CEP85L",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PCYT2",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "MAL",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "RYR2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SH3BGRL2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "NR4A1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CASK",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "THOC6",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ETFDH",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ZNF75D",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "RGS9",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CEP135",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ZFYVE26",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "NRN1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ZNF343",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PIGW",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "BRPF1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "LPXN",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "METAP1",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "SLC25A3",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "MSX2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "HOXB13",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PDXP",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SLC5A5",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "P2RY13",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "FBXO21",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "IRAK1BP1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "FUT11",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "KLHL17",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PLXNC1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "WDR76",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ITPR2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TNF",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SGK2",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CHD6",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "SPPL3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "PIGY",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "C2CD2L",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "DNAAF5",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "KPNA3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CLSTN3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "FAM86C1P",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ANKRD18A",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "UBE3B",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "ATAD3B",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "DRAP1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "MPHOSPH9",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "GPHN",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "TOE1",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "PVRIG",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PYCR2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CDK11A",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "MTFMT",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "NECTIN1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "MAK",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CHMP4A",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "SYNJ1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "TMUB1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CYSTM1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "ZNF576",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "GAS8",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "MPV17L",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "ADH1B",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CD38",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "NACC2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ATG16L1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ATAD2B",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "CRTAP",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "NPTX1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PANX2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "KLF16",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "RDX",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "NR1D2",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "ARHGAP11B",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "C15orf39",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "CLDN4",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CLCN3",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "GATA4",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "RIN3",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "THRAP3",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "AKAP7",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "PHOX2A",
+      "class": "unverifiable_no_kd"
+    },
+    {
+      "gene": "CDCA3",
+      "class": "constitutive_regulator"
+    },
+    {
+      "gene": "AGRN",
+      "class": "condition_specific_regulator"
+    }
+  ],
+  "effector_focus": [
+    {
+      "gene": "BTLA",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CD4",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "CD40LG",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CD6",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "CTLA4",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "DGKA",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "HAVCR2",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "IFNG",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "IL10",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "IL2",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "LAG3",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "PDCD1",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "PTPN22",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "SELL",
+      "class": "verified_non_regulator"
+    },
+    {
+      "gene": "SOCS1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "STAT1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TGFB1",
+      "class": "condition_specific_regulator"
+    },
+    {
+      "gene": "TNF",
+      "class": "condition_specific_regulator"
+    }
+  ],
+  "_note": "headline rate = core only; effector_focus reported separately (finding #2)."
+}

@@ -1,0 +1,10 @@
+{
+  "model": "claude-sonnet-5",
+  "tag": "sonnet",
+  "n": 237,
+  "input_tokens": 3398,
+  "output_tokens": 31643,
+  "cost_usd": 0.3232,
+  "ai_major_claims": 47,
+  "refuted": 19
+}

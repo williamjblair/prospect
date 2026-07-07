@@ -1,0 +1,10 @@
+{
+  "model": "claude-haiku-4-5",
+  "tag": "haiku",
+  "n": 237,
+  "input_tokens": 2629,
+  "output_tokens": 14265,
+  "cost_usd": 0.074,
+  "ai_major_claims": 53,
+  "refuted": 24
+}
