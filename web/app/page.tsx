@@ -30,6 +30,9 @@ type Data = {
   agent?: { model: string; goal: string; rounds: number; tool_calls: number; cost_usd: number;
     delta_id: string; signer?: string; hypothesis?: { gene: string; hypothesis: string; evidence: string[]; why_novel: string } | null;
     transcript: { round: number; tool: string; input: any; result: any }[] } | null;
+  receipts?: { id: string; status: string; replayability: string; kind: string; subject: string[];
+    claim: string; accepted: boolean; producer: any; n_evidence: number; n_artifacts: number;
+    verifier: string; replay: string; signer?: string }[];
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -393,6 +396,73 @@ function NetworkView({ d, focus, setFocus, dark, onGene }:
   );
 }
 
+const RCPT_STATUS: Record<string, [string, string]> = {
+  computationally_reproduced: ["var(--moss)", "reproduced"],
+  evidence_attached: ["var(--brass)", "evidence attached"],
+  contradicted: ["var(--cinnabar)", "contradicted"],
+  refuted: ["var(--cinnabar)", "refuted"],
+  claimed: ["var(--stone)", "claimed"],
+};
+const BOUNDARY = ["Activity", "Receipt", "Proposal", "Review", "Verification", "Accepted", "State"];
+
+function Receipts({ receipts }: { receipts: NonNullable<Data["receipts"]> }) {
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      <div>
+        <div className="t-label" style={{ marginBottom: 4 }}>How activity becomes state</div>
+        <p className="t-body-sm" style={{ maxWidth: "70ch", margin: 0 }}>
+          A model can assert anything in a second. A receipt is the portable proposal that records what
+          was claimed, which frozen artifacts it stands on, which facts a verifier confirms, how to replay
+          it, and whether a human accepted it. Any producer can emit one; the same frozen gate decides.
+        </p>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 4, padding: "10px 0" }}>
+        {BOUNDARY.map((s, i) => (
+          <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+            <span className="t-mono fz-2xs" style={{ padding: "3px 8px", borderRadius: 5,
+              background: s === "Receipt" ? "var(--gold-tint, var(--state-open-tint))" : "var(--paper-recessed)",
+              color: s === "Receipt" ? "var(--gold-ink)" : "var(--ink-3)", fontWeight: s === "Receipt" ? 700 : 500,
+              border: s === "Receipt" ? "1px solid var(--brass-gold)" : "1px solid var(--rule-faint)" }}>{s}</span>
+            {i < BOUNDARY.length - 1 && <span className="t-caption" style={{ color: "var(--ink-4)" }}>›</span>}
+          </span>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, padding: "6px 14px" }}>
+          {["claim", "status", "replay"].map((h, i) => (
+            <span key={h} className="t-label" style={{ color: "var(--ink-3)", textAlign: i === 0 ? "left" : "right" }}>{h}</span>
+          ))}
+        </div>
+        {receipts.map((r) => {
+          const [tone, label] = RCPT_STATUS[r.status] || ["var(--stone)", r.status];
+          return (
+            <div key={r.id} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, alignItems: "center",
+              padding: "9px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
+                  <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{r.id}</span>
+                  <span className="t-body-sm" style={{ fontWeight: 600 }}>{r.kind === "hypothesis" ? "hypothesis" : r.kind.replace(/_/g, " ")}</span>
+                  <span className="t-caption" style={{ color: "var(--ink-3)" }}>· {r.producer?.kind === "autonomous_agent" ? `agent (${r.n_evidence} verified facts)` : `${r.n_evidence} atoms · ${r.n_artifacts} artifacts`}{r.accepted ? ` · signed ${r.signer}` : ""}</span>
+                </div>
+                <div className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-2)" }}>{r.claim}</div>
+              </div>
+              <div style={{ textAlign: "right", display: "grid", gap: 2 }}>
+                <span className="chip" style={{ ["--tone" as any]: tone, justifySelf: "end" }}>{label}</span>
+                <span className="t-caption" style={{ color: "var(--ink-3)" }}>{r.replayability}</span>
+              </div>
+              <span className="t-mono fz-2xs" style={{ textAlign: "right", color: "var(--ink-3)" }}>{r.replay}</span>
+            </div>
+          );
+        })}
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        The status never collapses to “verified”. A hypothesis to test stays <b>evidence attached</b>; only what
+        re-derives from frozen data is <b>reproduced</b>; where the data disagrees it is <b>contradicted</b>. No model in the trust path.
+      </p>
+    </div>
+  );
+}
+
 function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 24 }}>
@@ -412,6 +482,9 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           by {d.frontier.signer} · no model in the trust path
         </div>
       </div>
+
+      {d.receipts && d.receipts.length > 0 && <Receipts receipts={d.receipts} />}
+
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions — where AI claims meet the data</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>

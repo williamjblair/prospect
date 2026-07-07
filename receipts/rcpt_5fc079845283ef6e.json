@@ -1,0 +1,73 @@
+{
+  "frontier": "prospect_marson_cd4_perturbseq",
+  "claim": "The frontier recovers known transcription-factor biology from perturbation alone, with no regulon supplied. Across 154 CollecTRI TFs that are major regulators here, their literature targets are 4.03x enriched among the genes their knockdown moved (Fisher combined p\u22481e-26), and when a data edge meets a known one the sign agrees 63% of the time. 19 individual regulons clear significance on their own, and the screen flags 82 known edges where the data overrules the literature's sign.",
+  "kind": "regulon_recovery",
+  "subject": [
+    "AHR",
+    "ARNT",
+    "ATF4",
+    "GATA3",
+    "IRF1",
+    "JUNB",
+    "MTF1",
+    "MYC",
+    "NCOR1",
+    "NFKB2",
+    "RELA",
+    "REST",
+    "SREBF2",
+    "STAT3",
+    "STAT5B",
+    "STAT6",
+    "TBX21",
+    "TP53",
+    "YY1"
+  ],
+  "producer": {
+    "kind": "finding_producer",
+    "model": null,
+    "run": "frontier/findings.py"
+  },
+  "artifacts": [
+    {
+      "name": "Marson CD4 DE table (classified)",
+      "sha256": "60ce305107d8d3d2",
+      "locator": "s3://genome-scale-tcell-perturb-seq/marson2025_data/"
+    },
+    {
+      "name": "CollecTRI regulons",
+      "sha256": "9e065f57f3da52b1",
+      "locator": "omnipathdb.org"
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "known CollecTRI targets are enriched among the genes each TF knockdown moved",
+      "value": "4.03x, Fisher p=1e-26",
+      "source": "frontier/regulon_recover.py"
+    },
+    {
+      "fact": "Th1/Th2 master factors recovered from perturbation alone",
+      "value": "TBX21, GATA3",
+      "source": "hypergeometric test"
+    }
+  ],
+  "verifier": {
+    "name": "frontier/verify.py",
+    "method": "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+    "replay": "./prospect verify"
+  },
+  "status": "computationally_reproduced",
+  "replayability": "exact",
+  "scope": [
+    "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+  ],
+  "acceptance": {
+    "signer": "williamblair",
+    "delta_id": "root_a8b0dcdd4024e12f",
+    "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
+    "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+  },
+  "receipt_id": "rcpt_5fc079845283ef6e",
+  "accepted": true
+}

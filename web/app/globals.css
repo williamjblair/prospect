@@ -893,7 +893,7 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   The state ledger — Vela's signature primitive. Every row is a scientific
+   The state ledger — Prospect's signature primitive. Every row is a scientific
    state transition: a left rail in the knowledge-state color (accepted=moss,
    contested=brass, inferred=winter, retracted=cinnabar, stale=stone), the
    operation foregrounded in mono in that color. A precise instrument readout,
@@ -926,7 +926,7 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   The rail settle: Vela's one signature motion. When a change is accepted, the
+   The rail settle: Prospect's one signature motion. When a change is accepted, the
    object's state-rail crossfades along the editorial palette to moss: the
    trusted-state moment made legible. Registering --state as a typed color lets
    the custom property itself transition (and interpolate in keyframes). Slow,

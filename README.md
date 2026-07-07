@@ -17,6 +17,12 @@ sha256 over its frozen source fields, so `prospect verify` re-derives the whole 
 scratch with zero drift, and `prospect sign` accepts a root hash with one Ed25519 signature. No
 model sits in that path.
 
+The deeper idea is a boundary: `Activity < Receipt < Proposal < Review < Verification < Accepted <
+State`. Generation is cheap; verified, replayable, human-accepted state is the scarce thing. A
+**receipt** is the portable object that carries an AI's activity across that boundary, with a typed
+status that never launders weak evidence as strong. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the
+full reasoning.
+
 ## What the data says
 
 Four findings, mined deterministically from the released table and signed into the frontier.
@@ -60,6 +66,8 @@ useful at proposing. The admission decision stays a deterministic re-derivation 
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides
+./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
+./prospect receipt                # emit portable receipts (activity → signed replayable state)
 ./prospect sign                   # the human ceremony: accept the frontier root
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted
 ```

@@ -19,6 +19,13 @@ edges = jl(os.path.join(FR, "edges.jsonl"))
 contradictions = jl(os.path.join(FR, "contradictions.jsonl"))
 openq = jl(os.path.join(FR, "open.jsonl"))
 findings = jl(os.path.join(FR, "findings.jsonl"))
+_receipts_raw = jl(os.path.join(ROOT, "receipts", "receipts.jsonl"))
+receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["replayability"],
+             "kind": r["kind"], "subject": r["subject"][:6], "claim": r["claim"],
+             "accepted": r.get("accepted", False), "producer": r["producer"],
+             "n_evidence": len(r.get("evidence", [])), "n_artifacts": len(r.get("artifacts", [])),
+             "verifier": r["verifier"]["name"], "replay": r["verifier"]["replay"],
+             "signer": (r.get("acceptance") or {}).get("signer")} for r in _receipts_raw]
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
     if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
 _pp = os.path.join(DATA, "proposal_run.json")
@@ -76,7 +83,7 @@ data = {
                   "cost_usd": proposal.get("cost_usd", 0), "delta_id": proposal.get("delta_id", ""),
                   "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
                             for p in proposal["proposals"]]} if proposal else None),
-    "agent": agent,
+    "agent": agent, "receipts": receipts,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),

@@ -6,8 +6,10 @@
   prospect check <claims>   grade typed claims against a dataset  (--dataset --data --out)
   prospect propose          Claude proposes → the frozen verifier decides  (--n --model --sign)
   prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
+  prospect receipt          emit portable receipts (activity → signed replayable state)
 
 The loop: propose (Claude) → check/verify (frozen code) → sign (human key). No model in the trust path.
+A receipt is the portable proposal that crosses the boundary from activity into state.
 """
 import sys
 
@@ -26,6 +28,10 @@ def main():
         from cli.check import main as check_main; sys.exit(check_main(rest))
     elif cmd == "propose":
         from loop.propose import main as propose_main; propose_main(rest)
+    elif cmd == "agent":
+        from loop.agent import main as agent_main; agent_main(rest)
+    elif cmd == "receipt":
+        from receipt.emit import main as receipt_main; receipt_main()
     else:
         print(__doc__)
         sys.exit(0 if cmd in ("help", "-h", "--help") else 2)
