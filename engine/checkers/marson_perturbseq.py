@@ -69,8 +69,10 @@ class MarsonPerturbseqChecker:
                            evidence={c: ev(r) for c, r in rows.items()},
                            mismatch_class="no_knockdown")
 
-        # Knockdown worked somewhere. Where does the effect actually hold?
-        active = [c for c in rows if kd_ok[c] and has_effect[c]]
+        # Knockdown worked somewhere. Where does a SUBSTANTIVE effect actually hold?
+        def real_effect(c):
+            return kd_ok[c] and int(rows[c].n_total_de_genes) > 2
+        active = [c for c in rows if real_effect(c)]
 
         # "major regulator" asserted but nowhere >10 DE genes -> refuted.
         if claim.asserts_major and not any(is_major.values()):
@@ -82,7 +84,7 @@ class MarsonPerturbseqChecker:
 
         # Unqualified claim (no condition) that only holds under stimulation -> needs qualification.
         if claim.condition is None:
-            silent = [c for c in rows if not has_effect[c] or (rows[c].n_total_de_genes <= 2)]
+            silent = [c for c in rows if not real_effect(c)]
             if active and silent:
                 return Verdict(claim, "needs_qualification",
                                f"{claim.gene}'s effect is condition-specific: active in {active}, "
