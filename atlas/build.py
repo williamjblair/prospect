@@ -1,66 +1,88 @@
-"""Build the Prospect atlas: a self-contained static site over the verified
-regulatory atlas + the mined surprises. No server, no API — opens offline.
+"""Build the Prospect frontier UI: a self-contained static site over the verified regulatory
+frontier — typed nodes, real gene->gene edges (regulatory neighborhoods), first-class
+contradictions, and the open frontier. No server, no API; opens offline.
 
-  python atlas/build.py            # -> atlas/index.html
+  python frontier/graph_edges.py --top 200   # slice edges from S3 (once)
+  python frontier/build.py                    # assemble the frontier
+  python atlas/build.py                       # -> atlas/index.html
 """
 import json, os, sys, html
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from collections import Counter
+from collections import Counter, defaultdict
 from loop.find_surprises import mine
 from engine.schema import Claim
 from engine.checkers.marson_perturbseq import MarsonPerturbseqChecker
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-BB = os.path.join(ROOT, "examples", "data", "atlas_backbone.json")
+DATA = os.path.join(ROOT, "examples", "data")
+FR = os.path.join(ROOT, "frontier")
 DEMO_CLAIMS = os.path.join(ROOT, "examples", "claims_demo.json")
-DEMO_DATA = os.path.join(ROOT, "examples", "data", "marson_de_demo_slice.csv")
+DEMO_DATA = os.path.join(DATA, "marson_de_demo_slice.csv")
 
-def compact(node):
+def jl(path):
+    return [json.loads(l) for l in open(path)] if os.path.exists(path) else []
+
+def compact_node(n):
     C = {}
-    for cond, v in node["conditions"].items():
+    for cond, v in n["conditions"].items():
         C[cond] = {"s": v["status"], "de": v["n_de"], "dn": v["n_downstream"],
                    "es": round(v["effect_size"], 2)}
-    return {"g": node["gene"], "cls": node["class"], "ac": node.get("active_conditions", []), "C": C}
+    return {"g": n["gene"], "cls": n["type"], "st": n["status"],
+            "od": n.get("out_degree", 0), "id": n.get("in_degree", 0), "C": C}
 
 def build():
-    bb = json.load(open(BB))
-    atlas = [compact(n) for n in bb]
-    dist = Counter(n["class"] for n in bb)
-    n_pert = sum(len(n["conditions"]) for n in bb)
-    stats = {"n_genes": len(bb), "n_perturbations": n_pert, "dist": dict(dist)}
-    surprises = mine(BB)
-    # run the checker on the demo claims for the "refusal" strip
+    nodes = jl(os.path.join(FR, "nodes.jsonl")) or _from_backbone()
+    edges = jl(os.path.join(FR, "edges.jsonl"))
+    contradictions = jl(os.path.join(FR, "contradictions.jsonl"))
+    openq = jl(os.path.join(FR, "open.jsonl"))
+    sig = json.load(open(os.path.join(FR, "frontier.sig.json"))) if os.path.exists(os.path.join(FR, "frontier.sig.json")) else {}
+
+    atlas = [compact_node(n) for n in nodes]
+    dist = Counter(n["type"] for n in nodes)
+    n_pert = sum(len(n["conditions"]) for n in nodes)
+    stats = {"n_genes": len(nodes), "n_perturbations": n_pert, "dist": dict(dist),
+             "n_edges": len(edges)}
+
+    # regulatory neighborhoods: top targets/sources per gene by |effect|
+    OUT, IN = defaultdict(list), defaultdict(list)
+    for e in edges:
+        OUT[e["source"]].append({"t": e["target"], "d": e["direction"], "e": round(e["effect_size"], 1)})
+        IN[e["target"]].append({"s": e["source"], "d": e["direction"], "e": round(e["effect_size"], 1)})
+    def top(lst, k=24):
+        return sorted(lst, key=lambda x: -abs(x["e"]))[:k]
+    out_adj = {g: top(v) for g, v in OUT.items() if v}
+    in_adj = {g: top(v) for g, v in IN.items() if v}
+
+    contra = [{"gene": c["subject"], "claimant": c["claimant"], "claim": c["claim"],
+               "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions]
+    open_sample = [o["gene"] for o in openq[:60]]
+    frontier = {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
+                "n_nodes": len(nodes), "n_edges": len(edges),
+                "n_contra": len(contradictions), "n_open": len(openq)}
+
+    surprises = mine(os.path.join(DATA, "atlas_backbone.json"))
     ck = MarsonPerturbseqChecker(DEMO_DATA)
-    demo = []
-    for c in json.load(open(DEMO_CLAIMS)):
-        v = ck.check(Claim(**c))
-        demo.append({"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason": v.reason})
-
-    phantom = {}
-    psum = os.path.join(ROOT, "examples", "data", "phantom_summary.json")
-    if os.path.exists(psum):
-        phantom = json.load(open(psum))
-
-    models = []
-    mcmp = os.path.join(ROOT, "examples", "data", "model_comparison.json")
-    if os.path.exists(mcmp):
-        models = json.load(open(mcmp))
+    demo = [{"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason": v.reason}
+            for v in (ck.check(Claim(**c)) for c in json.load(open(DEMO_CLAIMS)))]
+    phantom = json.load(open(os.path.join(DATA, "phantom_summary.json"))) if os.path.exists(os.path.join(DATA, "phantom_summary.json")) else {}
+    models = json.load(open(os.path.join(DATA, "model_comparison.json"))) if os.path.exists(os.path.join(DATA, "model_comparison.json")) else []
 
     tpl = open(os.path.join(HERE, "template.html")).read()
-    out = (tpl.replace("__ATLAS__", json.dumps(atlas))
-              .replace("__STATS__", json.dumps(stats))
-              .replace("__SURPRISES__", json.dumps(surprises))
-              .replace("__DEMO__", json.dumps(demo))
-              .replace("__PHANTOM__", json.dumps(phantom))
-              .replace("__MODELS__", json.dumps(models)))
+    for k, v in {"ATLAS": atlas, "STATS": stats, "SURPRISES": surprises, "DEMO": demo,
+                 "PHANTOM": phantom, "MODELS": models, "OUT": out_adj, "IN": in_adj,
+                 "CONTRA": contra, "OPEN": open_sample, "FRONTIER": frontier}.items():
+        tpl = tpl.replace(f"__{k}__", json.dumps(v))
     path = os.path.join(HERE, "index.html")
-    open(path, "w").write(out)
-    kb = os.path.getsize(path) // 1024
-    print(f"built {path} ({kb} KB) — {stats['n_genes']} genes, "
-          f"{len(surprises['hidden_regulators'])} hidden regulators, "
-          f"{len(surprises['demoted_famous'])} demoted famous genes")
+    open(path, "w").write(tpl)
+    print(f"built {path} ({os.path.getsize(path)//1024} KB) — {len(nodes)} nodes, "
+          f"{len(edges)} edges, {len(contra)} contradictions, {len(openq)} open")
     return path
+
+def _from_backbone():
+    bb = json.load(open(os.path.join(DATA, "atlas_backbone.json")))
+    return [{"gene": n["gene"], "type": n["class"], "status": "established",
+             "conditions": n["conditions"], "out_degree": 0, "in_degree": 0} for n in bb]
 
 if __name__ == "__main__":
     build()

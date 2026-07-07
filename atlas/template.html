@@ -50,6 +50,13 @@ h2{font-size:17px;margin:0 0 4px} .lede{color:var(--muted);margin:0 0 20px;font-
 .hero .lbl{font-size:15.5px;font-weight:600;margin-top:8px;max-width:60ch}
 .hero span{color:#9fb1c4;font-size:12.5px;display:block;margin-top:10px;max-width:66ch}
 .foot{color:var(--faint);font-size:12px;border-top:1px solid var(--border);padding-top:16px;margin-top:32px}
+.nb{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.nbh{font-size:13px;font-weight:600;margin-bottom:8px}
+.mut{color:var(--muted);font-weight:400;font-size:12px}
+.edges{display:flex;flex-wrap:wrap;gap:5px}
+.ed{font-size:11.5px;padding:2px 7px;border-radius:5px;font-weight:600;background:#eef1f4;color:#344054}
+.ed.up{background:#e7f4ec;color:#0b7a3b} .ed.down{background:#fce8e6;color:#b3261e}
+.con .cx{font-size:12.5px;color:#57606a;margin:3px 0}
 /* modal */
 .modal{position:fixed;inset:0;background:rgba(20,28,40,.42);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
 .modal.on{display:flex}
@@ -62,17 +69,18 @@ th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;
 <body>
 <header><div class="wrap">
  <div class="brand">Prospect<span class="dot">.</span></div>
- <div class="tag">A verified atlas of what regulates human CD4+ T cells — every node checked against released ground truth.</div>
+ <div class="tag">A verified regulatory frontier of human CD4+ T cells — a linked graph of what regulates what, re-derivable from released ground truth and human-signed.</div>
  <nav id="nav">
    <button data-v="overview" class="on">Overview</button>
    <button data-v="atlas">Atlas</button>
    <button data-v="surprises">Surprises</button>
+   <button data-v="frontier">Frontier</button>
  </nav>
 </div></header>
 <main class="wrap"><div id="view"></div></main>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
-const ATLAS=__ATLAS__, STATS=__STATS__, SURPRISES=__SURPRISES__, DEMO=__DEMO__, PHANTOM=__PHANTOM__, MODELS=__MODELS__;
+const ATLAS=__ATLAS__, STATS=__STATS__, SURPRISES=__SURPRISES__, DEMO=__DEMO__, PHANTOM=__PHANTOM__, MODELS=__MODELS__, OUT=__OUT__, IN=__IN__, CONTRA=__CONTRA__, OPEN=__OPEN__, FRONTIER=__FRONTIER__;
 const CONDS=["Rest","Stim8hr","Stim48hr"], CL=["R","8","48"];
 const CLS={
  constitutive_regulator:["#0b7a3b","#e7f4ec","constitutive regulator"],
@@ -154,14 +162,41 @@ function surprises(){
    <p class="lede">The screen never achieved knockdown for these, so the atlas says nothing about them — honest silence, not a verdict: <b>${unt}</b>.</p></div>`;
 }
 
+function frontier(){
+ const F=FRONTIER;
+ const con=CONTRA.slice(0,50).map(x=>`<div class="row" data-g="${esc(x.gene)}"><span class="g">${esc(x.gene)}</span><span class="badge" style="color:#b3261e;background:#fce8e6">${esc(x.verdict)}</span><span style="color:#57606a;font-size:12.5px;margin-left:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.claimant)}: "${esc(x.claim)}"</span></div>`).join("");
+ const open=OPEN.slice(0,60).map(g=>`<span class="chip" style="color:#8a6d00;background:#fef7e0">${esc(g)}</span>`).join("");
+ return `<h2>The frontier</h2>
+ <p class="lede">The verified regulatory graph is accepted state — re-derived from frozen data and signed by a human, no model in the trust path. Contradictions and open questions are kept as first-class, citable terrain.</p>
+ <div class="dist" style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+   <div><b style="font-size:22px">${(F.n_edges||0).toLocaleString()}</b><div class="mut">verified edges</div></div>
+   <div><b style="font-size:22px">${(F.n_contra||0).toLocaleString()}</b><div class="mut">contradictions</div></div>
+   <div><b style="font-size:22px">${(F.n_open||0).toLocaleString()}</b><div class="mut">open questions</div></div>
+   <div style="margin-left:auto;text-align:right;font-size:12px;color:#57606a">signed <code style="font-size:11px">${esc(F.root||'—')}</code><br>by ${esc(F.signer||'—')} · no model in the trust path</div>
+ </div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 6px">Contradictions — where AI claims meet the data</div>
+   <p class="lede" style="margin-bottom:10px">Every confident AI "major regulator" claim the released data refused, kept on the record. Click a gene to inspect.</p>
+   <div class="rows">${con||'<div class="row">none</div>'}</div></div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 6px">Open frontier — the screen couldn't test these</div>
+   <p class="lede" style="margin-bottom:10px">Knockdown never succeeded, so the data is silent. Honest gaps, and the demand surface for the next experiments.</p>
+   <div class="strip">${open}</div></div>`;
+}
+
 function openGene(name){
  const g=ATLAS.find(x=>x.g===name); if(!g)return;
  const c=CLS[g.cls];
  const rows=CONDS.map(cd=>{const v=g.C[cd];if(!v)return"";return `<tr><td>${cd}</td><td style="color:${STA[v.s]||'#888'};font-weight:600">${v.s.replace(/_/g,' ')}</td><td>${v.de}</td><td>${v.dn.toLocaleString()}</td><td>${v.es}</td></tr>`}).join("");
+ const out=OUT[name]||[], inn=IN[name]||[];
+ const chip=(sym,d,e)=>`<span class="ed ${d}" title="log2FC ${e}">${esc(sym)}</span>`;
+ const outHtml=out.length?`<div class="nb"><div class="nbh">Regulates ${g.od.toLocaleString()} genes <span class="mut">— knockdown changes these (top by effect · <span style="color:#0b7a3b">up</span> / <span style="color:#b3261e">down</span>)</span></div><div class="edges">${out.map(x=>chip(x.t,x.d,x.e)).join("")}</div></div>`:'';
+ const inHtml=inn.length?`<div class="nb"><div class="nbh">Regulated by ${g.id.toLocaleString()} <span class="mut">— upstream genes whose knockdown moves ${esc(g.g)}</span></div><div class="edges">${inn.map(x=>chip(x.s,x.d,x.e)).join("")}</div></div>`:'';
+ const cons=CONTRA.filter(x=>x.gene===name);
+ const conHtml=cons.length?`<div class="nb con"><div class="nbh" style="color:#b3261e">Contradiction${cons.length>1?'s':''} on record</div>${cons.slice(0,4).map(x=>`<div class="cx">${esc(x.claimant)} claimed "${esc(x.claim)}" → data verdict <b>${x.verdict}</b></div>`).join("")}</div>`:'';
  document.getElementById("sheet").innerHTML=`<button class="x" onclick="closeM()">×</button>
    <h3>${esc(g.g)}</h3><div class="cls" style="color:${c[0]}">${c[2]}</div>
    <table><tr><th>condition</th><th>status</th><th>DE genes</th><th>downstream</th><th>on-target effect</th></tr>${rows}</table>
-   <p style="color:#667085;font-size:12.5px;margin-top:14px">Verified against the released Marson CD4⁺ T-cell CRISPRi DE table. No model in the trust path.</p>`;
+   ${outHtml}${inHtml}${conHtml}
+   <p style="color:#667085;font-size:12.5px;margin-top:14px">Edges sliced from the released Marson DE matrix (log2FC + adj. p). Re-derivable from frozen data; no model in the trust path.</p>`;
  document.getElementById("modal").classList.add("on");
 }
 function closeM(){document.getElementById("modal").classList.remove("on")}
@@ -169,11 +204,13 @@ document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="
 
 let view="overview";
 function render(){
- document.getElementById("view").innerHTML = view==="overview"?overview():view==="atlas"?atlas(document.getElementById("q")?document.getElementById("q").value:""):surprises();
+ const view_el=document.getElementById("view");
+ view_el.innerHTML = view==="overview"?overview():view==="atlas"?atlas(""):view==="frontier"?frontier():surprises();
  if(view==="atlas"){
    const q=document.getElementById("q"); q.addEventListener("input",()=>{const v=q.value;document.getElementById("view").innerHTML=atlas(v);wireAtlas();q2();});
    wireAtlas();
  }
+ if(view==="frontier"){ view_el.querySelectorAll(".row[data-g]").forEach(r=>r.onclick=()=>openGene(r.dataset.g)); }
 }
 function q2(){const q=document.getElementById("q");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}}
 function wireAtlas(){
