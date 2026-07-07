@@ -1,0 +1,48 @@
+{
+  "gene": "PGGT1B",
+  "status": "evidence_attached",
+  "replayability": "attested",
+  "claim_scope": "hypothesis_to_test",
+  "claim": "PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor.",
+  "facts": {
+    "class": "condition_specific_regulator",
+    "rest_de": 175,
+    "rest_kd": "on-target KD",
+    "stim8hr_de": 3014,
+    "stim8hr_kd": "on-target KD",
+    "stim48hr_de": 202,
+    "stim48hr_kd": "no on-target KD",
+    "k562_de": 1,
+    "rpe1_de": null,
+    "collectri_targets": 0,
+    "is_canonical_tcell_gene": false,
+    "is_activation_module": false,
+    "is_essentiality_artifact": false,
+    "graph_edges_sliced": 0
+  },
+  "prospect_read": "PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-target knockdown, a smaller Rest footprint, no broad K562 footprint, and no CollecTRI regulon annotation.",
+  "assay_readout": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers, targeted RNA-seq at 8h and 48h, and prenylation-linked RHOA or RAC pathway readouts",
+  "literature_context": [
+    {
+      "title": "Inhibiting PGGT1B disrupts RHOA function and T-cell intestinal homing in mouse colitis",
+      "journal": "Gastroenterology",
+      "year": 2019,
+      "doi": "10.1053/j.gastro.2019.07.007",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0016508519410871",
+      "why_it_matters": "mouse CD4+ T-cell PGGT1B links prenylation, RHOA function, alpha4beta7 expression, and intestinal inflammation"
+    },
+    {
+      "title": "Protein prenylation drives discrete signaling programs for effector Treg differentiation and maintenance",
+      "journal": "Cell Metabolism",
+      "year": 2020,
+      "doi": "10.1016/j.cmet.2020.10.022",
+      "url": "https://www.cell.com/cell-metabolism/fulltext/S1550-4131(20)30591-X",
+      "why_it_matters": "mouse Treg work places Pggt1b upstream of TCR-dependent transcriptional programming and Rac-mediated signaling"
+    }
+  ],
+  "caveats": [
+    "Stim48hr is not scored as on-target because the screen reports no on-target knockdown in that condition.",
+    "The current frontier has no sliced PGGT1B gene-to-gene edge neighborhood, so the packet uses summary-count evidence.",
+    "External papers make the mechanism plausible; they do not move accepted Prospect state."
+  ]
+}

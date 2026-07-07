@@ -32,6 +32,7 @@ accepted delta. Claude proposes; the data decides; a human signs.
 
 **1:50 · Close.** Frontier tab, receipt bridge. This is not a trace viewer. `./prospect mcp`
 lets another workbench discover the receipt contract, validate a receipt, and submit it only as a
-proposal. Agent tab, validation shortlist. PGGT1B and four follow-ups are formatted for a CD4+
-perturbation screen. The whole frontier re-derives from frozen data with zero drift and carries one
-human signature. Generation is cheap. Verified state is the scarce thing, and it compounds.
+proposal. Agent tab, PGGT1B deep dive. The packet shows 3,014 Stim8hr DE genes, 175 Rest DE genes,
+1 K562 DE gene, 0 CollecTRI targets, two literature hooks, and a stimulated CD4+ assay readout.
+The whole frontier re-derives from frozen data with zero drift and carries one human signature.
+Generation is cheap. Accepted state is the scarce thing, and it compounds.

@@ -19,6 +19,21 @@ type Edge = { t?: string; s?: string; d: string; e: number };
 type Contra = { gene: string; claimant: string; claim: string; verdict: string; reason: string };
 type Finding = { kind: string; claim: string; status: string; n_genes: number; genes: string[]; evidence: any; cid: string };
 type Cite = { pmid: string; doi: string; first_author: string; journal: string; year: number; canonical_role: string };
+type PGGT1BDeepDive = {
+  gene: string;
+  status: string;
+  claim_scope: string;
+  claim: string;
+  prospect_read: string;
+  assay_readout: string;
+  facts: {
+    rest_de: number; rest_kd: string; stim8hr_de: number; stim8hr_kd: string;
+    stim48hr_de: number; stim48hr_kd: string; k562_de: number | null;
+    rpe1_de: number | null; collectri_targets: number; graph_edges_sliced: number;
+  };
+  literature_context: { journal: string; year: number; doi: string; url: string; why_it_matters: string }[];
+  caveats: string[];
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
@@ -38,6 +53,7 @@ type Data = {
     stim48hr_de: string; stim_max_de: string; strongest_condition: string; k562_de: string;
     rpe1_de: string; known_regulon_targets: string; score: string; rationale: string;
     validation_assay: string }[];
+  pggt1b_deep_dive?: PGGT1BDeepDive | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -835,6 +851,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       )}
 
+      {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
+
       {d.validation && d.validation.length > 0 && (
         <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
       )}
@@ -855,6 +873,54 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g: string) => void }) {
+  const f = dive.facts;
+  return (
+    <div className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <span className="t-label" style={{ color: "var(--brass)" }}>PGGT1B deep dive</span>
+        <button onClick={() => onGene(dive.gene)} className="t-mono" style={{ fontSize: 16, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>
+          {dive.gene}
+        </button>
+        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{dive.status.replace(/_/g, " ")}</span>
+        <a className="btn btn-secondary btn-sm" href="/data/pggt1b_deep_dive.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+        {dive.prospect_read} External literature makes the prenylation mechanism plausible; it does not move accepted state.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))", gap: 8 }}>
+        {[
+          ["Rest DE", fmt(f.rest_de), f.rest_kd],
+          ["Stim8hr DE", fmt(f.stim8hr_de), f.stim8hr_kd],
+          ["Stim48hr DE", fmt(f.stim48hr_de), f.stim48hr_kd],
+          ["K562 DE", f.k562_de == null ? "not measured" : fmt(f.k562_de), "non-immune"],
+          ["CollecTRI", fmt(f.collectri_targets), "targets"],
+        ].map(([label, value, note]) => (
+          <div key={label} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-label" style={{ color: "var(--ink-3)" }}>{label}</div>
+            <div className="t-mono" style={{ fontSize: 16, fontWeight: 700, marginTop: 2 }}>{value}</div>
+            <div className="t-caption" style={{ color: "var(--ink-3)", marginTop: 2 }}>{note}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "grid", gap: 6 }}>
+        <div className="t-label">Literature hooks</div>
+        {dive.literature_context.map((ref) => (
+          <a key={ref.doi} href={ref.url} target="_blank" rel="noreferrer" className="t-body-sm"
+            style={{ color: "var(--field-blue)", textDecoration: "none" }}>
+            {ref.year} {ref.journal}, DOI {ref.doi} <ExternalLink size={12} style={{ display: "inline", verticalAlign: -2 }} />
+          </a>
+        ))}
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Assay: {dive.assay_readout}. Claim scope remains {dive.claim_scope.replace(/_/g, " ")}.
+      </p>
     </div>
   );
 }

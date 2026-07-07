@@ -37,6 +37,8 @@ the graph on its own word. On top of it:
   Submission never moves accepted state on its own.
 - **Wet-lab validation shortlist**: a conservative sheet of evidence-attached follow-up hypotheses,
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
+- **PGGT1B deep dive**: a lab-facing packet that binds exact frozen facts, external literature
+  context, caveats, and an assay readout while keeping the claim at `evidence_attached`.
 
 ## How it uses Claude
 
@@ -58,6 +60,9 @@ the graph on its own word. On top of it:
   module 4. MED19 moves 3,716; BCL10 moves 2.
 - The agent made 12 verified tool calls over 3 rounds and converged on PGGT1B, a stimulation-gated,
   cell-type-specific regulator with no annotated regulon; a human signed the hypothesis to test.
+- PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
+  CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
+  TCR-dependent programming, but the Prospect claim remains a hypothesis to test.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
@@ -72,6 +77,7 @@ the graph on its own word. On top of it:
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
+python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted
 ```
 

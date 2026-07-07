@@ -13,8 +13,8 @@ game, plus a sharp "Built with Claude" story.
 Status: fully built, verified, committed, and live. Nothing is mid-flight.
 
 - Live: https://prospect-sepia-six.vercel.app
-- Repo: github.com/williamjblair/prospect, branch `master`, HEAD `ea0c552`
-- Deployed via Vercel CLI to the Constellate team: `cd web && vercel --prod --yes --scope constellate-dc388081`
+- Repo: github.com/williamjblair/prospect, branch `master`
+- Deployed via Vercel CLI: `cd web && vercel --prod --yes --scope constellate-dc388081`
 - Signed frontier root: `root_a8b0dcdd4024e12f` (re-derives, 0 drift)
 - The gate is green: `verify` 0 drift, `mutation_pack` 0 false admissions, `test_skill_parity` 112/0.
 
@@ -65,6 +65,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Wet-lab validation shortlist** (`frontier/validation_sheet.py`): five evidence-attached,
   on-target, non-canonical, cell-type-specific follow-ups headed by PGGT1B, exported to
   `examples/data/validation_candidates.csv` and [WETLAB_VALIDATION.md](WETLAB_VALIDATION.md).
+- **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`): a lab-facing packet for the top shortlist
+  gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
+  It keeps status at `evidence_attached`, binds exact local facts, adds literature context, and gives
+  a stimulated CD4+ assay readout.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -101,7 +105,7 @@ verified state, not a document.
 - **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json` and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the PGGT1B packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -132,8 +136,9 @@ wet-lab validation shortlist.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`. Gitignored (regenerable): `atlas_backbone.json`, `marson_de_full.csv`,
-`phantom_summary.json`, `.env`, `frontier/.prospect_signing_key`, `*.h5ad`.
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`. Gitignored (regenerable):
+`atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
+`frontier/.prospect_signing_key`, `*.h5ad`.
 
 ## 6. Gotchas
 
@@ -168,7 +173,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
   candidate regulators (with per-candidate verified evidence), instead of one hypothesis.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
-- **PGGT1B deep-dive**: pull every line of literature + data evidence and write it up publication-grade.
+- **PGGT1B next pass**: extend the shipped deep dive with more literature triangulation and, if time
+  permits, a small reproducible matrix slice around the gene's strongest moved transcripts.
 
 ## 8. Demo and submission
 
@@ -178,12 +184,11 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
   findings recovering known biology (TBX21/GATA3) and catching the field's mislabels (PD-1/TIM-3), show
   the cross-dataset moat, then the autonomous agent producing a novel signed hypothesis, and close on
-  the executable receipt boundary plus lab-facing follow-up sheet: the AI does the work, the receipt
+  the executable receipt boundary plus the PGGT1B lab-facing packet: the AI does the work, the receipt
   crosses as a proposal, the frozen gate and the human key decide what becomes state.
 
 ## 9. Deeper strategic context (on Will's machine, not in this repo)
 
 For background only. The strategic frame ("Claude Science makes activity cheap; the state layer decides
-what becomes state") comes from Will's own memos under `~/Desktop/Constellate/Memos/`, especially
-`claude-science-vela-state-layer-memo.md`. Prospect is a fresh, standalone instance of that idea, built
-for this event. Do not import or brand anything as Vela/Constellate in this repo.
+what becomes state") comes from Will's private memos. Prospect is a fresh, standalone instance of
+that idea, built for this event. Keep it standalone.
