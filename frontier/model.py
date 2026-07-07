@@ -83,6 +83,28 @@ class OpenQuestion:
         self.cid = content_id("open", {"gene": self.gene, "reason": self.reason})
         return self
 
+# A mined, human-signable regulatory finding over a gene set. Deterministic from the frozen
+# table via frontier/predicates.py; the evidence dict carries the per-gene numbers that justify
+# it, so the finding and the number that supports it can never drift apart. See docs/FINDINGS.md.
+FindingKind = Literal["activation_module", "regulator_vs_effector", "essentiality_artifact",
+                      "cross_cell_type_transfer"]
+
+@dataclass
+class Finding:
+    kind: FindingKind
+    genes: List[str]                  # the gene set the finding is about
+    claim: str                        # the one-line assertion (human-readable)
+    evidence: dict                    # frozen backbone-derived support (thresholds + per-gene numbers)
+    condition: Optional[str] = None
+    status: Literal["established", "contested"] = "established"
+    dataset: str = DATASET
+    cid: str = ""
+    def freeze(self):
+        self.cid = content_id("finding", {"kind": self.kind, "genes": sorted(self.genes),
+                                           "condition": self.condition, "evidence": self.evidence,
+                                           "dataset": self.dataset})
+        return self
+
 def dump(objs, path):
     with open(path, "w") as fh:
         for o in objs:

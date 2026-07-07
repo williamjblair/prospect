@@ -11,6 +11,8 @@ import glob, json, os, sys
 from collections import Counter
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from frontier.model import Node, Edge, Contradiction, OpenQuestion, dump
+from frontier.findings import build_findings, literature_contradictions
+from frontier.transfer import build_transfer, REPLOGLE
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "examples", "data")
@@ -40,8 +42,13 @@ def load_contradictions():
 
 def build():
     bb = json.load(open(os.path.join(DATA, "atlas_backbone.json")))
+    bb_by_gene = {n["gene"]: n for n in bb}
     edges = load_edges()
-    contradictions = load_contradictions()
+    # contradictions: AI-overlay claims (first-class) + literature-vs-data (finding #2)
+    contradictions = load_contradictions() + literature_contradictions(bb_by_gene)
+    findings = build_findings(bb_by_gene)
+    if os.path.exists(REPLOGLE):                 # cross-cell-type transfer (Replogle K562)
+        findings.append(build_transfer())
     contested = {c.subject for c in contradictions}
 
     # degrees from the real edges
@@ -64,16 +71,20 @@ def build():
           for e in edges], os.path.join(FR, "edges.jsonl")) if edges else None
     dump(contradictions, os.path.join(FR, "contradictions.jsonl"))
     dump(open_qs, os.path.join(FR, "open.jsonl"))
+    dump(findings, os.path.join(FR, "findings.jsonl"))
 
     print(f"FRONTIER: {len(nodes)} nodes · {len(edges)} edges · "
-          f"{len(contradictions)} contradictions · {len(open_qs)} open questions")
+          f"{len(contradictions)} contradictions · {len(open_qs)} open questions · "
+          f"{len(findings)} findings")
+    for f in findings:
+        print(f"  finding · {f.kind:24s} {len(f.genes):4d} genes · {f.status}")
     if edges:
         hubs = out_deg.most_common(5)
         print("  top regulatory hubs (out-degree):", ", ".join(f"{g}({d})" for g, d in hubs))
         for demo in ("VAV1", "BCL10", "TADA2B", "BCAT2"):
             if out_deg.get(demo):
                 print(f"  {demo}: regulates {out_deg[demo]} genes (out) · regulated by {in_deg.get(demo,0)} (in)")
-    return nodes, edges, contradictions, open_qs
+    return nodes, edges, contradictions, open_qs, findings
 
 if __name__ == "__main__":
     build()

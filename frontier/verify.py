@@ -7,11 +7,12 @@ admission that is re-derived, not self-asserted.
 """
 import hashlib, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from frontier.model import Node, Edge, Contradiction, OpenQuestion
+from frontier.model import Node, Edge, Contradiction, OpenQuestion, Finding
 
 FR = os.path.dirname(os.path.abspath(__file__))
 KINDS = {"nodes.jsonl": Node, "edges.jsonl": Edge,
-         "contradictions.jsonl": Contradiction, "open.jsonl": OpenQuestion}
+         "contradictions.jsonl": Contradiction, "open.jsonl": OpenQuestion,
+         "findings.jsonl": Finding}
 
 def verify():
     total = drift = 0; cids = []
@@ -25,7 +26,8 @@ def verify():
             total += 1; cids.append(obj.cid)
             if obj.cid != stored:
                 drift += 1
-                print(f"  DRIFT in {fname}: {d.get('gene') or d.get('source')} "
+                print(f"  DRIFT in {fname}: "
+                      f"{d.get('gene') or d.get('source') or d.get('subject') or d.get('kind')} "
                       f"stored={stored} recomputed={obj.cid}")
     root = "root_" + hashlib.sha256("".join(sorted(cids)).encode()).hexdigest()[:16]
     print(f"\nverified {total} objects · {drift} drift")

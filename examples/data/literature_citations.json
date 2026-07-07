@@ -1,0 +1,59 @@
+{
+  "_note": "Representative literature establishing each finding-#2 gene as a canonical immune regulator/target. Source: PubMed. These PMIDs become the `claimant` on the literature-vs-data Contradiction objects: the field cites these genes as central to T-cell biology; the released Marson CRISPRi data shows knockdown produces near-zero transcriptional change (they are effectors/outputs, not transcriptional drivers).",
+  "citations": {
+    "PDCD1": {
+      "pmid": "22437870",
+      "doi": "10.1038/nrc3239",
+      "first_author": "Pardoll DM",
+      "journal": "Nat Rev Cancer",
+      "year": 2012,
+      "title": "The blockade of immune checkpoints in cancer immunotherapy",
+      "canonical_role": "PD-1: central inhibitory immune-checkpoint receptor, primary immunotherapy target"
+    },
+    "CTLA4": {
+      "pmid": "11905831",
+      "doi": "10.1038/35105024",
+      "first_author": "Alegre ML",
+      "journal": "Nat Rev Immunol",
+      "year": 2001,
+      "title": "T-cell regulation by CD28 and CTLA-4",
+      "canonical_role": "CTLA-4: key negative regulator of T-cell activation, first FDA-approved checkpoint target"
+    },
+    "HAVCR2": {
+      "pmid": "27192565",
+      "doi": "10.1016/j.immuni.2016.05.001",
+      "first_author": "Anderson AC",
+      "journal": "Immunity",
+      "year": 2016,
+      "title": "Lag-3, Tim-3, and TIGIT: Co-inhibitory Receptors with Specialized Functions in Immune Regulation",
+      "canonical_role": "TIM-3: co-inhibitory receptor regulating T-cell responses, clinical checkpoint target"
+    },
+    "LAG3": {
+      "pmid": "27192565",
+      "doi": "10.1016/j.immuni.2016.05.001",
+      "first_author": "Anderson AC",
+      "journal": "Immunity",
+      "year": 2016,
+      "title": "Lag-3, Tim-3, and TIGIT: Co-inhibitory Receptors with Specialized Functions in Immune Regulation",
+      "canonical_role": "LAG-3: co-inhibitory receptor, clinically validated checkpoint target"
+    },
+    "IL2": {
+      "pmid": "30619342",
+      "doi": "10.3389/fimmu.2018.02987",
+      "first_author": "Kalia V",
+      "journal": "Front Immunol",
+      "year": 2018,
+      "title": "Regulation of Effector and Memory CD8 T Cell Differentiation by IL-2 - A Balancing Act",
+      "canonical_role": "IL-2: central cytokine directing T-cell effector and memory fate"
+    },
+    "IFNG": {
+      "pmid": "33126494",
+      "doi": "10.3390/ijms21218011",
+      "first_author": "Zhu X",
+      "journal": "Int J Mol Sci",
+      "year": 2020,
+      "title": "CD4 T Helper Cell Subsets and Related Human Immunological Disorders",
+      "canonical_role": "IFN-gamma: defining effector cytokine of the Th1 CD4 T-cell lineage"
+    }
+  }
+}
