@@ -1,57 +1,91 @@
 # Prospect
 
-*Trustworthy serendipity for AI-generated biology.*
+A verified regulatory frontier of human CD4+ T-cell biology.
 
-**Check which of your AI's biological claims the data actually supports, and surface the verified findings nobody's looking at.** AI generates a flood of plausible biology; the real discoveries drown in the noise. Prospect gates every claim against released ground truth, so what surfaces is unexpected *and* real.
+Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
-Built for *Maya*, a scientist who runs a single-cell / CRISPR analysis, asks an AI
-(Claude Science) to interpret it, and gets back a confident paragraph:
+An AI can assert a claim about any gene in a second. Confirming it against the data takes
+longer than most people spend, so overstated biology walks into slides, grants, and papers.
+Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is
+re-derived from released CRISPRi Perturb-seq data and signed by a human. Nothing a model says
+enters the graph on the model's word. You see what the data holds.
 
-> *"CRISPRi of A1BG drives a broad activation program in stimulated CD4 T cells — a promising target."*
+The dataset is the Marson lab's genome-scale CRISPRi Perturb-seq screen in primary human CD4+ T
+cells: 11,526 genes classified, 37,106 gene-to-gene regulatory edges sliced from the released
+matrix, contradictions and open questions kept as first-class terrain. Every object carries a
+sha256 over its frozen source fields, so `prospect verify` re-derives the whole frontier from
+scratch with zero drift, and `prospect sign` accepts a root hash with one Ed25519 signature. No
+model sits in that path.
 
-She has to present Thursday. Which of those claims can she actually stand behind?
-Today she'd have to dig back into the data for each one. Most people don't. So
-overstated results walk into lab meetings, grants, and papers.
+## What the data says
 
-**Prospect** reads an AI-generated analysis, extracts each scientific claim
-into a typed contract, and independently checks it against the **released ground-truth
-data** — deterministically, no model in the trust path. It hands back one page:
+Four findings, mined deterministically from the released table and signed into the frontier.
+Full definitions and thresholds live in [docs/FINDINGS.md](docs/FINDINGS.md).
 
-- ✅ **VAV1 is a major regulator** — on-target knockdown confirmed, 3,575 DE genes. *Stand behind it.*
-- ❌ **A1BG is a promising target** — no knockdown detected, zero DE genes. *Do not report this.*
-- ⚠️ **BCL10 regulates CD4 T-cell state** — only under stimulation (silent at rest). *Qualify it.*
+1. **The activation module, rebuilt from perturbation.** The TCR-proximal cascade (CD3D/E/G,
+   LAT, LCP2, PLCG1, ITK, BCL10, MALT1) is inert in a resting cell and moves thousands of genes
+   once stimulated. The screen recovers a textbook pathway from knockout effects alone, and the
+   frontier types every edge as condition-gated.
+2. **Regulator vs effector.** The genes the field targets most, PD-1, TIM-3, CTLA-4, LAG-3,
+   IL-2, IFN-γ, change almost nothing on knockdown even under stimulation. They are outputs of
+   the program, not its drivers. Each is a literature-vs-data contradiction, cited to the review
+   that calls it a regulator.
+3. **Reach is not regulation.** Rank genes by raw effect and the top of the list is SAGA and
+   Mediator machinery, essentiality dressed as immunology. Reach at rest separates housekeeping
+   from activation-specific control.
+4. **Verifier transfer.** The same major-regulator claim, checked against a second Perturb-seq
+   dataset in K562 (a non-immune line, Replogle 2022). Essentiality artifacts reshape the K562
+   transcriptome too (median 71 DE genes); the activation module stays inert (median 4). The
+   second dataset confirms the split with independent data.
 
-It never says "verified." It tells you what the data supports.
+## The overclaiming benchmark
 
-## Why it's trustworthy
+Ask four frontier models, blind, to name major regulators, then check every claim against the
+frozen table. On one 220-gene sample, **48% of confident "major regulator" claims are
+contradicted** by the data. On the genes the field targets most, the overclaim rate is **64%**:
+models overstate the famous checkpoints and cytokines more often than random genes. Generation
+is cheap. The scarce thing is knowing which claims survive the data.
 
-The verdict comes from **frozen code checking a frozen released table**, not from a
-model's judgment. The AI decides *when* to check; the deterministic engine decides
-*what's true*. Reproducible bit-for-bit, on a laptop, no GPU.
+## The loop
 
-## Layers
+`prospect propose` closes it. Claude proposes candidate regulators, the frozen verifier decides,
+a human signs the accepted set. In one run Claude proposed fifteen well-argued transcription
+factors; the data admitted six and rejected nine, including FOXP3, the textbook master regulator,
+because its knockdown does not broadly reshape the transcriptome in this assay. Claude is genuinely
+useful at proposing. The admission decision stays a deterministic re-derivation plus a human key.
 
-1. **Engine** (`engine/`) — pluggable deterministic checkers, one per (dataset, claim-type).
-   `marson_perturbseq` (CD4+ T-cell CRISPRi screen) and `op3` (perturbation-prediction) to start.
-2. **Skill + CLI** (`skill/`, `cli/`) — an Agent Skill you invoke inside Claude Science, and a standalone CLI.
-3. **Report + ledger** (`report/`) — the one-page card, and a persistent record of what's been checked.
-4. **Benchmark** (`benchmark/`) — a measured rate of how often AI overstates biological claims, and how well this catches it.
-
-## Quickstart
+## Run it
 
 ```bash
-python3 tests/test_marson.py   # runs the checker on the real released Marson DE slice
+./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
+./prospect check claims.json --data <released_table.csv>   # grade typed claims
+./prospect propose --n 15         # Claude proposes; the frozen verifier decides
+./prospect sign                   # the human ceremony: accept the frontier root
+python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted
 ```
+
+The web app reads a single signed `frontier.json`; it runs credential-free and offline.
+
+## Guarantees
+
+- Deterministic findings from frozen released data, never a live DE recompute.
+- Typed status only. The frontier never says "verified" or "true."
+- Content-addressed and reproducible: `verify` re-derives 53k objects with zero drift.
+- Human Ed25519 signature over the root. No model in any trust path.
+- The mutation pack proves the floor: a tampered claim is never admitted as supported.
+- The Skill ships a dependency-free checker; a parity test pins it to the engine, so the two
+  copies cannot drift.
 
 ## Data
 
-- Marson CD4+ T-cell Perturb-seq (Zhu, Dann, … Marson 2025), MIT-licensed, CZI VCP:
-  `s3://genome-scale-tcell-perturb-seq/marson2025_data/suppl_tables/DE_stats.suppl_table.csv`
-- OpenProblems OP3 perturbation prediction (MIT):
-  `s3://openproblems-data/resources/perturbation_prediction/datasets/neurips-2023-data/`
+- Marson CD4+ T-cell CRISPRi Perturb-seq (Zhu, Dann, … Marson 2025), MIT-licensed:
+  `s3://genome-scale-tcell-perturb-seq/marson2025_data/`
+- Replogle genome-scale Perturb-seq, K562 (Replogle et al., Cell 2022, PMID 35688146), for the
+  cross-cell-type transfer. Figshare article 20029387.
 
-Ground-truth artifacts are frozen releases; the engine never re-runs a DE test.
+Ground-truth artifacts are frozen releases. The engine never re-runs a DE test.
 
 ## License
 
-MIT. Built during Built with Claude: Life Sciences (Jul 7–13, 2026). See `NEW_WORK.md`.
+MIT. Built during Built with Claude: Life Sciences (Jul 7–13, 2026). See
+[NEW_WORK.md](NEW_WORK.md).

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  LayoutGrid, Rows3, Share2, Waypoints, Sparkles, Search, ShieldCheck,
+  LayoutGrid, Rows3, Share2, Waypoints, Telescope, Search, ShieldCheck, ExternalLink,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -17,14 +17,19 @@ type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
 type Edge = { t?: string; s?: string; d: string; e: number };
 type Contra = { gene: string; claimant: string; claim: string; verdict: string; reason: string };
+type Finding = { kind: string; claim: string; status: string; n_genes: number; genes: string[]; evidence: any; cid: string };
+type Cite = { pmid: string; doi: string; first_author: string; journal: string; year: number; canonical_role: string };
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
+  findings: Finding[]; citations: Record<string, Cite>;
+  proposal?: { model: string; proposed: number; admitted: number; rejected: number; cost_usd: number;
+    delta_id: string; items: { gene: string; verdict: string; rationale: string }[] } | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
-  frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number };
+  frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
 };
 
 const CONDS = ["Rest", "Stim8hr", "Stim48hr"];
@@ -51,7 +56,7 @@ const NAV = [
   { k: "atlas", label: "Atlas", icon: Rows3 },
   { k: "network", label: "Network", icon: Share2 },
   { k: "frontier", label: "Frontier", icon: Waypoints },
-  { k: "surprises", label: "Surprises", icon: Sparkles },
+  { k: "findings", label: "Findings", icon: Telescope },
 ];
 
 export default function Page() {
@@ -90,7 +95,7 @@ export default function Page() {
               <SidebarMenu>
                 {NAV.map((n) => {
                   const Icon = n.icon;
-                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : undefined) : undefined;
+                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : n.k === "findings" ? d.frontier.n_findings : undefined) : undefined;
                   return (
                     <SidebarMenuItem key={n.k}>
                       <SidebarMenuButton isActive={tab === n.k} tooltip={n.label}
@@ -140,7 +145,7 @@ export default function Page() {
               {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
               {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
-              {tab === "surprises" && <Surprises d={d} />}
+              {tab === "findings" && <Findings d={d} onGene={setGene} />}
             </>
           )}
         </main>
@@ -184,10 +189,21 @@ function Overview({ d }: { d: Data }) {
               of confident AI “major regulator” claims are contradicted by the measured data.
             </div>
           </div>
-          <p className="t-body-sm" style={{ color: "var(--stone)", marginTop: 10, maxWidth: "70ch" }}>
-            Of {fmt(p.checkable)} claims the screen could verify, {p.refuted} were wrong. The {p.untestable_no_kd} it
-            couldn’t test are excluded, not counted against the model.
+          <p className="t-body-sm" style={{ color: "var(--stone)", marginTop: 10, maxWidth: "72ch" }}>
+            {p.models ? `Across ${p.models} frontier models` : "Across frontier models"} on one frozen sample,
+            {" "}{p.refuted} of {fmt(p.checkable)} verifiable claims were wrong. Claims the screen couldn’t test
+            (no knockdown) are excluded, not counted against the model.
           </p>
+          {p.effector_total > 0 && (
+            <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid color-mix(in oklab, var(--stone) 30%, transparent)" }}>
+              <p className="t-body-sm" style={{ color: "var(--ink-on)", margin: 0, maxWidth: "72ch" }}>
+                And on the <b style={{ color: "var(--lantern)" }}>{p.effector_total} genes the field targets most</b> —
+                checkpoints and cytokines like PD-1, TIM-3, IL-2 — models called them a major regulator{" "}
+                <b style={{ color: "var(--lantern)" }}>{p.effector_overclaimed}</b> times.{" "}
+                The data shows near-zero transcriptional change: they are effectors, not drivers (Finding 02).
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -224,6 +240,37 @@ function Overview({ d }: { d: Data }) {
         </div>
       </div>
 
+      {d.proposal && (
+        <div>
+          <div className="t-label" style={{ marginBottom: 4 }}>Claude proposes; the data decides; a human signs</div>
+          <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "68ch" }}>
+            The loop, closed. Claude ({d.proposal.model.replace("claude-", "").replace(/-/g, " ")}) proposed{" "}
+            {d.proposal.proposed} candidate regulators. The frozen verifier admitted{" "}
+            <b style={{ color: "var(--moss)" }}>{d.proposal.admitted}</b> and rejected{" "}
+            <b style={{ color: "var(--cinnabar)" }}>{d.proposal.rejected}</b> — no model in the trust path.
+          </p>
+          <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+            {d.proposal.items.map((p, i) => {
+              const admit = p.verdict === "supported";
+              const tone = admit ? "var(--moss)" : p.verdict === "needs_qualification" ? "var(--brass)" : "var(--cinnabar)";
+              const lab = admit ? "admit" : p.verdict === "needs_qualification" ? "qualify" : "reject";
+              return (
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "72px 84px 1fr", gap: 10, alignItems: "center",
+                  padding: "7px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone, justifySelf: "start" }}>{lab}</span>
+                  <span className="t-mono" style={{ fontWeight: 650 }}>{p.gene}</span>
+                  <span className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-3)" }}>{p.rationale}</span>
+                </div>
+              );
+            })}
+          </div>
+          <p className="t-caption" style={{ marginTop: 8 }}>
+            Signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.proposal.delta_id}</span>{" "}
+            · Claude is genuinely useful at proposing; the admission decision is frozen re-derivation plus a human key.
+          </p>
+        </div>
+      )}
+
       {d.models.length > 0 && (
         <div>
           <div className="t-label" style={{ marginBottom: 4 }}>Generation is cheap; trustworthy surprise is scarce</div>
@@ -232,10 +279,10 @@ function Overview({ d }: { d: Data }) {
             which they fail the data barely moves. Verification is the bottleneck, not generation.
           </p>
           <div className="card-paper" style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", minWidth: 440, borderCollapse: "collapse" }}>
+            <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse" }}>
               <thead>
                 <tr className="t-label">
-                  {["model", "cost", "claims verifiable", "contradicted"].map((h) => (
+                  {["model", "cost", "verifiable", "contradicted", "effectors overclaimed"].map((h) => (
                     <th key={h} style={{ textAlign: "left", padding: "10px 14px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
                   ))}
                 </tr>
@@ -248,6 +295,9 @@ function Overview({ d }: { d: Data }) {
                     <td style={{ padding: "9px 14px" }}>{m.checkable}</td>
                     <td style={{ padding: "9px 14px", color: "var(--cinnabar)", fontWeight: 600 }}>
                       {m.refuted_rate != null ? Math.round(m.refuted_rate * 100) + "%" : "—"}
+                    </td>
+                    <td style={{ padding: "9px 14px", color: "var(--cinnabar)" }}>
+                      {m.effector_total ? `${m.effector_overclaimed}/${m.effector_total}` : "—"}
                     </td>
                   </tr>
                 ))}
@@ -387,51 +437,210 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   );
 }
 
-function Surprises({ d }: { d: Data }) {
-  const s = d.surprises;
+const FINDING_META: Record<string, { n: string; title: string; tone: string }> = {
+  activation_module: { n: "01", title: "The activation module, rebuilt from perturbation", tone: "var(--moss)" },
+  regulator_vs_effector: { n: "02", title: "Regulator vs effector", tone: "var(--cinnabar)" },
+  essentiality_artifact: { n: "03", title: "Reach is not regulation", tone: "var(--brass)" },
+  cross_cell_type_transfer: { n: "04", title: "Verifier transfer — a second cell type", tone: "var(--field-blue)" },
+};
+
+function FindingHead({ f }: { f: Finding }) {
+  const m = FINDING_META[f.kind];
   return (
-    <div style={{ display: "grid", gap: 26 }}>
-      <div>
-        <h2 className="h1-display" style={{ marginBottom: 6 }}>Serendipity</h2>
-        <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-          Verified findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.
-        </p>
+    <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 8 }}>
+      <span className="t-mono" style={{ fontSize: 13, color: m.tone, fontWeight: 700 }}>{m.n}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span className="h2-app">{m.title}</span>
+          <span className="chip" style={{ ["--tone" as any]: m.tone }}>{f.status}</span>
+          <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{f.n_genes} genes · {f.cid}</span>
+        </div>
+        <p className="t-body-sm" style={{ marginTop: 6, maxWidth: "70ch" }}>{f.claim}</p>
       </div>
-      <div>
-        <div className="h2-app" style={{ marginBottom: 4 }}>Hidden regulators</div>
-        <p className="t-body-sm" style={{ marginBottom: 12, maxWidth: "66ch" }}>
-          Ask which genes run a T cell and you hear PD-1, IL-2, the TCR. The data says the heaviest regulators are
-          transcription machinery and metabolism — like <b>BCAT2</b>, a branched-chain amino-acid enzyme.
-        </p>
-        <div className="card-grid">
-          {s.hidden_regulators.slice(0, 12).map((h: any) => (
-            <div key={h.gene} className="card-paper" style={{ padding: "12px 14px" }}>
-              <div className="t-mono" style={{ fontSize: 15, fontWeight: 650 }}>{h.gene}</div>
-              <div className="t-caption" style={{ marginTop: 2 }}>{fmt(h.max_downstream)} downstream · verified regulator</div>
+    </div>
+  );
+}
+
+function EvRow({ cells, head }: { cells: ReactNode[]; head?: boolean }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
+      padding: "6px 14px", borderTop: head ? "none" : "1px solid var(--rule-faint)" }}>
+      {cells.map((c, i) => (
+        <span key={i} className={head ? "t-label" : i === 0 ? "t-mono" : "t-body-sm"}
+          style={{ fontWeight: !head && i === 0 ? 650 : undefined, textAlign: i === 2 ? "right" : "left",
+            color: head ? "var(--ink-3)" : undefined }}>{c}</span>
+      ))}
+    </div>
+  );
+}
+
+function ActivationEvidence({ f }: { f: Finding }) {
+  const ex: Record<string, { rest_de: number; stim_max_de: number }> = f.evidence.canonical_exemplar || {};
+  const rows = Object.entries(ex).sort((a, b) => b[1].stim_max_de - a[1].stim_max_de).slice(0, 12);
+  return (
+    <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+      <EvRow head cells={["gene", "TCR-cascade component", "Rest → Stim (max) DE"]} />
+      {rows.map(([g, v]) => (
+        <EvRow key={g} cells={[g, "silent at rest, fires on stimulation",
+          <span key="n"><b style={{ color: "var(--ink-4)" }}>{v.rest_de}</b> → <b style={{ color: "var(--moss)" }}>{fmt(v.stim_max_de)}</b></span>]} />
+      ))}
+    </div>
+  );
+}
+
+function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: string) => void }) {
+  const per: Record<string, { stim_condition: string; n_de: number }> = f.evidence.per_gene || {};
+  // cited genes first (they carry the literature-vs-data contradiction), then the rest
+  const cited = Object.keys(per).filter((g) => d.citations[g]).sort();
+  const rest = Object.keys(per).filter((g) => !d.citations[g]).sort();
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, padding: "6px 14px" }}>
+          <span className="t-label" style={{ color: "var(--ink-3)" }}>gene</span>
+          <span className="t-label" style={{ color: "var(--ink-3)" }}>the field calls it (cited)</span>
+          <span className="t-label" style={{ color: "var(--ink-3)", textAlign: "right" }}>DE on KD</span>
+        </div>
+        {cited.map((g) => {
+          const c = d.citations[g], p = per[g];
+          return (
+            <div key={g} style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
+              padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+              <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left",
+                background: "transparent", color: "var(--cinnabar)" }}>{g}</button>
+              <span className="t-body-sm" style={{ minWidth: 0 }}>
+                {c.canonical_role.split(":")[0]} ·{" "}
+                <a href={`https://doi.org/${c.doi}`} target="_blank" rel="noreferrer"
+                  className="t-caption" style={{ color: "var(--ink-3)", textDecoration: "none" }}>
+                  {c.first_author} {c.year} <ExternalLink size={10} style={{ display: "inline", verticalAlign: "baseline" }} />
+                </a>
+              </span>
+              <span className="t-mono fz-sm" style={{ textAlign: "right", fontWeight: 650, color: "var(--cinnabar)" }}>
+                {p.n_de} <span className="t-caption">({p.stim_condition})</span>
+              </span>
             </div>
-          ))}
+          );
+        })}
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+        <span className="t-caption">also effectors:</span>
+        {rest.map((g) => (
+          <button key={g} onClick={() => onGene(g)} className="chip"
+            style={{ ["--tone" as any]: "var(--stone)", background: "transparent" }}>{g}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EssentialityEvidence({ f }: { f: Finding }) {
+  const per: Record<string, { rest_de: number }> = f.evidence.per_gene || {};
+  const gap = f.evidence.gap || {};
+  const rows = Object.entries(per).sort((a, b) => b[1].rest_de - a[1].rest_de).slice(0, 10);
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+        <EvRow head cells={["gene", "general machinery, not immune biology", "Rest DE"]} />
+        {rows.map(([g, v]) => (
+          <EvRow key={g} cells={[g, "moves the transcriptome in a resting cell",
+            <b key="n" style={{ color: "var(--brass)" }}>{fmt(v.rest_de)}</b>]} />
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: "10px 15px", background: "var(--state-open-tint)" }}>
+        <p className="t-body-sm" style={{ margin: 0 }}>
+          The gap is decisive: machinery genes sit at Rest DE ≥ <b>{fmt(gap.machinery_rest_de_min ?? 0)}</b>; the
+          activation module (Finding 01) tops out at Rest DE <b>{gap.activation_module_rest_de_max ?? 0}</b>. Nothing
+          lands in between. Phase 3 tests this against a non-immune cell type.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => void }) {
+  const e = f.evidence;
+  const med = e.median_k562_de || {};
+  const per: Record<string, { marson: string; replogle: string; k562_de: number | null; finding: string }> = e.per_gene || {};
+  const essRate = Math.round((e.essentiality_replication?.rate || 0) * 100);
+  const actRate = Math.round((e.activation_specificity?.rate || 0) * 100);
+  // recognizable exemplars: strongest housekeeping replications + iconic TCR genes inert in K562
+  const house = (e.housekeeping_exemplar || []).slice(0, 4);
+  const immune = (e.immune_exemplar || []).slice(0, 4);
+  const Row = ({ g, tone }: { g: string; tone: string }) => (
+    <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
+      padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+      <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: tone }}>{g}</button>
+      <span className="t-body-sm">T-cell regulator · {per[g].finding === "essentiality_artifact" ? "replicates in K562" : "inert in K562"}</span>
+      <span className="t-mono fz-sm" style={{ textAlign: "right" }}>K562 {per[g].k562_de ?? "—"} DE</span>
+    </div>
+  );
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <div className="card-paper" style={{ padding: "14px 16px" }}>
+          <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "—"}</div>
+          <div className="t-label" style={{ marginTop: 4 }}>essentiality artifacts · median K562 DE</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% replicate — housekeeping, as predicted</div>
+        </div>
+        <div className="card-paper" style={{ padding: "14px 16px" }}>
+          <div className="stat-figure" style={{ color: "var(--moss)" }}>{med.activation_module ?? "—"}</div>
+          <div className="t-label" style={{ marginTop: 4 }}>activation module · median K562 DE</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{actRate}% are K562-inert — T-cell-specific</div>
         </div>
       </div>
+      <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
+        The same major-regulator claim, run through <b>get_checker(&quot;marson&quot;)</b> and{" "}
+        <b>get_checker(&quot;replogle&quot;)</b> — one verifier shape, two frozen datasets. Essentiality
+        artifacts reshape the K562 transcriptome too (median {med.essentiality_artifact} DE); the activation
+        module stays inert (median {med.activation_module}). The second dataset validates findings 01 and 03.
+      </p>
+      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+        {house.map((g: string) => <Row key={g} g={g} tone="var(--brass)" />)}
+        {immune.map((g: string) => <Row key={g} g={g} tone="var(--moss)" />)}
+      </div>
+    </div>
+  );
+}
+
+function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
+  const byKind = Object.fromEntries(d.findings.map((f) => [f.kind, f]));
+  const order = ["activation_module", "regulator_vs_effector", "essentiality_artifact", "cross_cell_type_transfer"];
+  return (
+    <div style={{ display: "grid", gap: 30 }}>
       <div>
-        <div className="h2-app" style={{ marginBottom: 4 }}>Famous genes the data demotes</div>
-        <div className="card-paper" style={{ padding: "12px 15px", marginBottom: 12, background: "var(--state-open-tint)" }}>
-          <p className="t-body-sm" style={{ margin: 0 }}>
-            <b>Read carefully.</b> These famous genes show ~no transcriptional change when knocked down <i>in this screen</i>
-            — a real, verified result, not a claim they don’t matter (checkpoints like PD-1 act by signaling, not transcription).
-          </p>
-        </div>
-        <div className="card-grid">
-          {s.demoted_famous.map((x: any) => {
-            const cc = CONDS.map((c, k) => (x.conditions[c] ? `${CL[k]}:${x.conditions[c].n_de}DE` : "")).filter(Boolean).join("  ");
-            return (
-              <div key={x.gene} className="card-paper" style={{ padding: "12px 14px" }}>
-                <div className="t-mono" style={{ fontSize: 15, fontWeight: 650 }}>{x.gene}</div>
-                <div className="t-caption" style={{ marginTop: 2 }}>no transcriptional effect · {cc}</div>
-              </div>
-            );
-          })}
-        </div>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>Findings</h2>
+        <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
+          Findings mined deterministically from the released table and signed into the frontier. The screen recovers
+          known activation biology, catches the field’s most-targeted genes being mislabeled as regulators, resists the
+          essentiality artifact a naive ranking surfaces, and confirms the split against a second cell type.
+        </p>
       </div>
+      {order.map((k) => {
+        const f = byKind[k] as Finding | undefined;
+        if (!f) return null;
+        return (
+          <section key={k} style={{ display: "grid", gap: 12 }}>
+            <FindingHead f={f} />
+            {k === "activation_module" && <ActivationEvidence f={f} />}
+            {k === "regulator_vs_effector" && <EffectorEvidence f={f} d={d} onGene={onGene} />}
+            {k === "essentiality_artifact" && <EssentialityEvidence f={f} />}
+            {k === "cross_cell_type_transfer" && <TransferEvidence f={f} onGene={onGene} />}
+          </section>
+        );
+      })}
+      {d.surprises.untested_famous?.length > 0 && (
+        <section style={{ display: "grid", gap: 8 }}>
+          <div className="t-label">Famous genes the screen could not test</div>
+          <p className="t-body-sm" style={{ maxWidth: "66ch", margin: 0 }}>
+            No effective knockdown, so the assay is silent on these — honest gaps, not evidence of absence.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
+            {d.surprises.untested_famous.map((x: any) => (
+              <span key={x.gene} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{x.gene}</span>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

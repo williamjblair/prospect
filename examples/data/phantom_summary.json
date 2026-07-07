@@ -1,10 +1,12 @@
 {
-  "total_graded": 700,
-  "ai_major_claims": 105,
-  "supported": 32,
-  "refuted": 47,
-  "needs_qualification": 0,
-  "untestable_no_kd": 26,
-  "checkable": 79,
-  "refuted_rate": 0.595
+  "total_graded": 923,
+  "ai_major_claims": 137,
+  "supported": 50,
+  "refuted": 46,
+  "checkable": 96,
+  "refuted_rate": 0.4792,
+  "models": 4,
+  "effector_overclaimed": 46,
+  "effector_total": 72,
+  "effector_overclaim_rate": 0.6389
 }

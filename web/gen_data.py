@@ -18,6 +18,11 @@ nodes = jl(os.path.join(FR, "nodes.jsonl"))
 edges = jl(os.path.join(FR, "edges.jsonl"))
 contradictions = jl(os.path.join(FR, "contradictions.jsonl"))
 openq = jl(os.path.join(FR, "open.jsonl"))
+findings = jl(os.path.join(FR, "findings.jsonl"))
+citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
+    if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
+_pp = os.path.join(DATA, "proposal_run.json")
+proposal = json.load(open(_pp)) if os.path.exists(_pp) else None
 sig = json.load(open(os.path.join(FR, "frontier.sig.json"))) if os.path.exists(os.path.join(FR, "frontier.sig.json")) else {}
 
 def compact(n):
@@ -50,10 +55,20 @@ data = {
                 "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions],
     "open": [o["gene"] for o in openq[:80]],
     "surprises": mine(os.path.join(DATA, "atlas_backbone.json")),
+    "findings": [{"kind": f["kind"], "claim": f["claim"], "status": f["status"],
+                  "n_genes": len(f["genes"]), "genes": f["genes"], "evidence": f["evidence"],
+                  "cid": f["cid"]} for f in findings],
+    "citations": citations,
+    "proposal": ({"model": proposal["model"], "proposed": proposal["proposed"],
+                  "admitted": proposal["admitted"], "rejected": proposal["rejected"],
+                  "cost_usd": proposal.get("cost_usd", 0), "delta_id": proposal.get("delta_id", ""),
+                  "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
+                            for p in proposal["proposals"]]} if proposal else None),
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
-                 "n_contra": len(contradictions), "n_open": len(openq)},
+                 "n_contra": len(contradictions), "n_open": len(openq),
+                 "n_findings": len(findings)},
 }
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 json.dump(data, open(OUT, "w"))
