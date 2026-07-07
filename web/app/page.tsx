@@ -59,6 +59,7 @@ type JudgePacket = {
   live_url: string;
   frontier_root: string;
   gate_commands: string[];
+  demo_path: string[];
   public_data: string[];
   artifact_counts: {
     genes: number; edges: number; findings: number; receipts: number;
@@ -222,7 +223,7 @@ export default function Page() {
             </div>
           ) : (
             <>
-              {tab === "overview" && <Overview d={d} />}
+              {tab === "overview" && <Overview d={d} setTab={setTab} />}
               {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
               {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
@@ -238,7 +239,7 @@ export default function Page() {
   );
 }
 
-function Overview({ d }: { d: Data }) {
+function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom, dist = d.stats.dist;
   const order = ["constitutive_regulator", "condition_specific_regulator", "verified_non_regulator", "unverifiable_no_kd"];
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
@@ -317,7 +318,7 @@ function Overview({ d }: { d: Data }) {
         </div>
       </section>
 
-      {d.judge_packet && <JudgePacketCard packet={d.judge_packet} />}
+      {d.judge_packet && <JudgePacketCard packet={d.judge_packet} setTab={setTab} />}
 
       {d.proposal && (
         <section style={{ display: "grid", gap: 10 }}>
@@ -389,7 +390,7 @@ function Overview({ d }: { d: Data }) {
   );
 }
 
-function JudgePacketCard({ packet }: { packet: JudgePacket }) {
+function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab: string) => void }) {
   const counts = packet.artifact_counts;
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
@@ -427,6 +428,22 @@ function JudgePacketCard({ packet }: { packet: JudgePacket }) {
           <span key={cmd} className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
             background: "var(--paper-recessed)", border: "1px solid var(--rule-faint)" }}>{cmd}</span>
         ))}
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+        paddingTop: 2, borderTop: "1px solid var(--rule-faint)" }}>
+        <span className="t-label" style={{ marginRight: 2 }}>Demo path</span>
+        <button type="button" className="btn btn-secondary btn-sm"
+          title={packet.demo_path[1]} onClick={() => setTab("findings")}>
+          Findings
+        </button>
+        <button type="button" className="btn btn-secondary btn-sm"
+          title={packet.demo_path[2]} onClick={() => setTab("frontier")}>
+          Frontier
+        </button>
+        <button type="button" className="btn btn-secondary btn-sm"
+          title={packet.demo_path[3]} onClick={() => setTab("agent")}>
+          Agent
+        </button>
       </div>
     </section>
   );
