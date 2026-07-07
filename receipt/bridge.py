@@ -92,6 +92,32 @@ def contract() -> dict[str, Any]:
     }
 
 
+def protocol_path() -> list[dict[str, Any]]:
+    return [
+        {
+            "step": 1,
+            "method": "prospect.receipt.schema",
+            "action": "discover the receipt contract",
+            "result": "schema_returned",
+            "accepted": False,
+        },
+        {
+            "step": 2,
+            "method": "prospect.receipt.validate",
+            "action": "check fields, typed status, replay, and acceptance shape",
+            "result": "structural_errors_or_valid",
+            "accepted": False,
+        },
+        {
+            "step": 3,
+            "method": "prospect.receipt.submit",
+            "action": "submit the receipt across the boundary",
+            "result": "proposal_only",
+            "accepted": False,
+        },
+    ]
+
+
 def manifest(receipts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     sig = _frontier_sig()
     receipts = receipts if receipts is not None else _read_jsonl(RECEIPTS)
@@ -103,6 +129,7 @@ def manifest(receipts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
         "receipt_ids": [r.get("receipt_id", "") for r in receipts],
         "replay": "./prospect verify",
         "mcp_command": "./prospect mcp",
+        "protocol_path": protocol_path(),
         "exported_files": [
             "receipt_contract.json",
             "receipt_manifest.json",

@@ -34,6 +34,7 @@ cd web && npm run build
 - `/data/frontier.json`
 - `/data/finding_index.json`
 - `/data/receipt_bridge/receipt_contract.json`
+- `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/agent_campaign.json`

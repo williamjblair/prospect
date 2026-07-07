@@ -25,6 +25,13 @@ def test_export_bridge_writes_contract_manifest_and_bundle(tmp_path):
     assert bundle["contract"]["mcp"]["command"] == "./prospect mcp"
     assert bundle["manifest"]["frontier_root"].startswith("root_")
     assert bundle["manifest"]["mcp_command"] == "./prospect mcp"
+    assert [s["method"] for s in bundle["manifest"]["protocol_path"]] == [
+        "prospect.receipt.schema",
+        "prospect.receipt.validate",
+        "prospect.receipt.submit",
+    ]
+    assert bundle["manifest"]["protocol_path"][-1]["result"] == "proposal_only"
+    assert bundle["manifest"]["protocol_path"][-1]["accepted"] is False
     assert "prospect.receipt.submit" in bundle["contract"]["methods"]
     assert len(bundle["receipts"]) >= 6
     assert all(r["receipt_id"].startswith("rcpt_") for r in bundle["receipts"])

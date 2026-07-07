@@ -91,6 +91,29 @@
     ],
     "replay": "./prospect verify",
     "mcp_command": "./prospect mcp",
+    "protocol_path": [
+      {
+        "step": 1,
+        "method": "prospect.receipt.schema",
+        "action": "discover the receipt contract",
+        "result": "schema_returned",
+        "accepted": false
+      },
+      {
+        "step": 2,
+        "method": "prospect.receipt.validate",
+        "action": "check fields, typed status, replay, and acceptance shape",
+        "result": "structural_errors_or_valid",
+        "accepted": false
+      },
+      {
+        "step": 3,
+        "method": "prospect.receipt.submit",
+        "action": "submit the receipt across the boundary",
+        "result": "proposal_only",
+        "accepted": false
+      }
+    ],
     "exported_files": [
       "receipt_contract.json",
       "receipt_manifest.json",

@@ -29,6 +29,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert "/data/frontier.json" in packet["public_data"]
     assert "/data/lab_packet.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_contract.json" in packet["public_data"]
+    assert "/data/receipt_bridge/receipt_manifest.json" in packet["public_data"]
     assert "true" not in json.dumps(packet).lower()
     assert "verified biology" not in json.dumps(packet).lower()
 

@@ -130,8 +130,8 @@ Overview, Atlas, Network (sigma graph), Frontier (state + receipts + contradicti
 each with evidence tables), Agent (the tool-use transcript + signed hypothesis). Peek is the per-gene
 slide-over. Regenerate data with `web/gen_data.py`; it reads `frontier/*.jsonl`, the signature, the
 benchmark JSONs, `agent_run.json`, `proposal_run.json`, `receipts/receipts.jsonl`, and the validation
-shortlist and lab packet. The Frontier tab links the receipt bridge contract and bundle; the Agent tab
-shows the wet-lab validation shortlist and assay packet.
+shortlist and lab packet. The Frontier tab links the receipt bridge contract, manifest, and bundle;
+the Agent tab shows the wet-lab validation shortlist and assay packet.
 
 ## 5. Data sources (all public)
 

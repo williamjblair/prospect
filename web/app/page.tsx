@@ -99,7 +99,10 @@ type Data = {
   receipts?: { id: string; status: string; replayability: string; kind: string; subject: string[];
     claim: string; accepted: boolean; producer: any; n_evidence: number; n_artifacts: number;
     verifier: string; replay: string; signer?: string }[];
-  receipt_bridge?: { frontier_root: string; receipt_count: number; replay: string; mcp_command: string; exported_files: string[] };
+  receipt_bridge?: {
+    frontier_root: string; receipt_count: number; replay: string; mcp_command: string; exported_files: string[];
+    protocol_path?: { step: number; method: string; action: string; result: string; accepted: boolean }[];
+  };
   validation?: { gene: string; status: string; replayability: string; rest_de: string; stim8hr_de: string;
     stim48hr_de: string; stim_max_de: string; strongest_condition: string; k562_de: string;
     rpe1_de: string; known_regulon_targets: string; score: string; rationale: string;
@@ -552,6 +555,11 @@ const RCPT_STATUS: Record<string, [string, string]> = {
   claimed: ["var(--stone)", "claimed"],
 };
 const BOUNDARY = ["Activity", "Receipt", "Proposal", "Review", "Verification", "Accepted", "State"];
+const BRIDGE_METHOD_ORDER = [
+  "prospect.receipt.schema",
+  "prospect.receipt.validate",
+  "prospect.receipt.submit",
+];
 
 function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]>; bridge?: Data["receipt_bridge"] }) {
   return (
@@ -576,20 +584,40 @@ function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]
         ))}
       </div>
       {bridge && (
-        <div className="card-paper" style={{ padding: "12px 14px", display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-          <div style={{ minWidth: 220, flex: 1 }}>
-            <div className="t-label">External workbench bridge</div>
-            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-              Contract, manifest, receipt bundle, and MCP stdio bridge. Submission is a proposal only; accepted state still requires the human key.
-            </p>
+        <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ minWidth: 220, flex: 1 }}>
+              <div className="t-label">Executable bridge path</div>
+              <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+                An external workbench can discover the schema, validate a receipt, and submit it as proposal only.
+                Accepted state still requires the human key.
+              </p>
+            </div>
+            <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_contract.json" target="_blank" rel="noreferrer">
+              Contract <ExternalLink size={13} />
+            </a>
+            <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_manifest.json" target="_blank" rel="noreferrer">
+              Manifest <ExternalLink size={13} />
+            </a>
+            <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_bundle.json" target="_blank" rel="noreferrer">
+              Bundle <ExternalLink size={13} />
+            </a>
+            <span className="t-caption" style={{ color: "var(--ink-3)" }}>{bridge.receipt_count} receipts · {bridge.mcp_command}</span>
           </div>
-          <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_contract.json" target="_blank" rel="noreferrer">
-            Contract <ExternalLink size={13} />
-          </a>
-          <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_bundle.json" target="_blank" rel="noreferrer">
-            Bundle <ExternalLink size={13} />
-          </a>
-          <span className="t-caption" style={{ color: "var(--ink-3)" }}>{bridge.receipt_count} receipts · {bridge.mcp_command}</span>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 8 }}>
+            {(bridge.protocol_path || BRIDGE_METHOD_ORDER.map((method, i) => ({
+              step: i + 1, method, action: "", result: method.endsWith("submit") ? "proposal_only" : "", accepted: false,
+            }))).map((step) => (
+              <div key={step.method} style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)",
+                borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 4 }}>
+                <div className="t-caption" style={{ color: "var(--ink-4)" }}>step {step.step}</div>
+                <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>{step.method}</div>
+                <div className="t-body-sm" style={{ color: "var(--ink-3)" }}>
+                  {step.result === "proposal_only" ? "submit returns proposal only" : step.action}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
