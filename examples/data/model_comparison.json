@@ -1,0 +1,38 @@
+[
+  {
+    "tag": "haiku",
+    "label": "Haiku 4.5",
+    "model": "claude-haiku-4-5",
+    "cost_usd": 0.0912,
+    "tokens": 21175,
+    "ai_major": 55,
+    "supported": 18,
+    "refuted": 20,
+    "checkable": 38,
+    "refuted_rate": 0.526
+  },
+  {
+    "tag": "sonnet",
+    "label": "Sonnet 5",
+    "model": "claude-sonnet-5",
+    "cost_usd": 0.3772,
+    "tokens": 41566,
+    "ai_major": 64,
+    "supported": 24,
+    "refuted": 25,
+    "checkable": 49,
+    "refuted_rate": 0.51
+  },
+  {
+    "tag": "opus",
+    "label": "Opus 4.8",
+    "model": "claude-opus-4-8",
+    "cost_usd": 0.6787,
+    "tokens": 30992,
+    "ai_major": 52,
+    "supported": 24,
+    "refuted": 17,
+    "checkable": 41,
+    "refuted_rate": 0.415
+  }
+]

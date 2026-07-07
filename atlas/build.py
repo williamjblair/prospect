@@ -42,12 +42,18 @@ def build():
     if os.path.exists(psum):
         phantom = json.load(open(psum))
 
+    models = []
+    mcmp = os.path.join(ROOT, "examples", "data", "model_comparison.json")
+    if os.path.exists(mcmp):
+        models = json.load(open(mcmp))
+
     tpl = open(os.path.join(HERE, "template.html")).read()
     out = (tpl.replace("__ATLAS__", json.dumps(atlas))
               .replace("__STATS__", json.dumps(stats))
               .replace("__SURPRISES__", json.dumps(surprises))
               .replace("__DEMO__", json.dumps(demo))
-              .replace("__PHANTOM__", json.dumps(phantom)))
+              .replace("__PHANTOM__", json.dumps(phantom))
+              .replace("__MODELS__", json.dumps(models)))
     path = os.path.join(HERE, "index.html")
     open(path, "w").write(out)
     kb = os.path.getsize(path) // 1024

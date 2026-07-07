@@ -72,7 +72,7 @@ th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;
 <main class="wrap"><div id="view"></div></main>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
-const ATLAS=__ATLAS__, STATS=__STATS__, SURPRISES=__SURPRISES__, DEMO=__DEMO__, PHANTOM=__PHANTOM__;
+const ATLAS=__ATLAS__, STATS=__STATS__, SURPRISES=__SURPRISES__, DEMO=__DEMO__, PHANTOM=__PHANTOM__, MODELS=__MODELS__;
 const CONDS=["Rest","Stim8hr","Stim48hr"], CL=["R","8","48"];
 const CLS={
  constitutive_regulator:["#0b7a3b","#e7f4ec","constitutive regulator"],
@@ -109,6 +109,12 @@ function overview(){
    <div class="bar">${bar}</div><div class="legend">${leg}</div></div>
  <div style="font-weight:600;font-size:13px;margin:0 0 4px">A claim from Claude Science, checked</div>
  <div class="strip">${strip}</div>
+ ${MODELS && MODELS.length ? `<div style="font-weight:600;font-size:13px;margin:22px 0 4px">Generation is cheap; trustworthy surprise is what's scarce</div>
+ <p class="lede" style="margin-bottom:10px">The same blind test run across models. The cost of generating the claims is trivial; the rate at which they fail the data barely moves. Verification is the bottleneck, not generation.</p>
+ <div class="rows" style="margin-bottom:22px">
+  <div class="row" style="cursor:default;color:var(--muted);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em"><span style="width:100px">model</span><span style="width:88px">cost</span><span style="width:130px">claims verifiable</span><span>contradicted</span></div>
+  ${MODELS.map(m=>`<div class="row" style="cursor:default"><span style="width:100px;font-weight:650">${esc(m.label)}</span><span style="width:88px">$${m.cost_usd.toFixed(3)}</span><span style="width:130px">${m.checkable}</span><span style="font-weight:600;color:#b3261e">${m.refuted_rate!=null?Math.round(m.refuted_rate*100)+'%':'—'}</span></div>`).join("")}
+ </div>` : ''}
  <div class="note"><b>What "verified" means.</b> A verdict is computed by frozen code against a frozen released table — no model in the trust path. "Verified non-regulator" means knockdown was confirmed and produced no transcriptional effect <i>in this assay</i>, not that the gene is unimportant. It never claims the underlying biology is true.</div>`;
 }
 
