@@ -8,6 +8,7 @@ PUBLIC_COPY_FILES = [
     ROOT / "docs" / "HANDOFF.md",
     ROOT / "docs" / "DEMO.md",
     ROOT / "docs" / "JUDGE_PACKET.md",
+    ROOT / "docs" / "SUBMISSION.md",
 ]
 
 PROHIBITED_PHRASES = [
@@ -20,8 +21,11 @@ PROHIBITED_PHRASES = [
     "verified edges",
     "verified tool calls",
     "Verified evidence",
+    "A verified regulatory frontier",
     "fully built, verified",
     "verified state",
+    "verified, replayable",
+    "verified tool calls",
 ]
 
 

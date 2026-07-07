@@ -32,10 +32,11 @@ factors. The frozen verifier admitted six and rejected nine, including FOXP3, th
 regulator, because its knockdown does not broadly reshape the transcriptome here. A human signs the
 accepted delta. Claude proposes; the data decides; a human signs.
 
-**1:50 · Close.** Frontier tab, receipt bridge. This is not a trace viewer. `./prospect mcp`
-lets another workbench discover the receipt contract, validate a receipt, and submit it only as a
+**1:50 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`
+lets another workbench discover the receipt schema, validate a receipt, and submit it only as a
 proposal. Agent tab, PGGT1B deep dive. The packet shows 3,014 Stim8hr DE genes, 175 Rest DE genes,
 1 K562 DE gene, 0 CollecTRI targets, two literature hooks, and a stimulated CD4+ assay readout.
-Then scroll to the campaign leaderboard: 20 proposal-only follow-ups ranked by the same frozen facts.
-The whole frontier re-derives from frozen data with zero drift and carries one human signature.
-Generation is cheap. Accepted state is the scarce thing, and it compounds.
+Then scroll to the lab assay packet and campaign leaderboard: five assay-ready rows and 20
+proposal-only follow-ups ranked by the same frozen facts. The whole frontier re-derives from frozen
+data with zero drift and carries one human signature. Generation is cheap. Accepted state is the
+scarce thing, and it compounds.

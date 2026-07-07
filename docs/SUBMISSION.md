@@ -1,6 +1,6 @@
 # Prospect · Built with Claude: Life Sciences
 
-**A verified regulatory frontier of human CD4+ T-cell biology.**
+**A computationally reproduced regulatory frontier of human CD4+ T-cell biology.**
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app) ·
 Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prospect)
@@ -14,7 +14,7 @@ own CD4+ T-cell screen, four frontier models overstate "major regulator" claims 
 and 64% of the time on the genes the field targets most.
 
 The deeper idea is a boundary: `Activity < Receipt < Proposal < Review < Verification < Accepted <
-State`. Generation is cheap; verified, replayable, human-accepted state is the scarce thing. The
+State`. Generation is cheap; replayable, human-accepted state is the scarce thing. The
 full reasoning is in [docs/PROTOCOL.md](PROTOCOL.md).
 
 ## What we built
@@ -42,6 +42,8 @@ the graph on its own word. On top of it:
   Submission never moves accepted state on its own.
 - **Wet-lab validation shortlist**: a conservative sheet of evidence-attached follow-up hypotheses,
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
+- **Wet-lab assay packet**: `prospect lab-pack` translates the top follow-ups into intervention,
+  control, readout, exclusion, and replay fields for a Gladstone-facing assay handoff.
 - **PGGT1B deep dive**: a lab-facing packet that binds exact frozen facts, external literature
   context, caveats, and an assay readout while keeping the claim at `evidence_attached`.
 - **Agent campaign leaderboard**: `prospect campaign` widens the single-agent result into 20
@@ -65,7 +67,7 @@ the graph on its own word. On top of it:
   (Fisher p≈1e-26); the Th1/Th2 masters TBX21 and GATA3 recovered from perturbation alone.
 - Cross-cell transfer: essentiality artifacts move a median of 71 genes in K562, the activation
   module 4. MED19 moves 3,716; BCL10 moves 2.
-- The agent made 12 verified tool calls over 3 rounds and converged on PGGT1B, a stimulation-gated,
+- The agent made 12 frozen-data tool calls over 3 rounds and converged on PGGT1B, a stimulation-gated,
   cell-type-specific regulator with no annotated regulon; a human signed the hypothesis to test.
 - PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
   CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
@@ -76,7 +78,15 @@ the graph on its own word. On top of it:
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
+- The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
 - The mutation-pack floor admits zero tampered claims; a parity test pins the Skill checker to the engine.
+
+## Public artifacts
+
+- `/data/frontier.json`
+- `/data/judge_packet.json`
+- `/data/receipt_bridge/receipt_manifest.json`
+- `/data/lab_packet.json`
 
 ## Verify it yourself
 
@@ -86,11 +96,13 @@ the graph on its own word. On top of it:
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
+./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
 python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted
+python tests/test_skill_parity.py # Skill checker matches the engine
 ```
 
 ## Stack
