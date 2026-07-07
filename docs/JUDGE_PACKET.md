@@ -27,6 +27,7 @@ cd web && npm run build
 - Receipts: 6
 - Campaign candidates: 20
 - Validation candidates: 5
+- Lab packet candidates: 5
 
 ## Public data
 
@@ -36,13 +37,14 @@ cd web && npm run build
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/agent_campaign.json`
+- `/data/lab_packet.json`
 
 ## Demo path
 
 - Overview: AI claim refusal and 48 percent overclaim rate
 - Findings: five-row index, then evidence tables
 - Frontier: signed root, contradictions, receipts, MCP bridge
-- Agent: PGGT1B packet and proposal-only campaign leaderboard
+- Agent: PGGT1B packet, campaign leaderboard, lab assay packet
 
 Rebuild:
 

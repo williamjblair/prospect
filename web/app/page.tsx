@@ -55,6 +55,22 @@ type AgentCampaign = {
     rpe1_de: number | null; known_regulon_targets: number; rationale: string; assay: string;
   }[];
 };
+type LabPacket = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  method: {
+    negative_controls: string[]; positive_controls: string[]; exclusion_criteria: string[]; replay_links: string[];
+  };
+  candidates: {
+    rank: number; gene: string; status: string; trust_boundary: string; intervention: string; sample: string;
+    primary_readout: string; secondary_readout: string; decision_rule: string; negative_controls: string[];
+    positive_controls: string[]; exclusion_criteria: string[]; replay_links: string[]; stim_max_de: number;
+    strongest_condition: string; rest_de: number; k562_de: number | null; rpe1_de: number | null;
+    known_regulon_targets: number; score: number; evidence: string[];
+  }[];
+};
 type JudgePacket = {
   live_url: string;
   frontier_root: string;
@@ -90,6 +106,7 @@ type Data = {
     validation_assay: string }[];
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
   agent_campaign?: AgentCampaign | null;
+  lab_packet?: LabPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -952,6 +969,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
 
+      {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
+
       {d.validation && d.validation.length > 0 && (
         <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
       )}
@@ -1026,6 +1045,63 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
       <p className="t-caption" style={{ margin: 0 }}>
         Campaign <span className="t-mono">{campaign.campaign_id}</span> is {campaign.trust_boundary.replace(/_/g, " ")}.
         It ranks follow-ups; accepted state still requires the frozen gate and human key.
+      </p>
+    </div>
+  );
+}
+
+function LabPacketCard({ packet, onGene }: { packet: LabPacket; onGene: (g: string) => void }) {
+  const rows = packet.candidates.slice(0, 5);
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Wet-lab assay packet</div>
+          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
+            Five proposal-only follow-ups translated into assay design: intervention, controls, readouts,
+            exclusion rules, and public replay links. Status remains {packet.status.replace(/_/g, " ")}.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/lab_packet.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 860, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "intervention", "primary readout", "controls", "exclude if"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.intervention}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.primary_readout}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
+                  {r.positive_controls.join(", ")} / {r.negative_controls[0]}
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
+                  {r.exclusion_criteria.slice(0, 2).join(", ")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Replay: {packet.method.replay_links.map((link, i) => (
+          <span key={link}>
+            {i > 0 ? " · " : ""}
+            <span className="t-mono">{link}</span>
+          </span>
+        ))}. Trust boundary: {packet.trust_boundary.replace(/_/g, " ")}.
       </p>
     </div>
   );

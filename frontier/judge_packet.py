@@ -38,6 +38,7 @@ def build_packet() -> dict[str, Any]:
     bridge = frontier["receipt_bridge"]
     finding_index = frontier["finding_index"]
     campaign = frontier["agent_campaign"]
+    lab_packet = frontier.get("lab_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
 
@@ -65,7 +66,7 @@ def build_packet() -> dict[str, Any]:
             "Overview: AI claim refusal and 48 percent overclaim rate",
             "Findings: five-row index, then evidence tables",
             "Frontier: signed root, contradictions, receipts, MCP bridge",
-            "Agent: PGGT1B packet and proposal-only campaign leaderboard",
+            "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
         ],
         "public_data": [
             "/data/frontier.json",
@@ -74,6 +75,7 @@ def build_packet() -> dict[str, Any]:
             "/data/receipt_bridge/receipt_bundle.json",
             "/data/pggt1b_deep_dive.json",
             "/data/agent_campaign.json",
+            "/data/lab_packet.json",
         ],
         "artifact_counts": {
             "genes": frontier["stats"]["n_genes"],
@@ -83,6 +85,7 @@ def build_packet() -> dict[str, Any]:
             "receipts": bridge["receipt_count"],
             "agent_campaign_candidates": len(campaign["candidates"]),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
+            "lab_packet_candidates": len(lab_packet.get("candidates", [])),
         },
         "science_packet": {
             "finding_index": {
@@ -103,6 +106,11 @@ def build_packet() -> dict[str, Any]:
                 "trust_boundary": campaign["trust_boundary"],
                 "top_gene": campaign["candidates"][0]["gene"],
                 "candidate_count": len(campaign["candidates"]),
+            },
+            "lab_packet": {
+                "status": lab_packet.get("status"),
+                "trust_boundary": lab_packet.get("trust_boundary"),
+                "candidate_count": len(lab_packet.get("candidates", [])),
             },
         },
     }
@@ -139,6 +147,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Receipts: {counts['receipts']}",
         f"- Campaign candidates: {counts['agent_campaign_candidates']}",
         f"- Validation candidates: {counts['validation_candidates']}",
+        f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         "",
         "## Public data",
         "",

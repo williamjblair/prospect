@@ -24,8 +24,10 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["receipts"] == 6
     assert packet["artifact_counts"]["agent_campaign_candidates"] == 20
     assert packet["artifact_counts"]["validation_candidates"] == 5
+    assert packet["artifact_counts"]["lab_packet_candidates"] == 5
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert "/data/frontier.json" in packet["public_data"]
+    assert "/data/lab_packet.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_contract.json" in packet["public_data"]
     assert "true" not in json.dumps(packet).lower()
     assert "verified biology" not in json.dumps(packet).lower()
