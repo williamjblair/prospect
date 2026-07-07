@@ -1,7 +1,7 @@
 /* `source(none)` disables Tailwind v4's automatic content detection (which,
    under a mis-inferred workspace root, would crawl the entire home folder and
    fork-bomb the dev server with Oxide/PostCSS workers). Sources are then
-   declared explicitly — relative to this file (app/globals.css) — so the scan
+   declared explicitly , relative to this file (app/globals.css) , so the scan
    is bounded to the app's own ~284 files no matter what root Next infers. */
 @import "tailwindcss" source(none);
 @source "../app";
@@ -23,13 +23,13 @@
 */
 
 :root {
-  /* Core palette — the Observatory (DESIGN.md). First-light paper (cool, not
-     cream — Hasui's blue hour, never the warm AI-default), cold indigo ink,
+  /* Core palette , the Observatory (DESIGN.md). First-light paper (cool, not
+     cream , Hasui's blue hour, never the warm AI-default), cold indigo ink,
      borrowed gold for the kintsugi seam. oklch throughout; no pure black,
      no pure white. */
   --deep-observatory-navy: #12151b; /* ink-strong: rare maximum-contrast anchor */
-  --paper-ivory: oklch(97.2% 0.008 248); /* first light — cool atmospheric paper */
-  --brass-gold: oklch(72% 0.13 86); /* the accent — borrowed gold, kept as the soul */
+  --paper-ivory: oklch(97.2% 0.008 248); /* first light , cool atmospheric paper */
+  --brass-gold: oklch(72% 0.13 86); /* the accent , borrowed gold, kept as the soul */
   --signal-cyan: oklch(68.5% 0.04 236); /* winter */
   --field-blue: oklch(45% 0.06 256);
   --terrain-green: oklch(43.5% 0.043 128); /* moss */
@@ -46,7 +46,7 @@
   --plum: oklch(49% 0.07 330); /* a clean 5th categorical hue (a 5th field/series); plum, kept off cinnabar's refutation red */
 
   /* ── The five semantic state hue families (Component Vocabulary V2) ──
-     Three strengths each — solid / tint / line — every one a color-mix
+     Three strengths each , solid / tint / line , every one a color-mix
      derivation over the named materials above, oklch-harmonized to paper
      and ink. No new hues enter the system here; dark mode follows the
      material overrides in .dark automatically.
@@ -71,7 +71,7 @@
   --state-deprecated-tint: color-mix(in oklab, var(--stone) 10%, transparent);
   --state-deprecated-line: color-mix(in oklab, var(--stone) 35%, transparent);
 
-  /* Hasui ambients — the night-band palette. Twilight indigo replaces the
+  /* Hasui ambients , the night-band palette. Twilight indigo replaces the
      raw hex hero background; snow is the cool surface for archival/stale
      (old reads as temperature, not greyout); lantern is mix-only, a wash
      behind sealed content at <=10%, never a fill; vermilion-bright marks
@@ -85,7 +85,7 @@
 
   /* Spacing ladder: every margin and line-height snaps to it. The largest
      interval belongs at the boundary between a reading zone and an
-     instrument zone — that interval is where the ma lives. */
+     instrument zone , that interval is where the ma lives. */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -103,7 +103,7 @@
   --rule: oklch(25% 0.03 262 / 0.08);
   --rule-strong: oklch(25% 0.03 262 / 0.18);
 
-  /* Surfaces — first light: a cool atmospheric canvas, the blue hour before
+  /* Surfaces , first light: a cool atmospheric canvas, the blue hour before
      the page wakes. Every step holds a whisper of indigo (hue ~248), never
      warm grey. */
   --paper: var(--paper-ivory);
@@ -112,20 +112,20 @@
   --paper-sumi: oklch(93.2% 0.011 250); /* the observatory frame (shell canvas) */
   --paper-hover: oklch(94.8% 0.008 248);
 
-  /* Ink tones (text hierarchy) — indigo, high contrast on near-white. */
+  /* Ink tones (text hierarchy) , indigo, high contrast on near-white. */
   --ink: oklch(25% 0.03 262); /* primary: body ink */
   --ink-2: oklch(43% 0.026 258); /* secondary: metadata */
-  --ink-3: oklch(53.5% 0.018 250); /* quiet metadata — 4.76:1 paper / 4.55:1 recessed, the text floor */
+  --ink-3: oklch(53.5% 0.018 250); /* quiet metadata , 4.76:1 paper / 4.55:1 recessed, the text floor */
   /* --ink-4 is a NON-TEXT tone (WORLD_CLASS_SITE_PLAN 1.11): dividers,
      sigils, placeholders, disabled glyphs. The old oklch(70% 0.012 250)
      measured ~2.3:1 on recessed paper and read near-grey. Retuned darker
      and held in the cold indigo-ink family (the whole light ink ramp is
-     indigo, hues 250–262, by design — Cajal ink — so ink-4 stays indigo
+     indigo, hues 250–262, by design , Cajal ink , so ink-4 stays indigo
      for never-grey, not the warm hue 95 a misread of the ramp suggested). */
   --ink-4: oklch(62% 0.018 254);
   --ink-on: oklch(99% 0.003 248);
 
-  /* Borrowed-light layer: the gold splits into four jobs only —
+  /* Borrowed-light layer: the gold splits into four jobs only ,
      luminous routing (--brass-gold), readable small labels (--gold-ink),
      kintsugi hairlines (--gold-line), and the warm wash (--gold-soft:
      selection, active-row wash, masthead glow). Never a second dominant
@@ -147,7 +147,7 @@
   --viz-cat-2: var(--moss);
   --viz-cat-3: var(--winter);
   --viz-cat-4: var(--field-blue);
-  --viz-cat-5: var(--plum); /* the clean 5th category (was cinnabar — wrong: that reads as refuted; refutation now stays on its own --cinnabar token) */
+  --viz-cat-5: var(--plum); /* the clean 5th category (was cinnabar , wrong: that reads as refuted; refutation now stays on its own --cinnabar token) */
   --viz-cat-6: var(--stone); /* reserved: null / other */
   --viz-div-neg: var(--cinnabar);
   --viz-div-mid: var(--stone);
@@ -159,14 +159,15 @@
   --night-chip-text: var(--gold-soft);
   --night-chip-line: color-mix(in oklab, var(--lantern) 40%, transparent);
 
-  /* Type — the Observatory identity. Space Grotesk is the technical
+  /* Type , the Observatory identity. Space Grotesk is the technical
      grotesque workhorse (body, UI, headings), aliased onto --font-inter so
      every existing UI binding picks it up. --font-serif is Spectral, the
      editorial-scientific serif for the masthead and theorem prose; math
      inside it renders in KaTeX's own faces. */
-  --font-inter: var(--font-grotesk), system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-serif: var(--font-serif-src), Georgia, "Times New Roman", serif;
+  --font-mono: "SFMono-Regular", "Cascadia Mono", "Liberation Mono", Menlo, monospace;
+  --font-inter: "Avenir Next", "Segoe UI", system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
 
   /* Measure discipline ("ma"): reading columns clamp to a literary
      measure; figure / graph columns to a slightly wider one. */
@@ -192,7 +193,7 @@
   --shadow-lg: 0 6px 12px -5px oklch(var(--shadow-ink) / 0.09),
     0 16px 24px -6px oklch(var(--shadow-ink) / 0.06);
 
-  /* Radius: modern soft. Rounded corners on controls and cards — buttons read
+  /* Radius: modern soft. Rounded corners on controls and cards , buttons read
      as pills/soft, cards as gently rounded. */
   --radius: 10px;
   --radius-sm: 6px;
@@ -226,7 +227,7 @@
   --track-caps: 0.08em;
 
   /* Type as state: the grade ramp (lib/signal-code.ts). Three wght steps
-     on tabular numerals — claimed light, frozen-verified full ink,
+     on tabular numerals , claimed light, frozen-verified full ink,
      superseded hairline-light beside its seam. Honest name: a weight
      ramp, not a GRAD axis (neither face carries one). The value moves
      exactly once, on a state transition; it never animates. */
@@ -293,7 +294,7 @@
   --ink-3: oklch(64% 0.02 250);
   --ink-4: oklch(50% 0.022 252);
   /* ink-on rides on the lacquer/night surfaces, which stay dark in dark mode
-     too (--lacquer is oklch 11% here), so it must remain LIGHT — a dark value
+     too (--lacquer is oklch 11% here), so it must remain LIGHT , a dark value
      here is dark-on-dark on every command well + destructive button. */
   --ink-on: oklch(98% 0.004 248);
 
@@ -385,7 +386,7 @@
   --color-ink-4: var(--ink-4);
   /* ink-on: the light ink that rides on dark lacquer/night surfaces (the
      reproduce well, command doors). Must be registered or `text-ink-on`
-     emits no rule and the text falls back to the dark page ink — illegible
+     emits no rule and the text falls back to the dark page ink , illegible
      dark-on-dark on every lacquer panel. */
   --color-ink-on: var(--ink-on);
   --color-pillar-neuro: var(--pillar-neuro);
@@ -470,7 +471,7 @@ body {
 }
 
 /* The lede serif: the one primary assertion on a record (the finding
-   statement, the frontier's current answer) — Spectral, on-scale, defined
+   statement, the frontier's current answer) , Spectral, on-scale, defined
    once so the two pages can't disagree. Replaces ad-hoc text-[1.45rem]/
    text-[1.35rem] literals. */
 .t-lede {
@@ -487,7 +488,7 @@ body {
   font-weight: var(--grade-verified);
 }
 
-/* The display voice — the home masthead only. Drama from SIZE, not weight
+/* The display voice , the home masthead only. Drama from SIZE, not weight
    (the studio discipline: a restrained 500 weight at a large clamp, tight
    leading). Spectral, the manuscript serif, at observatory scale. */
 .t-display {
@@ -500,7 +501,7 @@ body {
   text-wrap: balance;
 }
 
-/* Stat figure — a stark bare number (no card), label beneath. The editorial
+/* Stat figure , a stark bare number (no card), label beneath. The editorial
    statistics moment: real receipts at scale, the figure in tabular mono. */
 .stat-figure {
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -512,7 +513,7 @@ body {
 }
 
 /* Body / prose: Geist. Crisp modern grotesque for descriptions, answers, and
-   claims — the workhorse. */
+   claims , the workhorse. */
 .t-body {
   font-family: var(--font-inter), system-ui, sans-serif;
   /* 14px even, the instrument scale (WORLD_CLASS_SITE_PLAN 1.5). */
@@ -587,7 +588,7 @@ body {
 
 /* ── The size-only type scale ────────────────────────────────────────────
    The t-* voices above carry family + colour + leading; reach for them
-   first. These eight steps set font-size and nothing else — the disciplined
+   first. These eight steps set font-size and nothing else , the disciplined
    replacement for ad-hoc text-[Npx] literals, which scattered seventeen
    near-duplicate sizes (9…28) across the surface. Defined after the t-*
    block so a size step still wins where a raw literal used to. Enforced by
@@ -617,7 +618,7 @@ body {
 
 /* ── The button system (Component Vocabulary V2 §2.1) ────────────────────
    Every action is a real Button. Four skins, three heights (28/32/40),
-   radius 6. Press = deeper tint, NEVER movement — the motion doctrine
+   radius 6. Press = deeper tint, NEVER movement , the motion doctrine
    holds. One .btn-primary per page (the adoption gesture, brass: the
    same human act the brass material names). Focus is the existing gold
    ring (:focus-visible). Labels are Verb+Noun. */
@@ -667,7 +668,7 @@ body {
   pointer-events: none;
 }
 
-/* primary — brass fill, one per page, the adoption gesture only. */
+/* primary , brass fill, one per page, the adoption gesture only. */
 .btn-primary {
   background: var(--brass-gold);
   color: var(--primary-foreground);
@@ -711,7 +712,7 @@ body {
   background: color-mix(in oklab, var(--cinnabar) 16%, var(--paper));
 }
 
-/* ghost — chrome and instrument controls. */
+/* ghost , chrome and instrument controls. */
 .btn-ghost {
   background: transparent;
   color: var(--ink-2);
@@ -764,18 +765,18 @@ body {
   border-color: color-mix(in oklab, var(--tone) 35%, transparent);
   color: color-mix(in oklab, var(--tone) 85%, var(--ink));
 }
-/* selected TagChip: filled — tone body, paper text. */
+/* selected TagChip: filled , tone body, paper text. */
 .chip-filled {
   background: color-mix(in oklab, var(--tone) 85%, var(--paper));
   color: var(--paper);
 }
-/* deprecated: hairline only, no tint — withdrawn, retained. */
+/* deprecated: hairline only, no tint , withdrawn, retained. */
 .chip-hairline {
   background: transparent;
   border-color: var(--border);
   color: var(--ink-3);
 }
-/* claimed / absence: dashed, no fill — absence stays visually absent. */
+/* claimed / absence: dashed, no fill , absence stays visually absent. */
 .chip-dashed {
   background: transparent;
   border-style: dashed;
@@ -799,7 +800,7 @@ body {
   box-shadow: var(--shadow-xs);
   position: relative;
   /* Paint-only: the hover rule below tints the background and nothing
-     else. No transform, no shadow growth — stillness is the trust posture
+     else. No transform, no shadow growth , stillness is the trust posture
      (the locked no-hover-transform law). */
   transition:
     background-color var(--transition-fast),
@@ -807,7 +808,7 @@ body {
 }
 
 /* Row and card hover: background tint only. Nothing on this site moves
-   or grows shadow on hover — stillness is the trust posture. */
+   or grows shadow on hover , stillness is the trust posture. */
 a.card-paper:hover,
 button.card-paper:hover,
 a:hover > .card-paper {
@@ -893,7 +894,7 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   The state ledger — Prospect's signature primitive. Every row is a scientific
+   The state ledger , Prospect's signature primitive. Every row is a scientific
    state transition: a left rail in the knowledge-state color (accepted=moss,
    contested=brass, inferred=winter, retracted=cinnabar, stale=stone), the
    operation foregrounded in mono in that color. A precise instrument readout,
@@ -956,10 +957,10 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Provenance thread — the kintsugi gold seam. Where the state-rail carries a
+   Provenance thread , the kintsugi gold seam. Where the state-rail carries a
    claim's review state, this thread is the gold repair that binds a claim to
    the evidence it came from: a thin gold hairline on the left of a source row,
-   marking it as load-bearing — something a finding is pinned to. The break
+   marking it as load-bearing , something a finding is pinned to. The break
    (a claim and its origin held apart) is mended in gold, not hidden.
    ───────────────────────────────────────────────────────────────────────── */
 .provenance-thread {
@@ -988,7 +989,7 @@ a:hover > .card-paper {
 .provenance-thread:hover::before {
   opacity: 1;
 }
-/* The knot: a small gold node where the thread meets the claim count — the
+/* The knot: a small gold node where the thread meets the claim count , the
    visible stitch binding source to claim. Sits on the bound-count cell. */
 .provenance-knot {
   position: relative;
@@ -1063,7 +1064,7 @@ a:hover > .card-paper {
   }
 }
 
-/* Flat clean surfaces — no decorative paper-noise film. Sleek over textured. */
+/* Flat clean surfaces , no decorative paper-noise film. Sleek over textured. */
 
 
 [data-slot="sidebar-menu-button"]:hover svg {
@@ -1198,7 +1199,7 @@ a:hover > .card-paper {
    The on-screen seam encodes verification state partly by colour (gold =
    machine-sealed). Gold gradients vanish in B&W print and are hard for some
    colourblind viewers, so in print we re-encode each state as a distinct
-   BORDER PATTERN (solid / dotted / double / dashed) — state survives without
+   BORDER PATTERN (solid / dotted / double / dashed) , state survives without
    colour. !important is required to override the component's inline styles. */
 @media print {
   .kintsugi-seam {
@@ -1242,9 +1243,9 @@ a:hover > .card-paper {
    left open. Stillness is the trust posture. */
 
 /* ── Two-zone doctrine ───────────────────────────────────────────────────
-   Reading zones: STIX Two, generous measure, vertical ma — for theorem
+   Reading zones: STIX Two, generous measure, vertical ma , for theorem
    prose, statements, and explanation. Instrument zones: 13px tabular
-   density — for ledgers, receipts, and tables; for mathematicians and
+   density , for ledgers, receipts, and tables; for mathematicians and
    evaluators the dense receipt table IS the trust signal. Never mix:
    no prose inside instrument chrome, no chips inside reading columns. */
 
@@ -1304,10 +1305,10 @@ a:hover > .card-paper {
 /* ── The custody seam ────────────────────────────────────────────────────
    The page's one ma break, placed exactly where authority changes hands:
    human-signed judgment (serif) above, the machine record (mono) below.
-   Pure whitespace — the design never adds a mark the log does not
+   Pure whitespace , the design never adds a mark the log does not
    contain. Exactly one per page (components/custody-seam.tsx). */
 .custody-seam {
-  height: var(--space-10); /* 48px — the only interval of this size */
+  height: var(--space-10); /* 48px , the only interval of this size */
 }
 
 /* ── Type as state: the grade ramp ──────────────────────────────────────
@@ -1315,7 +1316,7 @@ a:hover > .card-paper {
    under this class take their weight from the record's state. Variable
    wght on JetBrains Mono (100–800); STIX prose never carries the ramp
    (its axis floors at 400). NO transition: the weight moves exactly
-   once, on a state transition, by re-render — never by animation. */
+   once, on a state transition, by re-render , never by animation. */
 .state-grade {
   font-weight: var(--state-grade, var(--grade-claimed));
   font-variant-numeric: tabular-nums;
@@ -1374,7 +1375,7 @@ a:hover > .card-paper {
    document column (72rem) so prose, statements, and ledgers never strand in
    acres of empty right margin; dense instrument pages (the chart, the board,
    the problem cockpit) opt up to a wide frame via a `page-wide` root. The
-   100rem edge-to-edge frame is retired — at that width a single narrow
+   100rem edge-to-edge frame is retired , at that width a single narrow
    column reads as 40% content, 60% void. */
 /* The record fills the inset. Tables, ledgers, receipt chains, and graphs want
    the width, and a capped reading column on a wide monitor just strands content
@@ -1382,7 +1383,7 @@ a:hover > .card-paper {
    only its 32px padding as the gutter; the max-width is a high ceiling that binds
    only on ultrawide displays (>~2100px), so the column never grows absurd. Because
    the cap sits above the inset on normal-to-large screens, collapsing the rail just
-   lets the already-filled content widen — no gutter balloon. Prose stays readable
+   lets the already-filled content widen , no gutter balloon. Prose stays readable
    via --measure (41.5rem) on its own blocks, never the frame. `.page-wide` is a
    harmless no-op alias on pages that still carry it. */
 .app-main {
@@ -1397,7 +1398,7 @@ a:hover > .card-paper {
   min-height: 1em;
 }
 
-/* Masthead glow — home hero and the map only (the de-performance cut). */
+/* Masthead glow , home hero and the map only (the de-performance cut). */
 .masthead-glow {
   position: relative;
 }
@@ -1408,7 +1409,7 @@ a:hover > .card-paper {
   height: clamp(220px, 36vh, 360px);
   pointer-events: none;
   /* First light, not a gold glow: a barely-there cool luminance over the
-     masthead — dawn over the observatory. Kept faint so it reads as
+     masthead , dawn over the observatory. Kept faint so it reads as
      atmosphere, never as an AI glow. */
   background: radial-gradient(
     ellipse 70% 100% at 30% 0%,
@@ -1471,12 +1472,12 @@ a:hover > .card-paper {
 }
 
 /* THE LEDGER: the second (and last) surface in the economy. Flat on the
-   page, a strong top rule, zero horizontal padding — rows share the
+   page, a strong top rule, zero horizontal padding , rows share the
    container's left edge. Mono 13px/20px rows on the 20px baseline grid.
 
    Stage 8 (the sealing): almanac discipline, Comrie's table doctrine.
    One head rule names the surface; every internal rule was redundant
-   with the row rhythm and is replaced by whitespace — rows group in
+   with the row rhythm and is replaced by whitespace , rows group in
    fives with extra leading, the almanac's own device for keeping the
    eye on the line. Figures align per column: tabular lining numerals
    are set on the surface and inherited, so digits stack into columns
@@ -1600,7 +1601,7 @@ kbd {
 }
 
 /* The chart strip's stars: ink at rest, brass when the page is theirs.
-   Hover brightens the core only — nothing moves. */
+   Hover brightens the core only , nothing moves. */
 .star .star-core {
   fill: var(--ink-3);
   transition: fill var(--transition-paint);
@@ -1608,7 +1609,7 @@ kbd {
 .star:hover .star-core {
   fill: var(--ink);
 }
-/* A verified problem is a LIT star — gold, and it stays gold on hover (the
+/* A verified problem is a LIT star , gold, and it stays gold on hover (the
    one warm light on the map; the keystone vocabulary of the brand mark). */
 .star .star-core.star-lit,
 .star:hover .star-core.star-lit {
@@ -1628,7 +1629,7 @@ kbd {
 /* ── The chart room (Stage 5) ─────────────────────────────────────────
    One static baked SVG; zero client JS. On small screens the atlas pans
    by overflow scroll at ~2x width. Cinnabar exists on this surface ONLY
-   inside the jurisdiction ring ([data-ring]) as adoption marks — that
+   inside the jurisdiction ring ([data-ring]) as adoption marks , that
    restriction is auditable by DOM query. Nothing here animates. */
 .chart-pan {
   overflow-x: auto;
@@ -1728,7 +1729,7 @@ kbd {
    One tick per signed event, 20px tall, drawn in the signal code's
    materials: brass-filled accepts, half-filled proposals, the small
    kernel mark for kernel/annotation events, cinnabar rejections.
-   Scrubbing is a discrete state swap — NO transitions, NO animation;
+   Scrubbing is a discrete state swap , NO transitions, NO animation;
    prefers-reduced-motion has nothing to reduce. */
 .event-ruler {
   cursor: pointer;
@@ -1756,7 +1757,7 @@ kbd {
 
 /* The fold's three row effects: visibility, per-row grade, and the
    supersession seam. Rows are server-rendered; the scrubber only
-   toggles these on [data-vf] rows — it never templates content. */
+   toggles these on [data-vf] rows , it never templates content. */
 .scrub-hidden {
   display: none !important;
 }
@@ -1770,7 +1771,7 @@ kbd {
    per-column figure design. On screen it reads like the rest of the
    site; under @media print the paper theme is forced (a frozen edition
    is printed on paper, never on the night palette), the interactive
-   chrome leaves, and tables carry no rules at all — alignment alone
+   chrome leaves, and tables carry no rules at all , alignment alone
    does the dividing. */
 
 .almanac-table {
@@ -1793,7 +1794,7 @@ kbd {
 .almanac-table td {
   vertical-align: baseline;
   padding: 2px 16px 2px 0;
-  border: 0; /* no rules in tables — whitespace divides */
+  border: 0; /* no rules in tables , whitespace divides */
 }
 .almanac-table th:last-child,
 .almanac-table td:last-child {
@@ -1815,7 +1816,7 @@ kbd {
   }
 }
 /* The supersession seam in the edition: gold along the row's left edge,
-   the kintsugi thread — present exactly where a supersession event is
+   the kintsugi thread , present exactly where a supersession event is
    signed, absent everywhere else. */
 .almanac-table tr.almanac-seam > td:first-child {
   box-shadow: inset 2px 0 0 var(--brass-gold);
@@ -1849,7 +1850,7 @@ kbd {
     background: #fff !important;
   }
   /* The projection sheds the instrument chrome when the edition prints:
-     header strip, time rail, footer, palette — none of it is record. */
+     header strip, time rail, footer, palette , none of it is record. */
   body:has(.almanac-edition) header,
   body:has(.almanac-edition) footer,
   body:has(.almanac-edition) .skip-link {
@@ -1939,12 +1940,12 @@ kbd {
    24px on the page's right edge, a gold hairline at the flip boundary.
    Each tick aligns to a rendered substrate object (data-vf / data-vev
    anchor); hovering the gutter reveals the id-range labels (e19–e23).
-   Pulling left or Cmd+. flips to the JSON twin — plain navigation,
+   Pulling left or Cmd+. flips to the JSON twin , plain navigation,
    instant, NO transitions, nothing for reduced-motion to reduce. */
 .twin-seam {
   /* Document space, portalled to <body>: the gutter runs the page's
      full height (inline style sets it) and every tick sits beside its
-     object — the bracket scrolls with the record. */
+     object , the bracket scrolls with the record. */
   position: absolute;
   top: 0;
   right: 0;

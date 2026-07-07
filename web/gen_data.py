@@ -1,16 +1,18 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import json, os, sys
+import csv, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
 from loop.find_surprises import mine
 from engine.schema import Claim
 from engine.checkers.marson_perturbseq import MarsonPerturbseqChecker
+from receipt.bridge import export_bridge
 
 DATA = os.path.join(ROOT, "examples", "data")
 FR = os.path.join(ROOT, "frontier")
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "frontier.json")
+BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "receipt_bridge")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
 
@@ -26,6 +28,10 @@ receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["r
              "n_evidence": len(r.get("evidence", [])), "n_artifacts": len(r.get("artifacts", [])),
              "verifier": r["verifier"]["name"], "replay": r["verifier"]["replay"],
              "signer": (r.get("acceptance") or {}).get("signer")} for r in _receipts_raw]
+bridge_bundle = export_bridge(BRIDGE_OUT)
+bridge = bridge_bundle["manifest"]
+_vc = os.path.join(DATA, "validation_candidates.csv")
+validation = [r for r in csv.DictReader(open(_vc))] if os.path.exists(_vc) else []
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
     if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
 _pp = os.path.join(DATA, "proposal_run.json")
@@ -83,7 +89,7 @@ data = {
                   "cost_usd": proposal.get("cost_usd", 0), "delta_id": proposal.get("delta_id", ""),
                   "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
                             for p in proposal["proposals"]]} if proposal else None),
-    "agent": agent, "receipts": receipts,
+    "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -92,5 +98,5 @@ data = {
 }
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 json.dump(data, open(OUT, "w"))
-print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB) — {len(atlas)} nodes, {len(edges)} edges, "
+print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

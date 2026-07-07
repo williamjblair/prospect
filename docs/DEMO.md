@@ -30,5 +30,8 @@ factors. The frozen verifier admitted six and rejected nine, including FOXP3, th
 regulator, because its knockdown does not broadly reshape the transcriptome here. A human signs the
 accepted delta. Claude proposes; the data decides; a human signs.
 
-**1:50 · Close.** The whole frontier re-derives from frozen data with zero drift and carries one
+**1:50 · Close.** Frontier tab, receipt bridge. This is not a trace viewer. `./prospect mcp`
+lets another workbench discover the receipt contract, validate a receipt, and submit it only as a
+proposal. Agent tab, validation shortlist. PGGT1B and four follow-ups are formatted for a CD4+
+perturbation screen. The whole frontier re-derives from frozen data with zero drift and carries one
 human signature. Generation is cheap. Verified state is the scarce thing, and it compounds.

@@ -25,7 +25,7 @@ full reasoning.
 
 ## What the data says
 
-Four findings, mined deterministically from the released table and signed into the frontier.
+Five findings, mined deterministically from the released table and signed into the frontier.
 Full definitions and thresholds live in [docs/FINDINGS.md](docs/FINDINGS.md).
 
 1. **The activation module, rebuilt from perturbation.** The TCR-proximal cascade (CD3D/E/G,
@@ -43,6 +43,8 @@ Full definitions and thresholds live in [docs/FINDINGS.md](docs/FINDINGS.md).
    dataset in K562 (a non-immune line, Replogle 2022). Essentiality artifacts reshape the K562
    transcriptome too (median 71 DE genes); the activation module stays inert (median 4). The
    second dataset confirms the split with independent data.
+5. **Regulon recovery.** Known CollecTRI targets are enriched among genes moved by each TF
+   knockdown, with TBX21 and GATA3 recovered from perturbation alone.
 
 ## The overclaiming benchmark
 
@@ -60,6 +62,10 @@ factors; the data admitted six and rejected nine, including FOXP3, the textbook 
 because its knockdown does not broadly reshape the transcriptome in this assay. Claude is genuinely
 useful at proposing. The admission decision stays a deterministic re-derivation plus a human key.
 
+`prospect mcp` makes the receipt boundary executable. An external workbench can discover the
+receipt contract, validate a receipt, and submit it as a proposal. The response still says
+`accepted: false`; accepted state requires the frozen verifier and the human signing path.
+
 ## Run it
 
 ```bash
@@ -68,8 +74,10 @@ useful at proposing. The admission decision stays a deterministic re-derivation 
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit portable receipts (activity → signed replayable state)
+./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect sign                   # the human ceremony: accept the frontier root
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted
+python frontier/validation_sheet.py # write the wet-lab validation shortlist
 ```
 
 The web app reads a single signed `frontier.json`; it runs credential-free and offline.
@@ -83,6 +91,8 @@ The web app reads a single signed `frontier.json`; it runs credential-free and o
 - The mutation pack proves the floor: a tampered claim is never admitted as supported.
 - The Skill ships a dependency-free checker; a parity test pins it to the engine, so the two
   copies cannot drift.
+- The MCP bridge can validate and submit receipts only as proposals. A human key remains the only
+  path into accepted state.
 
 ## Data
 

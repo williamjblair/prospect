@@ -33,6 +33,11 @@ type Data = {
   receipts?: { id: string; status: string; replayability: string; kind: string; subject: string[];
     claim: string; accepted: boolean; producer: any; n_evidence: number; n_artifacts: number;
     verifier: string; replay: string; signer?: string }[];
+  receipt_bridge?: { frontier_root: string; receipt_count: number; replay: string; mcp_command: string; exported_files: string[] };
+  validation?: { gene: string; status: string; replayability: string; rest_de: string; stim8hr_de: string;
+    stim48hr_de: string; stim_max_de: string; strongest_condition: string; k562_de: string;
+    rpe1_de: string; known_regulon_targets: string; score: string; rationale: string;
+    validation_assay: string }[];
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -418,7 +423,7 @@ const RCPT_STATUS: Record<string, [string, string]> = {
 };
 const BOUNDARY = ["Activity", "Receipt", "Proposal", "Review", "Verification", "Accepted", "State"];
 
-function Receipts({ receipts }: { receipts: NonNullable<Data["receipts"]> }) {
+function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]>; bridge?: Data["receipt_bridge"] }) {
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <div>
@@ -440,6 +445,23 @@ function Receipts({ receipts }: { receipts: NonNullable<Data["receipts"]> }) {
           </span>
         ))}
       </div>
+      {bridge && (
+        <div className="card-paper" style={{ padding: "12px 14px", display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ minWidth: 220, flex: 1 }}>
+            <div className="t-label">External workbench bridge</div>
+            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+              Contract, manifest, receipt bundle, and MCP stdio bridge. Submission is a proposal only; accepted state still requires the human key.
+            </p>
+          </div>
+          <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_contract.json" target="_blank" rel="noreferrer">
+            Contract <ExternalLink size={13} />
+          </a>
+          <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_bundle.json" target="_blank" rel="noreferrer">
+            Bundle <ExternalLink size={13} />
+          </a>
+          <span className="t-caption" style={{ color: "var(--ink-3)" }}>{bridge.receipt_count} receipts · {bridge.mcp_command}</span>
+        </div>
+      )}
       <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, padding: "6px 14px" }}>
           {["claim", "status", "replay"].map((h, i) => (
@@ -496,7 +518,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       </div>
 
-      {d.receipts && d.receipts.length > 0 && <Receipts receipts={d.receipts} />}
+      {d.receipts && d.receipts.length > 0 && <Receipts receipts={d.receipts} bridge={d.receipt_bridge} />}
 
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions, where AI claims meet the data</div>
@@ -813,6 +835,10 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       )}
 
+      {d.validation && d.validation.length > 0 && (
+        <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
+      )}
+
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -829,6 +855,51 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function ValidationShortlist({ rows, onGene }: { rows: NonNullable<Data["validation"]>; onGene: (g: string) => void }) {
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div>
+        <div className="t-label" style={{ marginBottom: 5 }}>Wet-lab validation shortlist</div>
+        <p className="t-body-sm" style={{ maxWidth: "70ch", margin: 0 }}>
+          Frozen lookups ranked into hypotheses to test: non-canonical, condition-specific, not housekeeping,
+          inert in non-immune cells where measured, and no broad annotated regulon when possible.
+        </p>
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 720, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["gene", "status", "stim max", "Rest", "K562", "regulon", "assay-ready note"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td style={{ padding: "8px 12px" }}><span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{r.status.replace(/_/g, " ")}</span></td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{fmt(Number(r.stim_max_de))}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(Number(r.rest_de))}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de || "·"}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.known_regulon_targets}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
+                  {r.strongest_condition} follow-up · targeted RNA-seq
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Full sheet: <span className="t-mono">examples/data/validation_candidates.csv</span> and <span className="t-mono">docs/WETLAB_VALIDATION.md</span>.
+      </p>
     </div>
   );
 }

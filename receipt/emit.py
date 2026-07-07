@@ -103,9 +103,9 @@ def from_agent():
         producer={"kind": "autonomous_agent", "model": run["model"], "run": f"{run['tool_calls']} tool calls / {run['rounds']} rounds"},
         artifacts=[MARSON, K562, COLLECTRI],
         evidence=atoms,
-        verifier=Verifier(name="frozen-data tools", method="every fact is a deterministic lookup against a released table; the agent cannot assert unverified biology",
+        verifier=Verifier(name="frozen-data tools", method="every fact is a deterministic lookup against a released table; the agent cannot assert ungated biology",
                           replay="./prospect agent"),
-        status="evidence_attached",   # the facts are verified; the hypothesis is a proposal to test
+        status="evidence_attached",   # the facts are replayable; the hypothesis is a proposal to test
         replayability="attested",     # the atoms replay exactly; the synthesis rests on a human's acceptance
         scope=[h.get("why_novel", ""), "a hypothesis to test, not an established result"],
         acceptance=acc).freeze()
@@ -124,12 +124,24 @@ def emit_all():
             fh.write(json.dumps(r.to_dict()) + "\n")
     return receipts
 
-def main():
+def main(argv=None):
+    import argparse
+    from receipt.bridge import export_bridge, validate_receipt, DEFAULT_OUT
+    ap = argparse.ArgumentParser(prog="prospect receipt")
+    ap.add_argument("--no-bridge", action="store_true", help="skip bridge contract export")
+    ap.add_argument("--bridge-out", default=str(DEFAULT_OUT), help="directory for bridge contract artifacts")
+    args = ap.parse_args(argv)
     receipts = emit_all()
     print(f"emitted {len(receipts)} receipts -> {OUTDIR}/\n")
     for r in receipts:
         acc = f"signed by {r.acceptance.signer}" if r.acceptance else "unsigned"
         print(f"  {r.receipt_id}  {r.status:26s} {r.replayability:10s} {acc:22s} {r.kind}: {', '.join(r.subject[:3])}")
+    if not args.no_bridge:
+        bundle = export_bridge(args.bridge_out)
+        errors = [e for r in bundle["receipts"] for e in validate_receipt(r)]
+        if errors:
+            raise SystemExit("receipt bridge validation failed: " + "; ".join(errors))
+        print(f"\nexported receipt bridge -> {args.bridge_out}")
 
 if __name__ == "__main__":
     main()

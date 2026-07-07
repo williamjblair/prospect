@@ -32,8 +32,11 @@ the graph on its own word. On top of it:
 - **A closed loop and an autonomous agent**: `prospect propose` (Claude proposes, the verifier
   decides, a human signs) and `prospect agent` (a real tool-use loop where Claude searches and
   verifies against frozen data, converging on a novel hypothesis).
-- **Portable receipts**: `prospect receipt` emits the activity-to-state bridge object, with a typed
-  status that never launders weak evidence as strong.
+- **Portable receipts and MCP bridge**: `prospect receipt` emits the activity-to-state bridge object,
+  and `prospect mcp` lets an external workbench discover, validate, and submit receipts as proposals.
+  Submission never moves accepted state on its own.
+- **Wet-lab validation shortlist**: a conservative sheet of evidence-attached follow-up hypotheses,
+  headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 
 ## How it uses Claude
 
@@ -55,6 +58,10 @@ the graph on its own word. On top of it:
   module 4. MED19 moves 3,716; BCL10 moves 2.
 - The agent made 12 verified tool calls over 3 rounds and converged on PGGT1B, a stimulation-gated,
   cell-type-specific regulator with no annotated regulon; a human signed the hypothesis to test.
+- The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
+  proposal, but accepted state still requires the human signing path.
+- The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
+  follow-ups for a Gladstone-facing perturbation screen.
 - The mutation-pack floor admits zero tampered claims; a parity test pins the Skill checker to the engine.
 
 ## Verify it yourself
@@ -63,6 +70,8 @@ the graph on its own word. On top of it:
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts
+./prospect mcp                    # expose the receipt bridge over MCP stdio
+python frontier/validation_sheet.py # write the wet-lab validation shortlist
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted
 ```
 

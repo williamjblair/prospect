@@ -1,0 +1,77 @@
+{
+  "schema_version": "prospect.receipt.v1",
+  "frontier": "prospect_marson_cd4_perturbseq",
+  "mcp": {
+    "transport": "stdio",
+    "protocol_version": "2025-11-25",
+    "command": "./prospect mcp"
+  },
+  "boundary": [
+    "Activity",
+    "Receipt",
+    "Proposal",
+    "Review",
+    "Verification",
+    "Accepted",
+    "State"
+  ],
+  "required_fields": [
+    "artifacts",
+    "claim",
+    "evidence",
+    "frontier",
+    "kind",
+    "producer",
+    "receipt_id",
+    "replayability",
+    "status",
+    "subject",
+    "verifier"
+  ],
+  "statuses": [
+    "claimed",
+    "computationally_reproduced",
+    "contradicted",
+    "evidence_attached",
+    "independently_reanalyzed",
+    "refuted"
+  ],
+  "replayability": [
+    "attested",
+    "exact",
+    "none",
+    "reanalysis"
+  ],
+  "methods": {
+    "prospect.receipt.schema": {
+      "description": "Return this contract so an external workbench can shape a receipt.",
+      "input": {},
+      "output": "prospect.receipt.v1"
+    },
+    "prospect.receipt.validate": {
+      "description": "Check receipt shape, typed status, replay fields, and acceptance fields.",
+      "input": {
+        "receipt": "prospect.receipt.v1"
+      },
+      "output": {
+        "errors": "list[str]"
+      }
+    },
+    "prospect.receipt.submit": {
+      "description": "Submit a receipt as a proposal. This never moves accepted state by itself.",
+      "input": {
+        "receipt": "prospect.receipt.v1"
+      },
+      "output": {
+        "accepted": false,
+        "next": "human signature over an accepted delta"
+      }
+    }
+  },
+  "trust_path": [
+    "producer activity is untrusted",
+    "receipt binds claim, artifacts, evidence atoms, verifier, replay, and typed status",
+    "frozen verifier decides what re-derives",
+    "human Ed25519 key accepts state"
+  ]
+}

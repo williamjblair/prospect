@@ -59,6 +59,12 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   `evidence_attached`, a hypothesis to test).
 - **Receipts** (`receipt/`): 6 portable receipts binding claim + artifact hashes + evidence atoms +
   verifier replay + typed status + human signature. Surfaced in the Frontier tab with the boundary chain.
+- **Executable receipt bridge** (`./prospect mcp`): a pure-Python MCP stdio server exposing
+  `prospect.receipt.schema`, `prospect.receipt.validate`, and `prospect.receipt.submit`. Submit
+  returns a proposal only (`accepted: false`); accepted state still requires the human signing path.
+- **Wet-lab validation shortlist** (`frontier/validation_sheet.py`): five evidence-attached,
+  on-target, non-canonical, cell-type-specific follow-ups headed by PGGT1B, exported to
+  `examples/data/validation_candidates.csv` and [WETLAB_VALIDATION.md](WETLAB_VALIDATION.md).
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -90,11 +96,13 @@ verified state, not a document.
 - **`loop/`**: the AI overlay and agents (need `ANTHROPIC_API_KEY`).
   - `backbone.py` (classify 11,526 genes), `find_surprises.py`, `run.py`/`make_corpus.py`/`bench_summary.py`
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
-- **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent). Output in `receipts/`.
+- **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
+  (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
-- **`web/`**: `app/page.tsx` (the entire app, ~950 lines), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`), `components/graph-view.tsx` (sigma.js).
+- **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
+  `gen_data.py` (assembles `public/data/frontier.json` and static receipt-bridge files),
+  `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
 ### The web app (`web/app/page.tsx`)
@@ -103,7 +111,9 @@ One client component. Fetches `/data/frontier.json`, renders a shadcn inset Side
 Overview, Atlas, Network (sigma graph), Frontier (state + receipts + contradictions), Findings (the 5,
 each with evidence tables), Agent (the tool-use transcript + signed hypothesis). Peek is the per-gene
 slide-over. Regenerate data with `web/gen_data.py`; it reads `frontier/*.jsonl`, the signature, the
-benchmark JSONs, `agent_run.json`, `proposal_run.json`, and `receipts/receipts.jsonl`.
+benchmark JSONs, `agent_run.json`, `proposal_run.json`, `receipts/receipts.jsonl`, and the validation
+shortlist. The Frontier tab links the receipt bridge contract and bundle; the Agent tab shows the
+wet-lab validation shortlist.
 
 ## 5. Data sources (all public)
 
@@ -154,13 +164,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
 
 **Bigger swings (higher ceiling, in rough priority):**
-- **Receipt export / MCP bridge**: make a receipt emittable by an external workbench (a small MCP or a
-  documented JSON contract), so "Claude activity -> receipt -> gated state" is executable, not argued.
-  This is the strongest "it's a protocol" move.
 - **Agent campaign**: let `loop/agent.py` run many hypotheses, ranked, into a leaderboard of novel
   candidate regulators (with per-candidate verified evidence), instead of one hypothesis.
-- **Wet-lab-ready output**: format the top-N testable predictions (the open frontier + agent
-  candidates) as a validation-screen-ready sheet a Gladstone lab could act on.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B deep-dive**: pull every line of literature + data evidence and write it up publication-grade.
@@ -173,7 +178,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
   findings recovering known biology (TBX21/GATA3) and catching the field's mislabels (PD-1/TIM-3), show
   the cross-dataset moat, then the autonomous agent producing a novel signed hypothesis, and close on
-  the receipt boundary: the AI does the work, the frozen gate and the human key decide what becomes state.
+  the executable receipt boundary plus lab-facing follow-up sheet: the AI does the work, the receipt
+  crosses as a proposal, the frozen gate and the human key decide what becomes state.
 
 ## 9. Deeper strategic context (on Will's machine, not in this repo)
 

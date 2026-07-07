@@ -56,7 +56,7 @@
   ],
   "verifier": {
     "name": "frozen-data tools",
-    "method": "every fact is a deterministic lookup against a released table; the agent cannot assert unverified biology",
+    "method": "every fact is a deterministic lookup against a released table; the agent cannot assert ungated biology",
     "replay": "./prospect agent"
   },
   "status": "evidence_attached",

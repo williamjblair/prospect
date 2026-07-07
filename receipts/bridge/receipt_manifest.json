@@ -1,0 +1,21 @@
+{
+  "frontier": "prospect_marson_cd4_perturbseq",
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "signer": "williamblair",
+  "receipt_count": 6,
+  "receipt_ids": [
+    "rcpt_4b498e298f5a349d",
+    "rcpt_a2adbf2303d4b92c",
+    "rcpt_19d5e07b08f10701",
+    "rcpt_b93886216e70f075",
+    "rcpt_5fc079845283ef6e",
+    "rcpt_0895746d0698adc2"
+  ],
+  "replay": "./prospect verify",
+  "mcp_command": "./prospect mcp",
+  "exported_files": [
+    "receipt_contract.json",
+    "receipt_manifest.json",
+    "receipt_bundle.json"
+  ]
+}
