@@ -36,6 +36,7 @@
     "/data/receipt_bridge/receipt_bundle.json",
     "/data/pggt1b_deep_dive.json",
     "/data/agent_campaign.json",
+    "/data/agent_campaign_review.json",
     "/data/lab_packet.json"
   ],
   "artifact_counts": {
@@ -45,6 +46,7 @@
     "finding_index_items": 5,
     "receipts": 6,
     "agent_campaign_candidates": 20,
+    "campaign_review_rows": 20,
     "validation_candidates": 5,
     "lab_packet_candidates": 5
   },
@@ -91,7 +93,8 @@
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
       "top_gene": "PGGT1B",
-      "candidate_count": 20
+      "candidate_count": 20,
+      "review_rows": 20
     },
     "lab_packet": {
       "status": "evidence_attached",

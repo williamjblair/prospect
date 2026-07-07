@@ -15,6 +15,7 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data",
 BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "receipt_bridge")
 PGGT1B_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_deep_dive.json")
 CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
+CAMPAIGN_REVIEW_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign_review.json")
 LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
@@ -48,6 +49,8 @@ _pg = os.path.join(DATA, "pggt1b_deep_dive.json")
 pggt1b_deep_dive = json.load(open(_pg)) if os.path.exists(_pg) else None
 _campaign = os.path.join(DATA, "agent_campaign.json")
 agent_campaign = json.load(open(_campaign)) if os.path.exists(_campaign) else None
+_campaign_review = os.path.join(DATA, "agent_campaign_review.json")
+agent_campaign_review = json.load(open(_campaign_review)) if os.path.exists(_campaign_review) else None
 _lab_packet = os.path.join(DATA, "lab_packet.json")
 lab_packet = json.load(open(_lab_packet)) if os.path.exists(_lab_packet) else None
 _finding_index = os.path.join(DATA, "finding_index.json")
@@ -114,7 +117,7 @@ data = {
                             for p in proposal["proposals"]]} if proposal else None),
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
-    "lab_packet": lab_packet,
+    "agent_campaign_review": agent_campaign_review, "lab_packet": lab_packet,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -126,6 +129,8 @@ if pggt1b_deep_dive:
     json.dump(pggt1b_deep_dive, open(PGGT1B_OUT, "w"))
 if agent_campaign:
     json.dump(agent_campaign, open(CAMPAIGN_OUT, "w"))
+if agent_campaign_review:
+    json.dump(agent_campaign_review, open(CAMPAIGN_REVIEW_OUT, "w"))
 if lab_packet:
     json.dump(lab_packet, open(LAB_PACKET_OUT, "w"))
 if finding_index:

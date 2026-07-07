@@ -38,6 +38,7 @@ def build_packet() -> dict[str, Any]:
     bridge = frontier["receipt_bridge"]
     finding_index = frontier["finding_index"]
     campaign = frontier["agent_campaign"]
+    campaign_review = frontier.get("agent_campaign_review") or {}
     lab_packet = frontier.get("lab_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
@@ -76,6 +77,7 @@ def build_packet() -> dict[str, Any]:
             "/data/receipt_bridge/receipt_bundle.json",
             "/data/pggt1b_deep_dive.json",
             "/data/agent_campaign.json",
+            "/data/agent_campaign_review.json",
             "/data/lab_packet.json",
         ],
         "artifact_counts": {
@@ -85,6 +87,7 @@ def build_packet() -> dict[str, Any]:
             "finding_index_items": len(finding_index["items"]),
             "receipts": bridge["receipt_count"],
             "agent_campaign_candidates": len(campaign["candidates"]),
+            "campaign_review_rows": len(campaign_review.get("rows", [])),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
         },
@@ -107,6 +110,7 @@ def build_packet() -> dict[str, Any]:
                 "trust_boundary": campaign["trust_boundary"],
                 "top_gene": campaign["candidates"][0]["gene"],
                 "candidate_count": len(campaign["candidates"]),
+                "review_rows": len(campaign_review.get("rows", [])),
             },
             "lab_packet": {
                 "status": lab_packet.get("status"),
@@ -147,6 +151,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Findings: {counts['findings']}",
         f"- Receipts: {counts['receipts']}",
         f"- Campaign candidates: {counts['agent_campaign_candidates']}",
+        f"- Campaign review rows: {counts['campaign_review_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         "",

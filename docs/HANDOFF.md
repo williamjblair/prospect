@@ -77,6 +77,11 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   primary readouts, and "what would weaken it" triage fields, exported to
   `examples/data/agent_campaign.*` and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the
   single-agent result without moving accepted state.
+- **Campaign review appendix** (`frontier/campaign_review.py`, `./prospect campaign-review`):
+  deterministic audit questions, lane counts, per-row decisions, and stop rules for all 20 campaign
+  hypotheses, exported to `examples/data/agent_campaign_review.*` and
+  [AGENT_CAMPAIGN_REVIEW.md](AGENT_CAMPAIGN_REVIEW.md). It helps judges inspect the leaderboard
+  without upgrading any row beyond `evidence_attached`.
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -117,10 +122,10 @@ accepted state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, the lab assay packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard and review appendix, the lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -151,8 +156,8 @@ the Agent tab shows the wet-lab validation shortlist and assay packet.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`, `lab_packet.*`,
-`finding_index.json`, `judge_packet.json`.
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
+`agent_campaign_review.*`, `lab_packet.*`, `finding_index.json`, `judge_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.

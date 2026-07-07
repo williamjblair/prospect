@@ -26,6 +26,7 @@ cd web && npm run build
 - Findings: 5
 - Receipts: 6
 - Campaign candidates: 20
+- Campaign review rows: 20
 - Validation candidates: 5
 - Lab packet candidates: 5
 
@@ -38,6 +39,7 @@ cd web && npm run build
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/agent_campaign.json`
+- `/data/agent_campaign_review.json`
 - `/data/lab_packet.json`
 
 ## Demo path

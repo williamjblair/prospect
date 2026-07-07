@@ -70,11 +70,16 @@ receipt contract, validate a receipt, and submit it as a proposal. The response 
 Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusion criteria, and
 public replay links. Every row remains proposal only.
 
+`prospect campaign-review` adds the audit appendix for the 20-row campaign: lane counts, audit
+questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without
+moving any row beyond proposal-only state.
+
 Current public artifacts:
 
 - `/data/frontier.json`
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
+- `/data/agent_campaign_review.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -87,6 +92,7 @@ Current public artifacts:
 ./prospect receipt                # emit portable receipts (activity → signed replayable state)
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
+./prospect campaign-review        # build the campaign review appendix
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root

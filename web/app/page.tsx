@@ -62,6 +62,22 @@ type AgentCampaign = {
     what_would_weaken: string; review_summary: string;
   }[];
 };
+type CampaignReview = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  campaign_id: string;
+  candidate_count: number;
+  top_gene: string;
+  lane_counts: Record<string, number>;
+  audit_questions: { question: string; field: string; pass_condition: string }[];
+  rows: {
+    rank: number; gene: string; status: string; trust_boundary: string; review_lane: string; decision: string;
+    stimulated_signal: string; specificity: string; regulon_context: string; primary_readout: string;
+    why_interesting: string; stop_rules: string[];
+  }[];
+};
 type LabPacket = {
   title: string;
   status: string;
@@ -116,6 +132,7 @@ type Data = {
     validation_assay: string }[];
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
   agent_campaign?: AgentCampaign | null;
+  agent_campaign_review?: CampaignReview | null;
   lab_packet?: LabPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -1004,6 +1021,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
 
+      {d.agent_campaign_review && <CampaignReviewAppendix review={d.agent_campaign_review} onGene={onGene} />}
+
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
       {d.validation && d.validation.length > 0 && (
@@ -1083,6 +1102,65 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
       <p className="t-caption" style={{ margin: 0 }}>
         Campaign <span className="t-mono">{campaign.campaign_id}</span> is {campaign.trust_boundary.replace(/_/g, " ")}.
         It ranks follow-ups; accepted state still requires the frozen gate and human key.
+      </p>
+    </div>
+  );
+}
+
+function CampaignReviewAppendix({ review, onGene }: { review: CampaignReview; onGene: (g: string) => void }) {
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Campaign review appendix</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            A deterministic audit layer over the proposal-only campaign: what each row rests on, what would weaken it,
+            and which candidates should advance to assay design first.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/agent_campaign_review.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 8 }}>
+        {Object.entries(review.lane_counts).map(([lane, count]) => (
+          <div key={lane} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{lane}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "decision", "signal", "specificity", "stop rule"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {review.rows.slice(0, 8).map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: r.decision === "advance_to_assay_design" ? "var(--brass)" : "var(--field-blue)" }}>
+                    {r.decision.replace(/_/g, " ")}
+                  </span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{r.stimulated_signal}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 240 }}>{r.specificity}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.stop_rules[0]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Review <span className="t-mono">{review.campaign_id}</span> covers {review.candidate_count} proposal-only rows. It does not accept biological state.
       </p>
     </div>
   );

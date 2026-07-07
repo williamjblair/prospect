@@ -48,6 +48,8 @@ the graph on its own word. On top of it:
   context, caveats, and an assay readout while keeping the claim at `evidence_attached`.
 - **Agent campaign leaderboard**: `prospect campaign` widens the single-agent result into 20
   proposal-only follow-ups, each ranked from frozen facts and held at `evidence_attached`.
+- **Campaign review appendix**: `prospect campaign-review` adds deterministic audit questions,
+  lane counts, per-row decisions, and stop rules for the 20-row campaign without accepting any row.
 
 ## How it uses Claude
 
@@ -74,6 +76,9 @@ the graph on its own word. On top of it:
   TCR-dependent programming, but the Prospect claim remains a hypothesis to test.
 - The campaign leaderboard ranks 20 non-canonical, cell-type-specific follow-ups with on-target
   stimulated evidence. It is proposal only; accepted state still requires the frozen gate and human key.
+- The campaign review appendix turns that leaderboard into an auditable assay queue: one top
+  assay-design row, six clean-specificity rows, six late-activation follow-ups, five ranked backups,
+  and two regulon anchors, each with stop rules.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
@@ -86,6 +91,7 @@ the graph on its own word. On top of it:
 - `/data/frontier.json`
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
+- `/data/agent_campaign_review.json`
 - `/data/lab_packet.json`
 
 ## Verify it yourself
@@ -96,6 +102,7 @@ the graph on its own word. On top of it:
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
+./prospect campaign-review        # build the campaign review appendix
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest
