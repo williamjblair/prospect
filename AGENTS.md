@@ -32,7 +32,8 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
    evidence through strong language.
 4. **Never say "verified" biology.** This proves the computation, never wet-lab or clinical truth.
 5. **Writing: no em dashes, ever.** Restraint, concrete before abstract, no LLM-slop (no staccato
-   aphorisms, no grandiosity). The repo is currently em-dash-free; keep it so. keep it that way. Searching for the em-dash character should   stay near zero (ignore data placeholders).
+   aphorisms, no grandiosity). Use commas, colons, or periods. The repo is currently em-dash-free;
+   keep it that way.
 6. **Commits: no attribution footers.** No "Co-Authored-By", no "Generated with". (Breaks a CLA.)
 7. **Secrets stay out of the repo and out of chat.** `ANTHROPIC_API_KEY` lives in gitignored `.env`
    (Will manages it). The signing key is gitignored `frontier/.prospect_signing_key`. Never print or
