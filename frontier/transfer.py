@@ -1,12 +1,12 @@
 """Verifier transfer: run the SAME major-regulator Claim through two independent Perturb-seq
-datasets via the one checker interface — Marson CD4+ T cells and Replogle K562 (a non-immune
-line) — and let the pattern of agreement classify each regulator.
+datasets via the one checker interface - Marson CD4+ T cells and Replogle K562 (a non-immune
+line) - and let the pattern of agreement classify each regulator.
 
 This is the moat, shown not claimed: one Claim, two frozen verifiers (get_checker), two verdicts.
 
-  housekeeping (corroborated) — a T-cell regulator that ALSO reshapes K562. Broad/essential, not
+  housekeeping (corroborated) - a T-cell regulator that ALSO reshapes K562. Broad/essential, not
                                 immune biology. Validates finding #3 (the essentiality artifact).
-  immune-specific             — a T-cell regulator that K562 refutes or can't even test (the gene
+  immune-specific             - a T-cell regulator that K562 refutes or can't even test (the gene
                                 isn't expressed in K562). Validates finding #1 (the activation
                                 module is T-cell-specific, recovered from perturbation).
 

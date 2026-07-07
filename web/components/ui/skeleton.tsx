@@ -1,7 +1,7 @@
 import { cn } from "../../lib/utils";
 
 /**
- * Skeleton — a placeholder element used while data is loading.
+ * Skeleton - a placeholder element used while data is loading.
  *
  * Atlas preference: no perpetual animation. The design memo treats shimmer
  * as ops-dashboard chrome, not observatory voice. We render a quiet,

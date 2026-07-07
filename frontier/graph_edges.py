@@ -1,7 +1,7 @@
 """Slice REAL gene->gene regulatory edges from the 16.8GB released DE matrix, directly from
 S3 via byte-range reads (anon; no full download). For each selected perturbation, read its
 released log_fc + adj_p_value across all 10,282 genes, threshold, and emit typed edges
-(source knockdown -> target changes, direction = sign(log_fc)). Frozen released data only —
+(source knockdown -> target changes, direction = sign(log_fc)). Frozen released data only -
 never a live recompute.
 
   python frontier/graph_edges.py --top 60 --condition Stim48hr

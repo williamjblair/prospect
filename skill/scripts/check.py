@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Self-contained Prospect claim checker for the Marson CD4+ T-cell CRISPRi screen.
-No third-party deps — reads the bundled frozen released DE slice and checks typed claims
+No third-party deps - reads the bundled frozen released DE slice and checks typed claims
 deterministically. Frozen code + frozen table = no model in the trust path.
 
   python scripts/check.py claims.json
@@ -54,14 +54,14 @@ def main():
     by = load_table(SLICE)
     claims = json.load(open(sys.argv[1]))
     ok = flag = 0
-    print("\nProspect — claims checked against the released Marson DE table (no model in the trust path)\n")
+    print("\nProspect - claims checked against the released Marson DE table (no model in the trust path)\n")
     for c in claims:
         status, reason = check(c, by)
         print(f"{_MARK[status]}  {status.upper():20s} {c.get('text', c['gene'])}")
         print(f"    └ {reason}")
         ok += status == "supported"; flag += status in ("refuted", "unsupported")
     print(f"\n{ok}/{len(claims)} supported · {flag} should not be reported as-is")
-    print('"supported" means the data reproduces the claim — never that the biology is true.\n')
+    print('"supported" means the data reproduces the claim - never that the biology is true.\n')
 
 if __name__ == "__main__":
     main()

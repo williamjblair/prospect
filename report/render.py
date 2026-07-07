@@ -1,4 +1,4 @@
-"""Render a list of Verdicts into one self-contained HTML page — the deliverable
+"""Render a list of Verdicts into one self-contained HTML page - the deliverable
 a scientist keeps. No external assets; opens offline."""
 from __future__ import annotations
 import html, json
@@ -35,7 +35,7 @@ def render_html(verdicts: List[Verdict], dataset: str) -> str:
     cards = "\n".join(_card(v) for v in verdicts)
     return f"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Second Opinion — claim check</title>
+<title>Second Opinion - claim check</title>
 <style>
  body{{font:16px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#1f2328;background:#fafbfc;margin:0}}
  .wrap{{max-width:760px;margin:0 auto;padding:32px 20px 64px}}
@@ -59,5 +59,5 @@ def render_html(verdicts: List[Verdict], dataset: str) -> str:
  </div>
  {cards}
  <p class="foot">Verdicts computed by frozen code against a frozen released table. No model in the trust path.
- "Supported" means the data reproduces the quantitative claim — never that the biology is true.</p>
+ "Supported" means the data reproduces the quantitative claim - never that the biology is true.</p>
 </div></body></html>"""

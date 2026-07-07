@@ -1,4 +1,4 @@
-"""prospect check — run typed claims through a dataset checker, print a
+"""prospect check - run typed claims through a dataset checker, print a
 terminal summary, and write the one-page HTML report.
 
   python -m cli.check examples/claims_demo.json --dataset marson \

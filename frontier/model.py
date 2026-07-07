@@ -1,4 +1,4 @@
-"""The frontier data model: typed, content-addressed state for a verified regulatory
+"""The frontier data model: typed, content-addressed state for a reproduced regulatory
 frontier. Nodes and edges are re-derivable from frozen released data (the EXACT lane);
 every object carries a content_id = sha256 over its frozen fields. Contradictions and
 open questions are first-class citable state. No status ever collapses to 'verified'/'true'.
@@ -12,11 +12,11 @@ DATASET = "marson2025_cd4_perturbseq"
 
 def content_id(kind: str, frozen: dict) -> str:
     """Stable sha256 over the frozen, source-derived fields (sorted keys). Two builds from
-    the same released table produce the same id — reproducibility, not a self-asserted stamp."""
+    the same released table produce the same id - reproducibility, not a self-asserted stamp."""
     blob = kind + "\x1f" + json.dumps(frozen, sort_keys=True, separators=(",", ":"))
     return "cid_" + hashlib.sha256(blob.encode()).hexdigest()[:16]
 
-# A gene's verified regulatory role. type is derived from the frozen table; status is the
+# A gene's reproduced regulatory role. type is derived from the frozen table; status is the
 # ladder (never 'verified'/'true').
 NodeType = Literal["constitutive_regulator", "condition_specific_regulator",
                    "verified_non_regulator", "unverifiable_no_kd", "off_target"]
@@ -57,7 +57,7 @@ class Edge:
         return self
 
 # Where a claimant (an AI model, or a literature reference) disagrees with the data. Kept as
-# first-class terrain — never auto-adjudicated.
+# first-class terrain - never auto-adjudicated.
 @dataclass
 class Contradiction:
     subject: str                          # gene

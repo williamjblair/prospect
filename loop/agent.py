@@ -1,4 +1,4 @@
-"""An autonomous Claude research agent on the verified frontier.
+"""An autonomous Claude research agent on the reproduced frontier.
 
 Claude pursues a research goal by CALLING frozen-data tools (search, check, cross-cell-type,
 known-regulon) in a real tool-use loop. Every fact it reasons over is a deterministic lookup
@@ -7,7 +7,7 @@ hypothesis, which a human then signs. No model is in the trust path: the tools a
 acceptance is a key.
 
   python loop/agent.py            # runs the loop, writes examples/data/agent_run.json
-  python loop/agent.py --sign     # human-accept the agent's verified hypothesis
+  python loop/agent.py --sign     # human-accept the agent's evidence-attached hypothesis
 """
 from __future__ import annotations
 import argparse, csv, hashlib, json, os, sys
@@ -94,7 +94,7 @@ TOOLS = [
 DISPATCH = {"search_regulators": t_search_regulators, "check_regulator": t_check_regulator,
             "cross_cell_type": t_cross_cell_type, "known_regulon": t_known_regulon}
 
-GOAL = """You are a research agent working on a VERIFIED frontier of CD4+ T-cell regulation, built
+GOAL = """You are a research agent working on a reproduced frontier of CD4+ T-cell regulation, built
 from the Marson genome-scale CRISPRi Perturb-seq screen. Every tool you call returns a deterministic
 lookup against frozen released data. You may ONLY assert biology you have confirmed with a tool.
 
@@ -106,7 +106,7 @@ without a well-annotated regulon (so its role is genuinely novel).
 Investigate with the tools: search for candidates, then vet each with check_regulator,
 cross_cell_type, and known_regulon. Compare a few. When you are confident, stop calling tools and
 give your final answer as a JSON object on its own line:
-{"gene": "...", "hypothesis": "one or two sentences", "evidence": ["verified fact", ...], "why_novel": "..."}
+{"gene": "...", "hypothesis": "one or two sentences", "evidence": ["reproduced fact", ...], "why_novel": "..."}
 Your hypothesis will be gated by the frozen verifier and signed by a human; do not overclaim."""
 
 def run():
@@ -155,7 +155,7 @@ def run():
 
 def card(run):
     print(f"\nAgent ({run['model']}) · goal: {run['goal']}")
-    print(f"  {run['tool_calls']} verified tool calls over {run['rounds']} rounds · ${run['cost_usd']}\n")
+    print(f"  {run['tool_calls']} frozen-data tool calls over {run['rounds']} rounds · ${run['cost_usd']}\n")
     for t in run["transcript"]:
         arg = ", ".join(f"{k}={v}" for k, v in t["input"].items())
         print(f"  round {t['round']}: {t['tool']}({arg})")
@@ -165,13 +165,13 @@ def card(run):
         for e in h.get("evidence", []):
             print(f"    - {e}")
         print(f"  why novel: {h.get('why_novel','')}")
-    print(f"\n  pending {run['delta_id']} — awaiting a human signature.\n")
+    print(f"\n  pending {run['delta_id']} - awaiting a human signature.\n")
 
 def sign():
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
     from cryptography.hazmat.primitives import serialization
     run = json.load(open(RUN)); h = run.get("hypothesis") or {}
-    print(f"\nAccept the agent's verified hypothesis on {h.get('gene','?')}?")
+    print(f"\nAccept the agent's evidence-attached hypothesis on {h.get('gene','?')}?")
     print(f"  {h.get('hypothesis','')}")
     if input("  type 'sign' to accept as this human's decision: ").strip() != "sign":
         sys.exit("not signed.")

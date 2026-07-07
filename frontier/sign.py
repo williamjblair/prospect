@@ -1,6 +1,6 @@
 """The acceptance ceremony: a human signs the frontier's root hash with an Ed25519 key.
 This is the ONLY step that turns re-derived state into accepted state. No model is anywhere
-in this path — the signature is over frozen, re-derivable content, produced by a person.
+in this path - the signature is over frozen, re-derivable content, produced by a person.
 
   python frontier/sign.py            # prompts for one confirmation
   python frontier/sign.py --yes      # non-interactive (demo)

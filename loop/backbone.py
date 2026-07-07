@@ -1,5 +1,5 @@
 """Atlas backbone: classify every (gene, condition) in the released Marson DE table
-into verified regulatory state — deterministically, no model. This is the ground-truth
+into reproduced regulatory state - deterministically, no model. This is the ground-truth
 layer of the frontier the AI-claim loop then overlays on."""
 import pandas as pd, json, sys, os
 
@@ -11,7 +11,7 @@ def node_status(r):
     if cat == ">10 DE genes":   return "regulator_major"
     if cat == "2-10 DE genes":  return "regulator_minor"
     if cat == "1 DE gene":      return "regulator_weak"
-    return "no_effect"                                                                  # verified NON-regulator
+    return "no_effect"                                                                  # reproduced NON-regulator
 
 def build(de_path, out_path):
     df = pd.read_csv(de_path)

@@ -1,6 +1,6 @@
 """Compute the honest phantom-rate summary from claims.jsonl.
 Separates 'refuted' (knockdown worked, AI's major-regulator claim contradicted) from
-'untestable' (no knockdown, can't check) — never launders one into the other.
+'untestable' (no knockdown, can't check) - never launders one into the other.
 
   python loop/score.py
 """

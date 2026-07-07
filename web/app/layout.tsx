@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Prospect , a verified regulatory frontier of T-cell biology",
+  title: "Prospect, a computationally reproduced regulatory frontier of T-cell biology",
   description:
     "A linked, human-signed graph of what regulates human CD4+ T cells, re-derivable from released ground truth. No model in the trust path.",
 };

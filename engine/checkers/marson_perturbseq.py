@@ -40,7 +40,7 @@ class MarsonPerturbseqChecker:
                     f"({up} up / {down} down).")
         actual = "up" if up > down else "down"
         if actual == claimed:
-            return ("supported", f"{gene}: {up} up / {down} down — mostly {actual}regulates, as claimed.")
+            return ("supported", f"{gene}: {up} up / {down} down - mostly {actual}regulates, as claimed.")
         return ("refuted", f"{gene} mostly {actual}regulates ({up} up / {down} down), not {claimed}.")
 
     def check(self, claim: Claim) -> Verdict:

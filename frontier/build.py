@@ -1,6 +1,6 @@
-"""Assemble the verified regulatory frontier: typed nodes (from the classified backbone),
+"""Assemble the reproduced regulatory frontier: typed nodes (from the classified backbone),
 real gene->gene edges (sliced from the released matrix by graph_edges.py), contradictions
-(from the AI-claim overlay — first-class), and open questions (untestable genes). Everything
+(from the AI-claim overlay - first-class), and open questions (untestable genes). Everything
 content-addressed and re-derivable from frozen data.
 
   python frontier/graph_edges.py --top 60   # (once) slice edges from S3
@@ -24,7 +24,7 @@ STATUS = {"constitutive_regulator": "established", "condition_specific_regulator
 def load_edges():
     p = os.path.join(FR, "edges_raw.jsonl")
     if not os.path.exists(p):
-        print("  (no edges_raw.jsonl yet — run frontier/graph_edges.py first)"); return []
+        print("  (no edges_raw.jsonl yet - run frontier/graph_edges.py first)"); return []
     return [json.loads(l) for l in open(p)]
 
 def load_contradictions():

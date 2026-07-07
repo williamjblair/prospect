@@ -2,9 +2,9 @@
 number and the per-model table describe the same data.
 
 Two buckets, kept separate for honesty:
-  core           — a stratified random sample across the four node classes (fixed seed).
+  core           - a stratified random sample across the four node classes (fixed seed).
                    The unbiased headline contradiction rate is computed over THIS bucket only.
-  effector_focus — the finding-#2 effector genes (PD-1, TIM-3, CTLA4, LAG3, IL2, IFNG, ...).
+  effector_focus - the finding-#2 effector genes (PD-1, TIM-3, CTLA4, LAG3, IL2, IFNG, ...).
                    A deliberately-chosen subset; its overclaim rate is reported separately and
                    labeled as such, never folded into the headline (that would enrich the sample).
 

@@ -1,8 +1,8 @@
 """Deterministic checker for claims about the Replogle et al. 2022 genome-scale Perturb-seq
-screen in K562 (a chronic myeloid leukemia line — NOT an immune cell). Cell 2022, PMID 35688146.
+screen in K562 (a chronic myeloid leukemia line - NOT an immune cell). Cell 2022, PMID 35688146.
 
 Same interface as the Marson checker (`__init__(data_path)` + `check(Claim) -> Verdict`), the
-same five Verdict statuses, reading a frozen released table — this is the point of the transfer:
+same five Verdict statuses, reading a frozen released table - this is the point of the transfer:
 one verifier shape, a second independent dataset. Ground truth = Replogle's own per-perturbation
 differentially-expressed-gene count (Mann-Whitney), never a recomputed DE test.
 
@@ -41,7 +41,7 @@ class ReploglePerturbseqChecker:
         de = self.de(claim.gene)
         if de is None:
             return Verdict(claim, "unsupported",
-                           f"{claim.gene} was not perturbed in the K562 genome-scale screen — "
+                           f"{claim.gene} was not perturbed in the K562 genome-scale screen - "
                            f"can't test here (often because it isn't expressed in K562).",
                            mismatch_class="no_knockdown")
         ev = {"k562_de_genes": de, "major_threshold": self.major_de}
@@ -51,9 +51,9 @@ class ReploglePerturbseqChecker:
                            f"(≤{self.major_de}).", evidence=ev, mismatch_class="magnitude")
         if de <= 2:
             return Verdict(claim, "refuted",
-                           f"{claim.gene} knockdown moved {de} genes in K562 — no transcriptional effect.",
+                           f"{claim.gene} knockdown moved {de} genes in K562 - no transcriptional effect.",
                            evidence=ev, mismatch_class="magnitude")
         return Verdict(claim, "supported",
                        f"{claim.gene}: knockdown moved {de} genes in K562" +
-                       (" — a major regulator here." if de > self.major_de else " — a real effect."),
+                       (" - a major regulator here." if de > self.major_de else " - a real effect."),
                        evidence=ev)

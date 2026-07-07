@@ -1,6 +1,6 @@
 """Falsification benchmark: build a pack of clean + tampered claims and prove the checker
 NEVER admits a tampered claim as 'supported' (zero false admissions), while still passing
-genuinely-supported claims. Deterministic, no API — the un-forgeable floor.
+genuinely-supported claims. Deterministic, no API - the un-forgeable floor.
 
   python benchmark/mutation_pack.py
 """

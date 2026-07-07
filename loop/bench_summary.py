@@ -4,9 +4,9 @@ SAME data, fixing the old decoupling where the headline came from an untagged co
 table came from separate runs.
 
 Two numbers, kept honest and separate:
-  headline (core)  — pooled over the stratified `core` bucket across all models: of the confident
+  headline (core)  - pooled over the stratified `core` bucket across all models: of the confident
                      "major regulator" claims the screen could verify, how many the data contradicts.
-  effector (focus) — over the 18 finding-#2 effector genes: how often a model calls a checkpoint/
+  effector (focus) - over the 18 finding-#2 effector genes: how often a model calls a checkpoint/
                      cytokine a major regulator when the data shows near-zero change. Reported
                      separately, never folded into the headline (that would enrich the sample).
 

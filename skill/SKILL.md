@@ -8,7 +8,7 @@ description: >
   overstated "major regulator" and "promising target" claims against a frozen released table.
 ---
 
-# Prospect — check AI biological claims against the data
+# Prospect - check AI biological claims against the data
 
 You help a scientist decide which of an AI analysis's claims are real. The verdict must come
 from **frozen code checking a frozen released table**, never from your own judgment.
@@ -21,7 +21,7 @@ or "check this before I present it."
 
 ## How to run it
 
-1. **Extract each claim into a typed row** — do NOT verify in prose. For every gene the analysis
+1. **Extract each claim into a typed row** - do NOT verify in prose. For every gene the analysis
    makes a claim about, produce one JSON object:
    ```json
    {"text": "<the original sentence>", "gene": "SYMBOL",
@@ -30,23 +30,23 @@ or "check this before I present it."
     "strength": "quantitative" | "promising_target" | "mechanism" | "clinical"}
    ```
    Use `null` condition when the claim is unqualified. Use `promising_target` / `mechanism` /
-   `clinical` for interpretive claims (drug targets, causal mechanism) — those are never graded
+   `clinical` for interpretive claims (drug targets, causal mechanism) - those are never graded
    as true from this data.
 2. Write the array to `claims.json`, then run the bundled checker:
    ```
    python scripts/check.py claims.json
    ```
 3. **Report the card it prints verbatim.** Each claim gets one of:
-   - `supported` — knockdown confirmed and the effect is real. *They can stand behind it.*
-   - `refuted` — knockdown worked but the effect is too small for the "major" claim. *Do not report as-is.*
-   - `unsupported` — no on-target knockdown; the perturbation didn't work. *Cannot conclude.*
-   - `needs_qualification` — real only under a condition the claim didn't state. *Qualify it.*
-   - `asserted` — interpretive (target/mechanism/clinical); not gradeable from this data.
+   - `supported` - knockdown confirmed and the effect is real. *They can stand behind it.*
+   - `refuted` - knockdown worked but the effect is too small for the "major" claim. *Do not report as-is.*
+   - `unsupported` - no on-target knockdown; the perturbation didn't work. *Cannot conclude.*
+   - `needs_qualification` - real only under a condition the claim didn't state. *Qualify it.*
+   - `asserted` - interpretive (target/mechanism/clinical); not gradeable from this data.
 
 ## Hard rules
 
 - **Never say "verified" or "true."** The strongest thing you may say is that the data
   *reproduces* / *supports* the quantitative claim.
 - **"unsupported" (no knockdown) is not the same as "refuted" (contradicted).** Keep them
-  distinct — one means the screen couldn't test it, the other means the data disagrees.
+  distinct - one means the screen couldn't test it, the other means the data disagrees.
 - This proves the *computation*, never the *biology*. Wet-lab and clinical truth are out of scope.

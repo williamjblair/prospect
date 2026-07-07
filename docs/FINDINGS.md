@@ -12,7 +12,7 @@ gene it reports, per condition, whether the knockdown was on-target and how many
 
 ---
 
-## Finding 1 — the activation module, rebuilt from perturbation alone
+## Finding 1 - the activation module, rebuilt from perturbation alone
 
 **Claim.** The TCR-proximal signaling cascade is silent in a resting cell and becomes the
 regulatory core of the transcriptome only after stimulation. The screen recovers this module
@@ -22,7 +22,7 @@ edges as condition-gated rather than constitutive.
 **Definition** (`is_activation_module`): a gene with `Rest` DE < 10, a confirmed on-target
 knockdown in a stimulated condition, and > 100 DE genes in that condition. 245 genes qualify.
 
-**The exemplar — the TCR cascade, in textbook order:**
+**The exemplar - the TCR cascade, in textbook order:**
 
 | gene | Rest DE | Stim (max) DE |
 |------|--------:|--------------:|
@@ -46,7 +46,7 @@ validation finding: it earns trust for the two that follow.
 
 ---
 
-## Finding 2 — regulator vs effector
+## Finding 2 - regulator vs effector
 
 **Claim.** The T-cell genes the field targets most (immune checkpoints and effector cytokines)
 produce near-zero transcriptional change when knocked down, even under stimulation. They are
@@ -81,7 +81,7 @@ CD4 state in this assay" are different claims, and a model that conflates them o
 
 ---
 
-## Finding 3 — reach is not regulation
+## Finding 3 - reach is not regulation
 
 **Claim.** Rank genes by raw transcriptional reach and the top of the list is the cell's general
 machinery, not its immune biology. Effect size alone cannot tell a T-cell regulator from an
@@ -121,7 +121,7 @@ The second dataset turns this finding from a caveat into an independently valida
 
 ---
 
-## Finding 4 — verifier transfer
+## Finding 4 - verifier transfer
 
 **Claim.** The same major-regulator claim, checked against a second Perturb-seq dataset in a
 non-immune cell (Replogle K562), separates housekeeping from immune-specific regulation.
@@ -136,7 +136,7 @@ module is T-cell-specific.
 
 ---
 
-## Finding 5 — recovering known regulons from perturbation
+## Finding 5 - recovering known regulons from perturbation
 
 **Claim.** The frontier rebuilds known transcription-factor biology from perturbation alone, with
 no regulon supplied. It also flags edges where the data overrules the literature's sign.

@@ -1,6 +1,6 @@
 """The Skill ships a dependency-free re-implementation of the check ladder
 (skill/scripts/check.py) so it can run inside Claude with no pandas. That is a second copy of
-the logic — this test pins the two together: pointed at the same frozen slice, the engine checker
+the logic - this test pins the two together: pointed at the same frozen slice, the engine checker
 and the skill checker must return the SAME verdict for every claim. If they ever diverge, this
 fails, so the copies cannot silently drift.
 

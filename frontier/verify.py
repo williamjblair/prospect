@@ -1,6 +1,6 @@
 """Re-derive every node/edge/contradiction content_id from its frozen fields and confirm it
 matches the stored id. This is the EXACT-lane floor: a hand-edited or fabricated frontier
-object fails, because the id is a pure function of the frozen source-derived fields — an
+object fails, because the id is a pure function of the frozen source-derived fields - an
 admission that is re-derived, not self-asserted.
 
   python frontier/verify.py

@@ -1,5 +1,5 @@
 """Typed claim + verdict schema. Claims are structured, never free-text-parsed
-at verification time — extraction (LLM) is separate from checking (deterministic)."""
+at verification time - extraction (LLM) is separate from checking (deterministic)."""
 from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from typing import Optional, Literal
@@ -17,7 +17,7 @@ class Claim:
 Status = Literal[
     "supported",            # data supports the quantitative claim (computationally reproduced)
     "refuted",             # data contradicts the claim
-    "unsupported",          # perturbation didn't work / no effect — claim has no basis
+    "unsupported",          # perturbation didn't work / no effect - claim has no basis
     "needs_qualification",  # true only under a condition the claim didn't state
     "asserted",             # interpretive claim; not gradeable from this data (never "verified")
 ]

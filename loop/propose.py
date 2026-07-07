@@ -1,5 +1,5 @@
 """The loop, closed: Claude PROPOSES candidate regulators, the frozen verifier DECIDES, a human
-SIGNS the accepted set. No model is in the trust path — Claude's proposals are untrusted until the
+SIGNS the accepted set. No model is in the trust path - Claude's proposals are untrusted until the
 frozen released table admits them and a human key accepts them.
 
   # propose + verify (writes examples/data/proposal_run.json, prints the card)
@@ -24,7 +24,7 @@ KEY = os.path.join(ROOT, "frontier", ".prospect_signing_key")
 
 PROMPT = """You are proposing new biology for a CD4+ T-cell CRISPRi Perturb-seq atlas.
 Propose %d genes you believe are MAJOR regulators of the CD4+ T-cell transcriptome under
-stimulation — genes whose knockdown substantially reshapes gene expression. Favor genes a
+stimulation - genes whose knockdown substantially reshapes gene expression. Favor genes a
 biologist would find interesting, not only textbook TCR components.
 
 Return ONLY a JSON array, one object per gene:
@@ -70,18 +70,18 @@ def propose(n, model):
 
 def card(run):
     mark = {"supported": "ADMIT ", "refuted": "REJECT", "unsupported": "REJECT",
-            "needs_qualification": "QUALIFY", "asserted": "—     "}
+            "needs_qualification": "QUALIFY", "asserted": "-     "}
     print(f"\nClaude ({run['model']}) proposed {run['proposed']} regulators; the frozen verifier decided.\n")
     for r in run["proposals"]:
         print(f"  {mark.get(r['verdict'], r['verdict']):8s} {r['gene']:10s} {r['rationale'][:66]}")
     print(f"\n  {run['admitted']} admitted · {run['rejected']} rejected by the data · ${run['cost_usd']}")
-    print(f"  pending delta {run['delta_id']} — awaiting a human signature (nothing auto-accepts).\n")
+    print(f"  pending delta {run['delta_id']} - awaiting a human signature (nothing auto-accepts).\n")
 
 def sign():
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
     from cryptography.hazmat.primitives import serialization
     if not os.path.exists(RUN):
-        sys.exit("no proposal_run.json — run `python loop/propose.py` first")
+        sys.exit("no proposal_run.json - run `python loop/propose.py` first")
     run = json.load(open(RUN))
     admitted = [r["gene"] for r in run["proposals"] if r["admitted"]]
     print(f"\nAccept {len(admitted)} frozen-verified proposals into pending state?")
@@ -101,7 +101,7 @@ def sign():
                "pubkey": pub, "signer": os.environ.get("USER", "human")},
               open(SIG, "w"), indent=2)
     print(f"  signed: {run['delta_id']} accepted by {os.environ.get('USER','human')} "
-          f"— Claude proposed, the data decided, a human signed.\n")
+          f"- Claude proposed, the data decided, a human signed.\n")
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="prospect propose")

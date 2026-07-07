@@ -1,5 +1,5 @@
 """The AI-claim overlay loop: measure how often confident AI biology survives the data,
-and what it costs. Samples genes across the verified atlas, asks a model (BLIND to the
+and what it costs. Samples genes across the reproduced atlas, asks a model (BLIND to the
 ground truth) to judge each as a regulator with a one-line claim, then checks every claim
 against the frozen released table. Emits per-claim verdicts + phantom rate + token cost.
 
@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# $ per 1M tokens (input, output) — from the claude-api skill pricing table.
+# $ per 1M tokens (input, output) - from the claude-api skill pricing table.
 PRICING = {
     "claude-haiku-4-5": (1.00, 5.00),
     "claude-opus-4-8":  (5.00, 25.00),
@@ -99,7 +99,7 @@ def main(argv=None):
     ap.add_argument("--model", default="claude-haiku-4-5")
     ap.add_argument("--batch", type=int, default=20)
     ap.add_argument("--out", default=None)
-    ap.add_argument("--corpus", default=None, help="frozen benchmark_corpus.json — grade exactly these genes")
+    ap.add_argument("--corpus", default=None, help="frozen benchmark_corpus.json - grade exactly these genes")
     a = ap.parse_args(argv)
     load_env()
     if not os.environ.get("ANTHROPIC_API_KEY"):

@@ -1,6 +1,6 @@
 """Emit Prospect Receipts from the frontier's findings and the agent's hypothesis: portable,
 signed, evidence-bound proposals that record exactly how an AI's activity became (or is proposed
-to become) verified state. Nothing here re-derives biology; it repackages already-frozen state and
+to become) accepted state. Nothing here re-derives biology; it repackages already-frozen state and
 already-recorded activity into the receipt format, carrying the existing signatures.
 
   python receipt/emit.py     # writes receipts/*.json + receipts.jsonl

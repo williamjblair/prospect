@@ -54,7 +54,7 @@ export function GraphView({
       };
       for (const x of out) addEdge(focus, x.t, x.d);
       for (const x of inn) addEdge(x.s, focus, x.d);
-      // second-hop links among the neighborhood — reveals the local module
+      // second-hop links among the neighborhood - reveals the local module
       for (const id of ids) for (const x of data.out[id] || []) if (ids.has(x.t)) addEdge(id, x.t, x.d);
 
       forceAtlas2.assign(g, {

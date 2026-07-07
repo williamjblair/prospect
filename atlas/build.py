@@ -1,5 +1,5 @@
-"""Build the Prospect frontier UI: a self-contained static site over the verified regulatory
-frontier — typed nodes, real gene->gene edges (regulatory neighborhoods), first-class
+"""Build the Prospect frontier UI: a self-contained static site over the reproduced regulatory
+frontier - typed nodes, real gene->gene edges (regulatory neighborhoods), first-class
 contradictions, and the open frontier. No server, no API; opens offline.
 
   python frontier/graph_edges.py --top 200   # slice edges from S3 (once)
@@ -75,7 +75,7 @@ def build():
         tpl = tpl.replace(f"__{k}__", json.dumps(v))
     path = os.path.join(HERE, "index.html")
     open(path, "w").write(tpl)
-    print(f"built {path} ({os.path.getsize(path)//1024} KB) — {len(nodes)} nodes, "
+    print(f"built {path} ({os.path.getsize(path)//1024} KB) - {len(nodes)} nodes, "
           f"{len(edges)} edges, {len(contra)} contradictions, {len(openq)} open")
     return path
 

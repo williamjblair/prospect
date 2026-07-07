@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Prospect — verified atlas of T-cell regulation</title>
+<title>Prospect - reproduced atlas of T-cell regulation</title>
 <style>
 :root{
  --bg:#fbfcfd; --surface:#fff; --border:#e5e9ef; --ink:#18202e; --muted:#667085; --faint:#8a93a3;
@@ -69,7 +69,7 @@ th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;
 <body>
 <header><div class="wrap">
  <div class="brand">Prospect<span class="dot">.</span></div>
- <div class="tag">A verified regulatory frontier of human CD4+ T cells — a linked graph of what regulates what, re-derivable from released ground truth and human-signed.</div>
+ <div class="tag">A computationally reproduced regulatory frontier of human CD4+ T cells - a linked graph of what regulates what, re-derivable from released ground truth and human-signed.</div>
  <nav id="nav">
    <button data-v="overview" class="on">Overview</button>
    <button data-v="atlas">Atlas</button>
@@ -85,7 +85,7 @@ const CONDS=["Rest","Stim8hr","Stim48hr"], CL=["R","8","48"];
 const CLS={
  constitutive_regulator:["#0b7a3b","#e7f4ec","constitutive regulator"],
  condition_specific_regulator:["#4145d1","#ecedff","condition-specific regulator"],
- verified_non_regulator:["#475467","#eef1f4","verified non-regulator"],
+ verified_non_regulator:["#475467","#eef1f4","reproduced non-regulator"],
  unverifiable_no_kd:["#b54708","#fdf0e6","couldn’t test (no knockdown)"]};
 const STA={regulator_major:"#0b7a3b",regulator_minor:"#47a06d",regulator_weak:"#bfe0cc",
  no_effect:"#aab2bf",no_knockdown:"#e79a3c",off_target:"#d92d20"};
@@ -103,17 +103,17 @@ function overview(){
  const d=STATS.dist, order=["constitutive_regulator","condition_specific_regulator","verified_non_regulator","unverifiable_no_kd"];
  const bar=order.map(k=>`<i style="flex:${d[k]||0};background:${CLS[k][0]}"></i>`).join("");
  const leg=order.map(k=>`<span><s style="background:${CLS[k][0]}"></s>${CLS[k][2]} · ${(d[k]||0).toLocaleString()}</span>`).join("");
- const strip=DEMO.map(x=>{const c=DEMOC[x.status]||DEMOC.asserted;return `<span class="chip" style="color:${c[0]};background:${c[1]}" title="${esc(x.reason)}">${esc(x.gene)} — ${x.status.replace("_"," ")}</span>`}).join("");
- return `<h2>A verified atlas of T-cell regulation</h2>
- <p class="lede">AI can generate a claim about any of these ${STATS.n_genes.toLocaleString()} genes in seconds. Prospect checks each against the released CRISPRi Perturb-seq ground truth, so what you see is verified — not asserted.</p>
+ const strip=DEMO.map(x=>{const c=DEMOC[x.status]||DEMOC.asserted;return `<span class="chip" style="color:${c[0]};background:${c[1]}" title="${esc(x.reason)}">${esc(x.gene)} - ${x.status.replace("_"," ")}</span>`}).join("");
+ return `<h2>A reproduced atlas of T-cell regulation</h2>
+ <p class="lede">AI can generate a claim about any of these ${STATS.n_genes.toLocaleString()} genes in seconds. Prospect checks each against the released CRISPRi Perturb-seq ground truth, so what you see is reproduced from data - not asserted.</p>
  ${PHANTOM && PHANTOM.checkable ? `<div class="hero"><b>${Math.round(PHANTOM.refuted/PHANTOM.checkable*100)}%</b><div class="lbl">of confident AI "major regulator" claims are contradicted by the measured data.</div><span>Claude judged ${PHANTOM.total_graded.toLocaleString()} genes blind. Of the ${PHANTOM.checkable} claims the screen could verify, ${PHANTOM.refuted} were wrong. The ${PHANTOM.untestable_no_kd} it couldn't test are excluded, not counted against the model.</span></div>` : ''}
  <div class="cards">
    <div class="card"><b>${STATS.n_genes.toLocaleString()}</b><span>genes mapped</span></div>
-   <div class="card"><b>${STATS.n_perturbations.toLocaleString()}</b><span>verified perturbation × condition</span></div>
-   <div class="card"><b>${((d.constitutive_regulator+d.condition_specific_regulator)).toLocaleString()}</b><span>verified regulators</span></div>
-   <div class="card"><b>${d.verified_non_regulator.toLocaleString()}</b><span>verified non-regulators</span></div>
+   <div class="card"><b>${STATS.n_perturbations.toLocaleString()}</b><span>reproduced perturbation × condition</span></div>
+   <div class="card"><b>${((d.constitutive_regulator+d.condition_specific_regulator)).toLocaleString()}</b><span>reproduced regulators</span></div>
+   <div class="card"><b>${d.verified_non_regulator.toLocaleString()}</b><span>reproduced non-regulators</span></div>
  </div>
- <div class="dist"><div style="font-weight:600;font-size:13px">Verified regulatory state across the genome</div>
+ <div class="dist"><div style="font-weight:600;font-size:13px">Reproduced regulatory state across the genome</div>
    <div class="bar">${bar}</div><div class="legend">${leg}</div></div>
  <div style="font-weight:600;font-size:13px;margin:0 0 4px">A claim from Claude Science, checked</div>
  <div class="strip">${strip}</div>
@@ -121,9 +121,9 @@ function overview(){
  <p class="lede" style="margin-bottom:10px">The same blind test run across models. The cost of generating the claims is trivial; the rate at which they fail the data barely moves. Verification is the bottleneck, not generation.</p>
  <div class="rows" style="margin-bottom:22px;overflow-x:auto">
   <div class="row" style="cursor:default;color:var(--muted);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;min-width:420px"><span style="width:100px">model</span><span style="width:88px">cost</span><span style="width:130px">claims verifiable</span><span>contradicted</span></div>
-  ${MODELS.map(m=>`<div class="row" style="cursor:default;min-width:420px"><span style="width:100px;font-weight:650">${esc(m.label)}</span><span style="width:88px">$${m.cost_usd.toFixed(3)}</span><span style="width:130px">${m.checkable}</span><span style="font-weight:600;color:#b3261e">${m.refuted_rate!=null?Math.round(m.refuted_rate*100)+'%':'—'}</span></div>`).join("")}
+  ${MODELS.map(m=>`<div class="row" style="cursor:default;min-width:420px"><span style="width:100px;font-weight:650">${esc(m.label)}</span><span style="width:88px">$${m.cost_usd.toFixed(3)}</span><span style="width:130px">${m.checkable}</span><span style="font-weight:600;color:#b3261e">${m.refuted_rate!=null?Math.round(m.refuted_rate*100)+'%':'-'}</span></div>`).join("")}
  </div>` : ''}
- <div class="note"><b>What "verified" means.</b> A verdict is computed by frozen code against a frozen released table — no model in the trust path. "Verified non-regulator" means knockdown was confirmed and produced no transcriptional effect <i>in this assay</i>, not that the gene is unimportant. It never claims the underlying biology is true.</div>`;
+ <div class="note"><b>What "reproduced" means.</b> A verdict is computed by frozen code against a frozen released table - no model in the trust path. "Reproduced non-regulator" means knockdown was confirmed and produced no transcriptional effect <i>in this assay</i>, not that the gene is unimportant. It never claims the underlying biology is true.</div>`;
 }
 
 function atlas(q){
@@ -138,7 +138,7 @@ function atlas(q){
    <span class="g">${esc(g.g)}</span>
    <span class="badge" style="color:${c[0]};background:${c[1]}">${c[2]}</span>
    <span class="conds">${condPills(g)}</span></div>`}).join("");
- return `<h2>Atlas</h2><p class="lede">Search a gene, or filter by verified class. Cells show status by condition — R (rest), 8 (8h stim), 48 (48h stim). Click a gene for the evidence.</p>
+ return `<h2>Atlas</h2><p class="lede">Search a gene, or filter by frozen-data class. Cells show status by condition - R (rest), 8 (8h stim), 48 (48h stim). Click a gene for the evidence.</p>
  <div class="tools"><input id="q" placeholder="Search a gene (e.g. VAV1, BCL10)" value="${esc(q)}">
    <button class="filt ${!filt?'on':''}" data-f="" style="${!filt?'background:#344054':''}">all</button>${chips}</div>
  <div class="rows">${rows||'<div class="row">no genes match</div>'}</div>
@@ -147,19 +147,19 @@ function atlas(q){
 
 function surprises(){
  const s=SURPRISES;
- const gems=s.hidden_regulators.slice(0,12).map(h=>`<div class="gem"><b>${esc(h.gene)}</b><span>${h.max_downstream.toLocaleString()} downstream genes · verified regulator</span></div>`).join("");
+ const gems=s.hidden_regulators.slice(0,12).map(h=>`<div class="gem"><b>${esc(h.gene)}</b><span>${h.max_downstream.toLocaleString()} downstream genes · reproduced regulator</span></div>`).join("");
  const dem=s.demoted_famous.map(d=>{const cc=CONDS.map((c,i)=>d.conditions[c]?`${CL[i]}:${d.conditions[c].n_de}DE`:"").filter(Boolean).join("  ");return `<div class="gem"><b>${esc(d.gene)}</b><span>no transcriptional effect · ${cc}</span></div>`}).join("");
  const unt=s.untested_famous.map(d=>esc(d.gene)).join(", ");
- return `<h2>Serendipity — what the atlas surfaces</h2>
- <p class="lede">Verified findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.</p>
- <div class="sec"><div style="font-weight:600;margin:0 0 8px">Hidden regulators — the biggest verified regulators nobody names</div>
-   <p class="lede" style="margin-bottom:12px">Ask which genes run a T cell and you'll hear PD-1, IL-2, the TCR. The data says the heaviest regulators are transcription machinery and metabolism — like <b>BCAT2</b>, a branched-chain amino-acid enzyme.</p>
+ return `<h2>Serendipity - what the atlas surfaces</h2>
+ <p class="lede">Reproduced findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.</p>
+ <div class="sec"><div style="font-weight:600;margin:0 0 8px">Hidden regulators - the biggest reproduced regulators nobody names</div>
+   <p class="lede" style="margin-bottom:12px">Ask which genes run a T cell and you'll hear PD-1, IL-2, the TCR. The data says the heaviest regulators are transcription machinery and metabolism - like <b>BCAT2</b>, a branched-chain amino-acid enzyme.</p>
    <div class="gemgrid">${gems}</div></div>
  <div class="sec"><div style="font-weight:600;margin:0 0 8px">Famous genes the data demotes</div>
-   <div class="note" style="margin-bottom:12px"><b>Read carefully.</b> These famous genes show ~no transcriptional change when knocked down <i>in this screen</i>. That is a real, verified result — not a claim that they don't matter (checkpoints like PD-1 act by signaling, not transcription). A claim that one "drives a broad program" here would be unsupported.</div>
+   <div class="note" style="margin-bottom:12px"><b>Read carefully.</b> These famous genes show ~no transcriptional change when knocked down <i>in this screen</i>. That is a real, reproduced result - not a claim that they don't matter (checkpoints like PD-1 act by signaling, not transcription). A claim that one "drives a broad program" here would be unsupported.</div>
    <div class="gemgrid">${dem}</div></div>
  <div class="sec"><div style="font-weight:600;margin:0 0 6px">Couldn't be tested</div>
-   <p class="lede">The screen never achieved knockdown for these, so the atlas says nothing about them — honest silence, not a verdict: <b>${unt}</b>.</p></div>`;
+   <p class="lede">The screen never achieved knockdown for these, so the atlas says nothing about them - honest silence, not a verdict: <b>${unt}</b>.</p></div>`;
 }
 
 function frontier(){
@@ -167,17 +167,17 @@ function frontier(){
  const con=CONTRA.slice(0,50).map(x=>`<div class="row" data-g="${esc(x.gene)}"><span class="g">${esc(x.gene)}</span><span class="badge" style="color:#b3261e;background:#fce8e6">${esc(x.verdict)}</span><span style="color:#57606a;font-size:12.5px;margin-left:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.claimant)}: "${esc(x.claim)}"</span></div>`).join("");
  const open=OPEN.slice(0,60).map(g=>`<span class="chip" style="color:#8a6d00;background:#fef7e0">${esc(g)}</span>`).join("");
  return `<h2>The frontier</h2>
- <p class="lede">The verified regulatory graph is accepted state — re-derived from frozen data and signed by a human, no model in the trust path. Contradictions and open questions are kept as first-class, citable terrain.</p>
+ <p class="lede">The signed regulatory graph is accepted state - re-derived from frozen data and signed by a human, no model in the trust path. Contradictions and open questions are kept as first-class, citable terrain.</p>
  <div class="dist" style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
-   <div><b style="font-size:22px">${(F.n_edges||0).toLocaleString()}</b><div class="mut">verified edges</div></div>
+   <div><b style="font-size:22px">${(F.n_edges||0).toLocaleString()}</b><div class="mut">reproduced edges</div></div>
    <div><b style="font-size:22px">${(F.n_contra||0).toLocaleString()}</b><div class="mut">contradictions</div></div>
    <div><b style="font-size:22px">${(F.n_open||0).toLocaleString()}</b><div class="mut">open questions</div></div>
-   <div style="margin-left:auto;text-align:right;font-size:12px;color:#57606a">signed <code style="font-size:11px">${esc(F.root||'—')}</code><br>by ${esc(F.signer||'—')} · no model in the trust path</div>
+   <div style="margin-left:auto;text-align:right;font-size:12px;color:#57606a">signed <code style="font-size:11px">${esc(F.root||'-')}</code><br>by ${esc(F.signer||'-')} · no model in the trust path</div>
  </div>
- <div class="sec"><div style="font-weight:600;margin:0 0 6px">Contradictions — where AI claims meet the data</div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 6px">Contradictions - where AI claims meet the data</div>
    <p class="lede" style="margin-bottom:10px">Every confident AI "major regulator" claim the released data refused, kept on the record. Click a gene to inspect.</p>
    <div class="rows">${con||'<div class="row">none</div>'}</div></div>
- <div class="sec"><div style="font-weight:600;margin:0 0 6px">Open frontier — the screen couldn't test these</div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 6px">Open frontier - the screen couldn't test these</div>
    <p class="lede" style="margin-bottom:10px">Knockdown never succeeded, so the data is silent. Honest gaps, and the demand surface for the next experiments.</p>
    <div class="strip">${open}</div></div>`;
 }
@@ -188,8 +188,8 @@ function openGene(name){
  const rows=CONDS.map(cd=>{const v=g.C[cd];if(!v)return"";return `<tr><td>${cd}</td><td style="color:${STA[v.s]||'#888'};font-weight:600">${v.s.replace(/_/g,' ')}</td><td>${v.de}</td><td>${v.dn.toLocaleString()}</td><td>${v.es}</td></tr>`}).join("");
  const out=OUT[name]||[], inn=IN[name]||[];
  const chip=(sym,d,e)=>`<span class="ed ${d}" title="log2FC ${e}">${esc(sym)}</span>`;
- const outHtml=out.length?`<div class="nb"><div class="nbh">Regulates ${g.od.toLocaleString()} genes <span class="mut">— knockdown changes these (top by effect · <span style="color:#0b7a3b">up</span> / <span style="color:#b3261e">down</span>)</span></div><div class="edges">${out.map(x=>chip(x.t,x.d,x.e)).join("")}</div></div>`:'';
- const inHtml=inn.length?`<div class="nb"><div class="nbh">Regulated by ${g.id.toLocaleString()} <span class="mut">— upstream genes whose knockdown moves ${esc(g.g)}</span></div><div class="edges">${inn.map(x=>chip(x.s,x.d,x.e)).join("")}</div></div>`:'';
+ const outHtml=out.length?`<div class="nb"><div class="nbh">Regulates ${g.od.toLocaleString()} genes <span class="mut">- knockdown changes these (top by effect · <span style="color:#0b7a3b">up</span> / <span style="color:#b3261e">down</span>)</span></div><div class="edges">${out.map(x=>chip(x.t,x.d,x.e)).join("")}</div></div>`:'';
+ const inHtml=inn.length?`<div class="nb"><div class="nbh">Regulated by ${g.id.toLocaleString()} <span class="mut">- upstream genes whose knockdown moves ${esc(g.g)}</span></div><div class="edges">${inn.map(x=>chip(x.s,x.d,x.e)).join("")}</div></div>`:'';
  const cons=CONTRA.filter(x=>x.gene===name);
  const conHtml=cons.length?`<div class="nb con"><div class="nbh" style="color:#b3261e">Contradiction${cons.length>1?'s':''} on record</div>${cons.slice(0,4).map(x=>`<div class="cx">${esc(x.claimant)} claimed "${esc(x.claim)}" → data verdict <b>${x.verdict}</b></div>`).join("")}</div>`:'';
  document.getElementById("sheet").innerHTML=`<button class="x" onclick="closeM()">×</button>

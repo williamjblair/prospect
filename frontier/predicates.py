@@ -52,7 +52,7 @@ def _on_target(node, cond):
 
 def is_essentiality_artifact(node):
     """Constitutive high reach: moves the transcriptome even in a resting cell.
-    Not a T-cell finding by itself — the reason naive effect-size ranking misleads."""
+    Not a T-cell finding by itself - the reason naive effect-size ranking misleads."""
     return _rest_de(node) > REST_HIGH_DE
 
 
@@ -69,7 +69,7 @@ def is_activation_module(node):
 
 def effector_conditions(node):
     """Conditions where a canonical immune gene has a CONFIRMED on-target knockdown yet
-    produces near-zero transcriptional change — an output of the program, not a driver.
+    produces near-zero transcriptional change - an output of the program, not a driver.
     Returns the list of such conditions (empty if the gene is not a clean effector)."""
     if node["gene"] not in CANON:
         return []
@@ -87,7 +87,7 @@ def regulator_vs_effector(node):
     a major regulator in any condition. These are outputs of the program (checkpoints,
     cytokines), not transcriptional drivers. Scoped to stimulated conditions and gated on
     NEVER_MAJOR to exclude Rest-silent genes that are big regulators once stimulated
-    (BCL10, ITK, LCP2 — those are finding #1, the activation module).
+    (BCL10, ITK, LCP2 - those are finding #1, the activation module).
 
     Returns the stimulated conditions where the gene is a clean effector, or []."""
     if node["gene"] not in CANON:

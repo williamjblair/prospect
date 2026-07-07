@@ -1,9 +1,9 @@
-"""Mine the verified atlas for serendipity: verified findings a scientist would never
+"""Mine the reproduced atlas for serendipity: reproduced findings a scientist would never
 stumble on. Deterministic, from the released ground-truth table.
   - hidden_regulators: strong verified regulators that are NOT canonical T-cell genes
   - demoted_famous:    famous immune/target genes that are verified non-regulators
                        (knockdown confirmed, ~no transcriptional effect in this assay)
-  - untested_famous:   famous genes the screen could NOT test (no knockdown) — kept DISTINCT.
+  - untested_famous:   famous genes the screen could NOT test (no knockdown) - kept DISTINCT.
 """
 import json, os
 

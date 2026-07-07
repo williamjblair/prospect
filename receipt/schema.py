@@ -23,7 +23,7 @@ from typing import Optional, Literal, List
 # through strong language: a hypothesis to test is `evidence_attached`, not `computationally_reproduced`.
 Status = Literal[
     "claimed",                    # asserted, no evidence bound yet
-    "evidence_attached",          # specific verified facts bound, but the claim itself is a proposal
+    "evidence_attached",          # specific reproduced facts bound, but the claim itself is a proposal
     "computationally_reproduced", # re-derives from frozen released inputs (the EXACT lane)
     "independently_reanalyzed",   # a second, independent analysis agrees
     "contradicted",               # the data disagrees
@@ -73,7 +73,7 @@ class Receipt:
     claim: str                    # the claim text
     kind: str                     # finding kind / "hypothesis" / "measurement"
     subject: List[str]            # the genes / entities
-    producer: dict                # {kind, model, run} — the activity that generated it
+    producer: dict                # {kind, model, run} - the activity that generated it
     artifacts: List[Artifact]
     evidence: List[EvidenceAtom]
     verifier: Verifier
