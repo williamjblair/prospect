@@ -1,4 +1,4 @@
-# AGENTS.md — Prospect (read this first)
+# AGENTS.md: Prospect (read this first)
 
 You are continuing a hackathon build. **Active goal: complete and win the "Built with Claude:
 Life Sciences" hackathon** (Anthropic + Gladstone + Cerebral Valley; Builder Track; remote; the
@@ -32,8 +32,7 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
    evidence through strong language.
 4. **Never say "verified" biology.** This proves the computation, never wet-lab or clinical truth.
 5. **Writing: no em dashes, ever.** Restraint, concrete before abstract, no LLM-slop (no staccato
-   aphorisms, no grandiosity). The repo is currently em-dash-free; keep it so. `grep -rn "—" .` should
-   stay near zero (ignore data placeholders).
+   aphorisms, no grandiosity). The repo is currently em-dash-free; keep it so. keep it that way. Searching for the em-dash character should   stay near zero (ignore data placeholders).
 6. **Commits: no attribution footers.** No "Co-Authored-By", no "Generated with". (Breaks a CLA.)
 7. **Secrets stay out of the repo and out of chat.** `ANTHROPIC_API_KEY` lives in gitignored `.env`
    (Will manages it). The signing key is gitignored `frontier/.prospect_signing_key`. Never print or

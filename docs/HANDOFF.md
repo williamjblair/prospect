@@ -70,12 +70,12 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 Pure-Python engine (laptop-runnable, no GPU) + a Next.js viewer. The tracked unit is a change to
 verified state, not a document.
 
-- **`engine/`** — the deterministic checker.
+- **`engine/`**: the deterministic checker.
   - `schema.py`: `Claim`, `Verdict`, the 5 statuses (supported/refuted/unsupported/needs_qualification/asserted).
   - `registry.py`: `get_checker(dataset, path)`; `_CHECKERS = {marson, replogle}`. Adding a dataset is one line.
   - `checkers/marson_perturbseq.py`: reads the frozen released DE CSV (never re-runs a DE test).
   - `checkers/replogle_perturbseq.py`: same interface, K562 DE counts. `MAJOR_DE=25`.
-- **`frontier/`** — the signed state layer.
+- **`frontier/`**: the signed state layer.
   - `model.py`: `Node/Edge/Contradiction/OpenQuestion/Finding`, `content_id()`, `.freeze()`.
   - `predicates.py`: the 3 finding predicates and their frozen thresholds. Reach-at-Rest is the discriminator.
   - `findings.py`: mints the findings + literature contradictions.
@@ -87,15 +87,15 @@ verified state, not a document.
   - `build.py`: assembles the frontier (nodes/edges/contradictions/open/findings). Loads `regulon.jsonl`.
   - `verify.py`: re-derives every object's content id (the EXACT lane, 0 drift = pass).
   - `sign.py`: the Ed25519 ceremony over the root hash. `--yes` for non-interactive/demo.
-- **`loop/`** — the AI overlay and agents (need `ANTHROPIC_API_KEY`).
+- **`loop/`**: the AI overlay and agents (need `ANTHROPIC_API_KEY`).
   - `backbone.py` (classify 11,526 genes), `find_surprises.py`, `run.py`/`make_corpus.py`/`bench_summary.py`
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
-- **`receipt/`** — `schema.py` (Receipt), `emit.py` (from findings + agent). Output in `receipts/`.
-- **`cli/`** — `__main__.py` dispatches `build|verify|sign|check|propose|agent|receipt`. `./prospect` wraps it.
+- **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent). Output in `receipts/`.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
-- **`web/`** — `app/page.tsx` (the entire app, ~950 lines), `app/globals.css` (Observatory tokens),
+- **`web/`**: `app/page.tsx` (the entire app, ~950 lines), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`), `components/graph-view.tsx` (sigma.js).
-- **`docs/`** — FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
+- **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
 ### The web app (`web/app/page.tsx`)
 
