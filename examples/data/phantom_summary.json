@@ -1,0 +1,10 @@
+{
+  "total_graded": 700,
+  "ai_major_claims": 105,
+  "supported": 32,
+  "refuted": 47,
+  "needs_qualification": 0,
+  "untestable_no_kd": 26,
+  "checkable": 79,
+  "refuted_rate": 0.595
+}

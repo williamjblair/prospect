@@ -37,11 +37,17 @@ def build():
         v = ck.check(Claim(**c))
         demo.append({"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason": v.reason})
 
+    phantom = {}
+    psum = os.path.join(ROOT, "examples", "data", "phantom_summary.json")
+    if os.path.exists(psum):
+        phantom = json.load(open(psum))
+
     tpl = open(os.path.join(HERE, "template.html")).read()
     out = (tpl.replace("__ATLAS__", json.dumps(atlas))
               .replace("__STATS__", json.dumps(stats))
               .replace("__SURPRISES__", json.dumps(surprises))
-              .replace("__DEMO__", json.dumps(demo)))
+              .replace("__DEMO__", json.dumps(demo))
+              .replace("__PHANTOM__", json.dumps(phantom)))
     path = os.path.join(HERE, "index.html")
     open(path, "w").write(out)
     kb = os.path.getsize(path) // 1024
