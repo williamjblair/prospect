@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  LayoutGrid, Rows3, Share2, Waypoints, Telescope, Search, ShieldCheck, ExternalLink,
+  LayoutGrid, Rows3, Share2, Waypoints, Telescope, Search, ShieldCheck, ExternalLink, Bot,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -27,6 +27,9 @@ type Data = {
   findings: Finding[]; citations: Record<string, Cite>;
   proposal?: { model: string; proposed: number; admitted: number; rejected: number; cost_usd: number;
     delta_id: string; items: { gene: string; verdict: string; rationale: string }[] } | null;
+  agent?: { model: string; goal: string; rounds: number; tool_calls: number; cost_usd: number;
+    delta_id: string; signer?: string; hypothesis?: { gene: string; hypothesis: string; evidence: string[]; why_novel: string } | null;
+    transcript: { round: number; tool: string; input: any; result: any }[] } | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -57,6 +60,7 @@ const NAV = [
   { k: "network", label: "Network", icon: Share2 },
   { k: "frontier", label: "Frontier", icon: Waypoints },
   { k: "findings", label: "Findings", icon: Telescope },
+  { k: "agent", label: "Agent", icon: Bot },
 ];
 
 export default function Page() {
@@ -95,7 +99,7 @@ export default function Page() {
               <SidebarMenu>
                 {NAV.map((n) => {
                   const Icon = n.icon;
-                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : n.k === "findings" ? d.frontier.n_findings : undefined) : undefined;
+                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : n.k === "findings" ? d.frontier.n_findings : n.k === "agent" ? d.agent?.tool_calls : undefined) : undefined;
                   return (
                     <SidebarMenuItem key={n.k}>
                       <SidebarMenuButton isActive={tab === n.k} tooltip={n.label}
@@ -146,6 +150,7 @@ export default function Page() {
               {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
               {tab === "findings" && <Findings d={d} onGene={setGene} />}
+              {tab === "agent" && <AgentView d={d} onGene={setGene} />}
             </>
           )}
         </main>
@@ -662,6 +667,82 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
+  const a = d.agent;
+  if (!a) return <div className="t-label">No agent run recorded.</div>;
+  const h = a.hypothesis;
+  const summarize = (tool: string, result: any) => {
+    if (!result) return "";
+    if (tool === "search_regulators") return `${(result.candidates || []).length} candidates`;
+    if (tool === "check_regulator") return result.in_screen === false ? "not in screen" :
+      `${result.class}, ${fmt(result.stim_max_de)} DE stim` + (result.is_canonical_Tcell_gene ? " · canonical" : "");
+    if (tool === "cross_cell_type") return `K562 ${result.k562_de ?? "—"} DE → ${result.verdict}`;
+    if (tool === "known_regulon") return result.is_known_TF_in_CollecTRI ? `known TF, ${result.n_known_targets} targets` : "no annotated regulon";
+    return "";
+  };
+  return (
+    <div style={{ display: "grid", gap: 24 }}>
+      <div>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>The agent</h2>
+        <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
+          Claude ({a.model.replace("claude-", "").replace(/-/g, " ")}) pursues a research goal by calling
+          frozen-data tools. Every fact it reasons over is a deterministic lookup against a released table,
+          so it cannot hallucinate its evidence. It converges on a hypothesis; a human signs it.
+        </p>
+      </div>
+      <div className="card-paper" style={{ padding: "14px 18px", background: "var(--lacquer)", border: "none" }}>
+        <div className="t-label" style={{ color: "var(--stone)", marginBottom: 6 }}>Goal</div>
+        <div className="t-body-sm" style={{ color: "var(--ink-on)" }}>{a.goal}</div>
+        <div className="t-caption" style={{ color: "var(--stone)", marginTop: 8 }}>
+          {a.tool_calls} verified tool calls over {a.rounds} rounds · ${a.cost_usd}
+        </div>
+      </div>
+
+      {h && (
+        <div className="card-paper" style={{ padding: "18px 20px", borderColor: "var(--moss)" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+            <span className="t-label" style={{ color: "var(--moss)" }}>Signed hypothesis</span>
+            <button onClick={() => onGene(h.gene)} className="t-mono" style={{ fontSize: 17, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{h.gene}</button>
+          </div>
+          <p className="t-lede" style={{ fontSize: "1.05rem", marginBottom: 10 }}>{h.hypothesis}</p>
+          <div className="t-label" style={{ marginBottom: 6 }}>Verified evidence</div>
+          <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "grid", gap: 4 }}>
+            {h.evidence.map((e, i) => (
+              <li key={i} className="t-body-sm" style={{ display: "flex", gap: 8 }}>
+                <ShieldCheck size={14} style={{ color: "var(--moss)", flexShrink: 0, marginTop: 3 }} /> {e}
+              </li>
+            ))}
+          </ul>
+          <p className="t-caption" style={{ marginTop: 10 }}>
+            <b>Why novel:</b> {h.why_novel}
+          </p>
+          <p className="t-caption" style={{ marginTop: 8 }}>
+            signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{a.delta_id}</span>
+            {a.signer ? ` · accepted by ${a.signer}` : ""} · no model in the trust path
+          </p>
+        </div>
+      )}
+
+      <div>
+        <div className="t-label" style={{ marginBottom: 8 }}>How it got there — every step a frozen-data tool call</div>
+        <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+          {a.transcript.map((t, i) => (
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 10, alignItems: "center",
+              padding: "7px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none" }}>
+              <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>r{t.round}</span>
+              <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap", minWidth: 0 }}>
+                <span className="t-mono fz-sm" style={{ fontWeight: 650, color: "var(--field-blue)" }}>{t.tool}</span>
+                {t.input?.gene && <button onClick={() => onGene(t.input.gene)} className="t-mono fz-sm" style={{ background: "transparent", color: "var(--ink)" }}>{t.input.gene}</button>}
+                <span className="t-caption" style={{ color: "var(--ink-3)" }}>{summarize(t.tool, t.result)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

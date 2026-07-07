@@ -23,6 +23,18 @@ citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["ci
     if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
 _pp = os.path.join(DATA, "proposal_run.json")
 proposal = json.load(open(_pp)) if os.path.exists(_pp) else None
+_ap = os.path.join(DATA, "agent_run.json")
+_asig = os.path.join(DATA, "agent_run.sig.json")
+agent = None
+if os.path.exists(_ap):
+    _a = json.load(open(_ap))
+    _s = json.load(open(_asig)) if os.path.exists(_asig) else {}
+    agent = {"model": _a["model"], "goal": _a["goal"], "rounds": _a["rounds"],
+             "tool_calls": _a["tool_calls"], "cost_usd": _a.get("cost_usd", 0),
+             "hypothesis": _a.get("hypothesis"), "delta_id": _a.get("delta_id", ""),
+             "signer": _s.get("signer"),
+             "transcript": [{"round": t["round"], "tool": t["tool"], "input": t["input"],
+                             "result": t.get("result", {})} for t in _a.get("transcript", [])]}
 sig = json.load(open(os.path.join(FR, "frontier.sig.json"))) if os.path.exists(os.path.join(FR, "frontier.sig.json")) else {}
 
 def compact(n):
@@ -64,6 +76,7 @@ data = {
                   "cost_usd": proposal.get("cost_usd", 0), "delta_id": proposal.get("delta_id", ""),
                   "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
                             for p in proposal["proposals"]]} if proposal else None),
+    "agent": agent,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
