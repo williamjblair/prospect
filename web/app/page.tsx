@@ -2,14 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  LayoutGrid, Network, Waypoints, Sparkles, Search, ShieldCheck,
+  LayoutGrid, Rows3, Share2, Waypoints, Sparkles, Search, ShieldCheck,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
   SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   SidebarProvider, SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { GraphView } from "@/components/graph-view";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -46,7 +48,8 @@ const fmt = (n: number) => n.toLocaleString();
 
 const NAV = [
   { k: "overview", label: "Overview", icon: LayoutGrid },
-  { k: "atlas", label: "Atlas", icon: Network },
+  { k: "atlas", label: "Atlas", icon: Rows3 },
+  { k: "network", label: "Network", icon: Share2 },
   { k: "frontier", label: "Frontier", icon: Waypoints },
   { k: "surprises", label: "Surprises", icon: Sparkles },
 ];
@@ -56,7 +59,16 @@ export default function Page() {
   const [tab, setTab] = useState("overview");
   const [q, setQ] = useState("");
   const [gene, setGene] = useState<string | null>(null);
-  useEffect(() => { fetch("/data/frontier.json").then((r) => r.json()).then(setD); }, []);
+  const [focus, setFocus] = useState<string>("");
+  const { resolvedTheme } = useTheme();
+  const dark = resolvedTheme === "dark";
+  useEffect(() => {
+    fetch("/data/frontier.json").then((r) => r.json()).then((x: Data) => {
+      setD(x);
+      const hub = [...x.atlas].sort((a, b) => b.od - a.od)[0];
+      setFocus(hub ? hub.g : "VAV1");
+    });
+  }, []);
   const node = useMemo(() => (d && gene ? d.atlas.find((n) => n.g === gene) : null), [d, gene]);
   const label = NAV.find((n) => n.k === tab)?.label ?? "";
 
@@ -126,6 +138,7 @@ export default function Page() {
             <>
               {tab === "overview" && <Overview d={d} />}
               {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
+              {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
               {tab === "surprises" && <Surprises d={d} />}
             </>
@@ -286,6 +299,41 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
         })}
       </div>
       <div className="t-caption" style={{ marginTop: 10 }}>showing {list.length} · sorted by downstream reach</div>
+    </div>
+  );
+}
+
+function NetworkView({ d, focus, setFocus, dark, onGene }:
+  { d: Data; focus: string; setFocus: (g: string) => void; dark: boolean; onGene: (g: string) => void }) {
+  const [fq, setFq] = useState("");
+  const out = d.out[focus] || [], inn = d.in[focus] || [];
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const g = d.atlas.find((n) => n.g === fq.trim().toUpperCase());
+    if (g) { setFocus(g.g); setFq(""); }
+  };
+  return (
+    <div>
+      <h2 className="h1-display" style={{ marginBottom: 6 }}>Regulatory network</h2>
+      <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "66ch" }}>
+        The neighborhood around <b>{focus}</b> — {out.length} genes it regulates, {inn.length} that regulate it, and the
+        cross-links between them. Edges by direction (<span style={{ color: "var(--moss)" }}>up</span> /{" "}
+        <span style={{ color: "var(--cinnabar)" }}>down</span>). Click any node to re-center the graph on it.
+      </p>
+      <form onSubmit={submit} style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <input value={fq} onChange={(e) => setFq(e.target.value)} placeholder={`Center on a gene (now: ${focus})`}
+          className="t-body" style={{ width: 300, height: 34, padding: "0 12px", borderRadius: "var(--radius-sm)",
+            border: "1px solid var(--border)", background: "var(--paper)", color: "var(--ink)" }} />
+        <button className="btn btn-secondary btn-sm" type="submit">Re-center</button>
+        <button className="btn btn-ghost btn-sm" type="button" onClick={() => onGene(focus)}>Open {focus} details</button>
+      </form>
+      {focus && <GraphView data={d} focus={focus} onFocus={setFocus} dark={dark} />}
+      <div className="t-caption" style={{ marginTop: 10, display: "flex", gap: 16, flexWrap: "wrap" }}>
+        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#c99a3a", marginRight: 5 }} />focus gene</span>
+        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#4e7a44", marginRight: 5 }} />regulator</span>
+        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#8a8272", marginRight: 5 }} />target</span>
+        <span>node size = downstream reach · edges sliced live from the released DE matrix</span>
+      </div>
     </div>
   );
 }
