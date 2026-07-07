@@ -33,7 +33,7 @@ proposes to change:
 
 - the claim, and the entities it is about
 - the frozen artifacts it stands on, by hash
-- the evidence atoms: specific verified facts, verbatim from a verifier
+- the evidence atoms: specific reproduced facts, verbatim from a verifier
 - the verifier and the one command that re-derives the result
 - the typed status the evidence actually earns
 - the replayability class
@@ -63,12 +63,12 @@ The failure mode of AI-for-science is laundering weak evidence through strong wo
 refuses it structurally. Status is typed, and never collapses to "verified" or "true":
 
 - `computationally_reproduced`: re-derives bit-for-bit from frozen released inputs (the EXACT lane)
-- `evidence_attached`: the supporting facts are verified, but the claim itself is a proposal to test
+- `evidence_attached`: the supporting facts are reproduced, but the claim itself is a proposal to test
 - `contradicted`: the data disagrees
 - `refuted`: a stronger claim the data overturns
 
 The agent's PGGT1B hypothesis is `evidence_attached`, not reproduced: every fact it rests on is a
-verified lookup, and the hypothesis is a proposal a human accepted as worth testing, not an
+reproduced lookup, and the hypothesis is a proposal a human accepted as worth testing, not an
 established result. The four re-derivable findings are `computationally_reproduced`. The
 regulator-vs-effector finding is `contradicted`. The words match the evidence exactly.
 
@@ -90,5 +90,5 @@ verifier. The point of building it end to end in the messiest domain, biology, i
 pattern survives where exact proof does not exist: hold the exact lane where it does, type the
 status honestly where it does not, and never let a model be the thing that decides.
 
-Generation is cheap. Verified, replayable, human-accepted state is the scarce thing, and it is the
+Generation is cheap. Replayable, human-accepted state is the scarce thing, and it is the
 thing that compounds.

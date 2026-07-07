@@ -1,6 +1,6 @@
 # Prospect
 
-A verified regulatory frontier of human CD4+ T-cell biology.
+A computationally reproduced regulatory frontier of human CD4+ T-cell biology.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
@@ -18,7 +18,7 @@ scratch with zero drift, and `prospect sign` accepts a root hash with one Ed2551
 model sits in that path.
 
 The deeper idea is a boundary: `Activity < Receipt < Proposal < Review < Verification < Accepted <
-State`. Generation is cheap; verified, replayable, human-accepted state is the scarce thing. A
+State`. Generation is cheap; replayable, human-accepted state is the scarce thing. A
 **receipt** is the portable object that carries an AI's activity across that boundary, with a typed
 status that never launders weak evidence as strong. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the
 full reasoning.
@@ -66,6 +66,17 @@ useful at proposing. The admission decision stays a deterministic re-derivation 
 receipt contract, validate a receipt, and submit it as a proposal. The response still says
 `accepted: false`; accepted state requires the frozen verifier and the human signing path.
 
+`prospect lab-pack` turns the top evidence-attached follow-ups into assay-ready rows for a
+Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusion criteria, and
+public replay links. Every row remains proposal only.
+
+Current public artifacts:
+
+- `/data/frontier.json`
+- `/data/judge_packet.json`
+- `/data/receipt_bridge/receipt_manifest.json`
+- `/data/lab_packet.json`
+
 ## Run it
 
 ```bash
@@ -75,8 +86,12 @@ receipt contract, validate a receipt, and submit it as a proposal. The response 
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit portable receipts (activity → signed replayable state)
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
+./prospect campaign               # build the proposal-only campaign leaderboard
+./prospect lab-pack               # build the wet-lab assay packet
+./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted
+python tests/test_skill_parity.py # Skill checker matches the engine
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
 ```
 

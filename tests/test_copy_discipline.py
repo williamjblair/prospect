@@ -4,10 +4,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 PUBLIC_COPY_FILES = [
+    ROOT / "README.md",
+    ROOT / "PRODUCT.md",
+    ROOT / "DESIGN.md",
     ROOT / "web" / "app" / "page.tsx",
     ROOT / "docs" / "HANDOFF.md",
     ROOT / "docs" / "DEMO.md",
     ROOT / "docs" / "JUDGE_PACKET.md",
+    ROOT / "docs" / "PROTOCOL.md",
     ROOT / "docs" / "SUBMISSION.md",
 ]
 
@@ -17,15 +21,18 @@ PROHIBITED_PHRASES = [
     "Verified regulatory state",
     "verified class",
     "verified facts",
+    "verified lookup",
     "verified graph",
     "verified edges",
     "verified tool calls",
     "Verified evidence",
     "A verified regulatory frontier",
+    "becomes verified",
     "fully built, verified",
     "verified state",
     "verified, replayable",
     "verified tool calls",
+    "Verified, replayable",
 ]
 
 

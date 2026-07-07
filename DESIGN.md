@@ -12,8 +12,8 @@ kept as the soul. Tokens live in `web/app/globals.css`; use them, never raw hex.
   `--ink-4` (non-text: dividers, placeholders).
 - **Accent (kintsugi):** `--brass-gold` / `--gold-ink`. Reserved for the seam where provenance
   changes: the signed root, focus rings, the "Receipt" step. Never decoration, never a CTA glow.
-- **Semantic state hues** (diagrams and status badges only, not brand color): `--moss` (verified /
-  reproduced), `--brass` (open / evidence-attached), `--field-blue` (in-review / transfer),
+- **Semantic state hues** (diagrams and status badges only, not brand color): `--moss`
+  (computationally reproduced), `--brass` (open / evidence-attached), `--field-blue` (in-review / transfer),
   `--cinnabar` (refuted / contradicted), `--stone` (deprecated / neutral). Each has `-tint` (~10%)
   and `-line` (~35%) derivations.
 - **Dark mode = Hasui night-band:** `--twilight-indigo` grounds, `--lantern` washes sealed content,
