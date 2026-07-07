@@ -8,6 +8,7 @@
   prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
   prospect campaign         build the proposal-only agent campaign leaderboard
   prospect findings-index   build the scannable finding index for the demo
+  prospect judge-pack       build the judge packet manifest and handoff
   prospect receipt          emit portable receipts (activity → signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
 
@@ -37,6 +38,8 @@ def main():
         from frontier.agent_campaign import main as campaign_main; campaign_main()
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
+    elif cmd == "judge-pack":
+        from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
     elif cmd == "receipt":
         from receipt.emit import main as receipt_main; receipt_main(rest)
     elif cmd == "mcp":

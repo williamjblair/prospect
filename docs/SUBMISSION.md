@@ -32,6 +32,8 @@ the graph on its own word. On top of it:
 - **A scannable findings index** over the five signed finding objects, so a judge can see the arc
   before reading evidence tables: recover known biology, catch overclaiming, resist the artifact,
   transfer the checker, recover regulons.
+- **A judge packet**: `prospect judge-pack` emits one manifest with the live URL, signed root,
+  replay commands, public data endpoints, artifact counts, and trust-boundary summary.
 - **A closed loop and an autonomous agent**: `prospect propose` (Claude proposes, the verifier
   decides, a human signs) and `prospect agent` (a real tool-use loop where Claude searches and
   verifies against frozen data, converging on a novel hypothesis).
@@ -85,6 +87,7 @@ the graph on its own word. On top of it:
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect findings-index         # build the scannable finding index
+./prospect judge-pack             # build the judge packet manifest
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
 python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted

@@ -16,6 +16,7 @@ BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", 
 PGGT1B_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_deep_dive.json")
 CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
+JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
 
@@ -41,6 +42,8 @@ _campaign = os.path.join(DATA, "agent_campaign.json")
 agent_campaign = json.load(open(_campaign)) if os.path.exists(_campaign) else None
 _finding_index = os.path.join(DATA, "finding_index.json")
 finding_index = json.load(open(_finding_index)) if os.path.exists(_finding_index) else None
+_judge_packet = os.path.join(DATA, "judge_packet.json")
+judge_packet = json.load(open(_judge_packet)) if os.path.exists(_judge_packet) else None
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
     if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
 _pp = os.path.join(DATA, "proposal_run.json")
@@ -89,7 +92,7 @@ data = {
                 "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions],
     "open": [o["gene"] for o in openq[:80]],
     "surprises": mine(os.path.join(DATA, "atlas_backbone.json")),
-    "finding_index": finding_index,
+    "finding_index": finding_index, "judge_packet": judge_packet,
     "findings": [{"kind": f["kind"], "claim": f["claim"], "status": f["status"],
                   "n_genes": len(f["genes"]), "genes": f["genes"], "evidence": f["evidence"],
                   "cid": f["cid"]} for f in findings],
@@ -114,6 +117,8 @@ if agent_campaign:
     json.dump(agent_campaign, open(CAMPAIGN_OUT, "w"))
 if finding_index:
     json.dump(finding_index, open(FINDING_INDEX_OUT, "w"))
+if judge_packet:
+    json.dump(judge_packet, open(JUDGE_PACKET_OUT, "w"))
 json.dump(data, open(OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

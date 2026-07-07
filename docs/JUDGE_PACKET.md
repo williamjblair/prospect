@@ -1,0 +1,51 @@
+# Judge packet
+
+Live: [https://prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
+
+Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjblair/prospect)
+
+Signed root: `root_a8b0dcdd4024e12f`
+
+## No model in the trust path
+
+A model proposes, searches, and drafts. Frozen code over a frozen released table gates the result. A human Ed25519 key accepts. Receipt submission is proposal only.
+
+## Replay gate
+
+```bash
+./prospect verify
+python benchmark/mutation_pack.py
+python tests/test_skill_parity.py
+cd web && npm run build
+```
+
+## Artifact counts
+
+- Genes mapped: 11526
+- Regulatory edges: 37106
+- Findings: 5
+- Receipts: 6
+- Campaign candidates: 20
+- Validation candidates: 5
+
+## Public data
+
+- `/data/frontier.json`
+- `/data/finding_index.json`
+- `/data/receipt_bridge/receipt_contract.json`
+- `/data/receipt_bridge/receipt_bundle.json`
+- `/data/pggt1b_deep_dive.json`
+- `/data/agent_campaign.json`
+
+## Demo path
+
+- Overview: AI claim refusal and 48 percent overclaim rate
+- Findings: five-row index, then evidence tables
+- Frontier: signed root, contradictions, receipts, MCP bridge
+- Agent: PGGT1B packet and proposal-only campaign leaderboard
+
+Rebuild:
+
+```bash
+python frontier/judge_packet.py
+```

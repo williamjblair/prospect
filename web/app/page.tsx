@@ -55,12 +55,24 @@ type AgentCampaign = {
     rpe1_de: number | null; known_regulon_targets: number; rationale: string; assay: string;
   }[];
 };
+type JudgePacket = {
+  live_url: string;
+  frontier_root: string;
+  gate_commands: string[];
+  public_data: string[];
+  artifact_counts: {
+    genes: number; edges: number; findings: number; receipts: number;
+    agent_campaign_candidates: number; validation_candidates: number;
+  };
+  trust_boundary: { receipt_submission: string; model_moves_accepted_state: boolean };
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
   finding_index?: FindingIndex | null;
+  judge_packet?: JudgePacket | null;
   findings: Finding[]; citations: Record<string, Cite>;
   proposal?: { model: string; proposed: number; admitted: number; rejected: number; cost_usd: number;
     delta_id: string; items: { gene: string; verdict: string; rationale: string }[] } | null;
@@ -305,6 +317,8 @@ function Overview({ d }: { d: Data }) {
         </div>
       </section>
 
+      {d.judge_packet && <JudgePacketCard packet={d.judge_packet} />}
+
       {d.proposal && (
         <section style={{ display: "grid", gap: 10 }}>
           <h2 className="h2-app">Claude proposes, the frozen verifier decides</h2>
@@ -372,6 +386,49 @@ function Overview({ d }: { d: Data }) {
         </section>
       )}
     </div>
+  );
+}
+
+function JudgePacketCard({ packet }: { packet: JudgePacket }) {
+  const counts = packet.artifact_counts;
+  return (
+    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <div style={{ minWidth: 240, flex: 1 }}>
+          <div className="t-label" style={{ marginBottom: 5 }}>Judge packet</div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "72ch" }}>
+            One manifest for the replay path: signed root, gate commands, public data endpoints,
+            receipt bridge, PGGT1B packet, and campaign leaderboard.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/judge_packet.json" target="_blank" rel="noreferrer">
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "baseline" }}>
+        {[
+          [fmt(counts.findings), "findings"],
+          [fmt(counts.receipts), "receipts"],
+          [fmt(counts.agent_campaign_candidates), "campaign rows"],
+          [fmt(counts.validation_candidates), "wet-lab rows"],
+        ].map(([value, label]) => (
+          <div key={label}>
+            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700 }}>{value}</div>
+            <div className="t-label" style={{ marginTop: 3 }}>{label}</div>
+          </div>
+        ))}
+        <div style={{ marginLeft: "auto" }} className="t-caption">
+          root <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{packet.frontier_root}</span><br />
+          receipt submission: {packet.trust_boundary.receipt_submission.replace(/_/g, " ")}
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {packet.gate_commands.slice(0, 3).map((cmd) => (
+          <span key={cmd} className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
+            background: "var(--paper-recessed)", border: "1px solid var(--rule-faint)" }}>{cmd}</span>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -14,6 +14,7 @@ slow part almost no one does.
 contradicted** by the measured data, pooled across four frontier models on one frozen sample. Then
 the tie-in: on the genes the field targets most, PD-1, TIM-3, IL-2, the overclaim rate is **64%**.
 Models overstate the famous genes more than random ones.
+Point to the Judge packet card: the live root, commands, and public data are one click away.
 
 **0:40 · Findings.** Findings tab. Start with the scannable index: five reproduced finding objects,
 ordered as recover, catch, resist, transfer, recover regulons. Finding 01: the TCR cascade, silent
