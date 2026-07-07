@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prospect — verified atlas of T-cell regulation</title>
+<style>
+:root{
+ --bg:#fbfcfd; --surface:#fff; --border:#e5e9ef; --ink:#18202e; --muted:#667085; --faint:#8a93a3;
+ --brand:#0b7a3b;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{padding:26px 0 18px;border-bottom:1px solid var(--border)}
+.brand{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.brand .dot{color:var(--brand)}
+.tag{color:var(--muted);font-size:13.5px;margin-top:2px}
+nav{display:flex;gap:4px;margin-top:16px}
+nav button{font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:none;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+nav button.on{color:var(--ink);background:#eef1f5}
+main{padding:26px 0 80px}
+h2{font-size:17px;margin:0 0 4px} .lede{color:var(--muted);margin:0 0 20px;font-size:14px;max-width:70ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px}
+.card b{font-size:26px;display:block;letter-spacing:-.02em} .card span{color:var(--muted);font-size:12.5px}
+.dist{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:0 0 22px}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0}
+.bar > i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted)}
+.legend s{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;text-decoration:none}
+.strip{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+.chip{font-size:12.5px;padding:5px 10px;border-radius:999px;font-weight:600}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
+.tools input{font:inherit;padding:9px 12px;border:1px solid var(--border);border-radius:9px;width:230px;background:var(--surface)}
+.filt{font:inherit;font-size:12.5px;font-weight:600;padding:6px 11px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--muted);cursor:pointer}
+.filt.on{color:#fff;border-color:transparent}
+.rows{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+.row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);cursor:pointer}
+.row:first-child{border-top:0} .row:hover{background:#f7f9fb}
+.row .g{font-weight:650;width:88px;flex:none;font-variant-ligatures:none}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.conds{display:flex;gap:4px;margin-left:auto}
+.cc{width:34px;text-align:center;font-size:11px;font-weight:600;color:#fff;border-radius:5px;padding:3px 0}
+.count{color:var(--faint);font-size:12px;margin:14px 2px}
+.sec{margin:0 0 30px}
+.gemgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gem{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 14px}
+.gem b{font-size:15px} .gem span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.note{background:#fdf8ee;border:1px solid #f2e6c7;border-radius:11px;padding:12px 15px;font-size:13px;color:#6b5a2a;margin:0 0 18px}
+.foot{color:var(--faint);font-size:12px;border-top:1px solid var(--border);padding-top:16px;margin-top:32px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(20,28,40,.42);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+.modal.on{display:flex}
+.sheet{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.sheet h3{margin:0 0 2px;font-size:20px} .sheet .cls{font-size:13px;margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:13px} th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+.x{float:right;cursor:pointer;color:var(--muted);font-size:20px;line-height:1;border:0;background:none}
+</style></head>
+<body>
+<header><div class="wrap">
+ <div class="brand">Prospect<span class="dot">.</span></div>
+ <div class="tag">A verified atlas of what regulates human CD4+ T cells — every node checked against released ground truth.</div>
+ <nav id="nav">
+   <button data-v="overview" class="on">Overview</button>
+   <button data-v="atlas">Atlas</button>
+   <button data-v="surprises">Surprises</button>
+ </nav>
+</div></header>
+<main class="wrap"><div id="view"></div></main>
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<script>
+const ATLAS=__ATLAS__, STATS=__STATS__, SURPRISES=__SURPRISES__, DEMO=__DEMO__;
+const CONDS=["Rest","Stim8hr","Stim48hr"], CL=["R","8","48"];
+const CLS={
+ constitutive_regulator:["#0b7a3b","#e7f4ec","constitutive regulator"],
+ condition_specific_regulator:["#4145d1","#ecedff","condition-specific regulator"],
+ verified_non_regulator:["#475467","#eef1f4","verified non-regulator"],
+ unverifiable_no_kd:["#b54708","#fdf0e6","couldn’t test (no knockdown)"]};
+const STA={regulator_major:"#0b7a3b",regulator_minor:"#47a06d",regulator_weak:"#bfe0cc",
+ no_effect:"#aab2bf",no_knockdown:"#e79a3c",off_target:"#d92d20"};
+const DEMOC={supported:["#0b7a3b","#e7f4ec"],unsupported:["#b3261e","#fce8e6"],
+ refuted:["#b3261e","#fce8e6"],needs_qualification:["#8a6d00","#fef7e0"],asserted:["#5f6368","#f1f3f4"]};
+const maxdn=g=>Math.max(0,...CONDS.map(c=>g.C[c]?g.C[c].dn:0));
+const esc=s=>(""+s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
+const $=h=>{const d=document.createElement("div");d.innerHTML=h;return d.firstElementChild};
+
+let filt=null;
+function condPills(g){return CONDS.map((c,i)=>{const v=g.C[c];if(!v)return `<div class="cc" style="background:#eee;color:#bbb" title="${c}: n/a">${CL[i]}</div>`;
+ return `<div class="cc" style="background:${STA[v.s]||'#ccc'}" title="${c}: ${v.s}, ${v.de} DE genes, ${v.dn} downstream">${CL[i]}</div>`}).join("")}
+
+function overview(){
+ const d=STATS.dist, order=["constitutive_regulator","condition_specific_regulator","verified_non_regulator","unverifiable_no_kd"];
+ const bar=order.map(k=>`<i style="flex:${d[k]||0};background:${CLS[k][0]}"></i>`).join("");
+ const leg=order.map(k=>`<span><s style="background:${CLS[k][0]}"></s>${CLS[k][2]} · ${(d[k]||0).toLocaleString()}</span>`).join("");
+ const strip=DEMO.map(x=>{const c=DEMOC[x.status]||DEMOC.asserted;return `<span class="chip" style="color:${c[0]};background:${c[1]}" title="${esc(x.reason)}">${esc(x.gene)} — ${x.status.replace("_"," ")}</span>`}).join("");
+ return `<h2>A verified atlas of T-cell regulation</h2>
+ <p class="lede">AI can generate a claim about any of these ${STATS.n_genes.toLocaleString()} genes in seconds. Prospect checks each against the released CRISPRi Perturb-seq ground truth, so what you see is verified — not asserted.</p>
+ <div class="cards">
+   <div class="card"><b>${STATS.n_genes.toLocaleString()}</b><span>genes mapped</span></div>
+   <div class="card"><b>${STATS.n_perturbations.toLocaleString()}</b><span>verified perturbation × condition</span></div>
+   <div class="card"><b>${((d.constitutive_regulator+d.condition_specific_regulator)).toLocaleString()}</b><span>verified regulators</span></div>
+   <div class="card"><b>${d.verified_non_regulator.toLocaleString()}</b><span>verified non-regulators</span></div>
+ </div>
+ <div class="dist"><div style="font-weight:600;font-size:13px">Verified regulatory state across the genome</div>
+   <div class="bar">${bar}</div><div class="legend">${leg}</div></div>
+ <div style="font-weight:600;font-size:13px;margin:0 0 4px">A claim from Claude Science, checked</div>
+ <div class="strip">${strip}</div>
+ <div class="note"><b>What "verified" means.</b> A verdict is computed by frozen code against a frozen released table — no model in the trust path. "Verified non-regulator" means knockdown was confirmed and produced no transcriptional effect <i>in this assay</i>, not that the gene is unimportant. It never claims the underlying biology is true.</div>`;
+}
+
+function atlas(q){
+ q=(q||"").trim().toUpperCase();
+ let list=ATLAS;
+ if(filt) list=list.filter(g=>g.cls===filt);
+ if(q) list=list.filter(g=>g.g.toUpperCase().includes(q));
+ list=list.slice().sort((a,b)=>maxdn(b)-maxdn(a));
+ const shown=list.slice(0,150);
+ const chips=Object.keys(CLS).map(k=>`<button class="filt ${filt===k?'on':''}" data-f="${k}" style="${filt===k?`background:${CLS[k][0]}`:''}">${CLS[k][2]}</button>`).join("");
+ const rows=shown.map(g=>{const c=CLS[g.cls];return `<div class="row" data-g="${esc(g.g)}">
+   <span class="g">${esc(g.g)}</span>
+   <span class="badge" style="color:${c[0]};background:${c[1]}">${c[2]}</span>
+   <span class="conds">${condPills(g)}</span></div>`}).join("");
+ return `<h2>Atlas</h2><p class="lede">Search a gene, or filter by verified class. Cells show status by condition — R (rest), 8 (8h stim), 48 (48h stim). Click a gene for the evidence.</p>
+ <div class="tools"><input id="q" placeholder="Search a gene (e.g. VAV1, BCL10)" value="${esc(q)}">
+   <button class="filt ${!filt?'on':''}" data-f="" style="${!filt?'background:#344054':''}">all</button>${chips}</div>
+ <div class="rows">${rows||'<div class="row">no genes match</div>'}</div>
+ <div class="count">showing ${shown.length.toLocaleString()} of ${list.length.toLocaleString()} · sorted by downstream impact</div>`;
+}
+
+function surprises(){
+ const s=SURPRISES;
+ const gems=s.hidden_regulators.slice(0,12).map(h=>`<div class="gem"><b>${esc(h.gene)}</b><span>${h.max_downstream.toLocaleString()} downstream genes · verified regulator</span></div>`).join("");
+ const dem=s.demoted_famous.map(d=>{const cc=CONDS.map((c,i)=>d.conditions[c]?`${CL[i]}:${d.conditions[c].n_de}DE`:"").filter(Boolean).join("  ");return `<div class="gem"><b>${esc(d.gene)}</b><span>no transcriptional effect · ${cc}</span></div>`}).join("");
+ const unt=s.untested_famous.map(d=>esc(d.gene)).join(", ");
+ return `<h2>Serendipity — what the atlas surfaces</h2>
+ <p class="lede">Verified findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.</p>
+ <div class="sec"><div style="font-weight:600;margin:0 0 8px">Hidden regulators — the biggest verified regulators nobody names</div>
+   <p class="lede" style="margin-bottom:12px">Ask which genes run a T cell and you'll hear PD-1, IL-2, the TCR. The data says the heaviest regulators are transcription machinery and metabolism — like <b>BCAT2</b>, a branched-chain amino-acid enzyme.</p>
+   <div class="gemgrid">${gems}</div></div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 8px">Famous genes the data demotes</div>
+   <div class="note" style="margin-bottom:12px"><b>Read carefully.</b> These famous genes show ~no transcriptional change when knocked down <i>in this screen</i>. That is a real, verified result — not a claim that they don't matter (checkpoints like PD-1 act by signaling, not transcription). A claim that one "drives a broad program" here would be unsupported.</div>
+   <div class="gemgrid">${dem}</div></div>
+ <div class="sec"><div style="font-weight:600;margin:0 0 6px">Couldn't be tested</div>
+   <p class="lede">The screen never achieved knockdown for these, so the atlas says nothing about them — honest silence, not a verdict: <b>${unt}</b>.</p></div>`;
+}
+
+function openGene(name){
+ const g=ATLAS.find(x=>x.g===name); if(!g)return;
+ const c=CLS[g.cls];
+ const rows=CONDS.map(cd=>{const v=g.C[cd];if(!v)return"";return `<tr><td>${cd}</td><td style="color:${STA[v.s]||'#888'};font-weight:600">${v.s.replace(/_/g,' ')}</td><td>${v.de}</td><td>${v.dn.toLocaleString()}</td><td>${v.es}</td></tr>`}).join("");
+ document.getElementById("sheet").innerHTML=`<button class="x" onclick="closeM()">×</button>
+   <h3>${esc(g.g)}</h3><div class="cls" style="color:${c[0]}">${c[2]}</div>
+   <table><tr><th>condition</th><th>status</th><th>DE genes</th><th>downstream</th><th>on-target effect</th></tr>${rows}</table>
+   <p style="color:#667085;font-size:12.5px;margin-top:14px">Verified against the released Marson CD4⁺ T-cell CRISPRi DE table. No model in the trust path.</p>`;
+ document.getElementById("modal").classList.add("on");
+}
+function closeM(){document.getElementById("modal").classList.remove("on")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeM()});
+
+let view="overview";
+function render(){
+ document.getElementById("view").innerHTML = view==="overview"?overview():view==="atlas"?atlas(document.getElementById("q")?document.getElementById("q").value:""):surprises();
+ if(view==="atlas"){
+   const q=document.getElementById("q"); q.addEventListener("input",()=>{const v=q.value;document.getElementById("view").innerHTML=atlas(v);wireAtlas();q2();});
+   wireAtlas();
+ }
+}
+function q2(){const q=document.getElementById("q");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}}
+function wireAtlas(){
+ document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filt=b.dataset.f||null;const v=document.getElementById("q").value;document.getElementById("view").innerHTML=atlas(v);wireAtlas();});
+ document.querySelectorAll(".row[data-g]").forEach(r=>r.onclick=()=>openGene(r.dataset.g));
+}
+document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ view=b.dataset.v;[...e.currentTarget.children].forEach(x=>x.classList.toggle("on",x===b));render();});
+render();
+</script>
+</body></html>
