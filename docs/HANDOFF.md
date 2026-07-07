@@ -10,7 +10,7 @@ Track, event window Jul 7-13 2026, New Work Only). Gladstone is judging, and the
 built on is Gladstone's own (the Marson lab's screen). Credibility with domain experts is the whole
 game, plus a sharp "Built with Claude" story.
 
-Status: fully built, verified, committed, and live. Nothing is mid-flight.
+Status: fully built, committed, deployed, and live. Nothing is mid-flight.
 
 - Live: https://prospect-sepia-six.vercel.app
 - Repo: github.com/williamjblair/prospect, branch `master`
@@ -65,6 +65,9 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Wet-lab validation shortlist** (`frontier/validation_sheet.py`): five evidence-attached,
   on-target, non-canonical, cell-type-specific follow-ups headed by PGGT1B, exported to
   `examples/data/validation_candidates.csv` and [WETLAB_VALIDATION.md](WETLAB_VALIDATION.md).
+- **Wet-lab assay packet** (`frontier/lab_packet.py`, `./prospect lab-pack`): five proposal-only
+  follow-ups translated into assay design fields: intervention, controls, readouts, exclusion rules,
+  and public replay links. Exported to `examples/data/lab_packet.*` and [LAB_PACKET.md](LAB_PACKET.md).
 - **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`): a lab-facing packet for the top shortlist
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
   It keeps status at `evidence_attached`, binds exact local facts, adds literature context, and gives
@@ -89,7 +92,7 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 ## 4. Architecture and file map
 
 Pure-Python engine (laptop-runnable, no GPU) + a Next.js viewer. The tracked unit is a change to
-verified state, not a document.
+accepted state, not a document.
 
 - **`engine/`**: the deterministic checker.
   - `schema.py`: `Claim`, `Verdict`, the 5 statuses (supported/refuted/unsupported/needs_qualification/asserted).
@@ -113,10 +116,10 @@ verified state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|findings-index|judge-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, the lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -127,8 +130,8 @@ Overview, Atlas, Network (sigma graph), Frontier (state + receipts + contradicti
 each with evidence tables), Agent (the tool-use transcript + signed hypothesis). Peek is the per-gene
 slide-over. Regenerate data with `web/gen_data.py`; it reads `frontier/*.jsonl`, the signature, the
 benchmark JSONs, `agent_run.json`, `proposal_run.json`, `receipts/receipts.jsonl`, and the validation
-shortlist. The Frontier tab links the receipt bridge contract and bundle; the Agent tab shows the
-wet-lab validation shortlist.
+shortlist and lab packet. The Frontier tab links the receipt bridge contract and bundle; the Agent tab
+shows the wet-lab validation shortlist and assay packet.
 
 ## 5. Data sources (all public)
 
@@ -147,8 +150,8 @@ wet-lab validation shortlist.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`, `finding_index.json`,
-`judge_packet.json`.
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`, `lab_packet.*`,
+`finding_index.json`, `judge_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.

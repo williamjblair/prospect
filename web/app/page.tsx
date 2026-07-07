@@ -117,7 +117,7 @@ const CL = ["R", "8", "48"];
 const CLASS: Record<string, [string, string]> = {
   constitutive_regulator: ["var(--moss)", "constitutive regulator"],
   condition_specific_regulator: ["var(--field-blue)", "condition-specific regulator"],
-  verified_non_regulator: ["var(--stone)", "verified non-regulator"],
+  verified_non_regulator: ["var(--stone)", "reproduced non-regulator"],
   unverifiable_no_kd: ["var(--brass)", "couldn’t test (no knockdown)"],
   off_target: ["var(--cinnabar)", "off-target"],
 };
@@ -263,7 +263,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 26 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
-        <div className="t-label" style={{ marginBottom: 8 }}>Verified regulatory frontier · CD4⁺ T cells</div>
+        <div className="t-label" style={{ marginBottom: 8 }}>Computationally reproduced regulatory frontier · CD4⁺ T cells</div>
         <h1 className="t-display" style={{ maxWidth: "18ch" }}>What actually regulates a human T cell.</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
           A linked, human-signed graph of gene regulation. Every node and edge is re-derived from the released
@@ -303,7 +303,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         {([
           [d.stats.n_genes, "genes mapped", "var(--ink)"],
           [d.stats.n_edges, "regulatory edges", "var(--moss)"],
-          [(dist.constitutive_regulator || 0) + (dist.condition_specific_regulator || 0), "verified regulators", "var(--ink)"],
+          [(dist.constitutive_regulator || 0) + (dist.condition_specific_regulator || 0), "reproduced regulators", "var(--ink)"],
           [d.frontier.n_contra, "contradictions", "var(--cinnabar)"],
         ] as [number, string, string][]).map(([n, label, tone]) => (
           <div key={label}>
@@ -314,7 +314,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
       </div>
 
       <section style={{ display: "grid", gap: 12 }}>
-        <h2 className="h2-app">Verified regulatory state across the genome</h2>
+        <h2 className="h2-app">Reproduced regulatory state across the genome</h2>
         <div style={{ display: "flex", height: 12, borderRadius: 6, overflow: "hidden" }}>
           {order.map((k) => <div key={k} style={{ flex: dist[k] || 0, background: CLASS[k][0] }} />)}
         </div>
@@ -476,7 +476,7 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
     <div>
       <h2 className="h1-display" style={{ marginBottom: 4 }}>Atlas</h2>
       <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "62ch" }}>
-        Search a gene. Each row shows its verified class and per-condition status (R rest · 8 8h · 48 48h stim).
+        Search a gene. Each row shows its frozen-data class and per-condition status (R rest · 8 8h · 48 48h stim).
         Open a gene for its regulatory neighborhood, what it regulates, and the claims the data refused.
       </p>
       <input id="gene-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a gene (VAV1, BCL10, PDCD1)…"
@@ -607,7 +607,7 @@ function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]
                 <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
                   <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{r.id}</span>
                   <span className="t-body-sm" style={{ fontWeight: 600 }}>{r.kind === "hypothesis" ? "hypothesis" : r.kind.replace(/_/g, " ")}</span>
-                  <span className="t-caption" style={{ color: "var(--ink-3)" }}>· {r.producer?.kind === "autonomous_agent" ? `agent (${r.n_evidence} verified facts)` : `${r.n_evidence} atoms · ${r.n_artifacts} artifacts`}{r.accepted ? ` · signed ${r.signer}` : ""}</span>
+                  <span className="t-caption" style={{ color: "var(--ink-3)" }}>· {r.producer?.kind === "autonomous_agent" ? `agent (${r.n_evidence} reproduced facts)` : `${r.n_evidence} atoms · ${r.n_artifacts} artifacts`}{r.accepted ? ` · signed ${r.signer}` : ""}</span>
                 </div>
                 <div className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-2)" }}>{r.claim}</div>
               </div>
@@ -621,7 +621,7 @@ function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]
         })}
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
-        The status never collapses to “verified”. A hypothesis to test stays <b>evidence attached</b>; only what
+        The status never collapses to a generic proof label. A hypothesis to test stays <b>evidence attached</b>; only what
         re-derives from frozen data is <b>reproduced</b>; where the data disagrees it is <b>contradicted</b>. No model in the trust path.
       </p>
     </div>
@@ -634,12 +634,12 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>The frontier</h2>
         <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-          The verified graph is accepted state, re-derived from frozen data and signed by a human. Contradictions
+          The signed graph is accepted state, re-derived from frozen data and signed by a human. Contradictions
           and open questions are kept as first-class, citable terrain.
         </p>
       </div>
       <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
-        <div><div className="stat-figure">{fmt(d.frontier.n_edges)}</div><div className="t-label">verified edges</div></div>
+        <div><div className="stat-figure">{fmt(d.frontier.n_edges)}</div><div className="t-label">reproduced edges</div></div>
         <div><div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{fmt(d.frontier.n_contra)}</div><div className="t-label">contradictions</div></div>
         <div><div className="stat-figure" style={{ color: "var(--brass)" }}>{fmt(d.frontier.n_open)}</div><div className="t-label">open questions</div></div>
         <div style={{ marginLeft: "auto", textAlign: "right" }} className="t-caption">
@@ -936,7 +936,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <div className="t-label" style={{ color: "var(--stone)", marginBottom: 6 }}>Goal</div>
         <div className="t-body-sm" style={{ color: "var(--ink-on)" }}>{a.goal}</div>
         <div className="t-caption" style={{ color: "var(--stone)", marginTop: 8 }}>
-          {a.tool_calls} verified tool calls over {a.rounds} rounds · ${a.cost_usd}
+          {a.tool_calls} frozen-data tool calls over {a.rounds} rounds · ${a.cost_usd}
         </div>
       </div>
 
@@ -947,7 +947,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
             <button onClick={() => onGene(h.gene)} className="t-mono" style={{ fontSize: 17, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{h.gene}</button>
           </div>
           <p className="t-lede" style={{ fontSize: "1.05rem", marginBottom: 10 }}>{h.hypothesis}</p>
-          <div className="t-label" style={{ marginBottom: 6 }}>Verified evidence</div>
+          <div className="t-label" style={{ marginBottom: 6 }}>Reproduced evidence</div>
           <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "grid", gap: 4 }}>
             {h.evidence.map((e, i) => (
               <li key={i} className="t-body-sm" style={{ display: "flex", gap: 8 }}>
