@@ -13,7 +13,7 @@ This is the moat, shown not claimed: one Claim, two frozen verifiers (get_checke
   python frontier/transfer.py     # needs examples/data/replogle_k562_de.csv (replogle_extract.py)
 """
 from __future__ import annotations
-import json, os, sys
+import csv, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from engine.registry import get_checker
 from engine.schema import Claim
@@ -31,10 +31,17 @@ def _marson_regulator(v):
     # a T-cell regulator = a real (major) effect, constitutive or condition-specific
     return v.status in ("supported", "needs_qualification")
 
+def _rpe1():
+    p = os.path.join(DATA, "replogle_rpe1_de.csv")
+    if not os.path.exists(p):
+        return {}
+    return {r["gene"]: int(r["rpe1_de"]) for r in csv.DictReader(open(p)) if r.get("is_control") != "True"}
+
 def build_transfer():
     bb = {n["gene"]: n for n in json.load(open(os.path.join(DATA, "atlas_backbone.json")))}
     marson = get_checker("marson", MARSON)
     replogle = get_checker("replogle", REPLOGLE)
+    rpe1 = _rpe1()
 
     # comparison set: the three findings' genes (all are T-cell regulators or famous targets)
     compare = sorted({g for g, n in bb.items()
@@ -53,7 +60,8 @@ def build_transfer():
                 else "activation_module" if P.is_activation_module(bb[g])
                 else "regulator_vs_effector")
         rec = {"marson": mv.status, "replogle": rv.status,
-               "k562_de": k562_de if k562_de is not None else None, "finding": kind}
+               "k562_de": k562_de if k562_de is not None else None,
+               "rpe1_de": rpe1.get(g), "finding": kind}
         per_gene[g] = rec
         if rv.status == "supported":
             housekeeping.append(g)
@@ -66,21 +74,24 @@ def build_transfer():
     ess_replicated = [g for g in ess if per_gene[g]["replogle"] == "supported"]
     act_specific = [g for g in act if per_gene[g]["replogle"] != "supported"]
 
-    def _median_k562(genes):
-        vals = sorted(per_gene[g]["k562_de"] for g in genes if per_gene[g]["k562_de"] is not None)
+    def _median(genes, col):
+        vals = sorted(per_gene[g][col] for g in genes if per_gene[g].get(col) is not None)
         return vals[len(vals) // 2] if vals else 0
+    def _median_k562(genes):
+        return _median(genes, "k562_de")
 
     finding = Finding(
         kind="cross_cell_type_transfer",
         genes=sorted(per_gene),
-        claim=("The same major-regulator claim, checked against a second Perturb-seq dataset in a "
-               "non-immune cell (Replogle K562). Essentiality-artifact regulators replicate across "
-               "cell types (housekeeping); the activation module does not (T-cell-specific). The "
-               "second dataset validates findings #1 and #3 with independent data."),
-        evidence={"second_dataset": "replogle2022_k562_gwps",
+        claim=("The same major-regulator claim, checked against Perturb-seq in two non-immune cells "
+               "(Replogle K562 and RPE1). Essentiality-artifact regulators replicate across cell types "
+               "(housekeeping, in both K562 and RPE1); the activation module does not (T-cell-specific). "
+               "Independent cells validate findings #1 and #3."),
+        evidence={"second_dataset": "replogle2022_k562_gwps", "third_dataset": "replogle2022_rpe1",
                   "n_compared": len(per_gene),
                   "median_k562_de": {"essentiality_artifact": _median_k562(ess),
                                      "activation_module": _median_k562(act)},
+                  "median_rpe1_de_essentiality": _median(ess, "rpe1_de"),
                   "housekeeping_corroborated": sorted(housekeeping),
                   "immune_specific": sorted(immune_specific),
                   # recognizable exemplars for display: TCR-cascade genes inert in K562,
