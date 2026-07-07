@@ -1,8 +1,10 @@
 """Maps a dataset name to its checker. Adding a dataset = adding a line here."""
 from .checkers.marson_perturbseq import MarsonPerturbseqChecker
+from .checkers.replogle_perturbseq import ReploglePerturbseqChecker
 
 _CHECKERS = {
     "marson": MarsonPerturbseqChecker,
+    "replogle": ReploglePerturbseqChecker,
 }
 
 def get_checker(dataset: str, data_path: str):
