@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {
+  LayoutGrid, Network, Waypoints, Sparkles, Search, ShieldCheck,
+} from "lucide-react";
+import {
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
+  SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarProvider, SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -18,8 +27,6 @@ type Data = {
 
 const CONDS = ["Rest", "Stim8hr", "Stim48hr"];
 const CL = ["R", "8", "48"];
-
-// node class → material color + human label (the state palette from globals.css)
 const CLASS: Record<string, [string, string]> = {
   constitutive_regulator: ["var(--moss)", "constitutive regulator"],
   condition_specific_regulator: ["var(--field-blue)", "condition-specific regulator"],
@@ -27,7 +34,6 @@ const CLASS: Record<string, [string, string]> = {
   unverifiable_no_kd: ["var(--brass)", "couldn’t test (no knockdown)"],
   off_target: ["var(--cinnabar)", "off-target"],
 };
-// per-condition status → color
 const STA: Record<string, string> = {
   regulator_major: "var(--moss)", regulator_minor: "var(--terrain-green)", regulator_weak: "var(--stone)",
   no_effect: "var(--ink-4)", no_knockdown: "var(--brass)", off_target: "var(--cinnabar)",
@@ -38,67 +44,97 @@ const DEMOC: Record<string, string> = {
 };
 const fmt = (n: number) => n.toLocaleString();
 
+const NAV = [
+  { k: "overview", label: "Overview", icon: LayoutGrid },
+  { k: "atlas", label: "Atlas", icon: Network },
+  { k: "frontier", label: "Frontier", icon: Waypoints },
+  { k: "surprises", label: "Surprises", icon: Sparkles },
+];
+
 export default function Page() {
   const [d, setD] = useState<Data | null>(null);
   const [tab, setTab] = useState("overview");
   const [q, setQ] = useState("");
   const [gene, setGene] = useState<string | null>(null);
-
   useEffect(() => { fetch("/data/frontier.json").then((r) => r.json()).then(setD); }, []);
-
   const node = useMemo(() => (d && gene ? d.atlas.find((n) => n.g === gene) : null), [d, gene]);
+  const label = NAV.find((n) => n.k === tab)?.label ?? "";
 
-  if (!d) return (
-    <main className="app-main mx-auto" style={{ maxWidth: "72rem", padding: "6rem 2rem" }}>
-      <div className="t-label">Loading the frontier…</div>
-    </main>
-  );
-
-  const TABS = [["overview", "Overview"], ["atlas", "Atlas"], ["frontier", "Frontier"], ["surprises", "Surprises"]];
+  const goSearch = () => { setTab("atlas"); setTimeout(() => document.getElementById("gene-search")?.focus(), 60); };
 
   return (
-    <div style={{ background: "var(--paper-sumi)", minHeight: "100vh" }}>
-      <main className="app-main mx-auto" style={{ maxWidth: "78rem", padding: "0 2rem 6rem" }}>
-        {/* Masthead */}
-        <header className="masthead-glow detail-hero" style={{ paddingTop: "3rem" }}>
-          <div className="t-label" style={{ marginBottom: 8 }}>Prospect · verified regulatory frontier</div>
-          <h1 className="t-display" style={{ maxWidth: "20ch" }}>What actually regulates a human T cell.</h1>
-          <p className="reading" style={{ marginTop: 12, maxWidth: "56ch", fontSize: "1rem" }}>
-            A linked, human-signed graph of CD4<sup>+</sup> T-cell gene regulation — every node and edge
-            re-derived from the released CRISPRi Perturb-seq data, never from a model. AI can assert a claim
-            about any gene in seconds; here you see only what the data holds.
-          </p>
-          <div style={{ display: "flex", gap: 8, marginTop: 14, alignItems: "center", flexWrap: "wrap" }}>
-            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>signed · {d.frontier.signer}</span>
-            <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.frontier.root}</span>
-            <span className="t-caption">no model in the trust path</span>
+    <SidebarProvider>
+      <Sidebar variant="inset">
+        <SidebarHeader>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 8px" }}>
+            <span style={{ width: 9, height: 9, borderRadius: 999, background: "var(--brass-gold)",
+              boxShadow: "0 0 0 3px color-mix(in oklab, var(--brass-gold) 22%, transparent)" }} />
+            <span className="h2-app" style={{ fontSize: 15 }}>Prospect</span>
           </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {NAV.map((n) => {
+                  const Icon = n.icon;
+                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : undefined) : undefined;
+                  return (
+                    <SidebarMenuItem key={n.k}>
+                      <SidebarMenuButton isActive={tab === n.k} tooltip={n.label}
+                        onClick={() => setTab(n.k)} className="h-8 fz-sm">
+                        <Icon aria-hidden strokeWidth={1.75} />
+                        <span className="min-w-0 flex-1 truncate">{n.label}</span>
+                        {typeof count === "number" && (
+                          <span className="t-mono fz-2xs" style={{ color: "var(--ink-3)" }}>{fmt(count)}</span>
+                        )}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarFooter>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 6px" }}>
+            <span className="t-caption" style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+              <ShieldCheck size={13} style={{ color: "var(--moss)" }} /> {d ? `signed · ${d.frontier.signer}` : "signed"}
+            </span>
+            <ThemeToggle />
+          </div>
+        </SidebarFooter>
+      </Sidebar>
+
+      <SidebarInset>
+        <header style={{ display: "flex", alignItems: "center", gap: 10, height: 48, padding: "0 16px",
+          borderBottom: "1px solid var(--header-border)", position: "sticky", top: 0, zIndex: 20,
+          background: "color-mix(in oklab, var(--header-bg) 88%, transparent)", backdropFilter: "blur(8px)" }}>
+          <SidebarTrigger className="btn btn-ghost btn-sm" />
+          <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>Prospect</span>
+          <span className="t-body-sm" style={{ color: "var(--ink-4)" }}>/</span>
+          <span className="t-body-sm" style={{ color: "var(--ink)", fontWeight: 600 }}>{label}</span>
+          <button onClick={goSearch} className="btn btn-secondary btn-sm" style={{ marginLeft: "auto" }}>
+            <Search /> <span className="fz-xs">Search a gene</span>
+          </button>
         </header>
 
-        {/* Nav */}
-        <nav style={{ display: "flex", gap: 2, margin: "22px 0 26px", borderBottom: "1px solid var(--rule)" }}>
-          {TABS.map(([k, label]) => (
-            <button key={k} onClick={() => setTab(k)} className="btn btn-ghost"
-              style={{ height: 38, borderRadius: 0, borderBottom: `2px solid ${tab === k ? "var(--brass-gold)" : "transparent"}`,
-                color: tab === k ? "var(--ink)" : "var(--ink-3)", fontWeight: tab === k ? 600 : 500 }}>
-              {label}
-            </button>
-          ))}
-        </nav>
+        <main className="app-main" style={{ padding: "26px 28px 72px", maxWidth: "78rem", width: "100%", margin: "0 auto" }}>
+          {!d ? (
+            <div className="t-label">Loading the frontier…</div>
+          ) : (
+            <>
+              {tab === "overview" && <Overview d={d} />}
+              {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
+              {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
+              {tab === "surprises" && <Surprises d={d} />}
+            </>
+          )}
+        </main>
+      </SidebarInset>
 
-        {tab === "overview" && <Overview d={d} />}
-        {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
-        {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
-        {tab === "surprises" && <Surprises d={d} />}
-
-        <footer className="t-caption" style={{ marginTop: 48, paddingTop: 16, borderTop: "1px solid var(--rule)" }}>
-          Edges sliced from the released Marson CD4<sup>+</sup> T-cell CRISPRi DE matrix (log2FC + adj. p).
-          Every object re-derives from frozen data. Verdicts computed by frozen code, accepted by a human signature.
-        </footer>
-      </main>
-
-      {node && <Peek node={node} d={d} onClose={() => setGene(null)} />}
-    </div>
+      {node && d && <Peek node={node} d={d} onClose={() => setGene(null)} />}
+    </SidebarProvider>
   );
 }
 
@@ -117,6 +153,16 @@ function Overview({ d }: { d: Data }) {
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
   return (
     <div style={{ display: "grid", gap: 26 }}>
+      <header className="detail-hero" style={{ paddingBottom: 4 }}>
+        <div className="t-label" style={{ marginBottom: 8 }}>Verified regulatory frontier · CD4⁺ T cells</div>
+        <h1 className="t-display" style={{ maxWidth: "18ch" }}>What actually regulates a human T cell.</h1>
+        <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
+          A linked, human-signed graph of gene regulation — every node and edge re-derived from the released
+          CRISPRi Perturb-seq data, never from a model. AI can assert a claim about any gene in seconds; here
+          you see only what the data holds.
+        </p>
+      </header>
+
       {rate != null && (
         <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
@@ -209,11 +255,12 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
   }, [d, q]);
   return (
     <div>
-      <p className="t-body-sm" style={{ marginBottom: 12, maxWidth: "62ch" }}>
+      <h2 className="h1-display" style={{ marginBottom: 4 }}>Atlas</h2>
+      <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "62ch" }}>
         Search a gene. Each row shows its verified class and per-condition status (R rest · 8 8h · 48 48h stim).
         Open a gene for its regulatory neighborhood — what it regulates, and the claims the data refused.
       </p>
-      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a gene (VAV1, BCL10, PDCD1)…"
+      <input id="gene-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a gene (VAV1, BCL10, PDCD1)…"
         style={{ width: 320, height: 36, padding: "0 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)",
           background: "var(--paper)", color: "var(--ink)", marginBottom: 14 }} className="t-body" />
       <div className="card-paper" style={{ overflow: "hidden", padding: 0 }}>
@@ -246,10 +293,13 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
 function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-        The verified graph is accepted state — re-derived from frozen data and signed by a human. Contradictions
-        and open questions are kept as first-class, citable terrain.
-      </p>
+      <div>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>The frontier</h2>
+        <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
+          The verified graph is accepted state — re-derived from frozen data and signed by a human. Contradictions
+          and open questions are kept as first-class, citable terrain.
+        </p>
+      </div>
       <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
         <div><div className="stat-figure">{fmt(d.frontier.n_edges)}</div><div className="t-label">verified edges</div></div>
         <div><div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{fmt(d.frontier.n_contra)}</div><div className="t-label">contradictions</div></div>
@@ -259,7 +309,6 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           by {d.frontier.signer} · no model in the trust path
         </div>
       </div>
-
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions — where AI claims meet the data</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -277,7 +326,6 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           ))}
         </div>
       </div>
-
       <div>
         <div className="t-label" style={{ marginBottom: 6 }}>Open frontier — the screen couldn’t test these</div>
         <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "64ch" }}>
@@ -295,9 +343,12 @@ function Surprises({ d }: { d: Data }) {
   const s = d.surprises;
   return (
     <div style={{ display: "grid", gap: 26 }}>
-      <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-        Verified findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.
-      </p>
+      <div>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>Serendipity</h2>
+        <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
+          Verified findings you would never reach scrolling a spreadsheet. Every one is gated against ground truth.
+        </p>
+      </div>
       <div>
         <div className="h2-app" style={{ marginBottom: 4 }}>Hidden regulators</div>
         <p className="t-body-sm" style={{ marginBottom: 12, maxWidth: "66ch" }}>
@@ -345,7 +396,7 @@ function EdgeChips({ items, keyName }: { items: Edge[]; keyName: "t" | "s" }) {
           style={{ fontSize: 11.5, padding: "2px 7px", borderRadius: 5, fontWeight: 600,
             background: x.d === "up" ? "var(--state-verified-tint)" : "var(--state-refuted-tint)",
             color: x.d === "up" ? "var(--moss)" : "var(--cinnabar)" }}>
-          {x[keyName]}
+          {(x as any)[keyName]}
         </span>
       ))}
     </div>
@@ -358,13 +409,12 @@ function Peek({ node, d, onClose }: { node: Node; d: Data; onClose: () => void }
   const c = CLASS[node.cls];
   return (
     <>
-      <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "color-mix(in oklab, var(--ink) 22%, transparent)", zIndex: 39 }} />
-      <div className="peek-panel" style={{ top: 0, width: "min(30rem, 94vw)" }}>
+      <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "color-mix(in oklab, var(--ink) 22%, transparent)", zIndex: 49 }} />
+      <div className="peek-panel" style={{ top: 0, width: "min(30rem, 94vw)", zIndex: 50 }}>
         <div className="peek-panel__inner">
           <button onClick={onClose} className="btn btn-ghost btn-sm" style={{ float: "right" }}>close</button>
           <div className="h1-display" style={{ fontFamily: "var(--font-mono)" }}>{node.g}</div>
           <div className="chip" style={{ ["--tone" as any]: c[0], marginTop: 6 }}>{c[1]}</div>
-
           <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 16, fontSize: 12.5 }} className="t-num">
             <thead><tr className="t-label">{["condition", "status", "DE", "downstream", "effect"].map((h) => (
               <th key={h} style={{ textAlign: "left", padding: "6px 4px", borderBottom: "1px solid var(--rule)" }}>{h}</th>))}</tr></thead>
@@ -376,7 +426,6 @@ function Peek({ node, d, onClose }: { node: Node; d: Data; onClose: () => void }
                 <td style={{ padding: "6px 4px" }}>{v.es}</td>
               </tr>); })}</tbody>
           </table>
-
           {out.length > 0 && (
             <div className="nb">
               <div className="nbh">Regulates {fmt(node.od)} genes <span className="mut">— knockdown changes these (top by effect · <span style={{ color: "var(--moss)" }}>up</span> / <span style={{ color: "var(--cinnabar)" }}>down</span>)</span></div>
