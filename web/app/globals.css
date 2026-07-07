@@ -1,0 +1,2029 @@
+/* `source(none)` disables Tailwind v4's automatic content detection (which,
+   under a mis-inferred workspace root, would crawl the entire home folder and
+   fork-bomb the dev server with Oxide/PostCSS workers). Sources are then
+   declared explicitly — relative to this file (app/globals.css) — so the scan
+   is bounded to the app's own ~284 files no matter what root Next infers. */
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
+@source "../lib";
+@source "../hooks";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Prospect: observatory-notebook design tokens.
+
+  Ported from Episteme atlas-platform's design-system (
+  packages/design-system/styles/globals.css) at v0.175. The palette
+  is "scientific cartography through restraint": warm paper canvas,
+  deep navy ink, brass-gold as kintsugi thread for calibration +
+  focus rings. Cards earn separation from a hairline rule plus a
+  faint cast, not from glow blur.
+*/
+
+:root {
+  /* Core palette — the Observatory (DESIGN.md). First-light paper (cool, not
+     cream — Hasui's blue hour, never the warm AI-default), cold indigo ink,
+     borrowed gold for the kintsugi seam. oklch throughout; no pure black,
+     no pure white. */
+  --deep-observatory-navy: #12151b; /* ink-strong: rare maximum-contrast anchor */
+  --paper-ivory: oklch(97.2% 0.008 248); /* first light — cool atmospheric paper */
+  --brass-gold: oklch(72% 0.13 86); /* the accent — borrowed gold, kept as the soul */
+  --signal-cyan: oklch(68.5% 0.04 236); /* winter */
+  --field-blue: oklch(45% 0.06 256);
+  --terrain-green: oklch(43.5% 0.043 128); /* moss */
+  --risk-ember: oklch(49.5% 0.128 35); /* cinnabar */
+  --graph-slate: oklch(55% 0.022 80); /* stone */
+
+  /* Semantic figure colors (replicated / contested / inferred / stale).
+     Use inside diagrams + state badges, not as general brand colors. */
+  --moss: oklch(43.5% 0.043 128);
+  --brass: oklch(45.5% 0.082 83);
+  --winter: oklch(68.5% 0.04 236);
+  --stone: oklch(55% 0.022 80);
+  --cinnabar: oklch(49.5% 0.128 35);
+  --plum: oklch(49% 0.07 330); /* a clean 5th categorical hue (a 5th field/series); plum, kept off cinnabar's refutation red */
+
+  /* ── The five semantic state hue families (Component Vocabulary V2) ──
+     Three strengths each — solid / tint / line — every one a color-mix
+     derivation over the named materials above, oklch-harmonized to paper
+     and ink. No new hues enter the system here; dark mode follows the
+     material overrides in .dark automatically.
+       verified/banked  green  (moss)
+       open/attention   brass
+       in-review        blue-ink (field-blue)
+       refuted          red    (cinnabar)
+       deprecated       gray   (stone)                                  */
+  --state-verified: var(--moss);
+  --state-verified-tint: color-mix(in oklab, var(--moss) 10%, transparent);
+  --state-verified-line: color-mix(in oklab, var(--moss) 35%, transparent);
+  --state-open: var(--brass);
+  --state-open-tint: color-mix(in oklab, var(--brass) 10%, transparent);
+  --state-open-line: color-mix(in oklab, var(--brass) 35%, transparent);
+  --state-review: var(--field-blue);
+  --state-review-tint: color-mix(in oklab, var(--field-blue) 10%, transparent);
+  --state-review-line: color-mix(in oklab, var(--field-blue) 35%, transparent);
+  --state-refuted: var(--cinnabar);
+  --state-refuted-tint: color-mix(in oklab, var(--cinnabar) 10%, transparent);
+  --state-refuted-line: color-mix(in oklab, var(--cinnabar) 35%, transparent);
+  --state-deprecated: var(--stone);
+  --state-deprecated-tint: color-mix(in oklab, var(--stone) 10%, transparent);
+  --state-deprecated-line: color-mix(in oklab, var(--stone) 35%, transparent);
+
+  /* Hasui ambients — the night-band palette. Twilight indigo replaces the
+     raw hex hero background; snow is the cool surface for archival/stale
+     (old reads as temperature, not greyout); lantern is mix-only, a wash
+     behind sealed content at <=10%, never a fill; vermilion-bright marks
+     refutation on dark grounds only. */
+  --twilight-indigo: oklch(26% 0.05 268);
+  --twilight-raised: oklch(30% 0.045 266);
+  --twilight-deep: oklch(22% 0.05 270);
+  --snow: oklch(97.2% 0.006 240);
+  --lantern: oklch(87% 0.06 86);
+  --vermilion-bright: oklch(58% 0.17 33);
+
+  /* Spacing ladder: every margin and line-height snaps to it. The largest
+     interval belongs at the boundary between a reading zone and an
+     instrument zone — that interval is where the ma lives. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 48px;
+  --space-11: 64px;
+  --space-12: 96px;
+
+  /* Rules, not borders: faint within components, standard at component
+     edges, strong at panel boundaries. Gold hairlines are reserved for
+     thresholds where provenance changes. */
+  --rule-faint: oklch(25% 0.03 262 / 0.05);
+  --rule: oklch(25% 0.03 262 / 0.08);
+  --rule-strong: oklch(25% 0.03 262 / 0.18);
+
+  /* Surfaces — first light: a cool atmospheric canvas, the blue hour before
+     the page wakes. Every step holds a whisper of indigo (hue ~248), never
+     warm grey. */
+  --paper: var(--paper-ivory);
+  --paper-raised: oklch(99.2% 0.004 248); /* cool white sheets, lift */
+  --paper-recessed: oklch(95.7% 0.007 248); /* cool recessed well */
+  --paper-sumi: oklch(93.2% 0.011 250); /* the observatory frame (shell canvas) */
+  --paper-hover: oklch(94.8% 0.008 248);
+
+  /* Ink tones (text hierarchy) — indigo, high contrast on near-white. */
+  --ink: oklch(25% 0.03 262); /* primary: body ink */
+  --ink-2: oklch(43% 0.026 258); /* secondary: metadata */
+  --ink-3: oklch(53.5% 0.018 250); /* quiet metadata — 4.76:1 paper / 4.55:1 recessed, the text floor */
+  /* --ink-4 is a NON-TEXT tone (WORLD_CLASS_SITE_PLAN 1.11): dividers,
+     sigils, placeholders, disabled glyphs. The old oklch(70% 0.012 250)
+     measured ~2.3:1 on recessed paper and read near-grey. Retuned darker
+     and held in the cold indigo-ink family (the whole light ink ramp is
+     indigo, hues 250–262, by design — Cajal ink — so ink-4 stays indigo
+     for never-grey, not the warm hue 95 a misread of the ramp suggested). */
+  --ink-4: oklch(62% 0.018 254);
+  --ink-on: oklch(99% 0.003 248);
+
+  /* Borrowed-light layer: the gold splits into four jobs only —
+     luminous routing (--brass-gold), readable small labels (--gold-ink),
+     kintsugi hairlines (--gold-line), and the warm wash (--gold-soft:
+     selection, active-row wash, masthead glow). Never a second dominant
+     color. The rgba grey --rule* holdout died at the Shell Constitution:
+     every hairline derives from ink or gold (the never-grey law). */
+  --gold-ink: oklch(46.8% 0.102 82); /* tertiary-ink: readable small gold labels */
+  --gold-line: oklch(78.5% 0.072 88); /* tertiary-line: pale gold hairlines */
+  --gold-soft: oklch(89.6% 0.052 89); /* the wash: selection, hover, glow */
+
+  /* ── Data-viz ramps (VISUAL_RICHNESS §1.4): derived from the materials,
+     never invented, so .dark re-derives automatically. Cinnabar appears
+     only where refutation/adoption semantics apply; stone = null/other. */
+  --viz-seq-1: color-mix(in oklab, var(--brass-gold) 12%, var(--paper));
+  --viz-seq-2: color-mix(in oklab, var(--brass-gold) 28%, var(--ink));
+  --viz-seq-3: color-mix(in oklab, var(--brass-gold) 48%, var(--ink));
+  --viz-seq-4: color-mix(in oklab, var(--brass-gold) 70%, var(--ink));
+  --viz-seq-5: color-mix(in oklab, var(--brass-gold) 88%, var(--ink));
+  --viz-cat-1: var(--brass);
+  --viz-cat-2: var(--moss);
+  --viz-cat-3: var(--winter);
+  --viz-cat-4: var(--field-blue);
+  --viz-cat-5: var(--plum); /* the clean 5th category (was cinnabar — wrong: that reads as refuted; refutation now stays on its own --cinnabar token) */
+  --viz-cat-6: var(--stone); /* reserved: null / other */
+  --viz-div-neg: var(--cinnabar);
+  --viz-div-mid: var(--stone);
+  --viz-div-pos: var(--moss);
+
+  /* Night chip (applied-filter pills, toasts): designed dark, identical
+     in both modes. */
+  --night-chip-bg: var(--twilight-raised);
+  --night-chip-text: var(--gold-soft);
+  --night-chip-line: color-mix(in oklab, var(--lantern) 40%, transparent);
+
+  /* Type — the Observatory identity. Space Grotesk is the technical
+     grotesque workhorse (body, UI, headings), aliased onto --font-inter so
+     every existing UI binding picks it up. --font-serif is Spectral, the
+     editorial-scientific serif for the masthead and theorem prose; math
+     inside it renders in KaTeX's own faces. */
+  --font-inter: var(--font-grotesk), system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: var(--font-serif-src), Georgia, "Times New Roman", serif;
+
+  /* Measure discipline ("ma"): reading columns clamp to a literary
+     measure; figure / graph columns to a slightly wider one. */
+  --measure: 41.5rem;
+  --measure-wide: 48rem;
+
+  /* Pillars (indexing only: 6-8px dots, not chrome) */
+  --pillar-neuro: var(--risk-ember);
+  --pillar-materials: var(--terrain-green);
+  --pillar-energy: var(--brass-gold);
+  --pillar-compute: var(--field-blue);
+
+  /* Shadows: observatory depth, not SaaS glow. Cast in cool indigo ink
+     (hue 258, deep) rather than cold pure black, so a card reads as a sheet
+     resting on the cool first-light paper. */
+  --shadow-ink: 18% 0.02 258;
+  --shadow-xs: 0 1px 2px 0 oklch(var(--shadow-ink) / 0.05),
+    0 1px 1px -1px oklch(var(--shadow-ink) / 0.04);
+  --shadow-sm: 0 1px 3px -1px oklch(var(--shadow-ink) / 0.06),
+    0 2px 4px -2px oklch(var(--shadow-ink) / 0.04);
+  --shadow: 0 2px 4px -2px oklch(var(--shadow-ink) / 0.07),
+    0 6px 12px -3px oklch(var(--shadow-ink) / 0.05);
+  --shadow-lg: 0 6px 12px -5px oklch(var(--shadow-ink) / 0.09),
+    0 16px 24px -6px oklch(var(--shadow-ink) / 0.06);
+
+  /* Radius: modern soft. Rounded corners on controls and cards — buttons read
+     as pills/soft, cards as gently rounded. */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Lacquer: the darkest surface in either theme, the ProofWell ground
+     only (WORLD_CLASS_SITE_PLAN 1.1). A warm sumi-black; text on it is
+     --ink-on, accents are --lantern and --gold-soft only. */
+  --lacquer: oklch(20% 0.035 260);
+
+  /* The row-height unit. Ledgers, tables, catalogue rows, stat strips
+     all land on this grid (WORLD_CLASS_SITE_PLAN 1.4). The sidebar's
+     28px rows are the one sanctioned exception. */
+  --row-unit: 40px;
+
+  /* Motion: one curve, two durations. States arrive deliberately
+     (200ms) and leave instantly (90ms); everything else is paint-only
+     at 120ms. The legacy token names alias the new system. */
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --enter: 200ms;
+  --leave: 90ms;
+  --transition-paint: 120ms var(--ease);
+  --transition-fast: 120ms var(--ease);
+  --transition-normal: 200ms var(--ease);
+  --transition-smooth: 200ms var(--ease);
+
+  /* Tracking: five ad-hoc values collapsed to three. STIX body is 0. */
+  --track-display: -0.025em;
+  --track-text: -0.005em;
+  --track-caps: 0.08em;
+
+  /* Type as state: the grade ramp (lib/signal-code.ts). Three wght steps
+     on tabular numerals — claimed light, frozen-verified full ink,
+     superseded hairline-light beside its seam. Honest name: a weight
+     ramp, not a GRAD axis (neither face carries one). The value moves
+     exactly once, on a state transition; it never animates. */
+  --grade-claimed: 350;
+  --grade-verified: 430;
+  --grade-superseded: 300;
+
+  /* Semantic mappings (shadcn-compatible) */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brass-gold);
+  --primary-foreground: var(--deep-observatory-navy);
+  --secondary: var(--paper-recessed);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-recessed);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-sumi);
+  --accent-foreground: var(--ink);
+  --destructive: var(--risk-ember);
+  --destructive-foreground: var(--ink-on);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--brass-gold);
+
+  /* Sidebar surface: shadcn token naming (--sidebar, --sidebar-*).
+     The inset shell: the canvas behind everything is --sidebar
+     (paper-sumi, one step below content); the content card floats on it
+     as bg-background. Hover and active rows wash in gold-soft, never
+     grey. Values reference base tokens, so .dark re-derives them. */
+  --sidebar: var(--paper-sumi);
+  --sidebar-foreground: var(--ink-2);
+  --sidebar-primary: var(--brass-gold);
+  --sidebar-primary-foreground: var(--ink);
+  --sidebar-accent: color-mix(in oklab, var(--gold-soft) 75%, transparent);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--brass-gold);
+  --sidebar-hover: color-mix(in oklab, var(--gold-soft) 45%, transparent);
+
+  /* Header */
+  --header-bg: var(--paper);
+  --header-border: var(--rule);
+
+  color-scheme: light;
+}
+
+.dark {
+  /* Observatory night: deep prussian indigo, Hasui's blue hour after dark.
+     The neutrals hold real indigo (hue ~258) so night reads as the sky over
+     an observatory, not warm ink on paper. Clean elevation steps; the gold
+     lantern is the one warm light against the blue. */
+  --paper: oklch(17.5% 0.035 258);
+  --paper-raised: oklch(21% 0.04 258);
+  --paper-recessed: oklch(14.5% 0.03 258);
+  --paper-sumi: oklch(24% 0.04 258);
+  --paper-hover: oklch(23% 0.038 258);
+
+  --ink: oklch(93% 0.012 250);
+  --ink-2: oklch(78% 0.016 250);
+  --ink-3: oklch(64% 0.02 250);
+  --ink-4: oklch(50% 0.022 252);
+  /* ink-on rides on the lacquer/night surfaces, which stay dark in dark mode
+     too (--lacquer is oklch 11% here), so it must remain LIGHT — a dark value
+     here is dark-on-dark on every command well + destructive button. */
+  --ink-on: oklch(98% 0.004 248);
+
+  /* On the night sheet, cards cast a deep contact shadow tuned to the
+     prussian ground, never warm. */
+  --shadow-ink: 6% 0.02 260;
+
+  --rule: oklch(100% 0 0 / 0.09);
+  --rule-strong: oklch(100% 0 0 / 0.18);
+  --rule-faint: oklch(100% 0 0 / 0.05);
+
+  --brass-gold: oklch(77% 0.12 85); /* luminous gold on dark */
+  --gold-ink: oklch(80% 0.1 84);
+  --gold-line: oklch(77% 0.12 85 / 0.28);
+  --gold-soft: oklch(31% 0.045 88); /* the wash, re-derived for night */
+
+  /* The named materials, lifted ~+15 L for night legibility: a 10% tint
+     of the daylight values goes muddy on the dark sheet, and chip text
+     mixed from them loses contrast. Same hue and chroma family, more
+     light. The five state families above re-derive automatically. */
+  --moss: oklch(60% 0.055 128);
+  --brass: oklch(62% 0.095 83);
+  --winter: oklch(76% 0.045 236);
+  --stone: oklch(68% 0.025 80);
+  --cinnabar: oklch(64% 0.13 35);
+  --field-blue: oklch(64% 0.07 256);
+  --plum: oklch(66% 0.08 330);
+
+  /* Lacquer goes deeper still on the night sheet (the ProofWell stays the
+     darkest surface in both themes, WORLD_CLASS_SITE_PLAN 1.1). */
+  --lacquer: oklch(11% 0.03 260);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brass-gold);
+  --primary-foreground: var(--deep-observatory-navy);
+  --secondary: var(--paper-recessed);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-recessed);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-sumi);
+  --accent-foreground: var(--ink);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--brass-gold);
+
+
+  --header-bg: var(--paper);
+  --header-border: var(--rule);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brass: var(--brass-gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-recessed: var(--paper-recessed);
+  --color-paper-sumi: var(--paper-sumi);
+  --color-paper-hover: var(--paper-hover);
+  --color-lacquer: var(--lacquer);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  /* ink-on: the light ink that rides on dark lacquer/night surfaces (the
+     reproduce well, command doors). Must be registered or `text-ink-on`
+     emits no rule and the text falls back to the dark page ink — illegible
+     dark-on-dark on every lacquer panel. */
+  --color-ink-on: var(--ink-on);
+  --color-pillar-neuro: var(--pillar-neuro);
+  --color-pillar-materials: var(--pillar-materials);
+  --color-pillar-energy: var(--pillar-energy);
+  --color-pillar-compute: var(--pillar-compute);
+  --color-header-bg: var(--header-bg);
+  --color-header-border: var(--header-border);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-hover: var(--sidebar-hover);
+
+  --radius-sm: var(--radius-sm);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+/* Reset + base */
+* {
+  box-sizing: border-box;
+}
+
+/* Modern focus: a single gold ring on keyboard focus, never on mouse. */
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--brass-gold) 65%, transparent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  /* The observatory frame: the area around and beneath the inset content
+     card (and any overscroll/rubber-band reveal) shows the shell canvas,
+     never a mismatched near-white. */
+  background: var(--paper-sumi);
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper-sumi);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Typography utilities: atlas observatory style.
+   Source Serif for display + entity names; Inter for UI chrome; mono for code. */
+.h1-display {
+  font-family: var(--font-serif), system-ui, sans-serif;
+  font-size: clamp(1.55rem, 2vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: var(--track-display);
+  color: var(--ink);
+}
+
+/* Section heading: Geist, modern grotesque. Tight tracking + weight carry the
+   hierarchy; the editorial note lives in the serif page-titles above, not here. */
+.h2-app {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: var(--track-text);
+  color: var(--ink);
+}
+
+/* The lede serif: the one primary assertion on a record (the finding
+   statement, the frontier's current answer) — Spectral, on-scale, defined
+   once so the two pages can't disagree. Replaces ad-hoc text-[1.45rem]/
+   text-[1.35rem] literals. */
+.t-lede {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.4rem;
+  line-height: 1.45;
+  letter-spacing: var(--track-text);
+  color: var(--ink);
+}
+
+/* Verified emphasis: the one heavier numeral weight (the grade ramp's
+   verified step), named once instead of inline style={{fontWeight:430}}. */
+.num-verified {
+  font-weight: var(--grade-verified);
+}
+
+/* The display voice — the home masthead only. Drama from SIZE, not weight
+   (the studio discipline: a restrained 500 weight at a large clamp, tight
+   leading). Spectral, the manuscript serif, at observatory scale. */
+.t-display {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.9rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* Stat figure — a stark bare number (no card), label beneath. The editorial
+   statistics moment: real receipts at scale, the figure in tabular mono. */
+.stat-figure {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* Body / prose: Geist. Crisp modern grotesque for descriptions, answers, and
+   claims — the workhorse. */
+.t-body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  /* 14px even, the instrument scale (WORLD_CLASS_SITE_PLAN 1.5). */
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: var(--track-text);
+  color: var(--ink);
+}
+
+.t-body-sm {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  letter-spacing: var(--track-text);
+  color: var(--ink-2);
+}
+
+.t-caption {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  color: var(--ink-3);
+}
+
+.t-label {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.65625rem;
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+  font-feature-settings: "case" 1;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.t-mono {
+  font-family: var(--font-mono), ui-monospace, "JetBrains Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Instrument figures: every count, hash, version, score, and metric reads as a
+   measured quantity. Tabular figures so columns of numbers align and a changing
+   value never shifts the layout. Apply on any numeric readout, mono or not. */
+.t-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv01" 1;
+}
+
+/* The instrument voice: every ledger row and table cell. JetBrains Mono
+   on the 40px grid, contextual alternates off so hashes never ligate
+   (WORLD_CLASS_SITE_PLAN 1.5). */
+.t-instrument {
+  font-family: var(--font-mono), ui-monospace, "JetBrains Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "calt" 0;
+}
+
+/* Evidence-type utilities (WORLD_CLASS_SITE_PLAN 1.6). Applied
+   mechanically: .plate-caption on every figure caption. */
+.plate-caption {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+/* The as-of stamp inside a plate caption may carry gold-ink. */
+.plate-caption .as-of {
+  color: var(--gold-ink);
+}
+
+/* ── The size-only type scale ────────────────────────────────────────────
+   The t-* voices above carry family + colour + leading; reach for them
+   first. These eight steps set font-size and nothing else — the disciplined
+   replacement for ad-hoc text-[Npx] literals, which scattered seventeen
+   near-duplicate sizes (9…28) across the surface. Defined after the t-*
+   block so a size step still wins where a raw literal used to. Enforced by
+   scripts/acceptance.mjs (no-text-px-literal). */
+.fz-3xs { font-size: 10px; }
+.fz-2xs { font-size: 11px; }
+.fz-xs  { font-size: 12px; }
+.fz-sm  { font-size: 13px; }
+.fz-base { font-size: 14px; }
+.fz-md  { font-size: 16px; }
+.fz-lg  { font-size: 20px; }
+.fz-xl  { font-size: 28px; }
+
+/* The one shadow in the system (WORLD_CLASS_SITE_PLAN 1.10): the shell
+   content card only. Warm ink, never black, never gold. In dark the card
+   keeps only the 1px ring (the cast shadows resolve to transparent
+   because --ink there is near-white at low alpha). */
+.shell-card {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--ink) 8%, transparent),
+    0 1px 1px color-mix(in oklab, var(--ink) 5%, transparent),
+    0 8px 16px -4px color-mix(in oklab, var(--ink) 8%, transparent);
+}
+.dark .shell-card {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 14%, transparent);
+}
+
+/* ── The button system (Component Vocabulary V2 §2.1) ────────────────────
+   Every action is a real Button. Four skins, three heights (28/32/40),
+   radius 6. Press = deeper tint, NEVER movement — the motion doctrine
+   holds. One .btn-primary per page (the adoption gesture, brass: the
+   same human act the brass material names). Focus is the existing gold
+   ring (:focus-visible). Labels are Verb+Noun. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--track-text);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+.btn:active {
+  transform: none; /* press is a tint, not a move */
+}
+.btn > svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.btn-sm {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+.btn-lg {
+  height: 40px;
+  padding: 0 16px;
+}
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* primary — brass fill, one per page, the adoption gesture only. */
+.btn-primary {
+  background: var(--brass-gold);
+  color: var(--primary-foreground);
+}
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--brass-gold) 92%, var(--ink));
+}
+.btn-primary:active {
+  background: color-mix(in oklab, var(--brass-gold) 82%, var(--ink));
+}
+
+/* secondary: the workhorse. A quiet outline over a paper fill, ink text,
+   a subtle hover lift. The default Button variant, so it must read as a
+   real control on every surface (its border carries it where the fill
+   matches the ground). */
+.btn-secondary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--border);
+}
+.btn-secondary:hover {
+  background: var(--paper-hover);
+  border-color: var(--ink-3);
+}
+.btn-secondary:active {
+  background: var(--paper-recessed);
+}
+
+/* danger: the report/refute path. A restrained cinnabar outline, never a
+   loud fill (refutation is a result, not an alarm). */
+.btn-danger {
+  background: var(--paper);
+  color: var(--cinnabar);
+  border-color: color-mix(in oklab, var(--cinnabar) 40%, transparent);
+}
+.btn-danger:hover {
+  background: color-mix(in oklab, var(--cinnabar) 10%, var(--paper));
+  border-color: var(--cinnabar);
+}
+.btn-danger:active {
+  background: color-mix(in oklab, var(--cinnabar) 16%, var(--paper));
+}
+
+/* ghost — chrome and instrument controls. */
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+}
+.btn-ghost:hover {
+  background: var(--paper-hover);
+  color: var(--ink);
+}
+.btn-ghost:active {
+  background: var(--paper-sumi);
+}
+
+/* The kbd hint slot: a 10px mono key cap inside a button or input. */
+.btn-kbd {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1;
+  padding: 2px 4px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--ink-3);
+  background: var(--paper);
+}
+
+/* ── The chip recipe (Component Vocabulary V2 §2) ────────────────────────
+   One tint recipe over a tone custom property; tones come only from the
+   named materials. StatusChip bodies must equal the signal's material;
+   TagChip tones are taxonomy, never state. Chips are static, 1–2 words. */
+.chip,
+.chip-filled,
+.chip-hairline,
+.chip-dashed {
+  --tone: var(--stone);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.chip {
+  background: color-mix(in oklab, var(--tone) 10%, transparent);
+  border-color: color-mix(in oklab, var(--tone) 35%, transparent);
+  color: color-mix(in oklab, var(--tone) 85%, var(--ink));
+}
+/* selected TagChip: filled — tone body, paper text. */
+.chip-filled {
+  background: color-mix(in oklab, var(--tone) 85%, var(--paper));
+  color: var(--paper);
+}
+/* deprecated: hairline only, no tint — withdrawn, retained. */
+.chip-hairline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--ink-3);
+}
+/* claimed / absence: dashed, no fill — absence stays visually absent. */
+.chip-dashed {
+  background: transparent;
+  border-style: dashed;
+  border-color: color-mix(in oklab, var(--ink-4) 85%, transparent);
+  color: var(--ink-3);
+}
+
+/* ── The card grid: 2–3 col grids of EntityCards for promoted entities.
+   Plain lists stay EntityRows; the grid is for pinned/featured only. */
+.card-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+/* Card surface: raised paper, kintsugi top-edge */
+.card-paper {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  /* Paint-only: the hover rule below tints the background and nothing
+     else. No transform, no shadow growth — stillness is the trust posture
+     (the locked no-hover-transform law). */
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+/* Row and card hover: background tint only. Nothing on this site moves
+   or grows shadow on hover — stillness is the trust posture. */
+a.card-paper:hover,
+button.card-paper:hover,
+a:hover > .card-paper {
+  background: var(--paper-hover);
+}
+
+.detail-hero {
+  position: relative;
+  padding: 0.25rem 0 1rem;
+}
+
+.detail-hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    to right,
+    color-mix(in oklab, var(--brass-gold) 28%, transparent),
+    color-mix(in oklab, var(--border) 82%, transparent) 38%,
+    transparent
+  );
+}
+
+.detail-thread {
+  width: 2.5rem;
+  height: 1px;
+  background: color-mix(in oklab, var(--brass-gold) 48%, transparent);
+}
+
+
+
+
+
+
+
+
+
+.compact-link {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-items: center;
+  min-height: 1.75rem;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.compact-link:hover {
+  color: var(--gold-ink);
+}
+
+.frontier-graph__node {
+  cursor: pointer;
+}
+
+.frontier-graph__node circle {
+  transition:
+    fill var(--transition-fast),
+    r var(--transition-fast);
+}
+
+.frontier-graph__node:hover circle {
+  fill: var(--brass-gold);
+}
+
+.frontier-graph__node:hover .frontier-graph__label {
+  fill: var(--ink);
+}
+
+/* Measure discipline: narrow reading columns are the antidote to dashboard
+   density. Apply .measure to prose / answers, .measure-wide to figures. */
+.measure {
+  max-width: var(--measure);
+}
+
+.measure-wide {
+  max-width: var(--measure-wide);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   The state ledger — Vela's signature primitive. Every row is a scientific
+   state transition: a left rail in the knowledge-state color (accepted=moss,
+   contested=brass, inferred=winter, retracted=cinnabar, stale=stone), the
+   operation foregrounded in mono in that color. A precise instrument readout,
+   not a generic activity feed. Recurs anywhere state changes.
+   ───────────────────────────────────────────────────────────────────────── */
+/* A log row whose knowledge-state shows in the leading mono operation
+   (.state-row__op) and a small leading dot, not a side-stripe. The dot sits in
+   the row's left padding so the operation text stays the read. */
+.state-row {
+  position: relative;
+  border-radius: var(--radius-sm);
+  transition: background 140ms var(--ease);
+}
+.state-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.92em;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--state, var(--stone));
+}
+.state-row:hover {
+  background: color-mix(in oklab, var(--state, var(--stone)) 7%, transparent);
+}
+.state-row__op {
+  color: color-mix(in oklab, var(--state, var(--stone)) 78%, var(--ink));
+  letter-spacing: 0.01em;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   The rail settle: Vela's one signature motion. When a change is accepted, the
+   object's state-rail crossfades along the editorial palette to moss: the
+   trusted-state moment made legible. Registering --state as a typed color lets
+   the custom property itself transition (and interpolate in keyframes). Slow,
+   deliberate, no celebration. Reduced-motion snaps to the settled color.
+   ───────────────────────────────────────────────────────────────────────── */
+.rail-settle {
+  position: relative;
+  padding-left: 0.9rem;
+}
+/* The bar carries the state color. background interpolates reliably, so the
+   settle works both as a JS-triggered transition (accept) and a load-time
+   keyframe (loop) without depending on animating a custom property. */
+.rail-settle__bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--stone);
+  transition: background 620ms var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail-settle__bar {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Provenance thread — the kintsugi gold seam. Where the state-rail carries a
+   claim's review state, this thread is the gold repair that binds a claim to
+   the evidence it came from: a thin gold hairline on the left of a source row,
+   marking it as load-bearing — something a finding is pinned to. The break
+   (a claim and its origin held apart) is mended in gold, not hidden.
+   ───────────────────────────────────────────────────────────────────────── */
+.provenance-thread {
+  position: relative;
+  padding-left: 0.875rem;
+}
+.provenance-thread::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--gold-line) 14%,
+    var(--brass-gold) 50%,
+    var(--gold-line) 86%,
+    transparent
+  );
+  opacity: 0.78;
+  transition: opacity var(--transition-fast);
+}
+.provenance-thread:hover::before {
+  opacity: 1;
+}
+/* The knot: a small gold node where the thread meets the claim count — the
+   visible stitch binding source to claim. Sits on the bound-count cell. */
+.provenance-knot {
+  position: relative;
+  padding-left: 0.875rem;
+}
+.provenance-knot::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0.6rem;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    to left,
+    var(--brass-gold),
+    color-mix(in oklab, var(--brass-gold) 30%, transparent)
+  );
+}
+.provenance-knot::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-2px, -50%);
+  border-radius: 9999px;
+  background: var(--brass-gold);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--brass-gold) 22%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Peek: the inset preview rail. A quiet right panel, paper-raised, hairline
+   left rule. Not a modal: no backdrop, no dim. The focused row carries the lone
+   gold inset (set inline in PeekRow). Slides in from the right; reduced-motion
+   shows it at rest.
+   ───────────────────────────────────────────────────────────────────────── */
+.peek-row {
+  border-radius: var(--radius-sm);
+  transition: box-shadow var(--transition-fast);
+}
+.peek-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  width: min(22rem, 92vw);
+  border-left: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  animation: peek-slide-in 220ms var(--ease) both;
+}
+.peek-panel__inner {
+  padding: 1.1rem 1.15rem 1.5rem;
+}
+@keyframes peek-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peek-panel {
+    animation: none;
+  }
+}
+
+/* Flat clean surfaces — no decorative paper-noise film. Sleek over textured. */
+
+
+[data-slot="sidebar-menu-button"]:hover svg {
+  color: var(--gold-ink);
+  transition: color 140ms var(--ease);
+}
+
+/* ── Motion: one tasteful page entrance. Content settles up on load; nothing
+   loops, nothing distracts. Reduced-motion shows it instantly. ──────────── */
+@keyframes app-enter {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.app-main {
+  animation: app-enter 360ms var(--ease) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-main {
+    animation: none;
+  }
+}
+
+.app-main > div {
+  min-width: 0;
+}
+
+.app-main header p {
+  text-wrap: pretty;
+}
+
+.app-main a {
+  text-underline-offset: 0.18em;
+}
+
+.app-main code {
+  overflow-wrap: anywhere;
+}
+
+.app-main table {
+  border-collapse: separate;
+  border-spacing: 0;
+  /* Counts in a data column align figure-over-figure. */
+  font-variant-numeric: tabular-nums;
+}
+
+.app-main thead th {
+  white-space: nowrap;
+}
+
+.app-main tbody td {
+  border-color: var(--border);
+}
+
+.app-main tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.app-main [class*="grid-cols-2"] > .card-paper {
+  min-height: 4.25rem;
+}
+
+.app-main .t-label {
+  overflow-wrap: anywhere;
+}
+
+
+/* Skip-link */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 0.75rem;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: 500 0.8125rem var(--font-inter), system-ui, sans-serif;
+  transform: translateY(-200%);
+  transition: transform var(--transition-fast);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Selection: the gold-soft wash (one of the four gold jobs). */
+::selection {
+  background: color-mix(in oklab, var(--gold-soft) 80%, transparent);
+  color: var(--ink);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  html,
+  body {
+    font-size: 13.5px;
+  }
+
+  .app-main {
+    padding-inline: 1rem;
+  }
+
+  .h1-display {
+    font-size: 1.55rem;
+    line-height: 1.18;
+  }
+
+  .h2-app {
+    font-size: 1.05rem;
+  }
+}
+
+/* ── Kintsugi seam: print + colorblind safety ──────────────────────────────
+   The on-screen seam encodes verification state partly by colour (gold =
+   machine-sealed). Gold gradients vanish in B&W print and are hard for some
+   colourblind viewers, so in print we re-encode each state as a distinct
+   BORDER PATTERN (solid / dotted / double / dashed) — state survives without
+   colour. !important is required to override the component's inline styles. */
+@media print {
+  .kintsugi-seam {
+    height: 0 !important;
+    background: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  .kintsugi-seam[data-seam-state="sealed"] {
+    border-top: 2px solid #111 !important; /* the seal: solid, firm */
+  }
+  .kintsugi-seam[data-seam-state="raw"] {
+    border-top: 1px dotted #999 !important; /* unbound: faint, dotted */
+  }
+  .kintsugi-seam[data-seam-state="stone"] {
+    border-top: 2px double #555 !important; /* settled: double rule */
+  }
+  .kintsugi-seam[data-seam-state="fracture"] {
+    border-top: 2px dashed #111 !important; /* break: dashed */
+  }
+}
+
+/* Erdős sky: worked stars and headlines are links into their problem page. */
+.erdos-star { cursor: pointer; }
+.erdos-star:hover circle:not([fill="transparent"]) {
+  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--brass-gold) 65%, transparent));
+}
+.erdos-star:hover text { text-decoration: underline; }
+
+/* ── Motion doctrine ─────────────────────────────────────────────────────
+   Motion is the one channel reserved for what the product is about: a
+   state transition becoming trusted.
+   1. State transitions animate ONCE, 400-700ms, on the one curve var(--ease),
+      never looping. rail-settle is the canon.
+   2. Hover/navigation: <=220ms, opacity/color only, never transform, never
+      layout (the locked no-hover-transform law).
+   3. Nothing animates on scroll. Ever.
+   4. prefers-reduced-motion renders end states instantly.
+   Banned: looping pulses, count-up numbers, shimmer sweeps, parallax,
+   skeletons on static routes. A page revisited looks identical to a page
+   left open. Stillness is the trust posture. */
+
+/* ── Two-zone doctrine ───────────────────────────────────────────────────
+   Reading zones: STIX Two, generous measure, vertical ma — for theorem
+   prose, statements, and explanation. Instrument zones: 13px tabular
+   density — for ledgers, receipts, and tables; for mathematicians and
+   evaluators the dense receipt table IS the trust signal. Never mix:
+   no prose inside instrument chrome, no chips inside reading columns. */
+
+.reading {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.65;
+  max-width: 41.5rem;
+  color: var(--ink);
+  text-wrap: pretty;
+  font-feature-settings: "onum" 1;
+}
+
+/* The GitHub overlay-link (WORLD_CLASS_SITE_PLAN 4.1): a row's title is
+   the anchor and stretches an invisible ::after over the whole row, so
+   the row is clickable while the markup stays valid (no control nested
+   in an anchor). Interactive children sit above it with `relative z-10`.
+   The row itself must be position: relative (CatalogueRow sets it). */
+.row-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Hash anchors land below the sticky chrome (WORLD_CLASS_SITE_PLAN 2.6):
+   the content scrolls inside #main-content, so scroll-padding lives on
+   the container, not html. The offset clears a ruler plus a date head. */
+#main-content {
+  scroll-padding-top: 56px;
+}
+
+/* Display math never widens the page (WORLD_CLASS_SITE_PLAN 1.12): a long
+   Erdős statement scrolls inside its own block. The math-text component
+   wraps every KaTeX display block in .math-scroll; this is the single
+   overflow contract for math, replacing the one-off reproduce-line fix. */
+.math-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+.math-scroll > .katex-display {
+  margin: 0;
+}
+/* Inline math must not force a horizontal scrollbar on a narrow column. */
+.katex {
+  max-width: 100%;
+}
+
+.reading a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--rule-strong);
+}
+
+/* ── The custody seam ────────────────────────────────────────────────────
+   The page's one ma break, placed exactly where authority changes hands:
+   human-signed judgment (serif) above, the machine record (mono) below.
+   Pure whitespace — the design never adds a mark the log does not
+   contain. Exactly one per page (components/custody-seam.tsx). */
+.custody-seam {
+  height: var(--space-10); /* 48px — the only interval of this size */
+}
+
+/* ── Type as state: the grade ramp ──────────────────────────────────────
+   Set --state-grade via lib/signal-code.ts stateGradeStyle(); numerals
+   under this class take their weight from the record's state. Variable
+   wght on JetBrains Mono (100–800); STIX prose never carries the ramp
+   (its axis floors at 400). NO transition: the weight moves exactly
+   once, on a state transition, by re-render — never by animation. */
+.state-grade {
+  font-weight: var(--state-grade, var(--grade-claimed));
+  font-variant-numeric: tabular-nums;
+}
+/* The superseded step pairs the 300 weight with the existing seam
+   hairline (kintsugi-seam stone state); nothing extra is drawn here. */
+
+/* Signal glyphs read at 11px row scale; they are pure geometry, so they
+   survive print and colorblindness by SHAPE. In print, force ink. */
+@media print {
+  .signal-glyph [stroke]:not([stroke="none"]) {
+    stroke: #111 !important;
+  }
+  .signal-glyph [fill]:not([fill="none"]) {
+    fill: #111 !important;
+  }
+}
+
+/* ── The inset shell (shadcn sidebar, variant="inset") ───────────────────
+   The canvas is --sidebar (paper-sumi); the sidebar floats directly on
+   it with no border of its own; the content is a rounded card
+   (bg-background, one hairline, observatory shadow) with the header
+   inside and its own scroll region. Same anatomy as atlas-platform's
+   layout-shell. */
+.peek-panel {
+  top: 48px;
+}
+
+/* Row grammar inside the sidebar: hover = faint gold-soft wash, active
+   = stronger wash + full-ink label. No left bars, no bold-on-active. */
+[data-slot="sidebar-menu-button"]:hover {
+  background: var(--sidebar-hover);
+  color: var(--ink);
+}
+[data-slot="sidebar-menu-button"][data-active="true"] {
+  background: var(--sidebar-accent);
+  color: var(--ink);
+}
+[data-slot="sidebar-menu-button"] > svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.side-label {
+  padding: 0 8px;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+
+/* Content frame. Two widths, not one: reading-and-record pages settle at a
+   document column (72rem) so prose, statements, and ledgers never strand in
+   acres of empty right margin; dense instrument pages (the chart, the board,
+   the problem cockpit) opt up to a wide frame via a `page-wide` root. The
+   100rem edge-to-edge frame is retired — at that width a single narrow
+   column reads as 40% content, 60% void. */
+/* The record fills the inset. Tables, ledgers, receipt chains, and graphs want
+   the width, and a capped reading column on a wide monitor just strands content
+   in the gutters (the bug this replaced). The frame fills the available width with
+   only its 32px padding as the gutter; the max-width is a high ceiling that binds
+   only on ultrawide displays (>~2100px), so the column never grows absurd. Because
+   the cap sits above the inset on normal-to-large screens, collapsing the rail just
+   lets the already-filled content widen — no gutter balloon. Prose stays readable
+   via --measure (41.5rem) on its own blocks, never the frame. `.page-wide` is a
+   harmless no-op alias on pages that still carry it. */
+.app-main {
+  max-width: 118rem;
+}
+
+/* Skeletons (the polish floor): async surfaces rest on paper-recessed,
+   never grey, never shimmering. */
+.skeleton {
+  background: var(--paper-recessed);
+  border-radius: var(--radius-sm);
+  min-height: 1em;
+}
+
+/* Masthead glow — home hero and the map only (the de-performance cut). */
+.masthead-glow {
+  position: relative;
+}
+.masthead-glow::before {
+  content: "";
+  position: absolute;
+  inset: -2rem -2rem auto -2rem;
+  height: clamp(220px, 36vh, 360px);
+  pointer-events: none;
+  /* First light, not a gold glow: a barely-there cool luminance over the
+     masthead — dawn over the observatory. Kept faint so it reads as
+     atmosphere, never as an AI glow. */
+  background: radial-gradient(
+    ellipse 70% 100% at 30% 0%,
+    color-mix(in oklab, var(--winter) 10%, transparent) 0%,
+    color-mix(in oklab, var(--winter) 3%, transparent) 55%,
+    transparent 100%
+  );
+  z-index: -1;
+}
+
+/* The night room (/chart hero): designed dark, identical in both modes.
+   Local re-pin of the material tokens so every figure drawn in CSS vars
+   (star cores, labels, rings) resolves luminous on the twilight ground. */
+.night-room {
+  background: var(--twilight-deep);
+  border-radius: var(--radius);
+  --paper: var(--twilight-deep);
+  --paper-raised: var(--twilight-raised);
+  --paper-hover: oklch(26% 0.045 268);
+  --ink: oklch(94% 0.01 250);
+  --ink-2: oklch(78% 0.014 250);
+  --ink-3: var(--lantern);
+  --ink-4: oklch(60% 0.03 268);
+  --rule: oklch(100% 0 0 / 0.09);
+  --rule-strong: oklch(100% 0 0 / 0.18);
+  --border: oklch(100% 0 0 / 0.09);
+  --brass-gold: oklch(77% 0.12 85);
+  --gold-ink: var(--lantern);
+  --gold-line: oklch(77% 0.12 85 / 0.28);
+  --cinnabar: var(--vermilion-bright);
+  /* Lift the signal materials for the night ground so the map's state lens
+     reads: the five --state-* families derive from these, exactly as in .dark.
+     Without this the verified/review nodes paint daylight-dark on twilight. */
+  --moss: oklch(60% 0.055 128);
+  --brass: oklch(62% 0.095 83);
+  --winter: oklch(76% 0.045 236);
+  --stone: oklch(68% 0.025 80);
+  --field-blue: oklch(64% 0.07 256);
+  color: var(--ink-2);
+  color-scheme: dark;
+}
+
+/* The night chip: applied-filter pills, toasts. */
+.chip-night {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 2px;
+  border: 1px solid var(--night-chip-line);
+  background: var(--night-chip-bg);
+  color: var(--night-chip-text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* THE LEDGER: the second (and last) surface in the economy. Flat on the
+   page, a strong top rule, zero horizontal padding — rows share the
+   container's left edge. Mono 13px/20px rows on the 20px baseline grid.
+
+   Stage 8 (the sealing): almanac discipline, Comrie's table doctrine.
+   One head rule names the surface; every internal rule was redundant
+   with the row rhythm and is replaced by whitespace — rows group in
+   fives with extra leading, the almanac's own device for keeping the
+   eye on the line. Figures align per column: tabular lining numerals
+   are set on the surface and inherited, so digits stack into columns
+   wherever they appear, not only inside .ledger-row. */
+.ledger {
+  border-top: 1px solid var(--rule-strong);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.ledger > *:nth-child(5n + 1):not(:first-child) {
+  margin-top: 10px;
+}
+.ledger-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 8px 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.ledger-row:hover {
+  background: var(--paper-hover);
+}
+/* Numeric cells right-set so units and figures share a column edge. */
+.ledger .num,
+.almanac-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Hanging label gutter for record pages: small-caps labels in a 9rem
+   left column; the label change is the section separator. */
+.label-gutter {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  column-gap: 16px;
+  row-gap: 12px;
+  max-width: 96rem;
+}
+.label-gutter > .gutter-label {
+  font-size: 11px;
+  letter-spacing: var(--track-caps);
+  font-feature-settings: "case" 1;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 20px;
+  padding-top: 2px;
+}
+@media (max-width: 640px) {
+  .label-gutter {
+    /* minmax(0, 1fr), not bare 1fr: a wide <pre> (a Lean statement, a
+       reproduce line) must scroll inside its own overflow-x-auto box
+       rather than setting the column's min-content and widening the
+       page. */
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 4px;
+  }
+}
+
+/* ── The craft layer (Pass A): browser chrome joins the palette ── */
+
+/* Copying a receipt feels mechanical: full ink-paper inversion on
+   ledger surfaces; lamplight selection in the dark theme. */
+.ledger ::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+.dark ::selection {
+  background: color-mix(in oklab, var(--lantern) 30%, transparent);
+}
+input,
+[contenteditable] {
+  caret-color: var(--brass-gold);
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ink) 30%, transparent) transparent;
+}
+
+/* One drawing system for lines: underlines and hairline rules share a
+   1px stroke. Headings balance; the caps tier sets on the cap line. */
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Ink links in reading zones: prose is not punctured by colored links.
+   The underline is a hairline of ink; hover deepens it. Brass stays
+   reserved for adoption-grade facts. */
+.reading a,
+.measure a {
+  color: inherit;
+  text-decoration-color: oklch(25% 0.03 262 / 0.4);
+}
+.reading a:hover,
+.measure a:hover {
+  text-decoration-color: oklch(25% 0.03 262 / 0.8);
+}
+
+/* Hashes and ids: a ligature inside a pubkey is a correctness bug. */
+.t-mono,
+code,
+kbd {
+  font-feature-settings: "calt" 0;
+}
+
+/* The figure caption standard: one declarative line or manifest tokens,
+   flush left, no "Figure N", no italic, no box. */
+.figcaption {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* The chart strip's stars: ink at rest, brass when the page is theirs.
+   Hover brightens the core only — nothing moves. */
+.star .star-core {
+  fill: var(--ink-3);
+  transition: fill var(--transition-paint);
+}
+.star:hover .star-core {
+  fill: var(--ink);
+}
+/* A verified problem is a LIT star — gold, and it stays gold on hover (the
+   one warm light on the map; the keystone vocabulary of the brand mark). */
+.star .star-core.star-lit,
+.star:hover .star-core.star-lit {
+  fill: var(--brass-gold);
+}
+.star .star-ring {
+  stroke: var(--brass-gold);
+  opacity: 0;
+}
+.star[data-current="true"] .star-core {
+  fill: var(--brass-gold);
+}
+.star[data-current="true"] .star-ring {
+  opacity: 0.55;
+}
+
+/* ── The chart room (Stage 5) ─────────────────────────────────────────
+   One static baked SVG; zero client JS. On small screens the atlas pans
+   by overflow scroll at ~2x width. Cinnabar exists on this surface ONLY
+   inside the jurisdiction ring ([data-ring]) as adoption marks — that
+   restriction is auditable by DOM query. Nothing here animates. */
+.chart-pan {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.chart-pan > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 640px) {
+  .chart-pan > svg {
+    width: 200vw;
+    max-width: none;
+  }
+}
+.chart-atlas .star-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  fill: var(--ink-3);
+}
+.chart-atlas a.star:hover .star-label,
+.chart-atlas a.star:target .star-label {
+  fill: var(--ink);
+}
+/* Quiet labels: hidden at rest to thin out the field, revealed when the star
+   is hovered, targeted, or focused. The point + <title>/aria-label remain. */
+.chart-atlas .star-label-quiet {
+  opacity: 0;
+}
+.chart-atlas a.star:hover .star-label-quiet,
+.chart-atlas a.star:target .star-label-quiet,
+.chart-atlas a.star:focus-visible .star-label-quiet {
+  opacity: 1;
+}
+/* #star=<slug> permalink: the targeted star wears its brass ring. */
+.chart-atlas a.star:target .star-ring,
+.chart-atlas a.star:focus-visible .star-ring {
+  opacity: 0.55;
+}
+/* Keyboard focus on the signature surface: the global outline rule does not
+   paint on SVG <a> in major browsers, so focus is drawn in-SVG (WCAG 2.4.7).
+   Stars wear the brass ring; wrecks and ring stations brighten + ring. */
+.chart-atlas a.star:focus-visible .star-label,
+.chart-atlas .wreck:focus-visible text {
+  fill: var(--ink);
+}
+.chart-atlas .wreck:focus-visible line {
+  stroke: var(--brass-gold);
+}
+.chart-atlas [data-ring] a:focus-visible .ring-name {
+  fill: var(--brass-gold);
+}
+.chart-atlas .wreck line {
+  stroke: var(--ink-2);
+  stroke-width: 1.2;
+}
+.chart-atlas .wreck text {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  fill: var(--ink-3);
+}
+.chart-atlas .wreck:hover text {
+  fill: var(--ink);
+}
+.chart-atlas .lease-text {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  fill: var(--gold-ink);
+}
+.chart-atlas [data-ring] .ring-name {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  fill: var(--ink-3);
+}
+.chart-atlas [data-ring] a:hover .ring-name {
+  fill: var(--ink);
+}
+.chart-atlas [data-ring] .ring-token {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  fill: var(--ink-3);
+}
+.chart-atlas [data-ring] .adoption-mark {
+  stroke: var(--cinnabar);
+}
+.chart-atlas .cartouche text {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  fill: var(--ink-3);
+}
+
+/* ── The event ruler (Stage 3): scrub chrome ─────────────────────────────
+   One tick per signed event, 20px tall, drawn in the signal code's
+   materials: brass-filled accepts, half-filled proposals, the small
+   kernel mark for kernel/annotation events, cinnabar rejections.
+   Scrubbing is a discrete state swap — NO transitions, NO animation;
+   prefers-reduced-motion has nothing to reduce. */
+.event-ruler {
+  cursor: pointer;
+  outline-offset: 2px;
+}
+.event-ruler svg {
+  display: block;
+  width: 100%;
+  height: 20px;
+}
+.rtick-a { fill: var(--brass); }
+.rtick-p { fill: var(--brass); opacity: 0.5; }
+.rtick-r { fill: var(--cinnabar); }
+.rtick-b { fill: var(--ink); }
+.rtick-s { fill: var(--stone); }
+.rtick-l { fill: var(--brass); opacity: 0.35; }
+.rtick-c { fill: var(--ink-2); }
+.rtick-k { fill: var(--ink-4); }
+.rtick-cursor {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 0.6px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The fold's three row effects: visibility, per-row grade, and the
+   supersession seam. Rows are server-rendered; the scrubber only
+   toggles these on [data-vf] rows — it never templates content. */
+.scrub-hidden {
+  display: none !important;
+}
+.scrub-seam {
+  box-shadow: inset 2px 0 0 var(--brass-gold);
+}
+
+/* ── The almanac (Stage 8): the dated frozen edition ─────────────────────
+   /almanac is a print-CSS projection of the record at the baked head,
+   typeset to Comrie's table doctrine: whitespace instead of rules,
+   per-column figure design. On screen it reads like the rest of the
+   site; under @media print the paper theme is forced (a frozen edition
+   is printed on paper, never on the night palette), the interactive
+   chrome leaves, and tables carry no rules at all — alignment alone
+   does the dividing. */
+
+.almanac-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.almanac-table th {
+  font-size: 10.5px;
+  letter-spacing: var(--track-caps, 0.08em);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 0 16px 6px 0;
+}
+.almanac-table td {
+  vertical-align: baseline;
+  padding: 2px 16px 2px 0;
+  border: 0; /* no rules in tables — whitespace divides */
+}
+.almanac-table th:last-child,
+.almanac-table td:last-child {
+  padding-right: 0;
+}
+.almanac-table th.num {
+  text-align: right;
+}
+/* Group-of-five leading, the almanac's row rhythm. */
+.almanac-table tbody tr:nth-child(5n + 1):not(:first-child) > td {
+  padding-top: 12px;
+}
+/* Narrow screens: the edition's tables scroll in place rather than
+   widening the page; print and wide screens are untouched. */
+@media screen and (max-width: 40rem) {
+  .almanac-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+/* The supersession seam in the edition: gold along the row's left edge,
+   the kintsugi thread — present exactly where a supersession event is
+   signed, absent everywhere else. */
+.almanac-table tr.almanac-seam > td:first-child {
+  box-shadow: inset 2px 0 0 var(--brass-gold);
+  padding-left: 8px;
+}
+
+@media print {
+  /* Force the paper theme: a printed edition never ships the night
+     palette. Re-pin the dark tokens the almanac surface reads. */
+  .dark {
+    --paper: var(--paper-ivory);
+    --paper-raised: oklch(99.2% 0.004 248);
+    --paper-recessed: oklch(95.7% 0.007 248);
+    --paper-sumi: oklch(93.2% 0.011 250);
+    --paper-hover: oklch(94.8% 0.008 248);
+    --ink: oklch(25% 0.03 262);
+    --ink-2: oklch(43% 0.026 258);
+    --ink-3: oklch(53.5% 0.018 250);
+    --ink-4: oklch(62% 0.018 254);
+    --ink-on: oklch(99% 0.003 248);
+    --rule-faint: oklch(25% 0.03 262 / 0.05);
+    --rule: oklch(25% 0.03 262 / 0.08);
+    --rule-strong: oklch(25% 0.03 262 / 0.18);
+    --brass-gold: oklch(72% 0.13 86);
+    --background: var(--paper);
+    --foreground: var(--ink);
+    color-scheme: light;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  /* The projection sheds the instrument chrome when the edition prints:
+     header strip, time rail, footer, palette — none of it is record. */
+  body:has(.almanac-edition) header,
+  body:has(.almanac-edition) footer,
+  body:has(.almanac-edition) .skip-link {
+    display: none !important;
+  }
+  .almanac-edition {
+    max-width: none;
+  }
+  /* No rules anywhere in printed tables; whitespace divides. */
+  .almanac-table th,
+  .almanac-table td,
+  .almanac-edition .ledger,
+  .almanac-edition .ledger > * {
+    border: 0 !important;
+  }
+  .almanac-section {
+    break-inside: avoid-page;
+  }
+
+  /* The inset shell sheds its chrome on EVERY printed page
+     (WORLD_CLASS_SITE_PLAN 2.6.2): the sidebar, header, skip link, and
+     footer machine row go; the provider and the inner scroll region
+     unwrap to natural height (window-based print pagination is dead
+     inside an overflow:auto container otherwise); the content card drops
+     its frame and prints full-width on white. The current state, where
+     every page clips to one viewport, is the failure this fixes. */
+  [data-slot="sidebar-wrapper"],
+  #main-content {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  [data-slot="sidebar"],
+  header[aria-label="Site header"],
+  .skip-link {
+    display: none !important;
+  }
+  [data-slot="sidebar-inset"] {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  main.app-main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  /* The footer's machine row and the bake receipt are chrome, not record. */
+  footer .machine-row,
+  footer details {
+    display: none !important;
+  }
+  /* The lacquer proof well prints as bordered mono on white, never a fill. */
+  .proof-well,
+  [data-proof-well] {
+    background: #fff !important;
+    color: #1c1a17 !important;
+    border: 1px solid #999 !important;
+  }
+}
+
+/* ── Forced colors (Windows High Contrast, WORLD_CLASS_SITE_PLAN 1.12) ────
+   The ink-percentage hairlines and the gold focus ring vanish under
+   forced-colors; restore structure with system colors and real borders,
+   and route the focus ring to the system Highlight. */
+@media (forced-colors: active) {
+  .shell-card,
+  [data-slot="sidebar-inset"],
+  .card-paper,
+  .card-grid > * {
+    border: 1px solid CanvasText;
+  }
+  *:focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 1px;
+  }
+  /* State dots and seam dots carry meaning by shape and position; give
+     them a forced border so they survive the palette collapse. */
+  .freshness-dot,
+  [data-state-dot] {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* ── The twin seam (Stage 4): the collapsed hash gutter ──────────────────
+   24px on the page's right edge, a gold hairline at the flip boundary.
+   Each tick aligns to a rendered substrate object (data-vf / data-vev
+   anchor); hovering the gutter reveals the id-range labels (e19–e23).
+   Pulling left or Cmd+. flips to the JSON twin — plain navigation,
+   instant, NO transitions, nothing for reduced-motion to reduce. */
+.twin-seam {
+  /* Document space, portalled to <body>: the gutter runs the page's
+     full height (inline style sets it) and every tick sits beside its
+     object — the bracket scrolls with the record. */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  z-index: 40;
+  border-left: 1px solid var(--gold-line);
+  background: transparent;
+  cursor: w-resize;
+  touch-action: pan-y;
+}
+.twin-seam:hover {
+  background: var(--paper-raised);
+}
+.twin-seam-tick {
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 9px;
+  margin-top: -4px;
+  display: block;
+}
+.twin-seam-tick::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 12px;
+  height: 1px;
+  background: var(--ink-4);
+}
+.twin-seam-tick:hover::after {
+  background: var(--gold-ink);
+  width: 16px;
+}
+.twin-seam-label {
+  display: none;
+  position: absolute;
+  right: 26px;
+  top: -2px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 13px;
+  white-space: nowrap;
+  color: var(--ink-3);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule, var(--gold-line));
+}
+.twin-seam:hover .twin-seam-label {
+  display: block;
+}
+.twin-seam-foot {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  width: 24px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-4);
+  text-decoration: none;
+}
+.twin-seam-foot:hover {
+  color: var(--gold-ink);
+}
+@media print {
+  .twin-seam {
+    display: none;
+  }
+}
+/* At phone widths the page gutter is narrower than the seam's 24px, so
+   right-aligned figures would run under the gold hairline. Pages that
+   mount a seam clear it; everything else keeps the normal gutter. */
+@media (max-width: 640px) {
+  body:has(.twin-seam) main.app-main {
+    padding-right: 30px;
+  }
+}
+
+/* Prospect: gene-neighborhood blocks in the Peek panel */
+.nb{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
+.nbh{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink)}
+.mut{color:var(--ink-3);font-weight:400;font-size:12px}
