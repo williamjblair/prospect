@@ -21,6 +21,14 @@ PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-targe
 | CollecTRI targets | 0 |
 | Current PGGT1B graph edges | 0 |
 
+## Condition-level summary
+
+| condition | target cells | up genes | down genes | total DE | effect | on-target |
+|---|---:|---:|---:|---:|---:|---|
+| Rest | 81 | 145 | 30 | 175 | -3.887 | on-target KD |
+| Stim8hr | 102 | 2,172 | 842 | 3,014 | -4.218 | on-target KD |
+| Stim48hr | 49 | 171 | 31 | 202 | -2.088 | no on-target KD |
+
 ## Hypothesis
 
 PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor.
@@ -29,6 +37,22 @@ PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-t
 
 - 2019, Gastroenterology, DOI [10.1053/j.gastro.2019.07.007](https://www.sciencedirect.com/science/article/pii/S0016508519410871): mouse CD4+ T-cell PGGT1B links prenylation, RHOA function, alpha4beta7 expression, and intestinal inflammation.
 - 2020, Cell Metabolism, DOI [10.1016/j.cmet.2020.10.022](https://www.cell.com/cell-metabolism/fulltext/S1550-4131(20)30591-X): mouse Treg work places Pggt1b upstream of TCR-dependent transcriptional programming and Rac-mediated signaling.
+
+## Assay decision plan
+
+- Sample: primary human CD4+ T cells.
+- Intervention: CRISPRi knockdown plus an orthogonal knockdown or small-molecule prenylation perturbation.
+- Primary readout: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h.
+- Expected pattern: advance only if stimulated PGGT1B perturbation shifts the activation program while Rest and non-immune controls remain comparatively small.
+- Negative controls: non-targeting guide, safe-harbor guide, unstimulated matched culture.
+- Positive controls: VAV1, LAT, CD3E.
+
+Stop rules:
+
+- failed on-target knockdown in the stimulated condition
+- Rest-only transcriptional shift
+- broad K562 or RPE1 effect on replication
+- canonical effector-only readout without upstream transcriptome movement
 
 ## Wet-lab follow-up
 

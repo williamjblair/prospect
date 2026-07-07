@@ -51,6 +51,27 @@ def _load_agent_hypothesis() -> dict[str, Any]:
     return agent.get("hypothesis") or {}
 
 
+def _load_condition_summary(gene: str) -> dict[str, dict[str, Any]]:
+    path = DATA / "marson_de_full.csv"
+    if not path.exists():
+        return {}
+    out: dict[str, dict[str, Any]] = {}
+    with path.open() as fh:
+        for row in csv.DictReader(fh):
+            if row["target_contrast_gene_name"] != gene:
+                continue
+            out[row["culture_condition"]] = {
+                "n_cells_target": int(float(row["n_cells_target"])),
+                "n_up_genes": int(row["n_up_genes"]),
+                "n_down_genes": int(row["n_down_genes"]),
+                "n_total_de_genes": int(row["n_total_de_genes"]),
+                "ontarget_effect_size": round(float(row["ontarget_effect_size"]), 3),
+                "ontarget_significant": "yes" if row["ontarget_significant"] == "True" else "no",
+                "ontarget_effect_category": row["ontarget_effect_category"],
+            }
+    return out
+
+
 def _cond(node: dict[str, Any], name: str) -> dict[str, Any]:
     return node["conditions"].get(name, {})
 
@@ -70,6 +91,7 @@ def build_deep_dive() -> dict[str, Any]:
     rpe1 = _load_de_csv(DATA / "replogle_rpe1_de.csv", "rpe1_de")
     collectri = _load_collectri_counts()
     agent_h = _load_agent_hypothesis()
+    condition_summary = _load_condition_summary("PGGT1B")
 
     facts = {
         "class": node["class"],
@@ -86,6 +108,7 @@ def build_deep_dive() -> dict[str, Any]:
         "is_activation_module": P.is_activation_module(node),
         "is_essentiality_artifact": P.is_essentiality_artifact(node),
         "graph_edges_sliced": 0,
+        "condition_summary": condition_summary,
     }
 
     return {
@@ -106,6 +129,34 @@ def build_deep_dive() -> dict[str, Any]:
             "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation "
             "markers, targeted RNA-seq at 8h and 48h, and prenylation-linked RHOA or RAC pathway readouts"
         ),
+        "validation_plan": {
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "sample": "primary human CD4+ T cells",
+            "intervention": "CRISPRi knockdown plus an orthogonal knockdown or small-molecule prenylation perturbation",
+            "primary_readout": "activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+            "mechanism_readouts": [
+                "RHOA or RAC pathway activity",
+                "alpha4beta7 surface expression if homing biology is in scope",
+                "prenylation-sensitive localization or signaling assay",
+            ],
+            "negative_controls": [
+                "non-targeting guide",
+                "safe-harbor guide",
+                "unstimulated matched culture",
+            ],
+            "positive_controls": ["VAV1", "LAT", "CD3E"],
+            "expected_pattern": (
+                "advance only if stimulated PGGT1B perturbation shifts the activation program while Rest and "
+                "non-immune controls remain comparatively small"
+            ),
+            "stop_rules": [
+                "failed on-target knockdown in the stimulated condition",
+                "Rest-only transcriptional shift",
+                "broad K562 or RPE1 effect on replication",
+                "canonical effector-only readout without upstream transcriptome movement",
+            ],
+        },
         "literature_context": [
             {
                 "title": "Inhibiting PGGT1B disrupts RHOA function and T-cell intestinal homing in mouse colitis",
@@ -135,6 +186,7 @@ def build_deep_dive() -> dict[str, Any]:
 def _markdown(dive: dict[str, Any]) -> str:
     f = dive["facts"]
     refs = dive["literature_context"]
+    condition_summary = f.get("condition_summary", {})
     lines = [
         "# PGGT1B deep dive",
         "",
@@ -159,6 +211,21 @@ def _markdown(dive: dict[str, Any]) -> str:
         f"| CollecTRI targets | {f['collectri_targets']} |",
         f"| Current PGGT1B graph edges | {f['graph_edges_sliced']} |",
         "",
+        "## Condition-level summary",
+        "",
+        "| condition | target cells | up genes | down genes | total DE | effect | on-target |",
+        "|---|---:|---:|---:|---:|---:|---|",
+    ]
+    for condition in ["Rest", "Stim8hr", "Stim48hr"]:
+        row = condition_summary.get(condition, {})
+        lines.append(
+            f"| {condition} | {row.get('n_cells_target', 'n/a')} | "
+            f"{int(row.get('n_up_genes', 0)):,} | {int(row.get('n_down_genes', 0)):,} | "
+            f"{int(row.get('n_total_de_genes', 0)):,} | {row.get('ontarget_effect_size', 'n/a')} | "
+            f"{row.get('ontarget_effect_category', 'n/a')} |"
+        )
+    lines += [
+        "",
         "## Hypothesis",
         "",
         dive["claim"],
@@ -170,6 +237,21 @@ def _markdown(dive: dict[str, Any]) -> str:
         lines.append(
             f"- {ref['year']}, {ref['journal']}, DOI [{ref['doi']}]({ref['url']}): {ref['why_it_matters']}."
         )
+    lines += [
+        "",
+        "## Assay decision plan",
+        "",
+        f"- Sample: {dive['validation_plan']['sample']}.",
+        f"- Intervention: {dive['validation_plan']['intervention']}.",
+        f"- Primary readout: {dive['validation_plan']['primary_readout']}.",
+        f"- Expected pattern: {dive['validation_plan']['expected_pattern']}.",
+        f"- Negative controls: {', '.join(dive['validation_plan']['negative_controls'])}.",
+        f"- Positive controls: {', '.join(dive['validation_plan']['positive_controls'])}.",
+        "",
+        "Stop rules:",
+        "",
+    ]
+    lines += [f"- {rule}" for rule in dive["validation_plan"]["stop_rules"]]
     lines += [
         "",
         "## Wet-lab follow-up",

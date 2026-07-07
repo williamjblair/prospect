@@ -39,6 +39,11 @@ type PGGT1BDeepDive = {
     stim48hr_de: number; stim48hr_kd: string; k562_de: number | null;
     rpe1_de: number | null; collectri_targets: number; graph_edges_sliced: number;
   };
+  validation_plan?: {
+    status: string; trust_boundary: string; sample: string; intervention: string; primary_readout: string;
+    mechanism_readouts: string[]; negative_controls: string[]; positive_controls: string[];
+    expected_pattern: string; stop_rules: string[];
+  };
   literature_context: { journal: string; year: number; doi: string; url: string; why_it_matters: string }[];
   caveats: string[];
 };
@@ -1172,6 +1177,26 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
           </div>
         ))}
       </div>
+      {dive.validation_plan && (
+        <div style={{ display: "grid", gap: 8, paddingTop: 2 }}>
+          <div className="t-label">Assay decision plan</div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "80ch" }}>
+            {dive.validation_plan.primary_readout}. {dive.validation_plan.expected_pattern}.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Controls</div>
+              <p className="t-caption" style={{ margin: 0 }}>
+                Negative: {dive.validation_plan.negative_controls.join(", ")}. Positive: {dive.validation_plan.positive_controls.join(", ")}.
+              </p>
+            </div>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Stop rules</div>
+              <p className="t-caption" style={{ margin: 0 }}>{dive.validation_plan.stop_rules.slice(0, 2).join("; ")}.</p>
+            </div>
+          </div>
+        </div>
+      )}
       <div style={{ display: "grid", gap: 6 }}>
         <div className="t-label">Literature hooks</div>
         {dive.literature_context.map((ref) => (

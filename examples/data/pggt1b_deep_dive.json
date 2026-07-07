@@ -18,10 +18,68 @@
     "is_canonical_tcell_gene": false,
     "is_activation_module": false,
     "is_essentiality_artifact": false,
-    "graph_edges_sliced": 0
+    "graph_edges_sliced": 0,
+    "condition_summary": {
+      "Rest": {
+        "n_cells_target": 81,
+        "n_up_genes": 145,
+        "n_down_genes": 30,
+        "n_total_de_genes": 175,
+        "ontarget_effect_size": -3.887,
+        "ontarget_significant": "yes",
+        "ontarget_effect_category": "on-target KD"
+      },
+      "Stim48hr": {
+        "n_cells_target": 49,
+        "n_up_genes": 171,
+        "n_down_genes": 31,
+        "n_total_de_genes": 202,
+        "ontarget_effect_size": -2.088,
+        "ontarget_significant": "no",
+        "ontarget_effect_category": "no on-target KD"
+      },
+      "Stim8hr": {
+        "n_cells_target": 102,
+        "n_up_genes": 2172,
+        "n_down_genes": 842,
+        "n_total_de_genes": 3014,
+        "ontarget_effect_size": -4.218,
+        "ontarget_significant": "yes",
+        "ontarget_effect_category": "on-target KD"
+      }
+    }
   },
   "prospect_read": "PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-target knockdown, a smaller Rest footprint, no broad K562 footprint, and no CollecTRI regulon annotation.",
   "assay_readout": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers, targeted RNA-seq at 8h and 48h, and prenylation-linked RHOA or RAC pathway readouts",
+  "validation_plan": {
+    "status": "evidence_attached",
+    "trust_boundary": "proposal_only",
+    "sample": "primary human CD4+ T cells",
+    "intervention": "CRISPRi knockdown plus an orthogonal knockdown or small-molecule prenylation perturbation",
+    "primary_readout": "activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+    "mechanism_readouts": [
+      "RHOA or RAC pathway activity",
+      "alpha4beta7 surface expression if homing biology is in scope",
+      "prenylation-sensitive localization or signaling assay"
+    ],
+    "negative_controls": [
+      "non-targeting guide",
+      "safe-harbor guide",
+      "unstimulated matched culture"
+    ],
+    "positive_controls": [
+      "VAV1",
+      "LAT",
+      "CD3E"
+    ],
+    "expected_pattern": "advance only if stimulated PGGT1B perturbation shifts the activation program while Rest and non-immune controls remain comparatively small",
+    "stop_rules": [
+      "failed on-target knockdown in the stimulated condition",
+      "Rest-only transcriptional shift",
+      "broad K562 or RPE1 effect on replication",
+      "canonical effector-only readout without upstream transcriptome movement"
+    ]
+  },
   "literature_context": [
     {
       "title": "Inhibiting PGGT1B disrupts RHOA function and T-cell intestinal homing in mouse colitis",
