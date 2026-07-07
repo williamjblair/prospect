@@ -68,6 +68,7 @@ const NAV = [
 
 export default function Page() {
   const [d, setD] = useState<Data | null>(null);
+  const [err, setErr] = useState(false);
   const [tab, setTab] = useState("overview");
   const [q, setQ] = useState("");
   const [gene, setGene] = useState<string | null>(null);
@@ -75,11 +76,14 @@ export default function Page() {
   const { resolvedTheme } = useTheme();
   const dark = resolvedTheme === "dark";
   useEffect(() => {
-    fetch("/data/frontier.json").then((r) => r.json()).then((x: Data) => {
-      setD(x);
-      const hub = [...x.atlas].sort((a, b) => b.od - a.od)[0];
-      setFocus(x.out["VAV1"] ? "VAV1" : hub ? hub.g : "VAV1");
-    });
+    fetch("/data/frontier.json")
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((x: Data) => {
+        setD(x);
+        const hub = [...x.atlas].sort((a, b) => b.od - a.od)[0];
+        setFocus(x.out["VAV1"] ? "VAV1" : hub ? hub.g : "VAV1");
+      })
+      .catch(() => setErr(true));
   }, []);
   const node = useMemo(() => (d && gene ? d.atlas.find((n) => n.g === gene) : null), [d, gene]);
   const label = NAV.find((n) => n.k === tab)?.label ?? "";
@@ -102,16 +106,12 @@ export default function Page() {
               <SidebarMenu>
                 {NAV.map((n) => {
                   const Icon = n.icon;
-                  const count = d ? (n.k === "atlas" ? d.stats.n_edges : n.k === "frontier" ? d.frontier.n_contra : n.k === "findings" ? d.frontier.n_findings : n.k === "agent" ? d.agent?.tool_calls : undefined) : undefined;
                   return (
                     <SidebarMenuItem key={n.k}>
                       <SidebarMenuButton isActive={tab === n.k} tooltip={n.label}
                         onClick={() => setTab(n.k)} className="h-8 fz-sm">
                         <Icon aria-hidden strokeWidth={1.75} />
                         <span className="min-w-0 flex-1 truncate">{n.label}</span>
-                        {typeof count === "number" && (
-                          <span className="t-mono fz-2xs" style={{ color: "var(--ink-3)" }}>{fmt(count)}</span>
-                        )}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -144,8 +144,26 @@ export default function Page() {
         </header>
 
         <main className="app-main" style={{ padding: "26px 28px 72px", maxWidth: "78rem", width: "100%", margin: "0 auto" }}>
-          {!d ? (
-            <div className="t-label">Loading the frontier…</div>
+          {err ? (
+            <div style={{ display: "grid", gap: 8, maxWidth: "48ch", paddingTop: 40 }}>
+              <div className="h2-app">The frontier didn’t load.</div>
+              <p className="t-body-sm" style={{ color: "var(--ink-3)" }}>
+                Couldn’t fetch the signed data. Check your connection and reload.
+              </p>
+              <button onClick={() => location.reload()} className="btn btn-secondary btn-sm" style={{ justifySelf: "start", marginTop: 4 }}>Reload</button>
+            </div>
+          ) : !d ? (
+            <div style={{ display: "grid", gap: 26 }} aria-busy="true">
+              <div style={{ display: "grid", gap: 14 }}>
+                <div className="skeleton" style={{ height: 12, width: 220, borderRadius: 4 }} />
+                <div className="skeleton" style={{ height: 56, width: "min(620px, 90%)", borderRadius: 8 }} />
+                <div className="skeleton" style={{ height: 56, width: "min(520px, 80%)", borderRadius: 8 }} />
+              </div>
+              <div className="skeleton" style={{ height: 150, borderRadius: 12 }} />
+              <div style={{ display: "flex", gap: 44 }}>
+                {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ height: 44, width: 96, borderRadius: 6 }} />)}
+              </div>
+            </div>
           ) : (
             <>
               {tab === "overview" && <Overview d={d} />}
@@ -164,15 +182,6 @@ export default function Page() {
   );
 }
 
-function Stat({ n, label, tone }: { n: number; label: string; tone?: string }) {
-  return (
-    <div className="card-paper" style={{ padding: "14px 16px" }}>
-      <div className="stat-figure" style={{ color: tone || "var(--ink)" }}>{fmt(n)}</div>
-      <div className="t-label" style={{ marginTop: 4 }}>{label}</div>
-    </div>
-  );
-}
-
 function Overview({ d }: { d: Data }) {
   const p = d.phantom, dist = d.stats.dist;
   const order = ["constitutive_regulator", "condition_specific_regulator", "verified_non_regulator", "unverifiable_no_kd"];
@@ -183,8 +192,8 @@ function Overview({ d }: { d: Data }) {
         <div className="t-label" style={{ marginBottom: 8 }}>Verified regulatory frontier · CD4⁺ T cells</div>
         <h1 className="t-display" style={{ maxWidth: "18ch" }}>What actually regulates a human T cell.</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
-          A linked, human-signed graph of gene regulation — every node and edge re-derived from the released
-          CRISPRi Perturb-seq data, never from a model. AI can assert a claim about any gene in seconds; here
+          A linked, human-signed graph of gene regulation. Every node and edge is re-derived from the released
+          CRISPRi Perturb-seq data, never from a model. AI can assert a claim about any gene in seconds. Here
           you see only what the data holds.
         </p>
       </header>
@@ -205,8 +214,8 @@ function Overview({ d }: { d: Data }) {
           {p.effector_total > 0 && (
             <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid color-mix(in oklab, var(--stone) 30%, transparent)" }}>
               <p className="t-body-sm" style={{ color: "var(--ink-on)", margin: 0, maxWidth: "72ch" }}>
-                And on the <b style={{ color: "var(--lantern)" }}>{p.effector_total} genes the field targets most</b> —
-                checkpoints and cytokines like PD-1, TIM-3, IL-2 — models called them a major regulator{" "}
+                And on the <b style={{ color: "var(--lantern)" }}>{p.effector_total} genes the field targets most</b>,
+                the checkpoints and cytokines like PD-1, TIM-3, IL-2, models called them a major regulator{" "}
                 <b style={{ color: "var(--lantern)" }}>{p.effector_overclaimed}</b> times.{" "}
                 The data shows near-zero transcriptional change: they are effectors, not drivers (Finding 02).
               </p>
@@ -215,19 +224,27 @@ function Overview({ d }: { d: Data }) {
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 12 }}>
-        <Stat n={d.stats.n_genes} label="genes mapped" />
-        <Stat n={d.stats.n_edges} label="verified regulatory edges" tone="var(--moss)" />
-        <Stat n={(dist.constitutive_regulator || 0) + (dist.condition_specific_regulator || 0)} label="verified regulators" />
-        <Stat n={d.frontier.n_contra} label="contradictions on record" tone="var(--cinnabar)" />
+      <div style={{ display: "flex", gap: 44, flexWrap: "wrap", padding: "18px 2px",
+        borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+        {([
+          [d.stats.n_genes, "genes mapped", "var(--ink)"],
+          [d.stats.n_edges, "regulatory edges", "var(--moss)"],
+          [(dist.constitutive_regulator || 0) + (dist.condition_specific_regulator || 0), "verified regulators", "var(--ink)"],
+          [d.frontier.n_contra, "contradictions", "var(--cinnabar)"],
+        ] as [number, string, string][]).map(([n, label, tone]) => (
+          <div key={label}>
+            <div className="stat-figure" style={{ color: tone, fontSize: "1.7rem", lineHeight: 1 }}>{fmt(n)}</div>
+            <div className="t-label" style={{ marginTop: 6 }}>{label}</div>
+          </div>
+        ))}
       </div>
 
-      <div className="card-paper" style={{ padding: "16px 18px" }}>
-        <div className="t-label" style={{ marginBottom: 10 }}>Verified regulatory state across the genome</div>
+      <section style={{ display: "grid", gap: 12 }}>
+        <h2 className="h2-app">Verified regulatory state across the genome</h2>
         <div style={{ display: "flex", height: 12, borderRadius: 6, overflow: "hidden" }}>
           {order.map((k) => <div key={k} style={{ flex: dist[k] || 0, background: CLASS[k][0] }} />)}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginTop: 10 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
           {order.map((k) => (
             <span key={k} className="t-body-sm" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: CLASS[k][0] }} />
@@ -235,27 +252,23 @@ function Overview({ d }: { d: Data }) {
             </span>
           ))}
         </div>
-      </div>
-
-      <div>
-        <div className="t-label" style={{ marginBottom: 8 }}>A claim from Claude Science, checked</div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
           {d.demo.map((x, i) => (
             <span key={i} className="chip" title={x.reason} style={{ ["--tone" as any]: DEMOC[x.status] }}>
-              {x.gene} — {x.status.replace(/_/g, " ")}
+              {x.gene} · {x.status.replace(/_/g, " ")}
             </span>
           ))}
         </div>
-      </div>
+      </section>
 
       {d.proposal && (
-        <div>
-          <div className="t-label" style={{ marginBottom: 4 }}>Claude proposes; the data decides; a human signs</div>
-          <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "68ch" }}>
-            The loop, closed. Claude ({d.proposal.model.replace("claude-", "").replace(/-/g, " ")}) proposed{" "}
+        <section style={{ display: "grid", gap: 10 }}>
+          <h2 className="h2-app">Claude proposes, the frozen verifier decides</h2>
+          <p className="t-body-sm" style={{ maxWidth: "68ch", marginTop: -2 }}>
+            Claude ({d.proposal.model.replace("claude-", "").replace(/-/g, " ")}) proposed{" "}
             {d.proposal.proposed} candidate regulators. The frozen verifier admitted{" "}
             <b style={{ color: "var(--moss)" }}>{d.proposal.admitted}</b> and rejected{" "}
-            <b style={{ color: "var(--cinnabar)" }}>{d.proposal.rejected}</b> — no model in the trust path.
+            <b style={{ color: "var(--cinnabar)" }}>{d.proposal.rejected}</b>, with no model in the trust path.
           </p>
           <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
             {d.proposal.items.map((p, i) => {
@@ -273,18 +286,18 @@ function Overview({ d }: { d: Data }) {
             })}
           </div>
           <p className="t-caption" style={{ marginTop: 8 }}>
-            Signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.proposal.delta_id}</span>{" "}
-            · Claude is genuinely useful at proposing; the admission decision is frozen re-derivation plus a human key.
+            Signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.proposal.delta_id}</span>.
+            Claude is useful at proposing; the admission decision stays frozen re-derivation plus a human key.
           </p>
-        </div>
+        </section>
       )}
 
       {d.models.length > 0 && (
-        <div>
-          <div className="t-label" style={{ marginBottom: 4 }}>Generation is cheap; trustworthy surprise is scarce</div>
-          <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "66ch" }}>
-            The same blind test across model tiers. The cost of generating the claims is trivial; the rate at
-            which they fail the data barely moves. Verification is the bottleneck, not generation.
+        <section style={{ display: "grid", gap: 10 }}>
+          <h2 className="h2-app">The same blind test, across model tiers</h2>
+          <p className="t-body-sm" style={{ maxWidth: "66ch", marginTop: -2 }}>
+            The cost of generating the claims is trivial and the rate at which they fail the data barely moves.
+            Verification is the bottleneck, not generation.
           </p>
           <div className="card-paper" style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse" }}>
@@ -302,17 +315,17 @@ function Overview({ d }: { d: Data }) {
                     <td style={{ padding: "9px 14px" }}>${m.cost_usd.toFixed(3)}</td>
                     <td style={{ padding: "9px 14px" }}>{m.checkable}</td>
                     <td style={{ padding: "9px 14px", color: "var(--cinnabar)", fontWeight: 600 }}>
-                      {m.refuted_rate != null ? Math.round(m.refuted_rate * 100) + "%" : "—"}
+                      {m.refuted_rate != null ? Math.round(m.refuted_rate * 100) + "%" : "·"}
                     </td>
                     <td style={{ padding: "9px 14px", color: "var(--cinnabar)" }}>
-                      {m.effector_total ? `${m.effector_overclaimed}/${m.effector_total}` : "—"}
+                      {m.effector_total ? `${m.effector_overclaimed}/${m.effector_total}` : "·"}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </section>
       )}
     </div>
   );
@@ -329,7 +342,7 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
       <h2 className="h1-display" style={{ marginBottom: 4 }}>Atlas</h2>
       <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "62ch" }}>
         Search a gene. Each row shows its verified class and per-condition status (R rest · 8 8h · 48 48h stim).
-        Open a gene for its regulatory neighborhood — what it regulates, and the claims the data refused.
+        Open a gene for its regulatory neighborhood, what it regulates, and the claims the data refused.
       </p>
       <input id="gene-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a gene (VAV1, BCL10, PDCD1)…"
         style={{ width: 320, height: 36, padding: "0 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)",
@@ -374,7 +387,7 @@ function NetworkView({ d, focus, setFocus, dark, onGene }:
     <div>
       <h2 className="h1-display" style={{ marginBottom: 6 }}>Regulatory network</h2>
       <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "66ch" }}>
-        The neighborhood around <b>{focus}</b> — {out.length} genes it regulates, {inn.length} that regulate it, and the
+        The neighborhood around <b>{focus}</b>, {out.length} genes it regulates, {inn.length} that regulate it, and the
         cross-links between them. Edges by direction (<span style={{ color: "var(--moss)" }}>up</span> /{" "}
         <span style={{ color: "var(--cinnabar)" }}>down</span>). Click any node to re-center the graph on it.
       </p>
@@ -469,7 +482,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>The frontier</h2>
         <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-          The verified graph is accepted state — re-derived from frozen data and signed by a human. Contradictions
+          The verified graph is accepted state, re-derived from frozen data and signed by a human. Contradictions
           and open questions are kept as first-class, citable terrain.
         </p>
       </div>
@@ -486,7 +499,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       {d.receipts && d.receipts.length > 0 && <Receipts receipts={d.receipts} />}
 
       <div>
-        <div className="t-label" style={{ marginBottom: 8 }}>Contradictions — where AI claims meet the data</div>
+        <div className="t-label" style={{ marginBottom: 8 }}>Contradictions, where AI claims meet the data</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
           {d.contra.slice(0, 60).map((x, i) => (
             <button key={i} onClick={() => onGene(x.gene)} className="state-row"
@@ -503,9 +516,9 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       </div>
       <div>
-        <div className="t-label" style={{ marginBottom: 6 }}>Open frontier — the screen couldn’t test these</div>
+        <div className="t-label" style={{ marginBottom: 6 }}>Open frontier, the screen couldn’t test these</div>
         <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "64ch" }}>
-          Knockdown never succeeded, so the data is silent — honest gaps, and the demand surface for the next experiments.
+          Knockdown never succeeded, so the data is silent, honest gaps, and the demand surface for the next experiments.
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {d.open.map((g) => <span key={g} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{g}</span>)}
@@ -519,7 +532,7 @@ const FINDING_META: Record<string, { n: string; title: string; tone: string }> =
   activation_module: { n: "01", title: "The activation module, rebuilt from perturbation", tone: "var(--moss)" },
   regulator_vs_effector: { n: "02", title: "Regulator vs effector", tone: "var(--cinnabar)" },
   essentiality_artifact: { n: "03", title: "Reach is not regulation", tone: "var(--brass)" },
-  cross_cell_type_transfer: { n: "04", title: "Verifier transfer — a second cell type", tone: "var(--field-blue)" },
+  cross_cell_type_transfer: { n: "04", title: "Verifier transfer, a second cell type", tone: "var(--field-blue)" },
   regulon_recovery: { n: "05", title: "Recovering known regulons from perturbation", tone: "var(--brass-gold)" },
 };
 
@@ -650,26 +663,26 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
       padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
       <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: tone }}>{g}</button>
       <span className="t-body-sm">T-cell regulator · {per[g].finding === "essentiality_artifact" ? "replicates in K562" : "inert in K562"}</span>
-      <span className="t-mono fz-sm" style={{ textAlign: "right" }}>K562 {per[g].k562_de ?? "—"} DE</span>
+      <span className="t-mono fz-sm" style={{ textAlign: "right" }}>K562 {per[g].k562_de ?? "·"} DE</span>
     </div>
   );
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         <div className="card-paper" style={{ padding: "14px 16px" }}>
-          <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "—"}</div>
+          <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "·"}</div>
           <div className="t-label" style={{ marginTop: 4 }}>essentiality artifacts · median K562 DE</div>
-          <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% replicate — housekeeping, as predicted</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% replicate, housekeeping, as predicted</div>
         </div>
         <div className="card-paper" style={{ padding: "14px 16px" }}>
-          <div className="stat-figure" style={{ color: "var(--moss)" }}>{med.activation_module ?? "—"}</div>
+          <div className="stat-figure" style={{ color: "var(--moss)" }}>{med.activation_module ?? "·"}</div>
           <div className="t-label" style={{ marginTop: 4 }}>activation module · median K562 DE</div>
-          <div className="t-caption" style={{ marginTop: 6 }}>{actRate}% are K562-inert — T-cell-specific</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{actRate}% are K562-inert, T-cell-specific</div>
         </div>
       </div>
       <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
         The same major-regulator claim, run through <b>get_checker(&quot;marson&quot;)</b> and{" "}
-        <b>get_checker(&quot;replogle&quot;)</b> — one verifier shape, two frozen datasets. Essentiality
+        <b>get_checker(&quot;replogle&quot;)</b>, one verifier shape, two frozen datasets. Essentiality
         artifacts reshape the K562 transcriptome too (median {med.essentiality_artifact} DE); the activation
         module stays inert (median {med.activation_module}). The second dataset validates findings 01 and 03.
       </p>
@@ -724,7 +737,7 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
             <button onClick={() => onGene(r.tf)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: "var(--moss)" }}>{r.tf}</button>
             <span className="t-body-sm">{r.overlap} of {r.known} known targets moved on knockdown</span>
             <span className="t-mono fz-sm" style={{ textAlign: "right", color: "var(--moss)" }}>{r.fold}×</span>
-            <span className="t-mono fz-sm" style={{ textAlign: "right" }}>{r.dir_agree != null ? Math.round(r.dir_agree * 100) + "%" : "—"}</span>
+            <span className="t-mono fz-sm" style={{ textAlign: "right" }}>{r.dir_agree != null ? Math.round(r.dir_agree * 100) + "%" : "·"}</span>
           </div>
         ))}
       </div>
@@ -753,7 +766,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
     if (tool === "search_regulators") return `${(result.candidates || []).length} candidates`;
     if (tool === "check_regulator") return result.in_screen === false ? "not in screen" :
       `${result.class}, ${fmt(result.stim_max_de)} DE stim` + (result.is_canonical_Tcell_gene ? " · canonical" : "");
-    if (tool === "cross_cell_type") return `K562 ${result.k562_de ?? "—"} DE → ${result.verdict}`;
+    if (tool === "cross_cell_type") return `K562 ${result.k562_de ?? "·"} DE → ${result.verdict}`;
     if (tool === "known_regulon") return result.is_known_TF_in_CollecTRI ? `known TF, ${result.n_known_targets} targets` : "no annotated regulon";
     return "";
   };
@@ -801,7 +814,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       )}
 
       <div>
-        <div className="t-label" style={{ marginBottom: 8 }}>How it got there — every step a frozen-data tool call</div>
+        <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
           {a.transcript.map((t, i) => (
             <div key={i} style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 10, alignItems: "center",
@@ -851,7 +864,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <section style={{ display: "grid", gap: 8 }}>
           <div className="t-label">Famous genes the screen could not test</div>
           <p className="t-body-sm" style={{ maxWidth: "66ch", margin: 0 }}>
-            No effective knockdown, so the assay is silent on these — honest gaps, not evidence of absence.
+            No effective knockdown, so the assay is silent on these, honest gaps, not evidence of absence.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
             {d.surprises.untested_famous.map((x: any) => (
@@ -904,13 +917,13 @@ function Peek({ node, d, onClose }: { node: Node; d: Data; onClose: () => void }
           </table>
           {out.length > 0 && (
             <div className="nb">
-              <div className="nbh">Regulates {fmt(node.od)} genes <span className="mut">— knockdown changes these (top by effect · <span style={{ color: "var(--moss)" }}>up</span> / <span style={{ color: "var(--cinnabar)" }}>down</span>)</span></div>
+              <div className="nbh">Regulates {fmt(node.od)} genes <span className="mut">· knockdown changes these (top by effect · <span style={{ color: "var(--moss)" }}>up</span> / <span style={{ color: "var(--cinnabar)" }}>down</span>)</span></div>
               <EdgeChips items={out} keyName="t" />
             </div>
           )}
           {inn.length > 0 && (
             <div className="nb">
-              <div className="nbh">Regulated by {fmt(node.id)} <span className="mut">— upstream genes whose knockdown moves {node.g}</span></div>
+              <div className="nbh">Regulated by {fmt(node.id)} <span className="mut">· upstream genes whose knockdown moves {node.g}</span></div>
               <EdgeChips items={inn} keyName="s" />
             </div>
           )}
