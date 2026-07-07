@@ -1,6 +1,8 @@
-# Second Opinion
+# Prospect
 
-**Check which of your AI's biological claims the data actually supports — before you share them.**
+*Trustworthy serendipity for AI-generated biology.*
+
+**Check which of your AI's biological claims the data actually supports, and surface the verified findings nobody's looking at.** AI generates a flood of plausible biology; the real discoveries drown in the noise. Prospect gates every claim against released ground truth, so what surfaces is unexpected *and* real.
 
 Built for *Maya*, a scientist who runs a single-cell / CRISPR analysis, asks an AI
 (Claude Science) to interpret it, and gets back a confident paragraph:
@@ -11,7 +13,7 @@ She has to present Thursday. Which of those claims can she actually stand behind
 Today she'd have to dig back into the data for each one. Most people don't. So
 overstated results walk into lab meetings, grants, and papers.
 
-**Second Opinion** reads an AI-generated analysis, extracts each scientific claim
+**Prospect** reads an AI-generated analysis, extracts each scientific claim
 into a typed contract, and independently checks it against the **released ground-truth
 data** — deterministically, no model in the trust path. It hands back one page:
 

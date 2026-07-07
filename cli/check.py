@@ -1,4 +1,4 @@
-"""second-opinion check — run typed claims through a dataset checker, print a
+"""prospect check — run typed claims through a dataset checker, print a
 terminal summary, and write the one-page HTML report.
 
   python -m cli.check examples/claims_demo.json --dataset marson \
@@ -16,7 +16,7 @@ _COLOR = {"supported": "\033[32m", "refuted": "\033[31m", "unsupported": "\033[3
 _R = "\033[0m"
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="second-opinion check")
+    ap = argparse.ArgumentParser(prog="prospect check")
     ap.add_argument("claims", help="JSON file: list of claim objects")
     ap.add_argument("--dataset", default="marson")
     ap.add_argument("--data", required=True, help="path to the released ground-truth table")
