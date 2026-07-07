@@ -442,6 +442,7 @@ const FINDING_META: Record<string, { n: string; title: string; tone: string }> =
   regulator_vs_effector: { n: "02", title: "Regulator vs effector", tone: "var(--cinnabar)" },
   essentiality_artifact: { n: "03", title: "Reach is not regulation", tone: "var(--brass)" },
   cross_cell_type_transfer: { n: "04", title: "Verifier transfer — a second cell type", tone: "var(--field-blue)" },
+  regulon_recovery: { n: "05", title: "Recovering known regulons from perturbation", tone: "var(--brass-gold)" },
 };
 
 function FindingHead({ f }: { f: Finding }) {
@@ -602,9 +603,72 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
   );
 }
 
+function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => void }) {
+  const e = f.evidence;
+  const recPct = Math.round((e.recovery_rate || 0) * 100);
+  const dirPct = Math.round((e.directional_agreement || 0) * 100);
+  const top: any[] = e.top_recovered || [];
+  const wrong: any[] = e.wrong_direction_exemplars || [];
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+        <div className="card-paper" style={{ padding: "14px 16px" }}>
+          <div className="stat-figure" style={{ color: "var(--moss)" }}>{e.pooled_fold_enrichment}×</div>
+          <div className="t-label" style={{ marginTop: 4 }}>known targets enriched</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>among data edges · Fisher p≈{e.combined_p}</div>
+        </div>
+        <div className="card-paper" style={{ padding: "14px 16px" }}>
+          <div className="stat-figure">{dirPct}%</div>
+          <div className="t-label" style={{ marginTop: 4 }}>directional agreement</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>right sign, activator vs repressor</div>
+        </div>
+        <div className="card-paper" style={{ padding: "14px 16px" }}>
+          <div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{e.n_wrong_direction_edges}</div>
+          <div className="t-label" style={{ marginTop: 4 }}>edges the data overrules</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>known sign contradicted</div>
+        </div>
+      </div>
+      <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
+        Each TF's CollecTRI literature regulon, checked against the genes its knockdown actually moved,
+        over the {e.n_tfs_tested} TFs that are major regulators here. {e.n_recovered} clear significance
+        on their own, including the Th1 and Th2 master factors TBX21 and GATA3. The frontier rebuilds
+        known transcription-factor biology from perturbation alone, with no regulon supplied.
+      </p>
+      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto auto", gap: 12, padding: "6px 14px" }}>
+          {["TF", "known regulon recovered", "enrichment", "sign"].map((h, i) => (
+            <span key={h} className="t-label" style={{ color: "var(--ink-3)", textAlign: i > 1 ? "right" : "left" }}>{h}</span>
+          ))}
+        </div>
+        {top.map((r) => (
+          <div key={r.tf} style={{ display: "grid", gridTemplateColumns: "96px 1fr auto auto", gap: 12, alignItems: "center",
+            padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+            <button onClick={() => onGene(r.tf)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: "var(--moss)" }}>{r.tf}</button>
+            <span className="t-body-sm">{r.overlap} of {r.known} known targets moved on knockdown</span>
+            <span className="t-mono fz-sm" style={{ textAlign: "right", color: "var(--moss)" }}>{r.fold}×</span>
+            <span className="t-mono fz-sm" style={{ textAlign: "right" }}>{r.dir_agree != null ? Math.round(r.dir_agree * 100) + "%" : "—"}</span>
+          </div>
+        ))}
+      </div>
+      {wrong.length > 0 && (
+        <div>
+          <div className="t-label" style={{ marginBottom: 6 }}>Where the data overrules the literature's sign</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {wrong.map((w, i) => (
+              <span key={i} className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
+                {w.tf} {w.collectri === "activates" ? "activates" : "represses"} {w.target}?
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   const byKind = Object.fromEntries(d.findings.map((f) => [f.kind, f]));
-  const order = ["activation_module", "regulator_vs_effector", "essentiality_artifact", "cross_cell_type_transfer"];
+  const order = ["activation_module", "regulator_vs_effector", "essentiality_artifact", "cross_cell_type_transfer", "regulon_recovery"];
   return (
     <div style={{ display: "grid", gap: 30 }}>
       <div>
@@ -625,6 +689,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
             {k === "regulator_vs_effector" && <EffectorEvidence f={f} d={d} onGene={onGene} />}
             {k === "essentiality_artifact" && <EssentialityEvidence f={f} />}
             {k === "cross_cell_type_transfer" && <TransferEvidence f={f} onGene={onGene} />}
+            {k === "regulon_recovery" && <RegulonEvidence f={f} onGene={onGene} />}
           </section>
         );
       })}

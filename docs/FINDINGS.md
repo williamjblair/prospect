@@ -121,10 +121,44 @@ The second dataset turns this finding from a caveat into an independently valida
 
 ---
 
-## How the three connect
+## Finding 4 — verifier transfer
 
-The frontier recovers known activation biology (Finding 1), which earns the trust to catch the
-field's most-hyped genes being mislabeled as regulators (Finding 2), while resisting the
-essentiality artifact that a naive model surfaces instead (Finding 3). Recover, catch, resist:
-a trust layer for machine-generated biology, grounded in real CD4 T-cell data and re-derivable
-by anyone from the released table.
+**Claim.** The same major-regulator claim, checked against a second Perturb-seq dataset in a
+non-immune cell (Replogle K562), separates housekeeping from immune-specific regulation.
+
+**Method** (`frontier/transfer.py`): run one `Claim` through `get_checker("marson")` and
+`get_checker("replogle")`. One verifier shape, two frozen datasets, two verdicts.
+
+Essentiality artifacts reshape the K562 transcriptome too (median 71 DE genes); the activation
+module stays inert (median 4). MED19 moves 3,716 genes in K562, BCL10 moves 2. The second dataset
+turns Finding 3 from a caveat into an independently validated result, and confirms Finding 1's
+module is T-cell-specific.
+
+---
+
+## Finding 5 — recovering known regulons from perturbation
+
+**Claim.** The frontier rebuilds known transcription-factor biology from perturbation alone, with
+no regulon supplied. It also flags edges where the data overrules the literature's sign.
+
+**Method** (`frontier/regulon_slice.py`, `regulon_recover.py`): for each CollecTRI TF that is a
+major regulator here, slice its data-derived target set from the frozen matrix and compare to its
+CollecTRI literature regulon. Enrichment is a hypergeometric test over the measured gene universe;
+direction uses the correct sign convention (a TF that activates a target should, on knockdown, make
+it go down).
+
+Across 154 TFs, literature targets are **4.0x enriched** among the genes their knockdown moved
+(Fisher combined p ≈ 1e-26), and when a data edge meets a known one the sign agrees **63%** of the
+time. The Th1 and Th2 master factors **TBX21 (20x) and GATA3 (8x)** are recovered. The screen flags
+**82 known edges** where the measured direction contradicts the literature's sign.
+
+---
+
+## How they connect
+
+The frontier recovers known activation biology (Finding 1) and known TF regulons (Finding 5),
+which earns the trust to catch the field's most-hyped genes being mislabeled as regulators
+(Finding 2), while resisting the essentiality artifact a naive model surfaces instead (Finding 3),
+and an independent cell type confirms the split (Finding 4). Recover, catch, resist, confirm: a
+trust layer for machine-generated biology, grounded in real data and re-derivable from the released
+tables.

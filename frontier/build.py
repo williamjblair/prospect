@@ -49,6 +49,10 @@ def build():
     findings = build_findings(bb_by_gene)
     if os.path.exists(REPLOGLE):                 # cross-cell-type transfer (Replogle K562)
         findings.append(build_transfer())
+    reg_path = os.path.join(FR, "regulon.jsonl")  # regulon recovery (computed offline, needs S3)
+    if os.path.exists(reg_path):
+        from frontier.model import Finding
+        findings += [Finding(**json.loads(l)) for l in open(reg_path)]
     contested = {c.subject for c in contradictions}
 
     # degrees from the real edges

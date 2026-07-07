@@ -87,7 +87,7 @@ class OpenQuestion:
 # table via frontier/predicates.py; the evidence dict carries the per-gene numbers that justify
 # it, so the finding and the number that supports it can never drift apart. See docs/FINDINGS.md.
 FindingKind = Literal["activation_module", "regulator_vs_effector", "essentiality_artifact",
-                      "cross_cell_type_transfer"]
+                      "cross_cell_type_transfer", "regulon_recovery"]
 
 @dataclass
 class Finding:
