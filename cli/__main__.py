@@ -5,6 +5,7 @@
   prospect sign             the human ceremony: accept the frontier root
   prospect check <claims>   grade typed claims against a dataset  (--dataset --data --out)
   prospect propose          Claude proposes → the frozen verifier decides  (--n --model --sign)
+  prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
 
 The loop: propose (Claude) → check/verify (frozen code) → sign (human key). No model in the trust path.
 """
