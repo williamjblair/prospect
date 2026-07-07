@@ -6,6 +6,7 @@
   prospect check <claims>   grade typed claims against a dataset  (--dataset --data --out)
   prospect propose          Claude proposes → the frozen verifier decides  (--n --model --sign)
   prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
+  prospect campaign         build the proposal-only agent campaign leaderboard
   prospect receipt          emit portable receipts (activity → signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
 
@@ -31,6 +32,8 @@ def main():
         from loop.propose import main as propose_main; propose_main(rest)
     elif cmd == "agent":
         from loop.agent import main as agent_main; agent_main(rest)
+    elif cmd == "campaign":
+        from frontier.agent_campaign import main as campaign_main; campaign_main()
     elif cmd == "receipt":
         from receipt.emit import main as receipt_main; receipt_main(rest)
     elif cmd == "mcp":

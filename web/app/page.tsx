@@ -34,6 +34,19 @@ type PGGT1BDeepDive = {
   literature_context: { journal: string; year: number; doi: string; url: string; why_it_matters: string }[];
   caveats: string[];
 };
+type AgentCampaign = {
+  campaign_id: string;
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  method: { min_stim_de: number; max_rest_de: number; filters: string[] };
+  candidates: {
+    rank: number; gene: string; status: string; trust_boundary: string; score: number;
+    stim_max_de: number; strongest_condition: string; rest_de: number; k562_de: number | null;
+    rpe1_de: number | null; known_regulon_targets: number; rationale: string; assay: string;
+  }[];
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
@@ -54,6 +67,7 @@ type Data = {
     rpe1_de: string; known_regulon_targets: string; score: string; rationale: string;
     validation_assay: string }[];
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
+  agent_campaign?: AgentCampaign | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -853,6 +867,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
 
+      {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
+
       {d.validation && d.validation.length > 0 && (
         <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
       )}
@@ -873,6 +889,61 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaign; onGene: (g: string) => void }) {
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Agent campaign leaderboard</div>
+          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
+            Twenty proposal-only hypotheses ranked by frozen Prospect facts. Filters: stimulated DE at or above{" "}
+            {fmt(campaign.method.min_stim_de)}, Rest DE at or below {fmt(campaign.method.max_rest_de)}, non-canonical,
+            not housekeeping, on-target under stimulation, and cell-type-specific where measured.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/agent_campaign.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 780, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "status", "stim max", "Rest", "K562", "regulon", "score"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {campaign.candidates.slice(0, 12).map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{r.status.replace(/_/g, " ")}</span>
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>
+                  {fmt(r.stim_max_de)} · {r.strongest_condition}
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.rest_de)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de == null ? "·" : fmt(r.k562_de)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.known_regulon_targets}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{fmt(r.score)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Campaign <span className="t-mono">{campaign.campaign_id}</span> is {campaign.trust_boundary.replace(/_/g, " ")}.
+        It ranks follow-ups; accepted state still requires the frozen gate and human key.
+      </p>
     </div>
   );
 }

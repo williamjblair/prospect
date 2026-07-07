@@ -22,9 +22,9 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
 
 ## Golden rules (do not break these)
 
-1. **New Work Only, and standalone.** No imports from or branding of "Vela" or "Constellate" (Will's
-   separate prior work). The receipt, frontier, and checkers are Prospect's own primitives, written
-   for this event. The repo currently has zero Vela/Constellate references; keep it that way.
+1. **New Work Only, and standalone.** No imports from or branding of Will's separate prior work. The
+   receipt, frontier, and checkers are Prospect's own primitives, written for this event. Keep it
+   standalone.
 2. **No model in the trust path.** A model may propose, search, and draft. The verifier is frozen code
    over a frozen released table; acceptance is a human Ed25519 key. Never let a model move accepted state.
 3. **Typed status, never "verified"/"true".** Findings that re-derive are `computationally_reproduced`;
@@ -34,7 +34,8 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
 5. **Writing: no em dashes, ever.** Restraint, concrete before abstract, no LLM-slop (no staccato
    aphorisms, no grandiosity). Use commas, colons, or periods. The repo is currently em-dash-free;
    keep it that way.
-6. **Commits: no attribution footers.** No "Co-Authored-By", no "Generated with". (Breaks a CLA.)
+6. **Commits: no attribution footers.** No co-author trailers, generator bylines, or similar footer
+   text. Those break a CLA.
 7. **Secrets stay out of the repo and out of chat.** `ANTHROPIC_API_KEY` lives in gitignored `.env`
    (Will manages it). The signing key is gitignored `frontier/.prospect_signing_key`. Never print or
    commit either. Do not ask the user to paste keys.
@@ -42,7 +43,7 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|receipt)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|receipt)
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
 python benchmark/mutation_pack.py   # the floor: zero tampered claim ever admitted
 python tests/test_skill_parity.py   # the Skill checker matches the engine (112 claims, 0 drift)
@@ -53,7 +54,7 @@ python receipt/emit.py && cd web && python gen_data.py
 
 # web app (Next.js 16 + Tailwind v4 + shadcn + sigma.js):
 cd web && npm run build             # must pass; static export
-cd web && vercel --prod --yes --scope constellate-dc388081   # deploy (Constellate Vercel team)
+cd web && vercel --prod --yes --scope constellate-dc388081   # deploy
 ```
 
 The AI loops (`propose`, `agent`, the benchmark) need `ANTHROPIC_API_KEY` in `.env`. Default model

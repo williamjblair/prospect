@@ -39,6 +39,8 @@ the graph on its own word. On top of it:
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 - **PGGT1B deep dive**: a lab-facing packet that binds exact frozen facts, external literature
   context, caveats, and an assay readout while keeping the claim at `evidence_attached`.
+- **Agent campaign leaderboard**: `prospect campaign` widens the single-agent result into 20
+  proposal-only follow-ups, each ranked from frozen facts and held at `evidence_attached`.
 
 ## How it uses Claude
 
@@ -63,6 +65,8 @@ the graph on its own word. On top of it:
 - PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
   CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
   TCR-dependent programming, but the Prospect claim remains a hypothesis to test.
+- The campaign leaderboard ranks 20 non-canonical, cell-type-specific follow-ups with on-target
+  stimulated evidence. It is proposal only; accepted state still requires the frozen gate and human key.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
@@ -76,6 +80,7 @@ the graph on its own word. On top of it:
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
+./prospect campaign               # build the proposal-only campaign leaderboard
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
 python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted

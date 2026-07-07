@@ -14,6 +14,7 @@ FR = os.path.join(ROOT, "frontier")
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "frontier.json")
 BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "receipt_bridge")
 PGGT1B_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_deep_dive.json")
+CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
 
@@ -35,6 +36,8 @@ _vc = os.path.join(DATA, "validation_candidates.csv")
 validation = [r for r in csv.DictReader(open(_vc))] if os.path.exists(_vc) else []
 _pg = os.path.join(DATA, "pggt1b_deep_dive.json")
 pggt1b_deep_dive = json.load(open(_pg)) if os.path.exists(_pg) else None
+_campaign = os.path.join(DATA, "agent_campaign.json")
+agent_campaign = json.load(open(_campaign)) if os.path.exists(_campaign) else None
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
     if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
 _pp = os.path.join(DATA, "proposal_run.json")
@@ -93,7 +96,7 @@ data = {
                   "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
                             for p in proposal["proposals"]]} if proposal else None),
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
-    "pggt1b_deep_dive": pggt1b_deep_dive,
+    "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -103,6 +106,8 @@ data = {
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 if pggt1b_deep_dive:
     json.dump(pggt1b_deep_dive, open(PGGT1B_OUT, "w"))
+if agent_campaign:
+    json.dump(agent_campaign, open(CAMPAIGN_OUT, "w"))
 json.dump(data, open(OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

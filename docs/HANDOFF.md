@@ -69,6 +69,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
   It keeps status at `evidence_attached`, binds exact local facts, adds literature context, and gives
   a stimulated CD4+ assay readout.
+- **Agent campaign leaderboard** (`frontier/agent_campaign.py`, `./prospect campaign`): 20
+  proposal-only follow-ups ranked by frozen Prospect facts, exported to `examples/data/agent_campaign.*`
+  and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the single-agent result without moving
+  accepted state.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -102,10 +106,10 @@ verified state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the PGGT1B packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the PGGT1B packet, the campaign leaderboard, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -136,7 +140,7 @@ wet-lab validation shortlist.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`. Gitignored (regenerable):
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`. Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
 
@@ -169,8 +173,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
 
 **Bigger swings (higher ceiling, in rough priority):**
-- **Agent campaign**: let `loop/agent.py` run many hypotheses, ranked, into a leaderboard of novel
-  candidate regulators (with per-candidate verified evidence), instead of one hypothesis.
+- **Agent campaign next pass**: optionally run additional Claude tool-use episodes against the campaign
+  rows and attach narrative comparisons, while keeping the leaderboard proposal-only.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B next pass**: extend the shipped deep dive with more literature triangulation and, if time
@@ -184,8 +188,9 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
   findings recovering known biology (TBX21/GATA3) and catching the field's mislabels (PD-1/TIM-3), show
   the cross-dataset moat, then the autonomous agent producing a novel signed hypothesis, and close on
-  the executable receipt boundary plus the PGGT1B lab-facing packet: the AI does the work, the receipt
-  crosses as a proposal, the frozen gate and the human key decide what becomes state.
+  the executable receipt boundary, PGGT1B lab-facing packet, and 20-row campaign leaderboard: the AI
+  does the work, the receipt crosses as a proposal, the frozen gate and the human key decide what
+  becomes state.
 
 ## 9. Deeper strategic context (on Will's machine, not in this repo)
 
