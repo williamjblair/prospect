@@ -66,7 +66,7 @@ export default function Page() {
     fetch("/data/frontier.json").then((r) => r.json()).then((x: Data) => {
       setD(x);
       const hub = [...x.atlas].sort((a, b) => b.od - a.od)[0];
-      setFocus(hub ? hub.g : "VAV1");
+      setFocus(x.out["VAV1"] ? "VAV1" : hub ? hub.g : "VAV1");
     });
   }, []);
   const node = useMemo(() => (d && gene ? d.atlas.find((n) => n.g === gene) : null), [d, gene]);
