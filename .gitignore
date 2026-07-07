@@ -5,3 +5,4 @@ __pycache__/
 *.h5ad
 *.h5mu
 examples/data/*.full.csv
+examples/data/atlas_backbone.json
