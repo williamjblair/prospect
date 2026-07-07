@@ -1,0 +1,115 @@
+{
+  "model": "claude-opus-4-8",
+  "proposed": 15,
+  "admitted": 6,
+  "rejected": 9,
+  "cost_usd": 0.0308,
+  "proposals": [
+    {
+      "gene": "FOXP3",
+      "rationale": "Master transcription factor whose knockdown collapses the regulatory T-cell program and broadly derepresses effector cytokine and activation gene modules.",
+      "verdict": "refuted",
+      "reason": "FOXP3 is not a major regulator: no condition shows >10 DE genes (Rest=3 DE genes, Stim8hr=4 DE genes, Stim48hr=4 DE genes).",
+      "admitted": false
+    },
+    {
+      "gene": "BACH2",
+      "rationale": "A super-enhancer-controlled repressor that restrains terminal effector differentiation, so its loss should globally shift the transcriptome toward effector and away from memory/quiescence states.",
+      "verdict": "needs_qualification",
+      "reason": "BACH2's effect is condition-specific: active in ['Stim8hr', 'Stim48hr'], ~silent in ['Rest']. State the condition.",
+      "admitted": false
+    },
+    {
+      "gene": "IKZF1",
+      "rationale": "Ikaros organizes chromatin accessibility and represses key activation loci, making it a broad architectural regulator whose knockdown reshapes lineage and cytokine gene expression.",
+      "verdict": "needs_qualification",
+      "reason": "IKZF1's effect is condition-specific: active in ['Rest', 'Stim8hr'], ~silent in ['Stim48hr']. State the condition.",
+      "admitted": false
+    },
+    {
+      "gene": "BATF",
+      "rationale": "As a pioneer-like AP-1 factor that partners with IRF4 to open enhancers, its depletion should collapse a large fraction of stimulation-induced effector gene programs.",
+      "verdict": "supported",
+      "reason": "BATF: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    },
+    {
+      "gene": "IRF4",
+      "rationale": "A dose-dependent hub whose graded expression reads TCR signal strength and licenses distinct effector/Treg fates, so knockdown broadly reprograms activation output.",
+      "verdict": "needs_qualification",
+      "reason": "IRF4's effect is condition-specific: active in ['Stim8hr'], ~silent in ['Rest', 'Stim48hr']. State the condition.",
+      "admitted": false
+    },
+    {
+      "gene": "TCF7",
+      "rationale": "TCF1 maintains the stem/memory transcriptional network and antagonizes effector differentiation, making its loss a major driver of transcriptome-wide state change.",
+      "verdict": "refuted",
+      "reason": "TCF7 is not a major regulator: no condition shows >10 DE genes (Rest=3 DE genes, Stim8hr=3 DE genes, Stim48hr=2 DE genes).",
+      "admitted": false
+    },
+    {
+      "gene": "MYB",
+      "rationale": "MYB controls the memory-versus-effector decision and proliferative programs, so its knockdown should substantially reshape post-stimulation gene expression.",
+      "verdict": "supported",
+      "reason": "MYB: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    },
+    {
+      "gene": "NR4A1",
+      "rationale": "An immediate-early orphan nuclear receptor that enforces tolerance/exhaustion programs downstream of TCR signaling, broadly tuning the activation transcriptome.",
+      "verdict": "needs_qualification",
+      "reason": "NR4A1's effect is condition-specific: active in ['Rest'], ~silent in ['Stim8hr', 'Stim48hr']. State the condition.",
+      "admitted": false
+    },
+    {
+      "gene": "TOX",
+      "rationale": "TOX drives the epigenetic and transcriptional program of chronic-stimulation/exhaustion states, so its perturbation reshapes activation-dependent gene modules.",
+      "verdict": "unsupported",
+      "reason": "No on-target knockdown of TOX in Rest, Stim8hr, Stim48hr. The perturbation did not work, so any claim of a regulatory effect is unsupported.",
+      "admitted": false
+    },
+    {
+      "gene": "PRDM1",
+      "rationale": "Blimp-1 is a terminal-differentiation repressor antagonizing BCL6/TCF7, and its knockdown broadly rebalances effector versus memory transcriptional programs.",
+      "verdict": "unsupported",
+      "reason": "PRDM1 not found in the screen for the stated condition(s).",
+      "admitted": false
+    },
+    {
+      "gene": "STAT5A",
+      "rationale": "As the central integrator of IL-2/common-gamma-chain signaling, its loss cripples proliferation, survival, and Treg gene networks after stimulation.",
+      "verdict": "supported",
+      "reason": "STAT5A: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    },
+    {
+      "gene": "RUNX3",
+      "rationale": "RUNX3 partners with lineage factors to shape cytokine loci and cytotoxic/effector programs, making it a broad transcriptional organizer in activated CD4 cells.",
+      "verdict": "refuted",
+      "reason": "RUNX3 is not a major regulator: no condition shows >10 DE genes (Rest=9 DE genes, Stim8hr=3 DE genes, Stim48hr=3 DE genes).",
+      "admitted": false
+    },
+    {
+      "gene": "GATA3",
+      "rationale": "GATA3 is a lineage-defining factor whose knockdown collapses Th2 programming and broadly redistributes helper cytokine gene expression.",
+      "verdict": "supported",
+      "reason": "GATA3: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    },
+    {
+      "gene": "EZH2",
+      "rationale": "The PRC2 catalytic subunit sets repressive H3K27me3 marks that gate effector gene induction, so its knockdown should globally derepress activation programs.",
+      "verdict": "supported",
+      "reason": "EZH2: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    },
+    {
+      "gene": "ZEB1",
+      "rationale": "ZEB1 is an underappreciated transcriptional repressor controlling T-cell quiescence and survival, and its loss should broadly reshape the stimulation-responsive transcriptome.",
+      "verdict": "supported",
+      "reason": "ZEB1: on-target knockdown confirmed and a real transcriptional effect in ['Rest', 'Stim8hr', 'Stim48hr']. Major regulator (>10 DE genes).",
+      "admitted": true
+    }
+  ],
+  "delta_id": "delta_99fa23a3fb323f97"
+}
