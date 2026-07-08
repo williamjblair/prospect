@@ -110,6 +110,9 @@ checkers. It is `computationally_reproduced` and changes no accepted state.
 `prospect substrate-replay` emits the protocol-generalization packet: one checker contract, three
 frozen substrates, typed status, and no accepted-state mutation.
 
+`prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
+required gates, public artifacts, trust boundary, and human-only actions.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -138,6 +141,7 @@ Current public artifacts:
 ./prospect submit-smoke           # check the production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
 ./prospect demo-pack              # print the two-minute recording teleprompter
+./prospect submission-audit       # build the final submission audit packet
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides

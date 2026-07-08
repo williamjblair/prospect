@@ -23,6 +23,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect judge-pack",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect submission-audit",
         "python examples/receipt_bridge_client.py --json",
     ]:
         assert command in text
@@ -35,6 +36,7 @@ def test_agents_lists_current_cli_surface():
         "final-check",
         "submit-smoke",
         "submit-pack",
+        "submission-audit",
         "mcp",
     ]:
         assert verb in text

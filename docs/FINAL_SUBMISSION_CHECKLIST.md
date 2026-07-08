@@ -20,6 +20,8 @@ Recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
 Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
 
+Final submission audit: `docs/FINAL_SUBMISSION_AUDIT.md`
+
 Replay gate:
 
 ```bash
@@ -27,6 +29,7 @@ Replay gate:
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect submission-audit
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -42,6 +45,7 @@ Run this before submitting:
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect submission-audit
 ```
 
 Then open:
@@ -96,6 +100,7 @@ Submit the project with:
 - demo video recorded from `docs/DEMO.md`
 - local copy-safe packet from `./prospect submit-pack`
 - recording teleprompter from `./prospect demo-pack`
+- final audit packet from `./prospect submission-audit`
 
 Do not paste secrets. Do not mention internal deployment team names. Do not claim wet-lab or clinical
 truth. No model in the trust path: Claude proposes and pressure-tests, frozen code replays, and a

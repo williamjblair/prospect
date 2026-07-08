@@ -131,6 +131,8 @@ the trust floor after the event window without private credentials for the stati
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
+- The final submission audit is [docs/FINAL_SUBMISSION_AUDIT.md](FINAL_SUBMISSION_AUDIT.md): shipped
+  workstreams, required gates, public artifacts, trust boundary, and human-only actions.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
@@ -167,6 +169,7 @@ the trust floor after the event window without private credentials for the stati
 ./prospect submit-smoke           # check production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
 ./prospect demo-pack              # print the two-minute recording teleprompter
+./prospect submission-audit       # build the final submission audit packet
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts

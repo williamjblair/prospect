@@ -19,6 +19,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect submission-audit",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
         "./prospect campaign",
@@ -44,6 +45,7 @@ def test_submission_points_to_current_public_artifacts():
     assert "GLADSTONE_ASSAY_HANDOFF.md" in text
     assert "TRANSFER_REPLAY_PACKET.md" in text
     assert "FINAL_SUBMISSION_CHECKLIST.md" in text
+    assert "FINAL_SUBMISSION_AUDIT.md" in text
     assert "DEMO_TELEPROMPTER.md" in text
 
 

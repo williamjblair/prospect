@@ -128,6 +128,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Judge packet** (`frontier/judge_packet.py`, `./prospect judge-pack`): one replay manifest with
   the live URL, signed root, gate commands, public data endpoints, artifact counts, and trust-boundary
   summary, exported to `examples/data/judge_packet.json` and [JUDGE_PACKET.md](JUDGE_PACKET.md).
+- **Final submission audit** (`cli/final_submission_audit.py`, `./prospect submission-audit`):
+  deterministic upload-readiness packet. It names shipped workstreams, required gates, public
+  artifacts, trust boundary, and human-only actions, exported to
+  `examples/data/final_submission_audit.json` and [FINAL_SUBMISSION_AUDIT.md](FINAL_SUBMISSION_AUDIT.md).
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -166,7 +170,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|submission-audit|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),

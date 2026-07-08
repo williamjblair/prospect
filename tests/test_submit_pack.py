@@ -36,6 +36,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/DEMO_RECORDING_RUNBOOK.md",
         "docs/DEMO_TELEPROMPTER.md",
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
+        "docs/FINAL_SUBMISSION_AUDIT.md",
     ]:
         assert path in packet["source_docs"]
 

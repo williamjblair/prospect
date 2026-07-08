@@ -19,6 +19,7 @@ SOURCE_DOCS = [
     "docs/DEMO_RECORDING_RUNBOOK.md",
     "docs/DEMO_TELEPROMPTER.md",
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
+    "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/JUDGE_PACKET.md",
 ]
 

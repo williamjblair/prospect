@@ -20,6 +20,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect submission-audit",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
         "./prospect campaign",

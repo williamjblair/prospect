@@ -303,7 +303,7 @@ Do not spend hackathon time here unless the core plan changes.
 | Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
 | Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
 | Gladstone usefulness | Shipped stronger | Keep the assay operations bundle in the Agent tab, judge packet, final-check, and submit-smoke. |
-| Submission packaging | Strong, current with P1 work | Keep demo and submission packets aligned after any final polish. |
+| Submission packaging | Shipped, human upload remains | Keep `./prospect submission-audit`, demo, and submit packets aligned after any final polish. |
 
 ## Execution order
 
@@ -311,7 +311,7 @@ Do not spend hackathon time here unless the core plan changes.
 2. Build second-substrate replay surface. Shipped.
 3. Build or extend Claude campaign pressure loop. Shipped as the pressure summary.
 4. Build Gladstone assay operations bundle. Shipped.
-5. Refresh demo and submission surfaces. Current with the operations bundle.
+5. Refresh demo and submission surfaces. Shipped with `./prospect submission-audit`.
 6. Record and submit.
 
 ## Definition of done for the full active goal
@@ -327,6 +327,8 @@ The active goal is complete only when:
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes.
 - The final memo states any remaining human-only actions plainly.
+- `./prospect submission-audit` names shipped workstreams, required gates, public artifacts, and
+  human-only actions.
 
 ## Final judgment
 

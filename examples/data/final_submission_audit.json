@@ -1,0 +1,104 @@
+{
+  "title": "Prospect final submission audit",
+  "readiness": "submission_ready_for_human_upload",
+  "live_url": "https://prospect-sepia-six.vercel.app",
+  "repo_url": "https://github.com/williamjblair/prospect",
+  "signed_root": "root_a8b0dcdd4024e12f",
+  "public_artifact_count": 18,
+  "public_artifacts": [
+    "/data/frontier.json",
+    "/data/judge_packet.json",
+    "/data/finding_index.json",
+    "/data/receipt_bridge/receipt_contract.json",
+    "/data/receipt_bridge/receipt_manifest.json",
+    "/data/receipt_bridge/receipt_bundle.json",
+    "/data/pggt1b_deep_dive.json",
+    "/data/pggt1b_matrix_slice.json",
+    "/data/agent_campaign.json",
+    "/data/agent_campaign_review.json",
+    "/data/campaign_agent_probe.json",
+    "/data/campaign_triage.json",
+    "/data/campaign_gate_probe.json",
+    "/data/campaign_pressure_summary.json",
+    "/data/transfer_replay_packet.json",
+    "/data/substrate_replay_packet.json",
+    "/data/lab_packet.json",
+    "/data/assay_operations_bundle.json"
+  ],
+  "source_docs": [
+    "docs/JUDGE_QUICKSTART.md",
+    "docs/SUBMISSION_FORM_PACKET.md",
+    "docs/SUBMISSION.md",
+    "docs/DEMO_RECORDING_RUNBOOK.md",
+    "docs/DEMO_TELEPROMPTER.md",
+    "docs/FINAL_SUBMISSION_CHECKLIST.md",
+    "docs/FINAL_SUBMISSION_AUDIT.md",
+    "docs/JUDGE_PACKET.md"
+  ],
+  "required_gates": [
+    "./prospect final-check",
+    "./prospect submit-smoke",
+    "./prospect submit-pack",
+    "./prospect demo-pack",
+    "./prospect verify",
+    "python benchmark/mutation_pack.py",
+    "python tests/test_skill_parity.py",
+    "python examples/receipt_bridge_client.py --json"
+  ],
+  "shipped_workstreams": [
+    {
+      "workstream": "submission_floor",
+      "state": "shipped",
+      "evidence": [
+        "./prospect final-check",
+        "./prospect submit-smoke",
+        "root_a8b0dcdd4024e12f"
+      ]
+    },
+    {
+      "workstream": "second_substrate_replay",
+      "state": "shipped",
+      "evidence": [
+        "./prospect substrate-replay",
+        "/data/substrate_replay_packet.json"
+      ]
+    },
+    {
+      "workstream": "claude_campaign_pressure",
+      "state": "shipped",
+      "evidence": [
+        "./prospect campaign-pressure",
+        "/data/campaign_pressure_summary.json"
+      ]
+    },
+    {
+      "workstream": "gladstone_assay_operations",
+      "state": "shipped",
+      "evidence": [
+        "./prospect assay-ops",
+        "/data/assay_operations_bundle.json"
+      ]
+    },
+    {
+      "workstream": "demo_and_submission_packets",
+      "state": "shipped",
+      "evidence": [
+        "./prospect demo-pack",
+        "./prospect submit-pack",
+        "docs/FINAL_SUBMISSION_CHECKLIST.md"
+      ]
+    }
+  ],
+  "trust_boundary": {
+    "model_role": "propose_search_pressure_test",
+    "model_in_trust_path": "no",
+    "accepted_state_gate": "frozen_replay_plus_human_ed25519_signature",
+    "model_accepted_state_mutations": 0
+  },
+  "human_only_actions": [
+    "record_demo_video",
+    "submit_project_form",
+    "wet_lab_execution"
+  ],
+  "limitation": "Prospect proves computation over released data, not wet-lab or clinical truth."
+}

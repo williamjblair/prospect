@@ -19,6 +19,7 @@
   prospect assay-ops        build the Gladstone assay operations bundle
   prospect findings-index   build the scannable finding index for the demo
   prospect demo-pack        print the final recording teleprompter
+  prospect submission-audit build the final submission audit packet
   prospect judge-pack       build the judge packet manifest and handoff
   prospect final-check      run the local submission gate
   prospect submit-smoke     run production submission smoke checks
@@ -74,6 +75,8 @@ def main():
         from frontier.finding_index import main as finding_index_main; finding_index_main()
     elif cmd == "demo-pack":
         from cli.demo_pack import main as demo_pack_main; sys.exit(demo_pack_main(rest))
+    elif cmd == "submission-audit":
+        from cli.final_submission_audit import main as final_submission_audit_main; sys.exit(final_submission_audit_main(rest))
     elif cmd == "judge-pack":
         from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
     elif cmd == "final-check":
