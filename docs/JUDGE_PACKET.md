@@ -31,11 +31,12 @@ cd web && npm run build
 - Campaign triage rows: 3
 - Validation candidates: 5
 - Lab packet candidates: 5
-- PGGT1B evidence ladder steps: 4
+- PGGT1B evidence ladder steps: 5
+- PGGT1B matrix-slice transcripts: 671
 
 ## PGGT1B evidence capsule
 
-The top agent hypothesis has an evidence capsule with exact ratios, assay gates, and missing evidence. Status remains `evidence_attached`.
+The top agent hypothesis has an evidence capsule with exact ratios, a released-matrix moved-transcript slice, assay gates, and missing evidence. Status remains `evidence_attached`.
 
 ## Public data
 
@@ -45,6 +46,7 @@ The top agent hypothesis has an evidence capsule with exact ratios, assay gates,
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/pggt1b_deep_dive.json`
+- `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
@@ -57,7 +59,7 @@ The top agent hypothesis has an evidence capsule with exact ratios, assay gates,
 - Findings: five-row index, then evidence tables
 - Frontier: signed root, contradictions, receipts, MCP bridge
 - Agent: PGGT1B packet, campaign leaderboard, lab assay packet
-- Agent: PGGT1B evidence capsule shows exact ratios and missing acceptance evidence
+- Agent: PGGT1B evidence capsule shows exact ratios, matrix slice, and missing acceptance evidence
 - Agent: Claude probe compared with deterministic review lanes
 - Agent: disagreement triage turns model pressure into assay gates
 

@@ -72,7 +72,7 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
   It keeps status at `evidence_attached`, binds exact local facts, adds an evidence capsule with
   exact stimulation and transfer ratios, adds literature context, names missing evidence before
-  acceptance, and gives a stimulated CD4+ assay readout.
+  acceptance, includes a released-matrix moved-transcript slice, and gives a stimulated CD4+ assay readout.
 - **Agent campaign leaderboard** (`frontier/agent_campaign.py`, `./prospect campaign`): 20
   proposal-only follow-ups ranked by frozen Prospect facts, with deterministic review lanes,
   primary readouts, and "what would weaken it" triage fields, exported to
@@ -171,7 +171,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
-`finding_index.json`, `judge_packet.json`.
+`finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -209,8 +209,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
   more rows or run an additional model pass against the disagreement gates.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
-- **PGGT1B matrix slice**: the deep dive now has exact ratios and missing-evidence gates. A later
-  increment could add a small reproducible matrix slice around the gene's strongest moved transcripts.
+- **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around
+  the gene's strongest moved transcripts.
 
 ## 8. Demo and submission
 

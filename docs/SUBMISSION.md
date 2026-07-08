@@ -85,8 +85,8 @@ the graph on its own word. On top of it:
 - PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
   CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
   TCR-dependent programming. The evidence capsule adds the exact 17.22x Stim8hr-to-Rest ratio,
-  the 3014x Stim8hr-to-K562 transfer check, and the missing evidence before acceptance. The Prospect
-  claim remains a hypothesis to test.
+  the 3014x Stim8hr-to-K562 transfer check, and a released-matrix slice of 671 moved transcripts
+  headed by KLF2, RHOB, IL5, and IL10. The Prospect claim remains a hypothesis to test.
 - The campaign leaderboard ranks 20 non-canonical, cell-type-specific follow-ups with on-target
   stimulated evidence. It is proposal only; accepted state still requires the frozen gate and human key.
 - The campaign review appendix turns that leaderboard into an auditable assay queue: one top
@@ -109,6 +109,7 @@ the graph on its own word. On top of it:
 - `/data/frontier.json`
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
+- `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`

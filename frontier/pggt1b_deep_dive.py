@@ -15,7 +15,11 @@ from frontier import predicates as P
 
 DATA = ROOT / "examples" / "data"
 OUT_JSON = DATA / "pggt1b_deep_dive.json"
+OUT_MATRIX_SLICE = DATA / "pggt1b_matrix_slice.json"
 OUT_DOC = ROOT / "docs" / "PGGT1B_DEEP_DIVE.md"
+SLICE_Q_THRESH = 0.1
+SLICE_LFC_THRESH = 1.0
+SLICE_TOP_N = 12
 
 
 def _load_backbone() -> dict[str, dict[str, Any]]:
@@ -72,6 +76,78 @@ def _load_condition_summary(gene: str) -> dict[str, dict[str, Any]]:
     return out
 
 
+def _slice_entry(gene: str, log_fc: float, adj_p_value: float, direction: str) -> dict[str, Any]:
+    return {
+        "gene": gene,
+        "direction": direction,
+        "log_fc": round(float(log_fc), 3),
+        "adj_p_value": float(f"{float(adj_p_value):.6g}"),
+    }
+
+
+def _build_matrix_slice_from_released_matrix() -> dict[str, Any]:
+    import numpy as np
+
+    from frontier.graph_edges import open_matrix, read_col
+
+    h = open_matrix()
+    obs = h["obs"]
+    src = read_col(obs, "target_contrast_gene_name")
+    cond = read_col(obs, "culture_condition")
+    hits = np.where((src == "PGGT1B") & (cond == "Stim8hr"))[0]
+    if len(hits) != 1:
+        raise RuntimeError(f"expected one PGGT1B Stim8hr matrix row, found {len(hits)}")
+
+    var = h["var"]
+    targets = np.array([
+        x.decode() if isinstance(x, bytes) else str(x)
+        for x in (var["gene_name"] if "gene_name" in var else var["_index"])[:]
+    ])
+    row = int(hits[0])
+    log_fc = np.asarray(h["layers/log_fc"][row, :]).ravel()
+    adj_p_value = np.asarray(h["layers/adj_p_value"][row, :]).ravel()
+    significant = np.where(
+        (adj_p_value < SLICE_Q_THRESH)
+        & (np.abs(log_fc) > SLICE_LFC_THRESH)
+        & (targets != "PGGT1B")
+    )[0]
+    up = significant[log_fc[significant] > 0]
+    down = significant[log_fc[significant] < 0]
+    top_up = up[np.argsort(-log_fc[up])[:SLICE_TOP_N]]
+    top_down = down[np.argsort(log_fc[down])[:SLICE_TOP_N]]
+
+    return {
+        "title": "PGGT1B moved-transcript matrix slice",
+        "source_gene": "PGGT1B",
+        "condition": "Stim8hr",
+        "status": "computationally_reproduced",
+        "trust_boundary": "evidence_for_proposal",
+        "source": "released Marson GWCD4i.DE_stats.h5ad over S3 byte-range reads",
+        "replay": "python frontier/pggt1b_deep_dive.py",
+        "thresholds": {
+            "adj_p_value_lt": SLICE_Q_THRESH,
+            "abs_log_fc_gt": SLICE_LFC_THRESH,
+        },
+        "n_thresholded_transcripts": int(len(significant)),
+        "n_up": int(len(up)),
+        "n_down": int(len(down)),
+        "top_up": [
+            _slice_entry(str(targets[j]), float(log_fc[j]), float(adj_p_value[j]), "up")
+            for j in top_up
+        ],
+        "top_down": [
+            _slice_entry(str(targets[j]), float(log_fc[j]), float(adj_p_value[j]), "down")
+            for j in top_down
+        ],
+    }
+
+
+def _load_matrix_slice() -> dict[str, Any]:
+    if OUT_MATRIX_SLICE.exists():
+        return json.loads(OUT_MATRIX_SLICE.read_text())
+    return _build_matrix_slice_from_released_matrix()
+
+
 def _cond(node: dict[str, Any], name: str) -> dict[str, Any]:
     return node["conditions"].get(name, {})
 
@@ -109,6 +185,7 @@ def _effect_balance(condition_summary: dict[str, dict[str, Any]]) -> dict[str, d
 
 def _evidence_capsule(facts: dict[str, Any]) -> dict[str, Any]:
     condition_summary = facts["condition_summary"]
+    matrix_slice = facts["matrix_slice"]
     return {
         "title": "PGGT1B evidence capsule",
         "status": "evidence_attached",
@@ -136,6 +213,14 @@ def _evidence_capsule(facts: dict[str, Any]) -> dict[str, Any]:
                 "evidence": "K562 has 1 DE gene for PGGT1B in the reduced Replogle table",
             },
             {
+                "claim": "moved-transcript slice",
+                "status": "computationally_reproduced",
+                "evidence": (
+                    f"{matrix_slice['n_thresholded_transcripts']} released-matrix transcripts pass "
+                    "adj. p < 0.1 and abs(log2FC) > 1 at Stim8hr"
+                ),
+            },
+            {
                 "claim": "prenylation-linked mechanism",
                 "status": "evidence_attached",
                 "evidence": "external mouse T-cell literature motivates RHOA or RAC pathway readouts",
@@ -148,7 +233,7 @@ def _evidence_capsule(facts: dict[str, Any]) -> dict[str, Any]:
             "RHOA or RAC pathway readout moves in the expected direction",
         ],
         "missing_for_acceptance": [
-            "target-level summary is not a transcript identity list; acceptance would need the matrix-derived moved-transcript slice",
+            "matrix slice is attached as proposal evidence, not accepted frontier edges",
             "orthogonal perturbation has not been run",
             "human review has not signed any new accepted state from this hypothesis",
         ],
@@ -163,6 +248,7 @@ def build_deep_dive() -> dict[str, Any]:
     collectri = _load_collectri_counts()
     agent_h = _load_agent_hypothesis()
     condition_summary = _load_condition_summary("PGGT1B")
+    matrix_slice = _load_matrix_slice()
 
     facts = {
         "class": node["class"],
@@ -180,6 +266,7 @@ def build_deep_dive() -> dict[str, Any]:
         "is_essentiality_artifact": P.is_essentiality_artifact(node),
         "graph_edges_sliced": 0,
         "condition_summary": condition_summary,
+        "matrix_slice": matrix_slice,
     }
 
     capsule = _evidence_capsule(facts)
@@ -195,6 +282,7 @@ def build_deep_dive() -> dict[str, Any]:
         ),
         "facts": facts,
         "evidence_capsule": capsule,
+        "matrix_slice": matrix_slice,
         "prospect_read": (
             "PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-target knockdown, "
             "a smaller Rest footprint, no broad K562 footprint, and no CollecTRI regulon annotation."
@@ -251,7 +339,7 @@ def build_deep_dive() -> dict[str, Any]:
         ],
         "caveats": [
             "Stim48hr is not scored as on-target because the screen reports no on-target knockdown in that condition.",
-            "The current frontier has no sliced PGGT1B gene-to-gene edge neighborhood, so the packet uses summary-count evidence.",
+            "The matrix slice is evidence for a proposal; it has not been promoted into accepted frontier edges.",
             "External papers make the mechanism plausible; they do not move accepted Prospect state.",
         ],
     }
@@ -299,6 +387,35 @@ def _markdown(dive: dict[str, Any]) -> str:
             f"{int(row.get('n_total_de_genes', 0)):,} | {row.get('ontarget_effect_size', 'n/a')} | "
             f"{row.get('ontarget_effect_category', 'n/a')} |"
         )
+    lines += [
+        "",
+        "## Matrix slice",
+        "",
+        f"Source: {dive['matrix_slice']['source']}. Status: `{dive['matrix_slice']['status']}`. "
+        f"Trust boundary: `{dive['matrix_slice']['trust_boundary']}`.",
+        "",
+        "| condition | thresholded transcripts | up | down | thresholds |",
+        "|---|---:|---:|---:|---|",
+        f"| {dive['matrix_slice']['condition']} | {dive['matrix_slice']['n_thresholded_transcripts']:,} | "
+        f"{dive['matrix_slice']['n_up']:,} | {dive['matrix_slice']['n_down']:,} | "
+        "adj. p < 0.1, abs(log2FC) > 1 |",
+        "",
+        "Top increased transcripts:",
+        "",
+        "| gene | log2FC | adj. p |",
+        "|---|---:|---:|",
+    ]
+    for row in dive["matrix_slice"]["top_up"][:8]:
+        lines.append(f"| {row['gene']} | {row['log_fc']} | {row['adj_p_value']:.3g} |")
+    lines += [
+        "",
+        "Top decreased transcripts:",
+        "",
+        "| gene | log2FC | adj. p |",
+        "|---|---:|---:|",
+    ]
+    for row in dive["matrix_slice"]["top_down"][:8]:
+        lines.append(f"| {row['gene']} | {row['log_fc']} | {row['adj_p_value']:.3g} |")
     lines += [
         "",
         "## Evidence capsule",
@@ -381,18 +498,27 @@ def _markdown(dive: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def write_deep_dive(out_json: Path = OUT_JSON, out_doc: Path = OUT_DOC) -> dict[str, Any]:
+def write_deep_dive(
+    out_json: Path = OUT_JSON,
+    out_doc: Path = OUT_DOC,
+    out_matrix_slice: Path | None = None,
+) -> dict[str, Any]:
     dive = build_deep_dive()
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_doc.parent.mkdir(parents=True, exist_ok=True)
     out_json.write_text(json.dumps(dive, indent=2) + "\n")
     out_doc.write_text(_markdown(dive))
+    if out_matrix_slice is not None or out_json == OUT_JSON:
+        slice_path = out_matrix_slice or OUT_MATRIX_SLICE
+        slice_path.parent.mkdir(parents=True, exist_ok=True)
+        slice_path.write_text(json.dumps(dive["matrix_slice"], indent=2) + "\n")
     return dive
 
 
 def main() -> None:
     write_deep_dive()
     print(f"wrote {OUT_JSON}")
+    print(f"wrote {OUT_MATRIX_SLICE}")
     print(f"wrote {OUT_DOC}")
 
 

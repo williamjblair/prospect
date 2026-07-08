@@ -29,6 +29,7 @@ def test_submission_points_to_current_public_artifacts():
         "/data/frontier.json",
         "/data/judge_packet.json",
         "/data/receipt_bridge/receipt_manifest.json",
+        "/data/pggt1b_matrix_slice.json",
         "/data/campaign_agent_probe.json",
         "/data/campaign_triage.json",
         "/data/lab_packet.json",

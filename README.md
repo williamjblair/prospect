@@ -86,6 +86,7 @@ Current public artifacts:
 - `/data/frontier.json`
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
+- `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`

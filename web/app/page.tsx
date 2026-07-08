@@ -48,6 +48,18 @@ type PGGT1BDeepDive = {
     assay_gates: string[];
     missing_for_acceptance: string[];
   };
+  matrix_slice?: {
+    title: string;
+    source_gene: string;
+    condition: string;
+    status: string;
+    trust_boundary: string;
+    n_thresholded_transcripts: number;
+    n_up: number;
+    n_down: number;
+    top_up: { gene: string; direction: string; log_fc: number; adj_p_value: number }[];
+    top_down: { gene: string; direction: string; log_fc: number; adj_p_value: number }[];
+  };
   facts: {
     rest_de: number; rest_kd: string; stim8hr_de: number; stim8hr_kd: string;
     stim48hr_de: number; stim48hr_kd: string; k562_de: number | null;
@@ -1486,6 +1498,44 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
               <p className="t-caption" style={{ margin: 0 }}>{dive.evidence_capsule.missing_for_acceptance[0]}.</p>
             </div>
           </div>
+        </div>
+      )}
+      {dive.matrix_slice && (
+        <div style={{ display: "grid", gap: 10, paddingTop: 2 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <div className="t-label">Matrix slice</div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>
+              {dive.matrix_slice.status.replace(/_/g, " ")}
+            </span>
+            <span className="t-caption" style={{ color: "var(--ink-3)" }}>
+              {fmt(dive.matrix_slice.n_thresholded_transcripts)} moved transcripts · {fmt(dive.matrix_slice.n_up)} up · {fmt(dive.matrix_slice.n_down)} down
+            </span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 10 }}>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Top increased</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                {dive.matrix_slice.top_up.slice(0, 8).map((row) => (
+                  <button key={row.gene} onClick={() => onGene(row.gene)} className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>
+                    {row.gene} {row.log_fc}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Top decreased</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                {dive.matrix_slice.top_down.slice(0, 8).map((row) => (
+                  <button key={row.gene} onClick={() => onGene(row.gene)} className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
+                    {row.gene} {row.log_fc}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p className="t-caption" style={{ margin: 0 }}>
+            Trust boundary: {dive.matrix_slice.trust_boundary.replace(/_/g, " ")}. The slice supports assay design; it does not move accepted state.
+          </p>
         </div>
       )}
       {dive.validation_plan && (

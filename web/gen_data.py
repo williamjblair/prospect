@@ -14,6 +14,7 @@ FR = os.path.join(ROOT, "frontier")
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "frontier.json")
 BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "receipt_bridge")
 PGGT1B_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_deep_dive.json")
+PGGT1B_SLICE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_matrix_slice.json")
 CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
 CAMPAIGN_REVIEW_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign_review.json")
 CAMPAIGN_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_agent_probe.json")
@@ -49,6 +50,8 @@ _vc = os.path.join(DATA, "validation_candidates.csv")
 validation = [r for r in csv.DictReader(open(_vc))] if os.path.exists(_vc) else []
 _pg = os.path.join(DATA, "pggt1b_deep_dive.json")
 pggt1b_deep_dive = json.load(open(_pg)) if os.path.exists(_pg) else None
+_pg_slice = os.path.join(DATA, "pggt1b_matrix_slice.json")
+pggt1b_matrix_slice = json.load(open(_pg_slice)) if os.path.exists(_pg_slice) else None
 _campaign = os.path.join(DATA, "agent_campaign.json")
 agent_campaign = json.load(open(_campaign)) if os.path.exists(_campaign) else None
 _campaign_review = os.path.join(DATA, "agent_campaign_review.json")
@@ -134,6 +137,8 @@ data = {
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 if pggt1b_deep_dive:
     json.dump(pggt1b_deep_dive, open(PGGT1B_OUT, "w"))
+if pggt1b_matrix_slice:
+    json.dump(pggt1b_matrix_slice, open(PGGT1B_SLICE_OUT, "w"))
 if agent_campaign:
     json.dump(agent_campaign, open(CAMPAIGN_OUT, "w"))
 if agent_campaign_review:

@@ -65,10 +65,30 @@ def test_pggt1b_deep_dive_includes_evidence_capsule():
     assert capsule["evidence_ladder"][0]["claim"] == "stimulated CD4+ footprint"
     assert capsule["evidence_ladder"][0]["status"] == "computationally_reproduced"
     assert capsule["evidence_ladder"][-1]["status"] == "evidence_attached"
-    assert "target-level summary" in capsule["missing_for_acceptance"][0]
+    assert "proposal evidence" in capsule["missing_for_acceptance"][0]
     assert any("orthogonal knockdown" in gate for gate in capsule["assay_gates"])
     assert "verified" not in json.dumps(capsule).lower()
     assert "true" not in json.dumps(capsule).lower()
+
+
+def test_pggt1b_deep_dive_includes_matrix_slice():
+    dive = build_deep_dive()
+    matrix_slice = dive["matrix_slice"]
+
+    assert matrix_slice["source_gene"] == "PGGT1B"
+    assert matrix_slice["condition"] == "Stim8hr"
+    assert matrix_slice["status"] == "computationally_reproduced"
+    assert matrix_slice["trust_boundary"] == "evidence_for_proposal"
+    assert matrix_slice["thresholds"] == {"adj_p_value_lt": 0.1, "abs_log_fc_gt": 1.0}
+    assert matrix_slice["n_thresholded_transcripts"] == 671
+    assert matrix_slice["n_up"] == 598
+    assert matrix_slice["n_down"] == 73
+    assert matrix_slice["top_up"][0]["gene"] == "KLF2"
+    assert matrix_slice["top_down"][0]["gene"] == "IL5"
+    assert matrix_slice["top_down"][1]["gene"] == "IL10"
+    assert "python frontier/pggt1b_deep_dive.py" in matrix_slice["replay"]
+    assert "verified" not in json.dumps(matrix_slice).lower()
+    assert "true" not in json.dumps(matrix_slice).lower()
 
 
 def test_pggt1b_deep_dive_writes_json_and_markdown(tmp_path):
@@ -88,7 +108,11 @@ def test_pggt1b_deep_dive_writes_json_and_markdown(tmp_path):
     assert "Assay decision plan" in doc
     assert "Evidence capsule" in doc
     assert "17.22x" in doc
-    assert "target-level summary" in doc
+    assert "proposal evidence" in doc
+    assert "Matrix slice" in doc
+    assert "671" in doc
+    assert "KLF2" in doc
+    assert "IL5" in doc
     assert "Stim8hr | 102 | 2,172 | 842 | 3,014" in doc
     assert "failed on-target knockdown" in doc
 
@@ -113,7 +137,9 @@ def test_pggt1b_evidence_capsule_is_visible_in_agent_tab():
     assert "pggt1b_deep_dive" in gen_data
     assert "evidence_capsule" in page
     assert "Evidence capsule" in page
+    assert "Matrix slice" in page
     assert "stimulated_to_rest_ratio" in page
+    assert "n_thresholded_transcripts" in page
     assert "missing_for_acceptance" in page
 
 
@@ -121,6 +147,7 @@ if __name__ == "__main__":
     test_pggt1b_deep_dive_keeps_status_and_exact_facts(__import__("pathlib").Path("/tmp/prospect-pggt1b-test"))
     test_pggt1b_deep_dive_includes_assay_decision_plan()
     test_pggt1b_deep_dive_includes_evidence_capsule()
+    test_pggt1b_deep_dive_includes_matrix_slice()
     test_pggt1b_deep_dive_writes_json_and_markdown(__import__("pathlib").Path("/tmp/prospect-pggt1b-test"))
     test_pggt1b_deep_dive_runs_from_prospect_cli()
     test_pggt1b_evidence_capsule_is_visible_in_agent_tab()
