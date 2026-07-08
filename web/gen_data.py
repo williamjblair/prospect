@@ -91,6 +91,7 @@ disease_genetics_overlay = load("disease_genetics_overlay.json")
 ccdc22_defended_evidence = load("ccdc22_defended_evidence.json")
 defended_candidate_decisions = load("defended_candidate_decisions.json")
 defended_discovery_endgame_preregistration = load("defended_discovery_endgame_preregistration.json")
+pggt1b_defended_evidence = load("pggt1b_defended_evidence.json")
 pggt1b_endgame_decision = load("pggt1b_endgame_decision.json")
 defended_discovery_endgame_result = load("defended_discovery_endgame_result.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
@@ -233,6 +234,7 @@ data = {
     "ccdc22_defended_evidence": ccdc22_defended_evidence,
     "defended_candidate_decisions": defended_candidate_decisions,
     "defended_discovery_endgame_preregistration": defended_discovery_endgame_preregistration,
+    "pggt1b_defended_evidence": pggt1b_defended_evidence,
     "pggt1b_endgame_decision": pggt1b_endgame_decision,
     "defended_discovery_endgame_result": defended_discovery_endgame_result,
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
@@ -255,6 +257,7 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (ccdc22_defended_evidence, "ccdc22_defended_evidence.json"),
                   (defended_candidate_decisions, "defended_candidate_decisions.json"),
                   (defended_discovery_endgame_preregistration, "defended_discovery_endgame_preregistration.json"),
+                  (pggt1b_defended_evidence, "pggt1b_defended_evidence.json"),
                   (pggt1b_endgame_decision, "pggt1b_endgame_decision.json"),
                   (defended_discovery_endgame_result, "defended_discovery_endgame_result.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),

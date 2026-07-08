@@ -1,6 +1,6 @@
 # PGGT1B endgame decision
 
-Decision id: `pggt1b_endgame_0638b7de2aff1fa4`
+Decision id: `pggt1b_endgame_7950a9837c2f7120`
 
 Pre-registration: `endgame_prereg_cc12f4edc74c23b1`
 

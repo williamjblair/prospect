@@ -67,6 +67,45 @@ def test_pggt1b_packet_keeps_support_and_gaps_separate():
     assert packet["access_limited_public_dataset_count"] == 0
 
 
+def test_pggt1b_packet_downgrades_novelty_against_prior_art():
+    packet = build_pggt1b_defended_evidence()
+    novelty = packet["novelty_assessment"]
+
+    assert novelty["status"] == "prior_art_established_narrowed_claim"
+    assert novelty["downgraded_novelty"] is True
+    assert "not a first report" in novelty["plain_language"].lower()
+    assert {row["pmid"] for row in novelty["citations"]} >= {
+        "31302143",
+        "33207246",
+        "30449619",
+        "36002574",
+    }
+    assert novelty["kept_claim"] == (
+        "Prospect contributes independent released-data support that PGGT1B is a testable "
+        "activation-transcriptome hypothesis in primary human CD4+ cells."
+    )
+
+
+def test_pggt1b_packet_has_expert_dossier_sections():
+    packet = build_pggt1b_defended_evidence()
+
+    mechanism = packet["mechanism_dossier"]
+    assert "3014 stimulated DE genes" in mechanism["data_shows"][0]
+    assert "prenylation-dependent small-GTPase" in mechanism["inference"][0]
+    assert {"FNTA", "RABGGTA", "RAP1A", "CDC42"} <= set(mechanism["partners"])
+
+    druggability = packet["druggability"]
+    assert druggability["target_chembl_id"] == "CHEMBL4135"
+    assert druggability["caveat"] == "existing compounds and activity rows, not a validated therapy"
+    assert len(druggability["example_compounds"]) >= 3
+    assert all(row["molecule_chembl_id"].startswith("CHEMBL") for row in druggability["example_compounds"])
+
+    signature = packet["sade_feldman_signature_summary"]
+    assert signature["genes"] == 52
+    assert signature["typed_status_counts"]["evidence_attached"] == 12
+    assert signature["coverage_report"]["after"]["not_assayed"] == 5
+
+
 def test_pggt1b_packet_declares_kill_results_without_accepting_state():
     packet = build_pggt1b_defended_evidence()
     kills = {row["kill_id"]: row for row in packet["kill_attempts"]}
@@ -90,6 +129,19 @@ def test_pggt1b_packet_declares_kill_results_without_accepting_state():
     assert "activation-transcriptome or activation-marker primary T-cell screen" in kills["batch_or_dataset_specificity"]["missing"]
 
 
+def test_pggt1b_wet_lab_protocol_is_runnable_and_falsifiable():
+    packet = build_pggt1b_defended_evidence()
+    protocol = packet["wet_lab_protocol"]
+
+    assert protocol["system"] == "stimulated primary human CD4+ T cells"
+    assert protocol["minimum_donors"] >= 3
+    assert {"non_targeting_control", "PGGT1B_CRISPRi", "FNTA_or_FNTB_pathway_control", "viability_control"} <= {
+        arm["id"] for arm in protocol["arms"]
+    }
+    assert {"PGGT1B_knockdown", "activation_transcriptome", "viability", "prenylation_or_small_GTPase_localization"} <= set(protocol["readouts"])
+    assert "no candidate-specific activation-program shift" in protocol["decision_gates"]["refute"]
+
+
 def test_pggt1b_packet_writes_clean_json_and_markdown(tmp_path):
     out_json = tmp_path / "pggt1b_defended_evidence.json"
     out_doc = tmp_path / "PGGT1B_DEFENDED_EVIDENCE.md"
@@ -101,6 +153,7 @@ def test_pggt1b_packet_writes_clean_json_and_markdown(tmp_path):
     assert packet["packet_id"].startswith("pggt1b_defended_")
     assert "not cleared full bar" in doc
     assert "median gene effect -0.1009" in doc
+    assert "Novelty downgrade" in doc
     assert "primary T-cell proliferation screen" in doc
     assert "No unscored public source remains in this packet." in doc
     assert "activation-transcriptome or activation-marker primary T-cell screen" in doc

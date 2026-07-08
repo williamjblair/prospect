@@ -1,0 +1,98 @@
+{
+  "query_pmids": [
+    "31302143",
+    "33207246",
+    "30449619",
+    "36002574",
+    "33649592",
+    "35688146"
+  ],
+  "rows": [
+    {
+      "authors": [
+        "L\u00f3pez-Posadas R",
+        "Fastancz P",
+        "Mart\u00ednez-S\u00e1nchez LDC",
+        "Panteleev-Ivlev J",
+        "Thonn V",
+        "Kisseleva T"
+      ],
+      "journal": "Gastroenterology",
+      "pmid": "31302143",
+      "pubdate": "2019 Nov",
+      "title": "Inhibiting PGGT1B Disrupts Function of RHOA, Resulting in T-cell Expression of Integrin \u03b14\u03b27 and Development of Colitis in Mice."
+    },
+    {
+      "authors": [
+        "Su W",
+        "Chapman NM",
+        "Wei J",
+        "Zeng H",
+        "Dhungana Y",
+        "Shi H"
+      ],
+      "journal": "Cell metabolism",
+      "pmid": "33207246",
+      "pubdate": "2020 Dec 1",
+      "title": "Protein Prenylation Drives Discrete Signaling Programs for the Differentiation and Maintenance of Effector T(reg) Cells."
+    },
+    {
+      "authors": [
+        "Shifrut E",
+        "Carnevale J",
+        "Tobin V",
+        "Roth TL",
+        "Woo JM",
+        "Bui CT"
+      ],
+      "journal": "Cell",
+      "pmid": "30449619",
+      "pubdate": "2018 Dec 13",
+      "title": "Genome-wide CRISPR Screens in Primary Human T Cells Reveal Key Regulators of Immune Function."
+    },
+    {
+      "authors": [
+        "Carnevale J",
+        "Shifrut E",
+        "Kale N",
+        "Nyberg WA",
+        "Blaeschke F",
+        "Chen YY"
+      ],
+      "journal": "Nature",
+      "pmid": "36002574",
+      "pubdate": "2022 Sep",
+      "title": "RASA2 ablation in T cells boosts antigen sensitivity and long-term function."
+    },
+    {
+      "authors": [
+        "Frangieh CJ",
+        "Melms JC",
+        "Thakore PI",
+        "Geiger-Schuller KR",
+        "Ho P",
+        "Luoma AM"
+      ],
+      "journal": "Nature genetics",
+      "pmid": "33649592",
+      "pubdate": "2021 Mar",
+      "title": "Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion."
+    },
+    {
+      "authors": [
+        "Replogle JM",
+        "Saunders RA",
+        "Pogson AN",
+        "Hussmann JA",
+        "Lenail A",
+        "Guna A"
+      ],
+      "journal": "Cell",
+      "pmid": "35688146",
+      "pubdate": "2022 Jul 7",
+      "title": "Mapping information-rich genotype-phenotype landscapes with genome-scale Perturb-seq."
+    }
+  ],
+  "source": "ncbi_pubmed_esummary",
+  "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+}

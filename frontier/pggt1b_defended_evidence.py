@@ -41,6 +41,8 @@ SNAPSHOT_URLS = {
 DEPMAP_19Q2_ARTICLE = "https://api.figshare.com/v2/articles/8061398"
 DEPMAP_19Q2_GENE_EFFECT_FILE = "Achilles_gene_effect.csv"
 ORCS_DATATABLE_URL = "https://orcs.thebiogrid.org/scripts/datatableTools.php"
+NCBI_PUBMED_SUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+LITERATURE_PMIDS = ["31302143", "33207246", "30449619", "36002574", "33649592", "35688146"]
 
 
 def _load(path: Path) -> Any:
@@ -201,6 +203,36 @@ def _fetch_orcs_gene_tcell_rows() -> dict[str, Any]:
     }
 
 
+def _fetch_literature_prior_art() -> dict[str, Any]:
+    query = urllib.parse.urlencode(
+        {"db": "pubmed", "id": ",".join(LITERATURE_PMIDS), "retmode": "json"}
+    )
+    request = urllib.request.Request(
+        NCBI_PUBMED_SUMMARY_URL + "?" + query,
+        headers={"User-Agent": "prospect-hackathon/1.0"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        body = json.loads(response.read().decode())
+    rows = []
+    for pmid in LITERATURE_PMIDS:
+        item = body["result"][pmid]
+        rows.append(
+            {
+                "pmid": pmid,
+                "title": item["title"],
+                "journal": item.get("fulljournalname", ""),
+                "pubdate": item.get("pubdate", ""),
+                "authors": [row["name"] for row in item.get("authors", [])[:6]],
+            }
+        )
+    return {
+        "source": "ncbi_pubmed_esummary",
+        "url": NCBI_PUBMED_SUMMARY_URL,
+        "query_pmids": LITERATURE_PMIDS,
+        "rows": rows,
+    }
+
+
 def _write_snapshot(name: str, payload: Any) -> None:
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     (SNAPSHOT_DIR / f"{name}.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
@@ -237,6 +269,7 @@ def fetch_pggt1b_snapshots() -> None:
         },
     )
     _write_snapshot("orcs_gene_tcell_rows", _fetch_orcs_gene_tcell_rows())
+    _write_snapshot("literature_prior_art", _fetch_literature_prior_art())
     _write_snapshot(
         "depmap_access",
         {
@@ -375,6 +408,139 @@ def _scored_evidence(discovery_row: dict[str, Any], cross_row: dict[str, Any]) -
     ]
 
 
+def _literature_rows() -> list[dict[str, Any]]:
+    return _snapshot("literature_prior_art")["rows"]
+
+
+def _novelty_assessment() -> dict[str, Any]:
+    rows = _literature_rows()
+    by_pmid = {row["pmid"]: row for row in rows}
+    return {
+        "status": "prior_art_established_narrowed_claim",
+        "downgraded_novelty": True,
+        "plain_language": (
+            "PGGT1B is not a first report in T-cell biology. Prior work already links "
+            "PGGT1B or geranylgeranyl transferase I to T-cell localization, colitis, "
+            "and effector Treg programs."
+        ),
+        "kept_claim": (
+            "Prospect contributes independent released-data support that PGGT1B is a testable "
+            "activation-transcriptome hypothesis in primary human CD4+ cells."
+        ),
+        "citations": [
+            {
+                "pmid": "31302143",
+                "role": "direct PGGT1B and T-cell localization prior art",
+                "title": by_pmid["31302143"]["title"],
+            },
+            {
+                "pmid": "33207246",
+                "role": "Pggt1b and protein prenylation in effector Treg programs",
+                "title": by_pmid["33207246"]["title"],
+            },
+            {
+                "pmid": "30449619",
+                "role": "primary human T-cell CRISPR screen comparator",
+                "title": by_pmid["30449619"]["title"],
+            },
+            {
+                "pmid": "36002574",
+                "role": "primary T-cell proliferation ORCS comparator",
+                "title": by_pmid["36002574"]["title"],
+            },
+        ],
+    }
+
+
+def _mechanism_dossier(discovery_row: dict[str, Any]) -> dict[str, Any]:
+    string_rows = _snapshot("string_interactions")["payload"]
+    partners = [row["preferredName_B"] for row in string_rows[:10]]
+    return {
+        "data_shows": [
+            f"{discovery_row['stim_max_de']} stimulated DE genes after PGGT1B knockdown in the Marson CD4+ Perturb-seq table",
+            f"{discovery_row['rest_de']} Rest DE genes and K562 {discovery_row['k562_de']} DE genes in frozen specificity comparators",
+            "Shifrut 2018 ORCS row supports a primary T-cell perturbation context",
+        ],
+        "inference": [
+            "The mechanistic hypothesis is prenylation-dependent small-GTPase and immune-synapse traffic, inferred from PGGT1B function and STRING partners.",
+            "The released data do not directly measure prenylation, RHOA/RAC1/CDC42 localization, or immune-synapse assembly.",
+        ],
+        "partners": partners,
+        "cited_basis": [
+            "PMID 31302143 links PGGT1B inhibition to RHOA function and T-cell gut-homing biology.",
+            "PMID 33207246 links protein prenylation to effector Treg signaling programs.",
+        ],
+    }
+
+
+def _druggability() -> dict[str, Any]:
+    chembl_target = _snapshot("chembl_target")["payload"]
+    activities = _snapshot("chembl_activity")["payload"].get("activities", [])
+    seen: set[str] = set()
+    compounds = []
+    for row in sorted(activities, key=lambda r: float(r.get("standard_value") or 10**12)):
+        molecule_id = row.get("molecule_chembl_id")
+        if not molecule_id or molecule_id in seen:
+            continue
+        seen.add(molecule_id)
+        compounds.append(
+            {
+                "molecule_chembl_id": molecule_id,
+                "standard_type": row.get("standard_type"),
+                "standard_value": row.get("standard_value"),
+                "standard_units": row.get("standard_units"),
+                "canonical_smiles": row.get("canonical_smiles"),
+                "document_chembl_id": row.get("document_chembl_id"),
+            }
+        )
+        if len(compounds) == 5:
+            break
+    return {
+        "target_chembl_id": chembl_target["target_chembl_id"],
+        "target_name": chembl_target["pref_name"],
+        "example_compounds": compounds,
+        "caveat": "existing compounds and activity rows, not a validated therapy",
+    }
+
+
+def _sade_feldman_signature_summary() -> dict[str, Any]:
+    packet = _load(DATA / "claude_science_acceptance_demo.json")
+    counts = packet["prospect"]["typed_status_counts"]
+    return {
+        "source": "real Claude Science Sade-Feldman signature export",
+        "genes": counts["genes"],
+        "typed_status_counts": counts,
+        "coverage_report": packet["prospect"].get("coverage_report", {}),
+        "accepted": False,
+        "next": "human_signature_required",
+    }
+
+
+def _wet_lab_protocol() -> dict[str, Any]:
+    return {
+        "system": "stimulated primary human CD4+ T cells",
+        "minimum_donors": 3,
+        "timepoints": ["8h", "48h"],
+        "arms": [
+            {"id": "non_targeting_control", "intervention": "non-targeting CRISPRi sgRNA"},
+            {"id": "PGGT1B_CRISPRi", "intervention": "two independent PGGT1B CRISPRi sgRNAs"},
+            {"id": "FNTA_or_FNTB_pathway_control", "intervention": "prenyltransferase pathway control knockdown"},
+            {"id": "viability_control", "intervention": "cell-count and viability sentinel arm"},
+        ],
+        "readouts": [
+            "PGGT1B_knockdown",
+            "activation_transcriptome",
+            "viability",
+            "prenylation_or_small_GTPase_localization",
+        ],
+        "decision_gates": {
+            "support": "reproduces a PGGT1B-specific activation-program shift without broad viability loss",
+            "refute": "adequate PGGT1B knockdown produces no candidate-specific activation-program shift at 8h or 48h, or the same effect appears in non-immune controls",
+        },
+        "analysis_ceiling": HONEST_CEILING,
+    }
+
+
 def _unscored_or_blocked_sources() -> list[dict[str, Any]]:
     if (SNAPSHOT_DIR / "depmap_achilles_19q2.json").exists():
         return []
@@ -435,6 +601,8 @@ def build_pggt1b_defended_evidence() -> dict[str, Any]:
     discovery_row, cross_row = _candidate_rows()
     evidence = _scored_evidence(discovery_row, cross_row)
     blocked = _unscored_or_blocked_sources()
+    mechanism_dossier = _mechanism_dossier(discovery_row)
+    wet_lab_protocol = _wet_lab_protocol()
     packet = {
         "phase": "rank_1_pggt1b_defended_evidence",
         "title": "PGGT1B defended evidence",
@@ -453,6 +621,7 @@ def build_pggt1b_defended_evidence() -> dict[str, Any]:
             1 for row in evidence if row["source"] != "marson_frontier"
         ),
         "access_limited_public_dataset_count": len(blocked),
+        "novelty_assessment": _novelty_assessment(),
         "scored_evidence": evidence,
         "unscored_or_blocked_sources": blocked,
         "mechanism": (
@@ -460,19 +629,27 @@ def build_pggt1b_defended_evidence() -> dict[str, Any]:
             "hypothesis is that perturbing this enzyme changes stimulated CD4+ activation by "
             "altering prenylation-dependent small-GTPase and immune-synapse traffic."
         ),
+        "mechanism_dossier": mechanism_dossier,
+        "druggability": _druggability(),
+        "disease_genetics": {
+            "status": "evidence_attached",
+            "source": "Open Targets overlay",
+            "summary": cross_row["open_targets"]["overlay_class"],
+            "selected_associations": cross_row["open_targets"]["selected_associations"],
+            "ceiling": "external context, not accepted state",
+        },
+        "sade_feldman_signature_summary": _sade_feldman_signature_summary(),
         "real_world_hook": (
             "ChEMBL has target and activity rows for geranylgeranyl transferase type-1 subunit beta. "
             "This is a druggability hook, not a therapeutic claim."
         ),
         "kill_attempts": _kill_attempts(),
         "falsifiable_experiment": {
-            "system": "stimulated primary human CD4+ T cells",
+            "system": wet_lab_protocol["system"],
             "perturbation": "PGGT1B CRISPRi with non-targeting, FNTA or FNTB pathway, and viability controls",
-            "refutes_if": (
-                "adequate PGGT1B knockdown produces no candidate-specific activation-program shift "
-                "at 8h or 48h, or the same effect appears in non-immune controls"
-            ),
+            "refutes_if": wet_lab_protocol["decision_gates"]["refute"],
         },
+        "wet_lab_protocol": wet_lab_protocol,
         "reproduce_command": "./prospect pggt1b-defended-evidence",
         "next_step": (
             "freeze a comparable activation-transcriptome or activation-marker primary T-cell screen, "
@@ -494,6 +671,19 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"Honest ceiling: {packet['honest_ceiling']}.",
         "",
         "This packet does not accept PGGT1B as settled biology. It records the current frozen evidence for the rank-1 candidate and the exact gaps that keep it below the full pre-registered bar.",
+        "",
+        "## Novelty downgrade",
+        "",
+        packet["novelty_assessment"]["plain_language"],
+        "",
+        "Kept claim: " + packet["novelty_assessment"]["kept_claim"],
+        "",
+        "| PMID | role | title |",
+        "|---|---|---|",
+    ]
+    for row in packet["novelty_assessment"]["citations"]:
+        lines.append(f"| {row['pmid']} | {row['role']} | {row['title']} |")
+    lines += [
         "",
         "## Frozen evidence",
         "",
@@ -526,6 +716,51 @@ def _markdown(packet: dict[str, Any]) -> str:
     for row in packet["kill_attempts"]:
         lines.append(f"| `{row['kill_id']}` | `{row['result']}` | {row['missing']} |")
     lines += [
+        "",
+        "## Mechanism dossier",
+        "",
+        "What the data shows:",
+        "",
+    ]
+    for item in packet["mechanism_dossier"]["data_shows"]:
+        lines.append(f"- {item}")
+    lines += [
+        "",
+        "What is inferred:",
+        "",
+    ]
+    for item in packet["mechanism_dossier"]["inference"]:
+        lines.append(f"- {item}")
+    lines += [
+        "",
+        "STRING partners: " + ", ".join(packet["mechanism_dossier"]["partners"][:10]),
+        "",
+        "## Druggability",
+        "",
+        f"Target: `{packet['druggability']['target_chembl_id']}`. Caveat: {packet['druggability']['caveat']}.",
+        "",
+        "| compound | assay | value | document |",
+        "|---|---|---|---|",
+    ]
+    for row in packet["druggability"]["example_compounds"]:
+        lines.append(
+            f"| `{row['molecule_chembl_id']}` | {row['standard_type']} | {row['standard_value']} {row['standard_units']} | `{row['document_chembl_id']}` |"
+        )
+    signature = packet["sade_feldman_signature_summary"]
+    lines += [
+        "",
+        "## Whole-signature driver/passenger summary",
+        "",
+        f"{signature['genes']} genes: {signature['typed_status_counts']['evidence_attached']} `evidence_attached`, {signature['typed_status_counts']['associative_only']} `associative_only`, {signature['typed_status_counts']['contradicted']} `contradicted`, {signature['typed_status_counts']['not_assayed']} `not_assayed` in the primary Marson substrate.",
+        f"Frozen ORCS primary T-cell context reduces uncovered genes to {signature['coverage_report']['after']['not_assayed']}.",
+        "",
+        "## Wet-lab protocol",
+        "",
+        f"System: {packet['wet_lab_protocol']['system']}. Minimum donors: {packet['wet_lab_protocol']['minimum_donors']}. Timepoints: {', '.join(packet['wet_lab_protocol']['timepoints'])}.",
+        "",
+        "Arms: " + ", ".join(row["id"] for row in packet["wet_lab_protocol"]["arms"]) + ".",
+        "",
+        "Readouts: " + ", ".join(packet["wet_lab_protocol"]["readouts"]) + ".",
         "",
         "Mechanism: " + packet["mechanism"],
         "",

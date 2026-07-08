@@ -1419,7 +1419,7 @@
     {
       "path": "examples/data/defended_discovery_endgame_preregistration.json",
       "role": "locked bar and candidate order",
-      "sha256": "c41f8a0f05c0cbef23e45c997b6632812b117ae7d30a7f80b47f0dd5e2e8d6be"
+      "sha256": "d61c433f48b2ecd815777136a91865f4f080918462dcc8276163b1e54a0215be"
     },
     {
       "path": "examples/data/cross_validation.json",
@@ -1502,7 +1502,7 @@
     "strongest_condition": "Stim8hr",
     "typed_status": "evidence_attached"
   },
-  "ledger_id": "endgame_result_488f7edeb8be591c",
+  "ledger_id": "endgame_result_4bacafde67629387",
   "next_step": "keep PGGT1B proposal-only until human review, human-key acceptance, and later wet-lab evidence",
   "non_blocking_not_assayed": [
     {

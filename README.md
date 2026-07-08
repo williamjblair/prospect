@@ -109,6 +109,7 @@ Current public artifacts:
 - `/data/claude_science_acceptance_demo.json`
 - `/data/substrate_coverage_report.json`
 - `/data/defended_discovery_endgame_preregistration.json`
+- `/data/pggt1b_defended_evidence.json`
 - `/data/pggt1b_endgame_decision.json`
 - `/data/defended_discovery_endgame_result.json`
 - `/data/pggt1b_deep_dive.json`

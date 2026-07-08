@@ -45,18 +45,18 @@
     }
   ],
   "decision": "clears_fixed_bar_pending_human_key",
-  "decision_id": "pggt1b_endgame_0638b7de2aff1fa4",
+  "decision_id": "pggt1b_endgame_7950a9837c2f7120",
   "frontier_root": "root_a8b0dcdd4024e12f",
   "frozen_sources": [
     {
       "path": "examples/data/defended_discovery_endgame_preregistration.json",
       "role": "endgame pre-registration",
-      "sha256": "c41f8a0f05c0cbef23e45c997b6632812b117ae7d30a7f80b47f0dd5e2e8d6be"
+      "sha256": "d61c433f48b2ecd815777136a91865f4f080918462dcc8276163b1e54a0215be"
     },
     {
       "path": "examples/data/pggt1b_defended_evidence.json",
       "role": "prior PGGT1B defended evidence packet",
-      "sha256": "e1e392116899687bede7f9c4109aec058eef092d0e671aeb4f356040aff5e82b"
+      "sha256": "0b418eca0262eba2251f0d3da0f2eb01570ff2c804212ad8a7fbb7d24c458548"
     },
     {
       "path": "examples/data/pggt1b_defended_sources/orcs_screen_rows.json",

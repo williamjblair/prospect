@@ -11,6 +11,7 @@ from frontier.defended_candidate_decisions import (
     build_defended_candidate_decisions,
     write_defended_candidate_decisions,
 )
+from frontier.pggt1b_defended_evidence import build_pggt1b_defended_evidence
 
 
 def _string_values(obj):
@@ -69,9 +70,10 @@ def test_decision_ledger_holds_rank_5_candidate():
 def test_decision_ledger_links_frozen_evidence_and_kill_state():
     packet = build_defended_candidate_decisions()
     first = packet["candidate_decisions"][0]
+    evidence_packet = build_pggt1b_defended_evidence()
 
     assert first["evidence_packet"] == "examples/data/pggt1b_defended_evidence.json"
-    assert first["evidence_packet_id"] == "pggt1b_defended_efa0475e4521d8a4"
+    assert first["evidence_packet_id"] == evidence_packet["packet_id"]
     assert first["scored_public_dataset_count"] == 10
     assert first["kill_results"] == {
         "technical_confound": "survives_current_frozen_evidence",

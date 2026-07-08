@@ -1,6 +1,6 @@
 # Defended discovery endgame result
 
-Ledger id: `endgame_result_488f7edeb8be591c`
+Ledger id: `endgame_result_4bacafde67629387`
 
 Pre-registration: `endgame_prereg_cc12f4edc74c23b1`
 

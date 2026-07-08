@@ -4,6 +4,74 @@
   "access_limited_public_dataset_count": 0,
   "candidate_rank": 1,
   "defended_discovery_status": "not_cleared_full_bar",
+  "disease_genetics": {
+    "ceiling": "external context, not accepted state",
+    "selected_associations": [
+      {
+        "association_score": 0.0823,
+        "datatype_scores": [
+          {
+            "id": "literature",
+            "score": 0.6768
+          }
+        ],
+        "disease_id": "MONDO_0005083",
+        "disease_or_trait": "psoriasis",
+        "evidence_type": "literature",
+        "has_genetic_association": "no"
+      }
+    ],
+    "source": "Open Targets overlay",
+    "status": "evidence_attached",
+    "summary": "immune_or_hematologic_non_genetic_context"
+  },
+  "druggability": {
+    "caveat": "existing compounds and activity rows, not a validated therapy",
+    "example_compounds": [
+      {
+        "canonical_smiles": "Cn1cncc1C(OCc1ccc(C#N)cc1-c1cc(F)cc(F)c1)c1ccc(C#N)nc1",
+        "document_chembl_id": "CHEMBL1136432",
+        "molecule_chembl_id": "CHEMBL41454",
+        "standard_type": "IC50",
+        "standard_units": "nM",
+        "standard_value": "10.0"
+      },
+      {
+        "canonical_smiles": "Cn1cncc1C(OCc1ccc(C#N)nc1N1CCOCC1)c1ccc(C#N)cc1",
+        "document_chembl_id": "CHEMBL1136432",
+        "molecule_chembl_id": "CHEMBL290161",
+        "standard_type": "IC50",
+        "standard_units": "nM",
+        "standard_value": "10.0"
+      },
+      {
+        "canonical_smiles": "Cn1cncc1C(OCc1ccc(C#N)nc1-c1ccccc1)c1ccc(C#N)cc1",
+        "document_chembl_id": "CHEMBL1136432",
+        "molecule_chembl_id": "CHEMBL41540",
+        "standard_type": "IC50",
+        "standard_units": "nM",
+        "standard_value": "10.0"
+      },
+      {
+        "canonical_smiles": "Cn1cncc1C(OCc1ccc(C#N)cc1-c1cccc2ccccc12)c1ccc(C#N)nc1",
+        "document_chembl_id": "CHEMBL1136432",
+        "molecule_chembl_id": "CHEMBL287729",
+        "standard_type": "IC50",
+        "standard_units": "nM",
+        "standard_value": "10.0"
+      },
+      {
+        "canonical_smiles": "COc1cccc(-c2cc(C#N)ccc2COC(c2ccc(C#N)nc2)c2cncn2C)c1",
+        "document_chembl_id": "CHEMBL1136432",
+        "molecule_chembl_id": "CHEMBL432477",
+        "standard_type": "IC50",
+        "standard_units": "nM",
+        "standard_value": "10.0"
+      }
+    ],
+    "target_chembl_id": "CHEMBL4135",
+    "target_name": "Geranylgeranyl transferase type-1 subunit beta"
+  },
   "falsifiable_experiment": {
     "perturbation": "PGGT1B CRISPRi with non-targeting, FNTA or FNTB pathway, and viability controls",
     "refutes_if": "adequate PGGT1B knockdown produces no candidate-specific activation-program shift at 8h or 48h, or the same effect appears in non-immune controls",
@@ -51,6 +119,11 @@
       "source": "gwas_gene"
     },
     {
+      "path": "examples/data/pggt1b_defended_sources/literature_prior_art.json",
+      "sha256": "b20594349a8ae984577a05abe6eb5c2bd9f42cc471d99bc0d6d5a2d2addf97f2",
+      "source": "literature_prior_art"
+    },
+    {
       "path": "examples/data/pggt1b_defended_sources/orcs_gene_tcell_rows.json",
       "sha256": "b217f04249e6a39eb7d9b0b622337004c9e50340a67f29e86eae546c33abff48",
       "source": "orcs_gene_tcell_rows"
@@ -95,13 +168,151 @@
     }
   ],
   "mechanism": "PGGT1B encodes the beta subunit of geranylgeranyl transferase I. The current hypothesis is that perturbing this enzyme changes stimulated CD4+ activation by altering prenylation-dependent small-GTPase and immune-synapse traffic.",
+  "mechanism_dossier": {
+    "cited_basis": [
+      "PMID 31302143 links PGGT1B inhibition to RHOA function and T-cell gut-homing biology.",
+      "PMID 33207246 links protein prenylation to effector Treg signaling programs."
+    ],
+    "data_shows": [
+      "3014 stimulated DE genes after PGGT1B knockdown in the Marson CD4+ Perturb-seq table",
+      "175 Rest DE genes and K562 1 DE genes in frozen specificity comparators",
+      "Shifrut 2018 ORCS row supports a primary T-cell perturbation context"
+    ],
+    "inference": [
+      "The mechanistic hypothesis is prenylation-dependent small-GTPase and immune-synapse traffic, inferred from PGGT1B function and STRING partners.",
+      "The released data do not directly measure prenylation, RHOA/RAC1/CDC42 localization, or immune-synapse assembly."
+    ],
+    "partners": [
+      "FNTA",
+      "HEYL",
+      "RABGGTA",
+      "CCDC112",
+      "WTIP",
+      "AMMECR1L",
+      "FNTB",
+      "RAP1A",
+      "CDC42",
+      "HRAS"
+    ]
+  },
   "next_step": "freeze a comparable activation-transcriptome or activation-marker primary T-cell screen, or demote PGGT1B if none exists",
+  "novelty_assessment": {
+    "citations": [
+      {
+        "pmid": "31302143",
+        "role": "direct PGGT1B and T-cell localization prior art",
+        "title": "Inhibiting PGGT1B Disrupts Function of RHOA, Resulting in T-cell Expression of Integrin \u03b14\u03b27 and Development of Colitis in Mice."
+      },
+      {
+        "pmid": "33207246",
+        "role": "Pggt1b and protein prenylation in effector Treg programs",
+        "title": "Protein Prenylation Drives Discrete Signaling Programs for the Differentiation and Maintenance of Effector T(reg) Cells."
+      },
+      {
+        "pmid": "30449619",
+        "role": "primary human T-cell CRISPR screen comparator",
+        "title": "Genome-wide CRISPR Screens in Primary Human T Cells Reveal Key Regulators of Immune Function."
+      },
+      {
+        "pmid": "36002574",
+        "role": "primary T-cell proliferation ORCS comparator",
+        "title": "RASA2 ablation in T cells boosts antigen sensitivity and long-term function."
+      }
+    ],
+    "downgraded_novelty": true,
+    "kept_claim": "Prospect contributes independent released-data support that PGGT1B is a testable activation-transcriptome hypothesis in primary human CD4+ cells.",
+    "plain_language": "PGGT1B is not a first report in T-cell biology. Prior work already links PGGT1B or geranylgeranyl transferase I to T-cell localization, colitis, and effector Treg programs.",
+    "status": "prior_art_established_narrowed_claim"
+  },
   "orthogonal_public_dataset_count": 10,
-  "packet_id": "pggt1b_defended_efa0475e4521d8a4",
+  "packet_id": "pggt1b_defended_50e3f9df85005ba7",
   "phase": "rank_1_pggt1b_defended_evidence",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "real_world_hook": "ChEMBL has target and activity rows for geranylgeranyl transferase type-1 subunit beta. This is a druggability hook, not a therapeutic claim.",
   "reproduce_command": "./prospect pggt1b-defended-evidence",
+  "sade_feldman_signature_summary": {
+    "accepted": false,
+    "coverage_report": {
+      "after": {
+        "basis": "primary T-cell ORCS rows shrink uncovered genes, but remain orthogonal context unless readouts are comparable",
+        "genes": 52,
+        "not_assayed": 5,
+        "not_assayed_fraction": 0.0962,
+        "remaining_genes": [
+          "IGKC",
+          "LINC00152",
+          "MTATP6P1",
+          "MTND2P28",
+          "WARS"
+        ]
+      },
+      "before": {
+        "genes": 52,
+        "not_assayed": 15,
+        "not_assayed_fraction": 0.2885,
+        "typed_status_counts": {
+          "associative_only": 22,
+          "contradicted": 3,
+          "evidence_attached": 12,
+          "not_assayed": 15
+        }
+      },
+      "primary_substrate": "marson_cd4_activation",
+      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate",
+      "substrates": {
+        "marson_cd4_activation": {
+          "covered_genes": 37,
+          "not_assayed_genes": 15,
+          "source_sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+        },
+        "orcs_primary_tcell": {
+          "covered_genes": 10,
+          "covered_not_assayed_genes": [
+            "CLIC1",
+            "FOXP1",
+            "GZMK",
+            "HLA-DPA1",
+            "HLA-DPB1",
+            "HLA-DRA",
+            "HLA-DRB1",
+            "LEF1",
+            "RGPD5",
+            "TIGIT"
+          ],
+          "source_sha256": "d674f2608344e65dc288237d7be1107d6c90c371147cef9791f6f8af4add7ec3"
+        },
+        "replogle_k562": {
+          "covered_genes": 13,
+          "covered_not_assayed_genes": [
+            "CLIC1",
+            "FOXP1",
+            "LEF1",
+            "WARS"
+          ],
+          "source_sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+        },
+        "replogle_rpe1": {
+          "covered_genes": 4,
+          "covered_not_assayed_genes": [
+            "WARS"
+          ],
+          "source_sha256": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293"
+        }
+      }
+    },
+    "genes": 52,
+    "next": "human_signature_required",
+    "source": "real Claude Science Sade-Feldman signature export",
+    "typed_status_counts": {
+      "associative_only": 22,
+      "contradicted": 3,
+      "drivers": 12,
+      "evidence_attached": 12,
+      "genes": 52,
+      "not_assayed": 15,
+      "passengers": 22
+    }
+  },
   "scored_evidence": [
     {
       "scored_from_frozen_snapshot": true,
@@ -174,5 +385,42 @@
   "status": "evidence_attached",
   "title": "PGGT1B defended evidence",
   "trust_boundary": "proposal_only",
-  "unscored_or_blocked_sources": []
+  "unscored_or_blocked_sources": [],
+  "wet_lab_protocol": {
+    "analysis_ceiling": "computation over released data, not wet-lab or clinical truth",
+    "arms": [
+      {
+        "id": "non_targeting_control",
+        "intervention": "non-targeting CRISPRi sgRNA"
+      },
+      {
+        "id": "PGGT1B_CRISPRi",
+        "intervention": "two independent PGGT1B CRISPRi sgRNAs"
+      },
+      {
+        "id": "FNTA_or_FNTB_pathway_control",
+        "intervention": "prenyltransferase pathway control knockdown"
+      },
+      {
+        "id": "viability_control",
+        "intervention": "cell-count and viability sentinel arm"
+      }
+    ],
+    "decision_gates": {
+      "refute": "adequate PGGT1B knockdown produces no candidate-specific activation-program shift at 8h or 48h, or the same effect appears in non-immune controls",
+      "support": "reproduces a PGGT1B-specific activation-program shift without broad viability loss"
+    },
+    "minimum_donors": 3,
+    "readouts": [
+      "PGGT1B_knockdown",
+      "activation_transcriptome",
+      "viability",
+      "prenylation_or_small_GTPase_localization"
+    ],
+    "system": "stimulated primary human CD4+ T cells",
+    "timepoints": [
+      "8h",
+      "48h"
+    ]
+  }
 }

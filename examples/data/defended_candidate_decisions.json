@@ -8,7 +8,7 @@
       "decision_rule": "advance when a candidate does not clear every pre-registered rung; do not rewrite the bar",
       "disposition": "demote_and_advance",
       "evidence_packet": "examples/data/pggt1b_defended_evidence.json",
-      "evidence_packet_id": "pggt1b_defended_efa0475e4521d8a4",
+      "evidence_packet_id": "pggt1b_defended_50e3f9df85005ba7",
       "gene": "PGGT1B",
       "kill_results": {
         "alternative_mechanism": "survives_current_frozen_evidence",
@@ -96,7 +96,7 @@
   "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
   "next_candidate": null,
   "next_step": "human review of the held candidate, then optional human-key acceptance",
-  "packet_id": "defended_decisions_68d892595224b0f8",
+  "packet_id": "defended_decisions_5a7b17d3a1e7ea3f",
   "phase": "defended_candidate_decision_ledger",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "remaining_candidate_count": 13,
