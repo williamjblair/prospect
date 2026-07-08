@@ -1,0 +1,18 @@
+{
+  "gene": "PGGT1B",
+  "payload": {
+    "activated_cd4_ensembl_id": "ENSG00000164219.9",
+    "activated_cd4_max_tpm": 23.088,
+    "activated_cd4_mean_tpm": 16.101,
+    "activated_cd4_min_tpm": 6.952,
+    "activated_cd4_replicates": 88,
+    "annotation": "PGGT1B;protein_coding",
+    "max_cd4_cell_type": "T cell, CD4, naive TREG",
+    "max_cd4_tpm": 36.444,
+    "max_non_cd4_cell_type": "Monocyte, non-classical",
+    "max_non_cd4_tpm": 85.068,
+    "mean_file_ensembl_id": "ENSG00000164219"
+  },
+  "source": "dice_expression",
+  "url": "https://dice-database.org/download/CD4_STIM_TPM.csv"
+}

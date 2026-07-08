@@ -1,0 +1,68 @@
+{
+  "gene": "PGGT1B",
+  "payload": {
+    "schmidt_2022_2427": {
+      "hit_status": "non_hit",
+      "rank": 4529,
+      "records_filtered": 1,
+      "score_names": [
+        "mageck_pos_score",
+        "pos_fdr",
+        "mageck_neg_score",
+        "neg_fdr",
+        "log2fc"
+      ],
+      "scores": {
+        "log2fc": 0.07719,
+        "mageck_neg_score": 0.74577,
+        "mageck_pos_score": 0.063812,
+        "neg_fdr": 1.0,
+        "pos_fdr": 0.684922
+      },
+      "screen_id": "2427",
+      "source": "BioGRID ORCS"
+    },
+    "shifrut_2018_1107": {
+      "hit_status": "hit",
+      "rank": 1095,
+      "records_filtered": 1,
+      "score_names": [
+        "mageck_pos_score",
+        "pos_p_value",
+        "mageck_neg_score",
+        "neg_p_value",
+        "log2fc"
+      ],
+      "scores": {
+        "log2fc": -0.22271,
+        "mageck_neg_score": 0.98941,
+        "mageck_pos_score": 0.018928,
+        "neg_p_value": 1.0,
+        "pos_p_value": 0.0038949
+      },
+      "screen_id": "1107",
+      "source": "BioGRID ORCS"
+    },
+    "shifrut_2018_1109": {
+      "hit_status": "non_hit",
+      "rank": 18667,
+      "records_filtered": 1,
+      "score_names": [
+        "mageck_score",
+        "p_value",
+        "fdr",
+        "log2fc"
+      ],
+      "scores": {
+        "fdr": 1.0,
+        "log2fc": -0.20496,
+        "mageck_score": 0.98908,
+        "p_value": 0.9973
+      },
+      "screen_id": "1109",
+      "source": "BioGRID ORCS"
+    }
+  },
+  "source": "orcs_screen_rows",
+  "url": "https://orcs.thebiogrid.org/Dataset/230"
+}

@@ -1,0 +1,164 @@
+{
+  "acceptance": false,
+  "accepted": false,
+  "access_limited_public_dataset_count": 1,
+  "candidate_rank": 1,
+  "defended_discovery_status": "not_cleared_full_bar",
+  "falsifiable_experiment": {
+    "perturbation": "PGGT1B CRISPRi with non-targeting, FNTA or FNTB pathway, and viability controls",
+    "refutes_if": "adequate PGGT1B knockdown produces no candidate-specific activation-program shift at 8h or 48h, or the same effect appears in non-immune controls",
+    "system": "stimulated primary human CD4+ T cells"
+  },
+  "frozen_snapshots": [
+    {
+      "path": "examples/data/pggt1b_defended_sources/chembl_activity.json",
+      "sha256": "90abc36079d6d87f28783bc9bd01eaccd02ed7c6ae78d9b4d93bd7d7b5f4d117",
+      "source": "chembl_activity"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/chembl_target.json",
+      "sha256": "14494d5cdd69ff1f873b8ad1e34ac21dbbf1d012c04ae87921ffed2b12c1207f",
+      "source": "chembl_target"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/depmap_access.json",
+      "sha256": "9d7059e6a7db8b72844c6788c0b42e34d0eddb6c1b0bff673b41b7a73f84d101",
+      "source": "depmap_access"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/dice_expression.json",
+      "sha256": "860149b385c44cfa28ea645498d29c468206c2b81d5275b5d2ceb7f2b4bedf9c",
+      "source": "dice_expression"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/ensembl_gene.json",
+      "sha256": "2c9b42ebe751b57a9160527533a0944941b30e7d0cb056141406597b919d5802",
+      "source": "ensembl_gene"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/ensembl_homology.json",
+      "sha256": "2baac6b43e2022cf5343cc2e064f642369acca6f64074d6e5335f68fb56b7987",
+      "source": "ensembl_homology"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/gwas_gene.json",
+      "sha256": "0217093338b5da56be153734cef90b58eec066e4bf1e3271b7c959f5ebd98b68",
+      "source": "gwas_gene"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/orcs_screen_rows.json",
+      "sha256": "d353085b6372dcf8b49227c964d525ffaae86ef99fcc217c233c4fe88ae1a877",
+      "source": "orcs_screen_rows"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/string_interactions.json",
+      "sha256": "04d5ca9d54143cf9a1c5bc6db7ccb3bd290aaacc4fa5ad2dd5d3337bcc6b516c",
+      "source": "string_interactions"
+    }
+  ],
+  "gene": "PGGT1B",
+  "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
+  "kill_attempts": [
+    {
+      "basis": "Marson row has on-target stimulated knockdown and large stimulated effect",
+      "kill_id": "technical_confound",
+      "missing": "guide-level off-target audit would strengthen this kill",
+      "result": "survives_current_frozen_evidence"
+    },
+    {
+      "basis": "Replogle K562 is low, but the registered DepMap dependency kill is not scored",
+      "kill_id": "essentiality_or_proliferation_artifact",
+      "missing": "DepMap dependency score",
+      "result": "not_cleared"
+    },
+    {
+      "basis": "Shifrut 1107 supports PGGT1B, Schmidt is an orthogonal phenotype",
+      "kill_id": "batch_or_dataset_specificity",
+      "missing": "additional comparable primary T-cell screen",
+      "result": "not_cleared"
+    },
+    {
+      "basis": "STRING and ChEMBL point to geranylgeranylation rather than an unrelated marker-only explanation",
+      "kill_id": "alternative_mechanism",
+      "missing": "direct substrate-level assay remains wet-lab work",
+      "result": "survives_current_frozen_evidence"
+    }
+  ],
+  "mechanism": "PGGT1B encodes the beta subunit of geranylgeranyl transferase I. The current hypothesis is that perturbing this enzyme changes stimulated CD4+ activation by altering prenylation-dependent small-GTPase and immune-synapse traffic.",
+  "next_step": "freeze DepMap dependency and one more comparable primary T-cell screen before claiming the full bar",
+  "orthogonal_public_dataset_count": 8,
+  "packet_id": "pggt1b_defended_dc062bc68e73d7e3",
+  "phase": "rank_1_pggt1b_defended_evidence",
+  "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
+  "real_world_hook": "ChEMBL has target and activity rows for geranylgeranyl transferase type-1 subunit beta. This is a druggability hook, not a therapeutic claim.",
+  "reproduce_command": "./prospect pggt1b-defended-evidence",
+  "scored_evidence": [
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "marson_frontier",
+      "status": "computationally_reproduced",
+      "summary": "3014 stimulated DE genes, 175 Rest DE genes, K562 1"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "shifrut_2018_orcs_1107",
+      "status": "evidence_attached",
+      "summary": "ORCS hit row with rank 1095"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "schmidt_2022_orcs_2427",
+      "status": "orthogonal_phenotype",
+      "summary": "cytokine-production non-hit, not a comparable activation-transcriptome contradiction"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "string_interaction_partners",
+      "status": "evidence_attached",
+      "summary": "top partners: FNTA, HEYL, RABGGTA, CCDC112, WTIP"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "dice_expression",
+      "status": "evidence_attached",
+      "summary": "activated CD4 mean TPM 16.101"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "open_targets_overlay",
+      "status": "evidence_attached",
+      "summary": "immune_or_hematologic_non_genetic_context"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "chembl_target_and_activity",
+      "status": "evidence_attached",
+      "summary": "CHEMBL4135 with 25 activity rows against geranylgeranyl transferase type-1 subunit beta"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "ensembl_homology",
+      "status": "evidence_attached",
+      "summary": "201 orthology rows from Ensembl homology"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "gwas_catalog_gene_lookup",
+      "status": "evidence_attached",
+      "summary": "GWAS Catalog gene object at 5:115204012-115262882"
+    }
+  ],
+  "snapshot_dir": "examples/data/pggt1b_defended_sources",
+  "status": "evidence_attached",
+  "title": "PGGT1B defended evidence",
+  "trust_boundary": "proposal_only",
+  "unscored_or_blocked_sources": [
+    {
+      "required_next": "freeze a public DepMap dependency table or a bounded PGGT1B extract",
+      "scored_from_frozen_snapshot": false,
+      "source": "depmap_dependency",
+      "status": "evidence_attached",
+      "why_unscored": "the public portal route returned a browser challenge, so no dependency score is frozen"
+    }
+  ]
+}

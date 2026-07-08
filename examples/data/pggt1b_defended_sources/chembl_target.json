@@ -1,0 +1,161 @@
+{
+  "gene": "PGGT1B",
+  "payload": {
+    "cross_references": [],
+    "organism": "Homo sapiens",
+    "pref_name": "Geranylgeranyl transferase type-1 subunit beta",
+    "species_group_flag": false,
+    "target_chembl_id": "CHEMBL4135",
+    "target_components": [
+      {
+        "accession": "P53609",
+        "component_description": "Geranylgeranyl transferase type-1 subunit beta",
+        "component_id": 2454,
+        "component_type": "PROTEIN",
+        "relationship": "SINGLE PROTEIN",
+        "target_component_synonyms": [
+          {
+            "component_synonym": "2.5.1.59",
+            "syn_type": "EC_NUMBER"
+          },
+          {
+            "component_synonym": "Geranylgeranyl transferase type-1 subunit beta",
+            "syn_type": "UNIPROT"
+          },
+          {
+            "component_synonym": "Geranylgeranyl transferase type I subunit beta",
+            "syn_type": "UNIPROT"
+          },
+          {
+            "component_synonym": "GGTase-I-beta",
+            "syn_type": "UNIPROT"
+          },
+          {
+            "component_synonym": "PGGT1B",
+            "syn_type": "GENE_SYMBOL"
+          },
+          {
+            "component_synonym": "Type I protein geranyl-geranyltransferase subunit beta",
+            "syn_type": "UNIPROT"
+          }
+        ],
+        "target_component_xrefs": [
+          {
+            "xref_id": "P53609",
+            "xref_name": null,
+            "xref_src_db": "AlphaFoldDB"
+          },
+          {
+            "xref_id": "GO:0005953",
+            "xref_name": "CAAX-protein geranylgeranyltransferase complex",
+            "xref_src_db": "GoComponent"
+          },
+          {
+            "xref_id": "GO:0004659",
+            "xref_name": "prenyltransferase activity",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0004661",
+            "xref_name": "protein geranylgeranyltransferase activity",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0004662",
+            "xref_name": "CAAX-protein geranylgeranyltransferase activity",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0005515",
+            "xref_name": "protein binding",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0008270",
+            "xref_name": "zinc ion binding",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0046872",
+            "xref_name": "metal ion binding",
+            "xref_src_db": "GoFunction"
+          },
+          {
+            "xref_id": "GO:0018344",
+            "xref_name": "protein geranylgeranylation",
+            "xref_src_db": "GoProcess"
+          },
+          {
+            "xref_id": "HGNC:8895",
+            "xref_name": "PGGT1B",
+            "xref_src_db": "HGNC"
+          },
+          {
+            "xref_id": "P53609",
+            "xref_name": null,
+            "xref_src_db": "IntAct"
+          },
+          {
+            "xref_id": "IPR001330",
+            "xref_name": "Prenyltrans",
+            "xref_src_db": "InterPro"
+          },
+          {
+            "xref_id": "IPR008930",
+            "xref_name": "Terpenoid_cyclase/PrenylTrfase",
+            "xref_src_db": "InterPro"
+          },
+          {
+            "xref_id": "IPR041960",
+            "xref_name": "GGTase_I_beta",
+            "xref_src_db": "InterPro"
+          },
+          {
+            "xref_id": "IPR045089",
+            "xref_name": "PGGT1B-like",
+            "xref_src_db": "InterPro"
+          },
+          {
+            "xref_id": "PTHR11774",
+            "xref_name": "GERANYLGERANYL TRANSFERASE TYPE BETA SUBUNIT",
+            "xref_src_db": "PANTHER"
+          },
+          {
+            "xref_id": "PTHR11774:SF4",
+            "xref_name": "GERANYLGERANYL TRANSFERASE TYPE-1 SUBUNIT BETA",
+            "xref_src_db": "PANTHER"
+          },
+          {
+            "xref_id": "PF00432",
+            "xref_name": "Prenyltrans",
+            "xref_src_db": "Pfam"
+          },
+          {
+            "xref_id": "PA33233",
+            "xref_name": "protein geranylgeranyltransferase type I subunit beta",
+            "xref_src_db": "PharmGKB"
+          },
+          {
+            "xref_id": "P53609",
+            "xref_name": null,
+            "xref_src_db": "Pharos"
+          },
+          {
+            "xref_id": "P53609",
+            "xref_name": "Geranylgeranyl transferase type-1 subunit beta",
+            "xref_src_db": "UniProt"
+          },
+          {
+            "xref_id": "Q5MJP9",
+            "xref_name": "Geranylgeranyl transferase type-1 subunit beta",
+            "xref_src_db": "UniProt"
+          }
+        ]
+      }
+    ],
+    "target_type": "SINGLE PROTEIN",
+    "tax_id": 9606
+  },
+  "source": "chembl_target",
+  "url": "https://www.ebi.ac.uk/chembl/api/data/target/CHEMBL4135.json"
+}

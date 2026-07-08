@@ -1,0 +1,7 @@
+{
+  "gene": "PGGT1B",
+  "source": "depmap_dependency",
+  "status": "access_limited",
+  "url": "https://depmap.org/portal/download/custom/",
+  "why_unscored": "the public portal route returned a browser challenge, so no dependency score is frozen"
+}

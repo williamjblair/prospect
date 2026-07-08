@@ -1,0 +1,23 @@
+{
+  "gene": "PGGT1B",
+  "payload": {
+    "_links": {
+      "self": {
+        "href": "https://www.ebi.ac.uk/gwas/rest/api/v2/genes/PGGT1B"
+      }
+    },
+    "biotype": "protein_coding",
+    "cytogenic_region": "5q22.3",
+    "ensembl_gene_ids": [
+      "ENSG00000164219"
+    ],
+    "entrez_gene_ids": [
+      "5229"
+    ],
+    "gene_description": "protein geranylgeranyltransferase type I subunit beta",
+    "gene_name": "PGGT1B",
+    "location": "5:115204012-115262882"
+  },
+  "source": "gwas_gene",
+  "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/genes/PGGT1B"
+}
