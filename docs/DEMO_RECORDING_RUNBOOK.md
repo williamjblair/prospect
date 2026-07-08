@@ -105,11 +105,12 @@ Say: external work can submit a receipt, but the expected result is `accepted=fa
 
 Click Agent.
 
-Show PGGT1B, the lab packet, and campaign gates:
+Show PGGT1B, the lab packet, the assay operations bundle, and campaign gates:
 
 - PGGT1B remains `evidence_attached`.
 - The packet names missing wet-lab evidence before acceptance.
 - The lab packet gives five assay-ready rows.
+- The assay operations bundle names expected positive, weakening, and rejection evidence.
 - The campaign gate probe turns Claude pressure into `gate_sufficient`, `add_control`, or
   `lower_priority`.
 

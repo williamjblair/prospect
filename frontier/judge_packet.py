@@ -44,6 +44,7 @@ def build_packet() -> dict[str, Any]:
     campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
     campaign_pressure = frontier.get("campaign_pressure_summary") or {}
     lab_packet = frontier.get("lab_packet") or {}
+    assay_operations = frontier.get("assay_operations_bundle") or {}
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
@@ -91,6 +92,7 @@ def build_packet() -> dict[str, Any]:
             "Frontier: signed root, contradictions, receipts, MCP bridge",
             "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
             "Agent: PGGT1B evidence capsule shows exact ratios, matrix slice, and missing acceptance evidence",
+            "Agent: Gladstone assay operations bundle names promotion, weakening, and rejection evidence",
             "Agent: Claude probe compared with deterministic review lanes",
             "Agent: disagreement triage turns model pressure into assay gates",
             "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority",
@@ -113,6 +115,7 @@ def build_packet() -> dict[str, Any]:
             "/data/transfer_replay_packet.json",
             "/data/substrate_replay_packet.json",
             "/data/lab_packet.json",
+            "/data/assay_operations_bundle.json",
         ],
         "artifact_counts": {
             "genes": frontier["stats"]["n_genes"],
@@ -130,6 +133,7 @@ def build_packet() -> dict[str, Any]:
             "substrate_replay_rows": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
+            "assay_operations_candidates": len(assay_operations.get("candidates", [])),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
             "pggt1b_matrix_slice_transcripts": pggt1b.get("matrix_slice", {}).get("n_thresholded_transcripts", 0),
         },
@@ -203,6 +207,13 @@ def build_packet() -> dict[str, Any]:
                 "trust_boundary": lab_packet.get("trust_boundary"),
                 "candidate_count": len(lab_packet.get("candidates", [])),
             },
+            "assay_operations_bundle": {
+                "status": assay_operations.get("status"),
+                "trust_boundary": assay_operations.get("trust_boundary"),
+                "accepted_state_mutations": assay_operations.get("accepted_state_mutations"),
+                "candidate_count": len(assay_operations.get("candidates", [])),
+                "top_gene": (assay_operations.get("candidates") or [{}])[0].get("gene"),
+            },
         },
     }
 
@@ -246,12 +257,17 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Substrate replay rows: {counts['substrate_replay_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
+        f"- Assay operations candidates: {counts['assay_operations_candidates']}",
         f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
         f"- PGGT1B matrix-slice transcripts: {counts['pggt1b_matrix_slice_transcripts']}",
         "",
         "## PGGT1B evidence capsule",
         "",
         "The top agent hypothesis has an evidence capsule with exact ratios, a released-matrix moved-transcript slice, assay gates, and missing evidence. Status remains `evidence_attached`.",
+        "",
+        "## Gladstone assay operations bundle",
+        "",
+        "The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.",
         "",
         "## Campaign gate probe",
         "",

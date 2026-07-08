@@ -62,12 +62,13 @@ BEATS = [
     {
         "time": "1:50",
         "title": "Close",
-        "show": "Frontier receipt bridge, then Agent PGGT1B, pressure summary, and lab packet.",
+        "show": "Frontier receipt bridge, then Agent PGGT1B, pressure summary, lab packet, and assay operations bundle.",
         "say": (
             "The receipt bridge shows the boundary: external work can submit a receipt, but the "
             "result is accepted=false and next=human_signature_required. PGGT1B remains "
             "evidence_attached. The packet names missing wet-lab evidence, then gives assay-ready "
-            "rows. Generation is cheap. Accepted state is scarce, replayable, and signed."
+            "rows. The operations bundle says what would promote, weaken, or reject each row before "
+            "any status change. Generation is cheap. Accepted state is scarce, replayable, and signed."
         ),
     },
 ]

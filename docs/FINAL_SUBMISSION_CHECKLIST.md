@@ -53,6 +53,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
+- https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
 - https://prospect-sepia-six.vercel.app/data/receipt_bridge/receipt_manifest.json
 
 Confirm:
@@ -79,7 +80,8 @@ Close on:
 
 - receipt bridge: external work can submit a receipt, but accepted state still requires the human signing path
 - PGGT1B deep dive: `evidence_attached`, missing wet-lab evidence named
-- lab packet and Gladstone assay handoff: five assay-ready rows
+- lab packet, Gladstone assay handoff, and assay operations bundle: five assay-ready rows with
+  promotion, weakening, and rejection evidence
 - campaign gate probe: Claude pressure-tests gates with `gate_sufficient`, `add_control`, or `lower_priority`
 - transfer replay packet: second and third frozen Perturb-seq tables exercise the same checker interface
 

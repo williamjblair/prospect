@@ -44,6 +44,7 @@
     "Frontier: signed root, contradictions, receipts, MCP bridge",
     "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
     "Agent: PGGT1B evidence capsule shows exact ratios, matrix slice, and missing acceptance evidence",
+    "Agent: Gladstone assay operations bundle names promotion, weakening, and rejection evidence",
     "Agent: Claude probe compared with deterministic review lanes",
     "Agent: disagreement triage turns model pressure into assay gates",
     "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority"
@@ -65,7 +66,8 @@
     "/data/campaign_pressure_summary.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
-    "/data/lab_packet.json"
+    "/data/lab_packet.json",
+    "/data/assay_operations_bundle.json"
   ],
   "artifact_counts": {
     "genes": 11526,
@@ -83,6 +85,7 @@
     "substrate_replay_rows": 377,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
+    "assay_operations_candidates": 5,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -700,6 +703,13 @@
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
       "candidate_count": 5
+    },
+    "assay_operations_bundle": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "accepted_state_mutations": 0,
+      "candidate_count": 5,
+      "top_gene": "PGGT1B"
     }
   }
 }

@@ -66,12 +66,13 @@ state.
 
 ### 1:50, Close
 
-Show: Frontier receipt bridge, then Agent PGGT1B, pressure summary, and lab packet.
+Show: Frontier receipt bridge, then Agent PGGT1B, pressure summary, lab packet, and assay operations bundle.
 
 Say: The receipt bridge shows the boundary: external work can submit a receipt, but the result is
 `accepted=false` and `next=human_signature_required`. PGGT1B remains `evidence_attached`. The packet
 names missing wet-lab evidence, then gives assay-ready rows. Generation is cheap. Accepted state is
 scarce, replayable, and signed.
+The operations bundle says what would promote, weaken, or reject each row before any status change.
 
 ## Do Not Say
 

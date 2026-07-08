@@ -39,12 +39,17 @@ cd web && npm run build
 - Substrate replay rows: 377
 - Validation candidates: 5
 - Lab packet candidates: 5
+- Assay operations candidates: 5
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
 ## PGGT1B evidence capsule
 
 The top agent hypothesis has an evidence capsule with exact ratios, a released-matrix moved-transcript slice, assay gates, and missing evidence. Status remains `evidence_attached`.
+
+## Gladstone assay operations bundle
+
+The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.
 
 ## Campaign gate probe
 
@@ -91,6 +96,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
+- `/data/assay_operations_bundle.json`
 
 ## Demo path
 
@@ -99,6 +105,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - Frontier: signed root, contradictions, receipts, MCP bridge
 - Agent: PGGT1B packet, campaign leaderboard, lab assay packet
 - Agent: PGGT1B evidence capsule shows exact ratios, matrix slice, and missing acceptance evidence
+- Agent: Gladstone assay operations bundle names promotion, weakening, and rejection evidence
 - Agent: Claude probe compared with deterministic review lanes
 - Agent: disagreement triage turns model pressure into assay gates
 - Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority

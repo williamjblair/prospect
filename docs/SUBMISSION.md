@@ -51,6 +51,8 @@ the graph on its own word. On top of it:
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 - **Wet-lab assay packet**: `prospect lab-pack` translates the top follow-ups into intervention,
   control, readout, exclusion, and replay fields for a Gladstone-facing assay handoff.
+- **Gladstone assay operations bundle**: `prospect assay-ops` adds expected positive, weakening, and
+  rejection evidence for the top five proposal-only assay rows.
 - **Gladstone assay handoff**: [docs/GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md) condenses
   the top five rows into controls, readouts, stop rules, replay links, and a Monday-morning protocol.
 - **PGGT1B deep dive**: `prospect pggt1b` emits a lab-facing packet with exact frozen facts,
@@ -132,6 +134,8 @@ the trust floor after the event window without private credentials for the stati
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
+- The assay operations bundle names what would promote, weaken, or reject each row before any status
+  change.
 - The Gladstone assay handoff gives the same top five rows as a one-page wet-lab execution note.
 - The mutation-pack floor admits zero tampered claims; a parity test pins the Skill checker to the engine.
 
@@ -154,6 +158,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
+- `/data/assay_operations_bundle.json`
 
 ## Verify it yourself
 
@@ -177,6 +182,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect substrate-replay       # write the substrate replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
+./prospect assay-ops              # build the Gladstone assay operations bundle
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest
 python frontier/validation_sheet.py # write the wet-lab validation shortlist

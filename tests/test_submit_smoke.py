@@ -79,6 +79,12 @@ def _current_payloads():
             "trust_boundary": "proposal_only",
             "candidates": [{}, {}, {}, {}, {}],
         },
+        "/data/assay_operations_bundle.json": {
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "accepted_state_mutations": 0,
+            "candidates": [{}, {}, {}, {}, {}],
+        },
         "/data/receipt_bridge/receipt_manifest.json": {
             "frontier_root": "root_a8b0dcdd4024e12f",
             "receipt_count": 6,
@@ -96,7 +102,7 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 9
+    assert len(result.checks) == 10
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"

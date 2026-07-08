@@ -81,6 +81,21 @@ def test_frontier_json_embeds_campaign_pressure_summary():
     assert "true" not in json.dumps(summary).lower()
 
 
+def test_frontier_json_embeds_assay_operations_bundle():
+    data = json.loads(FRONTIER.read_text())
+    bundle = data["assay_operations_bundle"]
+
+    assert bundle["status"] == "evidence_attached"
+    assert bundle["trust_boundary"] == "proposal_only"
+    assert bundle["accepted_state_mutations"] == 0
+    assert len(bundle["candidates"]) == 5
+    assert bundle["candidates"][0]["gene"] == "PGGT1B"
+    assert bundle["candidates"][0]["queue"] == "primary_assay_queue"
+    assert "orthogonal knockdown" in bundle["candidates"][0]["missing_evidence_before_acceptance"]
+    assert "verified" not in json.dumps(bundle).lower()
+    assert "true" not in json.dumps(bundle).lower()
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
@@ -88,4 +103,5 @@ if __name__ == "__main__":
     test_frontier_json_embeds_transfer_replay_packet()
     test_frontier_json_embeds_substrate_replay_packet()
     test_frontier_json_embeds_campaign_pressure_summary()
+    test_frontier_json_embeds_assay_operations_bundle()
     print("PASS: web data contract")

@@ -29,13 +29,15 @@ def test_final_check_lists_submission_gate_commands():
         "./prospect demo-pack --json",
         "./prospect campaign-pressure",
         "git diff --exit-code -- examples/data/campaign_pressure_summary.json docs/CAMPAIGN_PRESSURE_SUMMARY.md",
+        "./prospect assay-ops",
+        "git diff --exit-code -- examples/data/assay_operations_bundle.json examples/data/assay_operations_bundle.csv docs/ASSAY_OPERATIONS_BUNDLE.md",
         "./prospect transfer-replay",
         "git diff --exit-code -- examples/data/transfer_replay_packet.json docs/TRANSFER_REPLAY_PACKET.md",
         "./prospect substrate-replay",
         "git diff --exit-code -- examples/data/substrate_replay_packet.json docs/SUBSTRATE_REPLAY_PACKET.md",
         "./prospect judge-pack",
         "cd web && python gen_data.py",
-        "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md web/public/data/frontier.json web/public/data/judge_packet.json web/public/data/campaign_pressure_summary.json web/public/data/substrate_replay_packet.json",
+        "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md web/public/data/frontier.json web/public/data/judge_packet.json web/public/data/campaign_pressure_summary.json web/public/data/assay_operations_bundle.json web/public/data/substrate_replay_packet.json",
     ]:
         assert command in proc.stdout
 

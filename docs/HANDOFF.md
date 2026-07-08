@@ -70,6 +70,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Wet-lab assay packet** (`frontier/lab_packet.py`, `./prospect lab-pack`): five proposal-only
   follow-ups translated into assay design fields: intervention, controls, readouts, exclusion rules,
   and public replay links. Exported to `examples/data/lab_packet.*` and [LAB_PACKET.md](LAB_PACKET.md).
+- **Gladstone assay operations bundle** (`frontier/assay_operations.py`, `./prospect assay-ops`):
+  deterministic operations layer over the lab packet. It names expected positive, weakening, and
+  rejection evidence for each row, keeps all rows `evidence_attached`, and exports
+  `examples/data/assay_operations_bundle.*` plus [ASSAY_OPERATIONS_BUNDLE.md](ASSAY_OPERATIONS_BUNDLE.md).
 - **Gladstone assay handoff** ([GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md)): one-page
   wet-lab execution note for the top five assay rows, with controls, readouts, stop rules, and replay
   links. It stays proposal only.
@@ -162,10 +166,10 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, SUBMISSION_FORM_PACKET, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
   NEW_WORK, PRODUCT, DESIGN, AGENTS.
@@ -200,7 +204,8 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `transfer_replay_packet.json`, `substrate_replay_packet.json`.
+`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `assay_operations_bundle.*`,
+`transfer_replay_packet.json`, `substrate_replay_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -232,6 +237,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
+- **Gladstone assay operations bundle**: shipped as `./prospect assay-ops`.
 - **Final submission gate**: shipped as `./prospect final-check`.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
@@ -257,7 +263,7 @@ uses restrained paint-only transitions in the 180-220ms band.
   limitation language.
 - **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet command
   surface, exact public-data parity with the shared `submit-pack` manifest, all public artifact
-  endpoints, campaign gate probe, transfer replay packet, lab packet, and receipt bridge manifest
+  endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle, and receipt bridge manifest
   before upload.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.

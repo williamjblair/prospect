@@ -199,6 +199,12 @@ Gate:
 
 Goal: make the wet-lab handoff feel immediately usable by a domain expert while staying honest.
 
+Status: shipped as `./prospect assay-ops`, `examples/data/assay_operations_bundle.json`,
+`examples/data/assay_operations_bundle.csv`, [ASSAY_OPERATIONS_BUNDLE.md](ASSAY_OPERATIONS_BUNDLE.md),
+`/data/assay_operations_bundle.json`, the judge packet, final-check, submit-smoke, and an Agent tab
+card. It keeps all five rows `evidence_attached`, names expected positive, weakening, and rejection
+evidence, and reports 0 accepted-state mutations.
+
 Recommended shape:
 
 - Expand the existing lab packet and Gladstone handoff into an operations bundle.
@@ -296,16 +302,16 @@ Do not spend hackathon time here unless the core plan changes.
 | Live production | Satisfied | Redeploy after web changes and run `./prospect submit-smoke`. |
 | Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
 | Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
-| Gladstone usefulness | Strong, can be stronger | Build the assay operations bundle. |
-| Submission packaging | Strong | Refresh demo/submission packets after P1 work. |
+| Gladstone usefulness | Shipped stronger | Keep the assay operations bundle in the Agent tab, judge packet, final-check, and submit-smoke. |
+| Submission packaging | Strong, current with P1 work | Keep demo and submission packets aligned after any final polish. |
 
 ## Execution order
 
 1. Protect the floor: run the full gate before starting and after every slice.
 2. Build second-substrate replay surface. Shipped.
 3. Build or extend Claude campaign pressure loop. Shipped as the pressure summary.
-4. Build Gladstone assay operations bundle.
-5. Refresh demo and submission surfaces.
+4. Build Gladstone assay operations bundle. Shipped.
+5. Refresh demo and submission surfaces. Current with the operations bundle.
 6. Record and submit.
 
 ## Definition of done for the full active goal
@@ -326,7 +332,6 @@ The active goal is complete only when:
 
 Do not stop at submission-ready. Use the remaining hackathon window to raise the ceiling in ways
 that strengthen the same thesis: Claude makes activity cheap, Prospect decides what becomes
-replayable state. The best next build is the Gladstone assay operations bundle because protocol
-generalization and campaign pressure accounting are now executable, and the remaining ceiling is to
-make the wet-lab handoff operational enough for a domain expert to act on without accepting weak
-evidence.
+replayable state. The remaining work is final production: keep the gate green, record the demo from
+the current teleprompter, submit the live URL and repo, and state plainly that wet-lab execution is a
+human next step outside this repo.

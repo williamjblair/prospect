@@ -82,6 +82,10 @@ Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusi
 public replay links. Every row remains proposal only. The condensed wet-lab handoff is
 `docs/GLADSTONE_ASSAY_HANDOFF.md`.
 
+`prospect assay-ops` turns the handoff into a Gladstone assay operations bundle. Each row names the
+expected positive result, weakening result, rejection result, missing evidence before acceptance, and
+public replay links.
+
 `prospect campaign-review` adds the audit appendix for the 20-row campaign: lane counts, audit
 questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without
 moving any row beyond proposal-only state.
@@ -125,6 +129,7 @@ Current public artifacts:
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
+- `/data/assay_operations_bundle.json`
 
 ## Run it
 
@@ -150,6 +155,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect substrate-replay       # build the substrate replay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
+./prospect assay-ops              # build the Gladstone assay operations bundle
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted

@@ -51,6 +51,7 @@ PUBLIC_ARTIFACTS = [
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
+    "/data/assay_operations_bundle.json",
 ]
 
 
@@ -71,7 +72,10 @@ def build_packet() -> dict[str, object]:
         "verification_commands": VERIFICATION_COMMANDS,
         "public_artifacts": PUBLIC_ARTIFACTS,
         "demo_opening": "Start on the A1BG refusal, not the graph.",
-        "demo_close": "Receipt bridge, PGGT1B evidence_attached packet, lab handoff, campaign gates, signed state.",
+        "demo_close": (
+            "Receipt bridge, PGGT1B evidence_attached packet, assay operations bundle, "
+            "campaign gates, signed state."
+        ),
         "limitations": (
             "Prospect proves computation over released data, not wet-lab or clinical truth. "
             "No model is in the trust path."

@@ -18,8 +18,8 @@ Signed root: `root_a8b0dcdd4024e12f`
    essentiality artifacts, replay the checker across cell types, recover known regulons.
 5. Open Frontier. Check the receipt bridge. External activity can submit a receipt, but the result
    is `accepted=false` and `next=human_signature_required`.
-6. Open Agent. Check PGGT1B and the lab packet. PGGT1B remains `evidence_attached`, not an accepted
-   regulator.
+6. Open Agent. Check PGGT1B, the lab packet, and the assay operations bundle. PGGT1B remains
+   `evidence_attached`, not an accepted regulator.
 
 ## What to verify
 
@@ -72,6 +72,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
+- `/data/assay_operations_bundle.json`
 
 ## Why this is a Build Track project
 

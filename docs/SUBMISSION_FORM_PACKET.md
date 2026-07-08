@@ -107,6 +107,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
+- `/data/assay_operations_bundle.json`
 
 ## Safety copy
 

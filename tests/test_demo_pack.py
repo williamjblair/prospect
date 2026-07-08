@@ -31,6 +31,7 @@ def test_demo_pack_has_timed_recording_beats():
         "Claude pressure became review work",
         "accepted=false",
         "PGGT1B remains evidence_attached",
+        "operations bundle says what would promote",
     ]:
         assert phrase in script
 
@@ -87,6 +88,7 @@ def test_demo_teleprompter_doc_tracks_packet():
         "accepted=false",
         "human_signature_required",
         "campaign pressure summary",
+        "assay operations bundle",
         "PGGT1B remains `evidence_attached`",
         "Do not claim wet-lab or clinical truth",
     ]:

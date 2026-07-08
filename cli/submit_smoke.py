@@ -176,6 +176,20 @@ def _check_lab_packet(base_url: str, opener: Callable[..., Any], timeout: int) -
         return Check("lab packet", False, f"fetch failed: {exc}")
 
 
+def _check_assay_operations(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/assay_operations_bundle.json", opener, timeout)
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("trust_boundary") == "proposal_only"
+            and data.get("accepted_state_mutations") == 0
+            and len(data.get("candidates", [])) == 5
+        )
+        return Check("assay operations", ok, "5 proposal-only operations rows" if ok else "assay operations shape drift")
+    except Exception as exc:
+        return Check("assay operations", False, f"fetch failed: {exc}")
+
+
 def _check_receipt_manifest(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/receipt_bridge/receipt_manifest.json", opener, timeout)
@@ -203,6 +217,7 @@ def run_checks(
         _check_transfer(base_url, opener, timeout),
         _check_substrate(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
+        _check_assay_operations(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),
     ]
     return SmokeResult(base_url=base_url, checks=checks)

@@ -191,6 +191,24 @@ type LabPacket = {
     known_regulon_targets: number; score: number; evidence: string[];
   }[];
 };
+type AssayOperationsBundle = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutations: number;
+  scope: string;
+  method: { replay_links: string[] };
+  candidates: {
+    rank: number; gene: string; status: string; trust_boundary: string; queue: string;
+    intervention: string; strongest_condition: string; stim_max_de: number; rest_de: number;
+    k562_de: number | null; rpe1_de: number | null;
+    readouts: { primary: string; secondary: string };
+    controls: { negative: string[]; positive: string[] };
+    assay_steps: string[]; decision_gates: string[];
+    expected_positive_result: string; weakening_result: string; rejection_result: string;
+    missing_evidence_before_acceptance: string[]; replay_links: string[];
+  }[];
+};
 type SubstrateReplayPacket = {
   title: string;
   status: string;
@@ -273,6 +291,7 @@ type Data = {
   campaign_gate_probe?: CampaignGateProbe | null;
   campaign_pressure_summary?: CampaignPressureSummary | null;
   lab_packet?: LabPacket | null;
+  assay_operations_bundle?: AssayOperationsBundle | null;
   substrate_replay_packet?: SubstrateReplayPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -1239,6 +1258,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
+      {d.assay_operations_bundle && <AssayOperationsBundleCard bundle={d.assay_operations_bundle} onGene={onGene} />}
+
       {d.validation && d.validation.length > 0 && (
         <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
       )}
@@ -1665,6 +1686,69 @@ function LabPacketCard({ packet, onGene }: { packet: LabPacket; onGene: (g: stri
             <span className="t-mono">{link}</span>
           </span>
         ))}. Trust boundary: {packet.trust_boundary.replace(/_/g, " ")}.
+      </p>
+    </div>
+  );
+}
+
+function AssayOperationsBundleCard({ bundle, onGene }: { bundle: AssayOperationsBundle; onGene: (g: string) => void }) {
+  const rows = bundle.candidates.slice(0, 5);
+  const label = (value: string) => value.replace(/_/g, " ");
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Gladstone assay operations bundle</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Bench-facing decision frame for the five proposal-only rows: expected positive result,
+            weakening result, rejection result, missing evidence, and replay links before any state moves.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/assay_operations_bundle.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [bundle.candidates.length, "operation rows", "var(--ink)"],
+          [bundle.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
+          [rows[0]?.gene || "PGGT1B", "top queue", "var(--brass)"],
+        ].map(([value, title, color]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 1120, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "queue", "expected positive result", "weakening result", "rejection result"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: r.queue === "primary_assay_queue" ? "var(--brass)" : "var(--field-blue)" }}>{label(r.queue)}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 300 }}>{r.expected_positive_result}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.weakening_result}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.rejection_result}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Missing evidence before acceptance: {rows[0]?.missing_evidence_before_acceptance.join(", ")}. Trust boundary: {label(bundle.trust_boundary)}.
       </p>
     </div>
   );

@@ -60,6 +60,7 @@ def test_submit_pack_lists_full_judge_public_artifact_surface():
         "/data/transfer_replay_packet.json",
         "/data/substrate_replay_packet.json",
         "/data/lab_packet.json",
+        "/data/assay_operations_bundle.json",
     ]
 
     assert packet["public_artifacts"] == expected
