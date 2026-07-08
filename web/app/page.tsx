@@ -358,6 +358,43 @@ type OverclaimCounterPacket = {
   rungs: { rung: string; status: string; source: string; contradicted?: number; refused?: number; no_supporting_screen_hit?: number; supported_alternatives?: number }[];
   flagship_boundary: { gene: string; claim_kind: string; accepted_state: string; next_acceptance_step: string };
 };
+type ClaudeScienceAcceptanceDemo = {
+  demo_id: string;
+  producer: string;
+  source_dataset: string;
+  real_export: boolean;
+  claim_under_test: string;
+  claude_science: {
+    artifact_status: string;
+    internal_review_status: string;
+    internal_review_findings: number;
+    session_caveat: string;
+    auc: Record<string, number>;
+  };
+  prospect: {
+    verifier: string;
+    trust_path: string;
+    accepted: boolean;
+    next: string;
+    typed_status_counts: { genes: number; evidence_attached: number; contradicted: number; not_assayed: number };
+    receipt_id: string;
+    proposal_id: string;
+    ceiling: string;
+  };
+  verdicts: {
+    gene: string;
+    signature_roles: string[];
+    typed_status: string;
+    condition: string;
+    n_total_de_genes: number | null;
+    ontarget_effect_category: string;
+    de_rank: number | null;
+    signature_diff_R_minus_NR: number | null;
+    signature_padj: number | null;
+    reason: string;
+  }[];
+  commands: { claude_science: string; generic: string; server: string };
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
@@ -393,6 +430,7 @@ type Data = {
   cross_validation?: CrossValidationPacket | null;
   flagship_module?: FlagshipModulePacket | null;
   overclaim_counter?: OverclaimCounterPacket | null;
+  claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
   ccdc22_defended_evidence?: DefendedEvidencePacket | null;
   defended_candidate_decisions?: DefendedCandidateDecisions | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
@@ -570,6 +608,10 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
           you see only what the data holds.
         </p>
       </header>
+
+      {d.claude_science_acceptance_demo && (
+        <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
+      )}
 
       <DiscoveryCampaignSurface d={d} onGene={onGene} />
 
@@ -871,6 +913,97 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
   );
 }
 
+function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcceptanceDemo; setTab: (tab: string) => void }) {
+  const counts = demo.prospect.typed_status_counts;
+  const examples = {
+    supported: demo.verdicts.filter((v) => v.typed_status === "evidence_attached").slice(0, 3),
+    contradicted: demo.verdicts.filter((v) => v.typed_status === "contradicted").slice(0, 3),
+    open: demo.verdicts.filter((v) => v.typed_status === "not_assayed").slice(0, 3),
+  };
+  return (
+    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
+      <div style={{ display: "flex", alignItems: "start", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ minWidth: 260, flex: 1 }}>
+          <div className="t-label" style={{ marginBottom: 5 }}>Acceptance layer for AI-generated biology</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>Reproducible association enters. Prospect types causation.</h2>
+          <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "76ch", color: "var(--ink-3)" }}>
+            A real Claude Science export from {demo.source_dataset} submits a responder signature. Claude Science
+            preserved the artifact and internal review completed with {demo.claude_science.internal_review_findings} findings.
+            Prospect asks a different question: do these genes causally regulate the stimulated CD4+ activation program
+            when perturbed in Marson CRISPRi?
+          </p>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>real export={String(demo.real_export)}</span>
+        <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted={String(demo.prospect.accepted)}</span>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
+        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)" }}>
+          <div className="t-label">Claude Science lane</div>
+          <p className="t-body-sm" style={{ margin: "5px 0 0", color: "var(--ink-3)" }}>
+            artifact_status={demo.claude_science.artifact_status}. Internal review status={demo.claude_science.internal_review_status}.
+            AUC LOO={demo.claude_science.auc.LOO_CV_data_driven}.
+          </p>
+          <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
+            {demo.claude_science.session_caveat}
+          </p>
+        </div>
+        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)" }}>
+          <div className="t-label">Prospect lane</div>
+          <p className="t-body-sm" style={{ margin: "5px 0 0", color: "var(--ink-3)" }}>
+            {counts.genes} genes checked against the frozen Marson table: {counts.evidence_attached} evidence_attached,
+            {" "}{counts.contradicted} contradicted, {counts.not_assayed} not assayed comparably.
+          </p>
+          <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
+            next={demo.prospect.next}. {demo.prospect.ceiling}
+          </p>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
+        <VerdictExample title="evidence_attached" tone="var(--brass)" rows={examples.supported} />
+        <VerdictExample title="contradicted" tone="var(--cinnabar)" rows={examples.contradicted} />
+        <VerdictExample title="not_assayed" tone="var(--stone)" rows={examples.open} />
+      </div>
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
+        <span className="t-label">judge commands</span>
+        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+          {demo.commands.claude_science || CLAUDE_SCIENCE_CONNECTOR_COMMAND}
+        </span>
+        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+          {demo.commands.generic || GENERIC_CONNECTOR_COMMAND}
+        </span>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipt bridge</button>
+      </div>
+    </section>
+  );
+}
+
+function VerdictExample({
+  title,
+  tone,
+  rows,
+}: {
+  title: string;
+  tone: string;
+  rows: ClaudeScienceAcceptanceDemo["verdicts"];
+}) {
+  return (
+    <div style={{ borderTop: `2px solid ${tone}`, paddingTop: 8, display: "grid", gap: 6 }}>
+      <div className="t-label">{title.replace(/_/g, " ")}</div>
+      {rows.map((row) => (
+        <div key={row.gene} style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
+          <span className="t-mono" style={{ fontWeight: 700, color: tone }}>{row.gene}</span>
+          <span className="t-caption" style={{ color: "var(--ink-3)", textAlign: "right" }}>
+            {row.n_total_de_genes == null ? "not in table" : `${row.n_total_de_genes} DE`}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) => void; onGene: (g: string) => void }) {
   const maxdn = (g: Node) => Math.max(0, ...CONDS.map((c) => (g.C[c] ? g.C[c].dn : 0)));
   const list = useMemo(() => {
@@ -962,8 +1095,11 @@ const BRIDGE_METHOD_ORDER = [
   "prospect.receipt.schema",
   "prospect.receipt.validate",
   "prospect.receipt.submit",
+  "prospect.receipt.submit_artifact",
 ];
 const EXTERNAL_RUN_COMMAND = "python examples/openresearch_receipt_client.py --json";
+const CLAUDE_SCIENCE_CONNECTOR_COMMAND = "python examples/claude_science_connector_client.py --json";
+const GENERIC_CONNECTOR_COMMAND = "python examples/prospect_connector_client.py --case openresearch --json";
 
 function Receipts({
   receipts,

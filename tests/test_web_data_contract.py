@@ -24,6 +24,7 @@ KEPT_PACKET_KEYS = [
     "live_claim_rail",
     "cross_domain_benchmark",
     "lab_writeback_receipt",
+    "claude_science_acceptance_demo",
 ]
 
 CUT_PACKET_KEYS = [
@@ -201,6 +202,25 @@ def test_frontier_json_embeds_external_run_receipt_demo():
         "reviewer_accepts_state_delta",
         "human_ed25519_signature",
     ]
+
+
+def test_frontier_json_embeds_claude_science_acceptance_demo():
+    data = json.loads(FRONTIER.read_text())
+    demo = data["claude_science_acceptance_demo"]
+
+    assert demo["producer"] == "claude_science"
+    assert demo["real_export"] is True
+    assert demo["prospect"]["accepted"] is False
+    assert demo["prospect"]["next"] == "human_signature_required"
+    assert demo["prospect"]["typed_status_counts"] == {
+        "genes": 52,
+        "evidence_attached": 11,
+        "contradicted": 22,
+        "not_assayed": 19,
+    }
+    assert demo["commands"]["claude_science"] == "python examples/claude_science_connector_client.py --json"
+    assert demo["commands"]["generic"] == "python examples/prospect_connector_client.py --case openresearch --json"
+    assert ("veri" + "fied") not in json.dumps(demo).lower()
 
 
 def test_frontier_json_embeds_live_claim_rail():

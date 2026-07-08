@@ -29,10 +29,12 @@ def test_export_bridge_writes_contract_manifest_and_bundle(tmp_path):
         "prospect.receipt.schema",
         "prospect.receipt.validate",
         "prospect.receipt.submit",
+        "prospect.receipt.submit_artifact",
     ]
     assert bundle["manifest"]["protocol_path"][-1]["result"] == "proposal_only"
     assert bundle["manifest"]["protocol_path"][-1]["accepted"] is False
     assert "prospect.receipt.submit" in bundle["contract"]["methods"]
+    assert "prospect.receipt.submit_artifact" in bundle["contract"]["methods"]
     assert len(bundle["receipts"]) >= 6
     assert all(r["receipt_id"].startswith("rcpt_") for r in bundle["receipts"])
 

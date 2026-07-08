@@ -23,7 +23,9 @@ def test_mcp_lists_receipt_tools():
     assert "prospect.receipt.schema" in tools
     assert "prospect.receipt.validate" in tools
     assert "prospect.receipt.submit" in tools
+    assert "prospect.receipt.submit_artifact" in tools
     assert tools["prospect.receipt.submit"]["inputSchema"]["required"] == ["receipt"]
+    assert tools["prospect.receipt.submit_artifact"]["inputSchema"]["required"] == ["bundle"]
 
 
 def test_mcp_validate_and_submit_never_accepts_state():
@@ -67,7 +69,7 @@ def test_prospect_mcp_stdio_roundtrip():
     assert proc.returncode == 0, proc.stderr
     res = json.loads(proc.stdout.strip())
     assert res["id"] == 4
-    assert len(res["result"]["tools"]) == 3
+    assert len(res["result"]["tools"]) == 4
 
 
 if __name__ == "__main__":

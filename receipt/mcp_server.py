@@ -12,6 +12,7 @@ import sys
 from typing import Any
 
 from receipt.bridge import contract, manifest, validate_receipt
+from receipt.causal_bridge import submit_bundle
 
 PROTOCOL_VERSION = "2025-11-25"
 
@@ -29,6 +30,17 @@ def _tool_schema() -> list[dict[str, Any]]:
         "type": "object",
         "properties": {"receipt": {"type": "object", "description": "A Prospect receipt object"}},
         "required": ["receipt"],
+        "additionalProperties": False,
+    }
+    bundle_schema = {
+        "type": "object",
+        "properties": {
+            "bundle": {
+                "type": "object",
+                "description": "External producer claim bundle, either case=claude_science, case=openresearch, or a genes list.",
+            }
+        },
+        "required": ["bundle"],
         "additionalProperties": False,
     }
     return [
@@ -49,6 +61,12 @@ def _tool_schema() -> list[dict[str, Any]]:
             "title": "Submit a receipt proposal",
             "description": "Submit a receipt as a proposal only. This never moves accepted state.",
             "inputSchema": receipt_schema,
+        },
+        {
+            "name": "prospect.receipt.submit_artifact",
+            "title": "Submit an external claim bundle",
+            "description": "Submit a gene-list or external artifact bundle for typed causal verdicts. This never moves accepted state.",
+            "inputSchema": bundle_schema,
         },
     ]
 
@@ -74,6 +92,20 @@ def _call_tool(name: str, args: dict[str, Any]) -> dict[str, Any]:
             "next": "human_signature_required",
             "reason": "MCP submission records a proposal only; Prospect accepted state requires the human signing path.",
         })
+    if name == "prospect.receipt.submit_artifact":
+        bundle = args.get("bundle")
+        if not isinstance(bundle, dict):
+            return _text_result({"accepted": False, "errors": ["bundle must be an object"]}, True)
+        try:
+            packet = submit_bundle(bundle)
+        except Exception as exc:
+            return _text_result({"accepted": False, "errors": [str(exc)]}, True)
+        receipt = packet.get("receipt", {})
+        rid = receipt.get("receipt_id", "")
+        packet["proposal_id"] = "proposal_" + hashlib.sha256(str(rid).encode()).hexdigest()[:16]
+        packet["accepted"] = False
+        packet["next"] = "human_signature_required"
+        return _text_result(packet)
     return _text_result({"error": f"unknown tool: {name}"}, True)
 
 

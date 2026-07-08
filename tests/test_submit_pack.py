@@ -25,6 +25,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python tests/test_skill_parity.py",
         "python tests/test_marson.py",
         "python examples/receipt_bridge_client.py --json",
+        "python examples/claude_science_connector_client.py --json",
+        "python examples/prospect_connector_client.py --case openresearch --json",
         "python examples/openresearch_receipt_client.py --json",
         "./prospect writeback --check",
     ]:
@@ -52,6 +54,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/receipt_bridge/receipt_contract.json",
         "/data/receipt_bridge/receipt_manifest.json",
         "/data/receipt_bridge/receipt_bundle.json",
+        "/data/claude_science_acceptance_demo.json",
         "/data/pggt1b_deep_dive.json",
         "/data/pggt1b_matrix_slice.json",
         "/data/agent_campaign.json",

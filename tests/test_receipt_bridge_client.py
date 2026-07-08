@@ -33,6 +33,7 @@ def test_receipt_bridge_client_roundtrip_is_proposal_only():
         "prospect.receipt.schema",
         "prospect.receipt.validate",
         "prospect.receipt.submit",
+        "prospect.receipt.submit_artifact",
     ]
     assert summary["valid"] is True
     assert summary["accepted"] is False

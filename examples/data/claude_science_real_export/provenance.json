@@ -1,0 +1,48 @@
+{
+  "fixture_id": "claude_science_sade_feldman_signature_export",
+  "producer": "claude_science",
+  "project": "proj_example",
+  "source": {
+    "platform": "Claude Science local artifact store",
+    "session": "Sade-Feldman 2018 melanoma checkpoint immunotherapy scRNA-seq analysis",
+    "dataset": "GSE120575",
+    "captured_from": "localhost:8765 local Claude Science instance",
+    "captured_at": "2026-07-08",
+    "real_export": true,
+    "fabricated": false
+  },
+  "artifacts": [
+    {
+      "name": "signature_genes.json",
+      "artifact_id": "d75a1483-ffda-42ad-a148-ed15a3366f75",
+      "version_path": "proj_example/d75a1483-ffda-42ad-a148-ed15a3366f75/v73751df4_signature_genes.json",
+      "sha256": "ef62f55fee51f51dc0f32b8d651c58f4ebbe5b1069402ad4fce74334a0e89b91"
+    },
+    {
+      "name": "responder_DE_CD8.csv",
+      "artifact_id": "560b4cd2-eb98-48ca-9261-a0caf9efbf6a",
+      "version_path": "proj_example/560b4cd2-eb98-48ca-9261-a0caf9efbf6a/v0854dc71_responder_DE_CD8.csv",
+      "sha256": "be1641b90e508bdb1cf22f730575cbc1e97763ecdc2b5fccd0a043e0832bd2d7"
+    },
+    {
+      "name": "responder_DE_all.csv",
+      "artifact_id": "0d8b559c-d923-40fe-9b7e-c887648d0171",
+      "version_path": "proj_example/0d8b559c-d923-40fe-9b7e-c887648d0171/ve29cb0cc_responder_DE_all.csv",
+      "sha256": "e9677c12f4e7ae18396e5e6417361802a6f526d9583c139cdd530422b5ba916a"
+    }
+  ],
+  "claude_science_internal_review": {
+    "source_log": "server-20260630.log",
+    "status": "completed",
+    "findings": 0,
+    "dispositions": 0,
+    "note": "This records internal consistency review status observed in the local log, not Prospect acceptance."
+  },
+  "session_caveat": "The source report states that the AUCs are associative, sample size is modest, and signatures need independent validation before translational claims.",
+  "prospect_comparison": {
+    "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
+    "frozen_table": "examples/data/marson_de_full.csv",
+    "condition": "Stim8hr",
+    "ceiling": "Computation over released data, not wet-lab or clinical truth."
+  }
+}

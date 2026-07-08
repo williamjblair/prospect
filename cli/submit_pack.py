@@ -30,6 +30,8 @@ VERIFICATION_COMMANDS = [
     "python tests/test_skill_parity.py",
     "python tests/test_marson.py",
     "python examples/receipt_bridge_client.py --json",
+    "python examples/claude_science_connector_client.py --json",
+    "python examples/prospect_connector_client.py --case openresearch --json",
     "python examples/openresearch_receipt_client.py --json",
     "./prospect writeback --check",
 ]
@@ -40,6 +42,7 @@ PUBLIC_ARTIFACTS = [
     "/data/receipt_bridge/receipt_contract.json",
     "/data/receipt_bridge/receipt_manifest.json",
     "/data/receipt_bridge/receipt_bundle.json",
+    "/data/claude_science_acceptance_demo.json",
     "/data/pggt1b_deep_dive.json",
     "/data/pggt1b_matrix_slice.json",
     "/data/agent_campaign.json",
@@ -65,7 +68,7 @@ def build_packet() -> dict[str, object]:
         "source_docs": SOURCE_DOCS,
         "verification_commands": VERIFICATION_COMMANDS,
         "public_artifacts": PUBLIC_ARTIFACTS,
-        "demo_opening": "Start on the A1BG refusal, not the graph.",
+        "demo_opening": "Start on the real Claude Science export entering Prospect, then the A1BG refusal.",
         "demo_close": (
             "Receipt bridge, PGGT1B evidence_attached packet, campaign leaderboard, signed state."
         ),

@@ -82,6 +82,15 @@ def contract() -> dict[str, Any]:
                 "input": {"receipt": "prospect.receipt.v1"},
                 "output": {"accepted": False, "next": "human signature over an accepted delta"},
             },
+            "prospect.receipt.submit_artifact": {
+                "description": "Submit an external claim bundle or gene list and receive typed causal verdicts. This never moves accepted state by itself.",
+                "input": {"bundle": "external claim bundle"},
+                "output": {
+                    "accepted": False,
+                    "next": "human_signature_required",
+                    "typed_verdicts": "list[dict]",
+                },
+            },
         },
         "trust_path": [
             "producer activity is untrusted",
@@ -112,6 +121,13 @@ def protocol_path() -> list[dict[str, Any]]:
             "step": 3,
             "method": "prospect.receipt.submit",
             "action": "submit the receipt across the boundary",
+            "result": "proposal_only",
+            "accepted": False,
+        },
+        {
+            "step": 4,
+            "method": "prospect.receipt.submit_artifact",
+            "action": "submit an external claim bundle for typed causal verdicts",
             "result": "proposal_only",
             "accepted": False,
         },

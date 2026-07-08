@@ -21,7 +21,8 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
-- 11 public data artifacts
+- 12 public data artifacts
+- 52 real Claude Science signature genes typed by Prospect causal replay
 
 ## Trust boundary
 
@@ -32,13 +33,14 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Five-minute judge path
 
-1. Overview: the A1BG refusal and the overclaiming number.
-2. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
-3. Findings: the scannable finding index.
-4. Agent: the campaign leaderboard, every row a proposal, none accepted state.
-5. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
-6. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
-7. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
+1. Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.
+2. Overview: the A1BG refusal and the overclaiming number.
+3. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
+4. Findings: the scannable finding index.
+5. Agent: the campaign leaderboard, every row a proposal, none accepted state.
+6. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
+7. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
+8. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
 
 ## Public artifacts to open
 
@@ -47,6 +49,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
+- `/data/claude_science_acceptance_demo.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`
@@ -58,8 +61,11 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - `./prospect verify`
 - `./prospect submit-pack`
+- `./prospect claude-science`
 - `python benchmark/mutation_pack.py`
 - `python examples/receipt_bridge_client.py --json`
+- `python examples/claude_science_connector_client.py --json`
+- `python examples/prospect_connector_client.py --case openresearch --json`
 
 ## What remains human-only
 

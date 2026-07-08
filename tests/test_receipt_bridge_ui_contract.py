@@ -13,6 +13,7 @@ def test_frontier_surfaces_executable_receipt_bridge_path():
     assert "/data/receipt_bridge/receipt_manifest.json" in source
     assert "proposal only" in source
     assert "prospect.receipt.submit" in source
+    assert "prospect.receipt.submit_artifact" in source
     assert "receipt_bridge_demo" in source
     assert "receipt_bridge_client.py" in source
     assert "Try the boundary" in source
@@ -22,6 +23,9 @@ def test_frontier_surfaces_executable_receipt_bridge_path():
     assert "openresearch_receipt_client.py --json" in source
     assert "external_run_receipt_demo" in source
     assert "external auto-research producer" in source
+    assert "ClaudeScienceAcceptancePanel" in source
+    assert "python examples/claude_science_connector_client.py --json" in source
+    assert "python examples/prospect_connector_client.py --case openresearch --json" in source
 
 
 if __name__ == "__main__":

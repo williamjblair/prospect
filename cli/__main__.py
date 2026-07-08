@@ -22,6 +22,7 @@
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect writeback        build the lab writeback receipt shape
+  prospect claude-science   build the real Claude Science acceptance-layer packet
   prospect findings-index   build the scannable finding index
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
@@ -82,6 +83,15 @@ def main():
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
     elif cmd == "writeback":
         from receipt.writeback import main as writeback_main; writeback_main(rest)
+    elif cmd == "claude-science":
+        from receipt.causal_bridge import write_claude_science_packet
+        packet = write_claude_science_packet()
+        counts = packet["prospect"]["typed_status_counts"]
+        print(
+            "wrote examples/data/claude_science_acceptance_demo.json "
+            f"({counts['genes']} genes, {counts['evidence_attached']} evidence_attached, "
+            f"{counts['contradicted']} contradicted, {counts['not_assayed']} not_assayed)"
+        )
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
     elif cmd == "judge-handout":

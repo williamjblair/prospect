@@ -39,6 +39,7 @@ def build_handout() -> dict[str, Any]:
     campaign = _json(DATA / "agent_campaign.json")
     disease = _json(DATA / "disease_genetics_overlay.json")
     lab = _json(DATA / "lab_packet.json")
+    claude_science = _json(DATA / "claude_science_acceptance_demo.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
@@ -61,6 +62,7 @@ def build_handout() -> dict[str, Any]:
             "disease_overlay_rows": disease["counts"]["campaign_rows"],
             "disease_overlay_context_rows": disease["counts"]["immune_or_hematologic_context"],
             "lab_packet_rows": len(lab.get("candidates", [])),
+            "claude_science_genes": claude_science["prospect"]["typed_status_counts"]["genes"],
         },
         "trust_boundary": {
             "model_role": "propose, search, pressure-test",
@@ -69,6 +71,7 @@ def build_handout() -> dict[str, Any]:
             "model_accepted_state_mutations": 0,
         },
         "five_minute_path": [
+            "Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.",
             "Overview: the A1BG refusal and the overclaiming number.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
             "Findings: the scannable finding index.",
@@ -81,8 +84,11 @@ def build_handout() -> dict[str, Any]:
         "commands": [
             "./prospect verify",
             "./prospect submit-pack",
+            "./prospect claude-science",
             "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
+            "python examples/claude_science_connector_client.py --json",
+            "python examples/prospect_connector_client.py --case openresearch --json",
         ],
         "human_only_actions": HUMAN_ONLY_ACTIONS,
         "limitation": "Prospect proves computation over released data, not wet-lab or clinical truth.",
@@ -116,6 +122,7 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['disease_overlay_context_rows']} rows with selected immune or hematologic context",
         f"- {counts['lab_packet_rows']} proposal-only wet-lab assay rows",
         f"- {counts['public_artifacts']} public data artifacts",
+        f"- {counts['claude_science_genes']} real Claude Science signature genes typed by Prospect causal replay",
         "",
         "## Trust boundary",
         "",
