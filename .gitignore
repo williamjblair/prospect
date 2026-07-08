@@ -8,6 +8,7 @@ examples/data/*.full.csv
 examples/data/atlas_backbone.json
 atlas/index.html
 report.html
+output/
 .env
 examples/data/claims_*.jsonl
 examples/data/run_stats_*.json
