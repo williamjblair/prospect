@@ -825,30 +825,40 @@ function FindingHead({ f }: { f: Finding }) {
   );
 }
 
-function EvRow({ cells, head }: { cells: ReactNode[]; head?: boolean }) {
+function FindingEvidencePanel({ children }: { children: ReactNode }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
-      padding: "6px 14px", borderTop: head ? "none" : "1px solid var(--rule-faint)" }}>
+    <div className="card-paper finding-evidence-panel">
+      {children}
+    </div>
+  );
+}
+
+function FindingEvidenceRow({ cells, head }: { cells: ReactNode[]; head?: boolean }) {
+  return (
+    <div className={`finding-evidence-row${head ? " finding-evidence-row-head" : ""}`}>
       {cells.map((c, i) => (
         <span key={i} className={head ? "t-label" : i === 0 ? "t-mono" : "t-body-sm"}
-          style={{ fontWeight: !head && i === 0 ? 650 : undefined, textAlign: i === 2 ? "right" : "left",
-            color: head ? "var(--ink-3)" : undefined }}>{c}</span>
+          style={{ fontWeight: !head && i === 0 ? 650 : undefined }}>{c}</span>
       ))}
     </div>
   );
+}
+
+function EvRow({ cells, head }: { cells: ReactNode[]; head?: boolean }) {
+  return <FindingEvidenceRow cells={cells} head={head} />;
 }
 
 function ActivationEvidence({ f }: { f: Finding }) {
   const ex: Record<string, { rest_de: number; stim_max_de: number }> = f.evidence.canonical_exemplar || {};
   const rows = Object.entries(ex).sort((a, b) => b[1].stim_max_de - a[1].stim_max_de).slice(0, 12);
   return (
-    <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+    <FindingEvidencePanel>
       <EvRow head cells={["gene", "TCR-cascade component", "Rest → Stim (max) DE"]} />
       {rows.map(([g, v]) => (
         <EvRow key={g} cells={[g, "silent at rest, fires on stimulation",
           <span key="n"><b style={{ color: "var(--ink-4)" }}>{v.rest_de}</b> → <b style={{ color: "var(--moss)" }}>{fmt(v.stim_max_de)}</b></span>]} />
       ))}
-    </div>
+    </FindingEvidencePanel>
   );
 }
 
@@ -859,17 +869,12 @@ function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: s
   const rest = Object.keys(per).filter((g) => !d.citations[g]).sort();
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, padding: "6px 14px" }}>
-          <span className="t-label" style={{ color: "var(--ink-3)" }}>gene</span>
-          <span className="t-label" style={{ color: "var(--ink-3)" }}>the field calls it (cited)</span>
-          <span className="t-label" style={{ color: "var(--ink-3)", textAlign: "right" }}>DE on KD</span>
-        </div>
+      <FindingEvidencePanel>
+        <EvRow head cells={["gene", "the field calls it (cited)", "DE on KD"]} />
         {cited.map((g) => {
           const c = d.citations[g], p = per[g];
           return (
-            <div key={g} style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
-              padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+            <div key={g} className="finding-evidence-row">
               <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left",
                 background: "transparent", color: "var(--cinnabar)" }}>{g}</button>
               <span className="t-body-sm" style={{ minWidth: 0 }}>
@@ -885,7 +890,7 @@ function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: s
             </div>
           );
         })}
-      </div>
+      </FindingEvidencePanel>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
         <span className="t-caption">also effectors:</span>
         {rest.map((g) => (
@@ -903,13 +908,13 @@ function EssentialityEvidence({ f }: { f: Finding }) {
   const rows = Object.entries(per).sort((a, b) => b[1].rest_de - a[1].rest_de).slice(0, 10);
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+      <FindingEvidencePanel>
         <EvRow head cells={["gene", "general machinery, not immune biology", "Rest DE"]} />
         {rows.map(([g, v]) => (
           <EvRow key={g} cells={[g, "moves the transcriptome in a resting cell",
             <b key="n" style={{ color: "var(--brass)" }}>{fmt(v.rest_de)}</b>]} />
         ))}
-      </div>
+      </FindingEvidencePanel>
       <div className="card-paper" style={{ padding: "10px 15px", background: "var(--state-open-tint)" }}>
         <p className="t-body-sm" style={{ margin: 0 }}>
           The gap is decisive: machinery genes sit at Rest DE ≥ <b>{fmt(gap.machinery_rest_de_min ?? 0)}</b>; the
@@ -931,8 +936,7 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
   const house = (e.housekeeping_exemplar || []).slice(0, 4);
   const immune = (e.immune_exemplar || []).slice(0, 4);
   const Row = ({ g, tone }: { g: string; tone: string }) => (
-    <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto", gap: 12, alignItems: "center",
-      padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+    <div className="finding-evidence-row">
       <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: tone }}>{g}</button>
       <span className="t-body-sm">T-cell regulator · {per[g].finding === "essentiality_artifact" ? "replicates in K562" : "inert in K562"}</span>
       <span className="t-mono fz-sm" style={{ textAlign: "right" }}>K562 {per[g].k562_de ?? "·"} DE</span>
@@ -940,7 +944,7 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
   );
   return (
     <div style={{ display: "grid", gap: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="finding-metric-strip">
         <div className="card-paper" style={{ padding: "14px 16px" }}>
           <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "·"}</div>
           <div className="t-label" style={{ marginTop: 4 }}>essentiality artifacts · median K562 DE</div>
@@ -958,10 +962,10 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
         artifacts reshape the K562 transcriptome too (median {med.essentiality_artifact} DE); the activation
         module stays inert (median {med.activation_module}). The second dataset validates findings 01 and 03.
       </p>
-      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+      <FindingEvidencePanel>
         {house.map((g: string) => <Row key={g} g={g} tone="var(--brass)" />)}
         {immune.map((g: string) => <Row key={g} g={g} tone="var(--moss)" />)}
-      </div>
+      </FindingEvidencePanel>
     </div>
   );
 }
@@ -974,7 +978,7 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
   const wrong: any[] = e.wrong_direction_exemplars || [];
   return (
     <div style={{ display: "grid", gap: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+      <div className="finding-metric-strip">
         <div className="card-paper" style={{ padding: "14px 16px" }}>
           <div className="stat-figure" style={{ color: "var(--moss)" }}>{e.pooled_fold_enrichment}×</div>
           <div className="t-label" style={{ marginTop: 4 }}>known targets enriched</div>
@@ -997,22 +1001,21 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
         on their own, including the Th1 and Th2 master factors TBX21 and GATA3. The frontier rebuilds
         known transcription-factor biology from perturbation alone, with no regulon supplied.
       </p>
-      <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "96px 1fr auto auto", gap: 12, padding: "6px 14px" }}>
+      <FindingEvidencePanel>
+        <div className="finding-evidence-row finding-evidence-row-head finding-evidence-row-four">
           {["TF", "known regulon recovered", "enrichment", "sign"].map((h, i) => (
             <span key={h} className="t-label" style={{ color: "var(--ink-3)", textAlign: i > 1 ? "right" : "left" }}>{h}</span>
           ))}
         </div>
         {top.map((r) => (
-          <div key={r.tf} style={{ display: "grid", gridTemplateColumns: "96px 1fr auto auto", gap: 12, alignItems: "center",
-            padding: "7px 14px", borderTop: "1px solid var(--rule-faint)" }}>
+          <div key={r.tf} className="finding-evidence-row finding-evidence-row-four">
             <button onClick={() => onGene(r.tf)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: "var(--moss)" }}>{r.tf}</button>
             <span className="t-body-sm">{r.overlap} of {r.known} known targets moved on knockdown</span>
             <span className="t-mono fz-sm" style={{ textAlign: "right", color: "var(--moss)" }}>{r.fold}×</span>
             <span className="t-mono fz-sm" style={{ textAlign: "right" }}>{r.dir_agree != null ? Math.round(r.dir_agree * 100) + "%" : "·"}</span>
           </div>
         ))}
-      </div>
+      </FindingEvidencePanel>
       {wrong.length > 0 && (
         <div>
           <div className="t-label" style={{ marginBottom: 6 }}>Where the data overrules the literature's sign</div>

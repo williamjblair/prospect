@@ -813,6 +813,48 @@ a:hover > .card-paper {
   background: var(--paper-hover);
 }
 
+.finding-evidence-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.finding-evidence-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 0.6fr) minmax(0, 1fr) minmax(92px, auto);
+  gap: 12px;
+  align-items: center;
+  min-height: 36px;
+  padding: 7px 14px;
+  border-top: 1px solid var(--rule-faint);
+}
+
+.finding-evidence-row:first-child,
+.finding-evidence-row-head {
+  border-top: 0;
+}
+
+.finding-evidence-row:not(.finding-evidence-row-head):hover {
+  background: color-mix(in oklab, var(--gold-soft) 12%, transparent);
+}
+
+.finding-evidence-row > :last-child {
+  text-align: right;
+}
+
+.finding-evidence-row-head > * {
+  color: var(--ink-3);
+}
+
+.finding-evidence-row-four {
+  grid-template-columns: minmax(72px, 0.6fr) minmax(0, 1fr) minmax(86px, auto) minmax(64px, auto);
+}
+
+.finding-metric-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
 .detail-hero {
   position: relative;
   padding: 0.25rem 0 1rem;
@@ -1190,6 +1232,31 @@ a:hover > .card-paper {
 
   .h2-app {
     font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .finding-evidence-row,
+  .finding-evidence-row-four {
+    grid-template-columns: minmax(68px, 0.58fr) minmax(0, 1fr);
+    gap: 5px 10px;
+    align-items: start;
+    padding: 9px 12px;
+  }
+
+  .finding-evidence-row > :last-child,
+  .finding-evidence-row-four > :last-child {
+    text-align: left;
+  }
+
+  .finding-evidence-row > :nth-child(n + 3),
+  .finding-evidence-row-four > :nth-child(n + 3) {
+    grid-column: 2;
+  }
+
+  .finding-evidence-row-head > :nth-child(n + 3),
+  .finding-evidence-row-four.finding-evidence-row-head > :nth-child(n + 3) {
+    display: none;
   }
 }
 

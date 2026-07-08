@@ -105,7 +105,8 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
   polish pass (Overview rebuilt into an argument, KPI-grid removed, mid-tier headings, skeleton +
-  error states, all em dashes swept).
+  error states, all em dashes swept). The Findings evidence tables now share a responsive evidence
+  panel rhythm, with metric strips and mobile-safe rows for the dense scientific tables.
 
 ## 4. Architecture and file map
 
@@ -198,7 +199,6 @@ Gitignored (regenerable):
 Nothing is required; the entry is complete and strong. Prioritized options if continuing:
 
 **Polish follow-ups (small, safe):**
-- Add one more visual rhythm pass to the dense evidence tables below the shipped findings index.
 - About 55% of `web/app/globals.css` is dead tokens ported from a prior project (ledger, almanac,
   event-ruler, star, provenance-thread, etc.); safe to prune, lowers the "scaffolding drift" tell.
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
