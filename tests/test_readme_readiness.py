@@ -37,6 +37,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "/data/receipt_bridge/receipt_manifest.json",
         "/data/receipt_bridge/receipt_bundle.json",
         "/data/pggt1b_deep_dive.json",
+        "/data/pggt1b_matrix_slice.json",
         "/data/campaign_agent_probe.json",
         "/data/agent_campaign.json",
         "/data/agent_campaign_review.json",

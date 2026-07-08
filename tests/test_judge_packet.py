@@ -7,6 +7,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+from cli.submit_pack import PUBLIC_ARTIFACTS
 from frontier.judge_packet import build_packet, write_packet
 
 
@@ -40,18 +41,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
-    assert "/data/frontier.json" in packet["public_data"]
-    assert "/data/judge_packet.json" in packet["public_data"]
-    assert "/data/pggt1b_deep_dive.json" in packet["public_data"]
-    assert "/data/pggt1b_matrix_slice.json" in packet["public_data"]
-    assert "/data/lab_packet.json" in packet["public_data"]
-    assert "/data/agent_campaign_review.json" in packet["public_data"]
-    assert "/data/campaign_agent_probe.json" in packet["public_data"]
-    assert "/data/campaign_triage.json" in packet["public_data"]
-    assert "/data/campaign_gate_probe.json" in packet["public_data"]
-    assert "/data/transfer_replay_packet.json" in packet["public_data"]
-    assert "/data/receipt_bridge/receipt_contract.json" in packet["public_data"]
-    assert "/data/receipt_bridge/receipt_manifest.json" in packet["public_data"]
+    assert packet["public_data"] == PUBLIC_ARTIFACTS
     assert "true" not in json.dumps(packet).lower()
     assert "verified biology" not in json.dumps(packet).lower()
 
