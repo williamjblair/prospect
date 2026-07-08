@@ -54,6 +54,8 @@ Teleprompter: `docs/DEMO_TELEPROMPTER.md` or `./prospect demo-pack`.
 
 Judge quickstart: `docs/JUDGE_QUICKSTART.md`.
 
+One-page judge handout: `docs/JUDGE_HANDOUT.md` or `./prospect judge-handout`.
+
 ## Built with Claude
 
 Claude is used in three ways:
@@ -78,6 +80,7 @@ JSON endpoints let a judge rerun the trust floor after the event window.
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect judge-handout
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

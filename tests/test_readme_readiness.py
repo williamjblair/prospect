@@ -20,6 +20,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect judge-handout",
         "./prospect submission-audit",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
@@ -45,6 +46,7 @@ def test_readme_lists_current_commands_and_artifacts():
     assert "docs/TRANSFER_REPLAY_PACKET.md" in text
     assert "docs/FINAL_SUBMISSION_CHECKLIST.md" in text
     assert "docs/DEMO_TELEPROMPTER.md" in text
+    assert "docs/JUDGE_HANDOUT.md" in text
 
 
 if __name__ == "__main__":

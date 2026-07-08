@@ -11,6 +11,8 @@ Judge quickstart: [docs/JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md)
 
 Recording teleprompter: [docs/DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md)
 
+One-page judge handout: [docs/JUDGE_HANDOUT.md](JUDGE_HANDOUT.md)
+
 ## The problem
 
 AI generates biology faster than anyone can check it. A model asserts that a gene is a key
@@ -40,6 +42,8 @@ the graph on its own word. On top of it:
   transfer the checker, recover regulons.
 - **A judge packet**: `prospect judge-pack` emits one manifest with the live URL, signed root,
   replay commands, public data endpoints, artifact counts, and trust-boundary summary.
+- **A one-page judge handout**: `prospect judge-handout` emits a compact print-ready path through
+  the live URL, signed root, trust boundary, public artifacts, replay commands, and human-only actions.
 - **A closed loop and an autonomous agent**: `prospect propose` (Claude proposes, the verifier
   decides, a human signs) and `prospect agent` (a real tool-use loop where Claude searches and
   verifies against frozen data, converging on a novel hypothesis).
@@ -133,6 +137,8 @@ the trust floor after the event window without private credentials for the stati
   `python examples/receipt_bridge_client.py`.
 - The final submission audit is [docs/FINAL_SUBMISSION_AUDIT.md](FINAL_SUBMISSION_AUDIT.md): shipped
   workstreams, required gates, public artifacts, trust boundary, and human-only actions.
+- The one-page judge handout is [docs/JUDGE_HANDOUT.md](JUDGE_HANDOUT.md): live URL, signed root,
+  five-minute path, trust boundary, replay commands, and human-only actions in one file.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
@@ -170,6 +176,7 @@ the trust floor after the event window without private credentials for the stati
 ./prospect submit-smoke           # check production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
 ./prospect demo-pack              # print the two-minute recording teleprompter
+./prospect judge-handout          # build the one-page judge handout
 ./prospect submission-audit       # build the final submission audit packet
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis

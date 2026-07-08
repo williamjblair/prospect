@@ -19,6 +19,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect judge-handout",
         "./prospect submission-audit",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
@@ -47,6 +48,7 @@ def test_submission_points_to_current_public_artifacts():
     assert "FINAL_SUBMISSION_CHECKLIST.md" in text
     assert "FINAL_SUBMISSION_AUDIT.md" in text
     assert "DEMO_TELEPROMPTER.md" in text
+    assert "JUDGE_HANDOUT.md" in text
 
 
 def test_submission_names_durable_build_track_artifact():

@@ -20,6 +20,8 @@ Recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
 Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
 
+One-page judge handout: `docs/JUDGE_HANDOUT.md`
+
 Final submission audit: `docs/FINAL_SUBMISSION_AUDIT.md`
 
 Replay gate:
@@ -29,6 +31,7 @@ Replay gate:
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect judge-handout
 ./prospect submission-audit
 ```
 
@@ -45,6 +48,7 @@ Run this before submitting:
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect judge-handout
 ./prospect submission-audit
 ```
 
@@ -74,6 +78,7 @@ Confirm:
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.
 - `./prospect demo-pack` prints the recording teleprompter.
+- `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
 
 ## Record The Demo Video
 
@@ -102,6 +107,7 @@ Submit the project with:
 - demo video recorded from `docs/DEMO.md`
 - local copy-safe packet from `./prospect submit-pack`
 - recording teleprompter from `./prospect demo-pack`
+- one-page judge handout from `./prospect judge-handout`
 - final audit packet from `./prospect submission-audit`
 
 Do not paste secrets. Do not mention internal deployment team names. Do not claim wet-lab or clinical

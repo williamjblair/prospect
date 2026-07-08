@@ -14,6 +14,8 @@ Demo recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
 Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
 
+One-page judge handout: `docs/JUDGE_HANDOUT.md`
+
 An AI can assert a claim about any gene in a second. Confirming it against the data takes
 longer than most people spend, so overstated biology walks into slides, grants, and papers.
 Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is
@@ -113,6 +115,9 @@ frozen substrates, typed status, and no accepted-state mutation.
 `prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
 required gates, public artifacts, trust boundary, and human-only actions.
 
+`prospect judge-handout` emits a one-page judge handout with the live URL, signed root, five-minute
+path, trust boundary, public artifacts to open, replay commands, and human-only actions.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -142,6 +147,7 @@ Current public artifacts:
 ./prospect submit-smoke           # check the production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
 ./prospect demo-pack              # print the two-minute recording teleprompter
+./prospect judge-handout          # build the one-page judge handout
 ./prospect submission-audit       # build the final submission audit packet
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims

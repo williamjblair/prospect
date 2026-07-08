@@ -35,6 +35,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/SUBMISSION_FORM_PACKET.md",
         "docs/DEMO_RECORDING_RUNBOOK.md",
         "docs/DEMO_TELEPROMPTER.md",
+        "docs/JUDGE_HANDOUT.md",
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
         "docs/FINAL_SUBMISSION_AUDIT.md",
     ]:

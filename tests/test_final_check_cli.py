@@ -27,6 +27,8 @@ def test_final_check_lists_submission_gate_commands():
         "python examples/receipt_bridge_client.py --json",
         "./prospect submit-pack --json",
         "./prospect demo-pack --json",
+        "./prospect judge-handout",
+        "git diff --exit-code -- docs/JUDGE_HANDOUT.md",
         "./prospect submission-audit",
         "git diff --exit-code -- examples/data/final_submission_audit.json docs/FINAL_SUBMISSION_AUDIT.md",
         "./prospect campaign-pressure",

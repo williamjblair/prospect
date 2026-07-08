@@ -128,6 +128,9 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Judge packet** (`frontier/judge_packet.py`, `./prospect judge-pack`): one replay manifest with
   the live URL, signed root, gate commands, public data endpoints, artifact counts, and trust-boundary
   summary, exported to `examples/data/judge_packet.json` and [JUDGE_PACKET.md](JUDGE_PACKET.md).
+- **One-page judge handout** (`cli/judge_handout.py`, `./prospect judge-handout`): a print-ready
+  final-production handout with the live URL, signed root, five-minute path, trust boundary, public
+  artifacts to open, replay commands, and human-only actions, exported to [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md).
 - **Final submission audit** (`cli/final_submission_audit.py`, `./prospect submission-audit`):
   deterministic upload-readiness packet. It names shipped workstreams, required gates, public
   artifacts, trust boundary, and human-only actions, exported to
@@ -170,7 +173,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|submission-audit|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -257,6 +260,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 
 - **Judge quickstart**: [JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md), a five-minute judge path through
   the live app, replay commands, trust boundary, typed statuses, and public artifacts.
+- **Judge handout**: [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md), a one-page path through the live URL,
+  signed root, public artifacts to open, replay commands, and human-only actions.
 - **Demo script**: [DEMO.md](DEMO.md), a 2-minute beat-by-beat (refusal -> reveal -> number -> moat ->
   loop), runs entirely off the live site. [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
   adds exact preflight commands and click beats. [DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md) and

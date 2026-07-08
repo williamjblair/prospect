@@ -23,10 +23,23 @@ Public artifacts: 19
 - `./prospect submit-smoke`
 - `./prospect submit-pack`
 - `./prospect demo-pack`
+- `./prospect judge-handout`
 - `./prospect verify`
 - `python benchmark/mutation_pack.py`
 - `python tests/test_skill_parity.py`
 - `python examples/receipt_bridge_client.py --json`
+
+## Source docs
+
+- `docs/JUDGE_QUICKSTART.md`
+- `docs/SUBMISSION_FORM_PACKET.md`
+- `docs/SUBMISSION.md`
+- `docs/DEMO_RECORDING_RUNBOOK.md`
+- `docs/DEMO_TELEPROMPTER.md`
+- `docs/JUDGE_HANDOUT.md`
+- `docs/FINAL_SUBMISSION_CHECKLIST.md`
+- `docs/FINAL_SUBMISSION_AUDIT.md`
+- `docs/JUDGE_PACKET.md`
 
 ## Shipped workstreams
 

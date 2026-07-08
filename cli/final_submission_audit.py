@@ -17,6 +17,7 @@ REQUIRED_GATES = [
     "./prospect submit-smoke",
     "./prospect submit-pack",
     "./prospect demo-pack",
+    "./prospect judge-handout",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -106,6 +107,12 @@ def _markdown(audit: dict[str, Any]) -> str:
         "",
     ]
     lines += [f"- `{command}`" for command in audit["required_gates"]]
+    lines += [
+        "",
+        "## Source docs",
+        "",
+    ]
+    lines += [f"- `{path}`" for path in audit["source_docs"]]
     lines += [
         "",
         "## Shipped workstreams",

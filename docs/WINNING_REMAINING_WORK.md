@@ -248,6 +248,7 @@ Deliverables:
   every major new artifact.
 - Keep `./prospect demo-pack` aligned with the best two-minute path.
 - Keep `./prospect submit-pack` aligned with the final public artifacts.
+- Keep `./prospect judge-handout` aligned with the final five-minute judge path.
 - Record the demo video.
 - Submit the live URL, repo URL, and copy from `docs/SUBMISSION_FORM_PACKET.md`.
 
@@ -271,7 +272,8 @@ Gate:
 
 Only do these after the P1 workstreams and demo path are coherent.
 
-- A one-page PDF or print handout generated from existing docs.
+- A one-page print handout generated from existing docs. Shipped as `./prospect judge-handout` and
+  [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md).
 - A short static "judge packet" landing view if the live Overview becomes too dense.
 - A small visual diagram of the receipt boundary, only if it clarifies rather than decorates.
 

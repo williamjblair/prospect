@@ -22,6 +22,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
     assert audit["public_artifact_count"] == len(PUBLIC_ARTIFACTS)
     assert audit["public_artifacts"] == PUBLIC_ARTIFACTS
+    assert "docs/JUDGE_HANDOUT.md" in audit["source_docs"]
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
@@ -57,6 +58,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert data["readiness"] == "submission_ready_for_human_upload"
     assert "Prospect final submission audit" in doc
     assert "Human-only actions" in doc
+    assert "docs/JUDGE_HANDOUT.md" in doc
     assert "record_demo_video" in doc
     assert "./prospect final-check" in doc
     assert "/data/assay_operations_bundle.json" in doc
