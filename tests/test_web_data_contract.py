@@ -14,6 +14,7 @@ KEPT_PACKET_KEYS = [
     "agent_campaign",
     "discovery_campaign",
     "cross_validation",
+    "flagship_module",
     "lab_packet",
     "disease_genetics_overlay",
     "receipts",
@@ -147,6 +148,21 @@ def test_frontier_json_embeds_cross_validation_packet():
     assert ("veri" + "fied") not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_flagship_module_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["flagship_module"]
+    flagship = packet["flagship_module"]
+
+    assert packet["phase"] == "phase_3_flagship_module"
+    assert packet["status"] == "evidence_attached"
+    assert packet["acceptance"] is False
+    assert flagship["module_id"] == "prenylation_small_gtpase_trafficking"
+    assert flagship["anchor_gene"] == "PGGT1B"
+    assert flagship["members"] == ["PGGT1B", "CCDC22", "SNAP29", "MITD1"]
+    assert flagship["refutation_experiment"]["system"] == "stimulated primary human CD4+ T cells"
+    assert ("veri" + "fied") not in json.dumps(packet).lower()
+
+
 def test_frontier_json_embeds_external_run_receipt_demo():
     data = json.loads(FRONTIER.read_text())
     demo = data["external_run_receipt_demo"]
@@ -185,6 +201,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_agent_campaign_and_lab_packet()
     test_frontier_json_embeds_discovery_campaign_packet()
     test_frontier_json_embeds_cross_validation_packet()
+    test_frontier_json_embeds_flagship_module_packet()
     test_frontier_json_embeds_external_run_receipt_demo()
     test_frontier_json_embeds_live_claim_rail()
     print("PASS: web data contract")
