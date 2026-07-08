@@ -24,7 +24,7 @@ This packet makes the final browser pass durable. It does not claim automated vi
 | Overview | `Opening claim checks`, `48%`, `Judge packet` | Opening refusal, overclaim rate, and replay entry point. |
 | Findings | `Scannable findings index`, `Substrate replay packet`, `Cross-substrate discovery packet`, `MED19` | Scientific evidence path, protocol generalization, and cross-substrate discovery. |
 | Frontier | `Executable bridge path`, `accepted=false`, `human_signature_required` | Receipt boundary and no-model-in-trust-path behavior. |
-| Agent | `Campaign pressure summary`, `Donor-condition replay packet`, `Gladstone assay operations bundle`, `Gladstone pilot design`, `PGGT1B` | Claude pressure, donor replay, proposal-only assay gates, pilot design, and lab handoff. |
+| Agent | `Campaign pressure summary`, `Donor-condition replay packet`, `Disease-genetics overlay packet`, `Gladstone assay operations bundle`, `Gladstone pilot design`, `PGGT1B` | Claude pressure, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff. |
 
 ## Evidence commands
 
@@ -48,7 +48,7 @@ This writes local evidence under ignored `output/playwright/`.
 - Overview opens on the refusal and overclaiming number, not decoration.
 - Findings exposes the substrate replay path, cross-substrate discovery packet, and MED19 contrast.
 - Frontier shows receipt submission as proposal-only.
-- Agent shows Claude pressure, donor replay, assay gates, and pilot design, not accepted state.
+- Agent shows Claude pressure, donor replay, disease context, assay gates, and pilot design, not accepted state.
 - Text fits at desktop and mobile viewport sizes.
 
 This packet is a manual browser checklist. It does not prove wet-lab or clinical truth.

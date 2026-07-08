@@ -17,6 +17,7 @@
   prospect substrate-replay build the protocol-generalization substrate replay packet
   prospect cross-substrate-discovery build the cross-substrate discovery packet
   prospect donor-replay    build the donor-condition replay packet
+  prospect disease-overlay build the disease-genetics overlay packet
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect assay-ops        build the Gladstone assay operations bundle
@@ -79,6 +80,8 @@ def main():
         from frontier.cross_substrate_discovery import main as cross_substrate_discovery_main; cross_substrate_discovery_main()
     elif cmd == "donor-replay":
         from frontier.donor_condition_replay import main as donor_condition_replay_main; sys.exit(donor_condition_replay_main(rest))
+    elif cmd == "disease-overlay":
+        from frontier.disease_genetics_overlay import main as disease_genetics_overlay_main; sys.exit(disease_genetics_overlay_main(rest))
     elif cmd == "pggt1b":
         from frontier.pggt1b_deep_dive import main as pggt1b_main; pggt1b_main()
     elif cmd == "lab-pack":

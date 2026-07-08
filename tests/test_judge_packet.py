@@ -50,6 +50,9 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["cross_substrate_campaign_rows"] == 20
     assert packet["artifact_counts"]["donor_condition_replay_rows"] == 20
     assert packet["artifact_counts"]["donor_supported_campaign_rows"] == 13
+    assert packet["artifact_counts"]["disease_genetics_overlay_rows"] == 20
+    assert packet["artifact_counts"]["disease_genetics_context_rows"] == 10
+    assert packet["artifact_counts"]["disease_genetics_genetic_context_rows"] == 4
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 20
@@ -68,6 +71,11 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["science_packet"]["donor_condition_replay"]["status"] == "computationally_reproduced"
     assert packet["science_packet"]["donor_condition_replay"]["donor_supported"] == 13
     assert packet["science_packet"]["donor_condition_replay"]["top_gene"] == "PGGT1B"
+    assert packet["science_packet"]["disease_genetics_overlay"]["status"] == "evidence_attached"
+    assert packet["science_packet"]["disease_genetics_overlay"]["local_perturbation_status"] == "computationally_reproduced"
+    assert packet["science_packet"]["disease_genetics_overlay"]["context_rows"] == 10
+    assert packet["science_packet"]["disease_genetics_overlay"]["genetic_context_rows"] == 4
+    assert packet["science_packet"]["disease_genetics_overlay"]["top_gene"] == "PGGT1B"
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert packet["public_data"] == PUBLIC_ARTIFACTS
     assert "true" not in json.dumps(packet).lower()
@@ -95,6 +103,9 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["cross_substrate_campaign_rows"] == 20
     assert data["artifact_counts"]["donor_condition_replay_rows"] == 20
     assert data["artifact_counts"]["donor_supported_campaign_rows"] == 13
+    assert data["artifact_counts"]["disease_genetics_overlay_rows"] == 20
+    assert data["artifact_counts"]["disease_genetics_context_rows"] == 10
+    assert data["artifact_counts"]["disease_genetics_genetic_context_rows"] == 4
     assert data["artifact_counts"]["assay_operations_candidates"] == 5
     assert data["artifact_counts"]["pilot_design_candidates"] == 5
     assert data["artifact_counts"]["pilot_design_culture_arms"] == 90
@@ -109,6 +120,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["science_packet"]["pilot_design"]["culture_arms"] == 90
     assert data["science_packet"]["cross_substrate_discovery"]["top_campaign_gene"] == "PGGT1B"
     assert data["science_packet"]["donor_condition_replay"]["top_gene"] == "PGGT1B"
+    assert data["science_packet"]["disease_genetics_overlay"]["top_gene"] == "PGGT1B"
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
     assert "Judge packet" in doc
@@ -121,6 +133,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "Substrate replay packet" in doc
     assert "Cross-substrate discovery packet" in doc
     assert "Donor-condition replay packet" in doc
+    assert "Disease-genetics overlay" in doc
     assert "Gladstone assay operations bundle" in doc
     assert "Gladstone pilot design" in doc
     assert "Final submission audit" in doc

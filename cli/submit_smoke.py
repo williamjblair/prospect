@@ -235,6 +235,26 @@ def _check_donor_condition_replay(base_url: str, opener: Callable[..., Any], tim
         return Check("donor-condition replay", False, f"fetch failed: {exc}")
 
 
+def _check_disease_genetics_overlay(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/disease_genetics_overlay.json", opener, timeout)
+        counts = data.get("counts", {})
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("local_perturbation_status") == "computationally_reproduced"
+            and data.get("trust_boundary") == "frozen_external_association_extract"
+            and data.get("accepted_state_mutation") == "none"
+            and counts.get("campaign_rows") == 20
+            and counts.get("immune_or_hematologic_context") == 10
+            and counts.get("immune_or_hematologic_genetic_context") == 4
+            and len(data.get("rows", [])) == 20
+        )
+        detail = "20 campaign rows overlaid with external disease context" if ok else "disease-genetics overlay shape drift"
+        return Check("disease-genetics overlay", ok, detail)
+    except Exception as exc:
+        return Check("disease-genetics overlay", False, f"fetch failed: {exc}")
+
+
 def _check_lab_packet(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/lab_packet.json", opener, timeout)
@@ -381,6 +401,7 @@ def run_checks(
         _check_substrate(base_url, opener, timeout),
         _check_cross_substrate_discovery(base_url, opener, timeout),
         _check_donor_condition_replay(base_url, opener, timeout),
+        _check_disease_genetics_overlay(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
         _check_gladstone_pilot_design(base_url, opener, timeout),

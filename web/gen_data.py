@@ -33,6 +33,7 @@ TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "
 SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
 CROSS_SUBSTRATE_DISCOVERY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "cross_substrate_discovery.json")
 DONOR_CONDITION_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "donor_condition_replay.json")
+DISEASE_GENETICS_OVERLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "disease_genetics_overlay.json")
 JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
@@ -100,6 +101,8 @@ _cross_substrate_discovery = os.path.join(DATA, "cross_substrate_discovery.json"
 cross_substrate_discovery = json.load(open(_cross_substrate_discovery)) if os.path.exists(_cross_substrate_discovery) else None
 _donor_condition_replay = os.path.join(DATA, "donor_condition_replay.json")
 donor_condition_replay = json.load(open(_donor_condition_replay)) if os.path.exists(_donor_condition_replay) else None
+_disease_genetics_overlay = os.path.join(DATA, "disease_genetics_overlay.json")
+disease_genetics_overlay = json.load(open(_disease_genetics_overlay)) if os.path.exists(_disease_genetics_overlay) else None
 _judge_packet = os.path.join(DATA, "judge_packet.json")
 judge_packet = json.load(open(_judge_packet)) if os.path.exists(_judge_packet) else None
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
@@ -172,6 +175,7 @@ data = {
     "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
     "cross_substrate_discovery": cross_substrate_discovery,
     "donor_condition_replay": donor_condition_replay,
+    "disease_genetics_overlay": disease_genetics_overlay,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -219,6 +223,8 @@ if cross_substrate_discovery:
     json.dump(cross_substrate_discovery, open(CROSS_SUBSTRATE_DISCOVERY_OUT, "w"))
 if donor_condition_replay:
     json.dump(donor_condition_replay, open(DONOR_CONDITION_REPLAY_OUT, "w"))
+if disease_genetics_overlay:
+    json.dump(disease_genetics_overlay, open(DISEASE_GENETICS_OVERLAY_OUT, "w"))
 if judge_packet:
     json.dump(judge_packet, open(JUDGE_PACKET_OUT, "w"))
 json.dump(data, open(OUT, "w"))

@@ -48,6 +48,11 @@ SHIPPED_WORKSTREAMS = [
         "evidence": ["./prospect donor-replay", "/data/donor_condition_replay.json"],
     },
     {
+        "workstream": "disease_genetics_overlay",
+        "state": "shipped",
+        "evidence": ["./prospect disease-overlay", "/data/disease_genetics_overlay.json"],
+    },
+    {
         "workstream": "claude_campaign_pressure",
         "state": "shipped",
         "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
@@ -99,7 +104,7 @@ RENDERED_QA_CHECKLIST = {
         },
         {
             "tab": "Agent",
-            "must_show": ["Campaign pressure summary", "Donor-condition replay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
+            "must_show": ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
         },
     ],
 }
@@ -124,6 +129,11 @@ COMPLETION_REQUIREMENTS = [
         "requirement": "donor_condition_replay",
         "status": "shipped",
         "evidence": ["./prospect donor-replay", "/data/donor_condition_replay.json"],
+    },
+    {
+        "requirement": "disease_genetics_overlay",
+        "status": "shipped",
+        "evidence": ["./prospect disease-overlay", "/data/disease_genetics_overlay.json"],
     },
     {
         "requirement": "claude_campaign_pressure",

@@ -253,7 +253,7 @@ Go or no-go:
 
 ## Workstream 3: disease-genetics overlay
 
-Priority: P1, high judge value if kept honest.
+Priority: P1, shipped.
 
 Goal: attach external immune-disease evidence to Prospect candidates without letting external
 associations move accepted state.
@@ -262,59 +262,67 @@ Why this matters: the Marson source work is motivated by immune traits and disea
 Gladstone judges will care whether a candidate such as PGGT1B, RCC1L, or RWDD2B has any independent
 human genetics context. The key is to attach this as evidence, not proof.
 
-Data sources:
+Current shipped surface: `./prospect disease-overlay` emits
+`examples/data/disease_genetics_overlay.json`, [DISEASE_GENETICS_OVERLAY.md](DISEASE_GENETICS_OVERLAY.md),
+and `/data/disease_genetics_overlay.json`. The packet queries Open Targets once, freezes a small
+source extract, and normally replays from the committed extract.
 
-- Open Targets Platform target-disease associations and genetics evidence.
-- GWAS Catalog REST API for curated trait associations.
-- Optional disease set: inflammatory bowel disease, rheumatoid arthritis, multiple sclerosis,
-  type 1 diabetes, systemic lupus erythematosus, asthma, and allergic disease.
+Source:
 
-Technical shape:
+- Open Targets Platform GraphQL API, target search plus `target.associatedDiseases`.
+- Query scope: the 20 campaign rows only.
+- Page size: 120 associations per target.
+- Selection filter: immune or hematologic terms with Open Targets association score at least 0.05.
+- GWAS Catalog REST v2 was probed by campaign gene, but the bounded immune-trait filter did not add
+  useful rows, so it is not part of the shipped packet.
 
-- Add a small `external/disease_genetics.py` client or frozen fixture builder.
-- Query only the top campaign and assay candidates.
-- Cache the exact returned records, source, date, and query URL or GraphQL body.
-- Produce a score-neutral overlay:
-  - `has_external_association`
-  - `association_source`
-  - `disease_or_trait`
-  - `evidence_type`
-  - `why_it_matters`
-  - `why_it_does_not_accept_state`
+Current result:
 
-Potential discovery:
+- 20 campaign rows overlaid.
+- 20 rows have Open Targets target-disease associations.
+- 10 rows have selected immune or hematologic context.
+- 4 rows have selected immune or hematologic genetic context.
+- PGGT1B has psoriasis context, literature only under this extract.
+- CCDC22, SCO2, GZMB, and IRF4 have selected genetic-context rows.
+- Rows without selected immune or hematologic context remain perturbation-first candidates, not
+  disease-genetics claims.
 
-- A Prospect-only candidate with immune genetics support becomes a stronger wet-lab handoff.
-- A strong perturbation candidate with no external genetics remains valuable but should be framed as
-  cell-program discovery, not disease genetics.
-- A famous immune target with genetics support but no perturbation effect becomes a clean example of
-  claim separation.
+Discovery value:
+
+- The packet separates "strong perturbation candidate" from "candidate with external disease
+  context" without letting either claim swallow the other.
+- PGGT1B remains a strong donor-supported perturbation candidate, but the overlay keeps its external
+  disease context modest and non-genetic.
+- CCDC22, GZMB, and IRF4 become useful comparison rows for assay framing because their external
+  context is stronger than their status in Prospect's accepted state.
 
 Deliverables:
 
 - `./prospect disease-overlay`
+- `examples/data/disease_genetics_source_rows.json`
 - `examples/data/disease_genetics_overlay.json`
 - `docs/DISEASE_GENETICS_OVERLAY.md`
-- Optional links from the PGGT1B and campaign packets.
+- `/data/disease_genetics_overlay.json`
+- Agent tab summary in the live app
 
 Status:
 
-- External association retrieval can be `evidence_attached`.
+- External association retrieval is `evidence_attached`.
 - Replayed local perturbation facts remain `computationally_reproduced`.
 - No external API response can accept state.
 
 Gate:
 
-- Tests using frozen fixtures so CI does not depend on live APIs.
-- Source and retrieval date in every row.
-- Copy tests preventing therapeutic or clinical claims.
+- Tests use the frozen extract so CI does not depend on live APIs.
+- Source, endpoint, retrieval date, and regeneration command are in the packet.
+- Copy tests prevent strong status language and clinical-truth claims.
 - `./prospect final-check`.
 
-Go or no-go:
+Limitations:
 
-- Go only if the first query returns useful evidence for at least one candidate or a clear negative
-  result worth showing.
-- If the API work expands, freeze a small fixture and stop. Do not build a broad disease portal.
+- This is not a disease-causality claim.
+- It is not a target-prioritization score.
+- It does not prove wet-lab, therapeutic, or clinical results.
 
 ## Workstream 4: perturbation-atlas scout
 
@@ -426,13 +434,13 @@ Gate:
 ## Ranked execution plan
 
 1. Run the floor: `./prospect final-check` and `./prospect submit-smoke`.
-2. Keep Workstream 2 and Workstream 1 green: cross-substrate discovery plus donor-condition replay
-   are now the two shipped frontier-advancement packets.
-3. Add Workstream 3 if source queries are clean: disease-genetics overlay for top candidates.
-4. Write Workstream 4 scout memo if time remains. Ingest nothing large unless it can be frozen.
-5. Run Workstream 5 only after cross-substrate or donor evidence changes the campaign ranking.
-6. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
-7. Deploy only after web or public-data changes, using the deployment command in `AGENTS.md`.
+2. Keep Workstream 2, Workstream 1, and Workstream 3 green: cross-substrate discovery,
+   donor-condition replay, and disease-genetics overlay are now shipped frontier-advancement packets.
+3. Write Workstream 4 scout memo if time remains. Ingest nothing large unless it can be frozen.
+4. Run Workstream 5 only after the shipped advancement packets change the campaign ranking or assay
+   framing.
+5. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
+6. Deploy only after web or public-data changes, using the deployment command in `AGENTS.md`.
 
 ## Definition of done for the new campaign
 

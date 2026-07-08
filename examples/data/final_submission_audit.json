@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 25,
+  "public_artifact_count": 26,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -25,6 +25,7 @@
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
     "/data/donor_condition_replay.json",
+    "/data/disease_genetics_overlay.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -44,6 +45,7 @@
     "docs/CAMPAIGN_PROBE_AUDIT.md",
     "docs/CROSS_SUBSTRATE_DISCOVERY.md",
     "docs/DONOR_CONDITION_REPLAY.md",
+    "docs/DISEASE_GENETICS_OVERLAY.md",
     "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
@@ -98,6 +100,14 @@
       "evidence": [
         "./prospect donor-replay",
         "/data/donor_condition_replay.json"
+      ]
+    },
+    {
+      "workstream": "disease_genetics_overlay",
+      "state": "shipped",
+      "evidence": [
+        "./prospect disease-overlay",
+        "/data/disease_genetics_overlay.json"
       ]
     },
     {
@@ -187,6 +197,7 @@
         "must_show": [
           "Campaign pressure summary",
           "Donor-condition replay packet",
+          "Disease-genetics overlay packet",
           "Gladstone assay operations bundle",
           "Gladstone pilot design",
           "PGGT1B"
@@ -225,6 +236,14 @@
       "evidence": [
         "./prospect donor-replay",
         "/data/donor_condition_replay.json"
+      ]
+    },
+    {
+      "requirement": "disease_genetics_overlay",
+      "status": "shipped",
+      "evidence": [
+        "./prospect disease-overlay",
+        "/data/disease_genetics_overlay.json"
       ]
     },
     {

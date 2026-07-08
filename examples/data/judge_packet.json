@@ -70,6 +70,7 @@
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
     "/data/donor_condition_replay.json",
+    "/data/disease_genetics_overlay.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -96,12 +97,15 @@
     "cross_substrate_campaign_rows": 20,
     "donor_condition_replay_rows": 20,
     "donor_supported_campaign_rows": 13,
+    "disease_genetics_overlay_rows": 20,
+    "disease_genetics_context_rows": 10,
+    "disease_genetics_genetic_context_rows": 4,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "assay_operations_candidates": 5,
     "pilot_design_candidates": 5,
     "pilot_design_culture_arms": 90,
-    "final_submission_public_artifacts": 25,
+    "final_submission_public_artifacts": 26,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -861,6 +865,29 @@
       "donor_fragile": 4,
       "top_gene": "PGGT1B"
     },
+    "disease_genetics_overlay": {
+      "status": "evidence_attached",
+      "local_perturbation_status": "computationally_reproduced",
+      "trust_boundary": "frozen_external_association_extract",
+      "accepted_state_mutation": "none",
+      "campaign_rows": 20,
+      "context_rows": 10,
+      "genetic_context_rows": 4,
+      "top_gene": "PGGT1B",
+      "top_context": {
+        "disease_id": "MONDO_0005083",
+        "disease_or_trait": "psoriasis",
+        "association_score": 0.0823,
+        "datatype_scores": [
+          {
+            "id": "literature",
+            "score": 0.6768
+          }
+        ],
+        "evidence_type": "literature",
+        "has_genetic_association": "no"
+      }
+    },
     "lab_packet": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
@@ -883,7 +910,7 @@
     },
     "final_submission_audit": {
       "readiness": "submission_ready_for_human_upload",
-      "public_artifact_count": 25,
+      "public_artifact_count": 26,
       "human_only_actions": [
         "record_demo_video",
         "submit_project_form",

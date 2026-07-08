@@ -28,6 +28,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
     assert "/data/donor_condition_replay.json" in audit["public_artifacts"]
+    assert "/data/disease_genetics_overlay.json" in audit["public_artifacts"]
     assert "/data/gladstone_pilot_design.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
@@ -42,7 +43,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
     assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]
     assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
-    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Donor-condition replay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
+    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
     requirements = {item["requirement"]: item for item in audit["completion_requirements"]}
     assert requirements["p0_floor_green"]["status"] == "satisfied"
     assert "./prospect final-check" in requirements["p0_floor_green"]["evidence"]
@@ -52,6 +53,8 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/cross_substrate_discovery.json" in requirements["cross_substrate_discovery"]["evidence"]
     assert requirements["donor_condition_replay"]["status"] == "shipped"
     assert "/data/donor_condition_replay.json" in requirements["donor_condition_replay"]["evidence"]
+    assert requirements["disease_genetics_overlay"]["status"] == "shipped"
+    assert "/data/disease_genetics_overlay.json" in requirements["disease_genetics_overlay"]["evidence"]
     assert requirements["claude_campaign_pressure"]["status"] == "shipped"
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert "/data/campaign_probe_audit.json" in requirements["claude_campaign_pressure"]["evidence"]
@@ -82,6 +85,7 @@ def test_final_submission_audit_covers_all_shipped_workstreams():
         "second_substrate_replay",
         "cross_substrate_discovery",
         "donor_condition_replay",
+        "disease_genetics_overlay",
         "claude_campaign_pressure",
         "gladstone_assay_operations",
         "demo_and_submission_packets",
@@ -118,6 +122,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "/data/gladstone_pilot_design.json" in doc
     assert "/data/cross_substrate_discovery.json" in doc
     assert "/data/donor_condition_replay.json" in doc
+    assert "/data/disease_genetics_overlay.json" in doc
     assert "/data/campaign_probe_audit.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc

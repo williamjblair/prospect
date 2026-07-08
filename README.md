@@ -127,6 +127,10 @@ then intersects those classes with the proposal-only campaign leaderboard.
 fields from the released Marson DE object. It labels rows as donor-supported, donor-fragile,
 donor-intermediate, or guide-limited without changing accepted state.
 
+`prospect disease-overlay` attaches frozen Open Targets disease context to the campaign rows. It
+shows which perturbation candidates have selected immune or hematologic external context while
+keeping those associations outside accepted state.
+
 `prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
 required gates, public artifacts, trust boundary, and human-only actions.
 
@@ -154,6 +158,7 @@ Current public artifacts:
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
 - `/data/donor_condition_replay.json`
+- `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -191,6 +196,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect substrate-replay       # build the substrate replay packet
 ./prospect cross-substrate-discovery # build the cross-substrate discovery packet
 ./prospect donor-replay           # build the donor-condition replay packet
+./prospect disease-overlay        # build the disease-genetics overlay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

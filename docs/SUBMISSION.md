@@ -148,6 +148,9 @@ the trust floor after the event window without private credentials for the stati
 - The donor-condition replay packet replays those campaign rows against donor-correlation and
   guide-support fields from the released Marson DE object: 13 donor-supported rows, 2 donor
   intermediate rows, 4 donor-fragile rows, and 1 guide-limited row, with no accepted-state mutation.
+- The disease-genetics overlay attaches frozen Open Targets disease context to those rows: 10 rows
+  have selected immune or hematologic context, 4 have selected genetic context, and none can move
+  accepted state.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -186,6 +189,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
 - `/data/donor_condition_replay.json`
+- `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -221,6 +225,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect substrate-replay       # write the substrate replay packet
 ./prospect cross-substrate-discovery # write the cross-substrate discovery packet
 ./prospect donor-replay           # write the donor-condition replay packet
+./prospect disease-overlay        # write the disease-genetics overlay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

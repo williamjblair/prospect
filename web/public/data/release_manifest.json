@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 25,
-  "hashed_artifact_count": 24,
+  "public_artifact_count": 26,
+  "hashed_artifact_count": 25,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -27,6 +27,7 @@
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
     "/data/donor_condition_replay.json",
+    "/data/disease_genetics_overlay.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -38,14 +39,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5881369,
-      "sha256": "fadd36fb8013686d37ce3889f74ac858799d216ad0381c0856029c9f70e5efd5"
+      "bytes": 5934061,
+      "sha256": "f6683baed70e9cd8793e16fd9ebcb9956f5c613c4973c43b16ddbd16566e1516"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 19512,
-      "sha256": "56ee84a9f8464dbc5f3b05cbbfc90495451749c73d193fbab2569d805170b28a"
+      "bytes": 20205,
+      "sha256": "bd81580b626c6ba70a3744a221fb7d3e39d6ac63249006990f2bfa6c209024f3"
     },
     {
       "path": "/data/finding_index.json",
@@ -150,6 +151,12 @@
       "sha256": "573f95532bdac014c3fd9a2cc1e13eb1e29014cef164234ad23b9ffbb0748ee6"
     },
     {
+      "path": "/data/disease_genetics_overlay.json",
+      "source_path": "web/public/data/disease_genetics_overlay.json",
+      "bytes": 51563,
+      "sha256": "837511a9ad9d3edd1900eb4c9c9fc90e918b3e497032e0486e6d80a08facf957"
+    },
+    {
       "path": "/data/lab_packet.json",
       "source_path": "web/public/data/lab_packet.json",
       "bytes": 8323,
@@ -170,14 +177,14 @@
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 6593,
-      "sha256": "85ab5fde405de48ca9b389395e969e7a611e1ca199d7538e9c54da0884f01ea2"
+      "bytes": 6999,
+      "sha256": "255f5cb036c1619cd1575f0f54ec77bb3caab1a35292f562fc6e8c548076f796"
     },
     {
       "path": "/data/rendered_qa_packet.json",
       "source_path": "web/public/data/rendered_qa_packet.json",
-      "bytes": 2140,
-      "sha256": "be8d46f6b3fe0b9ebbe9dfb03fc0467160e14b544d061fe4e093ecd91d92a265"
+      "bytes": 2209,
+      "sha256": "fdd3ffc2a250acfc5b760c947f0b078103363808565baaa55186aa1ce475cf32"
     }
   ],
   "trust_boundary": {

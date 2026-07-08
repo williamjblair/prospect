@@ -54,6 +54,7 @@ def build_packet() -> dict[str, Any]:
     substrate_replay = frontier.get("substrate_replay_packet") or {}
     cross_substrate_discovery = frontier.get("cross_substrate_discovery") or {}
     donor_condition_replay = frontier.get("donor_condition_replay") or {}
+    disease_genetics_overlay = frontier.get("disease_genetics_overlay") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
 
@@ -125,6 +126,9 @@ def build_packet() -> dict[str, Any]:
             "cross_substrate_campaign_rows": len(cross_substrate_discovery.get("campaign_intersections", [])),
             "donor_condition_replay_rows": donor_condition_replay.get("counts", {}).get("campaign_rows", 0),
             "donor_supported_campaign_rows": donor_condition_replay.get("counts", {}).get("donor_supported", 0),
+            "disease_genetics_overlay_rows": disease_genetics_overlay.get("counts", {}).get("campaign_rows", 0),
+            "disease_genetics_context_rows": disease_genetics_overlay.get("counts", {}).get("immune_or_hematologic_context", 0),
+            "disease_genetics_genetic_context_rows": disease_genetics_overlay.get("counts", {}).get("immune_or_hematologic_genetic_context", 0),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
@@ -226,6 +230,17 @@ def build_packet() -> dict[str, Any]:
                 "donor_fragile": donor_condition_replay.get("counts", {}).get("donor_fragile", 0),
                 "top_gene": (donor_condition_replay.get("rows") or [{}])[0].get("gene"),
             },
+            "disease_genetics_overlay": {
+                "status": disease_genetics_overlay.get("status"),
+                "local_perturbation_status": disease_genetics_overlay.get("local_perturbation_status"),
+                "trust_boundary": disease_genetics_overlay.get("trust_boundary"),
+                "accepted_state_mutation": disease_genetics_overlay.get("accepted_state_mutation"),
+                "campaign_rows": disease_genetics_overlay.get("counts", {}).get("campaign_rows", 0),
+                "context_rows": disease_genetics_overlay.get("counts", {}).get("immune_or_hematologic_context", 0),
+                "genetic_context_rows": disease_genetics_overlay.get("counts", {}).get("immune_or_hematologic_genetic_context", 0),
+                "top_gene": (disease_genetics_overlay.get("rows") or [{}])[0].get("gene"),
+                "top_context": (disease_genetics_overlay.get("rows") or [{}])[0].get("top_context"),
+            },
             "lab_packet": {
                 "status": lab_packet.get("status"),
                 "trust_boundary": lab_packet.get("trust_boundary"),
@@ -297,6 +312,9 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Cross-substrate campaign rows: {counts['cross_substrate_campaign_rows']}",
         f"- Donor-condition replay rows: {counts['donor_condition_replay_rows']}",
         f"- Donor-supported campaign rows: {counts['donor_supported_campaign_rows']}",
+        f"- Disease-genetics overlay rows: {counts['disease_genetics_overlay_rows']}",
+        f"- Disease-context rows: {counts['disease_genetics_context_rows']}",
+        f"- Disease-genetics context rows: {counts['disease_genetics_genetic_context_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- Assay operations candidates: {counts['assay_operations_candidates']}",

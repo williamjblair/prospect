@@ -43,12 +43,15 @@ cd web && npm run build
 - Cross-substrate campaign rows: 20
 - Donor-condition replay rows: 20
 - Donor-supported campaign rows: 13
+- Disease-genetics overlay rows: 20
+- Disease-context rows: 10
+- Disease-genetics context rows: 4
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
 - Pilot design candidates: 5
 - Pilot design culture arms: 90
-- Final submission public artifacts: 25
+- Final submission public artifacts: 26
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -123,6 +126,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
 - `/data/donor_condition_replay.json`
+- `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`

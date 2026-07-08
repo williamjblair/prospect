@@ -34,6 +34,7 @@ def test_browser_qa_plan_uses_rendered_qa_contract_without_entering_trust_path(t
     assert tabs["Agent"]["texts"] == [
         "Campaign pressure summary",
         "Donor-condition replay packet",
+        "Disease-genetics overlay packet",
         "Gladstone assay operations bundle",
         "Gladstone pilot design",
         "PGGT1B",

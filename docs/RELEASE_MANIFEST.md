@@ -13,16 +13,16 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 ## Hash scope
 
 - Hash algorithm: `sha256`
-- Public artifacts: 25
-- Hashed artifacts: 24
+- Public artifacts: 26
+- Hashed artifacts: 25
 - Manifest self hash: `excluded`
 
 ## Public artifact hashes
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5881369 | `fadd36fb8013686d37ce3889f74ac858799d216ad0381c0856029c9f70e5efd5` |
-| `/data/judge_packet.json` | 19512 | `56ee84a9f8464dbc5f3b05cbbfc90495451749c73d193fbab2569d805170b28a` |
+| `/data/frontier.json` | 5934061 | `f6683baed70e9cd8793e16fd9ebcb9956f5c613c4973c43b16ddbd16566e1516` |
+| `/data/judge_packet.json` | 20205 | `bd81580b626c6ba70a3744a221fb7d3e39d6ac63249006990f2bfa6c209024f3` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -40,11 +40,12 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/cross_substrate_discovery.json` | 29152 | `c7e2d0ce2e7427fde772bf189b58953990099be4deab03a9904ba2cd8513e3bf` |
 | `/data/donor_condition_replay.json` | 25607 | `573f95532bdac014c3fd9a2cc1e13eb1e29014cef164234ad23b9ffbb0748ee6` |
+| `/data/disease_genetics_overlay.json` | 51563 | `837511a9ad9d3edd1900eb4c9c9fc90e918b3e497032e0486e6d80a08facf957` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
 | `/data/gladstone_pilot_design.json` | 10075 | `804ede72ae41cd4dbbf10ca9245ce0834700768d3e2d9efdeeaaa480b7b64e95` |
-| `/data/final_submission_audit.json` | 6593 | `85ab5fde405de48ca9b389395e969e7a611e1ca199d7538e9c54da0884f01ea2` |
-| `/data/rendered_qa_packet.json` | 2140 | `be8d46f6b3fe0b9ebbe9dfb03fc0467160e14b544d061fe4e093ecd91d92a265` |
+| `/data/final_submission_audit.json` | 6999 | `255f5cb036c1619cd1575f0f54ec77bb3caab1a35292f562fc6e8c548076f796` |
+| `/data/rendered_qa_packet.json` | 2209 | `fdd3ffc2a250acfc5b760c947f0b078103363808565baaa55186aa1ce475cf32` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 
 Hashes prove deployed byte identity, not wet-lab or clinical truth.
