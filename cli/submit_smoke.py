@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from dataclasses import dataclass
@@ -45,6 +46,11 @@ def _url(base_url: str, path: str) -> str:
 def _fetch_text(base_url: str, path: str, opener: Callable[..., Any], timeout: int) -> str:
     with opener(_url(base_url, path), timeout=timeout) as response:
         return response.read().decode("utf-8")
+
+
+def _fetch_bytes(base_url: str, path: str, opener: Callable[..., Any], timeout: int) -> bytes:
+    with opener(_url(base_url, path), timeout=timeout) as response:
+        return response.read()
 
 
 def _fetch_json(base_url: str, path: str, opener: Callable[..., Any], timeout: int) -> dict[str, Any]:
@@ -219,6 +225,45 @@ def _check_receipt_manifest(base_url: str, opener: Callable[..., Any], timeout: 
         return Check("receipt bridge manifest", False, f"fetch failed: {exc}")
 
 
+def _check_release_manifest(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        manifest = _fetch_json(base_url, "/data/release_manifest.json", opener, timeout)
+        failures = []
+        if manifest.get("signed_root") != ROOT:
+            failures.append(f"frontier root {manifest.get('signed_root')}")
+        if manifest.get("hash_algorithm") != "sha256":
+            failures.append("hash algorithm drift")
+        if manifest.get("manifest_self_hash") != "excluded":
+            failures.append("self hash policy drift")
+        if manifest.get("public_artifacts") != PUBLIC_ARTIFACTS:
+            failures.append("public artifact list drift")
+
+        records = manifest.get("artifacts", [])
+        by_path = {record.get("path"): record for record in records}
+        expected_hashed = [path for path in PUBLIC_ARTIFACTS if path != "/data/release_manifest.json"]
+        for path in expected_hashed:
+            record = by_path.get(path)
+            if not record:
+                failures.append(f"missing hash {path}")
+                continue
+            payload = _fetch_bytes(base_url, path, opener, timeout)
+            digest = hashlib.sha256(payload).hexdigest()
+            size = len(payload)
+            if record.get("sha256") != digest:
+                failures.append(f"hash drift {path}")
+            if record.get("bytes") != size:
+                failures.append(f"byte drift {path}")
+        extras = [path for path in by_path if path not in expected_hashed]
+        if extras:
+            failures.append(f"unexpected hash {extras[0]}")
+
+        if failures:
+            return Check("release manifest", False, "; ".join(failures[:3]))
+        return Check("release manifest", True, f"{len(expected_hashed)} hashes match live artifacts")
+    except Exception as exc:
+        return Check("release manifest", False, f"fetch failed: {exc}")
+
+
 def run_checks(
     base_url: str = DEFAULT_BASE_URL,
     opener: Callable[..., Any] = urlopen,
@@ -236,6 +281,7 @@ def run_checks(
         _check_assay_operations(base_url, opener, timeout),
         _check_final_submission_audit(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),
+        _check_release_manifest(base_url, opener, timeout),
     ]
     return SmokeResult(base_url=base_url, checks=checks)
 

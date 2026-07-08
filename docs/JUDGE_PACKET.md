@@ -17,6 +17,7 @@ A model proposes, searches, and drafts. Frozen code over a frozen released table
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect release-manifest
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
@@ -40,7 +41,7 @@ cd web && npm run build
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
-- Final submission public artifacts: 19
+- Final submission public artifacts: 20
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -103,6 +104,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
+- `/data/release_manifest.json`
 
 ## Demo path
 

@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from cli.submit_pack import PUBLIC_ARTIFACTS
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
@@ -70,6 +72,7 @@ def build_packet() -> dict[str, Any]:
             "./prospect submit-smoke",
             "./prospect submit-pack",
             "./prospect demo-pack",
+            "./prospect release-manifest",
             "./prospect verify",
             "python benchmark/mutation_pack.py",
             "python tests/test_skill_parity.py",
@@ -98,27 +101,7 @@ def build_packet() -> dict[str, Any]:
             "Agent: disagreement triage turns model pressure into assay gates",
             "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority",
         ],
-        "public_data": [
-            "/data/frontier.json",
-            "/data/judge_packet.json",
-            "/data/finding_index.json",
-            "/data/receipt_bridge/receipt_contract.json",
-            "/data/receipt_bridge/receipt_manifest.json",
-            "/data/receipt_bridge/receipt_bundle.json",
-            "/data/pggt1b_deep_dive.json",
-            "/data/pggt1b_matrix_slice.json",
-            "/data/agent_campaign.json",
-            "/data/agent_campaign_review.json",
-            "/data/campaign_agent_probe.json",
-            "/data/campaign_triage.json",
-            "/data/campaign_gate_probe.json",
-            "/data/campaign_pressure_summary.json",
-            "/data/transfer_replay_packet.json",
-            "/data/substrate_replay_packet.json",
-            "/data/lab_packet.json",
-            "/data/assay_operations_bundle.json",
-            "/data/final_submission_audit.json",
-        ],
+        "public_data": PUBLIC_ARTIFACTS,
         "artifact_counts": {
             "genes": frontier["stats"]["n_genes"],
             "edges": frontier["stats"]["n_edges"],
@@ -136,7 +119,7 @@ def build_packet() -> dict[str, Any]:
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
-            "final_submission_public_artifacts": final_submission_audit.get("public_artifact_count", 0),
+            "final_submission_public_artifacts": len(PUBLIC_ARTIFACTS),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
             "pggt1b_matrix_slice_transcripts": pggt1b.get("matrix_slice", {}).get("n_thresholded_transcripts", 0),
         },
@@ -219,7 +202,7 @@ def build_packet() -> dict[str, Any]:
             },
             "final_submission_audit": {
                 "readiness": final_submission_audit.get("readiness"),
-                "public_artifact_count": final_submission_audit.get("public_artifact_count"),
+                "public_artifact_count": len(PUBLIC_ARTIFACTS),
                 "human_only_actions": final_submission_audit.get("human_only_actions", []),
             },
         },

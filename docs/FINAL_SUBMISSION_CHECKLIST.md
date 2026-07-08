@@ -33,6 +33,7 @@ Replay gate:
 ./prospect demo-pack
 ./prospect judge-handout
 ./prospect submission-audit
+./prospect release-manifest
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -50,6 +51,7 @@ Run this before submitting:
 ./prospect demo-pack
 ./prospect judge-handout
 ./prospect submission-audit
+./prospect release-manifest
 ```
 
 Then open:
@@ -63,6 +65,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
 - https://prospect-sepia-six.vercel.app/data/final_submission_audit.json
+- https://prospect-sepia-six.vercel.app/data/release_manifest.json
 - https://prospect-sepia-six.vercel.app/data/receipt_bridge/receipt_manifest.json
 
 Confirm:
@@ -73,7 +76,8 @@ Confirm:
 - `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
-- `/data/final_submission_audit.json` reports 19 public artifacts and human-only actions.
+- `/data/final_submission_audit.json` reports 20 public artifacts and human-only actions.
+- `/data/release_manifest.json` hashes the public data artifact surface.
 - The receipt bridge demo returns `accepted=false`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.

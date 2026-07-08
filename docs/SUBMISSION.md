@@ -168,6 +168,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
+- `/data/release_manifest.json`
 
 ## Verify it yourself
 
@@ -178,6 +179,7 @@ the trust floor after the event window without private credentials for the stati
 ./prospect demo-pack              # print the two-minute recording teleprompter
 ./prospect judge-handout          # build the one-page judge handout
 ./prospect submission-audit       # build the final submission audit packet
+./prospect release-manifest       # hash the public data artifact surface
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts

@@ -21,6 +21,7 @@ def test_demo_pack_has_timed_recording_beats():
     assert packet["signed_root"] == "root_a8b0dcdd4024e12f"
     assert "./prospect demo-pack" in packet["preflight"]
     assert "./prospect judge-handout" in packet["preflight"]
+    assert "./prospect release-manifest" in packet["preflight"]
     assert [beat["time"] for beat in packet["beats"]] == ["0:00", "0:20", "0:40", "1:05", "1:30", "1:50"]
 
     script = "\n".join(beat["say"] for beat in packet["beats"])

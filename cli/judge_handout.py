@@ -63,6 +63,7 @@ def build_handout() -> dict[str, Any]:
             "/data/substrate_replay_packet.json",
             "/data/assay_operations_bundle.json",
             "/data/final_submission_audit.json",
+            "/data/release_manifest.json",
         ],
         "commands": [
             "./prospect final-check",

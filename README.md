@@ -139,6 +139,7 @@ Current public artifacts:
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
+- `/data/release_manifest.json`
 
 ## Run it
 
@@ -149,6 +150,7 @@ Current public artifacts:
 ./prospect demo-pack              # print the two-minute recording teleprompter
 ./prospect judge-handout          # build the one-page judge handout
 ./prospect submission-audit       # build the final submission audit packet
+./prospect release-manifest       # hash the public data artifact surface
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides

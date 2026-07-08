@@ -1,0 +1,156 @@
+{
+  "title": "Prospect public release manifest",
+  "live_url": "https://prospect-sepia-six.vercel.app",
+  "repo_url": "https://github.com/williamjblair/prospect",
+  "signed_root": "root_a8b0dcdd4024e12f",
+  "hash_algorithm": "sha256",
+  "manifest_self_hash": "excluded",
+  "public_artifact_count": 20,
+  "hashed_artifact_count": 19,
+  "public_artifacts": [
+    "/data/frontier.json",
+    "/data/judge_packet.json",
+    "/data/finding_index.json",
+    "/data/receipt_bridge/receipt_contract.json",
+    "/data/receipt_bridge/receipt_manifest.json",
+    "/data/receipt_bridge/receipt_bundle.json",
+    "/data/pggt1b_deep_dive.json",
+    "/data/pggt1b_matrix_slice.json",
+    "/data/agent_campaign.json",
+    "/data/agent_campaign_review.json",
+    "/data/campaign_agent_probe.json",
+    "/data/campaign_triage.json",
+    "/data/campaign_gate_probe.json",
+    "/data/campaign_pressure_summary.json",
+    "/data/transfer_replay_packet.json",
+    "/data/substrate_replay_packet.json",
+    "/data/lab_packet.json",
+    "/data/assay_operations_bundle.json",
+    "/data/final_submission_audit.json",
+    "/data/release_manifest.json"
+  ],
+  "artifacts": [
+    {
+      "path": "/data/frontier.json",
+      "source_path": "web/public/data/frontier.json",
+      "bytes": 5687141,
+      "sha256": "2a1951be4269e39498a40da693c3c9cef6661fcdaa54bda7fd96d02449bf112a"
+    },
+    {
+      "path": "/data/judge_packet.json",
+      "source_path": "web/public/data/judge_packet.json",
+      "bytes": 16548,
+      "sha256": "240ca7d68544bb7ee13df2d14b4dab224067597e338d501f6689d51dcec9c164"
+    },
+    {
+      "path": "/data/finding_index.json",
+      "source_path": "web/public/data/finding_index.json",
+      "bytes": 2711,
+      "sha256": "3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a"
+    },
+    {
+      "path": "/data/receipt_bridge/receipt_contract.json",
+      "source_path": "web/public/data/receipt_bridge/receipt_contract.json",
+      "bytes": 1803,
+      "sha256": "eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a"
+    },
+    {
+      "path": "/data/receipt_bridge/receipt_manifest.json",
+      "source_path": "web/public/data/receipt_bridge/receipt_manifest.json",
+      "bytes": 1136,
+      "sha256": "2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a"
+    },
+    {
+      "path": "/data/receipt_bridge/receipt_bundle.json",
+      "source_path": "web/public/data/receipt_bridge/receipt_bundle.json",
+      "bytes": 18735,
+      "sha256": "8a931ffc668f2613643e8d2f9fcd69f4b8fddbc46f7a54ce4efebaf12e36b886"
+    },
+    {
+      "path": "/data/pggt1b_deep_dive.json",
+      "source_path": "web/public/data/pggt1b_deep_dive.json",
+      "bytes": 10912,
+      "sha256": "bb217db985541fdf7c35d9b397fc2dd756782eb778e70dc09fa5c4938bb79448"
+    },
+    {
+      "path": "/data/pggt1b_matrix_slice.json",
+      "source_path": "web/public/data/pggt1b_matrix_slice.json",
+      "bytes": 2445,
+      "sha256": "3fa2af8c47f4edaebbb21dea8c4fb3e1ecefdb8126f672f2412f1a5dcb84a281"
+    },
+    {
+      "path": "/data/agent_campaign.json",
+      "source_path": "web/public/data/agent_campaign.json",
+      "bytes": 30164,
+      "sha256": "9b1581e2d357f733ab1e6b9400922de292b2963a226b94330f09e156de9664e6"
+    },
+    {
+      "path": "/data/agent_campaign_review.json",
+      "source_path": "web/public/data/agent_campaign_review.json",
+      "bytes": 14555,
+      "sha256": "ac5cb2bb8522a1ae38049db139c537b6f3d732487546dd251df613c734253223"
+    },
+    {
+      "path": "/data/campaign_agent_probe.json",
+      "source_path": "web/public/data/campaign_agent_probe.json",
+      "bytes": 18974,
+      "sha256": "fb24f9416d88151c3ead9f95a0e5690f2715dac42c27e38c36c3e60da8b8d365"
+    },
+    {
+      "path": "/data/campaign_triage.json",
+      "source_path": "web/public/data/campaign_triage.json",
+      "bytes": 4268,
+      "sha256": "677446a7344ee41e96638569bfc0cccceeafcee1e451acd9e78df55efa462121"
+    },
+    {
+      "path": "/data/campaign_gate_probe.json",
+      "source_path": "web/public/data/campaign_gate_probe.json",
+      "bytes": 15377,
+      "sha256": "d87a941d138db73e7bbb833567a8f041854848a8ebd512f455d44ec994f1c62b"
+    },
+    {
+      "path": "/data/campaign_pressure_summary.json",
+      "source_path": "web/public/data/campaign_pressure_summary.json",
+      "bytes": 5788,
+      "sha256": "70a1564915ec71d9b3646f23443fb66a3811b4dab8a89e523c0bea5c32fddac4"
+    },
+    {
+      "path": "/data/transfer_replay_packet.json",
+      "source_path": "web/public/data/transfer_replay_packet.json",
+      "bytes": 1480,
+      "sha256": "3bb41d0e0eb3bb4da6579efee02899244a4b0c52bfbb22eb34562d224c825651"
+    },
+    {
+      "path": "/data/substrate_replay_packet.json",
+      "source_path": "web/public/data/substrate_replay_packet.json",
+      "bytes": 3512,
+      "sha256": "67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895"
+    },
+    {
+      "path": "/data/lab_packet.json",
+      "source_path": "web/public/data/lab_packet.json",
+      "bytes": 8323,
+      "sha256": "51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482"
+    },
+    {
+      "path": "/data/assay_operations_bundle.json",
+      "source_path": "web/public/data/assay_operations_bundle.json",
+      "bytes": 14350,
+      "sha256": "0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb"
+    },
+    {
+      "path": "/data/final_submission_audit.json",
+      "source_path": "web/public/data/final_submission_audit.json",
+      "bytes": 4551,
+      "sha256": "9a6f5a8db82c8d69332680eb6dd3ab86d0f7ffa0d8f120178ac3d88c4003aa51"
+    }
+  ],
+  "trust_boundary": {
+    "model_role": "propose_search_pressure_test",
+    "model_in_trust_path": "no",
+    "accepted_state_gate": "frozen_replay_plus_human_ed25519_signature",
+    "accepted_state_mutations": 0
+  },
+  "rebuild": "./prospect release-manifest",
+  "limitation": "Hashes prove deployed byte identity, not wet-lab or clinical truth."
+}

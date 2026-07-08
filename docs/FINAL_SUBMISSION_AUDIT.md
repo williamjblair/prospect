@@ -8,7 +8,7 @@ Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjbla
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-Public artifacts: 19
+Public artifacts: 20
 
 ## Trust boundary
 
@@ -24,6 +24,7 @@ Public artifacts: 19
 - `./prospect submit-pack`
 - `./prospect demo-pack`
 - `./prospect judge-handout`
+- `./prospect release-manifest`
 - `./prospect verify`
 - `python benchmark/mutation_pack.py`
 - `python tests/test_skill_parity.py`
@@ -40,6 +41,7 @@ Public artifacts: 19
 - `docs/FINAL_SUBMISSION_CHECKLIST.md`
 - `docs/FINAL_SUBMISSION_AUDIT.md`
 - `docs/JUDGE_PACKET.md`
+- `docs/RELEASE_MANIFEST.md`
 
 ## Shipped workstreams
 
@@ -73,7 +75,7 @@ Public artifacts: 19
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
-| public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json` |
+| public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json`, `/data/release_manifest.json` |
 | human_upload | human_only_remaining | `record_demo_video`, `submit_project_form` |
 | wet_lab_execution | human_only_remaining | `wet_lab_execution` |
 
@@ -98,6 +100,7 @@ Public artifacts: 19
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
+- `/data/release_manifest.json`
 
 ## Human-only actions
 

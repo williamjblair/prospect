@@ -24,6 +24,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert audit["public_artifacts"] == PUBLIC_ARTIFACTS
     assert "docs/JUDGE_HANDOUT.md" in audit["source_docs"]
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
+    assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
@@ -43,11 +44,13 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert requirements["gladstone_assay_operations"]["status"] == "shipped"
     assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
+    assert "/data/release_manifest.json" in requirements["public_production_surface"]["evidence"]
     assert requirements["human_upload"]["status"] == "human_only_remaining"
     assert requirements["human_upload"]["evidence"] == ["record_demo_video", "submit_project_form"]
     assert "record_demo_video" in audit["human_only_actions"]
     assert "submit_project_form" in audit["human_only_actions"]
     assert "wet_lab_execution" in audit["human_only_actions"]
+    assert "./prospect release-manifest" in audit["required_gates"]
     assert "verified" not in json.dumps(audit).lower()
     assert "true" not in json.dumps(audit).lower()
 
@@ -86,7 +89,9 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "docs/JUDGE_HANDOUT.md" in doc
     assert "record_demo_video" in doc
     assert "./prospect final-check" in doc
+    assert "./prospect release-manifest" in doc
     assert "/data/assay_operations_bundle.json" in doc
+    assert "/data/release_manifest.json" in doc
 
 
 def test_final_submission_audit_runs_from_prospect_cli():

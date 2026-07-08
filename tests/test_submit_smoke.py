@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import hashlib
 from urllib.error import HTTPError
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,6 +37,14 @@ def _opener(payloads):
             return FakeResponse(body)
         return FakeResponse(json.dumps(body))
     return open_url
+
+
+def _body_bytes(body):
+    if isinstance(body, bytes):
+        return body
+    if isinstance(body, str):
+        return body.encode()
+    return json.dumps(body).encode()
 
 
 def _current_payloads():
@@ -99,6 +108,21 @@ def _current_payloads():
     }
     for artifact in PUBLIC_ARTIFACTS:
         payloads.setdefault(artifact, {"artifact": artifact})
+    payloads["/data/release_manifest.json"] = {
+        "hash_algorithm": "sha256",
+        "manifest_self_hash": "excluded",
+        "signed_root": "root_a8b0dcdd4024e12f",
+        "public_artifacts": PUBLIC_ARTIFACTS,
+        "artifacts": [
+            {
+                "path": artifact,
+                "sha256": hashlib.sha256(_body_bytes(payloads[artifact])).hexdigest(),
+                "bytes": len(_body_bytes(payloads[artifact])),
+            }
+            for artifact in PUBLIC_ARTIFACTS
+            if artifact != "/data/release_manifest.json"
+        ],
+    }
     return payloads
 
 
@@ -108,10 +132,14 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 11
+    assert len(result.checks) == 12
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
+        for check in result.checks
+    )
+    assert any(
+        check.name == "release manifest" and check.detail == f"{len(PUBLIC_ARTIFACTS) - 1} hashes match live artifacts"
         for check in result.checks
     )
 
@@ -142,6 +170,20 @@ def test_submit_smoke_rejects_judge_public_data_drift():
     assert result.ok is False
     assert any(
         check.name == "judge packet" and "public data drift" in check.detail
+        for check in result.checks
+        if not check.ok
+    )
+
+
+def test_submit_smoke_rejects_release_manifest_hash_drift():
+    payloads = _current_payloads()
+    payloads["/data/release_manifest.json"]["artifacts"][0]["sha256"] = "0" * 64
+
+    result = run_checks("https://example.test", opener=_opener(payloads))
+
+    assert result.ok is False
+    assert any(
+        check.name == "release manifest" and "hash drift /data/frontier.json" in check.detail
         for check in result.checks
         if not check.ok
     )
@@ -198,6 +240,7 @@ if __name__ == "__main__":
     test_submit_smoke_accepts_current_public_payload_shapes()
     test_submit_smoke_rejects_missing_public_artifact()
     test_submit_smoke_rejects_judge_public_data_drift()
+    test_submit_smoke_rejects_release_manifest_hash_drift()
     test_submit_smoke_rejects_wrong_frontier_root()
     test_submit_smoke_rejects_stale_judge_gate_commands()
     test_submit_smoke_cli_is_discoverable()

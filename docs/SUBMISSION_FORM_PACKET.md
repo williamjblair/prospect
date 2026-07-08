@@ -112,6 +112,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
+- `/data/release_manifest.json`
 
 ## Safety copy
 

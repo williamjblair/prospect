@@ -21,6 +21,7 @@
     "./prospect submit-smoke",
     "./prospect submit-pack",
     "./prospect demo-pack",
+    "./prospect release-manifest",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -68,7 +69,8 @@
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
-    "/data/final_submission_audit.json"
+    "/data/final_submission_audit.json",
+    "/data/release_manifest.json"
   ],
   "artifact_counts": {
     "genes": 11526,
@@ -87,7 +89,7 @@
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "assay_operations_candidates": 5,
-    "final_submission_public_artifacts": 19,
+    "final_submission_public_artifacts": 20,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -715,7 +717,7 @@
     },
     "final_submission_audit": {
       "readiness": "submission_ready_for_human_upload",
-      "public_artifact_count": 19,
+      "public_artifact_count": 20,
       "human_only_actions": [
         "record_demo_video",
         "submit_project_form",

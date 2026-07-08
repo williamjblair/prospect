@@ -24,6 +24,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect submit-pack",
         "./prospect demo-pack",
         "./prospect submission-audit",
+        "./prospect release-manifest",
         "python examples/receipt_bridge_client.py --json",
     ]:
         assert command in text
@@ -37,6 +38,7 @@ def test_agents_lists_current_cli_surface():
         "submit-smoke",
         "submit-pack",
         "submission-audit",
+        "release-manifest",
         "mcp",
     ]:
         assert verb in text

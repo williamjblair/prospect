@@ -21,6 +21,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect demo-pack",
         "./prospect judge-handout",
         "./prospect submission-audit",
+        "./prospect release-manifest",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
         "./prospect campaign",

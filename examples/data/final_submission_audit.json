@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 19,
+  "public_artifact_count": 20,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -24,7 +24,8 @@
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
-    "/data/final_submission_audit.json"
+    "/data/final_submission_audit.json",
+    "/data/release_manifest.json"
   ],
   "source_docs": [
     "docs/JUDGE_QUICKSTART.md",
@@ -35,7 +36,8 @@
     "docs/JUDGE_HANDOUT.md",
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/FINAL_SUBMISSION_AUDIT.md",
-    "docs/JUDGE_PACKET.md"
+    "docs/JUDGE_PACKET.md",
+    "docs/RELEASE_MANIFEST.md"
   ],
   "required_gates": [
     "./prospect final-check",
@@ -43,6 +45,7 @@
     "./prospect submit-pack",
     "./prospect demo-pack",
     "./prospect judge-handout",
+    "./prospect release-manifest",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -185,7 +188,8 @@
       "evidence": [
         "https://prospect-sepia-six.vercel.app",
         "./prospect submit-smoke",
-        "/data/final_submission_audit.json"
+        "/data/final_submission_audit.json",
+        "/data/release_manifest.json"
       ]
     },
     {

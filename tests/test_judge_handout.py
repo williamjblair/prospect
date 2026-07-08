@@ -21,7 +21,7 @@ def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
     assert handout["readiness"] == "submission_ready_for_human_upload"
     assert handout["trust_boundary"]["model_in_trust_path"] == "no"
     assert handout["trust_boundary"]["accepted_state"] == "human_signed_replayable_root"
-    assert handout["counts"]["public_artifacts"] == 19
+    assert handout["counts"]["public_artifacts"] == 20
     assert handout["counts"]["claude_probe_rows"] == 8
     assert handout["counts"]["assay_operations_candidates"] == 5
     assert handout["counts"]["substrate_replay_rows"] == 377
@@ -44,6 +44,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "What remains human-only" in doc
     assert "./prospect final-check" in doc
     assert "/data/final_submission_audit.json" in doc
+    assert "/data/release_manifest.json" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     assert "verified" not in json.dumps(handout).lower()
 

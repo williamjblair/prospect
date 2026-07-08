@@ -24,6 +24,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect release-manifest",
         "./prospect verify",
         "python benchmark/mutation_pack.py",
         "python tests/test_skill_parity.py",
@@ -38,6 +39,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/JUDGE_HANDOUT.md",
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
         "docs/FINAL_SUBMISSION_AUDIT.md",
+        "docs/RELEASE_MANIFEST.md",
     ]:
         assert path in packet["source_docs"]
 
@@ -64,6 +66,7 @@ def test_submit_pack_lists_full_judge_public_artifact_surface():
         "/data/lab_packet.json",
         "/data/assay_operations_bundle.json",
         "/data/final_submission_audit.json",
+        "/data/release_manifest.json",
     ]
 
     assert packet["public_artifacts"] == expected

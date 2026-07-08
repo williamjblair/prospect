@@ -18,6 +18,7 @@ REQUIRED_GATES = [
     "./prospect submit-pack",
     "./prospect demo-pack",
     "./prospect judge-handout",
+    "./prospect release-manifest",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -111,7 +112,7 @@ COMPLETION_REQUIREMENTS = [
     {
         "requirement": "public_production_surface",
         "status": "satisfied",
-        "evidence": [LIVE_URL, "./prospect submit-smoke", "/data/final_submission_audit.json"],
+        "evidence": [LIVE_URL, "./prospect submit-smoke", "/data/final_submission_audit.json", "/data/release_manifest.json"],
     },
     {
         "requirement": "human_upload",

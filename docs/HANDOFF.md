@@ -135,6 +135,11 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   deterministic upload-readiness packet. It names shipped workstreams, required gates, public
   artifacts, trust boundary, and human-only actions, exported to
   `examples/data/final_submission_audit.json` and [FINAL_SUBMISSION_AUDIT.md](FINAL_SUBMISSION_AUDIT.md).
+- **Public release manifest** (`frontier/release_manifest.py`, `./prospect release-manifest`):
+  deterministic SHA-256 manifest over the public data artifact surface. It excludes its own hash to
+  avoid a circular artifact, exports `examples/data/release_manifest.json`,
+  `web/public/data/release_manifest.json`, and [RELEASE_MANIFEST.md](RELEASE_MANIFEST.md), and
+  `submit-smoke` recomputes live production hashes against it.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -272,7 +277,8 @@ uses restrained paint-only transitions in the 180-220ms band.
   limitation language.
 - **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet command
   surface, exact public-data parity with the shared `submit-pack` manifest, all public artifact
-  endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle, and receipt bridge manifest
+  endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle,
+  receipt bridge manifest, and release manifest hashes
   before upload.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.
