@@ -34,14 +34,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5688099,
-      "sha256": "a4330ec84da30b326a665b5e28241c6adfd0bb2ee7c6d8e117bd397290e80454"
+      "bytes": 5688531,
+      "sha256": "d75b7a5ccb08d4f1f98bec2065f67ef23ede62802c759ba1b345705ab4145d1c"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 16697,
-      "sha256": "c71fc6c2ae2e37e7cd7e1108a89ac376051d3be4220272419395a28a1ab62259"
+      "bytes": 16913,
+      "sha256": "649cfd6bb3c6aaf0d0f9935d1658501bd141e0e9b4e0b39ea0652ac700ca37b7"
     },
     {
       "path": "/data/finding_index.json",
@@ -94,8 +94,8 @@
     {
       "path": "/data/campaign_agent_probe.json",
       "source_path": "web/public/data/campaign_agent_probe.json",
-      "bytes": 19090,
-      "sha256": "438fc2357ee5ef40584d27a2cbfff94025f4e07270ec880aa20815f74c297063"
+      "bytes": 19306,
+      "sha256": "bbcb8837d47fc921e7c824dab2fc7ea9e0b4b8faa47ccdf445e0024f4cb6cc64"
     },
     {
       "path": "/data/campaign_triage.json",

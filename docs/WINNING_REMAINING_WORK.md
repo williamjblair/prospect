@@ -183,7 +183,9 @@ Status: shipped as `./prospect campaign-pressure`,
 card. It accounts for 20 campaign rows, 20 deterministic review rows, 8 Claude probe rows, 4
 more-aggressive rows converted to assay gates, gate-probe recommendations, and 0 accepted-state
 mutations. The campaign probe now records requested versus returned coverage, so a larger model pass
-cannot be mistaken for complete coverage if Claude returns fewer decisions than requested.
+cannot be mistaken for complete coverage if Claude returns fewer decisions than requested. The probe
+runner also supports bounded chunked live passes into temporary files, which is the right path for
+all-20 expansion experiments.
 
 Recommended shape:
 
@@ -194,6 +196,8 @@ Recommended shape:
 - If a larger pass returns fewer decisions than requested, keep it as a partial pressure artifact or
   rerun it. Do not let it replace the committed eight-row chain unless the coverage and downstream
   triage artifacts are regenerated together.
+- If a larger pass returns complete coverage but any rationale contradicts frozen lookup facts, keep
+  it out of the public chain or turn the contradiction into explicit review work before promotion.
 - Keep outputs proposal-only and deterministic where possible.
 - Preserve existing enums such as `gate_sufficient`, `add_control`, and `lower_priority`.
 - Add a summary layer that tells judges what Claude changed, what Prospect refused to change, and

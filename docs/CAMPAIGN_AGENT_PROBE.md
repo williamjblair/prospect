@@ -29,3 +29,9 @@ Rebuild with a live model run:
 ```bash
 python loop/campaign_probe.py --limit 8
 ```
+
+Run a bounded chunked live model pass into temporary files before promotion:
+
+```bash
+python loop/campaign_probe.py --limit 8 --chunk-size 4 --out-json /tmp/prospect_campaign_probe.json --out-doc /tmp/prospect_campaign_probe.md
+```

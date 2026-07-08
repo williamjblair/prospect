@@ -97,8 +97,9 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   recommendations to deterministic review lanes. Current run: 8 rows, 25 tool calls, 3 aligned
   recommendations, 4 more-aggressive recommendations, and 1 more-cautious recommendation. Exported to
   `examples/data/campaign_agent_probe.json` and [CAMPAIGN_AGENT_PROBE.md](CAMPAIGN_AGENT_PROBE.md).
-  The artifact records coverage as 8 returned / 8 requested, remains proposal-only, and does not move
-  accepted state.
+  The artifact records exact requested, returned, and missing genes, remains proposal-only, and does
+  not move accepted state. For larger experiments, run chunked probes to `/tmp` first:
+  `./prospect campaign-probe --limit 20 --chunk-size 4 --out-json /tmp/probe.json --out-doc /tmp/probe.md`.
 - **Campaign disagreement triage** (`frontier/campaign_triage.py`, `./prospect campaign-triage`):
   deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: RCC1L,
   MCAT, RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
@@ -260,8 +261,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. Larger model passes are useful
-  only if their requested versus returned coverage is explicit and downstream triage artifacts are
-  regenerated together.
+  only if their requested versus returned coverage is explicit, rationales survive frozen-fact review,
+  and downstream triage artifacts are regenerated together.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around

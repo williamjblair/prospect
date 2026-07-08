@@ -60,6 +60,18 @@ SAMPLE_DECISIONS = [
 ]
 
 
+def campaign_genes(limit: int) -> list[str]:
+    """Return campaign genes in deterministic rank order."""
+    return [row["gene"] for row in build_campaign(limit=limit)["candidates"]]
+
+
+def chunk_gene_batches(genes: list[str], chunk_size: int) -> list[list[str]]:
+    """Split campaign genes into non-empty rank-preserving batches."""
+    if chunk_size < 1:
+        raise ValueError("chunk_size must be at least 1")
+    return [genes[i:i + chunk_size] for i in range(0, len(genes), chunk_size)]
+
+
 def _candidate_facts(row: dict[str, Any]) -> dict[str, Any]:
     return {
         "rank": row["rank"],
@@ -197,6 +209,7 @@ def build_probe(
     tool_calls: list[dict[str, Any]],
     cost_usd: float,
     requested_limit: int | None = None,
+    requested_genes: list[str] | None = None,
 ) -> dict[str, Any]:
     review = build_review()
     review_by_gene = {row["gene"]: row for row in review["rows"]}
@@ -226,7 +239,10 @@ def build_probe(
     rows.sort(key=lambda row: row["rank"])
     summary = Counter(row["alignment"] for row in rows)
     campaign = build_campaign(limit=20)
-    requested = requested_limit if requested_limit is not None else len(rows)
+    returned_genes = [row["gene"] for row in rows]
+    requested_gene_list = [gene.upper() for gene in requested_genes] if requested_genes is not None else returned_genes
+    requested = requested_limit if requested_limit is not None else len(requested_gene_list)
+    missing_genes = [gene for gene in requested_gene_list if gene not in returned_genes]
     missing = max(requested - len(rows), 0)
     return {
         "probe_id": _probe_id(rows, model),
@@ -244,6 +260,9 @@ def build_probe(
             "returned_decisions": len(rows),
             "coverage_status": "complete" if missing == 0 else "partial",
             "missing_decisions": missing,
+            "requested_genes": requested_gene_list,
+            "returned_genes": returned_genes,
+            "missing_genes": missing_genes,
         },
         "cost_usd": round(cost_usd, 4),
         "tool_call_count": len(tool_calls),
@@ -293,6 +312,16 @@ def _markdown(probe: dict[str, Any]) -> str:
         "```bash",
         f"python loop/campaign_probe.py --limit {probe['coverage']['requested_limit']}",
         "```",
+        "",
+        "Run a bounded chunked live model pass into temporary files before promotion:",
+        "",
+        "```bash",
+        (
+            f"python loop/campaign_probe.py --limit {probe['coverage']['requested_limit']} "
+            "--chunk-size 4 --out-json /tmp/prospect_campaign_probe.json "
+            "--out-doc /tmp/prospect_campaign_probe.md"
+        ),
+        "```",
     ]
     return "\n".join(lines) + "\n"
 
@@ -305,6 +334,7 @@ def write_probe(
     tool_calls: list[dict[str, Any]] | None = None,
     cost_usd: float = 0.0,
     requested_limit: int | None = None,
+    requested_genes: list[str] | None = None,
 ) -> dict[str, Any]:
     probe = build_probe(
         decisions=decisions or SAMPLE_DECISIONS,
@@ -312,6 +342,7 @@ def write_probe(
         tool_calls=tool_calls or [],
         cost_usd=cost_usd,
         requested_limit=requested_limit,
+        requested_genes=requested_genes,
     )
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_doc.parent.mkdir(parents=True, exist_ok=True)
@@ -358,14 +389,33 @@ Return a JSON object on its own line:
 Do not claim wet-lab truth. Do not accept state. Your output is a proposal-only review artifact."""
 
 
-def run_live(limit: int) -> dict[str, Any]:
+def _goal_for_genes(genes: list[str]) -> str:
+    joined = ", ".join(genes)
+    return f"""You are cross-examining a proposal-only campaign leaderboard from Prospect.
+Every tool you call is a frozen lookup against released data or a deterministic campaign row.
+
+Task: inspect exactly these campaign candidates: {joined}.
+For each candidate, use tools to check the campaign row, the regulator profile, cross-cell-type
+behavior, and known regulon context. Then recommend one of exactly:
+- advance_to_assay_design
+- advance_if_capacity_allows
+- hold_as_ranked_backup
+- use_as_regulon_anchor
+
+Return a JSON object on its own line with exactly one decision for each requested gene:
+{{"decisions":[{{"gene":"...","recommendation":"...","rationale":"one sentence grounded in tool facts"}}]}}
+
+Do not claim wet-lab truth. Do not accept state. Your output is a proposal-only review artifact."""
+
+
+def _run_live_prompt(goal: str, requested_genes: list[str] | None = None) -> dict[str, Any]:
     import anthropic
 
     load_env()
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set in .env")
     client = anthropic.Anthropic()
-    messages = [{"role": "user", "content": _goal(limit)}]
+    messages = [{"role": "user", "content": goal}]
     transcript: list[dict[str, Any]] = []
     tin = 0
     tout = 0
@@ -390,12 +440,15 @@ def run_live(limit: int) -> dict[str, Any]:
         for block in tool_uses:
             tool_input = dict(block.input)
             result = DISPATCH[block.name](**tool_input)
-            transcript.append({
+            call = {
                 "round": rnd + 1,
                 "tool": block.name,
                 "input": tool_input,
                 "result": result,
-            })
+            }
+            if requested_genes is not None:
+                call["requested_genes"] = requested_genes
+            transcript.append(call)
             results.append({
                 "type": "tool_result",
                 "tool_use_id": block.id,
@@ -405,18 +458,53 @@ def run_live(limit: int) -> dict[str, Any]:
     decisions = parse_decisions(final_text)
     pin, pout = price_for(MODEL)
     cost = tin / 1e6 * pin + tout / 1e6 * pout
+    return {"decisions": decisions, "tool_calls": transcript, "cost_usd": cost}
+
+
+def run_live(
+    limit: int,
+    out_json: Path = OUT_JSON,
+    out_doc: Path = OUT_DOC,
+    chunk_size: int | None = None,
+) -> dict[str, Any]:
+    requested_genes = campaign_genes(limit)
+    if chunk_size is not None:
+        decisions: list[dict[str, Any]] = []
+        transcript: list[dict[str, Any]] = []
+        cost = 0.0
+        for batch in chunk_gene_batches(requested_genes, chunk_size):
+            result = _run_live_prompt(_goal_for_genes(batch), requested_genes=batch)
+            decisions.extend(result["decisions"])
+            transcript.extend(result["tool_calls"])
+            cost += result["cost_usd"]
+        return write_probe(
+            out_json=out_json,
+            out_doc=out_doc,
+            decisions=decisions,
+            model=MODEL,
+            tool_calls=transcript,
+            cost_usd=cost,
+            requested_limit=len(requested_genes),
+            requested_genes=requested_genes,
+        )
+
+    result = _run_live_prompt(_goal(limit), requested_genes=requested_genes)
     return write_probe(
-        decisions=decisions,
+        out_json=out_json,
+        out_doc=out_doc,
+        decisions=result["decisions"],
         model=MODEL,
-        tool_calls=transcript,
-        cost_usd=cost,
+        tool_calls=result["tool_calls"],
+        cost_usd=result["cost_usd"],
         requested_limit=limit,
+        requested_genes=requested_genes,
     )
 
 
 def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser(prog="campaign_probe")
     ap.add_argument("--limit", type=int, default=5)
+    ap.add_argument("--chunk-size", type=int, help="run live model probes in rank-ordered gene batches")
     ap.add_argument("--sample", action="store_true", help="write a fixture probe without calling the API")
     ap.add_argument("--out-json", type=Path, default=OUT_JSON)
     ap.add_argument("--out-doc", type=Path, default=OUT_DOC)
@@ -424,21 +512,12 @@ def main(argv: list[str] | None = None) -> None:
     if args.sample:
         probe = write_probe(out_json=args.out_json, out_doc=args.out_doc)
     else:
-        probe = run_live(limit=args.limit)
-        if args.out_json != OUT_JSON or args.out_doc != OUT_DOC:
-            write_probe(
-                out_json=args.out_json,
-                out_doc=args.out_doc,
-                decisions=[{
-                    "gene": row["gene"],
-                    "recommendation": row["agent_recommendation"],
-                    "rationale": row["agent_rationale"],
-                } for row in probe["rows"]],
-                model=probe["model"],
-                tool_calls=probe["tool_calls"],
-                cost_usd=probe["cost_usd"],
-                requested_limit=probe["coverage"]["requested_limit"],
-            )
+        probe = run_live(
+            limit=args.limit,
+            out_json=args.out_json,
+            out_doc=args.out_doc,
+            chunk_size=args.chunk_size,
+        )
     print(f"wrote {args.out_json} ({probe['candidate_count']} candidates)")
     print(f"wrote {args.out_doc}")
 

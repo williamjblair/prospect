@@ -656,7 +656,28 @@
         "requested_limit": 8,
         "returned_decisions": 8,
         "coverage_status": "complete",
-        "missing_decisions": 0
+        "missing_decisions": 0,
+        "requested_genes": [
+          "PGGT1B",
+          "RCC1L",
+          "MCAT",
+          "RWDD2B",
+          "CCDC22",
+          "GAS2L1",
+          "SNAP29",
+          "CYB5RL"
+        ],
+        "returned_genes": [
+          "PGGT1B",
+          "RCC1L",
+          "MCAT",
+          "RWDD2B",
+          "CCDC22",
+          "GAS2L1",
+          "SNAP29",
+          "CYB5RL"
+        ],
+        "missing_genes": []
       },
       "summary": {
         "aligned": 3,

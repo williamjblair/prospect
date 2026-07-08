@@ -13,7 +13,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from loop.campaign_probe import build_probe, write_probe
+import loop.campaign_probe as campaign_probe_module
+from loop.campaign_probe import build_probe, chunk_gene_batches, campaign_genes, write_probe
 
 
 FIXTURE_DECISIONS = [
@@ -42,6 +43,7 @@ def test_campaign_probe_compares_model_recommendations_to_review_lanes():
         tool_calls=[],
         cost_usd=0.0,
         requested_limit=5,
+        requested_genes=["PGGT1B", "RCC1L", "MCAT", "SNAP29", "LETM2"],
     )
 
     rows = probe["rows"]
@@ -56,6 +58,9 @@ def test_campaign_probe_compares_model_recommendations_to_review_lanes():
         "returned_decisions": 3,
         "coverage_status": "partial",
         "missing_decisions": 2,
+        "requested_genes": ["PGGT1B", "RCC1L", "MCAT", "SNAP29", "LETM2"],
+        "returned_genes": ["PGGT1B", "RCC1L", "MCAT"],
+        "missing_genes": ["SNAP29", "LETM2"],
     }
     assert probe["summary"]["aligned"] == 2
     assert probe["summary"]["more_aggressive"] == 1
@@ -66,6 +71,18 @@ def test_campaign_probe_compares_model_recommendations_to_review_lanes():
     assert by_gene["RCC1L"]["alignment"] == "more_aggressive"
     assert "verified" not in json.dumps(probe).lower()
     assert "true" not in json.dumps(probe).lower()
+
+
+def test_campaign_probe_builds_ranked_gene_batches():
+    genes = campaign_genes(limit=10)
+
+    assert genes[:3] == ["PGGT1B", "RCC1L", "MCAT"]
+    assert genes[-1] == "DAPK2"
+    assert chunk_gene_batches(genes, chunk_size=4) == [
+        ["PGGT1B", "RCC1L", "MCAT", "RWDD2B"],
+        ["CCDC22", "GAS2L1", "SNAP29", "CYB5RL"],
+        ["LETM2", "DAPK2"],
+    ]
 
 
 def test_campaign_probe_writes_json_and_markdown(tmp_path):
@@ -144,6 +161,39 @@ def test_campaign_probe_runs_from_prospect_cli(tmp_path):
     assert data["coverage"]["returned_decisions"] == 3
 
 
+def test_campaign_probe_custom_live_path_does_not_write_default(tmp_path):
+    out_json = tmp_path / "campaign_agent_probe.json"
+    out_doc = tmp_path / "CAMPAIGN_AGENT_PROBE.md"
+    default_before = (ROOT / "examples" / "data" / "campaign_agent_probe.json").read_text()
+
+    def fake_run_live(**kwargs):
+        return write_probe(
+            out_json=kwargs["out_json"],
+            out_doc=kwargs["out_doc"],
+            decisions=FIXTURE_DECISIONS,
+            model="claude-opus-4-8",
+            tool_calls=[],
+            cost_usd=0.0,
+            requested_limit=kwargs["limit"],
+            requested_genes=["PGGT1B", "RCC1L", "MCAT"],
+        )
+
+    original = campaign_probe_module.run_live
+    try:
+        campaign_probe_module.run_live = fake_run_live
+        campaign_probe_module.main([
+            "--out-json",
+            str(out_json),
+            "--out-doc",
+            str(out_doc),
+        ])
+    finally:
+        campaign_probe_module.run_live = original
+
+    assert out_json.exists()
+    assert (ROOT / "examples" / "data" / "campaign_agent_probe.json").read_text() == default_before
+
+
 def test_campaign_probe_is_in_public_web_bundle():
     data = json.loads((ROOT / "web" / "public" / "data" / "frontier.json").read_text())
     probe = data["campaign_agent_probe"]
@@ -170,9 +220,11 @@ def test_campaign_probe_is_visible_in_agent_tab():
 
 if __name__ == "__main__":
     test_campaign_probe_compares_model_recommendations_to_review_lanes()
+    test_campaign_probe_builds_ranked_gene_batches()
     test_campaign_probe_writes_json_and_markdown(Path("/tmp/prospect-campaign-probe-test"))
     test_campaign_probe_sample_cli_runs_without_api_key(Path("/tmp/prospect-campaign-probe-cli-test"))
     test_campaign_probe_runs_from_prospect_cli(Path("/tmp/prospect-campaign-probe-prospect-test"))
+    test_campaign_probe_custom_live_path_does_not_write_default(Path("/tmp/prospect-campaign-probe-custom-path-test"))
     test_campaign_probe_is_in_public_web_bundle()
     test_campaign_probe_is_visible_in_agent_tab()
     print("PASS: campaign agent probe")
