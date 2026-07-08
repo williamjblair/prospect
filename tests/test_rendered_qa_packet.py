@@ -23,6 +23,8 @@ def test_rendered_qa_packet_names_browser_path_without_overclaiming():
     assert packet["trust_boundary"]["accepted_state_mutations"] == 0
     assert packet["automation_claim"] == "manual_browser_checklist"
     assert packet["public_artifact"] == "/data/rendered_qa_packet.json"
+    assert packet["optional_browser_command"] == "./prospect browser-qa --target both"
+    assert packet["browser_output_dir"] == "output/playwright/"
     assert len(packet["viewports"]) == 2
     assert packet["viewports"][0]["name"] == "desktop"
     assert packet["viewports"][1]["name"] == "mobile"
@@ -52,6 +54,7 @@ def test_rendered_qa_packet_writes_json_and_markdown(tmp_path):
     assert "Avoid local port: `3000`" in doc
     assert "Campaign pressure summary" in doc
     assert "./prospect submit-smoke" in doc
+    assert "./prospect browser-qa --target both" in doc
 
 
 def test_rendered_qa_packet_runs_from_prospect_cli():

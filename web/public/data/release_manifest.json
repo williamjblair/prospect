@@ -36,8 +36,8 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5700949,
-      "sha256": "bd4a768c45dcb9cfc9bbfd6b4cad6fc15fcf1949ab356df9dcf52d501caec26f"
+      "bytes": 5701047,
+      "sha256": "3c35db289cdadf5193f7588c2e6590910fc7ba06b086c30f877046ae4b6ef96f"
     },
     {
       "path": "/data/judge_packet.json",
@@ -156,14 +156,14 @@
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 5676,
-      "sha256": "04fae2fb716a5dda13f526e98c89b11ed828047ac3f92e987ee38983dc719708"
+      "bytes": 5774,
+      "sha256": "53a7567d3ffc9e02ce5a1bad8d23ec66da3c8e103b33b273f56ce52fcaf50381"
     },
     {
       "path": "/data/rendered_qa_packet.json",
       "source_path": "web/public/data/rendered_qa_packet.json",
-      "bytes": 1876,
-      "sha256": "b8eadc8ccc8973aab65bddc33e2ffd9f63b2ff7a77d77da1d08c45c466e4d3c9"
+      "bytes": 1987,
+      "sha256": "e277ac3f844828791f90dae4954e785973911a65cd82dffef0cac57c09f864df"
     }
   ],
   "trust_boundary": {

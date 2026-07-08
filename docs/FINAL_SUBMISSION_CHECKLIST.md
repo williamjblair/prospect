@@ -35,6 +35,8 @@ Replay gate:
 ./prospect submission-audit
 ./prospect release-manifest
 ./prospect rendered-qa
+# optional, after starting local web on 8124
+./prospect browser-qa --target both
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -54,6 +56,8 @@ Run this before submitting:
 ./prospect submission-audit
 ./prospect release-manifest
 ./prospect rendered-qa
+# optional, after starting local web on 8124
+./prospect browser-qa --target both
 ```
 
 Then open:
@@ -92,6 +96,8 @@ Confirm:
 - `./prospect demo-pack` prints the recording teleprompter.
 - `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
 - `./prospect rendered-qa` writes `docs/RENDERED_QA_PACKET.md`.
+- `./prospect browser-qa --target both` writes local browser evidence under ignored
+  `output/playwright/` after the local `8124` web server is running.
 
 ## Record The Demo Video
 

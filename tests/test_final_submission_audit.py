@@ -33,6 +33,10 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
     assert audit["rendered_qa_checklist"]["production_url"] == "https://prospect-sepia-six.vercel.app"
     assert audit["rendered_qa_checklist"]["avoid_port"] == 3000
+    assert audit["optional_operator_commands"] == [
+        "cd web && npm run start",
+        "./prospect browser-qa --target both",
+    ]
     tabs = {item["tab"]: item for item in audit["rendered_qa_checklist"]["tabs"]}
     assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
     assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
@@ -101,6 +105,8 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "record_demo_video" in doc
     assert "./prospect final-check" in doc
     assert "./prospect release-manifest" in doc
+    assert "Optional operator confidence checks" in doc
+    assert "./prospect browser-qa --target both" in doc
     assert "/data/assay_operations_bundle.json" in doc
     assert "/data/gladstone_pilot_design.json" in doc
     assert "/data/campaign_probe_audit.json" in doc

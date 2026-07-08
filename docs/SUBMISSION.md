@@ -194,6 +194,7 @@ the trust floor after the event window without private credentials for the stati
 ./prospect submission-audit       # build the final submission audit packet
 ./prospect release-manifest       # hash the public data artifact surface
 ./prospect rendered-qa            # build the rendered QA checklist packet
+./prospect browser-qa --target both # optional browser smoke after local web starts on 8124
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts

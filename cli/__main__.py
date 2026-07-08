@@ -25,6 +25,7 @@
   prospect submission-audit build the final submission audit packet
   prospect release-manifest build public SHA-256 hashes for deployed artifacts
   prospect rendered-qa      build the final rendered QA checklist packet
+  prospect browser-qa       run optional Playwright browser QA evidence locally
   prospect judge-pack       build the judge packet manifest and handoff
   prospect final-check      run the local submission gate
   prospect submit-smoke     run production submission smoke checks
@@ -92,6 +93,8 @@ def main():
         from frontier.release_manifest import main as release_manifest_main; sys.exit(release_manifest_main(rest))
     elif cmd == "rendered-qa":
         from cli.rendered_qa import main as rendered_qa_main; sys.exit(rendered_qa_main(rest))
+    elif cmd == "browser-qa":
+        from cli.browser_qa import main as browser_qa_main; sys.exit(browser_qa_main(rest))
     elif cmd == "judge-pack":
         from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
     elif cmd == "final-check":

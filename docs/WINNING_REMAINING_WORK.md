@@ -60,9 +60,9 @@ Prospect is currently strong enough to submit. Do not lose any of this while bui
 - `./prospect release-manifest` hashes the public data artifact surface.
 - `./prospect campaign-probe-audit` checks committed probe coverage and rationales before promotion.
 - `./prospect rendered-qa` emits the durable browser QA checklist.
-- A live Playwright browser pass may be run against production and local `8124` for final operator
-  confidence. Keep its screenshots and run JSON under ignored `output/playwright/`; they are local
-  QA evidence, not signed state and not public release artifacts.
+- `./prospect browser-qa --target both` runs a live Playwright browser pass against production and
+  local `8124` for final operator confidence. Keep its screenshots and run JSON under ignored
+  `output/playwright/`; they are local QA evidence, not signed state and not public release artifacts.
 - `./prospect verify` re-derives 53,485 objects with 0 drift.
 - `python benchmark/mutation_pack.py` admits 0 tampered claims.
 - `python tests/test_skill_parity.py` checks 112 claims with 0 mismatches.
@@ -125,8 +125,10 @@ Gate:
 - `./prospect submit-smoke`
 - `./prospect release-manifest`
 - `./prospect rendered-qa`
+- `./prospect browser-qa --target both` after starting the local `8124` web server.
 - Production rendered QA for web-facing changes.
-- Optional local browser evidence in `output/playwright/`, kept out of the release manifest.
+- Optional local browser evidence from `./prospect browser-qa --target both`, kept in
+  `output/playwright/` and out of the release manifest.
 
 Risk:
 
@@ -317,8 +319,8 @@ Gate:
 - `./prospect submit-smoke`
 - `./prospect rendered-qa`
 - Manual browser pass through Overview, Findings, Frontier, Agent. If using Playwright, check
-  production and `http://localhost:8124` across desktop and mobile, then keep screenshots in
-  ignored `output/playwright/`.
+  production and `http://localhost:8124` across desktop and mobile with
+  `./prospect browser-qa --target both`, then keep screenshots in ignored `output/playwright/`.
 
 ### P2, optional polish after the ceiling work
 

@@ -42,6 +42,11 @@ VERIFICATION_COMMANDS = [
     "python examples/receipt_bridge_client.py --json",
 ]
 
+OPTIONAL_OPERATOR_COMMANDS = [
+    "cd web && npm run start",
+    "./prospect browser-qa --target both",
+]
+
 PUBLIC_ARTIFACTS = [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -84,6 +89,7 @@ def build_packet() -> dict[str, object]:
         "signed_root": SIGNED_ROOT,
         "source_docs": SOURCE_DOCS,
         "verification_commands": VERIFICATION_COMMANDS,
+        "optional_operator_commands": OPTIONAL_OPERATOR_COMMANDS,
         "public_artifacts": PUBLIC_ARTIFACTS,
         "demo_opening": "Start on the A1BG refusal, not the graph.",
         "demo_close": (
@@ -112,6 +118,10 @@ def _print_text(packet: dict[str, object]) -> None:
     print("")
     print("Run before upload:")
     for command in packet["verification_commands"]:
+        print(f"- {command}")
+    print("")
+    print("Optional operator confidence check:")
+    for command in packet["optional_operator_commands"]:
         print(f"- {command}")
     print("")
     print("Public artifacts:")

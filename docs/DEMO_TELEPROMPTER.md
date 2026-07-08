@@ -21,6 +21,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 ./prospect judge-handout
 ./prospect release-manifest
 ./prospect rendered-qa
+./prospect browser-qa --target both # optional, after local web starts on 8124
 python examples/receipt_bridge_client.py --json
 ```
 

@@ -163,6 +163,7 @@ Current public artifacts:
 ./prospect submission-audit       # build the final submission audit packet
 ./prospect release-manifest       # hash the public data artifact surface
 ./prospect rendered-qa            # build the rendered QA checklist packet
+./prospect browser-qa --target both # optional browser smoke after local web starts on 8124
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides

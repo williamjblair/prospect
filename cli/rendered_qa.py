@@ -53,6 +53,8 @@ def build_packet() -> dict[str, Any]:
         "local_url": LOCAL_URL,
         "avoid_port": 3000,
         "public_artifact": PUBLIC_ARTIFACT,
+        "optional_browser_command": "./prospect browser-qa --target both",
+        "browser_output_dir": "output/playwright/",
         "viewports": VIEWPORTS,
         "tabs": TABS,
         "evidence_commands": [
@@ -114,6 +116,18 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
     ]
     lines += [f"- `{command}`" for command in packet["evidence_commands"]]
+    lines += [
+        "",
+        "## Optional browser smoke",
+        "",
+        "After starting the local web server on `8124`, run:",
+        "",
+        "```bash",
+        packet["optional_browser_command"],
+        "```",
+        "",
+        f"This writes local evidence under ignored `{packet['browser_output_dir']}`.",
+    ]
     lines += [
         "",
         "## Pass criteria",

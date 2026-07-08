@@ -32,6 +32,16 @@ This packet makes the final browser pass durable. It does not claim automated vi
 - `./prospect submit-smoke`
 - `./prospect rendered-qa`
 
+## Optional browser smoke
+
+After starting the local web server on `8124`, run:
+
+```bash
+./prospect browser-qa --target both
+```
+
+This writes local evidence under ignored `output/playwright/`.
+
 ## Pass criteria
 
 - No tab hides the signed root, typed status, or proposal-only boundaries.

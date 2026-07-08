@@ -26,6 +26,7 @@ Run this before recording:
 ./prospect judge-handout
 ./prospect release-manifest
 ./prospect rendered-qa
+./prospect browser-qa --target both # optional, after local web starts on 8124
 python examples/receipt_bridge_client.py --json
 ```
 
@@ -38,6 +39,8 @@ Confirm:
 - `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
 - `./prospect release-manifest` writes `/data/release_manifest.json`.
 - `./prospect rendered-qa` writes `/data/rendered_qa_packet.json`.
+- `./prospect browser-qa --target both` writes local browser evidence under ignored
+  `output/playwright/` if local web is running on `8124`.
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.

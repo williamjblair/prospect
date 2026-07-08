@@ -21,7 +21,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5700949 | `bd4a768c45dcb9cfc9bbfd6b4cad6fc15fcf1949ab356df9dcf52d501caec26f` |
+| `/data/frontier.json` | 5701047 | `3c35db289cdadf5193f7588c2e6590910fc7ba06b086c30f877046ae4b6ef96f` |
 | `/data/judge_packet.json` | 17625 | `36530260119607a04c2d9384d3959de6105fabc36856c4de4879a16aaa71a7c0` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
@@ -41,8 +41,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
 | `/data/gladstone_pilot_design.json` | 10075 | `804ede72ae41cd4dbbf10ca9245ce0834700768d3e2d9efdeeaaa480b7b64e95` |
-| `/data/final_submission_audit.json` | 5676 | `04fae2fb716a5dda13f526e98c89b11ed828047ac3f92e987ee38983dc719708` |
-| `/data/rendered_qa_packet.json` | 1876 | `b8eadc8ccc8973aab65bddc33e2ffd9f63b2ff7a77d77da1d08c45c466e4d3c9` |
+| `/data/final_submission_audit.json` | 5774 | `53a7567d3ffc9e02ce5a1bad8d23ec66da3c8e103b33b273f56ce52fcaf50381` |
+| `/data/rendered_qa_packet.json` | 1987 | `e277ac3f844828791f90dae4954e785973911a65cd82dffef0cac57c09f864df` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 
 Hashes prove deployed byte identity, not wet-lab or clinical truth.

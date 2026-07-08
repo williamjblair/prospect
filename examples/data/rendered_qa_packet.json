@@ -6,6 +6,8 @@
   "local_url": "http://localhost:8124",
   "avoid_port": 3000,
   "public_artifact": "/data/rendered_qa_packet.json",
+  "optional_browser_command": "./prospect browser-qa --target both",
+  "browser_output_dir": "output/playwright/",
   "viewports": [
     {
       "name": "desktop",

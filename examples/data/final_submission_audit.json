@@ -58,6 +58,10 @@
     "python tests/test_skill_parity.py",
     "python examples/receipt_bridge_client.py --json"
   ],
+  "optional_operator_commands": [
+    "cd web && npm run start",
+    "./prospect browser-qa --target both"
+  ],
   "shipped_workstreams": [
     {
       "workstream": "submission_floor",

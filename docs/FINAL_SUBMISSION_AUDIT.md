@@ -31,6 +31,11 @@ Public artifacts: 23
 - `python tests/test_skill_parity.py`
 - `python examples/receipt_bridge_client.py --json`
 
+## Optional operator confidence checks
+
+- `cd web && npm run start`
+- `./prospect browser-qa --target both`
+
 ## Source docs
 
 - `docs/JUDGE_QUICKSTART.md`

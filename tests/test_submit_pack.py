@@ -32,6 +32,11 @@ def test_submit_pack_includes_copy_safe_submission_fields():
     ]:
         assert command in packet["verification_commands"]
 
+    assert packet["optional_operator_commands"] == [
+        "cd web && npm run start",
+        "./prospect browser-qa --target both",
+    ]
+
     for path in [
         "docs/SUBMISSION_FORM_PACKET.md",
         "docs/DEMO_RECORDING_RUNBOOK.md",
@@ -94,6 +99,7 @@ def test_submit_pack_cli_prints_human_packet():
     assert "./prospect submit-smoke" in proc.stdout
     assert "./prospect submit-pack" in proc.stdout
     assert "./prospect demo-pack" in proc.stdout
+    assert "./prospect browser-qa --target both" in proc.stdout
     assert "Do not paste secrets." in proc.stdout
 
 

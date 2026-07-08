@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from cli.submit_pack import LIVE_URL, PUBLIC_ARTIFACTS, REPO_URL, SIGNED_ROOT, SOURCE_DOCS
+from cli.submit_pack import LIVE_URL, OPTIONAL_OPERATOR_COMMANDS, PUBLIC_ARTIFACTS, REPO_URL, SIGNED_ROOT, SOURCE_DOCS
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_JSON = ROOT / "examples" / "data" / "final_submission_audit.json"
@@ -159,6 +159,7 @@ def build_audit() -> dict[str, Any]:
         "public_artifacts": PUBLIC_ARTIFACTS,
         "source_docs": SOURCE_DOCS,
         "required_gates": REQUIRED_GATES,
+        "optional_operator_commands": OPTIONAL_OPERATOR_COMMANDS,
         "shipped_workstreams": SHIPPED_WORKSTREAMS,
         "trust_boundary": {
             "model_role": "propose_search_pressure_test",
@@ -198,6 +199,12 @@ def _markdown(audit: dict[str, Any]) -> str:
         "",
     ]
     lines += [f"- `{command}`" for command in audit["required_gates"]]
+    lines += [
+        "",
+        "## Optional operator confidence checks",
+        "",
+    ]
+    lines += [f"- `{command}`" for command in audit["optional_operator_commands"]]
     lines += [
         "",
         "## Source docs",

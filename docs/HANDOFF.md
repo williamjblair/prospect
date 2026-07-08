@@ -154,6 +154,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   browser checklist for the final judge path. It records the production URL, local `8124` fallback,
   desktop and mobile viewport targets, and the required Overview, Findings, Frontier, and Agent tab
   evidence. Exported to `examples/data/rendered_qa_packet.json` and [RENDERED_QA_PACKET.md](RENDERED_QA_PACKET.md).
+- **Optional browser QA** (`cli/browser_qa.py`, `./prospect browser-qa --target both`): live
+  Playwright DOM smoke over production and local `8124`. It writes screenshots and JSON under
+  ignored `output/playwright/`. It is operator evidence only, not signed state, not a release
+  artifact, and not part of `final-check`.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -192,7 +196,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -298,6 +302,9 @@ uses restrained paint-only transitions in the 180-220ms band.
   endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle,
   receipt bridge manifest, rendered QA packet, and release manifest hashes
   before upload.
+- **Optional browser QA**: after `cd web && npm run start`, run
+  `./prospect browser-qa --target both` to check Overview, Findings, Frontier, and Agent across
+  production and local `8124` at desktop and mobile widths. Keep the resulting screenshots local.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the

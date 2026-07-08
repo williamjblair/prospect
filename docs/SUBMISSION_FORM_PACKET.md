@@ -84,6 +84,7 @@ JSON endpoints let a judge rerun the trust floor after the event window.
 ./prospect demo-pack
 ./prospect judge-handout
 ./prospect rendered-qa
+./prospect browser-qa --target both # optional, after local web starts on 8124
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

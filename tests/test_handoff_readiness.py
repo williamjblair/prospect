@@ -27,6 +27,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect submission-audit",
         "./prospect release-manifest",
         "./prospect rendered-qa",
+        "./prospect browser-qa --target both",
         "python examples/receipt_bridge_client.py --json",
     ]:
         assert command in text
@@ -43,6 +44,7 @@ def test_agents_lists_current_cli_surface():
         "submission-audit",
         "release-manifest",
         "rendered-qa",
+        "browser-qa",
         "mcp",
     ]:
         assert verb in text
@@ -64,6 +66,7 @@ def test_handoff_describes_current_production_smoke_gate():
         "pilot design",
         "release manifest hashes",
         "rendered QA packet",
+        "Optional browser QA",
     ]:
         assert phrase in text
 
