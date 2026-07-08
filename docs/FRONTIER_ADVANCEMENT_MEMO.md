@@ -96,7 +96,7 @@ Do not weaken this floor for speculative discovery.
 
 ## Workstream 1: donor-condition replay
 
-Priority: P0, highest scientific credibility per unit of risk.
+Priority: P0, shipped.
 
 Goal: split the aggregate Marson frontier by donor and condition so top candidates can be labeled
 robust, donor-sensitive, or aggregate-only.
@@ -106,53 +106,81 @@ contains donor and culture-condition metadata in cell-level and pseudobulk AnnDa
 Gladstone immunologist will trust PGGT1B and the campaign rows more if Prospect can say whether the
 signal is donor-consistent or donor-fragile.
 
-Data needed:
+Current shipped surface: `./prospect donor-replay` emits
+`examples/data/donor_condition_replay.json`, [DONOR_CONDITION_REPLAY.md](DONOR_CONDITION_REPLAY.md),
+and `/data/donor_condition_replay.json`. The packet replays the 20 campaign rows against a frozen,
+small source extract from `GWCD4i.DE_stats.h5ad`. It uses donor-correlation and guide-support fields
+from the released object, not a new DE recompute.
 
-- `GWCD4i.pseudobulk_merged.h5ad`
+Source fields:
+
 - `GWCD4i.DE_stats.h5ad`
-- Donor fields, guide fields, culture-condition fields, and keep-for-DE metadata from the released
-  Marson objects.
+- `donor_correlation_hits_min`
+- `donor_correlation_hits_mean`
+- `donor_correlation_all_min`
+- `donor_correlation_all_mean`
+- `n_guides`
+- `single_guide_estimate`
+- `guide_n_signif_ontarget`
+- released aggregate DE counts from the frozen Prospect table
 
-Technical shape:
+Classification:
 
-- Add `frontier/donor_replay.py`.
-- Build a small artifact over the top five assay candidates plus the 20 campaign candidates.
-- For each gene and condition, report donor availability, on-target guide support where available,
-  and whether the aggregate call is supported by enough donor-level signal to be actionable.
-- If donor-level DE cannot be reconstructed from the released objects in time, emit a bounded
-  `evidence_attached` gap packet that names the missing statistic and exact source fields needed.
+- `donor_supported`: at least 50 aggregate DE genes, at least two guides, hits-min at least 0.5,
+  and hits-mean at least 0.6.
+- `donor_fragile`: at least 50 aggregate DE genes but hits-min below 0.35.
+- `guide_limited`: single-guide estimate or fewer than two guides.
+- `donor_intermediate`: aggregate signal with donor statistics that do not meet the supported or
+  fragile thresholds.
 
-Potential discovery:
+Current result:
 
-- A candidate that is aggregate-strong but donor-fragile becomes lower priority.
-- A candidate that is aggregate-moderate but donor-consistent becomes a stronger assay candidate.
-- PGGT1B may move from "large aggregate Stim8hr signal" to "robust across donors" or "needs donor
-  stratification before acceptance."
+- 20 campaign rows replayed.
+- 13 donor-supported rows.
+- 2 donor-intermediate rows.
+- 4 donor-fragile rows.
+- 1 guide-limited row.
+- PGGT1B is donor-supported in Stim8hr: 3,014 aggregate DE genes, 2 guides,
+  `donor_correlation_hits_min` 0.6045, and `donor_correlation_hits_mean` 0.7185.
+- RWDD2B, IRF4, and two other rows are donor-fragile under the frozen threshold.
+- SNAP29 is guide-limited.
+
+Discovery value:
+
+- The top assay-design row, PGGT1B, is no longer just a large aggregate Stim8hr signal. It is a
+  donor-supported campaign row under the released donor-correlation fields.
+- Donor-fragile rows are demoted into capacity-sensitive or control-heavy lanes before wet-lab
+  handoff.
+- The packet gives judges a concrete example of frontier advancement inside the Marson dataset,
+  not just protocol presentation.
 
 Deliverables:
 
 - `./prospect donor-replay`
 - `examples/data/donor_condition_replay.json`
+- `examples/data/donor_condition_source_rows.json`
 - `docs/DONOR_CONDITION_REPLAY.md`
-- Optional `/data/donor_condition_replay.json` and an Agent tab summary if the packet is strong.
+- `/data/donor_condition_replay.json`
+- Agent tab summary in the live app
 
 Status:
 
-- Use `computationally_reproduced` only for statistics re-derived from released donor-level fields.
-- Use `evidence_attached` for candidate prioritization.
+- Packet status is `computationally_reproduced`.
+- Candidate prioritization remains `evidence_attached`.
 - No accepted-state mutation.
 
 Gate:
 
-- Test packet schema, status, candidate count, no accepted-state mutation, and no model role.
-- Add generated-artifact drift checks to `./prospect final-check`.
-- Add public endpoint checks to `./prospect submit-smoke` only if surfaced in the app.
+- Tests cover packet schema, status, thresholds, row count, PGGT1B classification, no accepted-state
+  mutation, no model role, no forbidden status language, and UI contract.
+- `./prospect final-check` drift-checks the donor source extract, packet, doc, and public JSON.
+- `./prospect submit-smoke` checks the public endpoint.
 
-Go or no-go:
+Limitations:
 
-- Go if the donor fields are accessible without downloading a prohibitive object or re-running an
-  unstable DE pipeline.
-- No-go if donor replay requires a new statistical method that cannot be frozen and tested by July 13.
+- This is not donor-level wet-lab replication.
+- It does not recompute per-donor DE.
+- It does not move any row into accepted biological state.
 
 ## Workstream 2: cross-substrate discovery
 
@@ -365,8 +393,8 @@ Technical shape:
   - deterministic campaign review
   - campaign probe
   - gate probe
-  - donor replay, if shipped
-  - cross-substrate discovery, if shipped
+  - donor-condition replay
+  - cross-substrate discovery
 - Promote only if coverage is complete and the frozen audit has zero issues.
 
 Potential discovery:
@@ -398,15 +426,13 @@ Gate:
 ## Ranked execution plan
 
 1. Run the floor: `./prospect final-check` and `./prospect submit-smoke`.
-2. Build Workstream 2 first: cross-substrate discovery. It uses committed data and is the clearest
-   route to real discovery between datasets.
-3. Attempt Workstream 1 next: donor-condition replay. It is scientifically strongest if the source
-   fields are accessible, but it may be blocked by data size or missing donor-level DE outputs.
-4. Add Workstream 3 if source queries are clean: disease-genetics overlay for top candidates.
-5. Write Workstream 4 scout memo if time remains. Ingest nothing large unless it can be frozen.
-6. Run Workstream 5 only after cross-substrate or donor evidence changes the campaign ranking.
-7. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
-8. Deploy only after web or public-data changes, using the deployment command in `AGENTS.md`.
+2. Keep Workstream 2 and Workstream 1 green: cross-substrate discovery plus donor-condition replay
+   are now the two shipped frontier-advancement packets.
+3. Add Workstream 3 if source queries are clean: disease-genetics overlay for top candidates.
+4. Write Workstream 4 scout memo if time remains. Ingest nothing large unless it can be frozen.
+5. Run Workstream 5 only after cross-substrate or donor evidence changes the campaign ranking.
+6. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
+7. Deploy only after web or public-data changes, using the deployment command in `AGENTS.md`.
 
 ## Definition of done for the new campaign
 

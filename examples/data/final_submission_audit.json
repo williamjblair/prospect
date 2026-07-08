@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 24,
+  "public_artifact_count": 25,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -24,6 +24,7 @@
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
+    "/data/donor_condition_replay.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -42,6 +43,7 @@
     "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/CAMPAIGN_PROBE_AUDIT.md",
     "docs/CROSS_SUBSTRATE_DISCOVERY.md",
+    "docs/DONOR_CONDITION_REPLAY.md",
     "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
@@ -88,6 +90,14 @@
       "evidence": [
         "./prospect cross-substrate-discovery",
         "/data/cross_substrate_discovery.json"
+      ]
+    },
+    {
+      "workstream": "donor_condition_replay",
+      "state": "shipped",
+      "evidence": [
+        "./prospect donor-replay",
+        "/data/donor_condition_replay.json"
       ]
     },
     {
@@ -176,6 +186,7 @@
         "tab": "Agent",
         "must_show": [
           "Campaign pressure summary",
+          "Donor-condition replay packet",
           "Gladstone assay operations bundle",
           "Gladstone pilot design",
           "PGGT1B"
@@ -206,6 +217,14 @@
       "evidence": [
         "./prospect cross-substrate-discovery",
         "/data/cross_substrate_discovery.json"
+      ]
+    },
+    {
+      "requirement": "donor_condition_replay",
+      "status": "shipped",
+      "evidence": [
+        "./prospect donor-replay",
+        "/data/donor_condition_replay.json"
       ]
     },
     {

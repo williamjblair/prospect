@@ -55,6 +55,7 @@ Confirm:
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.
+- `/data/donor_condition_replay.json` reports 20 campaign rows and 13 donor-supported rows.
 
 ## Recording Beats
 

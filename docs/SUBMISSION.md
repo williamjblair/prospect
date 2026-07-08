@@ -145,6 +145,9 @@ the trust floor after the event window without private credentials for the stati
 - The cross-substrate discovery packet classifies 11,526 Marson rows: 80 shared cellular machinery
   rows, 409 T-cell-specific activation candidates, 333 non-immune-only effects, and 20 campaign
   intersections headed by PGGT1B.
+- The donor-condition replay packet replays those campaign rows against donor-correlation and
+  guide-support fields from the released Marson DE object: 13 donor-supported rows, 2 donor
+  intermediate rows, 4 donor-fragile rows, and 1 guide-limited row, with no accepted-state mutation.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -182,6 +185,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
+- `/data/donor_condition_replay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -216,6 +220,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet
 ./prospect cross-substrate-discovery # write the cross-substrate discovery packet
+./prospect donor-replay           # write the donor-condition replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

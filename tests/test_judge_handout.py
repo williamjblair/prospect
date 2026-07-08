@@ -32,6 +32,8 @@ def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
     assert handout["counts"]["substrate_replay_rows"] == 377
     assert handout["counts"]["cross_substrate_discovery_rows"] == 11526
     assert handout["counts"]["cross_substrate_t_cell_candidates"] == 409
+    assert handout["counts"]["donor_condition_rows"] == 20
+    assert handout["counts"]["donor_supported_rows"] == 13
     assert "record_demo_video" in handout["human_only_actions"]
     assert "submit_project_form" in handout["human_only_actions"]
     assert "wet_lab_execution" in handout["human_only_actions"]
@@ -53,6 +55,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "/data/final_submission_audit.json" in doc
     assert "/data/gladstone_pilot_design.json" in doc
     assert "/data/cross_substrate_discovery.json" in doc
+    assert "/data/donor_condition_replay.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc

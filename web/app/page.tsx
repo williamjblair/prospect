@@ -291,6 +291,38 @@ type CrossSubstrateRow = {
   campaign_rank: number | null;
   campaign_status: string | null;
 };
+type DonorConditionReplay = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutation: string;
+  counts: {
+    campaign_rows: number;
+    strongest_condition_rows: number;
+    donor_supported: number;
+    donor_intermediate: number;
+    donor_fragile: number;
+    guide_limited: number;
+    donor_not_estimated: number;
+    aggregate_not_actionable: number;
+  };
+  rows: DonorConditionReplayRow[];
+  promotion_candidates: DonorConditionReplayRow[];
+  capacity_warnings: DonorConditionReplayRow[];
+};
+type DonorConditionReplayRow = {
+  rank: number;
+  gene: string;
+  condition: string;
+  campaign_status: string;
+  n_total_de_genes: number;
+  donor_correlation_hits_min: number | null;
+  donor_correlation_hits_mean: number | null;
+  n_guides: number;
+  guide_n_signif_ontarget: number | null;
+  single_guide_estimate: string;
+  donor_replay_class: string;
+};
 type JudgePacket = {
   live_url: string;
   frontier_root: string;
@@ -347,6 +379,7 @@ type Data = {
   gladstone_pilot_design?: GladstonePilotDesign | null;
   substrate_replay_packet?: SubstrateReplayPacket | null;
   cross_substrate_discovery?: CrossSubstrateDiscovery | null;
+  donor_condition_replay?: DonorConditionReplay | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -1310,6 +1343,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.campaign_pressure_summary && <CampaignPressureSummaryCard summary={d.campaign_pressure_summary} onGene={onGene} />}
 
+      {d.donor_condition_replay && <DonorConditionReplayCard packet={d.donor_condition_replay} onGene={onGene} />}
+
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
       {d.assay_operations_bundle && <AssayOperationsBundleCard bundle={d.assay_operations_bundle} onGene={onGene} />}
@@ -1686,6 +1721,77 @@ function CampaignPressureSummaryCard({ summary, onGene }: { summary: CampaignPre
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Trust boundary: {label(summary.trust_boundary)}. Model in trust path: {summary.model_in_trust_path}.
+      </p>
+    </div>
+  );
+}
+
+function DonorConditionReplayCard({ packet, onGene }: { packet: DonorConditionReplay; onGene: (g: string) => void }) {
+  const label = (value: string) => value.replace(/_/g, " ");
+  const tone = (value: string) => {
+    if (value === "donor_supported") return "var(--moss)";
+    if (value === "donor_fragile") return "var(--cinnabar)";
+    if (value === "guide_limited") return "var(--brass)";
+    if (value === "donor_intermediate") return "var(--field-blue)";
+    return "var(--stone)";
+  };
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Donor-condition replay packet</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Released donor-correlation and guide-support fields replay the 20 campaign strongest-condition rows.
+            PGGT1B is donor-supported; donor-fragile rows stay behind assay gates.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/donor_condition_replay.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [packet.counts.campaign_rows, "campaign rows", "var(--ink)"],
+          [packet.counts.donor_supported, "donor-supported", "var(--moss)"],
+          [packet.counts.donor_fragile, "donor-fragile", "var(--cinnabar)"],
+          [packet.counts.guide_limited, "guide-limited", "var(--brass)"],
+        ].map(([value, title, color]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
+        <table style={{ width: "100%", minWidth: 840, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "condition", "donor replay", "DE genes", "donor hits min", "guides"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {packet.rows.slice(0, 8).map((row) => (
+              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.condition}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone(row.donor_replay_class) }}>{label(row.donor_replay_class)}</span>
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(row.n_total_de_genes)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.donor_correlation_hits_min == null ? "not estimated" : row.donor_correlation_hits_min}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.n_guides}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
       </p>
     </div>
   );

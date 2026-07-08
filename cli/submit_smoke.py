@@ -215,6 +215,26 @@ def _check_cross_substrate_discovery(base_url: str, opener: Callable[..., Any], 
         return Check("cross-substrate discovery", False, f"fetch failed: {exc}")
 
 
+def _check_donor_condition_replay(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/donor_condition_replay.json", opener, timeout)
+        counts = data.get("counts", {})
+        ok = (
+            data.get("status") == "computationally_reproduced"
+            and data.get("trust_boundary") == "frozen_donor_rows_extracted_from_released_h5ad"
+            and data.get("accepted_state_mutation") == "none"
+            and counts.get("campaign_rows") == 20
+            and counts.get("donor_supported") == 13
+            and counts.get("donor_fragile") == 4
+            and counts.get("guide_limited") == 1
+            and len(data.get("rows", [])) == 20
+        )
+        detail = "20 campaign rows classified by donor replay" if ok else "donor-condition replay shape drift"
+        return Check("donor-condition replay", ok, detail)
+    except Exception as exc:
+        return Check("donor-condition replay", False, f"fetch failed: {exc}")
+
+
 def _check_lab_packet(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/lab_packet.json", opener, timeout)
@@ -360,6 +380,7 @@ def run_checks(
         _check_transfer(base_url, opener, timeout),
         _check_substrate(base_url, opener, timeout),
         _check_cross_substrate_discovery(base_url, opener, timeout),
+        _check_donor_condition_replay(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
         _check_gladstone_pilot_design(base_url, opener, timeout),

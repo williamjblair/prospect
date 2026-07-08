@@ -43,7 +43,7 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
 ./prospect final-check              # full local submission gate, including generated-artifact drift checks
 ./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
@@ -57,6 +57,7 @@ python tests/test_skill_parity.py   # the Skill checker matches the engine (112 
 ./prospect transfer-replay          # compact cross-dataset replay packet, no accepted-state mutation
 ./prospect substrate-replay         # protocol-generalization packet across frozen substrates
 ./prospect cross-substrate-discovery # classify Marson rows against K562/RPE1 counts
+./prospect donor-replay             # donor-condition replay over campaign rows
 ./prospect pggt1b                   # builds the PGGT1B evidence packet
 ./prospect lab-pack                 # builds the wet-lab assay packet
 ./prospect assay-ops                # builds the Gladstone assay operations bundle

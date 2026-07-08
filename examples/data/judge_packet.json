@@ -69,6 +69,7 @@
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
+    "/data/donor_condition_replay.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -93,12 +94,14 @@
     "substrate_replay_rows": 377,
     "cross_substrate_discovery_rows": 11526,
     "cross_substrate_campaign_rows": 20,
+    "donor_condition_replay_rows": 20,
+    "donor_supported_campaign_rows": 13,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "assay_operations_candidates": 5,
     "pilot_design_candidates": 5,
     "pilot_design_culture_arms": 90,
-    "final_submission_public_artifacts": 24,
+    "final_submission_public_artifacts": 25,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -849,6 +852,15 @@
       },
       "top_campaign_gene": "PGGT1B"
     },
+    "donor_condition_replay": {
+      "status": "computationally_reproduced",
+      "trust_boundary": "frozen_donor_rows_extracted_from_released_h5ad",
+      "accepted_state_mutation": "none",
+      "campaign_rows": 20,
+      "donor_supported": 13,
+      "donor_fragile": 4,
+      "top_gene": "PGGT1B"
+    },
     "lab_packet": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
@@ -871,7 +883,7 @@
     },
     "final_submission_audit": {
       "readiness": "submission_ready_for_human_upload",
-      "public_artifact_count": 24,
+      "public_artifact_count": 25,
       "human_only_actions": [
         "record_demo_video",
         "submit_project_form",

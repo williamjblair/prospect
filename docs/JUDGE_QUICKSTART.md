@@ -73,6 +73,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
+- `/data/donor_condition_replay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`

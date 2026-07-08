@@ -53,6 +53,7 @@ def build_packet() -> dict[str, Any]:
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
     cross_substrate_discovery = frontier.get("cross_substrate_discovery") or {}
+    donor_condition_replay = frontier.get("donor_condition_replay") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
 
@@ -122,6 +123,8 @@ def build_packet() -> dict[str, Any]:
             "substrate_replay_rows": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "cross_substrate_discovery_rows": cross_substrate_discovery.get("counts", {}).get("marson_genes_considered", 0),
             "cross_substrate_campaign_rows": len(cross_substrate_discovery.get("campaign_intersections", [])),
+            "donor_condition_replay_rows": donor_condition_replay.get("counts", {}).get("campaign_rows", 0),
+            "donor_supported_campaign_rows": donor_condition_replay.get("counts", {}).get("donor_supported", 0),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
@@ -214,6 +217,15 @@ def build_packet() -> dict[str, Any]:
                 "class_counts": cross_substrate_discovery.get("class_counts", {}),
                 "top_campaign_gene": (cross_substrate_discovery.get("campaign_intersections") or [{}])[0].get("gene"),
             },
+            "donor_condition_replay": {
+                "status": donor_condition_replay.get("status"),
+                "trust_boundary": donor_condition_replay.get("trust_boundary"),
+                "accepted_state_mutation": donor_condition_replay.get("accepted_state_mutation"),
+                "campaign_rows": donor_condition_replay.get("counts", {}).get("campaign_rows", 0),
+                "donor_supported": donor_condition_replay.get("counts", {}).get("donor_supported", 0),
+                "donor_fragile": donor_condition_replay.get("counts", {}).get("donor_fragile", 0),
+                "top_gene": (donor_condition_replay.get("rows") or [{}])[0].get("gene"),
+            },
             "lab_packet": {
                 "status": lab_packet.get("status"),
                 "trust_boundary": lab_packet.get("trust_boundary"),
@@ -283,6 +295,8 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Substrate replay rows: {counts['substrate_replay_rows']}",
         f"- Cross-substrate discovery rows: {counts['cross_substrate_discovery_rows']}",
         f"- Cross-substrate campaign rows: {counts['cross_substrate_campaign_rows']}",
+        f"- Donor-condition replay rows: {counts['donor_condition_replay_rows']}",
+        f"- Donor-supported campaign rows: {counts['donor_supported_campaign_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- Assay operations candidates: {counts['assay_operations_candidates']}",
@@ -327,6 +341,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Cross-substrate discovery packet",
         "",
         "The discovery packet classifies every frozen Marson row against K562 and RPE1 count tables, then intersects the result with the proposal-only campaign leaderboard.",
+        "",
+        "## Donor-condition replay packet",
+        "",
+        "The donor packet replays released donor-correlation and guide-support fields for all 20 campaign strongest-condition rows.",
         "",
         "## Receipt bridge demo",
         "",

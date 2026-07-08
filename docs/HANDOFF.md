@@ -137,6 +137,12 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   T-cell-specific activation candidates, 333 non-immune-only effects, and 20 campaign intersections.
   It stays `computationally_reproduced`, changes no accepted state, and exports
   `examples/data/cross_substrate_discovery.json` plus [CROSS_SUBSTRATE_DISCOVERY.md](CROSS_SUBSTRATE_DISCOVERY.md).
+- **Donor-condition replay packet** (`frontier/donor_condition_replay.py`,
+  `./prospect donor-replay`): replays the 20 campaign rows against donor-correlation and
+  guide-support fields from the released Marson DE object. It reports 13 donor-supported rows,
+  2 donor-intermediate rows, 4 donor-fragile rows, and 1 guide-limited row. It stays
+  `computationally_reproduced`, changes no accepted state, and exports
+  `examples/data/donor_condition_replay.json` plus [DONOR_CONDITION_REPLAY.md](DONOR_CONDITION_REPLAY.md).
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -202,7 +208,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, cross-substrate discovery packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -240,7 +246,8 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_probe_audit.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `assay_operations_bundle.*`,
+`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `donor_condition_replay.json`,
+`assay_operations_bundle.*`,
 `gladstone_pilot_design.*`,
 `transfer_replay_packet.json`, `substrate_replay_packet.json`, `rendered_qa_packet.json`.
 Gitignored (regenerable):

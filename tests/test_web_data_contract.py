@@ -87,6 +87,21 @@ def test_frontier_json_embeds_cross_substrate_discovery_packet():
     assert "true" not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_donor_condition_replay_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["donor_condition_replay"]
+
+    assert packet["status"] == "computationally_reproduced"
+    assert packet["accepted_state_mutation"] == "none"
+    assert packet["counts"]["campaign_rows"] == 20
+    assert packet["counts"]["donor_supported"] == 13
+    assert packet["counts"]["donor_fragile"] == 4
+    assert packet["rows"][0]["gene"] == "PGGT1B"
+    assert packet["rows"][0]["donor_replay_class"] == "donor_supported"
+    assert "verified" not in json.dumps(packet).lower()
+    assert "true" not in json.dumps(packet).lower()
+
+
 def test_frontier_json_embeds_campaign_pressure_summary():
     data = json.loads(FRONTIER.read_text())
     summary = data["campaign_pressure_summary"]
@@ -178,6 +193,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_transfer_replay_packet()
     test_frontier_json_embeds_substrate_replay_packet()
     test_frontier_json_embeds_cross_substrate_discovery_packet()
+    test_frontier_json_embeds_donor_condition_replay_packet()
     test_frontier_json_embeds_campaign_pressure_summary()
     test_frontier_json_embeds_campaign_probe_audit()
     test_frontier_json_embeds_assay_operations_bundle()

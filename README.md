@@ -123,6 +123,10 @@ frozen substrates, typed status, and no accepted-state mutation.
 `prospect cross-substrate-discovery` classifies every frozen Marson row against K562 and RPE1 counts,
 then intersects those classes with the proposal-only campaign leaderboard.
 
+`prospect donor-replay` replays the top campaign rows against donor-correlation and guide-support
+fields from the released Marson DE object. It labels rows as donor-supported, donor-fragile,
+donor-intermediate, or guide-limited without changing accepted state.
+
 `prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
 required gates, public artifacts, trust boundary, and human-only actions.
 
@@ -149,6 +153,7 @@ Current public artifacts:
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
+- `/data/donor_condition_replay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -185,6 +190,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect transfer-replay        # build the transfer replay packet
 ./prospect substrate-replay       # build the substrate replay packet
 ./prospect cross-substrate-discovery # build the cross-substrate discovery packet
+./prospect donor-replay           # build the donor-condition replay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

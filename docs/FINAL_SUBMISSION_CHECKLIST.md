@@ -70,6 +70,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/cross_substrate_discovery.json
+- https://prospect-sepia-six.vercel.app/data/donor_condition_replay.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
 - https://prospect-sepia-six.vercel.app/data/gladstone_pilot_design.json
@@ -88,8 +89,9 @@ Confirm:
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.
+- `/data/donor_condition_replay.json` reports 20 campaign rows, 13 donor-supported rows, and no accepted-state mutation.
 - `/data/gladstone_pilot_design.json` reports 90 culture arms and stays proposal only.
-- `/data/final_submission_audit.json` reports 24 public artifacts and human-only actions.
+- `/data/final_submission_audit.json` reports 25 public artifacts and human-only actions.
 - `/data/release_manifest.json` hashes the public data artifact surface.
 - `/data/rendered_qa_packet.json` names the manual browser checkpoints.
 - The receipt bridge demo returns `accepted=false`.

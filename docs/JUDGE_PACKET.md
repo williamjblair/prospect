@@ -41,12 +41,14 @@ cd web && npm run build
 - Substrate replay rows: 377
 - Cross-substrate discovery rows: 11526
 - Cross-substrate campaign rows: 20
+- Donor-condition replay rows: 20
+- Donor-supported campaign rows: 13
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
 - Pilot design candidates: 5
 - Pilot design culture arms: 90
-- Final submission public artifacts: 24
+- Final submission public artifacts: 25
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -86,6 +88,10 @@ The substrate packet makes the protocol-generalization claim explicit: one check
 
 The discovery packet classifies every frozen Marson row against K562 and RPE1 count tables, then intersects the result with the proposal-only campaign leaderboard.
 
+## Donor-condition replay packet
+
+The donor packet replays released donor-correlation and guide-support fields for all 20 campaign strongest-condition rows.
+
 ## Receipt bridge demo
 
 Run the external MCP client:
@@ -116,6 +122,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
+- `/data/donor_condition_replay.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
