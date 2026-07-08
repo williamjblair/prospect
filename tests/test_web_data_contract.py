@@ -15,6 +15,7 @@ KEPT_PACKET_KEYS = [
     "discovery_campaign",
     "cross_validation",
     "flagship_module",
+    "overclaim_counter",
     "lab_packet",
     "disease_genetics_overlay",
     "receipts",
@@ -163,6 +164,20 @@ def test_frontier_json_embeds_flagship_module_packet():
     assert ("veri" + "fied") not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_overclaim_counter_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["overclaim_counter"]
+
+    assert packet["phase"] == "phase_4_overclaim_counter"
+    assert packet["status"] == "evidence_attached"
+    assert packet["acceptance"] is False
+    assert packet["counts"]["model_contradicted_claims"] == 46
+    assert packet["counts"]["phase1_refused_total"] == 11508
+    assert packet["counts"]["phase2_without_external_screen_hit"] == 14
+    assert packet["flagship_boundary"]["module_id"] == "prenylation_small_gtpase_trafficking"
+    assert ("veri" + "fied") not in json.dumps(packet).lower()
+
+
 def test_frontier_json_embeds_external_run_receipt_demo():
     data = json.loads(FRONTIER.read_text())
     demo = data["external_run_receipt_demo"]
@@ -202,6 +217,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_discovery_campaign_packet()
     test_frontier_json_embeds_cross_validation_packet()
     test_frontier_json_embeds_flagship_module_packet()
+    test_frontier_json_embeds_overclaim_counter_packet()
     test_frontier_json_embeds_external_run_receipt_demo()
     test_frontier_json_embeds_live_claim_rail()
     print("PASS: web data contract")
