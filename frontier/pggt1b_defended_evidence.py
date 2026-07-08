@@ -3,8 +3,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import csv
+import html
+import statistics
+import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -33,6 +38,10 @@ SNAPSHOT_URLS = {
     "string_interactions": "https://string-db.org/api/json/interaction_partners?identifiers=PGGT1B&species=9606&limit=10",
 }
 
+DEPMAP_19Q2_ARTICLE = "https://api.figshare.com/v2/articles/8061398"
+DEPMAP_19Q2_GENE_EFFECT_FILE = "Achilles_gene_effect.csv"
+ORCS_DATATABLE_URL = "https://orcs.thebiogrid.org/scripts/datatableTools.php"
+
 
 def _load(path: Path) -> Any:
     if not path.exists():
@@ -60,6 +69,136 @@ def _fetch_json(url: str) -> Any:
     request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=30) as response:
         return json.loads(response.read().decode())
+
+
+def _fetch_depmap_achilles_19q2() -> dict[str, Any]:
+    article = _fetch_json(DEPMAP_19Q2_ARTICLE)
+    files = {row["name"]: row for row in article["files"]}
+    file_row = files[DEPMAP_19Q2_GENE_EFFECT_FILE]
+    values = []
+    request = urllib.request.Request(
+        file_row["download_url"],
+        headers={"User-Agent": "prospect-hackathon/1.0"},
+    )
+    with urllib.request.urlopen(request, timeout=120) as response:
+        text = (line.decode("utf-8") for line in response)
+        reader = csv.reader(text)
+        header = next(reader)
+        matches = [(index, name) for index, name in enumerate(header) if "PGGT1B" in name]
+        if len(matches) != 1:
+            raise RuntimeError(f"expected one PGGT1B column, found {matches}")
+        column_index, column_name = matches[0]
+        for row in reader:
+            raw = row[column_index]
+            if raw:
+                values.append({"model_id": row[0], "gene_effect": float(raw)})
+    scores = [row["gene_effect"] for row in values]
+    return {
+        "source": "depmap_achilles_19q2",
+        "url": file_row["download_url"],
+        "article_url": article["figshare_url"],
+        "article_api_url": DEPMAP_19Q2_ARTICLE,
+        "gene": "PGGT1B",
+        "file": {
+            "name": file_row["name"],
+            "id": file_row["id"],
+            "size": file_row["size"],
+            "computed_md5": file_row["computed_md5"],
+        },
+        "column": column_name,
+        "summary": {
+            "cell_line_count": len(values),
+            "min_gene_effect": round(min(scores), 6),
+            "median_gene_effect": round(statistics.median(scores), 4),
+            "mean_gene_effect": round(statistics.mean(scores), 4),
+            "max_gene_effect": round(max(scores), 6),
+            "lines_below_minus_0_5": sum(score < -0.5 for score in scores),
+            "lines_below_minus_1": sum(score < -1 for score in scores),
+        },
+        "values": values,
+    }
+
+
+def _clean_html(value: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", value)
+    return " ".join(html.unescape(text).split())
+
+
+def _orcs_link_id(pattern: str, value: str) -> str | None:
+    match = re.search(pattern, value)
+    return match.group(1) if match else None
+
+
+def _orcs_rank(value: str) -> dict[str, int | None]:
+    cleaned = _clean_html(value)
+    match = re.search(r"#\s*([0-9,]+)\s*/\s*([0-9,]+)", cleaned)
+    if not match:
+        return {"rank": None, "total": None}
+    return {
+        "rank": int(match.group(1).replace(",", "")),
+        "total": int(match.group(2).replace(",", "")),
+    }
+
+
+def _fetch_orcs_gene_tcell_rows() -> dict[str, Any]:
+    payload = {
+        "draw": 1,
+        "columns": [],
+        "order": [{"column": 9, "dir": "asc"}, {"column": 10, "dir": "asc"}],
+        "start": 0,
+        "length": 100,
+        "search": {"value": "T cell", "regex": False},
+        "tool": "serverSideRows",
+        "totalRecords": "1417",
+        "checkedBoxes": [],
+        "identifierValue": "5229",
+        "identifierType": "gene",
+        "type": "gene",
+    }
+    form = payload.copy()
+    form["expData"] = json.dumps(payload)
+    data = urllib.parse.urlencode(form).encode()
+    request = urllib.request.Request(
+        ORCS_DATATABLE_URL,
+        data=data,
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "User-Agent": "prospect-hackathon/1.0",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        body = json.loads(response.read().decode())
+    rows = []
+    for row in body["data"]:
+        rank = _orcs_rank(row[10])
+        rows.append(
+            {
+                "dataset_id": _orcs_link_id(r"/Dataset/(\d+)", row[0]),
+                "screen_id": _orcs_link_id(r"/Screen/(\d+)", row[1]),
+                "first_author": _clean_html(row[0]),
+                "screen_name": _clean_html(row[1]),
+                "cell_type": _clean_html(row[2]),
+                "cell_line": _clean_html(row[3]),
+                "phenotype": _clean_html(row[4]),
+                "condition": _clean_html(row[5]),
+                "library_type": _clean_html(row[6]),
+                "enzyme": _clean_html(row[7]),
+                "analysis": _clean_html(row[8]),
+                "hit_status": "hit" if "Yes" in _clean_html(row[9]) else "non_hit",
+                "rank": rank["rank"],
+                "total": rank["total"],
+                "details": _clean_html(row[11]),
+            }
+        )
+    return {
+        "source": "orcs_gene_tcell_rows",
+        "url": "https://orcs.thebiogrid.org/Gene/5229",
+        "datatable_url": ORCS_DATATABLE_URL,
+        "gene": "PGGT1B",
+        "query": payload,
+        "records_filtered": int(body["recordsFiltered"]),
+        "rows": rows,
+    }
 
 
 def _write_snapshot(name: str, payload: Any) -> None:
@@ -97,6 +236,7 @@ def fetch_pggt1b_snapshots() -> None:
             "payload": cross_sources["screen_rows"]["PGGT1B"],
         },
     )
+    _write_snapshot("orcs_gene_tcell_rows", _fetch_orcs_gene_tcell_rows())
     _write_snapshot(
         "depmap_access",
         {
@@ -109,6 +249,7 @@ def fetch_pggt1b_snapshots() -> None:
             ),
         },
     )
+    _write_snapshot("depmap_achilles_19q2", _fetch_depmap_achilles_19q2())
 
 
 def _snapshot(name: str) -> Any:
@@ -144,6 +285,9 @@ def _scored_evidence(discovery_row: dict[str, Any], cross_row: dict[str, Any]) -
     string_rows = _snapshot("string_interactions")["payload"]
     dice = _snapshot("dice_expression")["payload"]
     orcs = _snapshot("orcs_screen_rows")["payload"]
+    depmap = _snapshot("depmap_achilles_19q2")
+    orcs_tcell = _snapshot("orcs_gene_tcell_rows")
+    carnevale_1905 = next(row for row in orcs_tcell["rows"] if row["screen_id"] == "1905")
 
     chembl_activities = chembl_activity.get("activities", [])
     homologies = ensembl_homology.get("data", [{}])[0].get("homologies", [])
@@ -209,10 +353,31 @@ def _scored_evidence(discovery_row: dict[str, Any], cross_row: dict[str, Any]) -
             "scored_from_frozen_snapshot": True,
             "summary": f"GWAS Catalog gene object at {gwas_gene['location']}",
         },
+        {
+            "source": "depmap_achilles_19q2",
+            "status": "evidence_attached",
+            "scored_from_frozen_snapshot": True,
+            "summary": (
+                f"{depmap['summary']['cell_line_count']} cancer cell lines, "
+                f"median gene effect {depmap['summary']['median_gene_effect']:.4f}, "
+                f"{depmap['summary']['lines_below_minus_1']} lines below -1"
+            ),
+        },
+        {
+            "source": "carnevale_2022_orcs_1905",
+            "status": "orthogonal_phenotype",
+            "scored_from_frozen_snapshot": True,
+            "summary": (
+                "primary T-cell proliferation screen, PGGT1B non-hit rank "
+                f"{carnevale_1905['rank']} of {carnevale_1905['total']}"
+            ),
+        },
     ]
 
 
 def _unscored_or_blocked_sources() -> list[dict[str, Any]]:
+    if (SNAPSHOT_DIR / "depmap_achilles_19q2.json").exists():
+        return []
     depmap = _snapshot("depmap_access")
     return [
         {
@@ -235,15 +400,26 @@ def _kill_attempts() -> list[dict[str, str]]:
         },
         {
             "kill_id": "essentiality_or_proliferation_artifact",
-            "result": "not_cleared",
-            "basis": "Replogle K562 is low, but the registered DepMap dependency kill is not scored",
-            "missing": "DepMap dependency score",
+            "result": "survives_current_frozen_evidence"
+            if (SNAPSHOT_DIR / "depmap_achilles_19q2.json").exists()
+            else "not_cleared",
+            "basis": (
+                "Replogle K562 is low and bounded Achilles 19Q2 PGGT1B extract does not show pan-essentiality"
+                if (SNAPSHOT_DIR / "depmap_achilles_19q2.json").exists()
+                else "Replogle K562 is low, but the registered DepMap dependency kill is not scored"
+            ),
+            "missing": "none"
+            if (SNAPSHOT_DIR / "depmap_achilles_19q2.json").exists()
+            else "DepMap dependency score",
         },
         {
             "kill_id": "batch_or_dataset_specificity",
             "result": "not_cleared",
-            "basis": "Shifrut 1107 supports PGGT1B, Schmidt is an orthogonal phenotype",
-            "missing": "additional comparable primary T-cell screen",
+            "basis": (
+                "Shifrut 1107 supports PGGT1B. Schmidt cytokine and Carnevale proliferation "
+                "screens are orthogonal phenotypes, not activation-transcriptome replays."
+            ),
+            "missing": "activation-transcriptome or activation-marker primary T-cell screen",
         },
         {
             "kill_id": "alternative_mechanism",
@@ -298,7 +474,10 @@ def build_pggt1b_defended_evidence() -> dict[str, Any]:
             ),
         },
         "reproduce_command": "./prospect pggt1b-defended-evidence",
-        "next_step": "freeze DepMap dependency and one more comparable primary T-cell screen before claiming the full bar",
+        "next_step": (
+            "freeze a comparable activation-transcriptome or activation-marker primary T-cell screen, "
+            "or demote PGGT1B if none exists"
+        ),
     }
     packet["packet_id"] = _hash_obj("pggt1b_defended", packet)
     return packet
@@ -327,11 +506,16 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         "## Unscored or blocked sources",
         "",
-        "| source | reason | next step |",
-        "|---|---|---|",
     ]
-    for row in packet["unscored_or_blocked_sources"]:
-        lines.append(f"| `{row['source']}` | {row['why_unscored']} | {row['required_next']} |")
+    if packet["unscored_or_blocked_sources"]:
+        lines += [
+            "| source | reason | next step |",
+            "|---|---|---|",
+        ]
+        for row in packet["unscored_or_blocked_sources"]:
+            lines.append(f"| `{row['source']}` | {row['why_unscored']} | {row['required_next']} |")
+    else:
+        lines.append("No unscored public source remains in this packet.")
     lines += [
         "",
         "## Kill attempts",

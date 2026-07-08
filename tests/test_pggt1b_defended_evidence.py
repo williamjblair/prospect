@@ -53,13 +53,18 @@ def test_pggt1b_packet_keeps_support_and_gaps_separate():
     assert evidence["chembl_target_and_activity"]["status"] == "evidence_attached"
     assert evidence["ensembl_homology"]["status"] == "evidence_attached"
     assert evidence["gwas_catalog_gene_lookup"]["status"] == "evidence_attached"
-    assert evidence["schmidt_2022_orcs_2427"]["status"] == "orthogonal_phenotype"
-    assert gaps["depmap_dependency"]["status"] == "evidence_attached"
-    assert gaps["depmap_dependency"]["why_unscored"] == (
-        "the public portal route returned a browser challenge, so no dependency score is frozen"
+    assert evidence["depmap_achilles_19q2"]["status"] == "evidence_attached"
+    assert evidence["depmap_achilles_19q2"]["summary"] == (
+        "563 cancer cell lines, median gene effect -0.1009, 0 lines below -1"
     )
+    assert evidence["carnevale_2022_orcs_1905"]["status"] == "orthogonal_phenotype"
+    assert evidence["carnevale_2022_orcs_1905"]["summary"] == (
+        "primary T-cell proliferation screen, PGGT1B non-hit rank 19027 of 19362"
+    )
+    assert evidence["schmidt_2022_orcs_2427"]["status"] == "orthogonal_phenotype"
+    assert "depmap_dependency" not in gaps
     assert packet["orthogonal_public_dataset_count"] >= 5
-    assert packet["access_limited_public_dataset_count"] == 1
+    assert packet["access_limited_public_dataset_count"] == 0
 
 
 def test_pggt1b_packet_declares_kill_results_without_accepting_state():
@@ -73,12 +78,16 @@ def test_pggt1b_packet_declares_kill_results_without_accepting_state():
         "alternative_mechanism",
     }
     assert kills["technical_confound"]["result"] == "survives_current_frozen_evidence"
-    assert kills["essentiality_or_proliferation_artifact"]["result"] == "not_cleared"
+    assert kills["essentiality_or_proliferation_artifact"]["result"] == "survives_current_frozen_evidence"
     assert kills["batch_or_dataset_specificity"]["result"] == "not_cleared"
     assert kills["alternative_mechanism"]["result"] == "survives_current_frozen_evidence"
     assert packet["defended_discovery_status"] == "not_cleared_full_bar"
-    assert "DepMap dependency score" in kills["essentiality_or_proliferation_artifact"]["missing"]
-    assert "additional comparable primary T-cell screen" in kills["batch_or_dataset_specificity"]["missing"]
+    assert packet["next_step"] == (
+        "freeze a comparable activation-transcriptome or activation-marker primary T-cell screen, "
+        "or demote PGGT1B if none exists"
+    )
+    assert "none" == kills["essentiality_or_proliferation_artifact"]["missing"]
+    assert "activation-transcriptome or activation-marker primary T-cell screen" in kills["batch_or_dataset_specificity"]["missing"]
 
 
 def test_pggt1b_packet_writes_clean_json_and_markdown(tmp_path):
@@ -91,8 +100,10 @@ def test_pggt1b_packet_writes_clean_json_and_markdown(tmp_path):
 
     assert packet["packet_id"].startswith("pggt1b_defended_")
     assert "not cleared full bar" in doc
-    assert "DepMap dependency score" in doc
-    assert "additional comparable primary T-cell screen" in doc
+    assert "median gene effect -0.1009" in doc
+    assert "primary T-cell proliferation screen" in doc
+    assert "No unscored public source remains in this packet." in doc
+    assert "activation-transcriptome or activation-marker primary T-cell screen" in doc
     assert "\u2014" not in doc
     assert ("veri" + "fied") not in text
     assert ("tr" + "ue") not in text

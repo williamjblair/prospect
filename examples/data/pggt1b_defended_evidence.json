@@ -1,7 +1,7 @@
 {
   "acceptance": false,
   "accepted": false,
-  "access_limited_public_dataset_count": 1,
+  "access_limited_public_dataset_count": 0,
   "candidate_rank": 1,
   "defended_discovery_status": "not_cleared_full_bar",
   "falsifiable_experiment": {
@@ -26,6 +26,11 @@
       "source": "depmap_access"
     },
     {
+      "path": "examples/data/pggt1b_defended_sources/depmap_achilles_19q2.json",
+      "sha256": "fa022a82746a86c4b6f97d318a09974a54d3260b4a425be162c8e719dace2be8",
+      "source": "depmap_achilles_19q2"
+    },
+    {
       "path": "examples/data/pggt1b_defended_sources/dice_expression.json",
       "sha256": "860149b385c44cfa28ea645498d29c468206c2b81d5275b5d2ceb7f2b4bedf9c",
       "source": "dice_expression"
@@ -44,6 +49,11 @@
       "path": "examples/data/pggt1b_defended_sources/gwas_gene.json",
       "sha256": "0217093338b5da56be153734cef90b58eec066e4bf1e3271b7c959f5ebd98b68",
       "source": "gwas_gene"
+    },
+    {
+      "path": "examples/data/pggt1b_defended_sources/orcs_gene_tcell_rows.json",
+      "sha256": "b217f04249e6a39eb7d9b0b622337004c9e50340a67f29e86eae546c33abff48",
+      "source": "orcs_gene_tcell_rows"
     },
     {
       "path": "examples/data/pggt1b_defended_sources/orcs_screen_rows.json",
@@ -66,15 +76,15 @@
       "result": "survives_current_frozen_evidence"
     },
     {
-      "basis": "Replogle K562 is low, but the registered DepMap dependency kill is not scored",
+      "basis": "Replogle K562 is low and bounded Achilles 19Q2 PGGT1B extract does not show pan-essentiality",
       "kill_id": "essentiality_or_proliferation_artifact",
-      "missing": "DepMap dependency score",
-      "result": "not_cleared"
+      "missing": "none",
+      "result": "survives_current_frozen_evidence"
     },
     {
-      "basis": "Shifrut 1107 supports PGGT1B, Schmidt is an orthogonal phenotype",
+      "basis": "Shifrut 1107 supports PGGT1B. Schmidt cytokine and Carnevale proliferation screens are orthogonal phenotypes, not activation-transcriptome replays.",
       "kill_id": "batch_or_dataset_specificity",
-      "missing": "additional comparable primary T-cell screen",
+      "missing": "activation-transcriptome or activation-marker primary T-cell screen",
       "result": "not_cleared"
     },
     {
@@ -85,9 +95,9 @@
     }
   ],
   "mechanism": "PGGT1B encodes the beta subunit of geranylgeranyl transferase I. The current hypothesis is that perturbing this enzyme changes stimulated CD4+ activation by altering prenylation-dependent small-GTPase and immune-synapse traffic.",
-  "next_step": "freeze DepMap dependency and one more comparable primary T-cell screen before claiming the full bar",
-  "orthogonal_public_dataset_count": 8,
-  "packet_id": "pggt1b_defended_dc062bc68e73d7e3",
+  "next_step": "freeze a comparable activation-transcriptome or activation-marker primary T-cell screen, or demote PGGT1B if none exists",
+  "orthogonal_public_dataset_count": 10,
+  "packet_id": "pggt1b_defended_efa0475e4521d8a4",
   "phase": "rank_1_pggt1b_defended_evidence",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "real_world_hook": "ChEMBL has target and activity rows for geranylgeranyl transferase type-1 subunit beta. This is a druggability hook, not a therapeutic claim.",
@@ -146,19 +156,23 @@
       "source": "gwas_catalog_gene_lookup",
       "status": "evidence_attached",
       "summary": "GWAS Catalog gene object at 5:115204012-115262882"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "depmap_achilles_19q2",
+      "status": "evidence_attached",
+      "summary": "563 cancer cell lines, median gene effect -0.1009, 0 lines below -1"
+    },
+    {
+      "scored_from_frozen_snapshot": true,
+      "source": "carnevale_2022_orcs_1905",
+      "status": "orthogonal_phenotype",
+      "summary": "primary T-cell proliferation screen, PGGT1B non-hit rank 19027 of 19362"
     }
   ],
   "snapshot_dir": "examples/data/pggt1b_defended_sources",
   "status": "evidence_attached",
   "title": "PGGT1B defended evidence",
   "trust_boundary": "proposal_only",
-  "unscored_or_blocked_sources": [
-    {
-      "required_next": "freeze a public DepMap dependency table or a bounded PGGT1B extract",
-      "scored_from_frozen_snapshot": false,
-      "source": "depmap_dependency",
-      "status": "evidence_attached",
-      "why_unscored": "the public portal route returned a browser challenge, so no dependency score is frozen"
-    }
-  ]
+  "unscored_or_blocked_sources": []
 }

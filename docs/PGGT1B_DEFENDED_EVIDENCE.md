@@ -21,20 +21,20 @@ This packet does not accept PGGT1B as settled biology. It records the current fr
 | `chembl_target_and_activity` | `evidence_attached` | CHEMBL4135 with 25 activity rows against geranylgeranyl transferase type-1 subunit beta |
 | `ensembl_homology` | `evidence_attached` | 201 orthology rows from Ensembl homology |
 | `gwas_catalog_gene_lookup` | `evidence_attached` | GWAS Catalog gene object at 5:115204012-115262882 |
+| `depmap_achilles_19q2` | `evidence_attached` | 563 cancer cell lines, median gene effect -0.1009, 0 lines below -1 |
+| `carnevale_2022_orcs_1905` | `orthogonal_phenotype` | primary T-cell proliferation screen, PGGT1B non-hit rank 19027 of 19362 |
 
 ## Unscored or blocked sources
 
-| source | reason | next step |
-|---|---|---|
-| `depmap_dependency` | the public portal route returned a browser challenge, so no dependency score is frozen | freeze a public DepMap dependency table or a bounded PGGT1B extract |
+No unscored public source remains in this packet.
 
 ## Kill attempts
 
 | kill | result | missing |
 |---|---|---|
 | `technical_confound` | `survives_current_frozen_evidence` | guide-level off-target audit would strengthen this kill |
-| `essentiality_or_proliferation_artifact` | `not_cleared` | DepMap dependency score |
-| `batch_or_dataset_specificity` | `not_cleared` | additional comparable primary T-cell screen |
+| `essentiality_or_proliferation_artifact` | `survives_current_frozen_evidence` | none |
+| `batch_or_dataset_specificity` | `not_cleared` | activation-transcriptome or activation-marker primary T-cell screen |
 | `alternative_mechanism` | `survives_current_frozen_evidence` | direct substrate-level assay remains wet-lab work |
 
 Mechanism: PGGT1B encodes the beta subunit of geranylgeranyl transferase I. The current hypothesis is that perturbing this enzyme changes stimulated CD4+ activation by altering prenylation-dependent small-GTPase and immune-synapse traffic.
