@@ -26,6 +26,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python tests/test_marson.py",
         "python examples/receipt_bridge_client.py --json",
         "python examples/openresearch_receipt_client.py --json",
+        "./prospect writeback --check",
     ]:
         assert command in packet["verification_commands"]
 
@@ -37,6 +38,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/PROTOCOL.md",
         "docs/RECEIPT_BRIDGE.md",
         "docs/RECEIPT_SCHEMA.md",
+        "docs/LAB_WRITEBACK_RECEIPT.md",
         "docs/JUDGE_HANDOUT.md",
     ]:
         assert path in packet["source_docs"]
@@ -55,6 +57,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/agent_campaign.json",
         "/data/disease_genetics_overlay.json",
         "/data/lab_packet.json",
+        "/data/lab_writeback_receipt.json",
     ]
 
     assert packet["public_artifacts"] == expected

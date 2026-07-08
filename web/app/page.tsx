@@ -17,6 +17,8 @@ const LIVE_CLAIM_RAIL_TITLE = "Follow one claim";
 const CROSS_DOMAIN_BENCHMARK_TITLE = "Two domains, one trust boundary";
 const CROSS_DOMAIN_BENCHMARK_RANGE = "48-79%";
 const OPENRESEARCH_AUDIT_NAME = "Adversarial falsification audit: 19 of 24 verification claims fail";
+const CONTRADICTION_AS_PROPOSAL_TITLE = "Contradiction as proposal";
+const CONTRADICTION_NEVER_OVERWRITE = "never_overwrite";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -108,6 +110,35 @@ type LabPacket = {
     strongest_condition: string; rest_de: number; k562_de: number | null; rpe1_de: number | null;
     known_regulon_targets: number; score: number; evidence: string[];
   }[];
+};
+type LabWritebackReceipt = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutation: string;
+  receipt_kind: string;
+  return_shape_required: string[];
+  return_receipts: {
+    outcome: string;
+    typed_status: string;
+    accepted: boolean;
+    claim: string;
+    executed_protocol: { protocol: string; intervention: string; sample: string; conditions: string[] };
+    assay_readout: { summary: string; required_measurements: string[]; result_payload: string };
+    affected_claims: { receipt_id: string; gene: string; prior_status: string; prior_claim: string }[];
+    reviewer_signature: { required: boolean; present: boolean; signer_role: string; signature_field: string };
+    state_diff: { accepted: boolean; model_can_apply: boolean; delta_id: string; effect: string; target: string };
+    next: string;
+  }[];
+  contradiction_rule: {
+    title: string;
+    accepted_claim_mutation: string;
+    new_object: string;
+    required_status: string;
+    accepted: boolean;
+    next: string;
+    rule: string;
+  };
 };
 type DiseaseGeneticsOverlay = {
   title: string;
@@ -211,6 +242,7 @@ type Data = {
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
   agent_campaign?: AgentCampaign | null;
   lab_packet?: LabPacket | null;
+  lab_writeback_receipt?: LabWritebackReceipt | null;
   disease_genetics_overlay?: DiseaseGeneticsOverlay | null;
   live_claim_rail?: LiveClaimRail | null;
   cross_domain_benchmark?: CrossDomainBenchmark | null;
@@ -983,6 +1015,8 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <Receipts receipts={d.receipts} bridge={d.receipt_bridge} externalDemo={d.external_run_receipt_demo} />
       )}
 
+      {d.lab_writeback_receipt && <LabWritebackCard packet={d.lab_writeback_receipt} />}
+
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions, where AI claims meet the data</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -1309,6 +1343,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
+      {d.lab_writeback_receipt && <LabWritebackCard packet={d.lab_writeback_receipt} />}
+
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -1507,6 +1543,53 @@ function LabPacketCard({ packet, onGene }: { packet: LabPacket; onGene: (g: stri
           </span>
         ))}. Trust boundary: {packet.trust_boundary.replace(/_/g, " ")}.
       </p>
+    </div>
+  );
+}
+
+function LabWritebackCard({ packet }: { packet: LabWritebackReceipt }) {
+  const contradictionTitle = packet.contradiction_rule.title || CONTRADICTION_AS_PROPOSAL_TITLE;
+  const mutationRule = packet.contradiction_rule.accepted_claim_mutation || CONTRADICTION_NEVER_OVERWRITE;
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>{packet.title}</div>
+          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
+            A bench result returns as the same receipt shape whether it confirms or refutes. It carries
+            executed_protocol, assay_readout, affected_claims, reviewer_signature, and state_diff, then
+            waits at accepted=false.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/lab_writeback_receipt.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 8 }}>
+          {packet.return_receipts.map((receipt) => (
+            <div key={receipt.outcome} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)",
+              borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 5 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <span className="t-label">{receipt.outcome}</span>
+                <span className="chip" style={{ ["--tone" as any]: receipt.typed_status === "contradicted" ? "var(--cinnabar)" : "var(--field-blue)" }}>
+                  {receipt.typed_status.replace(/_/g, " ")}
+                </span>
+              </div>
+              <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>{receipt.assay_readout.summary}</p>
+              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+                affected {receipt.affected_claims[0].receipt_id} · accepted={String(receipt.accepted)} · next={receipt.next}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
+          <div className="t-label">{contradictionTitle}</div>
+          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+            {mutationRule}: {packet.contradiction_rule.rule}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

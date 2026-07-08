@@ -85,6 +85,10 @@ leaderboard without moving any association into accepted state.
 controls, readouts, exclusion criteria, and public replay links. Every row remains proposal only,
 ready for a wet lab to run and report back.
 
+`prospect writeback` specifies the receipt that returns from that lab run: executed protocol, assay
+readout, affected claims, reviewer signature, and state diff. A confirming or refuting result uses
+the same shape. A contradiction is a new proposal, never a silent overwrite.
+
 `prospect findings-index` builds a scannable index of the signed findings, and `prospect
 judge-handout` emits a one-page handout with the live URL, signed root, five-minute path, trust
 boundary, artifacts to open, and the actions that stay human-only.
@@ -101,6 +105,7 @@ Current public artifacts:
 - `/data/agent_campaign.json`
 - `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
+- `/data/lab_writeback_receipt.json`
 
 ## Run it
 
@@ -117,6 +122,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect disease-overlay        # attach frozen Open Targets disease context to the leaderboard
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
+./prospect writeback              # build the lab return receipt shape
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-handout          # build the one-page judge handout
 ./prospect submit-pack            # print the copy-safe submission packet

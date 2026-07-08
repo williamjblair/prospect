@@ -34,6 +34,19 @@ transition.
 - `state_diff`: the proposed effect on state. A model can never apply it.
 - `accepted`: boolean acceptance marker.
 
+## Lab writeback fields
+
+Lab results use the same receipt shape whether they confirm or refute a proposal. A lab writeback
+receipt adds:
+
+- `executed_protocol`: protocol, intervention, sample, conditions, and controls actually run.
+- `assay_readout`: assay summary, required measurements, and result payload reference.
+- `affected_claims`: receipts or accepted claims that the lab result bears on.
+- `reviewer_signature`: human reviewer signature field for the returned receipt.
+
+The return receipt is still `accepted=false` until review and a human state-signing step. A
+refuting lab result uses status `contradicted` and enters as a new receipt proposal.
+
 ## State diff
 
 `state_diff` must include:

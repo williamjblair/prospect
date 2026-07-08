@@ -20,6 +20,7 @@ SOURCE_DOCS = [
     "docs/PROTOCOL.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RECEIPT_SCHEMA.md",
+    "docs/LAB_WRITEBACK_RECEIPT.md",
     "docs/JUDGE_HANDOUT.md",
 ]
 
@@ -30,6 +31,7 @@ VERIFICATION_COMMANDS = [
     "python tests/test_marson.py",
     "python examples/receipt_bridge_client.py --json",
     "python examples/openresearch_receipt_client.py --json",
+    "./prospect writeback --check",
 ]
 
 PUBLIC_ARTIFACTS = [
@@ -43,6 +45,7 @@ PUBLIC_ARTIFACTS = [
     "/data/agent_campaign.json",
     "/data/disease_genetics_overlay.json",
     "/data/lab_packet.json",
+    "/data/lab_writeback_receipt.json",
 ]
 
 

@@ -197,6 +197,29 @@
       },
       "additionalProperties": true
     },
+    "executed_protocol": {
+      "type": "object",
+      "description": "Protocol, intervention, sample, conditions, and controls run by a lab producer.",
+      "additionalProperties": true
+    },
+    "assay_readout": {
+      "type": "object",
+      "description": "Assay summary, required measurements, and result payload reference.",
+      "additionalProperties": true
+    },
+    "affected_claims": {
+      "type": "array",
+      "description": "Receipts or accepted claims affected by this return receipt.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "reviewer_signature": {
+      "type": "object",
+      "description": "Human reviewer signature field for a returned lab receipt.",
+      "additionalProperties": true
+    },
     "acceptance": {
       "anyOf": [
         {

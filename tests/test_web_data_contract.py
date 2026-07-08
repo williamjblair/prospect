@@ -19,6 +19,7 @@ KEPT_PACKET_KEYS = [
     "external_run_receipt_demo",
     "live_claim_rail",
     "cross_domain_benchmark",
+    "lab_writeback_receipt",
 ]
 
 CUT_PACKET_KEYS = [

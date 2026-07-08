@@ -21,7 +21,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
-- 10 public data artifacts
+- 11 public data artifacts
 
 ## Trust boundary
 
@@ -52,6 +52,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/agent_campaign.json`
 - `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
+- `/data/lab_writeback_receipt.json`
 
 ## Replay commands
 
