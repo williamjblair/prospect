@@ -250,36 +250,53 @@ type CrossValidationPacket = {
   counts: {
     candidates_with_external_screen_hit: number;
     candidates_with_schmidt_non_hit: number;
+    candidates_with_schmidt_orthogonal_phenotype: number;
+    candidates_with_comparable_external_contradiction: number;
     candidates_with_string_network: number;
     candidates_with_dice_cd4_expression: number;
   };
   candidates: {
     gene: string;
+    rank: number;
     tier: string;
-    external_screen_summary: { supporting_hits: string[]; contradictions: string[] };
+    marson_stim_max_de: number;
+    external_screen_summary: { supporting_hits: string[]; orthogonal_phenotypes: string[]; contradictions: string[]; non_hits: string[] };
     dice_expression: { activated_cd4_mean_tpm: number };
     string_network: { top_partners: string[] };
     disease_context: string;
+    open_targets: { overlay_class: string };
   }[];
+  readout_comparability: Record<string, { typed_status: string; marson_readout: string; schmidt_readout: string; interpretation: string }>;
 };
 type FlagshipModulePacket = {
   phase: string;
   status: string;
   packet_id: string;
   reproduce_command: string;
-  flagship_module: {
-    module_id: string;
-    anchor_gene: string;
-    members: string[];
+  selection_rationale: string;
+  flagship_hypothesis: {
+    gene: string;
+    rank: number;
     status: string;
-    score: number;
+    support_level: string;
+    schmidt_status: string;
     claim: string;
-    screen_supported_members: string[];
-    contradicting_screen: string;
+    caveats: string[];
     evidence_ladder: { rung: string; status: string; detail: string }[];
     refutation_experiment: { system: string; perturbations: string[]; readout: string; refutes_if: string };
+    why_not_accepted: string;
   };
-  modules: { rank: number; module_id: string; members: string[]; score: number; screen_supported_members: string[] }[];
+  supported_alternatives: {
+    gene: string;
+    rank: number;
+    tier: string;
+    marson_stim_max_de: number;
+    supporting_hits: string[];
+    schmidt_status: string;
+    string_partners: string[];
+    disease_context: string;
+    why_not_flagship: string;
+  }[];
 };
 type OverclaimCounterPacket = {
   phase: string;
@@ -294,9 +311,12 @@ type OverclaimCounterPacket = {
     phase1_refused_total: number;
     phase2_without_external_screen_hit: number;
     phase2_schmidt_non_hits: number;
+    phase2_schmidt_orthogonal_phenotypes: number;
+    phase2_comparable_external_contradictions: number;
+    flagship_hypotheses: number;
   };
-  rungs: { rung: string; status: string; source: string; contradicted?: number; refused?: number; no_supporting_screen_hit?: number; non_flagship_modules?: number }[];
-  flagship_boundary: { module_id: string; accepted_state: string; next_acceptance_step: string };
+  rungs: { rung: string; status: string; source: string; contradicted?: number; refused?: number; no_supporting_screen_hit?: number; supported_alternatives?: number }[];
+  flagship_boundary: { gene: string; claim_kind: string; accepted_state: string; next_acceptance_step: string };
 };
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
@@ -466,7 +486,7 @@ export default function Page() {
             </div>
           ) : (
             <>
-              {tab === "overview" && <Overview d={d} setTab={setTab} />}
+              {tab === "overview" && <Overview d={d} setTab={setTab} onGene={setGene} />}
               {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
               {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
@@ -489,7 +509,7 @@ const DEMO_PATH: { label: string; tab?: string }[] = [
   { label: "Agent: the campaign leaderboard, PGGT1B, the disease-genetics overlay, and the wet-lab packet.", tab: "agent" },
 ];
 
-function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
+function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => void; onGene: (g: string) => void }) {
   const p = d.phantom, dist = d.stats.dist;
   const order = ["constitutive_regulator", "condition_specific_regulator", "reproduced_non_regulator", "unverifiable_no_kd"];
   const demoClaims = [...d.demo].sort((a, b) => {
@@ -508,6 +528,8 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
           you see only what the data holds.
         </p>
       </header>
+
+      <DiscoveryCampaignSurface d={d} onGene={onGene} />
 
       {rate != null && (
         <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
@@ -888,6 +910,7 @@ const RCPT_STATUS: Record<string, [string, string]> = {
   evidence_attached: ["var(--brass)", "evidence attached"],
   contradicted: ["var(--cinnabar)", "contradicted"],
   refuted: ["var(--cinnabar)", "refuted"],
+  orthogonal_phenotype: ["var(--field-blue)", "orthogonal phenotype"],
   claimed: ["var(--stone)", "claimed"],
 };
 const BOUNDARY = ["Activity", "Receipt", "Proposal", "Review", "Verification", "Accepted", "State"];
@@ -1422,8 +1445,6 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       )}
 
-      <DiscoveryCampaignSurface d={d} onGene={onGene} />
-
       {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
 
       {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
@@ -1460,11 +1481,12 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
   const flagship = d.flagship_module;
   const counter = d.overclaim_counter;
   if (!discovery || !cross || !flagship || !counter) return null;
-  const flagshipModuleId = "prenylation_small_gtpase_trafficking";
   const evidenceStatus = "evidence_attached";
   const reproducedStatus = "computationally_reproduced";
-  const f = flagship.flagship_module;
+  const hypothesis = flagship.flagship_hypothesis;
   const pg = cross.candidates.find((row) => row.gene === "PGGT1B");
+  const supportRows = cross.candidates.slice(0, 18);
+  const schmidt = cross.readout_comparability.schmidt_2022_2427;
   const commands = [
     ["Phase 1", discovery.reproduce_command || "./prospect discovery-campaign"],
     ["Phase 2", cross.reproduce_command || "./prospect cross-validation"],
@@ -1481,12 +1503,12 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
     <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 16, borderColor: "var(--gold-line)" }}>
       <div style={{ display: "flex", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
         <div style={{ minWidth: 0 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Flagship discovery campaign</div>
-          <h3 className="h2-app" style={{ margin: 0 }}>PGGT1B prenylation and trafficking module</h3>
+          <div className="t-label" style={{ marginBottom: 5 }}>Honest discovery campaign</div>
+          <h3 className="h2-app" style={{ margin: 0 }}>The discovery is the refusal</h3>
           <p className="t-body-sm" style={{ maxWidth: "78ch", margin: "8px 0 0" }}>
-            One hypothesis carried through the ladder: whole-frontier novelty filter, independent public
-            T-cell screens, STRING, DICE, Open Targets, mechanistic module selection, and overclaim refusal.
-            The ceiling remains {counter.counts ? "released-data computation" : "proposal evidence"}, not wet-lab or clinical truth.
+            Claim A: 11,526 genes entered the funnel, 18 survived the novelty and specificity filters,
+            and 4 had independent screen support. The system kept all of that proposal-only and refused the rest.
+            Claim B: PGGT1B is one caveated hypothesis, not a module.
           </p>
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginLeft: "auto" }}>
@@ -1501,8 +1523,9 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
         {[
           [fmt(discovery.filter_counts.frontier_genes), "frontier genes scanned", "var(--ink)"],
-          [fmt(discovery.filter_counts.cell_type_specific_replogle), "Phase 1 survivors", "var(--brass)"],
-          [fmt(cross.counts.candidates_with_external_screen_hit), "independent screen hits", "var(--moss)"],
+          [fmt(discovery.filter_counts.cell_type_specific_replogle), "novelty survivors", "var(--brass)"],
+          [fmt(cross.counts.candidates_with_external_screen_hit), "with independent support", "var(--moss)"],
+          [fmt(counter.counts.phase1_refused_total), "genes refused by filters", "var(--cinnabar)"],
           [fmt(counter.counts.model_contradicted_claims), "model claims contradicted", "var(--cinnabar)"],
         ].map(([value, label, color]) => (
           <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
@@ -1516,22 +1539,23 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
         <div style={{ display: "grid", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{evidenceStatus}</span>
-            <span className="t-mono fz-sm">{flagshipModuleId}</span>
-            <span className="t-mono fz-sm" style={{ color: "var(--ink-3)" }}>score {f.score}</span>
+            <button onClick={() => onGene(hypothesis.gene)} className="t-mono fz-sm" style={{ color: "var(--ink)", background: "transparent", fontWeight: 700 }}>
+              {hypothesis.gene}
+            </button>
+            <span className="t-mono fz-sm" style={{ color: "var(--ink-3)" }}>{hypothesis.support_level}</span>
           </div>
-          <p className="t-lede" style={{ fontSize: "1.02rem", margin: 0 }}>{f.claim}</p>
+          <p className="t-lede" style={{ fontSize: "1.02rem", margin: 0 }}>{hypothesis.claim}</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {f.members.map((gene) => (
-              <button key={gene} onClick={() => onGene(gene)} className="chip" style={{ ["--tone" as any]: f.screen_supported_members.includes(gene) ? "var(--moss)" : "var(--field-blue)" }}>
-                {gene}
-              </button>
-            ))}
+            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>rank 1</span>
+            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>Shifrut support</span>
+            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>{hypothesis.schmidt_status.replace(/_/g, " ")}</span>
+            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>proposal only</span>
           </div>
           <div style={{ display: "grid", gap: 5 }}>
-            {f.evidence_ladder.map((step) => (
+            {hypothesis.evidence_ladder.map((step) => (
               <div key={step.rung} className="t-caption" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "baseline" }}>
                 <span className="t-mono" style={{ color: "var(--ink-3)" }}>{step.rung}</span>
-                <span className="chip" style={{ ["--tone" as any]: step.status === "contradicted" ? "var(--cinnabar)" : step.status === reproducedStatus ? "var(--moss)" : "var(--brass)" }}>
+                <span className="chip" style={{ ["--tone" as any]: step.status === "contradicted" ? "var(--cinnabar)" : step.status === reproducedStatus ? "var(--moss)" : step.status === "orthogonal_phenotype" ? "var(--field-blue)" : "var(--brass)" }}>
                   {step.status}
                 </span>
                 <span>{step.detail}</span>
@@ -1545,7 +1569,8 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
             <div className="t-label" style={{ marginBottom: 5 }}>Cross-dataset read</div>
             <p className="t-caption" style={{ margin: 0 }}>
               PGGT1B support: {pg?.external_screen_summary.supporting_hits.join(", ") || "none"}.
-              Contradiction retained: {f.contradicting_screen}. DICE activated CD4 mean TPM: {pg?.dice_expression.activated_cd4_mean_tpm ?? "n/a"}.
+              Schmidt status: {pg?.external_screen_summary.orthogonal_phenotypes.join(", ") || "none"}.
+              DICE activated CD4 mean TPM: {pg?.dice_expression.activated_cd4_mean_tpm ?? "n/a"}.
             </p>
             <p className="t-caption" style={{ margin: "6px 0 0" }}>
               STRING partners: {pg?.string_network.top_partners.slice(0, 5).join(", ") || "none"}.
@@ -1555,15 +1580,59 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
             <div className="t-label" style={{ marginBottom: 5 }}>What the gate refused</div>
             <p className="t-caption" style={{ margin: 0 }}>
               {fmt(counter.counts.phase1_refused_total)} Phase 1 genes refused; {counter.counts.phase2_without_external_screen_hit} of {discovery.filter_counts.cell_type_specific_replogle}
-              {" "}survivors lacked independent screen support; {counter.counts.phase2_schmidt_non_hits} had Schmidt non-hit rows.
+              {" "}survivors lacked independent screen support; {counter.counts.phase2_schmidt_orthogonal_phenotypes} Schmidt rows are orthogonal phenotype, not comparable contradiction.
             </p>
           </div>
           <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
             <div className="t-label" style={{ marginBottom: 5 }}>Refutation experiment</div>
             <p className="t-caption" style={{ margin: 0 }}>
-              {f.refutation_experiment.readout}. Refutes if {f.refutation_experiment.refutes_if}.
+              {hypothesis.refutation_experiment.readout}. Refutes if {hypothesis.refutation_experiment.refutes_if}.
             </p>
           </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+        <div className="t-label" style={{ marginBottom: 5 }}>Schmidt comparator</div>
+        <p className="t-caption" style={{ margin: 0 }}>
+          {schmidt.schmidt_readout} The Marson replay measures {schmidt.marson_readout.toLowerCase()}.
+          Typed status: {schmidt.typed_status}.
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gap: 8 }}>
+        <div className="t-label">Per-candidate support table</div>
+        <div style={{ overflowX: "auto", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)" }}>
+          <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
+            <thead>
+              <tr className="t-label">
+                {["gene", "rank", "Marson", "Shifrut", "Schmidt", "STRING", "DICE", "Open Targets"].map((h) => (
+                  <th key={h} style={{ textAlign: "left", padding: "8px 10px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="t-caption">
+              {supportRows.map((row) => {
+                const shifrut = row.external_screen_summary.supporting_hits.length ? "evidence_attached" : "missed";
+                const schmidtStatus = row.external_screen_summary.orthogonal_phenotypes.includes("schmidt_2022_2427")
+                  ? "orthogonal_phenotype" : row.external_screen_summary.contradictions.length ? "contradicted" : "not attached";
+                return (
+                  <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                    <td style={{ padding: "7px 10px" }}>
+                      <button onClick={() => onGene(row.gene)} className="t-mono" style={{ background: "transparent", color: "var(--ink)", fontWeight: 700 }}>{row.gene}</button>
+                    </td>
+                    <td style={{ padding: "7px 10px" }}>{row.rank}</td>
+                    <td style={{ padding: "7px 10px" }}>{row.marson_stim_max_de} DE</td>
+                    <td style={{ padding: "7px 10px" }}>{shifrut}</td>
+                    <td style={{ padding: "7px 10px" }}>{schmidtStatus}</td>
+                    <td style={{ padding: "7px 10px" }}>{row.string_network.top_partners.length ? "evidence_attached" : "missed"}</td>
+                    <td style={{ padding: "7px 10px" }}>{row.dice_expression.activated_cd4_mean_tpm ?? "n/a"}</td>
+                    <td style={{ padding: "7px 10px" }}>{row.open_targets.overlay_class}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -1578,7 +1647,7 @@ function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) 
           ))}
         </div>
         <p className="t-caption" style={{ margin: 0 }}>
-          Boundary: {counter.flagship_boundary.accepted_state} accepted state. Next acceptance step: {counter.flagship_boundary.next_acceptance_step}.
+          Boundary: {counter.flagship_boundary.accepted_state} accepted state for {counter.flagship_boundary.gene}. Next acceptance step: {counter.flagship_boundary.next_acceptance_step}.
         </p>
       </div>
     </section>

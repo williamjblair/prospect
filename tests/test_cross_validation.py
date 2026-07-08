@@ -21,11 +21,17 @@ def test_cross_validation_attaches_independent_evidence_to_all_survivors():
     assert packet["candidate_count"] == 18
     assert packet["counts"]["candidates_with_external_screen_hit"] == 4
     assert packet["counts"]["candidates_with_schmidt_non_hit"] == 18
+    assert packet["counts"]["candidates_with_schmidt_orthogonal_phenotype"] == 18
+    assert packet["counts"]["candidates_with_comparable_external_contradiction"] == 0
     assert packet["counts"]["candidates_with_string_network"] >= 15
     assert packet["counts"]["candidates_with_dice_cd4_expression"] == 18
     assert packet["counts"]["candidates_with_open_targets_context"] == 18
     assert packet["source_bundle_id"].startswith("external_sources_")
     assert packet["packet_id"].startswith("cross_validation_")
+    schmidt = packet["readout_comparability"]["schmidt_2022_2427"]
+    assert schmidt["typed_status"] == "orthogonal_phenotype"
+    assert "cytokine production" in schmidt["schmidt_readout"].lower()
+    assert "activation transcriptome" in schmidt["marson_readout"].lower()
 
 
 def test_cross_validation_keeps_pggt1b_strong_but_honest():
@@ -36,20 +42,22 @@ def test_cross_validation_keeps_pggt1b_strong_but_honest():
     assert pg["tier"] == "screen_hit_plus_context"
     assert pg["status"] == "evidence_attached"
     assert pg["external_screen_summary"]["supporting_hits"] == ["shifrut_2018_1107"]
-    assert pg["external_screen_summary"]["contradictions"] == ["schmidt_2022_2427"]
+    assert pg["external_screen_summary"]["orthogonal_phenotypes"] == ["schmidt_2022_2427"]
+    assert pg["external_screen_summary"]["contradictions"] == []
     assert pg["string_network"]["top_partners"][:3] == ["FNTA", "HEYL", "RABGGTA"]
     assert pg["dice_expression"]["activated_cd4_mean_tpm"] == 16.101
     assert pg["open_targets"]["overlay_class"] == "immune_or_hematologic_non_genetic_context"
     assert "not wet-lab" in pg["why_not_accepted"]
 
 
-def test_cross_validation_preserves_contradictions_for_non_replicating_rows():
+def test_cross_validation_retypes_schmidt_non_hits_as_orthogonal_phenotype():
     packet = build_cross_validation()
     rows = {row["gene"]: row for row in packet["candidates"]}
 
     assert rows["RCC1L"]["tier"] == "context_only"
     assert rows["RCC1L"]["external_screen_summary"]["supporting_hits"] == []
-    assert "schmidt_2022_2427" in rows["RCC1L"]["external_screen_summary"]["contradictions"]
+    assert rows["RCC1L"]["external_screen_summary"]["contradictions"] == []
+    assert "schmidt_2022_2427" in rows["RCC1L"]["external_screen_summary"]["orthogonal_phenotypes"]
     assert rows["LETM2"]["external_screen_summary"]["supporting_hits"] == ["shifrut_2018_1109"]
     assert rows["CCDC22"]["external_screen_summary"]["supporting_hits"] == ["shifrut_2018_1107"]
     assert rows["TNNC1"]["external_screen_summary"]["supporting_hits"] == ["shifrut_2018_1107"]
@@ -91,7 +99,7 @@ def test_cross_validation_runs_from_cli():
 if __name__ == "__main__":
     test_cross_validation_attaches_independent_evidence_to_all_survivors()
     test_cross_validation_keeps_pggt1b_strong_but_honest()
-    test_cross_validation_preserves_contradictions_for_non_replicating_rows()
+    test_cross_validation_retypes_schmidt_non_hits_as_orthogonal_phenotype()
     test_cross_validation_writes_json_csv_and_markdown(Path("/tmp/prospect-cross-validation-test"))
     test_cross_validation_runs_from_cli()
     print("PASS: cross-validation")

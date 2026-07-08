@@ -1,4 +1,4 @@
-"""Build the Phase 3 flagship mechanistic module packet."""
+"""Build the Phase 3 flagship PGGT1B hypothesis packet."""
 from __future__ import annotations
 
 import hashlib
@@ -15,36 +15,7 @@ CROSS_VALIDATION_JSON = DATA / "cross_validation.json"
 OUT_JSON = DATA / "flagship_module.json"
 OUT_DOC = ROOT / "docs" / "FLAGSHIP_FINDING.md"
 
-MODULES = [
-    {
-        "module_id": "prenylation_small_gtpase_trafficking",
-        "name": "Prenylation and trafficking control of activation",
-        "anchor_gene": "PGGT1B",
-        "members": ["PGGT1B", "CCDC22", "SNAP29", "MITD1"],
-        "mechanism": (
-            "A proposal that stimulated CD4+ activation depends on prenylation-linked small-GTPase "
-            "signaling and endosomal trafficking logistics."
-        ),
-    },
-    {
-        "module_id": "mitochondrial_metabolic_activation",
-        "name": "Mitochondrial metabolic activation",
-        "anchor_gene": "MCAT",
-        "members": ["RCC1L", "MCAT", "SCO2", "BCKDHA"],
-        "mechanism": (
-            "A proposal that metabolic and mitochondrial support constrains the stimulated activation program."
-        ),
-    },
-    {
-        "module_id": "rna_decay_and_effector_context",
-        "name": "RNA decay and effector context",
-        "anchor_gene": "ZC3H12A",
-        "members": ["DAPK2", "GZMB", "ZC3H12A", "TNNC1"],
-        "mechanism": (
-            "A proposal that late activation, RNA decay, and effector-state genes mark a second follow-up lane."
-        ),
-    },
-]
+SUPPORTED_ALTERNATIVES = ["CCDC22", "LETM2", "TNNC1"]
 
 
 def _load(path: Path) -> Any:
@@ -58,91 +29,134 @@ def _packet_id(packet: dict[str, Any]) -> str:
     return f"flagship_{digest[:16]}"
 
 
-def _score(member_rows: list[dict[str, Any]]) -> float:
-    screen_bonus = 80 * sum(1 for row in member_rows if row["external_screen_summary"]["supporting_hits"])
-    network_bonus = 10 * sum(1 for row in member_rows if row["string_network"]["top_partners"])
-    marson_component = sum(row["marson_stim_max_de"] for row in member_rows) / 100
-    contradiction_penalty = 5 * sum(1 for row in member_rows if row["external_screen_summary"]["contradictions"])
-    return round(screen_bonus + network_bonus + marson_component - contradiction_penalty, 2)
+def _screen_hit_detail(row: dict[str, Any]) -> str:
+    hits = row["external_screen_summary"]["supporting_hits"]
+    return ", ".join(hits) if hits else "no independent screen-hit row"
 
 
-def _module_row(defn: dict[str, Any], rows_by_gene: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    member_rows = [rows_by_gene[gene] for gene in defn["members"]]
-    screen_supported = [
-        row["gene"]
-        for row in member_rows
-        if row["external_screen_summary"]["supporting_hits"]
-    ]
-    module = {
-        "module_id": defn["module_id"],
-        "name": defn["name"],
-        "anchor_gene": defn["anchor_gene"],
-        "members": defn["members"],
-        "status": "evidence_attached",
-        "trust_boundary": "proposal_only",
-        "mechanism": defn["mechanism"],
-        "score": _score(member_rows),
-        "screen_supported_members": screen_supported,
-        "contradicting_screen": "schmidt_2022_2427",
-        "member_evidence": member_rows,
+def _schmidt_status(row: dict[str, Any]) -> str:
+    if "schmidt_2022_2427" in row["external_screen_summary"].get("orthogonal_phenotypes", []):
+        return "orthogonal_phenotype"
+    if "schmidt_2022_2427" in row["external_screen_summary"].get("contradictions", []):
+        return "contradicted"
+    return "evidence_attached"
+
+
+def _alternative(row: dict[str, Any]) -> dict[str, Any]:
+    reasons = {
+        "CCDC22": (
+            "Independent Shifrut support and genetic disease context remain visible, but PGGT1B is "
+            "rank-1 in the novelty funnel and has the strongest direct prenylation hook."
+        ),
+        "LETM2": (
+            "Independent Shifrut support remains visible, but its mechanism is less directly tied to "
+            "small-GTPase prenylation and immune-synapse traffic."
+        ),
+        "TNNC1": (
+            "Independent Shifrut support remains visible, but the current packet lacks a stronger "
+            "T-cell-specific mechanistic bridge than PGGT1B."
+        ),
     }
-    return module
+    return {
+        "gene": row["gene"],
+        "rank": row["rank"],
+        "tier": row["tier"],
+        "marson_stim_max_de": row["marson_stim_max_de"],
+        "supporting_hits": row["external_screen_summary"]["supporting_hits"],
+        "schmidt_status": _schmidt_status(row),
+        "string_partners": row["string_network"]["top_partners"][:5],
+        "disease_context": row["disease_context"],
+        "why_not_flagship": reasons[row["gene"]],
+    }
 
 
 def build_flagship_module() -> dict[str, Any]:
     cross_validation = _load(CROSS_VALIDATION_JSON)
     rows_by_gene = {row["gene"]: row for row in cross_validation["candidates"]}
-    modules = [_module_row(defn, rows_by_gene) for defn in MODULES]
-    modules.sort(key=lambda row: (-row["score"], row["module_id"]))
-    for rank, module in enumerate(modules, 1):
-        module["rank"] = rank
-    flagship = modules[0]
-    flagship["claim"] = (
-        "Hypothesis: a prenylation and small-GTPase-trafficking module anchored on PGGT1B "
-        "modulates stimulated human CD4+ T-cell activation."
-    )
-    flagship["evidence_ladder"] = [
-        {
-            "rung": "marson_frontier",
-            "status": "computationally_reproduced",
-            "detail": "PGGT1B has 3,014 stimulated DE genes and CCDC22 has 619 in the frozen frontier.",
+    pg = rows_by_gene["PGGT1B"]
+    schmidt = cross_validation["readout_comparability"]["schmidt_2022_2427"]
+    partners = pg["string_network"]["top_partners"]
+    hypothesis = {
+        "gene": "PGGT1B",
+        "rank": pg["rank"],
+        "status": "evidence_attached",
+        "accepted": False,
+        "trust_boundary": "proposal_only",
+        "support_level": "rank_1_screen_supported_hypothesis",
+        "schmidt_status": _schmidt_status(pg),
+        "claim": (
+            "Hypothesis: PGGT1B modulates the stimulated primary human CD4+ T-cell activation "
+            "transcriptome through geranylgeranylation of small-GTPase signaling that supports "
+            "immune-synapse traffic."
+        ),
+        "candidate_evidence": pg,
+        "evidence_ladder": [
+            {
+                "rung": "novelty_funnel",
+                "status": "evidence_attached",
+                "detail": "Rank 1 among 18 novelty survivors after scanning 11,526 frontier genes.",
+            },
+            {
+                "rung": "marson_frontier",
+                "status": "computationally_reproduced",
+                "detail": f"{pg['marson_stim_max_de']} stimulated DE genes in the frozen Marson replay.",
+            },
+            {
+                "rung": "replogle_specificity",
+                "status": "evidence_attached",
+                "detail": "T-cell activation signal stays inert in the Replogle K562/RPE1 transfer screen.",
+            },
+            {
+                "rung": "shifrut_primary_t_cell_screen",
+                "status": "evidence_attached",
+                "detail": _screen_hit_detail(pg),
+            },
+            {
+                "rung": "schmidt_cytokine_screen",
+                "status": "orthogonal_phenotype",
+                "detail": schmidt["interpretation"],
+            },
+            {
+                "rung": "protein_prenylation_context",
+                "status": "evidence_attached",
+                "detail": (
+                    "STRING attaches PGGT1B to prenylation and small-GTPase partners: "
+                    f"{', '.join(partners[:10])}."
+                ),
+            },
+            {
+                "rung": "immune_expression",
+                "status": "evidence_attached",
+                "detail": f"DICE activated CD4 mean TPM {pg['dice_expression']['activated_cd4_mean_tpm']}.",
+            },
+            {
+                "rung": "disease_genetics",
+                "status": "evidence_attached",
+                "detail": pg["open_targets"]["overlay_class"],
+            },
+        ],
+        "caveats": [
+            "Single-lab-derived Marson replay, not wet-lab or clinical truth.",
+            "Schmidt 2022 is an orthogonal cytokine-production phenotype, not a comparable contradiction.",
+            "External context proposes mechanism and assay priority, but does not accept state.",
+        ],
+        "refutation_experiment": {
+            "system": "stimulated primary human CD4+ T cells",
+            "perturbations": ["PGGT1B"],
+            "readout": "CRISPRi followed by activation-marker flow cytometry and targeted RNA-seq at 8h and 48h",
+            "refutes_if": (
+                "orthogonal PGGT1B knockdown produces no reproducible activation-program shift, "
+                "or the shift is equally strong at Rest and in non-immune controls"
+            ),
         },
-        {
-            "rung": "independent_primary_t_cell_screen",
-            "status": "evidence_attached",
-            "detail": "PGGT1B and CCDC22 are hits in Shifrut 2018 screen 1107.",
-        },
-        {
-            "rung": "contradiction",
-            "status": "contradicted",
-            "detail": "All four members are non-hits in Schmidt 2022 screen 2427.",
-        },
-        {
-            "rung": "network_coherence",
-            "status": "evidence_attached",
-            "detail": "STRING neighborhoods connect PGGT1B to prenylation and small-GTPase partners and the other members to trafficking complexes.",
-        },
-        {
-            "rung": "immune_expression",
-            "status": "evidence_attached",
-            "detail": "All four members have DICE activated CD4 expression rows.",
-        },
-    ]
-    flagship["refutation_experiment"] = {
-        "system": "stimulated primary human CD4+ T cells",
-        "perturbations": flagship["members"],
-        "readout": "CRISPRi followed by activation-marker flow cytometry and targeted RNA-seq at 8h and 48h",
-        "refutes_if": (
-            "orthogonal knockdown produces no reproducible activation-program shift for the module, "
-            "or the effect is equally strong at Rest and in non-immune controls"
+        "why_not_accepted": (
+            "This is not wet-lab or clinical truth. It is a proposal supported by released-data computation "
+            "and external context, with a direct refutation experiment."
         ),
     }
-    flagship["why_not_accepted"] = (
-        "This is not wet-lab or clinical truth. It is a proposal supported by released-data computation "
-        "and external context, with a direct refutation experiment."
-    )
+    supported_alternatives = [_alternative(rows_by_gene[gene]) for gene in SUPPORTED_ALTERNATIVES]
     packet = {
-        "phase": "phase_3_flagship_module",
+        "phase": "phase_3_single_gene_hypothesis",
         "title": "Flagship finding",
         "status": "evidence_attached",
         "replayability": "attested",
@@ -154,52 +168,56 @@ def build_flagship_module() -> dict[str, Any]:
             "discovery_campaign": "examples/data/discovery_campaign.json",
             "cross_validation": "examples/data/cross_validation.json",
         },
-        "modules": modules,
-        "flagship_module": flagship,
+        "selection_rationale": (
+            "PGGT1B is selected because it is the rank-1 novelty survivor, has the largest Marson "
+            "activation-transcriptome signal in the candidate set, has Shifrut support, and has a "
+            "direct geranylgeranylation link to small-GTPase traffic. CCDC22, LETM2, and TNNC1 remain "
+            "explicit supported alternatives."
+        ),
+        "flagship_hypothesis": hypothesis,
+        "supported_alternatives": supported_alternatives,
         "reproduce_command": "./prospect flagship-module",
-        "next_phase": "quantify overclaims and refusals caught by the evidence ladder",
+        "next_phase": "measure the refusal funnel and overclaim counter around the single PGGT1B hypothesis",
     }
     packet["packet_id"] = _packet_id(packet)
     return packet
 
 
 def _markdown(packet: dict[str, Any]) -> str:
-    flagship = packet["flagship_module"]
+    hypothesis = packet["flagship_hypothesis"]
     lines = [
         "# Flagship finding",
         "",
-        "Status: `evidence_attached`. Trust boundary: proposal only. No module enters accepted state.",
+        "Status: `evidence_attached`. Trust boundary: proposal only. No hypothesis enters accepted state.",
         "",
         f"Honest ceiling: {packet['honest_ceiling']}.",
         "",
-        f"Claim: {flagship['claim']}",
+        f"Claim: {hypothesis['claim']}",
         "",
-        "## Module",
+        "This is a single PGGT1B hypothesis, not a module claim.",
         "",
-        f"Anchor: {flagship['anchor_gene']}. Members: {', '.join(flagship['members'])}.",
-        "",
-        f"Mechanism: {flagship['mechanism']}",
+        f"Selection rationale: {packet['selection_rationale']}",
         "",
         "## Evidence ladder",
         "",
         "| rung | status | detail |",
         "|---|---|---|",
     ]
-    for rung in flagship["evidence_ladder"]:
+    for rung in hypothesis["evidence_ladder"]:
         lines.append(f"| {rung['rung']} | {rung['status']} | {rung['detail']} |")
     lines += [
         "",
-        "## Competing modules",
+        "## Supported alternatives",
         "",
-        "| rank | module | members | score | screen-supported members |",
-        "|---:|---|---|---:|---|",
+        "| gene | rank | tier | screen support | Schmidt status | why not the flagship |",
+        "|---|---:|---|---|---|---|",
     ]
-    for module in packet["modules"]:
+    for row in packet["supported_alternatives"]:
         lines.append(
-            f"| {module['rank']} | {module['module_id']} | {', '.join(module['members'])} | "
-            f"{module['score']} | {', '.join(module['screen_supported_members'])} |"
+            f"| {row['gene']} | {row['rank']} | {row['tier']} | "
+            f"{', '.join(row['supporting_hits'])} | {row['schmidt_status']} | {row['why_not_flagship']} |"
         )
-    exp = flagship["refutation_experiment"]
+    exp = hypothesis["refutation_experiment"]
     lines += [
         "",
         "## Refutation experiment",
@@ -211,6 +229,12 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"Readout: {exp['readout']}.",
         "",
         f"Refutes if: {exp['refutes_if']}.",
+        "",
+        "## Caveats",
+        "",
+    ]
+    lines += [f"- {caveat}" for caveat in hypothesis["caveats"]]
+    lines += [
         "",
         "Rebuild:",
         "",
@@ -235,7 +259,7 @@ def write_flagship_module(
 
 def main() -> None:
     packet = write_flagship_module()
-    print(f"wrote {OUT_JSON} ({packet['flagship_module']['module_id']})")
+    print(f"wrote {OUT_JSON} ({packet['flagship_hypothesis']['gene']} hypothesis)")
     print(f"wrote {OUT_DOC}")
 
 

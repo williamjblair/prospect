@@ -5,7 +5,7 @@
     "effector_overclaim_rate": 0.6389,
     "effector_overclaimed": 46,
     "effector_total": 72,
-    "flagship_members": 4,
+    "flagship_hypotheses": 1,
     "model_checkable_claims": 96,
     "model_contradicted_claims": 46,
     "model_contradicted_rate": 0.4792,
@@ -13,13 +13,15 @@
     "phase1_frontier_genes": 11526,
     "phase1_refused_total": 11508,
     "phase1_survivors": 18,
+    "phase2_comparable_external_contradictions": 0,
     "phase2_schmidt_non_hits": 18,
+    "phase2_schmidt_orthogonal_phenotypes": 18,
     "phase2_without_external_screen_hit": 14
   },
   "flagship_boundary": {
     "accepted_state": "none",
-    "anchor_gene": "PGGT1B",
-    "module_id": "prenylation_small_gtpase_trafficking",
+    "claim_kind": "single_gene_hypothesis",
+    "gene": "PGGT1B",
     "next_acceptance_step": "human key signs only after a frozen re-derivation and review justify a state transition"
   },
   "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
@@ -82,7 +84,7 @@
     }
   ],
   "next_phase": "surface the flagship and refusal ladder in the app",
-  "packet_id": "overclaim_counter_6ad134d50c904b51",
+  "packet_id": "overclaim_counter_b86d7266064a8752",
   "phase": "phase_4_overclaim_counter",
   "replayability": "attested",
   "reproduce_command": "./prospect overclaim-counter",
@@ -114,20 +116,22 @@
     },
     {
       "candidates": 18,
+      "comparable_contradictions": 0,
       "no_supporting_screen_hit": 14,
       "rung": "external_screen_ladder",
       "schmidt_non_hits": 18,
+      "schmidt_orthogonal_phenotypes": 18,
       "source": "examples/data/cross_validation.json",
-      "status": "contradicted",
+      "status": "orthogonal_phenotype",
       "supporting_screen_hit": 4
     },
     {
-      "flagship_module": "prenylation_small_gtpase_trafficking",
-      "modules_ranked": 3,
-      "non_flagship_modules": 2,
-      "rung": "module_selection",
+      "claim_kind": "single_gene_hypothesis",
+      "flagship_gene": "PGGT1B",
+      "rung": "single_hypothesis_boundary",
       "source": "examples/data/flagship_module.json",
-      "status": "evidence_attached"
+      "status": "evidence_attached",
+      "supported_alternatives": 3
     }
   ],
   "status": "evidence_attached",

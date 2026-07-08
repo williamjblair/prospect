@@ -30,6 +30,9 @@ def test_overclaim_counter_quantifies_benchmark_and_discovery_refusals():
     assert counts["phase1_refused_total"] == 11508
     assert counts["phase2_without_external_screen_hit"] == 14
     assert counts["phase2_schmidt_non_hits"] == 18
+    assert counts["phase2_schmidt_orthogonal_phenotypes"] == 18
+    assert counts["phase2_comparable_external_contradictions"] == 0
+    assert counts["flagship_hypotheses"] == 1
 
 
 def test_overclaim_counter_has_rung_by_rung_refusals():
@@ -41,8 +44,12 @@ def test_overclaim_counter_has_rung_by_rung_refusals():
     assert rungs["novelty_filter"]["refused"] == 11508
     assert rungs["external_screen_ladder"]["no_supporting_screen_hit"] == 14
     assert rungs["external_screen_ladder"]["schmidt_non_hits"] == 18
-    assert rungs["module_selection"]["non_flagship_modules"] == 2
-    assert all(rung["status"] in {"evidence_attached", "contradicted", "refuted"} for rung in packet["rungs"])
+    assert rungs["external_screen_ladder"]["status"] == "orthogonal_phenotype"
+    assert rungs["single_hypothesis_boundary"]["flagship_gene"] == "PGGT1B"
+    assert all(
+        rung["status"] in {"evidence_attached", "contradicted", "refuted", "orthogonal_phenotype"}
+        for rung in packet["rungs"]
+    )
 
 
 def test_overclaim_counter_records_model_breakdown_and_flagship_boundary():
@@ -50,7 +57,8 @@ def test_overclaim_counter_records_model_breakdown_and_flagship_boundary():
 
     assert [row["label"] for row in packet["model_breakdown"]] == ["Haiku 4.5", "Sonnet 5", "Opus 4.8", "Fable 5"]
     assert packet["model_breakdown"][0]["refuted_rate"] == 0.56
-    assert packet["flagship_boundary"]["module_id"] == "prenylation_small_gtpase_trafficking"
+    assert packet["flagship_boundary"]["gene"] == "PGGT1B"
+    assert packet["flagship_boundary"]["claim_kind"] == "single_gene_hypothesis"
     assert packet["flagship_boundary"]["accepted_state"] == "none"
     assert "human key" in packet["flagship_boundary"]["next_acceptance_step"]
 

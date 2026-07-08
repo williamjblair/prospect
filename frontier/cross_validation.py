@@ -19,6 +19,26 @@ OUT_JSON = DATA / "cross_validation.json"
 OUT_CSV = DATA / "cross_validation.csv"
 OUT_DOC = ROOT / "docs" / "CROSS_VALIDATION.md"
 
+READOUT_COMPARABILITY = {
+    "schmidt_2022_2427": {
+        "typed_status": "orthogonal_phenotype",
+        "determination": "not tested comparably",
+        "marson_readout": (
+            "CRISPRi Perturb-seq breadth of the activation transcriptome in primary human CD4+ T cells, "
+            "summarized as stimulated differential-expression gene counts."
+        ),
+        "schmidt_readout": (
+            "CRISPRa cytokine production screen in primary human CD4+ T cells, recorded by ORCS as "
+            "regulation of stimulation-responsive cytokine production and protein/peptide accumulation."
+        ),
+        "interpretation": (
+            "A Schmidt 2022 non-hit does not contradict a Marson activation-transcriptome regulator claim "
+            "unless the claim is narrowed to cytokine production."
+        ),
+        "source": "https://orcs.thebiogrid.org/Screen/2427",
+    }
+}
+
 
 def _load(path: Path) -> Any:
     if not path.exists():
@@ -37,10 +57,17 @@ def _screen_summary(screen_rows: dict[str, dict[str, Any]]) -> dict[str, Any]:
         for screen_id, row in screen_rows.items()
         if row.get("hit_status") == "hit"
     ]
+    orthogonal_phenotypes = [
+        screen_id
+        for screen_id, row in screen_rows.items()
+        if row.get("hit_status") == "non_hit"
+        and READOUT_COMPARABILITY.get(screen_id, {}).get("typed_status") == "orthogonal_phenotype"
+    ]
     contradictions = [
         screen_id
         for screen_id, row in screen_rows.items()
-        if row.get("hit_status") == "non_hit" and screen_id == "schmidt_2022_2427"
+        if row.get("hit_status") == "non_hit"
+        and READOUT_COMPARABILITY.get(screen_id, {}).get("typed_status") == "contradicted"
     ]
     non_hits = [
         screen_id
@@ -54,6 +81,7 @@ def _screen_summary(screen_rows: dict[str, dict[str, Any]]) -> dict[str, Any]:
     ]
     return {
         "supporting_hits": supporting_hits,
+        "orthogonal_phenotypes": orthogonal_phenotypes,
         "contradictions": contradictions,
         "non_hits": non_hits,
         "missing_rows": missing,
@@ -106,8 +134,19 @@ def _row_for_candidate(
             },
             {
                 "rung": "primary_t_cell_screen",
-                "status": "evidence_attached" if screen_summary["supporting_hits"] else "contradicted",
-                "detail": ", ".join(screen_summary["supporting_hits"] or screen_summary["non_hits"]),
+                "status": "evidence_attached" if screen_summary["supporting_hits"] else "orthogonal_phenotype",
+                "detail": ", ".join(
+                    screen_summary["supporting_hits"]
+                    or screen_summary["orthogonal_phenotypes"]
+                    or screen_summary["non_hits"]
+                ),
+            },
+            {
+                "rung": "schmidt_cytokine_screen",
+                "status": "orthogonal_phenotype"
+                if "schmidt_2022_2427" in screen_summary["orthogonal_phenotypes"]
+                else "evidence_attached",
+                "detail": READOUT_COMPARABILITY["schmidt_2022_2427"]["interpretation"],
             },
             {
                 "rung": "protein_network",
@@ -145,7 +184,13 @@ def build_cross_validation() -> dict[str, Any]:
             1 for row in rows if row["external_screen_summary"]["supporting_hits"]
         ),
         "candidates_with_schmidt_non_hit": sum(
-            1 for row in rows if "schmidt_2022_2427" in row["external_screen_summary"]["contradictions"]
+            1 for row in rows if "schmidt_2022_2427" in row["external_screen_summary"]["non_hits"]
+        ),
+        "candidates_with_schmidt_orthogonal_phenotype": sum(
+            1 for row in rows if "schmidt_2022_2427" in row["external_screen_summary"]["orthogonal_phenotypes"]
+        ),
+        "candidates_with_comparable_external_contradiction": sum(
+            1 for row in rows if row["external_screen_summary"]["contradictions"]
         ),
         "candidates_with_string_network": sum(1 for row in rows if row["string_network"]["top_partners"]),
         "candidates_with_dice_cd4_expression": sum(
@@ -165,11 +210,12 @@ def build_cross_validation() -> dict[str, Any]:
         "source_bundle_id": _hash_obj("external_sources", source),
         "source_bundle_path": "examples/data/cross_validation_sources.json",
         "source_urls": source["source_urls"],
+        "readout_comparability": READOUT_COMPARABILITY,
         "candidate_count": len(rows),
         "counts": counts,
         "candidates": rows,
         "reproduce_command": "./prospect cross-validation",
-        "next_phase": "cluster the supported candidates into one flagship mechanistic module",
+        "next_phase": "carry the best-supported single hypothesis without treating orthogonal non-hits as contradictions",
     }
     packet["packet_id"] = _hash_obj("cross_validation", packet)
     return packet
@@ -178,7 +224,8 @@ def build_cross_validation() -> dict[str, Any]:
 def _write_csv(rows: list[dict[str, Any]], out_csv: Path) -> None:
     fields = [
         "rank", "gene", "status", "tier", "marson_stim_max_de", "supporting_hits",
-        "contradictions", "activated_cd4_mean_tpm", "top_string_partners", "disease_context",
+        "orthogonal_phenotypes", "contradictions", "activated_cd4_mean_tpm",
+        "top_string_partners", "disease_context",
     ]
     with out_csv.open("w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
@@ -191,6 +238,7 @@ def _write_csv(rows: list[dict[str, Any]], out_csv: Path) -> None:
                 "tier": row["tier"],
                 "marson_stim_max_de": row["marson_stim_max_de"],
                 "supporting_hits": ",".join(row["external_screen_summary"]["supporting_hits"]),
+                "orthogonal_phenotypes": ",".join(row["external_screen_summary"]["orthogonal_phenotypes"]),
                 "contradictions": ",".join(row["external_screen_summary"]["contradictions"]),
                 "activated_cd4_mean_tpm": row["dice_expression"]["activated_cd4_mean_tpm"],
                 "top_string_partners": ",".join(row["string_network"]["top_partners"][:5]),
@@ -209,25 +257,30 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         "Sources: Shifrut 2018 primary human T-cell SLICE screens, Schmidt 2022 primary human CD4+ CRISPRa cytokine screen, STRING protein network, DICE immune-cell expression, and the existing Open Targets overlay.",
         "",
+        "Schmidt comparability: `orthogonal_phenotype`. The Schmidt screen calls regulators of stimulation-responsive cytokine production and protein accumulation. The Marson replay measures activation-transcriptome breadth by stimulated differential-expression counts. A Schmidt non-hit is retained as evidence, but it is not a comparable contradiction of the Marson activation-transcriptome hypothesis.",
+        "",
         "## Counts",
         "",
         f"- Candidates: {counts['candidate_count']}",
         f"- With at least one independent screen hit: {counts['candidates_with_external_screen_hit']}",
         f"- With explicit Schmidt 2022 non-hit rows: {counts['candidates_with_schmidt_non_hit']}",
+        f"- Retyped as Schmidt orthogonal phenotype: {counts['candidates_with_schmidt_orthogonal_phenotype']}",
+        f"- With comparable external contradictions: {counts['candidates_with_comparable_external_contradiction']}",
         f"- With STRING interaction context: {counts['candidates_with_string_network']}",
         f"- With DICE activated CD4 expression: {counts['candidates_with_dice_cd4_expression']}",
         "",
         "## Candidate ladder",
         "",
-        "| rank | gene | tier | screen support | contradiction | DICE activated CD4 mean TPM | STRING partners | disease context |",
-        "|---:|---|---|---|---|---:|---|---|",
+        "| rank | gene | tier | screen support | Schmidt status | contradiction | DICE activated CD4 mean TPM | STRING partners | disease context |",
+        "|---:|---|---|---|---|---|---:|---|---|",
     ]
     for row in packet["candidates"]:
         support = ", ".join(row["external_screen_summary"]["supporting_hits"])
+        orthogonal = ", ".join(row["external_screen_summary"]["orthogonal_phenotypes"])
         contra = ", ".join(row["external_screen_summary"]["contradictions"])
         partners = ", ".join(row["string_network"]["top_partners"][:4])
         lines.append(
-            f"| {row['rank']} | {row['gene']} | {row['tier']} | {support} | {contra} | "
+            f"| {row['rank']} | {row['gene']} | {row['tier']} | {support} | {orthogonal} | {contra} | "
             f"{row['dice_expression']['activated_cd4_mean_tpm']} | {partners} | {row['disease_context']} |"
         )
     lines += [

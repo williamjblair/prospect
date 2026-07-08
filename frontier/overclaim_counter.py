@@ -37,6 +37,7 @@ def build_overclaim_counter() -> dict[str, Any]:
     discovery = _load(DISCOVERY_JSON)
     cross_validation = _load(CROSS_VALIDATION_JSON)
     flagship = _load(FLAGSHIP_JSON)
+    hypothesis = flagship["flagship_hypothesis"]
     phase1_survivors = discovery["filter_counts"]["cell_type_specific_replogle"]
     phase1_refused_total = discovery["filter_counts"]["frontier_genes"] - phase1_survivors
     phase2_with_hit = cross_validation["counts"]["candidates_with_external_screen_hit"]
@@ -54,7 +55,9 @@ def build_overclaim_counter() -> dict[str, Any]:
         "phase1_refused_total": phase1_refused_total,
         "phase2_without_external_screen_hit": phase2_without_hit,
         "phase2_schmidt_non_hits": cross_validation["counts"]["candidates_with_schmidt_non_hit"],
-        "flagship_members": len(flagship["flagship_module"]["members"]),
+        "phase2_schmidt_orthogonal_phenotypes": cross_validation["counts"]["candidates_with_schmidt_orthogonal_phenotype"],
+        "phase2_comparable_external_contradictions": cross_validation["counts"]["candidates_with_comparable_external_contradiction"],
+        "flagship_hypotheses": 1,
     }
     rungs = [
         {
@@ -84,19 +87,21 @@ def build_overclaim_counter() -> dict[str, Any]:
         },
         {
             "rung": "external_screen_ladder",
-            "status": "contradicted",
+            "status": "orthogonal_phenotype",
             "candidates": cross_validation["candidate_count"],
             "supporting_screen_hit": phase2_with_hit,
             "no_supporting_screen_hit": phase2_without_hit,
             "schmidt_non_hits": cross_validation["counts"]["candidates_with_schmidt_non_hit"],
+            "schmidt_orthogonal_phenotypes": cross_validation["counts"]["candidates_with_schmidt_orthogonal_phenotype"],
+            "comparable_contradictions": cross_validation["counts"]["candidates_with_comparable_external_contradiction"],
             "source": "examples/data/cross_validation.json",
         },
         {
-            "rung": "module_selection",
+            "rung": "single_hypothesis_boundary",
             "status": "evidence_attached",
-            "modules_ranked": len(flagship["modules"]),
-            "non_flagship_modules": len(flagship["modules"]) - 1,
-            "flagship_module": flagship["flagship_module"]["module_id"],
+            "flagship_gene": hypothesis["gene"],
+            "supported_alternatives": len(flagship["supported_alternatives"]),
+            "claim_kind": "single_gene_hypothesis",
             "source": "examples/data/flagship_module.json",
         },
     ]
@@ -113,8 +118,8 @@ def build_overclaim_counter() -> dict[str, Any]:
         "rungs": rungs,
         "model_breakdown": models,
         "flagship_boundary": {
-            "module_id": flagship["flagship_module"]["module_id"],
-            "anchor_gene": flagship["flagship_module"]["anchor_gene"],
+            "gene": hypothesis["gene"],
+            "claim_kind": "single_gene_hypothesis",
             "accepted_state": "none",
             "next_acceptance_step": "human key signs only after a frozen re-derivation and review justify a state transition",
         },
@@ -138,7 +143,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         f"The discovery ladder kept {counts['phase1_survivors']} of {counts['phase1_frontier_genes']:,} Phase 1 genes; {counts['phase2_without_external_screen_hit']} of {counts['phase1_survivors']} then lacked an independent screen-hit rung.",
         "",
-        "PGGT1B advanced because it survived the novelty filter, gained Shifrut 2018 support, retained the Schmidt 2022 contradiction honestly, and anchored the highest-scoring module.",
+        "PGGT1B advanced as one hypothesis because it survived the novelty filter, gained Shifrut 2018 support, and retained the Schmidt 2022 cytokine screen as an orthogonal phenotype.",
         "",
         "## Rungs",
         "",
@@ -146,7 +151,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "|---|---|---:|---|",
     ]
     for rung in packet["rungs"]:
-        count = rung.get("contradicted", rung.get("refused", rung.get("no_supporting_screen_hit", rung.get("non_flagship_modules", 0))))
+        count = rung.get(
+            "contradicted",
+            rung.get("refused", rung.get("no_supporting_screen_hit", rung.get("supported_alternatives", 0))),
+        )
         lines.append(f"| {rung['rung']} | {rung['status']} | {count} | {rung['source']} |")
     lines += [
         "",
