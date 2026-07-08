@@ -16,12 +16,15 @@ Demo script: `docs/DEMO.md`
 
 Recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
+Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
+
 Replay gate:
 
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
 ./prospect submit-pack
+./prospect demo-pack
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -36,6 +39,7 @@ Run this before submitting:
 ./prospect final-check
 ./prospect submit-smoke
 ./prospect submit-pack
+./prospect demo-pack
 ```
 
 Then open:
@@ -56,10 +60,12 @@ Confirm:
 - The receipt bridge demo returns `accepted=false`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.
+- `./prospect demo-pack` prints the recording teleprompter.
 
 ## Record The Demo Video
 
-Record the demo video from `docs/DEMO.md` and `docs/DEMO_RECORDING_RUNBOOK.md`.
+Record the demo video from `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, and
+`docs/DEMO_TELEPROMPTER.md`.
 
 Keep the first 20 seconds on the refusal and overclaiming number. Do not open on the graph.
 
@@ -80,6 +86,7 @@ Submit the project with:
 - project text from `docs/SUBMISSION_FORM_PACKET.md` or `docs/SUBMISSION.md`
 - demo video recorded from `docs/DEMO.md`
 - local copy-safe packet from `./prospect submit-pack`
+- recording teleprompter from `./prospect demo-pack`
 
 Do not paste secrets. Do not mention internal deployment team names. Do not claim wet-lab or clinical
 truth. No model in the trust path: Claude proposes and pressure-tests, frozen code replays, and a

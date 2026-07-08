@@ -22,6 +22,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
     for command in [
         "./prospect final-check",
         "./prospect submit-smoke",
+        "./prospect demo-pack",
         "./prospect verify",
         "python benchmark/mutation_pack.py",
         "python tests/test_skill_parity.py",
@@ -32,6 +33,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
     for path in [
         "docs/SUBMISSION_FORM_PACKET.md",
         "docs/DEMO_RECORDING_RUNBOOK.md",
+        "docs/DEMO_TELEPROMPTER.md",
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
     ]:
         assert path in packet["source_docs"]
@@ -52,6 +54,7 @@ def test_submit_pack_cli_prints_human_packet():
     assert "Live URL: https://prospect-sepia-six.vercel.app" in proc.stdout
     assert "Signed root: root_a8b0dcdd4024e12f" in proc.stdout
     assert "./prospect submit-smoke" in proc.stdout
+    assert "./prospect demo-pack" in proc.stdout
     assert "Do not paste secrets." in proc.stdout
 
 

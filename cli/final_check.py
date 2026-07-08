@@ -17,6 +17,7 @@ COMMANDS = [
     "git diff --check",
     "python examples/receipt_bridge_client.py --json",
     "./prospect submit-pack --json",
+    "./prospect demo-pack --json",
     "./prospect transfer-replay",
 ]
 

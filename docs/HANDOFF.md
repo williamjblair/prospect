@@ -153,7 +153,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, lab assay packet, and static receipt-bridge files),
@@ -237,7 +237,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 
 - **Demo script**: [DEMO.md](DEMO.md), a 2-minute beat-by-beat (refusal -> reveal -> number -> moat ->
   loop), runs entirely off the live site. [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
-  adds exact preflight commands, click beats, and phrases to avoid. Will records the video.
+  adds exact preflight commands and click beats. [DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md) and
+  `./prospect demo-pack` provide the final spoken script and phrases to avoid. Will records the video.
 - **Submission text**: [SUBMISSION.md](SUBMISSION.md).
 - **Submission form packet**: [SUBMISSION_FORM_PACKET.md](SUBMISSION_FORM_PACKET.md), copy-paste
   fields for title, short description, long description, URLs, demo, verification commands, and

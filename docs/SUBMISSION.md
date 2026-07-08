@@ -7,6 +7,8 @@ Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prosp
 
 Final checklist: [docs/FINAL_SUBMISSION_CHECKLIST.md](FINAL_SUBMISSION_CHECKLIST.md)
 
+Recording teleprompter: [docs/DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md)
+
 ## The problem
 
 AI generates biology faster than anyone can check it. A model asserts that a gene is a key
@@ -139,6 +141,7 @@ the graph on its own word. On top of it:
 ./prospect final-check            # run the submission gate
 ./prospect submit-smoke           # check production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
+./prospect demo-pack              # print the two-minute recording teleprompter
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts

@@ -26,6 +26,7 @@ def test_final_check_lists_submission_gate_commands():
         "git diff --check",
         "python examples/receipt_bridge_client.py --json",
         "./prospect submit-pack --json",
+        "./prospect demo-pack --json",
         "./prospect transfer-replay",
     ]:
         assert command in proc.stdout

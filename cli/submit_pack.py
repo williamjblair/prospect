@@ -16,6 +16,7 @@ SOURCE_DOCS = [
     "docs/SUBMISSION_FORM_PACKET.md",
     "docs/SUBMISSION.md",
     "docs/DEMO_RECORDING_RUNBOOK.md",
+    "docs/DEMO_TELEPROMPTER.md",
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/JUDGE_PACKET.md",
 ]
@@ -23,6 +24,7 @@ SOURCE_DOCS = [
 VERIFICATION_COMMANDS = [
     "./prospect final-check",
     "./prospect submit-smoke",
+    "./prospect demo-pack",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",

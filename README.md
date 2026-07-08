@@ -10,6 +10,8 @@ Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
 
 Demo recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
+Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
+
 An AI can assert a claim about any gene in a second. Confirming it against the data takes
 longer than most people spend, so overstated biology walks into slides, grants, and papers.
 Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is
@@ -115,6 +117,7 @@ Current public artifacts:
 ./prospect final-check            # run the submission gate
 ./prospect submit-smoke           # check the production submission endpoints
 ./prospect submit-pack            # print the copy-safe submission packet
+./prospect demo-pack              # print the two-minute recording teleprompter
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides

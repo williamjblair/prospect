@@ -50,6 +50,8 @@ Recommended opening: start on the A1BG refusal, not the graph.
 Recommended close: receipt bridge, PGGT1B `evidence_attached` packet, lab handoff, campaign gates,
 and signed replayable state.
 
+Teleprompter: `docs/DEMO_TELEPROMPTER.md` or `./prospect demo-pack`.
+
 ## Built with Claude
 
 Claude is used in three ways:
@@ -66,6 +68,7 @@ The frozen verifier and human key remain the gate. No model in the trust path.
 ./prospect final-check
 ./prospect submit-smoke
 ./prospect submit-pack
+./prospect demo-pack
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

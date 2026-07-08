@@ -15,6 +15,7 @@
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect findings-index   build the scannable finding index for the demo
+  prospect demo-pack        print the final recording teleprompter
   prospect judge-pack       build the judge packet manifest and handoff
   prospect final-check      run the local submission gate
   prospect submit-smoke     run production submission smoke checks
@@ -62,6 +63,8 @@ def main():
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
+    elif cmd == "demo-pack":
+        from cli.demo_pack import main as demo_pack_main; sys.exit(demo_pack_main(rest))
     elif cmd == "judge-pack":
         from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
     elif cmd == "final-check":

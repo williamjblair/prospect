@@ -6,9 +6,10 @@ Live project: https://prospect-sepia-six.vercel.app
 
 Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
 the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, transfer
-replay packet, production submit smoke, and copy-safe submit packet shipped. The Frontier tab now
-also includes the judge-facing "Try the boundary" receipt bridge strip. The demo recording runbook,
-submission form packet, and `./prospect submit-pack` now package the human recording and upload path.
+replay packet, production submit smoke, copy-safe submit packet, and demo teleprompter shipped. The
+Frontier tab now also includes the judge-facing "Try the boundary" receipt bridge strip. The demo
+recording runbook, teleprompter, submission form packet, `./prospect demo-pack`, and
+`./prospect submit-pack` now package the human recording and upload path.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -60,6 +61,7 @@ This audit used the current worktree and live production data as the source of r
   - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
   - `./prospect submit-smoke`: executable production smoke for the upload checklist.
   - `./prospect submit-pack`: local copy-safe packet for the final upload fields and replay commands.
+  - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails.
 
 ### Gate state
 
@@ -126,7 +128,8 @@ The core story is present and coherent across `README.md`, `docs/PROTOCOL.md`, `
 These are not repo blockers. They are human/process tasks.
 
 1. **Record the demo video.**
-   - Use `docs/DEMO.md` and `docs/DEMO_RECORDING_RUNBOOK.md`.
+   - Use `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, and `docs/DEMO_TELEPROMPTER.md`.
+   - Use `./prospect demo-pack` as the terminal teleprompter.
    - Keep the first 20 seconds on the refusal and overclaiming number.
    - Do not open on the graph.
    - End on the receipt boundary plus PGGT1B lab-facing packet.
@@ -146,6 +149,7 @@ These are not repo blockers. They are human/process tasks.
    - Run `./prospect verify`.
    - Run `./prospect submit-smoke`.
    - Run `./prospect submit-pack`.
+   - Run `./prospect demo-pack`.
 
 ### P1, highest leverage if there is still build time
 
@@ -332,7 +336,7 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, live site | Record and submit |
+| Submission packaging | Mostly human task | `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
 
 ## Recommended next sequence
 

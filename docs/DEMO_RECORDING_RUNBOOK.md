@@ -2,6 +2,8 @@
 
 Use this while recording the Built with Claude: Life Sciences submission video.
 
+Teleprompter script: [DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md)
+
 Primary target: https://prospect-sepia-six.vercel.app
 
 Local fallback, if production is unavailable:
@@ -20,6 +22,7 @@ Run this before recording:
 ./prospect final-check
 ./prospect submit-smoke
 ./prospect submit-pack
+./prospect demo-pack
 python examples/receipt_bridge_client.py --json
 ```
 
@@ -28,6 +31,7 @@ Confirm:
 - `./prospect final-check` ends with `FINAL CHECK PASS`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, and source docs.
+- `./prospect demo-pack` prints the six timed recording beats and "Do not say" guardrails.
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
