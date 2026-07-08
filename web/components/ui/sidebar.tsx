@@ -527,11 +527,6 @@ function SidebarMenuButton({
       data-sidebar="menu-button"
       data-size={size}
       data-slot="sidebar-menu-button"
-      style={{
-        transition:
-          "width 300ms cubic-bezier(0.4, 0, 0.2, 1), height 300ms cubic-bezier(0.4, 0, 0.2, 1), padding 300ms cubic-bezier(0.4, 0, 0.2, 1)",
-        ...props.style,
-      }}
       {...props}
     />
   );

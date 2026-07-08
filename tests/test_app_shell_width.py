@@ -27,6 +27,18 @@ def test_app_main_global_width_matches_shell_cap():
     assert '"relative flex w-full flex-1 flex-col bg-background"' not in sidebar
 
 
+def test_sidebar_menu_button_uses_paint_only_tab_feedback():
+    css = CSS.read_text()
+    sidebar = SIDEBAR.read_text()
+    menu_button = sidebar.split("function SidebarMenuButton", 1)[1].split("function SidebarMenuAction", 1)[0]
+
+    assert "transition: background-color 180ms var(--ease), color 180ms var(--ease);" in css
+    assert "width 300ms cubic-bezier" not in menu_button
+    assert "height 300ms cubic-bezier" not in menu_button
+    assert "padding 300ms cubic-bezier" not in menu_button
+
+
 if __name__ == "__main__":
     test_app_main_global_width_matches_shell_cap()
+    test_sidebar_menu_button_uses_paint_only_tab_feedback()
     print("PASS: app shell width")

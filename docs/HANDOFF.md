@@ -106,7 +106,9 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
   polish pass (Overview rebuilt into an argument, KPI-grid removed, mid-tier headings, skeleton +
   error states, all em dashes swept). The Findings evidence tables now share a responsive evidence
-  panel rhythm, with metric strips and mobile-safe rows for the dense scientific tables.
+  panel rhythm, with metric strips and mobile-safe rows for the dense scientific tables. The CSS
+  vocabulary was pruned back to Prospect/Observatory primitives, and tab or hover feedback now uses
+  restrained 180-220ms paint-only transitions.
 
 ## 4. Architecture and file map
 
@@ -196,12 +198,9 @@ Gitignored (regenerable):
 
 ## 7. Remaining work and opportunities
 
-Nothing is required; the entry is complete and strong. Prioritized options if continuing:
-
-**Polish follow-ups (small, safe):**
-- About 55% of `web/app/globals.css` is dead tokens ported from a prior project (ledger, almanac,
-  event-ruler, star, provenance-thread, etc.); safe to prune, lowers the "scaffolding drift" tell.
-- Purposeful 150-250ms transitions on tab and hover (currently near-static).
+Nothing is required; the entry is complete and strong. The small polish follow-ups are shipped:
+`web/app/globals.css` no longer carries the retired record-map vocabulary, and tab or hover feedback
+uses restrained paint-only transitions in the 180-220ms band.
 
 **Bigger swings (higher ceiling, in rough priority):**
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.

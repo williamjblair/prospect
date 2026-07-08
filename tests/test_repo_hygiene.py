@@ -53,7 +53,37 @@ def test_tracked_files_do_not_contain_prior_work_or_weak_status_markers():
     assert not offenders, "\n".join(offenders)
 
 
+def test_observatory_css_does_not_keep_retired_project_vocabulary():
+    css = (ROOT / "web" / "app" / "globals.css").read_text()
+    retired_terms = [
+        "almanac",
+        "chart-atlas",
+        "erdos",
+        "event-ruler",
+        "ledger",
+        "provenance-thread",
+        "rtick-",
+        "scrub-",
+        "star-core",
+        "star-ring",
+    ]
+
+    offenders = [term for term in retired_terms if term in css]
+    assert not offenders, ", ".join(offenders)
+
+
+def test_observatory_interaction_motion_uses_deliberate_durations():
+    css = (ROOT / "web" / "app" / "globals.css").read_text()
+
+    assert "--transition-fast: 180ms var(--ease);" in css
+    assert "--transition-normal: 220ms var(--ease);" in css
+    assert "--transition-smooth: 220ms var(--ease);" in css
+    assert "transition: background-color 180ms var(--ease), color 180ms var(--ease);" in css
+
+
 if __name__ == "__main__":
     test_tracked_files_do_not_contain_em_dash_or_attribution_footer()
     test_tracked_files_do_not_contain_prior_work_or_weak_status_markers()
+    test_observatory_css_does_not_keep_retired_project_vocabulary()
+    test_observatory_interaction_motion_uses_deliberate_durations()
     print("PASS: repo hygiene")

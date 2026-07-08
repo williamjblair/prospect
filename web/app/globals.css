@@ -123,7 +123,7 @@
   --ink-4: oklch(62% 0.018 254);
   --ink-on: oklch(99% 0.003 248);
 
-  /* Borrowed-light layer: the gold splits into four jobs only ,
+  /* Observatory accent layer: the gold splits into four jobs only ,
      luminous routing (--brass-gold), readable small labels (--gold-ink),
      kintsugi hairlines (--gold-line), and the warm wash (--gold-soft:
      selection, active-row wash, masthead glow). Never a second dominant
@@ -203,21 +203,21 @@
      --ink-on, accents are --lantern and --gold-soft only. */
   --lacquer: oklch(20% 0.035 260);
 
-  /* The row-height unit. Ledgers, tables, catalogue rows, stat strips
+  /* The row-height unit. Tables, catalogue rows, state rows, stat strips
      all land on this grid (Observatory rule 1.4). The sidebar's
      28px rows are the one sanctioned exception. */
   --row-unit: 40px;
 
   /* Motion: one curve, two durations. States arrive deliberately
-     (200ms) and leave instantly (90ms); everything else is paint-only
-     at 120ms. The legacy token names alias the new system. */
+     (220ms) and leave instantly (90ms); hover and tab feedback is
+     paint-only at 180ms. */
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
-  --enter: 200ms;
+  --enter: 220ms;
   --leave: 90ms;
-  --transition-paint: 120ms var(--ease);
-  --transition-fast: 120ms var(--ease);
-  --transition-normal: 200ms var(--ease);
-  --transition-smooth: 200ms var(--ease);
+  --transition-paint: 180ms var(--ease);
+  --transition-fast: 180ms var(--ease);
+  --transition-normal: 220ms var(--ease);
+  --transition-smooth: 220ms var(--ease);
 
   /* Tracking: five ad-hoc values collapsed to three. STIX body is 0. */
   --track-display: -0.025em;
@@ -559,7 +559,7 @@ body {
   font-feature-settings: "tnum" 1, "cv01" 1;
 }
 
-/* The instrument voice: every ledger row and table cell. JetBrains Mono
+/* The instrument voice: every state row and table cell. JetBrains Mono
    on the 40px grid, contextual alternates off so hashes never ligate
    (Observatory rule 1.5). */
 .t-instrument {
@@ -934,7 +934,7 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   The state ledger , Prospect's signature primitive. Every row is a scientific
+   The state register , Prospect's signature primitive. Every row is a scientific
    state transition: a left rail in the knowledge-state color (accepted=moss,
    contested=brass, inferred=winter, retracted=cinnabar, stale=stone), the
    operation foregrounded in mono in that color. A precise instrument readout,
@@ -997,72 +997,6 @@ a:hover > .card-paper {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Provenance thread , the kintsugi gold seam. Where the state-rail carries a
-   claim's review state, this thread is the gold repair that binds a claim to
-   the evidence it came from: a thin gold hairline on the left of a source row,
-   marking it as load-bearing , something a finding is pinned to. The break
-   (a claim and its origin held apart) is mended in gold, not hidden.
-   ───────────────────────────────────────────────────────────────────────── */
-.provenance-thread {
-  position: relative;
-  padding-left: 0.875rem;
-}
-.provenance-thread::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  border-radius: 1px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--gold-line) 14%,
-    var(--brass-gold) 50%,
-    var(--gold-line) 86%,
-    transparent
-  );
-  opacity: 0.78;
-  transition: opacity var(--transition-fast);
-}
-.provenance-thread:hover::before {
-  opacity: 1;
-}
-/* The knot: a small gold node where the thread meets the claim count , the
-   visible stitch binding source to claim. Sits on the bound-count cell. */
-.provenance-knot {
-  position: relative;
-  padding-left: 0.875rem;
-}
-.provenance-knot::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 0.6rem;
-  height: 1px;
-  transform: translateY(-50%);
-  background: linear-gradient(
-    to left,
-    var(--brass-gold),
-    color-mix(in oklab, var(--brass-gold) 30%, transparent)
-  );
-}
-.provenance-knot::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 5px;
-  height: 5px;
-  transform: translate(-2px, -50%);
-  border-radius: 9999px;
-  background: var(--brass-gold);
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--brass-gold) 22%, transparent);
-}
-
-/* ─────────────────────────────────────────────────────────────────────────
    Peek: the inset preview rail. A quiet right panel, paper-raised, hairline
    left rule. Not a modal: no backdrop, no dim. The focused row carries the lone
    gold inset (set inline in PeekRow). Slides in from the right; reduced-motion
@@ -1109,7 +1043,7 @@ a:hover > .card-paper {
 
 [data-slot="sidebar-menu-button"]:hover svg {
   color: var(--gold-ink);
-  transition: color 140ms var(--ease);
+  transition: color 180ms var(--ease);
 }
 
 /* ── Motion: one tasteful page entrance. Content settles up on load; nothing
@@ -1299,13 +1233,6 @@ a:hover > .card-paper {
   }
 }
 
-/* Erdős sky: worked stars and headlines are links into their problem page. */
-.erdos-star { cursor: pointer; }
-.erdos-star:hover circle:not([fill="transparent"]) {
-  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--brass-gold) 65%, transparent));
-}
-.erdos-star:hover text { text-decoration: underline; }
-
 /* ── Motion doctrine ─────────────────────────────────────────────────────
    Motion is the one channel reserved for what the product is about: a
    state transition becoming trusted.
@@ -1322,7 +1249,7 @@ a:hover > .card-paper {
 /* ── Two-zone doctrine ───────────────────────────────────────────────────
    Reading zones: STIX Two, generous measure, vertical ma , for theorem
    prose, statements, and explanation. Instrument zones: 13px tabular
-   density , for ledgers, receipts, and tables; for mathematicians and
+   density , for receipts, frontier rows, and tables; for scientists and
    evaluators the dense receipt table IS the trust signal. Never mix:
    no prose inside instrument chrome, no chips inside reading columns. */
 
@@ -1424,6 +1351,9 @@ a:hover > .card-paper {
 
 /* Row grammar inside the sidebar: hover = faint gold-soft wash, active
    = stronger wash + full-ink label. No left bars, no bold-on-active. */
+[data-slot="sidebar-menu-button"] {
+  transition: background-color 180ms var(--ease), color 180ms var(--ease);
+}
 [data-slot="sidebar-menu-button"]:hover {
   background: var(--sidebar-hover);
   color: var(--ink);
@@ -1449,12 +1379,12 @@ a:hover > .card-paper {
 
 
 /* Content frame. Two widths, not one: reading-and-record pages settle at a
-   document column (72rem) so prose, statements, and ledgers never strand in
+   document column (72rem) so prose, statements, and evidence tables never strand in
    acres of empty right margin; dense instrument pages (the chart, the board,
    the problem cockpit) opt up to a wide frame via a `page-wide` root. The
    100rem edge-to-edge frame is retired , at that width a single narrow
    column reads as 40% content, 60% void. */
-/* The record fills the inset. Tables, ledgers, receipt chains, and graphs want
+/* The record fills the inset. Tables, receipt chains, and graphs want
    the width, and a capped reading column on a wide monitor just strands content
    in the gutters (the bug this replaced). The frame fills the available width with
    only its 32px padding as the gutter; the max-width is a high ceiling that binds
@@ -1548,81 +1478,9 @@ a:hover > .card-paper {
   text-decoration: none;
 }
 
-/* THE LEDGER: the second (and last) surface in the economy. Flat on the
-   page, a strong top rule, zero horizontal padding , rows share the
-   container's left edge. Mono 13px/20px rows on the 20px baseline grid.
+/* ── The craft layer: browser chrome joins the palette ── */
 
-   Stage 8 (the sealing): almanac discipline, Comrie's table doctrine.
-   One head rule names the surface; every internal rule was redundant
-   with the row rhythm and is replaced by whitespace , rows group in
-   fives with extra leading, the almanac's own device for keeping the
-   eye on the line. Figures align per column: tabular lining numerals
-   are set on the surface and inherited, so digits stack into columns
-   wherever they appear, not only inside .ledger-row. */
-.ledger {
-  border-top: 1px solid var(--rule-strong);
-  font-variant-numeric: tabular-nums lining-nums;
-}
-.ledger > *:nth-child(5n + 1):not(:first-child) {
-  margin-top: 10px;
-}
-.ledger-row {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding: 8px 0;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 13px;
-  line-height: 20px;
-  font-variant-numeric: tabular-nums;
-}
-.ledger-row:hover {
-  background: var(--paper-hover);
-}
-/* Numeric cells right-set so units and figures share a column edge. */
-.ledger .num,
-.almanac-table .num {
-  text-align: right;
-  font-variant-numeric: tabular-nums lining-nums;
-}
-
-/* Hanging label gutter for record pages: small-caps labels in a 9rem
-   left column; the label change is the section separator. */
-.label-gutter {
-  display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  column-gap: 16px;
-  row-gap: 12px;
-  max-width: 96rem;
-}
-.label-gutter > .gutter-label {
-  font-size: 11px;
-  letter-spacing: var(--track-caps);
-  font-feature-settings: "case" 1;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  line-height: 20px;
-  padding-top: 2px;
-}
-@media (max-width: 640px) {
-  .label-gutter {
-    /* minmax(0, 1fr), not bare 1fr: a wide <pre> (a Lean statement, a
-       reproduce line) must scroll inside its own overflow-x-auto box
-       rather than setting the column's min-content and widening the
-       page. */
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 4px;
-  }
-}
-
-/* ── The craft layer (Pass A): browser chrome joins the palette ── */
-
-/* Copying a receipt feels mechanical: full ink-paper inversion on
-   ledger surfaces; lamplight selection in the dark theme. */
-.ledger ::selection {
-  background: var(--ink);
-  color: var(--paper);
-}
+/* Selection is quiet in light mode and lamplight-tinted in the dark theme. */
 .dark ::selection {
   background: color-mix(in oklab, var(--lantern) 30%, transparent);
 }
@@ -1677,232 +1535,9 @@ kbd {
   color: var(--ink-3);
 }
 
-/* The chart strip's stars: ink at rest, brass when the page is theirs.
-   Hover brightens the core only , nothing moves. */
-.star .star-core {
-  fill: var(--ink-3);
-  transition: fill var(--transition-paint);
-}
-.star:hover .star-core {
-  fill: var(--ink);
-}
-/* A reproduced item is a lit mark , gold, and it stays gold on hover (the
-   one warm light on the map; the keystone vocabulary of the brand mark). */
-.star .star-core.star-lit,
-.star:hover .star-core.star-lit {
-  fill: var(--brass-gold);
-}
-.star .star-ring {
-  stroke: var(--brass-gold);
-  opacity: 0;
-}
-.star[data-current="true"] .star-core {
-  fill: var(--brass-gold);
-}
-.star[data-current="true"] .star-ring {
-  opacity: 0.55;
-}
-
-/* ── The chart room (Stage 5) ─────────────────────────────────────────
-   One static baked SVG; zero client JS. On small screens the atlas pans
-   by overflow scroll at ~2x width. Cinnabar exists on this surface ONLY
-   inside the jurisdiction ring ([data-ring]) as adoption marks , that
-   restriction is auditable by DOM query. Nothing here animates. */
-.chart-pan {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.chart-pan > svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-@media (max-width: 640px) {
-  .chart-pan > svg {
-    width: 200vw;
-    max-width: none;
-  }
-}
-.chart-atlas .star-label {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11.5px;
-  fill: var(--ink-3);
-}
-.chart-atlas a.star:hover .star-label,
-.chart-atlas a.star:target .star-label {
-  fill: var(--ink);
-}
-/* Quiet labels: hidden at rest to thin out the field, revealed when the star
-   is hovered, targeted, or focused. The point + <title>/aria-label remain. */
-.chart-atlas .star-label-quiet {
-  opacity: 0;
-}
-.chart-atlas a.star:hover .star-label-quiet,
-.chart-atlas a.star:target .star-label-quiet,
-.chart-atlas a.star:focus-visible .star-label-quiet {
-  opacity: 1;
-}
-/* #star=<slug> permalink: the targeted star wears its brass ring. */
-.chart-atlas a.star:target .star-ring,
-.chart-atlas a.star:focus-visible .star-ring {
-  opacity: 0.55;
-}
-/* Keyboard focus on the signature surface: the global outline rule does not
-   paint on SVG <a> in major browsers, so focus is drawn in-SVG (WCAG 2.4.7).
-   Stars wear the brass ring; wrecks and ring stations brighten + ring. */
-.chart-atlas a.star:focus-visible .star-label,
-.chart-atlas .wreck:focus-visible text {
-  fill: var(--ink);
-}
-.chart-atlas .wreck:focus-visible line {
-  stroke: var(--brass-gold);
-}
-.chart-atlas [data-ring] a:focus-visible .ring-name {
-  fill: var(--brass-gold);
-}
-.chart-atlas .wreck line {
-  stroke: var(--ink-2);
-  stroke-width: 1.2;
-}
-.chart-atlas .wreck text {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9.5px;
-  fill: var(--ink-3);
-}
-.chart-atlas .wreck:hover text {
-  fill: var(--ink);
-}
-.chart-atlas .lease-text {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9.5px;
-  fill: var(--gold-ink);
-}
-.chart-atlas [data-ring] .ring-name {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: var(--track-caps);
-  text-transform: uppercase;
-  fill: var(--ink-3);
-}
-.chart-atlas [data-ring] a:hover .ring-name {
-  fill: var(--ink);
-}
-.chart-atlas [data-ring] .ring-token {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9.5px;
-  fill: var(--ink-3);
-}
-.chart-atlas [data-ring] .adoption-mark {
-  stroke: var(--cinnabar);
-}
-.chart-atlas .cartouche text {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9.5px;
-  fill: var(--ink-3);
-}
-
-/* ── The event ruler (Stage 3): scrub chrome ─────────────────────────────
-   One tick per signed event, 20px tall, drawn in the signal code's
-   materials: brass-filled accepts, half-filled proposals, the small
-   kernel mark for kernel/annotation events, cinnabar rejections.
-   Scrubbing is a discrete state swap , NO transitions, NO animation;
-   prefers-reduced-motion has nothing to reduce. */
-.event-ruler {
-  cursor: pointer;
-  outline-offset: 2px;
-}
-.event-ruler svg {
-  display: block;
-  width: 100%;
-  height: 20px;
-}
-.rtick-a { fill: var(--brass); }
-.rtick-p { fill: var(--brass); opacity: 0.5; }
-.rtick-r { fill: var(--cinnabar); }
-.rtick-b { fill: var(--ink); }
-.rtick-s { fill: var(--stone); }
-.rtick-l { fill: var(--brass); opacity: 0.35; }
-.rtick-c { fill: var(--ink-2); }
-.rtick-k { fill: var(--ink-4); }
-.rtick-cursor {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 0.6px;
-  vector-effect: non-scaling-stroke;
-}
-
-/* The fold's three row effects: visibility, per-row grade, and the
-   supersession seam. Rows are server-rendered; the scrubber only
-   toggles these on [data-vf] rows , it never templates content. */
-.scrub-hidden {
-  display: none !important;
-}
-.scrub-seam {
-  box-shadow: inset 2px 0 0 var(--brass-gold);
-}
-
-/* ── The almanac (Stage 8): the dated frozen edition ─────────────────────
-   /almanac is a print-CSS projection of the record at the baked head,
-   typeset to Comrie's table doctrine: whitespace instead of rules,
-   per-column figure design. On screen it reads like the rest of the
-   site; under @media print the paper theme is forced (a frozen edition
-   is printed on paper, never on the night palette), the interactive
-   chrome leaves, and tables carry no rules at all , alignment alone
-   does the dividing. */
-
-.almanac-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 12.5px;
-  line-height: 20px;
-  font-variant-numeric: tabular-nums lining-nums;
-}
-.almanac-table th {
-  font-size: 10.5px;
-  letter-spacing: var(--track-caps, 0.08em);
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--ink-3);
-  text-align: left;
-  padding: 0 16px 6px 0;
-}
-.almanac-table td {
-  vertical-align: baseline;
-  padding: 2px 16px 2px 0;
-  border: 0; /* no rules in tables , whitespace divides */
-}
-.almanac-table th:last-child,
-.almanac-table td:last-child {
-  padding-right: 0;
-}
-.almanac-table th.num {
-  text-align: right;
-}
-/* Group-of-five leading, the almanac's row rhythm. */
-.almanac-table tbody tr:nth-child(5n + 1):not(:first-child) > td {
-  padding-top: 12px;
-}
-/* Narrow screens: the edition's tables scroll in place rather than
-   widening the page; print and wide screens are untouched. */
-@media screen and (max-width: 40rem) {
-  .almanac-table {
-    display: block;
-    overflow-x: auto;
-  }
-}
-/* The supersession seam in the edition: gold along the row's left edge,
-   the kintsugi thread , present exactly where a supersession event is
-   signed, absent everywhere else. */
-.almanac-table tr.almanac-seam > td:first-child {
-  box-shadow: inset 2px 0 0 var(--brass-gold);
-  padding-left: 8px;
-}
-
 @media print {
   /* Force the paper theme: a printed edition never ships the night
-     palette. Re-pin the dark tokens the almanac surface reads. */
+     palette. Re-pin the dark tokens the print surface reads. */
   .dark {
     --paper: var(--paper-ivory);
     --paper-raised: oklch(99.2% 0.004 248);
@@ -1926,27 +1561,6 @@ kbd {
   body {
     background: #fff !important;
   }
-  /* The projection sheds the instrument chrome when the edition prints:
-     header strip, time rail, footer, palette , none of it is record. */
-  body:has(.almanac-edition) header,
-  body:has(.almanac-edition) footer,
-  body:has(.almanac-edition) .skip-link {
-    display: none !important;
-  }
-  .almanac-edition {
-    max-width: none;
-  }
-  /* No rules anywhere in printed tables; whitespace divides. */
-  .almanac-table th,
-  .almanac-table td,
-  .almanac-edition .ledger,
-  .almanac-edition .ledger > * {
-    border: 0 !important;
-  }
-  .almanac-section {
-    break-inside: avoid-page;
-  }
-
   /* The inset shell sheds its chrome on EVERY printed page
      (Observatory rule 2.6.2): the sidebar, header, skip link, and
      footer machine row go; the provider and the inner scroll region
