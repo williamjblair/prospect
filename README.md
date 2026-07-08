@@ -127,6 +127,7 @@ Current public artifacts:
 ./prospect agent                  # autonomous agent: search, verify, converge on a hypothesis
 ./prospect receipt                # emit portable receipts (activity to signed replayable state)
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
+./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service # paste, HTTP, and MCP acceptance service
 python examples/receipt_bridge_client.py # run the external receipt bridge client
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect disease-overlay        # attach frozen Open Targets disease context to the leaderboard
@@ -142,6 +143,8 @@ python tests/test_skill_parity.py # Skill checker matches the engine
 ```
 
 The web app reads a single signed `frontier.json`; it runs credential-free and offline.
+External teams can run their own signatures, DE tables, and gene lists through the service with
+[docs/RUN_YOUR_OWN_CLAIM.md](docs/RUN_YOUR_OWN_CLAIM.md).
 
 ## Guarantees
 

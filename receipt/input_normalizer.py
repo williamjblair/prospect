@@ -25,9 +25,16 @@ GENE_COLUMNS = [
 ]
 
 ALIASES = {
+    "IL-7R": "IL7R",
+    "CD127": "IL7R",
+    "CD25": "IL2RA",
     "PD-1": "PDCD1",
     "PD1": "PDCD1",
     "CD279": "PDCD1",
+    "PD-L1": "CD274",
+    "PDL1": "CD274",
+    "B7-H1": "CD274",
+    "B7H1": "CD274",
     "TIM3": "HAVCR2",
     "TIM-3": "HAVCR2",
     "LAG-3": "LAG3",
@@ -175,4 +182,3 @@ def parse_submission_text(text: str, filename: str = "") -> dict[str, Any]:
         "genes": genes,
         "warnings": warnings,
     }
-

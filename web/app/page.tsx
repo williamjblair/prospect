@@ -1397,8 +1397,8 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
             <div style={{ display: "grid", gap: 8, alignContent: "center", minHeight: 180 }}>
               <div className="t-label">No local setup required</div>
               <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-                The same frozen rule is also exposed by <span className="t-mono">./prospect serve-acceptance --port 8130</span>
-                {" "}and by the MCP tool <span className="t-mono">prospect.receipt.submit_artifact</span>.
+                The same frozen rule is also exposed by <span className="t-mono">./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service</span>
+                {" "}and by the MCP tools <span className="t-mono">prospect.acceptance.submit_artifact</span> and <span className="t-mono">prospect.acceptance.get_verdict</span>.
               </p>
             </div>
           )}

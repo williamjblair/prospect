@@ -1,0 +1,28 @@
+app = "prospect-acceptance"
+primary_region = "sjc"
+
+[build]
+  dockerfile = "Dockerfile.acceptance"
+
+[env]
+  PROSPECT_ACCEPTANCE_DATA_DIR = "/data"
+  PROSPECT_ACCEPTANCE_RATE_LIMIT = "120"
+  PROSPECT_ACCEPTANCE_RATE_WINDOW = "60"
+
+[[mounts]]
+  source = "prospect_acceptance_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8130
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"

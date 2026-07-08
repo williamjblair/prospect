@@ -71,14 +71,20 @@ proposal only.
 For arbitrary submissions without stdio setup:
 
 ```bash
-./prospect serve-acceptance --port 8130
+./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 ```
 
 Then POST a signature JSON, DE CSV, ranked marker table, or plain gene list to
-`/submit`, or call `/mcp` with `prospect.receipt.submit_artifact`. The service
+`/submit`, or call `/mcp` with `prospect.acceptance.submit_artifact`. The service
 returns a receipt, typed driver/passenger/contradicted/not_assayed counts,
 `accepted=false`, `human_signature_required`, and a shareable `/state/<id>`
 page.
+
+The HTTP MCP endpoint also exposes `prospect.acceptance.discover_schema` and
+`prospect.acceptance.get_verdict`, while retaining
+`prospect.receipt.submit_artifact` as a compatibility alias. Stored states live
+under the configured data directory and the public ledger is available at
+`/ledger.json`.
 
 The static export lives at:
 

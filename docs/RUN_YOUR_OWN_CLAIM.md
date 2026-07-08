@@ -51,7 +51,7 @@ not assayed due to no on-target knockdown, and NOTGENE as not found.
 Run the service:
 
 ```bash
-./prospect serve-acceptance --port 8130
+./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 ```
 
 Submit a claim:
@@ -66,6 +66,13 @@ Open the returned `state_url`, for example:
 
 ```text
 http://127.0.0.1:8130/state/state_<id>
+```
+
+The service writes each result to `var/acceptance_service/states`, so the state
+page survives a restart. The public ledger is:
+
+```bash
+curl -s http://127.0.0.1:8130/ledger.json
 ```
 
 Health check:
@@ -89,7 +96,15 @@ Submit an artifact bundle:
 ```bash
 curl -s http://127.0.0.1:8130/mcp \
   -H 'content-type: application/json' \
-  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"prospect.receipt.submit_artifact","arguments":{"bundle":{"source_name":"external_team","filename":"signature.txt","text":"IL7R\nCCR7\nPD-1\nNOTGENE"}}}}'
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"prospect.acceptance.submit_artifact","arguments":{"source_name":"external_team","filename":"signature.txt","text":"IL7R\nCCR7\nPD-1\nNOTGENE"}}}'
+```
+
+Fetch the stored verdict:
+
+```bash
+curl -s http://127.0.0.1:8130/mcp \
+  -H 'content-type: application/json' \
+  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"prospect.acceptance.get_verdict","arguments":{"state_id":"state_<id>"}}}'
 ```
 
 For stdio MCP, use:
@@ -99,6 +114,20 @@ For stdio MCP, use:
 ```
 
 The tool name is the same: `prospect.receipt.submit_artifact`.
+
+## Path 4: container service
+
+The production service image is defined in `Dockerfile.acceptance` and uses
+`PROSPECT_ACCEPTANCE_DATA_DIR` for durable state.
+
+```bash
+docker build -f Dockerfile.acceptance -t prospect-acceptance .
+docker run --rm -p 8130:8130 -v "$PWD/var/acceptance_service:/data" prospect-acceptance
+```
+
+`fly.acceptance.toml` is the matching hosted service template. It exposes port
+8130, checks `/health`, mounts `/data`, and keeps the same typed-status
+contract.
 
 ## Typed verdicts
 
