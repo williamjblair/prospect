@@ -1,0 +1,668 @@
+{
+  "acceptance": false,
+  "accepted": false,
+  "candidate_count": 18,
+  "candidate_set_id": "discovery_35a9129da0c18f80",
+  "comparable_phenotype_rules": {
+    "agreement_requires": [
+      "same perturbed gene",
+      "primary human T-cell or justified immune-cell context",
+      "activation-regulation readout or a stated bridge to activation-transcriptome breadth",
+      "direction and timepoint interpretable against the Marson stimulated phenotype"
+    ],
+    "contradiction_requires": [
+      "same perturbed gene",
+      "comparable phenotype and assay direction",
+      "adequate perturbation evidence in the comparator",
+      "the comparator's null or opposite effect directly tests the active claim"
+    ],
+    "default_noncomparable_status": "orthogonal_phenotype",
+    "locked_examples": {
+      "schmidt_2022_2427": {
+        "reason": "Schmidt 2022 calls cytokine-production regulators, while the Marson lane scores activation-transcriptome breadth. A non-hit does not contradict the broader Marson claim unless the claim is narrowed to cytokine output.",
+        "status": "orthogonal_phenotype"
+      }
+    }
+  },
+  "content_signature": "prereg_sig_2c4a16cbb8bbeec5",
+  "dataset_freeze": {
+    "attached_frozen_artifacts": [
+      {
+        "artifact": "collectri",
+        "frozen": true,
+        "path": "examples/data/collectri_human.csv",
+        "role": "phase_1_candidate_filter",
+        "sha256": "9e065f57f3da52b12b0b114da4dada6d8b39bb54dbfa405ae2c583d94cde622f"
+      },
+      {
+        "artifact": "frontier_backbone",
+        "frozen": true,
+        "path": "examples/data/atlas_backbone.json",
+        "role": "phase_1_candidate_filter",
+        "sha256": "60ce305107d8d3d2f8b726c91c5c2afff970a4126d512f0abcff55ef6ae8122c"
+      },
+      {
+        "artifact": "replogle_k562",
+        "frozen": true,
+        "path": "examples/data/replogle_k562_de.csv",
+        "role": "phase_1_candidate_filter",
+        "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+      },
+      {
+        "artifact": "replogle_rpe1",
+        "frozen": true,
+        "path": "examples/data/replogle_rpe1_de.csv",
+        "role": "phase_1_candidate_filter",
+        "sha256": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293"
+      },
+      {
+        "artifact": "standard_t_cell_annotations",
+        "frozen": true,
+        "path": "loop.find_surprises.CANON",
+        "role": "phase_1_candidate_filter",
+        "sha256": "f69d9b3779aa5b0773c53dde18187f0986dcd45f440acf2befd6de5f09034381"
+      },
+      {
+        "artifact": "discovery_campaign",
+        "frozen": true,
+        "path": "examples/data/discovery_campaign.json",
+        "role": "ranked_candidate_set",
+        "sha256": "fbfb20f1fb0bf24272876924b83a344d8daa67d4926b5c2ff3b12af831d68605"
+      },
+      {
+        "artifact": "cross_validation_sources",
+        "frozen": true,
+        "path": "examples/data/cross_validation_sources.json",
+        "role": "phase_2_external_context_sources",
+        "sha256": "69d5f5e89f3d10a84003f1c89c8d348425e3c0e09d49c7253594ccf72f61d8d0"
+      },
+      {
+        "artifact": "cross_validation",
+        "frozen": true,
+        "path": "examples/data/cross_validation.json",
+        "role": "phase_2_external_context_packet",
+        "sha256": "f562de2b35a7fd3d012c53d17ac7da5c358cf28d89fdbfdf014a6b345f9b53e0"
+      },
+      {
+        "artifact": "frontier.sig",
+        "frozen": true,
+        "path": "frontier/frontier.sig.json",
+        "role": "accepted_frontier_root_reference",
+        "sha256": "64bdb049ebfe0a6730f058919b69f556d19e9ef66adf6b3b7fcf663fe1f684b4"
+      },
+      {
+        "artifact": "phase_2_source_bundle",
+        "frozen": true,
+        "path": "examples/data/cross_validation_sources.json",
+        "role": "content-addressed_external_context_bundle",
+        "sha256": "external_sources_29ba4f339838e58c"
+      }
+    ],
+    "planned_public_dataset_slots": [
+      {
+        "candidate_sources": [
+          {
+            "current_use": "already attached where ORCS rows exist",
+            "name": "Shifrut et al. 2018 Cell SLICE screen",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30449619/"
+          },
+          {
+            "current_use": "orthogonal unless the specific readout is comparable",
+            "name": "Schmidt et al. 2022 Science primary T-cell CRISPRa or CRISPRi screens",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35113687/"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "comparable activation or immune-function perturbation screen",
+        "slot": "additional_primary_t_cell_crispr_screen"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "NHGRI-EBI GWAS Catalog REST API v2",
+            "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/docs"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "immune-trait disease-genetics hook",
+        "slot": "gwas_catalog_immune_traits"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "Broad DepMap CRISPR dependency downloads",
+            "url": "https://depmap.org/"
+          },
+          {
+            "name": "Sanger DepMap CRISPR knockout processed data",
+            "url": "https://depmap.sanger.ac.uk/documentation/datasets/wg-crispr-knockout/"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "broad dependency or proliferation artifact kill",
+        "slot": "depmap_dependency"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "STRING functional protein association API",
+            "url": "https://string-db.org/help/api/"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "mechanistic coherence or alternative-mechanism kill",
+        "slot": "protein_interaction_network"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "DICE immune cell expression downloads",
+            "url": "https://dice-database.org/downloads"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "immune-subset expression support or cell-context kill",
+        "slot": "immune_subset_expression_atlas"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "Ensembl Compara homology API",
+            "url": "https://rest.ensembl.org/"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "orthology or conservation context, not acceptance by itself",
+        "slot": "evolutionary_conservation"
+      },
+      {
+        "candidate_sources": [
+          {
+            "name": "ChEMBL data web services",
+            "url": "https://chembl.gitbook.io/chembl-interface-documentation/web-services/chembl-data-web-services"
+          }
+        ],
+        "freeze_required_before_scoring": true,
+        "minimum_role": "druggability hook or absence of targetable chemistry",
+        "slot": "drugbank_or_chembl_target_hook"
+      }
+    ],
+    "rule": "no new public comparator can score a candidate until its fetched payload is stored and hashed"
+  },
+  "failure_policy": "A candidate is removed from the defended-discovery lane if any pre-registered kill criterion is met. The kill threshold cannot be edited after this packet id is committed.",
+  "falsifiable_experiment_template": {
+    "perturbation": "CRISPRi knockdown of the candidate gene, with non-targeting and pathway controls",
+    "readouts": [
+      "target knockdown quality",
+      "activation-marker flow cytometry",
+      "targeted RNA-seq or Perturb-seq at 8h and 48h",
+      "cell viability and proliferation"
+    ],
+    "refutes_if": "on-target knockdown is adequate but the stimulated activation program, marker readouts, and viability controls show no candidate-specific activation-regulator effect",
+    "system": "stimulated primary human CD4+ T cells"
+  },
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "goalpost_policy": "candidate fails if any pre-registered kill criterion is met; thresholds cannot change after pre_registration_id is committed",
+  "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
+  "next_step": "human_signature_required before any accepted-state transition; then freeze external datasets",
+  "phase": "defended_discovery_preregistration",
+  "pre_registered_kill_attempts": [
+    {
+      "candidate_fails_if": "the Marson effect is driven by failed knockdown calls, one unstable guide, off-target behavior, or a missing on-target stimulated perturbation",
+      "evidence_needed": "guide-level or released perturbation-quality fields where available",
+      "independent_axis": "perturbation quality and guide behavior",
+      "kill_id": "technical_confound"
+    },
+    {
+      "candidate_fails_if": "Replogle, DepMap, or another frozen dependency source shows broad growth or housekeeping behavior that explains the activation signature better than immune regulation",
+      "evidence_needed": "Replogle K562/RPE1 plus frozen DepMap dependency scores",
+      "independent_axis": "broad dependency outside the CD4+ activation setting",
+      "kill_id": "essentiality_or_proliferation_artifact"
+    },
+    {
+      "candidate_fails_if": "a comparable primary T-cell screen or donor-aware public dataset directly tests the activation-regulator claim and shows no compatible effect",
+      "evidence_needed": "at least one comparable primary T-cell perturbation comparator",
+      "independent_axis": "replication across public datasets and assay contexts",
+      "kill_id": "batch_or_dataset_specificity"
+    },
+    {
+      "candidate_fails_if": "network, expression, disease, or chemistry evidence supports a better explanation, such as downstream effector labeling, activation-state marker behavior, or another pathway node",
+      "evidence_needed": "STRING or BioGRID, DICE or equivalent, GWAS Catalog, and ChEMBL or DrugBank",
+      "independent_axis": "simpler biological explanation",
+      "kill_id": "alternative_mechanism"
+    }
+  ],
+  "pre_registered_on": "2026-07-08",
+  "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
+  "ranked_candidates": [
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "screen_hit_plus_context",
+      "current_external_screen_hits": [
+        "shifrut_2018_1107"
+      ],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "PGGT1B",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 3014,
+      "rank": 1,
+      "rest_de": 175,
+      "rpe1_de": null,
+      "score": 3389,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "RCC1L",
+      "k562_de": 5,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 1167,
+      "rank": 2,
+      "rest_de": 58,
+      "rpe1_de": null,
+      "score": 1659,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "MCAT",
+      "k562_de": 20,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 780,
+      "rank": 3,
+      "rest_de": 113,
+      "rpe1_de": null,
+      "score": 1217,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "RWDD2B",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 720,
+      "rank": 4,
+      "rest_de": 190,
+      "rpe1_de": null,
+      "score": 1080,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "screen_hit_plus_context",
+      "current_external_screen_hits": [
+        "shifrut_2018_1107"
+      ],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "CCDC22",
+      "k562_de": 13,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 619,
+      "rank": 5,
+      "rest_de": 116,
+      "rpe1_de": null,
+      "score": 1053,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "GAS2L1",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 457,
+      "rank": 6,
+      "rest_de": 20,
+      "rpe1_de": null,
+      "score": 987,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "SNAP29",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 407,
+      "rank": 7,
+      "rest_de": 19,
+      "rpe1_de": null,
+      "score": 938,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "CYB5RL",
+      "k562_de": 13,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 389,
+      "rank": 8,
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 928,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "screen_hit_plus_context",
+      "current_external_screen_hits": [
+        "shifrut_2018_1109"
+      ],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "LETM2",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 386,
+      "rank": 9,
+      "rest_de": 18,
+      "rpe1_de": null,
+      "score": 918,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "DAPK2",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 350,
+      "rank": 10,
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 889,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "SCO2",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 369,
+      "rank": 11,
+      "rest_de": 53,
+      "rpe1_de": null,
+      "score": 866,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "CCDC136",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 263,
+      "rank": 12,
+      "rest_de": 17,
+      "rpe1_de": null,
+      "score": 796,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "MITD1",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 250,
+      "rank": 13,
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 789,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "GZMB",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 496,
+      "rank": 14,
+      "rest_de": 261,
+      "rpe1_de": null,
+      "score": 785,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "FANCL",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 329,
+      "rank": 15,
+      "rest_de": 110,
+      "rpe1_de": null,
+      "score": 769,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "screen_hit_plus_context",
+      "current_external_screen_hits": [
+        "shifrut_2018_1107"
+      ],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "TNNC1",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 260,
+      "rank": 16,
+      "rest_de": 104,
+      "rpe1_de": null,
+      "score": 706,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim48hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "BCKDHA",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 374,
+      "rank": 17,
+      "rest_de": 291,
+      "rpe1_de": null,
+      "score": 633,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "accepted": false,
+      "current_comparable_contradictions": [],
+      "current_context_tier": "context_only",
+      "current_external_screen_hits": [],
+      "current_orthogonal_phenotypes": [
+        "schmidt_2022_2427"
+      ],
+      "gene": "ZC3H12A",
+      "k562_de": 5,
+      "known_regulon_targets": 0,
+      "marson_stim_max_de": 261,
+      "rank": 18,
+      "rest_de": 181,
+      "rpe1_de": null,
+      "score": 630,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "strongest_condition": "Stim8hr",
+      "trust_boundary": "proposal_only"
+    }
+  ],
+  "replayability": "attested",
+  "reproduce_command": "./prospect defended-discovery-preregister",
+  "signature_scope": "content seal only, not accepted frontier state",
+  "status": "evidence_attached",
+  "title": "Defended discovery pre-registration",
+  "trust_boundary": "proposal_only",
+  "win_condition": {
+    "minimum_orthogonal_public_datasets": 5,
+    "required_rungs": [
+      {
+        "criterion": "strong stimulated Marson CD4+ activation effect, absent from CollecTRI and standard T-cell regulator annotations",
+        "rung": "novelty"
+      },
+      {
+        "criterion": "re-derives from frozen Prospect packets at zero drift",
+        "rung": "frozen_replay"
+      },
+      {
+        "criterion": "not a broad Replogle K562 or RPE1 effect under the registered ceiling",
+        "rung": "cell_type_specificity"
+      },
+      {
+        "criterion": "at least five frozen public comparator datasets support the candidate or establish the honest limit of the claim",
+        "rung": "five_orthogonal_public_datasets"
+      },
+      {
+        "criterion": "agreement or contradiction can be assigned only after readout comparability is documented",
+        "rung": "phenotype_comparability"
+      },
+      {
+        "criterion": "a specific mechanism names pathway, molecule class, and expected activation readout",
+        "rung": "mechanism"
+      },
+      {
+        "criterion": "drug target, disease-genetics link, or named consensus correction",
+        "rung": "real_world_hook"
+      },
+      {
+        "criterion": "one CRISPRi experiment in stimulated primary human CD4+ cells would refute the hypothesis",
+        "rung": "falsifiable_experiment"
+      }
+    ]
+  }
+}
