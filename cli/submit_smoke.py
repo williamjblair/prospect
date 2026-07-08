@@ -6,7 +6,10 @@ import json
 import sys
 from dataclasses import dataclass
 from typing import Any, Callable
+from urllib.error import HTTPError
 from urllib.request import urlopen
+
+from cli.submit_pack import PUBLIC_ARTIFACTS
 
 DEFAULT_BASE_URL = "https://prospect-sepia-six.vercel.app"
 ROOT = "root_a8b0dcdd4024e12f"
@@ -76,6 +79,27 @@ def _check_judge(base_url: str, opener: Callable[..., Any], timeout: int) -> Che
         return Check("judge packet", False, f"fetch failed: {exc}")
 
 
+def _check_public_artifacts(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    failures = []
+    for path in PUBLIC_ARTIFACTS:
+        try:
+            _fetch_text(base_url, path, opener, timeout)
+        except HTTPError as exc:
+            if exc.code == 404:
+                failures.append(f"missing {path}")
+            else:
+                failures.append(f"fetch failed {path}: HTTP {exc.code}")
+        except Exception as exc:
+            failures.append(f"fetch failed {path}: {exc}")
+
+    if failures:
+        detail = "; ".join(failures[:3])
+        if len(failures) > 3:
+            detail += f"; {len(failures) - 3} more"
+        return Check("public artifacts", False, detail)
+    return Check("public artifacts", True, f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable")
+
+
 def _check_campaign_gate(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/campaign_gate_probe.json", opener, timeout)
@@ -136,6 +160,7 @@ def run_checks(
     checks = [
         _check_home(base_url, opener, timeout),
         _check_judge(base_url, opener, timeout),
+        _check_public_artifacts(base_url, opener, timeout),
         _check_campaign_gate(base_url, opener, timeout),
         _check_transfer(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),

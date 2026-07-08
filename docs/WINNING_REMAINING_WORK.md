@@ -63,7 +63,7 @@ This audit used the current worktree and live production data as the source of r
   - `/data/judge_packet.json`: replay gate includes `./prospect final-check`, `./prospect submit-smoke`,
     `./prospect submit-pack`, and `./prospect demo-pack`.
   - `./prospect submit-smoke`: executable production smoke for the upload checklist, including the
-    current judge-packet command surface.
+    current judge-packet command surface and every public artifact endpoint listed by `submit-pack`.
   - `./prospect submit-pack`: local copy-safe packet for the final upload fields, full public artifact
     list, and replay commands, with a self-contained preflight list.
   - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails and a

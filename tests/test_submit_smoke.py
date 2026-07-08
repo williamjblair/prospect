@@ -8,6 +8,7 @@ from urllib.error import HTTPError
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+from cli.submit_pack import PUBLIC_ARTIFACTS
 from cli.submit_smoke import run_checks
 
 
@@ -37,7 +38,7 @@ def _opener(payloads):
     return open_url
 
 
-def test_submit_smoke_accepts_current_public_payload_shapes():
+def _current_payloads():
     payloads = {
         "/": "<html><title>Prospect</title><body>Prospect</body></html>",
         "/data/judge_packet.json": {
@@ -72,12 +73,37 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
             "mcp_command": "./prospect mcp",
         },
     }
+    for artifact in PUBLIC_ARTIFACTS:
+        payloads.setdefault(artifact, {"artifact": artifact})
+    return payloads
+
+
+def test_submit_smoke_accepts_current_public_payload_shapes():
+    payloads = _current_payloads()
 
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 6
+    assert len(result.checks) == 7
     assert any(check.name == "judge packet" for check in result.checks)
+    assert any(
+        check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
+        for check in result.checks
+    )
+
+
+def test_submit_smoke_rejects_missing_public_artifact():
+    payloads = _current_payloads()
+    payloads.pop("/data/agent_campaign.json")
+
+    result = run_checks("https://example.test", opener=_opener(payloads))
+
+    assert result.ok is False
+    assert any(
+        check.name == "public artifacts" and "missing /data/agent_campaign.json" in check.detail
+        for check in result.checks
+        if not check.ok
+    )
 
 
 def test_submit_smoke_rejects_wrong_frontier_root():
