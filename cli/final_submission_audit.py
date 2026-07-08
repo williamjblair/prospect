@@ -58,6 +58,30 @@ HUMAN_ONLY_ACTIONS = [
     "wet_lab_execution",
 ]
 
+RENDERED_QA_CHECKLIST = {
+    "production_url": LIVE_URL,
+    "local_url": "http://localhost:8124",
+    "avoid_port": 3000,
+    "tabs": [
+        {
+            "tab": "Overview",
+            "must_show": ["Opening claim checks", "48%", "Judge packet"],
+        },
+        {
+            "tab": "Findings",
+            "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"],
+        },
+        {
+            "tab": "Frontier",
+            "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"],
+        },
+        {
+            "tab": "Agent",
+            "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"],
+        },
+    ],
+}
+
 
 def build_audit() -> dict[str, Any]:
     return {
@@ -77,6 +101,7 @@ def build_audit() -> dict[str, Any]:
             "accepted_state_gate": "frozen_replay_plus_human_ed25519_signature",
             "model_accepted_state_mutations": 0,
         },
+        "rendered_qa_checklist": RENDERED_QA_CHECKLIST,
         "human_only_actions": HUMAN_ONLY_ACTIONS,
         "limitation": "Prospect proves computation over released data, not wet-lab or clinical truth.",
     }
@@ -123,6 +148,21 @@ def _markdown(audit: dict[str, Any]) -> str:
     for item in audit["shipped_workstreams"]:
         evidence = ", ".join(f"`{value}`" for value in item["evidence"])
         lines.append(f"| {item['workstream']} | {item['state']} | {evidence} |")
+    qa = audit["rendered_qa_checklist"]
+    lines += [
+        "",
+        "## Rendered QA checklist",
+        "",
+        f"- Production URL: [{qa['production_url']}]({qa['production_url']})",
+        f"- Local fallback: `{qa['local_url']}`",
+        f"- Avoid local port: `{qa['avoid_port']}`",
+        "",
+        "| tab | must show |",
+        "|---|---|",
+    ]
+    for item in qa["tabs"]:
+        must_show = ", ".join(f"`{value}`" for value in item["must_show"])
+        lines.append(f"| {item['tab']} | {must_show} |")
     lines += [
         "",
         "## Public artifacts",

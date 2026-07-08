@@ -98,6 +98,45 @@
     "accepted_state_gate": "frozen_replay_plus_human_ed25519_signature",
     "model_accepted_state_mutations": 0
   },
+  "rendered_qa_checklist": {
+    "production_url": "https://prospect-sepia-six.vercel.app",
+    "local_url": "http://localhost:8124",
+    "avoid_port": 3000,
+    "tabs": [
+      {
+        "tab": "Overview",
+        "must_show": [
+          "Opening claim checks",
+          "48%",
+          "Judge packet"
+        ]
+      },
+      {
+        "tab": "Findings",
+        "must_show": [
+          "Scannable findings index",
+          "Substrate replay packet",
+          "MED19"
+        ]
+      },
+      {
+        "tab": "Frontier",
+        "must_show": [
+          "Executable bridge path",
+          "accepted=false",
+          "human_signature_required"
+        ]
+      },
+      {
+        "tab": "Agent",
+        "must_show": [
+          "Campaign pressure summary",
+          "Gladstone assay operations bundle",
+          "PGGT1B"
+        ]
+      }
+    ]
+  },
   "human_only_actions": [
     "record_demo_video",
     "submit_project_form",

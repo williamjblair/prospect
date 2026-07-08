@@ -51,6 +51,19 @@ Public artifacts: 19
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
 
+## Rendered QA checklist
+
+- Production URL: [https://prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
+- Local fallback: `http://localhost:8124`
+- Avoid local port: `3000`
+
+| tab | must show |
+|---|---|
+| Overview | `Opening claim checks`, `48%`, `Judge packet` |
+| Findings | `Scannable findings index`, `Substrate replay packet`, `MED19` |
+| Frontier | `Executable bridge path`, `accepted=false`, `human_signature_required` |
+| Agent | `Campaign pressure summary`, `Gladstone assay operations bundle`, `PGGT1B` |
+
 ## Public artifacts
 
 - `/data/frontier.json`

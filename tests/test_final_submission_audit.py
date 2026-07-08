@@ -26,6 +26,14 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
+    assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
+    assert audit["rendered_qa_checklist"]["production_url"] == "https://prospect-sepia-six.vercel.app"
+    assert audit["rendered_qa_checklist"]["avoid_port"] == 3000
+    tabs = {item["tab"]: item for item in audit["rendered_qa_checklist"]["tabs"]}
+    assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
+    assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
+    assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
+    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"]
     assert "record_demo_video" in audit["human_only_actions"]
     assert "submit_project_form" in audit["human_only_actions"]
     assert "wet_lab_execution" in audit["human_only_actions"]
@@ -58,6 +66,10 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert data["readiness"] == "submission_ready_for_human_upload"
     assert "Prospect final submission audit" in doc
     assert "Human-only actions" in doc
+    assert "Rendered QA checklist" in doc
+    assert "http://localhost:8124" in doc
+    assert "Overview" in doc
+    assert "Agent" in doc
     assert "docs/JUDGE_HANDOUT.md" in doc
     assert "record_demo_video" in doc
     assert "./prospect final-check" in doc
