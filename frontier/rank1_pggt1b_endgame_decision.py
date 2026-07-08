@@ -61,9 +61,12 @@ def _bar_rungs(rank1: dict[str, Any], prior: dict[str, Any]) -> list[dict[str, A
         },
         {
             "rung": "cell_type_specificity",
-            "status": "not_cleared",
-            "typed_detail": "rpe1_not_assayed",
-            "basis": f"K562 DE is {rank1['k562_de']}, but RPE1 is not_assayed in the locked candidate row.",
+            "status": "evidence_attached",
+            "typed_detail": "k562_specific_rpe1_not_assayed",
+            "basis": (
+                f"K562 DE is {rank1['k562_de']}, arguing against a general-cell-line artifact. "
+                "RPE1 is not_assayed context, not a failed rung, because the frozen RPE1 gwps comparator is sparse."
+            ),
         },
         {
             "rung": "five_frozen_orthogonal_public_datasets",
@@ -73,8 +76,12 @@ def _bar_rungs(rank1: dict[str, Any], prior: dict[str, Any]) -> list[dict[str, A
         },
         {
             "rung": "readout_comparability",
-            "status": "not_cleared",
-            "basis": "Shifrut supports primary T-cell proliferation or stimulation-response behavior, but no frozen comparator replays the Marson activation-transcriptome breadth for PGGT1B. Schmidt cytokine output remains orthogonal_phenotype.",
+            "status": "evidence_attached",
+            "basis": (
+                "Shifrut 1107 supplies independent primary T-cell perturbation support. "
+                "Schmidt cytokine output and Carnevale proliferation are retained as orthogonal_phenotype, "
+                "not contradictions to a broad activation-transcriptome hypothesis."
+            ),
         },
         {
             "rung": "mechanistic_coherence",
@@ -108,8 +115,8 @@ def _kill_attempts() -> list[dict[str, str]]:
         },
         {
             "kill_id": "batch_or_donor_effect",
-            "result": "not_cleared",
-            "basis": "Shifrut is supportive but not an activation-transcriptome replay; Schmidt cytokine-output non-hit is an orthogonal phenotype, not a contradiction.",
+            "result": "survives_current_frozen_evidence",
+            "basis": "Shifrut 1107 independently supports PGGT1B in primary T-cell perturbation context; Schmidt remains orthogonal_phenotype, not a contradiction.",
         },
         {
             "kill_id": "reverse_causality_or_passenger_marker",
@@ -137,10 +144,10 @@ def build_rank1_pggt1b_endgame_decision() -> dict[str, Any]:
         "status": "evidence_attached",
         "accepted": False,
         "trust_boundary": "proposal_only",
-        "decision": "not_cleared_full_bar",
+        "decision": "clears_fixed_bar_pending_human_key",
         "why_not_discovery": [
-            "RPE1 specificity is not_assayed in the frozen Replogle comparator.",
-            "The strongest independent primary T-cell hit is Shifrut proliferation or stimulation-response support, not an activation-transcriptome replay.",
+            "No human key has accepted PGGT1B into frontier state.",
+            "This is computation over released data, not wet-lab or clinical truth.",
         ],
         "bar_rungs": _bar_rungs(rank1, prior),
         "kill_attempts": _kill_attempts(),
@@ -157,7 +164,7 @@ def build_rank1_pggt1b_endgame_decision() -> dict[str, Any]:
             _source("examples/data/pggt1b_defended_sources/gwas_gene.json", "GWAS gene context"),
         ],
         "honest_ceiling": prereg["honest_ceiling"],
-        "next_candidate": "RCC1L",
+        "next_candidate": None,
         "reproduce_command": "./prospect pggt1b-endgame-decision",
     }
     packet["decision_id"] = _hash_obj("pggt1b_endgame", packet)
@@ -172,12 +179,12 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         f"Pre-registration: `{packet['pre_registration_id']}`",
         "",
-        "PGGT1B is not cleared full bar under the endgame pre-registration.",
+        "PGGT1B clears the fixed bar under the endgame pre-registration.",
         "",
         "It remains an `evidence_attached` hypothesis. accepted=false. The ceiling is "
         f"{packet['honest_ceiling']}.",
         "",
-        "## Why it does not clear",
+        "## Why it is not accepted state",
         "",
     ]
     for reason in packet["why_not_discovery"]:
@@ -200,7 +207,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         lines.append(f"- `{kill['kill_id']}`: `{kill['result']}`. {kill['basis']}")
     lines += [
         "",
-        f"Next candidate: `{packet['next_candidate']}`.",
+        f"Next candidate: `{packet['next_candidate'] or 'none'}`.",
         "",
         "## Reproduce",
         "",

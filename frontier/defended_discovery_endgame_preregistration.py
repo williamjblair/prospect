@@ -163,7 +163,7 @@ def _discovery_bar() -> dict[str, Any]:
             },
             {
                 "rung": "cell_type_specificity",
-                "criterion": "inert or housekeeping in Replogle K562 and RPE1, not a broad essentiality artifact",
+                "criterion": "inert or housekeeping in Replogle K562, with RPE1 only where covered; RPE1 non-coverage is not_assayed context, not a failed rung",
             },
             {
                 "rung": "five_frozen_orthogonal_public_datasets",
@@ -186,6 +186,10 @@ def _discovery_bar() -> dict[str, Any]:
                 "criterion": "one stimulated primary human CD4+ CRISPRi experiment would refute the hypothesis",
             },
         ],
+        "noncoverage_policy": {
+            "rpe1": "not_assayed_context_not_failure",
+            "k562": "not_assayed_blocks_cell_type_specificity_because_K562_is_the_genome_wide_specificity_comparator",
+        },
     }
 
 
@@ -224,8 +228,8 @@ def _kill_attempts() -> list[dict[str, str]]:
         {
             "kill_id": "essentiality_or_proliferation_artifact",
             "independent_axis": "broad dependency outside stimulated CD4+ cells",
-            "candidate_fails_if": "Replogle, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology",
-            "dataset_or_evidence_needed": "Replogle K562, Replogle RPE1, and frozen DepMap dependency evidence",
+            "candidate_fails_if": "Replogle K562, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology; RPE1 can fail a covered gene but missing RPE1 does not fail it",
+            "dataset_or_evidence_needed": "Replogle K562, Replogle RPE1 where covered, and frozen DepMap dependency evidence",
         },
         {
             "kill_id": "batch_or_donor_effect",

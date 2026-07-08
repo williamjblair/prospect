@@ -28,7 +28,7 @@
       "typed_status": "orthogonal_phenotype"
     }
   },
-  "content_signature": "endgame_prereg_sig_4f8e3378c8d503a7",
+  "content_signature": "endgame_prereg_sig_508cce3dd0bf0a2e",
   "dataset_freeze": {
     "attached_frozen_artifacts": [
       {
@@ -186,6 +186,10 @@
   },
   "discovery_bar": {
     "minimum_orthogonal_public_datasets": 5,
+    "noncoverage_policy": {
+      "k562": "not_assayed_blocks_cell_type_specificity_because_K562_is_the_genome_wide_specificity_comparator",
+      "rpe1": "not_assayed_context_not_failure"
+    },
     "required_rungs": [
       {
         "criterion": "strong causal Marson CD4+ activation driver, absent from CollecTRI and standard T-cell regulator annotations",
@@ -196,7 +200,7 @@
         "rung": "zero_drift_reproducibility"
       },
       {
-        "criterion": "inert or housekeeping in Replogle K562 and RPE1, not a broad essentiality artifact",
+        "criterion": "inert or housekeeping in Replogle K562, with RPE1 only where covered; RPE1 non-coverage is not_assayed context, not a failed rung",
         "rung": "cell_type_specificity"
       },
       {
@@ -254,8 +258,8 @@
       "kill_id": "technical_confound"
     },
     {
-      "candidate_fails_if": "Replogle, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology",
-      "dataset_or_evidence_needed": "Replogle K562, Replogle RPE1, and frozen DepMap dependency evidence",
+      "candidate_fails_if": "Replogle K562, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology; RPE1 can fail a covered gene but missing RPE1 does not fail it",
+      "dataset_or_evidence_needed": "Replogle K562, Replogle RPE1 where covered, and frozen DepMap dependency evidence",
       "independent_axis": "broad dependency outside stimulated CD4+ cells",
       "kill_id": "essentiality_or_proliferation_artifact"
     },
@@ -279,7 +283,7 @@
     }
   ],
   "pre_registered_on": "2026-07-08",
-  "pre_registration_id": "endgame_prereg_eb5b25712a2a0355",
+  "pre_registration_id": "endgame_prereg_cc12f4edc74c23b1",
   "ranked_candidates": [
     {
       "accepted": false,

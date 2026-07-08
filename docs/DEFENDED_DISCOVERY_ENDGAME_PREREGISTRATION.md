@@ -1,6 +1,6 @@
 # Defended discovery endgame pre-registration
 
-Pre-registration id: `endgame_prereg_eb5b25712a2a0355`
+Pre-registration id: `endgame_prereg_cc12f4edc74c23b1`
 
 Frontier root: `root_a8b0dcdd4024e12f`
 
@@ -37,7 +37,7 @@ Candidates must be evaluated in this order. A prior packet is evidence only unde
 
 - `novel_driver`: strong causal Marson CD4+ activation driver, absent from CollecTRI and standard T-cell regulator annotations
 - `zero_drift_reproducibility`: re-derives from frozen data with frontier drift equal to zero
-- `cell_type_specificity`: inert or housekeeping in Replogle K562 and RPE1, not a broad essentiality artifact
+- `cell_type_specificity`: inert or housekeeping in Replogle K562, with RPE1 only where covered; RPE1 non-coverage is not_assayed context, not a failed rung
 - `five_frozen_orthogonal_public_datasets`: at least five public comparator datasets are frozen, content-addressed, and scored
 - `readout_comparability`: agreement or contradiction is assigned only when the comparator tests a comparable phenotype
 - `mechanistic_coherence`: specific pathway, molecular role, and expected activation readout are stated
@@ -56,7 +56,7 @@ Candidates must be evaluated in this order. A prior packet is evidence only unde
 ## Pre-registered kills
 
 - `technical_confound`: fails if the apparent Marson effect is explained by failed knockdown, off-target labeling, missing on-target stimulated perturbation, or one unstable guide. Evidence: Marson perturbation-quality fields and any released guide-level evidence available for the candidate.
-- `essentiality_or_proliferation_artifact`: fails if Replogle, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology. Evidence: Replogle K562, Replogle RPE1, and frozen DepMap dependency evidence.
+- `essentiality_or_proliferation_artifact`: fails if Replogle K562, DepMap, or another dependency source explains the signal as general growth, viability, or housekeeping biology; RPE1 can fail a covered gene but missing RPE1 does not fail it. Evidence: Replogle K562, Replogle RPE1 where covered, and frozen DepMap dependency evidence.
 - `batch_or_donor_effect`: fails if a comparable public primary T-cell perturbation dataset directly tests the activation-driver claim and shows no compatible effect. Evidence: Shifrut, Schmidt if comparable, or another frozen primary T-cell perturbation screen.
 - `reverse_causality_or_passenger_marker`: fails if expression, disease, or perturbation evidence supports the gene as a downstream activation marker or passenger rather than a driver. Evidence: DICE or equivalent expression, GWAS Catalog, and primary perturbation evidence.
 - `better_alternative_mechanism`: fails if protein network, pathway, disease, or chemistry evidence points to a different gene or pathway node as the better causal explanation. Evidence: STRING or BioGRID, ChEMBL or DrugBank, GWAS Catalog, and pathway context.

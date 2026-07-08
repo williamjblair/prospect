@@ -92,7 +92,7 @@ ccdc22_defended_evidence = load("ccdc22_defended_evidence.json")
 defended_candidate_decisions = load("defended_candidate_decisions.json")
 defended_discovery_endgame_preregistration = load("defended_discovery_endgame_preregistration.json")
 pggt1b_endgame_decision = load("pggt1b_endgame_decision.json")
-defended_discovery_endgame_exhaustion = load("defended_discovery_endgame_exhaustion.json")
+defended_discovery_endgame_result = load("defended_discovery_endgame_result.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
 
 citations = load("literature_citations.json")
@@ -233,7 +233,7 @@ data = {
     "defended_candidate_decisions": defended_candidate_decisions,
     "defended_discovery_endgame_preregistration": defended_discovery_endgame_preregistration,
     "pggt1b_endgame_decision": pggt1b_endgame_decision,
-    "defended_discovery_endgame_exhaustion": defended_discovery_endgame_exhaustion,
+    "defended_discovery_endgame_result": defended_discovery_endgame_result,
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
@@ -254,7 +254,7 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (defended_candidate_decisions, "defended_candidate_decisions.json"),
                   (defended_discovery_endgame_preregistration, "defended_discovery_endgame_preregistration.json"),
                   (pggt1b_endgame_decision, "pggt1b_endgame_decision.json"),
-                  (defended_discovery_endgame_exhaustion, "defended_discovery_endgame_exhaustion.json"),
+                  (defended_discovery_endgame_result, "defended_discovery_endgame_result.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))

@@ -47,6 +47,13 @@ def test_endgame_preregistration_locks_rank_order_and_outcome_bar():
     assert "rank 5" in packet["candidate_order_policy"]["prior_result_policy"]
     assert len(packet["discovery_bar"]["required_rungs"]) == 8
     assert packet["discovery_bar"]["minimum_orthogonal_public_datasets"] == 5
+    specificity = next(
+        row for row in packet["discovery_bar"]["required_rungs"]
+        if row["rung"] == "cell_type_specificity"
+    )
+    assert "K562" in specificity["criterion"]
+    assert "RPE1 only where covered" in specificity["criterion"]
+    assert packet["discovery_bar"]["noncoverage_policy"]["rpe1"] == "not_assayed_context_not_failure"
     assert packet["honest_fallback"]["also_counts_as_outcome"] is True
 
 

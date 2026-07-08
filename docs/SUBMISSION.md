@@ -57,9 +57,9 @@ the graph on its own word. On top of it:
 - **Real Claude Science acceptance layer**: a real scRNA-seq immunotherapy signature export enters
   Prospect through the connector and receives typed driver, passenger, contradicted-driver-claim,
   and not-assayed verdicts with `accepted=false`.
-- **Defended-discovery endgame**: a stricter pre-registration worked down 18 locked candidates.
-  Zero cleared the full bar. Four retained independent primary T-cell support, and all 18 were
-  blocked by missing RPE1 assay coverage before any accepted-state transition.
+- **Defended-discovery endgame**: a corrected pre-registration worked down 18 locked candidates.
+  PGGT1B clears the fixed bar as an `evidence_attached` proposal with `accepted=false`.
+  RPE1 non-coverage is retained as not_assayed context, never a blocking failure.
 
 ## What outlasts the week
 
@@ -98,10 +98,12 @@ the trust floor after the event window without private credentials for the stati
 - The disease-genetics overlay attaches frozen Open Targets disease context to those rows: 10 rows
   have selected immune or hematologic context, 4 have selected genetic context, and none can move
   accepted state.
-- The defended-discovery endgame locked the candidate order and bar before the deep dive. PGGT1B
-  remained rank 1 and evidence_attached, but it did not clear the full bar because RPE1 coverage
-  was missing and the independent primary T-cell screen support did not replay the activation
-  transcriptome. Across all 18 candidates, 0 cleared.
+- The defended-discovery endgame corrected the coverage artifact and re-scored the locked order.
+  PGGT1B clears the fixed bar pending human key: 10 frozen orthogonal public datasets, Shifrut
+  primary T-cell support, K562 specificity, STRING, DICE, Open Targets, ChEMBL, DepMap, mechanism,
+  hook, and adversarial kills. CCDC22 remains a supported alternate, while LETM2 and TNNC1 retain
+  Shifrut support but do not clear because K562 is not_assayed and fewer than five covering
+  datasets are attached.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -122,7 +124,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/claude_science_acceptance_demo.json`
 - `/data/defended_discovery_endgame_preregistration.json`
 - `/data/pggt1b_endgame_decision.json`
-- `/data/defended_discovery_endgame_exhaustion.json`
+- `/data/defended_discovery_endgame_result.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`

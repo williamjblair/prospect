@@ -27,7 +27,7 @@ KEPT_PACKET_KEYS = [
     "claude_science_acceptance_demo",
     "defended_discovery_endgame_preregistration",
     "pggt1b_endgame_decision",
-    "defended_discovery_endgame_exhaustion",
+    "defended_discovery_endgame_result",
 ]
 
 CUT_PACKET_KEYS = [

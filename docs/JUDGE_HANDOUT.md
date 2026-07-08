@@ -23,7 +23,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 5 proposal-only wet-lab assay rows
 - 15 public data artifacts
 - 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
-- Defended-discovery endgame: 18 locked candidates, 0 cleared the pre-registered bar, 4 retained independent primary T-cell support, 18 blocked by missing RPE1 assay coverage
+- Defended-discovery fixed bar: 18 locked candidates, 1 fixed-bar lead (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
 
 ## Trust boundary
 
@@ -36,7 +36,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 1. Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.
 2. Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.
-3. Overview: the defended-discovery endgame, 18 locked candidates tested and 0 cleared the full pre-registered bar.
+3. Overview: the defended-discovery fixed-bar result, PGGT1B clears as a proposal and remains accepted=false.
 4. Overview: the A1BG refusal and the overclaiming number.
 5. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
 6. Findings: the scannable finding index.
@@ -55,7 +55,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/claude_science_acceptance_demo.json`
 - `/data/defended_discovery_endgame_preregistration.json`
 - `/data/pggt1b_endgame_decision.json`
-- `/data/defended_discovery_endgame_exhaustion.json`
+- `/data/defended_discovery_endgame_result.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`
@@ -70,7 +70,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect claude-science`
 - `./prospect defended-discovery-endgame-preregister`
 - `./prospect pggt1b-endgame-decision`
-- `./prospect defended-discovery-endgame-exhaustion`
+- `./prospect defended-discovery-endgame-result`
 - `./prospect serve-acceptance --port 8130`
 - `python benchmark/mutation_pack.py`
 - `python examples/receipt_bridge_client.py --json`

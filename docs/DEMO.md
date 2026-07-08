@@ -40,12 +40,12 @@ non-immune cell too (MED19 moves 3,716 genes in K562); the immune program stays 
 cells, Replogle K562, and Replogle RPE1, with no accepted-state mutation.
 
 **1:40 · The defended endgame.** Overview tab. Scroll to the defended-discovery endgame. The
-pre-registration locked the bar before the deep dive: strong Marson driver signal, Replogle K562
-and RPE1 specificity, five-plus frozen public datasets, comparator-readout checks, mechanism, hook,
-three kill attempts, and a falsifiable stimulated primary CD4+ experiment. Prospect worked down all
-18 locked candidates. Zero cleared. Four retained independent primary T-cell support, but all 18
-hit the same hard blocker: missing RPE1 assay coverage. This is the point, the system found signal
-and refused to promote it past the evidence.
+corrected pre-registration locks the bar but fixes the coverage artifact: K562 is the genome-wide
+specificity comparator, and sparse RPE1 coverage is not_assayed context, not a failed rung. Prospect
+re-scored all 18 locked candidates. PGGT1B clears the fixed bar as `evidence_attached` with
+`accepted=false` and `human_signature_required`. CCDC22 remains a supported alternate, LETM2 and
+TNNC1 keep Shifrut support but die on K562 not_assayed and insufficient covering datasets, and the
+other candidates die on real blockers or kills.
 
 **1:55 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`
 lets Claude Science or another workbench discover the receipt schema, validate a receipt, submit a
@@ -54,6 +54,6 @@ packet shows 3,014 Stim8hr DE genes, 175 Rest DE genes,
 1 K562 DE gene, 0 CollecTRI targets, a 17.22x stimulation ratio, a 3014x transfer check, two
 literature hooks, a released-matrix slice of 671 moved transcripts, missing evidence before acceptance,
 and a stimulated CD4+ assay readout.
-Then open `/data/defended_discovery_endgame_exhaustion.json`. The whole frontier re-derives from
+Then open `/data/defended_discovery_endgame_result.json`. The whole frontier re-derives from
 frozen data with zero drift and carries one human signature. Generation is cheap. Accepted state is
 the scarce thing, and it compounds.

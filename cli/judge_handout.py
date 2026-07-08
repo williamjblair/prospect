@@ -40,7 +40,7 @@ def build_handout() -> dict[str, Any]:
     disease = _json(DATA / "disease_genetics_overlay.json")
     lab = _json(DATA / "lab_packet.json")
     claude_science = _json(DATA / "claude_science_acceptance_demo.json")
-    endgame = _json(DATA / "defended_discovery_endgame_exhaustion.json")
+    endgame = _json(DATA / "defended_discovery_endgame_result.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
@@ -70,11 +70,12 @@ def build_handout() -> dict[str, Any]:
             "claude_science_not_assayed": claude_science["prospect"]["typed_status_counts"]["not_assayed"],
             "endgame_candidates": endgame["candidate_count"],
             "endgame_cleared": endgame["cleared_count"],
+            "endgame_lead": (endgame.get("lead_candidate") or {}).get("gene", "none"),
             "endgame_with_t_cell_support": sum(
                 1 for row in endgame["candidate_decisions"]
                 if row["independent_primary_t_cell_support"]
             ),
-            "endgame_rpe1_not_assayed": endgame["common_blockers"][0]["affected_candidates"],
+            "endgame_rpe1_not_assayed": endgame["non_blocking_not_assayed"][0]["affected_candidates"],
         },
         "trust_boundary": {
             "model_role": "propose, search, pressure-test",
@@ -85,7 +86,7 @@ def build_handout() -> dict[str, Any]:
         "five_minute_path": [
             "Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.",
             "Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.",
-            "Overview: the defended-discovery endgame, 18 locked candidates tested and 0 cleared the full pre-registered bar.",
+            "Overview: the defended-discovery fixed-bar result, PGGT1B clears as a proposal and remains accepted=false.",
             "Overview: the A1BG refusal and the overclaiming number.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
             "Findings: the scannable finding index.",
@@ -101,7 +102,7 @@ def build_handout() -> dict[str, Any]:
             "./prospect claude-science",
             "./prospect defended-discovery-endgame-preregister",
             "./prospect pggt1b-endgame-decision",
-            "./prospect defended-discovery-endgame-exhaustion",
+            "./prospect defended-discovery-endgame-result",
             "./prospect serve-acceptance --port 8130",
             "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
@@ -147,10 +148,10 @@ def _markdown(handout: dict[str, Any]) -> str:
             f"{counts['claude_science_not_assayed']} not assayed"
         ),
         (
-            f"- Defended-discovery endgame: {counts['endgame_candidates']} locked candidates, "
-            f"{counts['endgame_cleared']} cleared the pre-registered bar, "
+            f"- Defended-discovery fixed bar: {counts['endgame_candidates']} locked candidates, "
+            f"{counts['endgame_cleared']} fixed-bar lead ({counts['endgame_lead']}), "
             f"{counts['endgame_with_t_cell_support']} retained independent primary T-cell support, "
-            f"{counts['endgame_rpe1_not_assayed']} blocked by missing RPE1 assay coverage"
+            f"{counts['endgame_rpe1_not_assayed']} retain RPE1 as not_assayed context"
         ),
         "",
         "## Trust boundary",

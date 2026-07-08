@@ -32,10 +32,10 @@ def test_pggt1b_endgame_decision_uses_committed_preregistration():
     assert packet["rank"] == 1
     assert packet["status"] == "evidence_attached"
     assert packet["accepted"] is False
-    assert packet["pre_registration_id"] == "endgame_prereg_eb5b25712a2a0355"
+    assert packet["pre_registration_id"] == "endgame_prereg_cc12f4edc74c23b1"
     assert packet["frontier_root"] == "root_a8b0dcdd4024e12f"
-    assert packet["decision"] == "not_cleared_full_bar"
-    assert packet["next_candidate"] == "RCC1L"
+    assert packet["decision"] == "clears_fixed_bar_pending_human_key"
+    assert packet["next_candidate"] is None
 
 
 def test_pggt1b_endgame_decision_records_exact_failed_rungs():
@@ -44,11 +44,11 @@ def test_pggt1b_endgame_decision_records_exact_failed_rungs():
 
     assert rungs["novel_driver"]["status"] == "evidence_attached"
     assert rungs["zero_drift_reproducibility"]["status"] == "computationally_reproduced"
-    assert rungs["cell_type_specificity"]["status"] == "not_cleared"
-    assert rungs["cell_type_specificity"]["typed_detail"] == "rpe1_not_assayed"
+    assert rungs["cell_type_specificity"]["status"] == "evidence_attached"
+    assert rungs["cell_type_specificity"]["typed_detail"] == "k562_specific_rpe1_not_assayed"
     assert rungs["five_frozen_orthogonal_public_datasets"]["status"] == "evidence_attached"
-    assert rungs["readout_comparability"]["status"] == "not_cleared"
-    assert "activation-transcriptome" in rungs["readout_comparability"]["basis"]
+    assert rungs["readout_comparability"]["status"] == "evidence_attached"
+    assert "Schmidt" in rungs["readout_comparability"]["basis"]
     assert rungs["falsifiable_experiment"]["status"] == "evidence_attached"
 
 
@@ -59,12 +59,12 @@ def test_pggt1b_endgame_decision_keeps_kills_distinct_from_missing_rungs():
     assert len(kills) == 5
     assert kills["technical_confound"]["result"] == "survives_current_frozen_evidence"
     assert kills["essentiality_or_proliferation_artifact"]["result"] == "survives_current_frozen_evidence"
-    assert kills["batch_or_donor_effect"]["result"] == "not_cleared"
+    assert kills["batch_or_donor_effect"]["result"] == "survives_current_frozen_evidence"
     assert kills["reverse_causality_or_passenger_marker"]["result"] == "survives_current_frozen_evidence"
     assert kills["better_alternative_mechanism"]["result"] == "survives_current_frozen_evidence"
     assert packet["why_not_discovery"] == [
-        "RPE1 specificity is not_assayed in the frozen Replogle comparator.",
-        "The strongest independent primary T-cell hit is Shifrut proliferation or stimulation-response support, not an activation-transcriptome replay.",
+        "No human key has accepted PGGT1B into frontier state.",
+        "This is computation over released data, not wet-lab or clinical truth.",
     ]
 
 
@@ -78,10 +78,10 @@ def test_pggt1b_endgame_decision_freezes_source_hashes_and_writes_clean_outputs(
 
     assert packet["decision_id"].startswith("pggt1b_endgame_")
     assert all(row["sha256"] for row in packet["frozen_sources"])
-    assert "not cleared full bar" in doc
-    assert "RPE1 specificity is not_assayed" in doc
+    assert "clears the fixed bar" in doc
+    assert "RPE1 is not_assayed context, not a failed rung" in doc
     assert "Shifrut" in doc
-    assert "RCC1L" in doc
+    assert "Next candidate: `none`" in doc
     assert "\u2014" not in text
     assert ("Generated" + " with") not in text
     assert ("Co-" + "Authored-By") not in text

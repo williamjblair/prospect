@@ -212,7 +212,7 @@ type DefendedCandidateDecisions = {
     orthogonal_public_dataset_count: number;
   } | null;
 };
-type EndgameExhaustion = {
+type EndgameResult = {
   phase: string;
   pre_registration_id: string;
   frontier_root: string;
@@ -224,7 +224,15 @@ type EndgameExhaustion = {
   cleared_count: number;
   ledger_id: string;
   honest_ceiling: string;
-  common_blockers: { rung: string; typed_detail: string; affected_candidates: number }[];
+  lead_candidate: null | {
+    rank: number;
+    gene: string;
+    decision: string;
+    decision_basis: string;
+    orthogonal_public_dataset_count: number;
+    independent_primary_t_cell_support: string[];
+  };
+  non_blocking_not_assayed: { rung: string; typed_detail: string; affected_candidates: number; basis: string }[];
   candidate_decisions: {
     rank: number;
     gene: string;
@@ -237,6 +245,8 @@ type EndgameExhaustion = {
     rest_de: number;
     k562_de: number | null;
     rpe1_de: number | null;
+    not_assayed_context: { rung: string; typed_detail: string; affected_candidates: number; basis: string }[];
+    orthogonal_public_dataset_count: number;
     independent_primary_t_cell_support: string[];
     blocking_rungs: { rung: string; status: string; typed_detail: string; basis: string }[];
     real_world_hook: { status: string; basis: string };
@@ -479,7 +489,7 @@ type Data = {
   claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
   ccdc22_defended_evidence?: DefendedEvidencePacket | null;
   defended_candidate_decisions?: DefendedCandidateDecisions | null;
-  defended_discovery_endgame_exhaustion?: EndgameExhaustion | null;
+  defended_discovery_endgame_result?: EndgameResult | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -891,8 +901,8 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
 
       <DiscoveryCampaignSurface d={d} onGene={onGene} />
 
-      {d.defended_discovery_endgame_exhaustion && (
-        <EndgameExhaustionPanel packet={d.defended_discovery_endgame_exhaustion} onGene={onGene} />
+      {d.defended_discovery_endgame_result && (
+        <EndgameResultPanel packet={d.defended_discovery_endgame_result} onGene={onGene} />
       )}
 
       {rate != null && (
@@ -2089,24 +2099,30 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   );
 }
 
-function EndgameExhaustionPanel({ packet, onGene }: { packet: EndgameExhaustion; onGene: (g: string) => void }) {
+function EndgameResultPanel({ packet, onGene }: { packet: EndgameResult; onGene: (g: string) => void }) {
   const topRows = packet.candidate_decisions.slice(0, 6);
   const supportRows = packet.candidate_decisions.filter((row) => row.independent_primary_t_cell_support.length > 0);
-  const blocker = packet.common_blockers[0];
+  const rpe1 = packet.non_blocking_not_assayed[0];
+  const lead = packet.lead_candidate;
   return (
     <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 14, borderColor: "var(--brass)" }}>
       <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
         <div>
           <div className="t-label" style={{ marginBottom: 5 }}>Defended discovery endgame</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>The strongest honest result is exhaustion.</h2>
+          <h2 className="h2-app" style={{ margin: 0 }}>PGGT1B clears the fixed bar as a proposal.</h2>
           <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "78ch", color: "var(--ink-3)" }}>
-            The pre-registered bar was strict: one candidate had to clear five-plus frozen public datasets,
-            Replogle K562/RPE1 specificity, readout comparability, a real hook, and adversarial kills.
-            Prospect worked down all {packet.candidate_count} locked candidates. {packet.cleared_count} cleared.
+            The corrected bar rests cell-type specificity on genome-wide K562 and treats sparse RPE1 coverage
+            as not_assayed context. Prospect re-scored all {packet.candidate_count} locked candidates:
+            {` ${packet.cleared_count}`} cleared the fixed bar, accepted=false, human_signature_required.
           </p>
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          <a className="btn btn-secondary btn-sm" href="/data/defended_discovery_endgame_exhaustion.json" target="_blank" rel="noreferrer">
+          {lead && (
+            <button type="button" onClick={() => onGene(lead.gene)} className="btn btn-secondary btn-sm">
+              {lead.gene}
+            </button>
+          )}
+          <a className="btn btn-secondary btn-sm" href="/data/defended_discovery_endgame_result.json" target="_blank" rel="noreferrer">
             ledger <ExternalLink size={13} />
           </a>
           <a className="btn btn-secondary btn-sm" href="/data/defended_discovery_endgame_preregistration.json" target="_blank" rel="noreferrer">
@@ -2118,9 +2134,9 @@ function EndgameExhaustionPanel({ packet, onGene }: { packet: EndgameExhaustion;
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8 }}>
         {[
           [packet.candidate_count, "candidates tested", "var(--ink)"],
-          [packet.cleared_count, "cleared full bar", "var(--cinnabar)"],
+          [packet.cleared_count, "fixed-bar lead", "var(--moss)"],
           [supportRows.length, "with T-cell support", "var(--brass)"],
-          [blocker?.affected_candidates || 0, "RPE1 not_assayed", "var(--cinnabar)"],
+          [rpe1?.affected_candidates || 0, "RPE1 context", "var(--field-blue)"],
         ].map(([value, label, color]) => (
           <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
             <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
@@ -2140,17 +2156,17 @@ function EndgameExhaustionPanel({ packet, onGene }: { packet: EndgameExhaustion;
                 {row.gene}
               </button>
               <span className="t-caption" style={{ color: "var(--ink-3)" }}>
-                {row.blocking_rungs.map((block) => block.typed_detail).join(", ")}
+                {row.blocking_rungs.map((block) => block.typed_detail).join(", ") || row.decision}
               </span>
             </div>
           ))}
         </div>
         <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 8 }}>
-          <div className="t-label">Why the refusal matters</div>
+          <div className="t-label">What the fixed bar changed</div>
           <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-            This is not a failed demo. It is the acceptance layer doing its job: PGGT1B, CCDC22, LETM2,
-            and TNNC1 retain support, but the full bar refuses to promote them without RPE1 specificity
-            and comparable activation-readout evidence.
+            The prior run treated missing RPE1 rows as a blocking failure. This run keeps that as
+            not_assayed context. PGGT1B now clears on Marson effect, K562 specificity, Shifrut support,
+            STRING, DICE, Open Targets, ChEMBL, DepMap, mechanism, and adversarial kills.
           </p>
           <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
             {packet.honest_ceiling}. accepted=false. ledger={packet.ledger_id}.

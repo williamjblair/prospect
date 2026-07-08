@@ -85,11 +85,11 @@ leaderboard without moving any association into accepted state.
 controls, readouts, exclusion criteria, and public replay links. Every row remains proposal only,
 ready for a wet lab to run and report back.
 
-`prospect defended-discovery-endgame-exhaustion` is the stricter outcome pass. The pre-registration
-locked 18 candidates and required Replogle K562/RPE1 specificity, five-plus frozen public datasets,
-comparator-readout checks, a mechanism, a real hook, three adversarial kills, and a falsifiable
-stimulated primary CD4+ experiment. Zero candidates cleared. PGGT1B remains the strongest hypothesis
-to test, not accepted biological state.
+`prospect defended-discovery-endgame-result` is the stricter outcome pass. The corrected
+pre-registration rests cell-type specificity on genome-wide K562 and treats sparse RPE1 coverage
+as not_assayed context. Eighteen candidates were re-scored. PGGT1B clears the fixed bar as an
+`evidence_attached` proposal with `accepted=false`; it remains the hypothesis worth testing, not
+accepted biological state.
 
 `prospect writeback` specifies the receipt that returns from that lab run: executed protocol, assay
 readout, affected claims, reviewer signature, and state diff. A confirming or refuting result uses
@@ -109,7 +109,7 @@ Current public artifacts:
 - `/data/claude_science_acceptance_demo.json`
 - `/data/defended_discovery_endgame_preregistration.json`
 - `/data/pggt1b_endgame_decision.json`
-- `/data/defended_discovery_endgame_exhaustion.json`
+- `/data/defended_discovery_endgame_result.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`

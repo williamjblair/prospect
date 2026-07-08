@@ -57,7 +57,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/claude_science_acceptance_demo.json",
         "/data/defended_discovery_endgame_preregistration.json",
         "/data/pggt1b_endgame_decision.json",
-        "/data/defended_discovery_endgame_exhaustion.json",
+        "/data/defended_discovery_endgame_result.json",
         "/data/pggt1b_deep_dive.json",
         "/data/pggt1b_matrix_slice.json",
         "/data/agent_campaign.json",
