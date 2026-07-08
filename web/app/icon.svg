@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Prospect">
+  <rect width="64" height="64" rx="10" fill="rgb(247 248 246)" />
+  <path d="M15 40 C22 23 41 23 49 14" fill="none" stroke="rgb(42 47 58)" stroke-width="4" stroke-linecap="round" />
+  <path d="M18 42 C27 34 36 33 48 40" fill="none" stroke="rgb(78 122 68)" stroke-width="4" stroke-linecap="round" />
+  <circle cx="49" cy="14" r="5" fill="rgb(201 154 58)" />
+  <circle cx="18" cy="42" r="4" fill="rgb(176 67 44)" />
+</svg>

@@ -20,6 +20,23 @@ def test_overview_surfaces_judge_quickstart_from_live_app():
         assert phrase in source
 
 
+def test_overview_surfaces_durable_build_track_handoff():
+    source = PAGE.read_text()
+
+    for phrase in [
+        "What outlasts the week",
+        "skeptical immunologist",
+        "working software",
+        "replayable CLI",
+        "public data endpoints",
+        "receipt bridge",
+        "wet-lab handoff",
+        "human-signed root",
+    ]:
+        assert phrase in source
+
+
 if __name__ == "__main__":
     test_overview_surfaces_judge_quickstart_from_live_app()
+    test_overview_surfaces_durable_build_track_handoff()
     print("PASS: judge quickstart UI contract")

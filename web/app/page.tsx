@@ -579,6 +579,15 @@ function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab
           receipt submission: {packet.trust_boundary.receipt_submission.replace(/_/g, " ")}
         </div>
       </div>
+      <div style={{ display: "grid", gap: 8, padding: "12px 0",
+        borderTop: "1px solid var(--rule-faint)", borderBottom: "1px solid var(--rule-faint)" }}>
+        <div className="t-label">What outlasts the week</div>
+        <p className="t-body-sm" style={{ margin: 0, maxWidth: "76ch" }}>
+          This is working software for a skeptical immunologist reading the Marson lab screen: a replayable CLI,
+          public data endpoints, receipt bridge, wet-lab handoff, and human-signed root. Judges can rerun
+          the trust floor after the event without private credentials for the static app.
+        </p>
+      </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {packet.gate_commands.slice(0, 3).map((cmd) => (
           <span key={cmd} className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,

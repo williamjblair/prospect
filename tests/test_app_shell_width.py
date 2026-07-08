@@ -38,7 +38,17 @@ def test_sidebar_menu_button_uses_paint_only_tab_feedback():
     assert "padding 300ms cubic-bezier" not in menu_button
 
 
+def test_app_shell_has_browser_icon_asset():
+    icon = ROOT / "web" / "app" / "icon.svg"
+
+    assert icon.exists()
+    text = icon.read_text()
+    assert "<svg" in text
+    assert "Prospect" in text
+
+
 if __name__ == "__main__":
     test_app_main_global_width_matches_shell_cap()
     test_sidebar_menu_button_uses_paint_only_tab_feedback()
+    test_app_shell_has_browser_icon_asset()
     print("PASS: app shell width")

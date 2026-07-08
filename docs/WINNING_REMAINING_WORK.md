@@ -20,7 +20,9 @@ that quickstart from the judge packet card. The Network graph and legend now res
 Observatory graph tokens rather than raw hex literals, with a repo hygiene guardrail keeping React UI
 source token-based. The judge quickstart and submission form packet now also name the durable Build
 Track evidence directly: the named skeptical-scientist user, working software, replayable CLI, public
-data endpoints, receipt bridge, wet-lab handoff, and human-signed root.
+data endpoints, receipt bridge, wet-lab handoff, and human-signed root. The live Overview judge
+quickstart card now mirrors that same "what outlasts the week" handoff for judges who never open the
+GitHub docs.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -147,6 +149,8 @@ quickstart card, and `docs/JUDGE_PACKET.md`:
 - The durable Build Track artifact is working software for a skeptical immunologist or computational
   biologist reading the Marson lab screen: live app, replayable CLI, public endpoints, receipt bridge,
   wet-lab handoff, and human-signed state.
+- The live Overview shows that durable artifact set before the demo-path buttons, so the Build Track
+  value proposition is visible inside the product as well as in the submission docs.
 
 ## Remaining work by priority
 
