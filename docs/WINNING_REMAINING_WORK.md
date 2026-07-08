@@ -88,7 +88,7 @@ Recent full-gate evidence from the preceding deployment pass:
 - `cd web && npm run build` passed.
 - Browser QA passed on local port 8124 and production alias.
 - Repo scans passed for no em dashes, no attribution footers, no forbidden prior-work references,
-  no retired CSS vocabulary, and no changed-file secret values.
+  no retired CSS vocabulary, no stale `verified` state-token names, and no changed-file secret values.
 
 ### Current artifact surface
 

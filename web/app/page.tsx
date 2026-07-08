@@ -1830,7 +1830,7 @@ function EdgeChips({ items, keyName }: { items: Edge[]; keyName: "t" | "s" }) {
       {items.map((x, i) => (
         <span key={i} title={`log2FC ${x.e}`} className="t-mono"
           style={{ fontSize: 11.5, padding: "2px 7px", borderRadius: 5, fontWeight: 600,
-            background: x.d === "up" ? "var(--state-verified-tint)" : "var(--state-refuted-tint)",
+            background: x.d === "up" ? "var(--state-reproduced-tint)" : "var(--state-refuted-tint)",
             color: x.d === "up" ? "var(--moss)" : "var(--cinnabar)" }}>
           {(x as any)[keyName]}
         </span>

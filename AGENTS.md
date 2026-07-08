@@ -9,12 +9,12 @@ written for you.
 
 ## What Prospect is (one paragraph)
 
-Prospect is a verified regulatory frontier of human CD4+ T-cell biology: a signed, content-addressed
-graph of gene regulation re-derived from the released Marson CRISPRi Perturb-seq data, with no model
-in the trust path. It exists to prove a thesis: generation got cheap, adjudication did not, so the
-scarce thing is verified, replayable, human-accepted state. The receipt is the object that carries an
-AI's activity across the boundary `Activity < Receipt < Proposal < Review < Verification < Accepted <
-State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
+Prospect is a computationally reproduced regulatory frontier of human CD4+ T-cell biology: a signed,
+content-addressed graph of gene regulation re-derived from the released Marson CRISPRi Perturb-seq
+data, with no model in the trust path. It exists to prove a thesis: generation got cheap,
+adjudication did not, so the scarce thing is replayable, human-accepted state. The receipt is the
+object that carries an AI's activity across the boundary `Activity < Receipt < Proposal < Review <
+Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
 
 - **Live:** https://prospect-sepia-six.vercel.app
 - **Repo:** github.com/williamjblair/prospect (branch `master`)

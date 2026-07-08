@@ -72,6 +72,18 @@ def test_observatory_css_does_not_keep_retired_project_vocabulary():
     assert not offenders, ", ".join(offenders)
 
 
+def test_observatory_css_uses_typed_status_names_not_verified():
+    css = (ROOT / "web" / "app" / "globals.css").read_text()
+    forbidden = [
+        "state-verified",
+        "grade-verified",
+        "num-verified",
+    ]
+
+    offenders = [term for term in forbidden if term in css]
+    assert not offenders, ", ".join(offenders)
+
+
 def test_observatory_interaction_motion_uses_deliberate_durations():
     css = (ROOT / "web" / "app" / "globals.css").read_text()
 
@@ -85,5 +97,6 @@ if __name__ == "__main__":
     test_tracked_files_do_not_contain_em_dash_or_attribution_footer()
     test_tracked_files_do_not_contain_prior_work_or_weak_status_markers()
     test_observatory_css_does_not_keep_retired_project_vocabulary()
+    test_observatory_css_uses_typed_status_names_not_verified()
     test_observatory_interaction_motion_uses_deliberate_durations()
     print("PASS: repo hygiene")

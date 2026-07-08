@@ -53,9 +53,9 @@
        in-review        blue-ink (field-blue)
        refuted          red    (cinnabar)
        deprecated       gray   (stone)                                  */
-  --state-verified: var(--moss);
-  --state-verified-tint: color-mix(in oklab, var(--moss) 10%, transparent);
-  --state-verified-line: color-mix(in oklab, var(--moss) 35%, transparent);
+  --state-reproduced: var(--moss);
+  --state-reproduced-tint: color-mix(in oklab, var(--moss) 10%, transparent);
+  --state-reproduced-line: color-mix(in oklab, var(--moss) 35%, transparent);
   --state-open: var(--brass);
   --state-open-tint: color-mix(in oklab, var(--brass) 10%, transparent);
   --state-open-line: color-mix(in oklab, var(--brass) 35%, transparent);
@@ -230,7 +230,7 @@
      ramp, not a GRAD axis (neither face carries one). The value moves
      exactly once, on a state transition; it never animates. */
   --grade-claimed: 350;
-  --grade-verified: 430;
+  --grade-reproduced: 430;
   --grade-superseded: 300;
 
   /* Semantic mappings (shadcn-compatible) */
@@ -482,8 +482,8 @@ body {
 
 /* Reproduced emphasis: the one heavier numeral weight (the grade ramp's
    reproduced step), named once instead of inline style={{fontWeight:430}}. */
-.num-verified {
-  font-weight: var(--grade-verified);
+.num-reproduced {
+  font-weight: var(--grade-reproduced);
 }
 
 /* The display voice , the home masthead only. Drama from SIZE, not weight

@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 PUBLIC_COPY_FILES = [
+    ROOT / "AGENTS.md",
     ROOT / "README.md",
     ROOT / "PRODUCT.md",
     ROOT / "DESIGN.md",
@@ -19,6 +20,7 @@ PUBLIC_COPY_FILES = [
 
 PROHIBITED_PHRASES = [
     "Verified regulatory frontier",
+    "verified regulatory frontier",
     "verified regulators",
     "Verified regulatory state",
     "verified class",
@@ -29,6 +31,7 @@ PROHIBITED_PHRASES = [
     "verified tool calls",
     "Verified evidence",
     "A verified regulatory frontier",
+    "a verified regulatory frontier",
     "becomes verified",
     "fully built, verified",
     "verified state",
