@@ -4,410 +4,314 @@ Audit date: July 8, 2026
 
 Live project: https://prospect-sepia-six.vercel.app
 
-Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
-the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, transfer
-replay packet, production submit smoke, copy-safe submit packet, and demo teleprompter shipped. The
-Frontier tab now also includes the judge-facing "Try the boundary" receipt bridge strip. The demo
-recording runbook, teleprompter, submission form packet, `./prospect demo-pack`, and
-`./prospect submit-pack` now package the human recording and upload path. The judge packet now lists
-the same final command surface: `final-check`, `submit-smoke`, `submit-pack`, and `demo-pack`.
-The final gate now also regenerates and drift-checks the transfer replay packet, judge packet, and
-static web data. Production smoke fetches every public artifact endpoint and checks that the live
-judge packet's public-data list exactly matches the shared `submit-pack` manifest.
-`docs/JUDGE_QUICKSTART.md` now gives judges a five-minute route through the live app, replay
-commands, typed statuses, receipt boundary, and public artifacts. The live Overview also links
-that quickstart from the judge packet card. The Network graph and legend now resolve through
-Observatory graph tokens rather than raw hex literals, with a repo hygiene guardrail keeping React UI
-source token-based. The judge quickstart and submission form packet now also name the durable Build
-Track evidence directly: the named skeptical-scientist user, working software, replayable CLI, public
-data endpoints, receipt bridge, wet-lab handoff, and human-signed root. The live Overview judge
-quickstart card now mirrors that same "what outlasts the week" handoff for judges who never open the
-GitHub docs.
-
 Signed root audited: `root_a8b0dcdd4024e12f`
 
-## Bottom line
+Current git state: use `git log -1 --oneline` as the source of truth.
 
-There are no repo-level blockers left before submission. Prospect is live, replayable, documented,
-and aligned with the Build Track story: durable software for a named scientific user, built with
-Claude Code, using real life-sciences data, with Claude useful but outside the trust path.
+## Active goal
 
-The remaining work is not about making the project viable. It is about increasing the chance it wins.
-The highest-leverage remaining work is mostly packaging and judge persuasion:
+Complete all remaining high-ceiling work for Prospect to maximize its chance to win the Built with
+Claude: Life Sciences hackathon by July 13, 2026. Preserve the existing submission-ready floor,
+then build the strongest defensible extensions: a second-substrate replay surface, a deeper
+Claude-campaign pressure loop, a Gladstone-ready assay operations bundle, and final demo/submission
+production. Every slice must keep Prospect's trust rules intact and pass the gate before deployment.
 
-1. Record the demo video from `docs/DEMO.md`.
-2. Submit the live URL, GitHub URL, and `docs/SUBMISSION.md` text.
-3. Treat a full second signed frontier as an ambitious stretch only. It is valuable, but it is the easiest place
-   to dilute the story or create deadline risk.
+Submission-ready is the floor, not the finish line. The project is already live, replayable, and
+credible. The remaining work should raise the ceiling without weakening the story.
 
-## Event frame
+## Non-negotiable rules
 
-The public event materials define the relevant bar:
+- New Work Only and standalone. No prior-project imports, branding, or references.
+- No model in the trust path. Claude may propose, search, and pressure-test. Frozen code over frozen
+  released tables decides what replays. A human key accepts state.
+- Status language stays typed: `computationally_reproduced`, `evidence_attached`, `contradicted`.
+- This proves computation over released data, not wet-lab or clinical truth.
+- Proposal work stays proposal-only unless a human signing path accepts a replayable state change.
+- No accepted-state mutation may come from a model artifact.
+- No em dashes, no attribution footers, no secrets in repo or chat.
 
-- The event window is July 7-13, 2026.
-- The Build Track is about shipping practical software that outlasts the week for a real scientist,
-  clinician, bioinformatician, or biotech user.
-- The event emphasizes Claude Science, Claude Code, real Gladstone datasets, and a concrete output
-  rather than a throwaway demo.
-- The judging audience includes Gladstone, so domain credibility matters more than spectacle.
+## Current floor to preserve
 
-Prospect is well matched to that frame. It names a real user: a skeptical immunologist or
-computational biologist reading the Marson lab screen. It ships a working app, replayable CLI,
-receipts, MCP bridge, live data endpoints, a wet-lab packet, and a demo script. It also has a sharp
-"Built with Claude" story: Claude proposes and pressure-tests, but frozen code and a human key decide
-state.
+Prospect is currently strong enough to submit. Do not lose any of this while building.
 
-## Evidence that the current project is submission-ready
+- Live app: https://prospect-sepia-six.vercel.app
+- Repo: https://github.com/williamjblair/prospect
+- Signed root: `root_a8b0dcdd4024e12f`
+- `./prospect final-check` passes.
+- `./prospect submit-smoke` passes against production.
+- `./prospect verify` re-derives 53,485 objects with 0 drift.
+- `python benchmark/mutation_pack.py` admits 0 tampered claims.
+- `python tests/test_skill_parity.py` checks 112 claims with 0 mismatches.
+- Production exposes all public artifacts listed by `./prospect submit-pack`.
+- The live Overview now states what outlasts the week: working software for a skeptical immunologist,
+  a replayable CLI, public endpoints, receipt bridge, wet-lab handoff, and human-signed root.
 
-This audit used the current worktree and live production data as the source of record.
-
-### Repo and deployment state
-
-- `master` and `origin/master` are checked by `git branch -vv` and `git ls-remote --heads origin master`.
-- `.env` exists locally and contains `ANTHROPIC_API_KEY`, without printing the key.
-- Production alias is `https://prospect-sepia-six.vercel.app`.
-- Live public endpoints return current data:
-  - `/data/judge_packet.json`: root `root_a8b0dcdd4024e12f`, 8 campaign probe rows, 4 campaign triage rows, 4 campaign gate probe rows.
-  - `/data/campaign_agent_probe.json`: 8 rows, 3 aligned, 4 more-aggressive, 1 more-cautious.
-  - `/data/campaign_gate_probe.json`: 4 rows, 2 gate-sufficient, 1 add-control, 1 lower-priority.
-  - `/data/transfer_replay_packet.json`: 377 compared T-cell regulators, no accepted-state mutation.
-  - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
-  - `/data/judge_packet.json`: replay gate includes `./prospect final-check`, `./prospect submit-smoke`,
-    `./prospect submit-pack`, and `./prospect demo-pack`.
-  - `./prospect submit-smoke`: executable production smoke for the upload checklist, including the
-    current judge-packet command surface, exact live judge-packet parity with the shared
-    `submit-pack` public-artifact manifest, and every public artifact endpoint listed by
-    `submit-pack`.
-  - `./prospect submit-pack`: local copy-safe packet for the final upload fields, full public artifact
-    list, replay commands, and source docs, including `docs/JUDGE_QUICKSTART.md`.
-  - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails and a
-    self-contained recording preflight list.
-
-### Gate state
-
-Commands run during this audit:
-
-```bash
-./prospect verify
-python benchmark/mutation_pack.py
-python tests/test_skill_parity.py
-```
-
-Observed results:
-
-- `./prospect verify`: 53,485 objects, 0 drift, root `root_a8b0dcdd4024e12f`.
-- `python benchmark/mutation_pack.py`: 0 false admissions, 10 of 10 clean regulator claims admitted.
-- `python tests/test_skill_parity.py`: 112 claims checked, 0 mismatches.
-
-Current full-gate evidence:
-
-- `./prospect final-check` passed after the shared public-artifact manifest hardening.
-- Full `tests/test_*.py` sweep passed.
-- `cd web && npm run build` passed.
-- Generated transfer replay, judge packet, and static web data drift checks passed.
-- `./prospect submit-smoke` passed against production and fetched all 15 public artifact endpoints.
-- Network graph browser QA passed after the graph-token hardening: nonblank canvas, token-colored
-  nodes, and visible token-colored legend dots.
-- Browser QA passed on local port 8124 and production alias.
-- Repo scans passed for no em dashes, no attribution footers, no forbidden prior-work references,
-  no retired CSS vocabulary, no stale `verified` state-token names, and no changed-file secret values.
-
-### Current artifact surface
-
-Public bundle counts in `web/public/data/frontier.json` and live judge packet:
-
-- 11,526 genes mapped.
-- 37,106 regulatory edges.
-- 5 signed findings.
-- 6 receipts.
-- 20 campaign candidates.
-- 20 campaign review rows.
-- 8 campaign probe rows.
-- 4 disagreement triage rows.
-- 4 campaign gate probe rows.
-- 377 transfer replay rows.
-- 5 validation candidates.
-- 5 wet-lab assay packet candidates.
-- 5 PGGT1B evidence ladder steps.
-- 671 PGGT1B matrix-slice transcripts.
-
-### Current narrative surface
-
-The core story is present and coherent across `README.md`, `docs/PROTOCOL.md`, `docs/FINDINGS.md`,
-`docs/DEMO.md`, `docs/SUBMISSION.md`, `docs/JUDGE_QUICKSTART.md`, the live Overview judge
-quickstart card, and `docs/JUDGE_PACKET.md`:
-
-- Generation got cheap; adjudication did not.
-- Activity is not state.
-- Receipt is the portable boundary object.
-- No model is in the trust path.
-- Status language is typed: `computationally_reproduced`, `evidence_attached`, `contradicted`.
-- The Marson screen catches model overclaiming: 48% core contradicted, 64% on famous target genes.
-- Prospect recovers known biology before making surprising claims.
-- PGGT1B remains a hypothesis to test, not an accepted biological result.
-- The lab packet and campaign triage convert model pressure into assay gates, not accepted state.
-- The durable Build Track artifact is working software for a skeptical immunologist or computational
-  biologist reading the Marson lab screen: live app, replayable CLI, public endpoints, receipt bridge,
-  wet-lab handoff, and human-signed state.
-- The live Overview shows that durable artifact set before the demo-path buttons, so the Build Track
-  value proposition is visible inside the product as well as in the submission docs.
-
-## Remaining work by priority
-
-### P0, required before submission
-
-These are not repo blockers. They are human/process tasks.
-
-1. **Record the demo video.**
-   - Use `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, and `docs/DEMO_TELEPROMPTER.md`.
-   - Use `./prospect demo-pack` as the terminal teleprompter.
-   - Keep the first 20 seconds on the refusal and overclaiming number.
-   - Do not open on the graph.
-   - End on the receipt boundary plus PGGT1B lab-facing packet.
-   - Risk if skipped: judges may not discover the story in the right order.
-
-2. **Submit the project.**
-   - Use live URL: `https://prospect-sepia-six.vercel.app`.
-   - Use repo URL: `https://github.com/williamjblair/prospect`.
-   - Use `docs/SUBMISSION_FORM_PACKET.md` for copy-paste fields.
-   - Include the replay gate commands from `docs/JUDGE_PACKET.md`.
-
-3. **Do a final submitter-side smoke right before upload.**
-   - Open production alias.
-   - Click Overview, Findings, Frontier, Agent.
-   - Open `/data/judge_packet.json`.
-   - Confirm root `root_a8b0dcdd4024e12f`.
-   - Run `./prospect verify`.
-   - Run `./prospect submit-smoke`.
-   - Run `./prospect submit-pack`.
-   - Run `./prospect demo-pack`.
-
-### P1, highest leverage if there is still build time
-
-These could improve the chance of winning without changing the core scientific state.
-
-1. **Add a tiny external MCP receipt-client demo.**
-   - Current state: shipped as `python examples/receipt_bridge_client.py`.
-   - Why it matters: Prospect claims to be a protocol, not only an app. The MCP bridge exists and is
-     tested, but a judge-facing demo client would make that executable boundary obvious in one command.
-   - Shape:
-     - `examples/receipt_bridge_client.py` or `docs/RECEIPT_BRIDGE_WALKTHROUGH.md`.
-     - Starts `./prospect mcp`.
-     - Calls schema, validate, submit.
-     - Shows submit returns `accepted: false`.
-     - Never touches accepted state.
-   - Gate:
-     - Add a test that runs the demo against the local server or checks the walkthrough commands.
-     - Keep public docs and web links current.
-   - Risk:
-     - Low. The server already exists and tests pass.
-   - Recommendation:
-     - Do this before attempting a second frontier.
-
-2. **Add a final-check command.**
-   - Current state: shipped as `./prospect final-check`.
-   - Why it matters: judges can see one command that reproduces the trust floor.
-   - Shape:
-     - `./prospect final-check` runs `verify`, mutation pack, Skill parity, Python tests, web build,
-       repo hygiene, git whitespace checks, receipt bridge client, submission and demo packet checks,
-       transfer replay regeneration, judge packet regeneration, static web data regeneration, and
-       generated-artifact drift checks.
-     - It prints a compact report, not a wall of logs.
-   - Gate:
-     - Test the CLI dispatch.
-     - Keep runtime reasonable.
-   - Risk:
-     - Medium. A wrapper can become brittle if it assumes local Node or network state. Keep it local
-       and explicit.
-   - Recommendation:
-     - Useful if the demo needs a single terminal moment.
-
-3. **Add a transfer replay packet.**
-   - Current state: shipped as `./prospect transfer-replay`, [TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md), and `/data/transfer_replay_packet.json`.
-   - Why it matters: it proves the same checker interface replays across Marson CD4+ T cells and Replogle K562/RPE1 without creating a new accepted-state mutation.
-   - Shape:
-     - Compact JSON and Markdown packet.
-     - Status: `computationally_reproduced`.
-     - Trust boundary: frozen checkers over frozen tables.
-     - Counts: 377 T-cell regulators compared, 70 of 129 essentiality-artifact genes reproduced in K562, 199 of 248 activation-or-effector genes cell-type-specific.
-   - Gate:
-     - `python tests/test_transfer_replay_packet.py`.
-     - Included in `./prospect final-check`.
-   - Risk:
-     - Low. It summarizes the already signed transfer finding and does not alter the root.
-   - Recommendation:
-     - Show it in the final demo only if there is time after the receipt bridge and lab handoff.
-
-4. **Add a judge-facing receipt bridge card or walkthrough link in the UI.**
-   - Current state: shipped in the Frontier tab as "Try the boundary."
-   - Why it matters: the current Frontier tab links bridge artifacts, but the proof that a submitted
-     receipt stays proposal-only may be more legible as a short UI beat.
-   - Shape:
-     - Add one compact section in Frontier: "Try the boundary."
-     - Show the three MCP tools and the key invariant: `submit` returns `accepted: false`.
-     - Link to the walkthrough or public contract.
-   - Gate:
-     - Static UI contract test passed.
-     - Browser smoke passed on local port 8124 with system Chrome.
-   - Risk:
-     - Low to medium. Avoid adding cards inside cards or explanatory clutter.
-
-5. **Run an agent pass against disagreement gates.**
-   - Current state: shipped as `./prospect campaign-gate-probe`.
-   - Why it matters: the campaign probe currently asks Claude to inspect top campaign candidates.
-     A second pass could ask whether the deterministic assay gates are sufficient, too strict, or
-     missing a control, without moving state.
-   - Shape:
-     - New artifact: `campaign_gate_probe.json`.
-     - Input: rows from `campaign_triage.json`.
-     - Output status: `evidence_attached`.
-     - Trust boundary: `proposal_only`.
-     - Allowed recommendations should be a closed enum, for example `gate_sufficient`,
-       `add_control`, `lower_priority`.
-   - Gate:
-     - Test fixture mode without API.
-     - Live run only if `.env` has `ANTHROPIC_API_KEY`.
-     - Regenerate web data and judge packet.
-   - Risk:
-     - Medium. It adds another model artifact, so the copy must stay disciplined.
-   - Recommendation:
-     - Good if the project needs a stronger "Claude as scientific co-worker" signal.
-
-6. **Add a Gladstone assay handoff one-pager.**
-   - Current state: shipped as `docs/GLADSTONE_ASSAY_HANDOFF.md`.
-   - Why it matters: the lab packet is already strong, but a single page named for a wet-lab handoff
-     would make the practical value easier to judge.
-   - Shape:
-     - `docs/GLADSTONE_ASSAY_HANDOFF.md`.
-     - Top five rows, controls, readouts, stop rules, replay links, missing evidence before acceptance.
-     - No new claims, no stronger status.
-   - Gate:
-     - Add a readiness test that the file contains all five genes and required public endpoints.
-   - Risk:
-     - Low.
-   - Recommendation:
-     - Good if the final video has time to show "what a lab can do Monday."
-
-### P2, high ceiling but higher risk
-
-1. **Full second signed frontier on another dataset.**
-   - Why it matters: it would prove Prospect generalizes beyond the Marson CD4+ screen.
-   - Current safer substitute:
-     - Shipped: `./prospect transfer-replay` as a compact, no-state-mutation replay packet over Replogle K562/RPE1.
-   - Best conservative target:
-     - Replogle K562/RPE1 is already partially integrated through the checker interface.
-     - A small second-frontier demo could focus on replaying major-regulator claims in non-immune
-       cells, not on building a full parallel product surface.
-   - Required shape:
-     - Same typed status discipline.
-     - Same no-model trust path.
-     - Separate signed root or clearly separate replay artifact.
-     - No weakening of the Marson story.
-   - Risk:
-     - High. It can dilute the winning narrative, increase build time, and create new gate burden.
-   - Recommendation:
-     - Do only if the submission video and protocol bridge packaging are already finished.
-
-2. **Probe all 20 campaign rows.**
-   - Why it matters: a broader Claude campaign pass would look more complete.
-   - Risk:
-     - Medium. The current top-eight pass already covers the strongest rows and produces useful
-       disagreement. A top-20 pass may add cost, noise, and weaker candidates.
-   - Recommendation:
-     - Do not make this a priority unless the agent pass is used to test assay gates, not just create
-       more rows.
-
-3. **Attach deeper literature context for every campaign candidate.**
-   - Why it matters: it could help wet-lab judges assess novelty.
-   - Risk:
-     - High. It invites literature hallucination or uneven citation quality unless every source is
-       checked carefully.
-   - Recommendation:
-     - Avoid unless there is time for source-by-source review.
-
-4. **Produce a PDF or slide deck.**
-   - Why it matters: judges may appreciate a self-contained artifact.
-   - Risk:
-     - Medium. The web app and docs already carry the story. A deck can become redundant.
-   - Recommendation:
-     - Only useful after the demo recording is done.
-
-### P3, do not do before submission
-
-1. **Do not move any campaign, PGGT1B, or assay row into accepted state.**
-   - Reason: there is no wet-lab evidence. The project wins by refusing to launder weak evidence.
-
-2. **Do not use a model to alter signed frontier state.**
-   - Reason: this breaks the core trust property.
-
-3. **Do not add clinical or therapeutic claims.**
-   - Reason: the released screen can support perturbation evidence, not clinical action.
-
-4. **Do not redesign the app.**
-   - Reason: the Observatory system is already coherent and tested. A broad redesign creates more
-     risk than value.
-
-5. **Do not add prior-project branding or imports.**
-   - Reason: New Work Only and standalone are non-negotiable.
-
-6. **Do not chase a full wet-lab result.**
-   - Reason: the correct state is a wet-lab-ready hypothesis with assay gates. Anything stronger would
-     overclaim.
-
-## Requirement-by-requirement audit
-
-| Requirement | Current status | Evidence | Remaining work |
-|---|---|---|---|
-| New Work Only and standalone | Satisfied in repo audit | No forbidden prior-work references in tracked scan; AGENTS rules preserved | None |
-| No model in trust path | Satisfied | `docs/PROTOCOL.md`, receipt bridge, judge packet, tests, live artifacts | None |
-| Typed status language | Satisfied | Copy discipline tests; docs use typed statuses for findings, hypotheses, contradictions | None |
-| Replayable signed root | Satisfied | `./prospect verify` reports 53,485 objects, 0 drift, root `root_a8b0dcdd4024e12f` | None |
-| Mutation floor | Satisfied | `python benchmark/mutation_pack.py`, 0 false admissions | None |
-| Skill parity | Satisfied | `python tests/test_skill_parity.py`, 112 claims, 0 mismatches | None |
-| Buildable web app | Satisfied by recent gate | `cd web && npm run build` passed in final deployment pass | None |
-| Live production | Satisfied | Stable alias returns current public JSON and Agent content; `./prospect submit-smoke` checks the final upload endpoints, live judge-packet manifest parity, and all 15 public artifacts | None |
-| Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
-| Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
-| Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | Live Overview quickstart, `docs/JUDGE_QUICKSTART.md`, `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
-
-## Recommended next sequence
-
-If work continues, do it in this order:
-
-1. **Human submitter work:** record the two-minute demo from `docs/DEMO_RECORDING_RUNBOOK.md` and submit. This is the only P0 work.
-2. **Final checklist:** use `docs/FINAL_SUBMISSION_CHECKLIST.md` and `docs/JUDGE_QUICKSTART.md`.
-3. **Second frontier:** only if the above are done and there is enough time to keep the current story
-   clean.
-
-## Definition of done for the next build slice
-
-Any remaining build slice should pass all of the following before deployment:
+Preserve the floor with every change:
 
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
-./prospect verify
-python benchmark/mutation_pack.py
-python tests/test_skill_parity.py
-for t in tests/test_*.py; do python "$t" || exit 1; done
-cd web && npm run build
-git diff --check
-python tests/test_repo_hygiene.py
+./prospect submit-pack
+./prospect demo-pack
 ```
 
-Browser QA should use port 8124, not 3000.
-
-Production deploy remains:
+For any web-facing change, also deploy:
 
 ```bash
 cd web && vercel --prod --yes --scope constellate-dc388081
 ```
 
-## Final assessment
+## Winning thesis
 
-Prospect is already submission-ready and credible. The most important remaining work is not more
-biology. It is making the protocol boundary obvious enough that a judge understands it in one pass:
-Claude does useful scientific work, the receipt carries that work across a boundary, frozen code
-decides what replays, and a human key accepts state. The current project proves that on Gladstone's
-own screen. The optional work should sharpen that proof, not expand the scope for its own sake.
+Generation got cheap; adjudication did not. Prospect wins if judges understand that it is not just a
+nice app on a Gladstone dataset. It is a protocol surface for machine-generated science:
+
+1. An AI produces activity.
+2. A receipt carries that activity across a boundary.
+3. Frozen verifiers replay the relevant evidence.
+4. Human acceptance is explicit.
+5. Only then does state change.
+
+The current Marson screen proves the boundary on real CD4+ biology. The remaining ceiling work
+should show that the boundary generalizes, that Claude is useful without being trusted, and that
+Gladstone could act on the output without accepting weak evidence.
+
+## Workstreams
+
+### P0, protect the existing submission floor
+
+Goal: keep the entry always uploadable while extending it.
+
+Deliverables:
+
+- Keep `docs/FINAL_SUBMISSION_CHECKLIST.md`, `docs/JUDGE_QUICKSTART.md`,
+  `docs/SUBMISSION_FORM_PACKET.md`, and `docs/DEMO_TELEPROMPTER.md` current.
+- Keep production smoke aligned with the public artifact manifest.
+- Keep the live URL stable and redeployed after every web-facing change.
+- Keep the root and replay counts honest in every public doc.
+
+Gate:
+
+- `./prospect final-check`
+- `./prospect submit-smoke`
+- Production rendered QA for web-facing changes.
+
+Risk:
+
+- Low, but any rushed extension can break the upload path. Treat this as the invariant.
+
+### P1, second-substrate replay surface
+
+Goal: prove Prospect is a protocol, not a one-dataset viewer, without building a risky full second
+frontier.
+
+Recommended shape:
+
+- Add a compact `./prospect substrate-replay` or stronger `./prospect replogle-replay` command.
+- Use the existing Replogle K562/RPE1 checker tables and the Marson checker interface.
+- Emit a JSON packet and Markdown memo, for example `examples/data/substrate_replay_packet.json` and
+  `docs/SUBSTRATE_REPLAY_PACKET.md`.
+- Public status: `computationally_reproduced`.
+- Trust boundary: frozen checkers over frozen released tables, no accepted-state mutation.
+- Show the same claim interface crossing Marson, Replogle K562, and Replogle RPE1 where data exists.
+- Surface the packet in `web/public/data/frontier.json`, the judge packet, and the live app.
+
+What to show:
+
+- Essentiality artifacts transfer to non-immune substrates.
+- Activation-module genes stay T-cell-specific.
+- Concrete contrast rows such as MED19 versus BCL10.
+- Counts of regulators compared, transferred, and substrate-specific.
+- Cases where data is missing or not gradeable.
+
+Why it helps win:
+
+- Gladstone judges see the Marson result is not a bespoke demo.
+- The protocol claim becomes executable across substrates.
+- It raises scientific credibility without changing accepted biological state.
+
+Guardrails:
+
+- Do not call this a full second frontier unless it has its own signed root and complete state model.
+- Do not launder transfer replay into wet-lab truth.
+- Do not mutate the signed Marson frontier.
+
+Gate:
+
+- New tests for packet schema, typed status, no accepted-state mutation, and public web bundle.
+- Add to `./prospect final-check`.
+- Add to `./prospect submit-smoke` only after it is public.
+
+### P1, complete the Claude campaign pressure loop
+
+Goal: make the "Built with Claude" story deeper than one agent run while preserving the boundary.
+
+Recommended shape:
+
+- Extend the existing campaign probe beyond the top eight rows, or run a second pass focused on all
+  disagreement gates.
+- Prefer a controlled pass over all 20 campaign candidates only if it returns closed recommendations
+  and bounded evidence.
+- Keep outputs proposal-only and deterministic where possible.
+- Preserve existing enums such as `gate_sufficient`, `add_control`, and `lower_priority`.
+- Add a summary layer that tells judges what Claude changed, what Prospect refused to change, and
+  what wet-lab work remains.
+
+What to show:
+
+- Claude aligns with deterministic review on some rows.
+- Claude pushes harder on some rows.
+- Prospect turns that pressure into assay gates, not accepted state.
+- The model is useful because it creates review work, not because it decides truth.
+
+Why it helps win:
+
+- It makes the Claude story visible and mature.
+- It proves the system can absorb model pressure without surrendering state.
+- It creates a richer leaderboard for the demo and Agent tab.
+
+Guardrails:
+
+- No campaign, PGGT1B, or assay row enters accepted state.
+- No row gets stronger than `evidence_attached` without new evidence and human acceptance.
+- Use fixture/sample modes in tests so the suite does not require API access.
+
+Gate:
+
+- Tests for output schema, closed recommendations, proposal-only status, web bundle inclusion, and
+  live copy.
+- Add generated-artifact drift checks to `./prospect final-check`.
+
+### P1, Gladstone-ready assay operations bundle
+
+Goal: make the wet-lab handoff feel immediately usable by a domain expert while staying honest.
+
+Recommended shape:
+
+- Expand the existing lab packet and Gladstone handoff into an operations bundle.
+- Keep top rows headed by PGGT1B unless new evidence changes ranking.
+- For each row, include intervention, controls, readouts, exclusion rules, expected positive result,
+  weakening result, rejection result, replay links, and missing evidence before acceptance.
+- Add a compact CSV for bench planning and a Markdown memo for human reading.
+- Surface the bundle in the Agent tab and judge packet.
+
+What to show:
+
+- A lab can act Monday morning without guessing the controls.
+- The packet says exactly what evidence would promote, weaken, or reject each hypothesis.
+- The system does not claim wet-lab truth before the wet-lab work exists.
+
+Why it helps win:
+
+- Gladstone is judging. A practical lab handoff matters.
+- It turns the abstract trust layer into an operational workflow.
+- It makes the domain expert user concrete.
+
+Guardrails:
+
+- Do not add clinical or therapeutic claims.
+- Do not chase a full wet-lab result.
+- Keep every row proposal-only and `evidence_attached`.
+
+Gate:
+
+- Tests that every row has controls, readouts, stop rules, missing evidence, and replay links.
+- Public artifact and web bundle checks.
+- Copy tests for no overclaiming.
+
+### P2, submission and demo production
+
+Goal: convert the expanded build into a winning two-minute narrative and a low-friction judge path.
+
+Deliverables:
+
+- Refresh `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, and `docs/DEMO_TELEPROMPTER.md` after
+  every major new artifact.
+- Keep `./prospect demo-pack` aligned with the best two-minute path.
+- Keep `./prospect submit-pack` aligned with the final public artifacts.
+- Record the demo video.
+- Submit the live URL, repo URL, and copy from `docs/SUBMISSION_FORM_PACKET.md`.
+
+Recommended demo arc after P1 work:
+
+1. Open with the A1BG refusal.
+2. Show the 48 percent and 64 percent overclaiming numbers.
+3. Show signed Marson findings.
+4. Show second-substrate replay as protocol generalization.
+5. Show Claude campaign pressure becoming assay gates.
+6. Close on PGGT1B and the Gladstone assay operations bundle.
+
+Gate:
+
+- `./prospect demo-pack --json`
+- `./prospect submit-pack --json`
+- `./prospect submit-smoke`
+- Manual browser pass through Overview, Findings, Frontier, Agent.
+
+### P2, optional polish after the ceiling work
+
+Only do these after the P1 workstreams and demo path are coherent.
+
+- A one-page PDF or print handout generated from existing docs.
+- A short static "judge packet" landing view if the live Overview becomes too dense.
+- A small visual diagram of the receipt boundary, only if it clarifies rather than decorates.
+
+### P3, deliberate non-goals
+
+Do not spend hackathon time here unless the core plan changes.
+
+- Do not build a full second signed frontier unless the substrate-replay surface is already done and
+  the story remains clean.
+- Do not probe all campaign rows merely to increase counts. More rows are useful only if they produce
+  better review work.
+- Do not attach broad literature context to every candidate unless each citation is source-checked.
+- Do not redesign the app.
+- Do not add clinical or therapeutic claims.
+- Do not chase a full wet-lab result.
+- Do not use a model to alter signed frontier state.
+
+## Requirement-by-requirement audit
+
+| Requirement | Current state | Completion plan |
+|---|---|---|
+| New Work Only and standalone | Satisfied | Keep repo scans and copy checks in `final-check`. |
+| No model in the trust path | Satisfied | Preserve proposal-only campaign and receipt boundaries. |
+| Typed status language | Satisfied | Every new artifact must use `computationally_reproduced`, `evidence_attached`, or `contradicted`. |
+| Replayable signed root | Satisfied | Do not mutate Marson accepted state for replay or campaign work. |
+| Mutation floor | Satisfied | Keep `benchmark/mutation_pack.py` in the gate. |
+| Skill parity | Satisfied | Keep `python tests/test_skill_parity.py` in the gate. |
+| Live production | Satisfied | Redeploy after web changes and run `./prospect submit-smoke`. |
+| Protocol generalization | Partially satisfied by transfer replay | Build the second-substrate replay surface. |
+| Built with Claude story | Strong, can be stronger | Complete the campaign pressure loop. |
+| Gladstone usefulness | Strong, can be stronger | Build the assay operations bundle. |
+| Submission packaging | Strong | Refresh demo/submission packets after P1 work. |
+
+## Execution order
+
+1. Protect the floor: run the full gate before starting and after every slice.
+2. Build second-substrate replay surface.
+3. Build or extend Claude campaign pressure loop.
+4. Build Gladstone assay operations bundle.
+5. Refresh demo and submission surfaces.
+6. Record and submit.
+
+## Definition of done for the full active goal
+
+The active goal is complete only when:
+
+- P0 floor remains green.
+- Second-substrate replay surface is shipped or explicitly rejected with evidence.
+- Claude campaign pressure loop is shipped or explicitly bounded with evidence.
+- Gladstone assay operations bundle is shipped or explicitly bounded with evidence.
+- Demo and submission packets reflect the final artifact surface.
+- Production is deployed and smoke-tested.
+- `./prospect final-check` passes.
+- `./prospect submit-smoke` passes.
+- The final memo states any remaining human-only actions plainly.
+
+## Final judgment
+
+Do not stop at submission-ready. Use the remaining hackathon window to raise the ceiling in ways
+that strengthen the same thesis: Claude makes activity cheap, Prospect decides what becomes
+replayable state. The best next build is the second-substrate replay surface because it turns the
+protocol claim from an argument into another executable artifact while keeping the Marson story clean.
