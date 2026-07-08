@@ -45,6 +45,7 @@ def test_ccdc22_packet_uses_frozen_rank_5_rows():
 def test_ccdc22_packet_records_current_support():
     packet = build_ccdc22_defended_evidence()
     evidence = {row["source"]: row for row in packet["scored_evidence"]}
+    audit = {row["source"]: row for row in packet["support_audit"]}
     gates = {row["gate"]: row for row in packet["open_gates"]}
 
     assert evidence["marson_frontier"]["summary"] == "619 stimulated DE genes, 116 Rest DE genes"
@@ -65,6 +66,17 @@ def test_ccdc22_packet_records_current_support():
     assert evidence["depmap_24q2_crispr_gene_effect"]["summary"] == (
         "1150 cancer cell lines, median gene effect -0.2020, 6 lines below -1"
     )
+    assert packet["orthogonal_public_dataset_count"] == 7
+    assert packet["current_support_count"] == 7
+    assert packet["frozen_external_context_count"] == 10
+    assert sum(1 for row in audit.values() if row["counts_for_full_bar"]) == 7
+    assert audit["gwas_catalog_gene_lookup"]["counts_for_full_bar"] is False
+    assert audit["gwas_catalog_gene_lookup"]["evidence_role"] == "no_support"
+    assert audit["schmidt_2022_orcs_2427"]["counts_for_full_bar"] is False
+    assert audit["schmidt_2022_orcs_2427"]["evidence_role"] == "orthogonal_phenotype"
+    assert audit["chembl_target_and_activity"]["counts_for_full_bar"] is False
+    assert audit["chembl_target_and_activity"]["evidence_role"] == "targetability_context"
+    assert audit["open_targets_overlay"]["evidence_role"] == "real_world_hook"
     assert gates["human_acceptance"]["reason"] == (
         "no human key has accepted a CCDC22 state transition"
     )
@@ -82,7 +94,7 @@ def test_ccdc22_packet_survives_current_kills_but_does_not_accept():
     assert packet["defended_discovery_status"] == "computational_bar_cleared_pending_human_key"
     assert packet["decision_recommendation"] == "hold_and_deepen"
     assert packet["next_candidate"] is None
-    assert packet["orthogonal_public_dataset_count"] >= 8
+    assert packet["orthogonal_public_dataset_count"] >= 5
     assert kills["technical_confound"]["result"] == "survives_current_frozen_evidence"
     assert kills["essentiality_or_proliferation_artifact"]["result"] == "survives_current_frozen_evidence"
     assert kills["batch_or_dataset_specificity"]["result"] == "survives_current_frozen_evidence"
@@ -99,7 +111,7 @@ def test_ccdc22_packet_survives_current_kills_but_does_not_accept():
         "adversarial_refutation",
         "falsifiable_test",
     }
-    assert bar["orthogonal_public_datasets"]["count"] == 8
+    assert bar["orthogonal_public_datasets"]["count"] == 7
 
 
 def test_ccdc22_packet_has_specific_refutation_experiment():

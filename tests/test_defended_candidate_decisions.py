@@ -55,13 +55,13 @@ def test_decision_ledger_holds_rank_5_candidate():
     assert packet["held_candidate"] == {
         "rank": 5,
         "gene": "CCDC22",
-        "typed_status": "evidence_attached",
-        "defended_discovery_status": "computational_bar_cleared_pending_human_key",
-        "evidence_packet": "examples/data/ccdc22_defended_evidence.json",
-        "evidence_packet_id": "ccdc22_defended_d737d44aa6cec700",
-        "disposition": "hold_and_deepen",
-        "orthogonal_public_dataset_count": 8,
-    }
+            "typed_status": "evidence_attached",
+            "defended_discovery_status": "computational_bar_cleared_pending_human_key",
+            "evidence_packet": "examples/data/ccdc22_defended_evidence.json",
+            "evidence_packet_id": "ccdc22_defended_d215ebad7b4f0355",
+            "disposition": "hold_and_deepen",
+            "orthogonal_public_dataset_count": 7,
+        }
     assert packet["campaign_state"] == "candidate_hold_pending_human_key"
     assert packet["completion_status"] == "computational_bar_cleared_pending_human_key"
 

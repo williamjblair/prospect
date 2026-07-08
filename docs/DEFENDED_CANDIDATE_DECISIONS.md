@@ -19,7 +19,7 @@ These candidates are not contradicted by this ledger. They are below the full de
 
 ## Held candidate
 
-Rank 5: CCDC22 has computational bar cleared, pending human key. Packet `ccdc22_defended_d737d44aa6cec700` remains proposal only.
+Rank 5: CCDC22 has computational bar cleared, pending human key. Packet `ccdc22_defended_d215ebad7b4f0355` remains proposal only.
 
 ## Next candidate
 

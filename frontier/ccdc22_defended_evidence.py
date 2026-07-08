@@ -314,6 +314,71 @@ def _scored_evidence(discovery_row: dict[str, Any], cross_row: dict[str, Any]) -
     ]
 
 
+def _support_audit() -> list[dict[str, Any]]:
+    return [
+        {
+            "source": "replogle_specificity",
+            "evidence_role": "cell_type_specificity",
+            "counts_for_full_bar": True,
+            "reason": "independent K562 and RPE1 transfer row argues against general-cell-line essentiality",
+        },
+        {
+            "source": "primary_t_cell_screen_support",
+            "evidence_role": "comparable_primary_t_cell_support",
+            "counts_for_full_bar": True,
+            "reason": "Shifrut primary T-cell row supplies an independent hit for the same broad activation biology",
+        },
+        {
+            "source": "string_network",
+            "evidence_role": "mechanistic_network",
+            "counts_for_full_bar": True,
+            "reason": "STRING places CCDC22 with CCC, COMMD, and retromer-associated trafficking partners",
+        },
+        {
+            "source": "dice_expression",
+            "evidence_role": "immune_subset_expression",
+            "counts_for_full_bar": True,
+            "reason": "DICE records CCDC22 expression in activated CD4 T-cell context",
+        },
+        {
+            "source": "open_targets_overlay",
+            "evidence_role": "real_world_hook",
+            "counts_for_full_bar": True,
+            "reason": "Open Targets supplies immune-dysregulation genetic context",
+        },
+        {
+            "source": "ensembl_homology",
+            "evidence_role": "evolutionary_conservation",
+            "counts_for_full_bar": True,
+            "reason": "Ensembl homology supplies orthology rows for conservation context",
+        },
+        {
+            "source": "depmap_24q2_crispr_gene_effect",
+            "evidence_role": "essentiality_context",
+            "counts_for_full_bar": True,
+            "reason": "DepMap supplies broad cancer-cell dependency context for the artifact kill",
+        },
+        {
+            "source": "schmidt_2022_orcs_2427",
+            "evidence_role": "orthogonal_phenotype",
+            "counts_for_full_bar": False,
+            "reason": "cytokine-production non-hit is not a comparable activation-transcriptome contradiction",
+        },
+        {
+            "source": "gwas_catalog_gene_lookup",
+            "evidence_role": "no_support",
+            "counts_for_full_bar": False,
+            "reason": "GWAS Catalog gene endpoint returned no CCDC22 object",
+        },
+        {
+            "source": "chembl_target_and_activity",
+            "evidence_role": "targetability_context",
+            "counts_for_full_bar": False,
+            "reason": "ChEMBL target/activity rows are retained as context, not as proof of an existing compound hook",
+        },
+    ]
+
+
 def _open_gates() -> list[dict[str, str]]:
     return [
         {
@@ -370,7 +435,7 @@ def _falsifiable_experiment() -> dict[str, Any]:
     }
 
 
-def _bar_clearance() -> list[dict[str, Any]]:
+def _bar_clearance(support_count: int) -> list[dict[str, Any]]:
     return [
         {
             "rung": "novelty",
@@ -390,10 +455,11 @@ def _bar_clearance() -> list[dict[str, Any]]:
         {
             "rung": "orthogonal_public_datasets",
             "status": "evidence_attached",
-            "count": 8,
+            "count": support_count,
             "basis": (
-                "Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, "
-                "and DepMap 24Q2 are frozen as independent public evidence rows"
+                "Shifrut, Replogle, STRING, DICE, Open Targets, Ensembl homology, "
+                "and DepMap 24Q2 count toward the full bar; Schmidt, GWAS no-object, "
+                "and ChEMBL activity rows are retained as non-counted context"
             ),
         },
         {
@@ -426,6 +492,8 @@ def build_ccdc22_defended_evidence() -> dict[str, Any]:
     _load(DECISIONS_JSON)
     discovery_row = _row(discovery, "CCDC22")
     cross_row = _row(cross_validation, "CCDC22")
+    support_audit = _support_audit()
+    support_count = sum(1 for row in support_audit if row["counts_for_full_bar"])
     packet = {
         "phase": "rank_5_ccdc22_defended_evidence",
         "title": "CCDC22 defended evidence",
@@ -445,10 +513,12 @@ def build_ccdc22_defended_evidence() -> dict[str, Any]:
         },
         "snapshot_dir": str(SNAPSHOT_DIR.relative_to(ROOT)),
         "frozen_snapshots": _snapshots(),
-        "orthogonal_public_dataset_count": 8,
-        "current_support_count": 8,
+        "orthogonal_public_dataset_count": support_count,
+        "current_support_count": support_count,
+        "frozen_external_context_count": len(support_audit),
         "scored_evidence": _scored_evidence(discovery_row, cross_row),
-        "bar_clearance": _bar_clearance(),
+        "support_audit": support_audit,
+        "bar_clearance": _bar_clearance(support_count),
         "open_gates": _open_gates(),
         "kill_attempts": _kill_attempts(),
         "mechanism": (
@@ -483,6 +553,18 @@ def _markdown(packet: dict[str, Any]) -> str:
     ]
     for row in packet["scored_evidence"]:
         lines.append(f"| `{row['source']}` | `{row['status']}` | {row['summary']} |")
+    lines += [
+        "",
+        "## Support audit",
+        "",
+        "| source | role | counts for full bar | reason |",
+        "|---|---|---|---|",
+    ]
+    for row in packet["support_audit"]:
+        counts = "yes" if row["counts_for_full_bar"] else "no"
+        lines.append(
+            f"| `{row['source']}` | `{row['evidence_role']}` | {counts} | {row['reason']} |"
+        )
     lines += [
         "",
         "## Bar clearance",

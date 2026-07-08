@@ -22,6 +22,21 @@ Honest ceiling: computation over released data, not wet-lab or clinical truth.
 | `gwas_catalog_gene_lookup` | `evidence_attached` | GWAS Catalog gene endpoint returned no CCDC22 object |
 | `depmap_24q2_crispr_gene_effect` | `evidence_attached` | 1150 cancer cell lines, median gene effect -0.2020, 6 lines below -1 |
 
+## Support audit
+
+| source | role | counts for full bar | reason |
+|---|---|---|---|
+| `replogle_specificity` | `cell_type_specificity` | yes | independent K562 and RPE1 transfer row argues against general-cell-line essentiality |
+| `primary_t_cell_screen_support` | `comparable_primary_t_cell_support` | yes | Shifrut primary T-cell row supplies an independent hit for the same broad activation biology |
+| `string_network` | `mechanistic_network` | yes | STRING places CCDC22 with CCC, COMMD, and retromer-associated trafficking partners |
+| `dice_expression` | `immune_subset_expression` | yes | DICE records CCDC22 expression in activated CD4 T-cell context |
+| `open_targets_overlay` | `real_world_hook` | yes | Open Targets supplies immune-dysregulation genetic context |
+| `ensembl_homology` | `evolutionary_conservation` | yes | Ensembl homology supplies orthology rows for conservation context |
+| `depmap_24q2_crispr_gene_effect` | `essentiality_context` | yes | DepMap supplies broad cancer-cell dependency context for the artifact kill |
+| `schmidt_2022_orcs_2427` | `orthogonal_phenotype` | no | cytokine-production non-hit is not a comparable activation-transcriptome contradiction |
+| `gwas_catalog_gene_lookup` | `no_support` | no | GWAS Catalog gene endpoint returned no CCDC22 object |
+| `chembl_target_and_activity` | `targetability_context` | no | ChEMBL target/activity rows are retained as context, not as proof of an existing compound hook |
+
 ## Bar clearance
 
 | rung | status | basis |
@@ -29,7 +44,7 @@ Honest ceiling: computation over released data, not wet-lab or clinical truth.
 | `novelty` | `evidence_attached` | rank-5 novelty survivor, absent from CollecTRI and the standard T-cell annotation set |
 | `frozen_replay` | `evidence_attached` | 619 stimulated DE genes re-derived from the frozen Marson frontier packet |
 | `cell_type_specificity` | `evidence_attached` | K562 13 and RPE1 None in the frozen Replogle specificity row |
-| `orthogonal_public_datasets` | `evidence_attached` | Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, and DepMap 24Q2 are frozen as independent public evidence rows |
+| `orthogonal_public_datasets` | `evidence_attached` | Shifrut, Replogle, STRING, DICE, Open Targets, Ensembl homology, and DepMap 24Q2 count toward the full bar; Schmidt, GWAS no-object, and ChEMBL activity rows are retained as non-counted context |
 | `mechanism` | `evidence_attached` | STRING places CCDC22 with CCDC93, VPS35L, and COMMD-complex trafficking partners |
 | `real_world_hook` | `evidence_attached` | Open Targets supplies immune-dysregulation genetic context and ChEMBL supplies target/activity rows |
 | `adversarial_refutation` | `evidence_attached` | technical, artifact, batch, and alternative-mechanism kills survive current frozen evidence |

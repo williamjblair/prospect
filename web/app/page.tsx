@@ -180,7 +180,9 @@ type DefendedEvidencePacket = {
   honest_ceiling: string;
   packet_id: string;
   orthogonal_public_dataset_count: number;
+  frozen_external_context_count: number;
   scored_evidence: { source: string; status: string; summary: string }[];
+  support_audit: { source: string; evidence_role: string; counts_for_full_bar: boolean; reason: string }[];
   bar_clearance: { rung: string; status: string; basis: string; count?: number }[];
   open_gates: { gate: string; reason: string }[];
   kill_attempts: { kill_id: string; result: string; basis: string }[];
@@ -1522,6 +1524,8 @@ function CCDC22DefendedPanel({ d, onGene }: { d: Data; onGene: (g: string) => vo
   const ledger = d.defended_candidate_decisions;
   if (!packet || !ledger?.held_candidate) return null;
   const evidenceRows = packet.scored_evidence.filter((row) => row.source !== "marson_frontier");
+  const countedRows = packet.support_audit.filter((row) => row.counts_for_full_bar);
+  const contextRows = packet.support_audit.filter((row) => !row.counts_for_full_bar);
   return (
     <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 16, borderColor: "var(--moss)" }}>
       <div style={{ display: "flex", alignItems: "start", gap: 12, flexWrap: "wrap" }}>
@@ -1550,7 +1554,8 @@ function CCDC22DefendedPanel({ d, onGene }: { d: Data; onGene: (g: string) => vo
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
         {[
           [ledger.decided_count, "candidates demoted", "var(--cinnabar)"],
-          [packet.orthogonal_public_dataset_count, "orthogonal public datasets", "var(--moss)"],
+          [packet.orthogonal_public_dataset_count, "counted support rows", "var(--moss)"],
+          [packet.frozen_external_context_count, "frozen context rows", "var(--field-blue)"],
           [packet.kill_attempts.length, "kill attempts survived", "var(--field-blue)"],
           [packet.open_gates.length, "open gates", "var(--brass)"],
         ].map(([value, label, color]) => (
@@ -1577,6 +1582,9 @@ function CCDC22DefendedPanel({ d, onGene }: { d: Data; onGene: (g: string) => vo
             <div className="t-label" style={{ marginBottom: 5 }}>External evidence</div>
             <p className="t-caption" style={{ margin: 0 }}>
               {evidenceRows.slice(0, 6).map((row) => `${row.source}: ${row.summary}`).join(" · ")}
+            </p>
+            <p className="t-caption" style={{ margin: "8px 0 0", color: "var(--ink-3)" }}>
+              {countedRows.length} counted support rows. non-counted context: {contextRows.map((row) => `${row.source} (${row.evidence_role})`).join(", ")}.
             </p>
           </div>
           <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>

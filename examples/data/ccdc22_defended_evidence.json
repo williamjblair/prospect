@@ -18,8 +18,8 @@
       "status": "evidence_attached"
     },
     {
-      "basis": "Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, and DepMap 24Q2 are frozen as independent public evidence rows",
-      "count": 8,
+      "basis": "Shifrut, Replogle, STRING, DICE, Open Targets, Ensembl homology, and DepMap 24Q2 count toward the full bar; Schmidt, GWAS no-object, and ChEMBL activity rows are retained as non-counted context",
+      "count": 7,
       "rung": "orthogonal_public_datasets",
       "status": "evidence_attached"
     },
@@ -45,7 +45,7 @@
     }
   ],
   "candidate_rank": 5,
-  "current_support_count": 8,
+  "current_support_count": 7,
   "decision_recommendation": "hold_and_deepen",
   "defended_discovery_status": "computational_bar_cleared_pending_human_key",
   "falsifiable_experiment": {
@@ -60,6 +60,7 @@
     "refutes_if": "adequate CCDC22 knockdown produces no reproducible stimulated activation-program shift, or the same shift appears at Rest or under viability loss",
     "system": "stimulated primary human CD4+ T cells"
   },
+  "frozen_external_context_count": 10,
   "frozen_snapshots": [
     {
       "path": "examples/data/ccdc22_defended_sources/chembl_activity.json",
@@ -149,8 +150,8 @@
       "reason": "no human key has accepted a CCDC22 state transition"
     }
   ],
-  "orthogonal_public_dataset_count": 8,
-  "packet_id": "ccdc22_defended_d737d44aa6cec700",
+  "orthogonal_public_dataset_count": 7,
+  "packet_id": "ccdc22_defended_d215ebad7b4f0355",
   "phase": "rank_5_ccdc22_defended_evidence",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "real_world_hook": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945",
@@ -239,6 +240,68 @@
     "discovery_campaign": "examples/data/discovery_campaign.json"
   },
   "status": "evidence_attached",
+  "support_audit": [
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "cell_type_specificity",
+      "reason": "independent K562 and RPE1 transfer row argues against general-cell-line essentiality",
+      "source": "replogle_specificity"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "comparable_primary_t_cell_support",
+      "reason": "Shifrut primary T-cell row supplies an independent hit for the same broad activation biology",
+      "source": "primary_t_cell_screen_support"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "mechanistic_network",
+      "reason": "STRING places CCDC22 with CCC, COMMD, and retromer-associated trafficking partners",
+      "source": "string_network"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "immune_subset_expression",
+      "reason": "DICE records CCDC22 expression in activated CD4 T-cell context",
+      "source": "dice_expression"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "real_world_hook",
+      "reason": "Open Targets supplies immune-dysregulation genetic context",
+      "source": "open_targets_overlay"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "evolutionary_conservation",
+      "reason": "Ensembl homology supplies orthology rows for conservation context",
+      "source": "ensembl_homology"
+    },
+    {
+      "counts_for_full_bar": true,
+      "evidence_role": "essentiality_context",
+      "reason": "DepMap supplies broad cancer-cell dependency context for the artifact kill",
+      "source": "depmap_24q2_crispr_gene_effect"
+    },
+    {
+      "counts_for_full_bar": false,
+      "evidence_role": "orthogonal_phenotype",
+      "reason": "cytokine-production non-hit is not a comparable activation-transcriptome contradiction",
+      "source": "schmidt_2022_orcs_2427"
+    },
+    {
+      "counts_for_full_bar": false,
+      "evidence_role": "no_support",
+      "reason": "GWAS Catalog gene endpoint returned no CCDC22 object",
+      "source": "gwas_catalog_gene_lookup"
+    },
+    {
+      "counts_for_full_bar": false,
+      "evidence_role": "targetability_context",
+      "reason": "ChEMBL target/activity rows are retained as context, not as proof of an existing compound hook",
+      "source": "chembl_target_and_activity"
+    }
+  ],
   "title": "CCDC22 defended evidence",
   "trust_boundary": "proposal_only"
 }
