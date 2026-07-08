@@ -43,13 +43,22 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|findings-index|demo-pack|judge-pack|submit-pack|receipt)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
+./prospect final-check              # full local submission gate, including generated-artifact drift checks
+./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
 python benchmark/mutation_pack.py   # the floor: zero tampered claim ever admitted
 python tests/test_skill_parity.py   # the Skill checker matches the engine (112 claims, 0 drift)
 ./prospect campaign-probe           # Claude probes campaign rows, output remains proposal-only
 ./prospect campaign-triage          # turns probe disagreements into assay gates
+./prospect campaign-gate-probe      # Claude pressure-tests disagreement gates, still proposal-only
+./prospect transfer-replay          # compact cross-dataset replay packet, no accepted-state mutation
 ./prospect pggt1b                   # builds the PGGT1B evidence packet
+./prospect lab-pack                 # builds the wet-lab assay packet
+./prospect judge-pack               # builds the judge-facing replay manifest
+./prospect submit-pack              # prints copy-safe upload fields and public artifact links
+./prospect demo-pack                # prints the two-minute recording teleprompter
+python examples/receipt_bridge_client.py --json  # external receipt bridge demo, accepted=false
 
 # regenerate the frontier + site data after a data change:
 python frontier/build.py && python frontier/verify.py && python frontier/sign.py --yes

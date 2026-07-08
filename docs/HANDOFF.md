@@ -243,8 +243,10 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Submission form packet**: [SUBMISSION_FORM_PACKET.md](SUBMISSION_FORM_PACKET.md), copy-paste
   fields for title, short description, long description, URLs, demo, verification commands, and
   limitation language.
-- **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet, campaign gate
-  probe, transfer replay packet, lab packet, and receipt bridge manifest before upload.
+- **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet command
+  surface, exact public-data parity with the shared `submit-pack` manifest, all public artifact
+  endpoints, campaign gate probe, transfer replay packet, lab packet, and receipt bridge manifest
+  before upload.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
