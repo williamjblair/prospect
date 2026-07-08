@@ -58,7 +58,7 @@ def test_decision_ledger_holds_rank_5_candidate():
         "typed_status": "evidence_attached",
         "defended_discovery_status": "computational_bar_cleared_pending_human_key",
         "evidence_packet": "examples/data/ccdc22_defended_evidence.json",
-        "evidence_packet_id": "ccdc22_defended_f874c4789e5ed6c2",
+        "evidence_packet_id": "ccdc22_defended_d737d44aa6cec700",
         "disposition": "hold_and_deepen",
         "orthogonal_public_dataset_count": 8,
     }

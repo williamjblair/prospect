@@ -1,11 +1,65 @@
 {
   "acceptance": false,
   "accepted": false,
+  "bar_clearance": [
+    {
+      "basis": "rank-5 novelty survivor, absent from CollecTRI and the standard T-cell annotation set",
+      "rung": "novelty",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "619 stimulated DE genes re-derived from the frozen Marson frontier packet",
+      "rung": "frozen_replay",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "K562 13 and RPE1 None in the frozen Replogle specificity row",
+      "rung": "cell_type_specificity",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, and DepMap 24Q2 are frozen as independent public evidence rows",
+      "count": 8,
+      "rung": "orthogonal_public_datasets",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "STRING places CCDC22 with CCDC93, VPS35L, and COMMD-complex trafficking partners",
+      "rung": "mechanism",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "Open Targets supplies immune-dysregulation genetic context and ChEMBL supplies target/activity rows",
+      "rung": "real_world_hook",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "technical, artifact, batch, and alternative-mechanism kills survive current frozen evidence",
+      "rung": "adversarial_refutation",
+      "status": "evidence_attached"
+    },
+    {
+      "basis": "specific CCDC22 CRISPRi activation-marker and RNA-seq experiment is specified",
+      "rung": "falsifiable_test",
+      "status": "evidence_attached"
+    }
+  ],
   "candidate_rank": 5,
   "current_support_count": 8,
   "decision_recommendation": "hold_and_deepen",
   "defended_discovery_status": "computational_bar_cleared_pending_human_key",
-  "falsifiable_experiment": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+  "falsifiable_experiment": {
+    "controls": [
+      "non-targeting guide",
+      "viability and cell-count gate",
+      "VPS35L or COMMD-complex pathway control",
+      "Rest and stimulated conditions"
+    ],
+    "perturbation": "CCDC22 CRISPRi with two independent guides",
+    "readout": "activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+    "refutes_if": "adequate CCDC22 knockdown produces no reproducible stimulated activation-program shift, or the same shift appears at Rest or under viability loss",
+    "system": "stimulated primary human CD4+ T cells"
+  },
   "frozen_snapshots": [
     {
       "path": "examples/data/ccdc22_defended_sources/chembl_activity.json",
@@ -96,7 +150,7 @@
     }
   ],
   "orthogonal_public_dataset_count": 8,
-  "packet_id": "ccdc22_defended_f874c4789e5ed6c2",
+  "packet_id": "ccdc22_defended_d737d44aa6cec700",
   "phase": "rank_5_ccdc22_defended_evidence",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "real_world_hook": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945",

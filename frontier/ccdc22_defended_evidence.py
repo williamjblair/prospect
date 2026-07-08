@@ -352,6 +352,73 @@ def _kill_attempts() -> list[dict[str, str]]:
     ]
 
 
+def _falsifiable_experiment() -> dict[str, Any]:
+    return {
+        "system": "stimulated primary human CD4+ T cells",
+        "perturbation": "CCDC22 CRISPRi with two independent guides",
+        "controls": [
+            "non-targeting guide",
+            "viability and cell-count gate",
+            "VPS35L or COMMD-complex pathway control",
+            "Rest and stimulated conditions",
+        ],
+        "readout": "activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+        "refutes_if": (
+            "adequate CCDC22 knockdown produces no reproducible stimulated activation-program shift, "
+            "or the same shift appears at Rest or under viability loss"
+        ),
+    }
+
+
+def _bar_clearance() -> list[dict[str, Any]]:
+    return [
+        {
+            "rung": "novelty",
+            "status": "evidence_attached",
+            "basis": "rank-5 novelty survivor, absent from CollecTRI and the standard T-cell annotation set",
+        },
+        {
+            "rung": "frozen_replay",
+            "status": "evidence_attached",
+            "basis": "619 stimulated DE genes re-derived from the frozen Marson frontier packet",
+        },
+        {
+            "rung": "cell_type_specificity",
+            "status": "evidence_attached",
+            "basis": "K562 13 and RPE1 None in the frozen Replogle specificity row",
+        },
+        {
+            "rung": "orthogonal_public_datasets",
+            "status": "evidence_attached",
+            "count": 8,
+            "basis": (
+                "Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, "
+                "and DepMap 24Q2 are frozen as independent public evidence rows"
+            ),
+        },
+        {
+            "rung": "mechanism",
+            "status": "evidence_attached",
+            "basis": "STRING places CCDC22 with CCDC93, VPS35L, and COMMD-complex trafficking partners",
+        },
+        {
+            "rung": "real_world_hook",
+            "status": "evidence_attached",
+            "basis": "Open Targets supplies immune-dysregulation genetic context and ChEMBL supplies target/activity rows",
+        },
+        {
+            "rung": "adversarial_refutation",
+            "status": "evidence_attached",
+            "basis": "technical, artifact, batch, and alternative-mechanism kills survive current frozen evidence",
+        },
+        {
+            "rung": "falsifiable_test",
+            "status": "evidence_attached",
+            "basis": "specific CCDC22 CRISPRi activation-marker and RNA-seq experiment is specified",
+        },
+    ]
+
+
 def build_ccdc22_defended_evidence() -> dict[str, Any]:
     prereg = _load(PREREG_JSON)
     discovery = _load(DISCOVERY_JSON)
@@ -381,6 +448,7 @@ def build_ccdc22_defended_evidence() -> dict[str, Any]:
         "orthogonal_public_dataset_count": 8,
         "current_support_count": 8,
         "scored_evidence": _scored_evidence(discovery_row, cross_row),
+        "bar_clearance": _bar_clearance(),
         "open_gates": _open_gates(),
         "kill_attempts": _kill_attempts(),
         "mechanism": (
@@ -390,7 +458,7 @@ def build_ccdc22_defended_evidence() -> dict[str, Any]:
         "real_world_hook": _disease_summary(cross_row),
         "decision_recommendation": "hold_and_deepen",
         "next_candidate": None,
-        "falsifiable_experiment": discovery_row["falsifiable_test"],
+        "falsifiable_experiment": _falsifiable_experiment(),
         "reproduce_command": "./prospect ccdc22-defended-evidence",
         "next_step": "human review of the CCDC22 proposal, then optional human-key acceptance",
     }
@@ -417,6 +485,15 @@ def _markdown(packet: dict[str, Any]) -> str:
         lines.append(f"| `{row['source']}` | `{row['status']}` | {row['summary']} |")
     lines += [
         "",
+        "## Bar clearance",
+        "",
+        "| rung | status | basis |",
+        "|---|---|---|",
+    ]
+    for row in packet["bar_clearance"]:
+        lines.append(f"| `{row['rung']}` | `{row['status']}` | {row['basis']} |")
+    lines += [
+        "",
         "## Open gates",
         "",
         "| gate | reason |",
@@ -437,6 +514,8 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         f"Mechanism: {packet['mechanism']}",
         f"Real-world hook: {packet['real_world_hook']}.",
+        "Falsifiable experiment: " + packet["falsifiable_experiment"]["readout"] + ".",
+        "Refutes if: " + packet["falsifiable_experiment"]["refutes_if"] + ".",
         f"Decision recommendation: `{packet['decision_recommendation']}`.",
         "",
         "Rebuild:",

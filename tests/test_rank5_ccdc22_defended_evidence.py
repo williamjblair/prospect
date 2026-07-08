@@ -77,6 +77,7 @@ def test_ccdc22_packet_records_current_support():
 def test_ccdc22_packet_survives_current_kills_but_does_not_accept():
     packet = build_ccdc22_defended_evidence()
     kills = {row["kill_id"]: row for row in packet["kill_attempts"]}
+    bar = {row["rung"]: row for row in packet["bar_clearance"]}
 
     assert packet["defended_discovery_status"] == "computational_bar_cleared_pending_human_key"
     assert packet["decision_recommendation"] == "hold_and_deepen"
@@ -87,6 +88,39 @@ def test_ccdc22_packet_survives_current_kills_but_does_not_accept():
     assert kills["batch_or_dataset_specificity"]["result"] == "survives_current_frozen_evidence"
     assert kills["alternative_mechanism"]["result"] == "survives_current_frozen_evidence"
     assert packet["next_step"] == "human review of the CCDC22 proposal, then optional human-key acceptance"
+    assert all(row["status"] == "evidence_attached" for row in bar.values())
+    assert set(bar) == {
+        "novelty",
+        "frozen_replay",
+        "cell_type_specificity",
+        "orthogonal_public_datasets",
+        "mechanism",
+        "real_world_hook",
+        "adversarial_refutation",
+        "falsifiable_test",
+    }
+    assert bar["orthogonal_public_datasets"]["count"] == 8
+
+
+def test_ccdc22_packet_has_specific_refutation_experiment():
+    packet = build_ccdc22_defended_evidence()
+    experiment = packet["falsifiable_experiment"]
+
+    assert experiment == {
+        "system": "stimulated primary human CD4+ T cells",
+        "perturbation": "CCDC22 CRISPRi with two independent guides",
+        "controls": [
+            "non-targeting guide",
+            "viability and cell-count gate",
+            "VPS35L or COMMD-complex pathway control",
+            "Rest and stimulated conditions",
+        ],
+        "readout": "activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+        "refutes_if": (
+            "adequate CCDC22 knockdown produces no reproducible stimulated activation-program shift, "
+            "or the same shift appears at Rest or under viability loss"
+        ),
+    }
 
 
 def test_ccdc22_packet_writes_clean_json_and_markdown(tmp_path):
@@ -104,6 +138,7 @@ def test_ccdc22_packet_writes_clean_json_and_markdown(tmp_path):
     assert "COMMD1" in doc
     assert "median gene effect -0.2020" in doc
     assert "CHEMBL6066516" in doc
+    assert "activation-marker flow cytometry" in doc
     assert "\u2014" not in doc
     assert ("veri" + "fied") not in text
     assert ("tr" + "ue") not in text

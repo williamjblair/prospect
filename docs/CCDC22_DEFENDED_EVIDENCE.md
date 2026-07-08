@@ -22,6 +22,19 @@ Honest ceiling: computation over released data, not wet-lab or clinical truth.
 | `gwas_catalog_gene_lookup` | `evidence_attached` | GWAS Catalog gene endpoint returned no CCDC22 object |
 | `depmap_24q2_crispr_gene_effect` | `evidence_attached` | 1150 cancer cell lines, median gene effect -0.2020, 6 lines below -1 |
 
+## Bar clearance
+
+| rung | status | basis |
+|---|---|---|
+| `novelty` | `evidence_attached` | rank-5 novelty survivor, absent from CollecTRI and the standard T-cell annotation set |
+| `frozen_replay` | `evidence_attached` | 619 stimulated DE genes re-derived from the frozen Marson frontier packet |
+| `cell_type_specificity` | `evidence_attached` | K562 13 and RPE1 None in the frozen Replogle specificity row |
+| `orthogonal_public_datasets` | `evidence_attached` | Shifrut, Replogle, STRING, DICE, Open Targets, ChEMBL, Ensembl homology, and DepMap 24Q2 are frozen as independent public evidence rows |
+| `mechanism` | `evidence_attached` | STRING places CCDC22 with CCDC93, VPS35L, and COMMD-complex trafficking partners |
+| `real_world_hook` | `evidence_attached` | Open Targets supplies immune-dysregulation genetic context and ChEMBL supplies target/activity rows |
+| `adversarial_refutation` | `evidence_attached` | technical, artifact, batch, and alternative-mechanism kills survive current frozen evidence |
+| `falsifiable_test` | `evidence_attached` | specific CCDC22 CRISPRi activation-marker and RNA-seq experiment is specified |
+
 ## Open gates
 
 | gate | reason |
@@ -40,6 +53,8 @@ Honest ceiling: computation over released data, not wet-lab or clinical truth.
 
 Mechanism: CCDC22 may connect stimulated CD4+ activation state to CCC and COMMD retromer-associated endosomal trafficking.
 Real-world hook: immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945.
+Falsifiable experiment: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h.
+Refutes if: adequate CCDC22 knockdown produces no reproducible stimulated activation-program shift, or the same shift appears at Rest or under viability loss.
 Decision recommendation: `hold_and_deepen`.
 
 Rebuild:
