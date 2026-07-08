@@ -21,8 +21,14 @@ Signed root: `root_a8b0dcdd4024e12f`
 ./prospect judge-handout
 ./prospect release-manifest
 ./prospect rendered-qa
-./prospect browser-qa --target both # optional, after local web starts on 8124
 python examples/receipt_bridge_client.py --json
+```
+
+Optional operator confidence check, after local web starts on `8124`:
+
+```bash
+cd web && npm run start
+./prospect browser-qa --target both
 ```
 
 ## Script

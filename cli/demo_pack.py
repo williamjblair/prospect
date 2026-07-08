@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 
+from cli.submit_pack import OPTIONAL_OPERATOR_COMMANDS
+
 LIVE_URL = "https://prospect-sepia-six.vercel.app"
 SIGNED_ROOT = "root_a8b0dcdd4024e12f"
 
@@ -88,6 +90,7 @@ def build_packet() -> dict[str, object]:
         "signed_root": SIGNED_ROOT,
         "beats": BEATS,
         "do_not_say": DO_NOT_SAY,
+        "optional_operator_commands": OPTIONAL_OPERATOR_COMMANDS,
         "preflight": [
             "./prospect final-check",
             "./prospect submit-smoke",
@@ -109,6 +112,10 @@ def _print_text(packet: dict[str, object]) -> None:
     print("")
     print("Preflight:")
     for command in packet["preflight"]:
+        print(f"- {command}")
+    print("")
+    print("Optional operator confidence check:")
+    for command in packet["optional_operator_commands"]:
         print(f"- {command}")
     print("")
     for beat in packet["beats"]:

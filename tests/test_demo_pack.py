@@ -23,6 +23,10 @@ def test_demo_pack_has_timed_recording_beats():
     assert "./prospect judge-handout" in packet["preflight"]
     assert "./prospect release-manifest" in packet["preflight"]
     assert "./prospect rendered-qa" in packet["preflight"]
+    assert packet["optional_operator_commands"] == [
+        "cd web && npm run start",
+        "./prospect browser-qa --target both",
+    ]
     assert [beat["time"] for beat in packet["beats"]] == ["0:00", "0:20", "0:40", "1:05", "1:30", "1:50"]
 
     script = "\n".join(beat["say"] for beat in packet["beats"])
@@ -69,6 +73,7 @@ def test_demo_pack_cli_prints_and_emits_json():
     assert text_proc.returncode == 0, text_proc.stderr
     assert "Prospect demo teleprompter" in text_proc.stdout
     assert "0:00 Refusal" in text_proc.stdout
+    assert "./prospect browser-qa --target both" in text_proc.stdout
     assert "Do not say" in text_proc.stdout
 
     json_proc = subprocess.run(
@@ -104,6 +109,8 @@ def test_demo_teleprompter_doc_tracks_packet():
 
     preflight = text.split("## Preflight", 1)[1].split("## Script", 1)[0]
     for command in build_packet()["preflight"]:
+        assert command in preflight
+    for command in build_packet()["optional_operator_commands"]:
         assert command in preflight
 
 
