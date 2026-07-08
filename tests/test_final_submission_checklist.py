@@ -35,6 +35,8 @@ def test_final_submission_checklist_contains_human_submitter_steps():
         "./prospect browser-qa --target both",
         "/data/judge_packet.json",
         "/data/campaign_gate_probe.json",
+        "20 Claude probe rows",
+        "complete 11-of-11 coverage",
         "root_a8b0dcdd4024e12f",
     ]:
         assert phrase in text
@@ -75,6 +77,8 @@ def test_demo_recording_runbook_is_submission_ready():
         "1:50",
         "accepted=false",
         "human_signature_required",
+        "20 Claude probe rows",
+        "all 11 gate decisions",
         "`evidence_attached`",
         "Do not claim wet-lab or clinical truth",
     ]:
@@ -114,6 +118,9 @@ def test_submission_form_packet_has_copy_paste_fields():
         "public data endpoints",
         "receipt bridge",
         "wet-lab handoff",
+        "20 campaign rows",
+        "all 11 disagreement gates",
+        "11 proposal-only assay gates",
     ]:
         assert phrase in text
 

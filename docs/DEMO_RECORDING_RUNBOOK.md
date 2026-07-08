@@ -50,7 +50,8 @@ Confirm:
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
-- `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
+- `/data/campaign_pressure_summary.json` accounts for 20 Claude probe rows, all 11 gate decisions,
+  and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 

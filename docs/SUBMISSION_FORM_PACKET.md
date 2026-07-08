@@ -27,7 +27,8 @@ The app shows five signed findings: the TCR activation module recovered from per
 famous checkpoint/cytokine overclaims contradicted by the measured data, the essentiality artifact a
 naive ranking mistakes for immunology, cross-cell-type transfer through Replogle K562/RPE1 checkers,
 and CollecTRI regulon recovery. The agent layer converts Claude pressure into proposal-only assay
-gates, headed by PGGT1B and a five-row wet-lab handoff for stimulated CD4+ follow-up.
+gates: 20 campaign rows, all 11 disagreement gates reviewed, headed by PGGT1B and a five-row
+wet-lab handoff for stimulated CD4+ follow-up.
 
 Statuses stay typed: `computationally_reproduced`, `evidence_attached`, and `contradicted`. Prospect
 does not claim wet-lab or clinical truth. It proves replayable computation, names missing evidence,
@@ -65,6 +66,8 @@ Claude is used in three ways:
 - As pressure test: campaign probes ask Claude to challenge deterministic assay gates.
 - As audited pressure: probe artifacts must pass frozen coverage and rationale checks before
   promotion into the public chain.
+- As bounded campaign pressure: 20 Claude probe rows become 11 proposal-only assay gates, all with
+  closed gate recommendations and zero accepted-state mutations.
 
 The frozen verifier and human key remain the gate. No model in the trust path.
 
