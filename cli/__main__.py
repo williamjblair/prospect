@@ -17,6 +17,7 @@
   prospect findings-index   build the scannable finding index for the demo
   prospect judge-pack       build the judge packet manifest and handoff
   prospect final-check      run the local submission gate
+  prospect submit-smoke     run production submission smoke checks
   prospect receipt          emit portable receipts (activity → signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
 
@@ -64,6 +65,8 @@ def main():
         from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
     elif cmd == "final-check":
         from cli.final_check import main as final_check_main; sys.exit(final_check_main(rest))
+    elif cmd == "submit-smoke":
+        from cli.submit_smoke import main as submit_smoke_main; sys.exit(submit_smoke_main(rest))
     elif cmd == "receipt":
         from receipt.emit import main as receipt_main; receipt_main(rest)
     elif cmd == "mcp":

@@ -113,6 +113,7 @@ Current public artifacts:
 
 ```bash
 ./prospect final-check            # run the submission gate
+./prospect submit-smoke           # check the production submission endpoints
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides

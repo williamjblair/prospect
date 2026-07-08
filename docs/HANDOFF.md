@@ -153,7 +153,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|judge-pack|final-check|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|judge-pack|final-check|submit-smoke|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, lab assay packet, and static receipt-bridge files),
@@ -242,6 +242,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Submission form packet**: [SUBMISSION_FORM_PACKET.md](SUBMISSION_FORM_PACKET.md), copy-paste
   fields for title, short description, long description, URLs, demo, verification commands, and
   limitation language.
+- **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet, campaign gate
+  probe, transfer replay packet, lab packet, and receipt bridge manifest before upload.
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
   findings recovering known biology (TBX21/GATA3) and catching the field's mislabels (PD-1/TIM-3), show
   the cross-dataset moat, then the autonomous agent producing a novel signed hypothesis, and close on

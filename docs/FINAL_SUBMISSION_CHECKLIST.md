@@ -20,6 +20,7 @@ Replay gate:
 
 ```bash
 ./prospect final-check
+./prospect submit-smoke
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -32,6 +33,7 @@ Run this before submitting:
 
 ```bash
 ./prospect final-check
+./prospect submit-smoke
 ```
 
 Then open:
@@ -50,6 +52,7 @@ Confirm:
 - `/data/campaign_gate_probe.json` has four rows and stays proposal only.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - The receipt bridge demo returns `accepted=false`.
+- `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 
 ## Record The Demo Video
 

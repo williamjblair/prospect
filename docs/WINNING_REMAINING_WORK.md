@@ -58,6 +58,7 @@ This audit used the current worktree and live production data as the source of r
   - `/data/campaign_gate_probe.json`: 4 rows, 2 gate-sufficient, 1 add-control, 1 lower-priority.
   - `/data/transfer_replay_packet.json`: 377 compared T-cell regulators, no accepted-state mutation.
   - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
+  - `./prospect submit-smoke`: executable production smoke for the upload checklist.
 
 ### Gate state
 
@@ -142,6 +143,7 @@ These are not repo blockers. They are human/process tasks.
    - Open `/data/judge_packet.json`.
    - Confirm root `root_a8b0dcdd4024e12f`.
    - Run `./prospect verify`.
+   - Run `./prospect submit-smoke`.
 
 ### P1, highest leverage if there is still build time
 
@@ -324,7 +326,7 @@ These could improve the chance of winning without changing the core scientific s
 | Mutation floor | Satisfied | `python benchmark/mutation_pack.py`, 0 false admissions | None |
 | Skill parity | Satisfied | `python tests/test_skill_parity.py`, 112 claims, 0 mismatches | None |
 | Buildable web app | Satisfied by recent gate | `cd web && npm run build` passed in final deployment pass | None |
-| Live production | Satisfied | Stable alias returns current public JSON and Agent content | None |
+| Live production | Satisfied | Stable alias returns current public JSON and Agent content; `./prospect submit-smoke` checks the final upload endpoints | None |
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
