@@ -157,6 +157,14 @@ type JudgePacket = {
   live_url: string;
   frontier_root: string;
   gate_commands: string[];
+  receipt_bridge_demo?: {
+    command: string;
+    json_command: string;
+    transport: string;
+    tools: string[];
+    accepted: boolean;
+    next: string;
+  };
   demo_path: string[];
   public_data: string[];
   artifact_counts: {
@@ -516,6 +524,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
 
 function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab: string) => void }) {
   const counts = packet.artifact_counts;
+  const receiptBridgeCommand = packet.receipt_bridge_demo?.command || "python examples/receipt_bridge_client.py";
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
@@ -552,6 +561,15 @@ function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab
           <span key={cmd} className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
             background: "var(--paper-recessed)", border: "1px solid var(--rule-faint)" }}>{cmd}</span>
         ))}
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+        <span className="t-label">Receipt bridge</span>
+        <span className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
+          background: "var(--gold-tint, var(--state-open-tint))", color: "var(--gold-ink)",
+          border: "1px solid var(--brass-gold)" }}>{receiptBridgeCommand}</span>
+        <span className="t-caption" style={{ color: "var(--ink-3)" }}>
+          returns accepted=false, next={packet.receipt_bridge_demo?.next || "human_signature_required"}
+        </span>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
         paddingTop: 2, borderTop: "1px solid var(--rule-faint)" }}>

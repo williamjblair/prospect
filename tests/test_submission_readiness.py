@@ -11,6 +11,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
     for command in [
         "./prospect verify",
         "./prospect mcp",
+        "python examples/receipt_bridge_client.py",
         "./prospect campaign",
         "./prospect campaign-probe",
         "./prospect campaign-triage",

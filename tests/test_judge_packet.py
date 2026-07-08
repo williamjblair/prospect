@@ -20,6 +20,9 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert "./prospect verify" in packet["gate_commands"]
     assert "python benchmark/mutation_pack.py" in packet["gate_commands"]
     assert "python tests/test_skill_parity.py" in packet["gate_commands"]
+    assert packet["receipt_bridge_demo"]["command"] == "python examples/receipt_bridge_client.py"
+    assert packet["receipt_bridge_demo"]["accepted"] is False
+    assert packet["receipt_bridge_demo"]["next"] == "human_signature_required"
     assert packet["artifact_counts"]["findings"] == 5
     assert packet["artifact_counts"]["receipts"] == 6
     assert packet["artifact_counts"]["agent_campaign_candidates"] == 20
@@ -64,6 +67,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "PGGT1B evidence capsule" in doc
     assert "matrix-slice transcripts" in doc
     assert "./prospect verify" in doc
+    assert "python examples/receipt_bridge_client.py" in doc
     assert "proposal only" in doc
 
 

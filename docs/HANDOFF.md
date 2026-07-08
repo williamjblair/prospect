@@ -62,6 +62,7 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Executable receipt bridge** (`./prospect mcp`): a pure-Python MCP stdio server exposing
   `prospect.receipt.schema`, `prospect.receipt.validate`, and `prospect.receipt.submit`. Submit
   returns a proposal only (`accepted: false`); accepted state still requires the human signing path.
+  `python examples/receipt_bridge_client.py` runs the bridge as a tiny external client for judges.
 - **Wet-lab validation shortlist** (`frontier/validation_sheet.py`): five evidence-attached,
   on-target, non-canonical, cell-type-specific follow-ups headed by PGGT1B, exported to
   `examples/data/validation_candidates.csv` and [WETLAB_VALIDATION.md](WETLAB_VALIDATION.md).
@@ -137,6 +138,8 @@ accepted state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
+- **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
+  contract, validates a committed receipt, and submits it as proposal-only state.
 - **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
@@ -203,6 +206,7 @@ Nothing is required; the entry is complete and strong. The small polish follow-u
 uses restrained paint-only transitions in the 180-220ms band.
 
 **Bigger swings (higher ceiling, in rough priority):**
+- **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
   additional model pass against the disagreement gates.

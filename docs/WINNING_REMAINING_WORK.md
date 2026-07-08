@@ -144,6 +144,7 @@ These are not repo blockers. They are human/process tasks.
 These could improve the chance of winning without changing the core scientific state.
 
 1. **Add a tiny external MCP receipt-client demo.**
+   - Current state: shipped as `python examples/receipt_bridge_client.py`.
    - Why it matters: Prospect claims to be a protocol, not only an app. The MCP bridge exists and is
      tested, but a judge-facing demo client would make that executable boundary obvious in one command.
    - Shape:

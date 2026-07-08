@@ -65,6 +65,7 @@ useful at proposing. The admission decision stays a deterministic re-derivation 
 `prospect mcp` makes the receipt boundary executable. An external workbench can discover the
 receipt contract, validate a receipt, and submit it as a proposal. The response still says
 `accepted: false`; accepted state requires the frozen verifier and the human signing path.
+`python examples/receipt_bridge_client.py` runs that bridge as a tiny external client.
 
 `prospect lab-pack` turns the top evidence-attached follow-ups into assay-ready rows for a
 Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusion criteria, and
@@ -101,6 +102,7 @@ Current public artifacts:
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit portable receipts (activity → signed replayable state)
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
+python examples/receipt_bridge_client.py # run the external receipt bridge client
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows

@@ -39,7 +39,8 @@ the graph on its own word. On top of it:
   verifies against frozen data, converging on a novel hypothesis).
 - **Portable receipts and MCP bridge**: `prospect receipt` emits the activity-to-state bridge object,
   and `prospect mcp` lets an external workbench discover, validate, and submit receipts as proposals.
-  Submission never moves accepted state on its own.
+  Submission never moves accepted state on its own. `python examples/receipt_bridge_client.py` runs
+  that bridge as a tiny external client and returns `accepted=false`.
 - **Wet-lab validation shortlist**: a conservative sheet of evidence-attached follow-up hypotheses,
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 - **Wet-lab assay packet**: `prospect lab-pack` translates the top follow-ups into intervention,
@@ -98,7 +99,8 @@ the graph on its own word. On top of it:
 - The disagreement triage turns those four more-aggressive rows into secondary or capacity assay
   queues with orthogonal knockdown and transfer gates.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
-  proposal, but accepted state still requires the human signing path.
+  proposal, but accepted state still requires the human signing path. The external client demo is
+  `python examples/receipt_bridge_client.py`.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
@@ -122,6 +124,7 @@ the graph on its own word. On top of it:
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
+python examples/receipt_bridge_client.py # run the external receipt bridge client
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows

@@ -22,6 +22,18 @@
     "python tests/test_skill_parity.py",
     "cd web && npm run build"
   ],
+  "receipt_bridge_demo": {
+    "command": "python examples/receipt_bridge_client.py",
+    "json_command": "python examples/receipt_bridge_client.py --json",
+    "transport": "MCP stdio",
+    "tools": [
+      "prospect.receipt.schema",
+      "prospect.receipt.validate",
+      "prospect.receipt.submit"
+    ],
+    "accepted": false,
+    "next": "human_signature_required"
+  },
   "demo_path": [
     "Overview: AI claim refusal and 48 percent overclaim rate",
     "Findings: five-row index, then evidence tables",

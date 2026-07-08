@@ -38,6 +38,16 @@ cd web && npm run build
 
 The top agent hypothesis has an evidence capsule with exact ratios, a released-matrix moved-transcript slice, assay gates, and missing evidence. Status remains `evidence_attached`.
 
+## Receipt bridge demo
+
+Run the external MCP client:
+
+```bash
+python examples/receipt_bridge_client.py
+```
+
+It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, and submits it as a proposal. The expected result includes `accepted=false` and `next=human_signature_required`.
+
 ## Public data
 
 - `/data/frontier.json`

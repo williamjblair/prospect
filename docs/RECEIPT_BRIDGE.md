@@ -25,6 +25,18 @@ Example:
 printf '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}\n' | ./prospect mcp
 ```
 
+Judge demo client:
+
+```bash
+python examples/receipt_bridge_client.py
+python examples/receipt_bridge_client.py --json
+```
+
+The client starts `./prospect mcp`, discovers the three tools, validates the
+first committed receipt, and submits it across the bridge. The expected summary
+contains `accepted=false` and `next=human_signature_required`. It does not write
+the frontier signature or receipt bundle.
+
 The static export lives at:
 
 - `receipts/bridge/receipt_contract.json`

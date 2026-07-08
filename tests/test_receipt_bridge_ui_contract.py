@@ -13,6 +13,8 @@ def test_frontier_surfaces_executable_receipt_bridge_path():
     assert "/data/receipt_bridge/receipt_manifest.json" in source
     assert "proposal only" in source
     assert "prospect.receipt.submit" in source
+    assert "receipt_bridge_demo" in source
+    assert "receipt_bridge_client.py" in source
 
 
 if __name__ == "__main__":
