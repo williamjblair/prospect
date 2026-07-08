@@ -70,6 +70,7 @@ def build_packet() -> dict[str, Any]:
             "Findings: five-row index, then evidence tables",
             "Frontier: signed root, contradictions, receipts, MCP bridge",
             "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
+            "Agent: PGGT1B evidence capsule shows exact ratios and missing acceptance evidence",
             "Agent: Claude probe compared with deterministic review lanes",
             "Agent: disagreement triage turns model pressure into assay gates",
         ],
@@ -98,6 +99,7 @@ def build_packet() -> dict[str, Any]:
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
+            "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
         },
         "science_packet": {
             "finding_index": {
@@ -113,6 +115,7 @@ def build_packet() -> dict[str, Any]:
                 "k562_de": pggt1b["facts"]["k562_de"],
                 "collectri_targets": pggt1b["facts"]["collectri_targets"],
             },
+            "pggt1b_deep_dive": pggt1b,
             "campaign": {
                 "status": campaign["status"],
                 "trust_boundary": campaign["trust_boundary"],
@@ -178,6 +181,11 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
+        f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
+        "",
+        "## PGGT1B evidence capsule",
+        "",
+        "The top agent hypothesis has an evidence capsule with exact ratios, assay gates, and missing evidence. Status remains `evidence_attached`.",
         "",
         "## Public data",
         "",

@@ -44,8 +44,9 @@ the graph on its own word. On top of it:
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 - **Wet-lab assay packet**: `prospect lab-pack` translates the top follow-ups into intervention,
   control, readout, exclusion, and replay fields for a Gladstone-facing assay handoff.
-- **PGGT1B deep dive**: a lab-facing packet that binds exact frozen facts, external literature
-  context, caveats, and an assay readout while keeping the claim at `evidence_attached`.
+- **PGGT1B deep dive**: `prospect pggt1b` emits a lab-facing packet with exact frozen facts,
+  a four-step evidence capsule, external literature context, caveats, and an assay readout while
+  keeping the claim at `evidence_attached`.
 - **Agent campaign leaderboard**: `prospect campaign` widens the single-agent result into 20
   proposal-only follow-ups, each ranked from frozen facts and held at `evidence_attached`.
 - **Campaign review appendix**: `prospect campaign-review` adds deterministic audit questions,
@@ -83,7 +84,9 @@ the graph on its own word. On top of it:
   cell-type-specific regulator with no annotated regulon; a human signed the hypothesis to test.
 - PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
   CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
-  TCR-dependent programming, but the Prospect claim remains a hypothesis to test.
+  TCR-dependent programming. The evidence capsule adds the exact 17.22x Stim8hr-to-Rest ratio,
+  the 3014x Stim8hr-to-K562 transfer check, and the missing evidence before acceptance. The Prospect
+  claim remains a hypothesis to test.
 - The campaign leaderboard ranks 20 non-canonical, cell-type-specific follow-ups with on-target
   stimulated evidence. It is proposal only; accepted state still requires the frozen gate and human key.
 - The campaign review appendix turns that leaderboard into an auditable assay queue: one top
@@ -122,11 +125,11 @@ the graph on its own word. On top of it:
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
+./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest
 python frontier/validation_sheet.py # write the wet-lab validation shortlist
-python frontier/pggt1b_deep_dive.py # write the PGGT1B evidence packet
 python benchmark/mutation_pack.py # zero tampered claim is ever admitted
 python tests/test_skill_parity.py # Skill checker matches the engine
 ```

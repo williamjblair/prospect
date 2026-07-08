@@ -104,6 +104,7 @@ Current public artifacts:
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
+./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root

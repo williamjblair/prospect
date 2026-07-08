@@ -29,6 +29,38 @@ PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-targe
 | Stim8hr | 102 | 2,172 | 842 | 3,014 | -4.218 | on-target KD |
 | Stim48hr | 49 | 171 | 31 | 202 | -2.088 | no on-target KD |
 
+## Evidence capsule
+
+Decision: `advance_to_orthogonal_assay`. Trust boundary: `proposal_only`.
+
+| measure | value |
+|---|---:|
+| strongest condition | Stim8hr |
+| stimulated to Rest ratio | 17.22x |
+| stimulated to K562 ratio | 3014.0x |
+| Stim8hr up fraction | 0.721 |
+| Stim8hr down fraction | 0.279 |
+
+Evidence ladder:
+
+- `computationally_reproduced`: stimulated CD4+ footprint, 3014 DE genes at Stim8hr with on-target PGGT1B knockdown.
+- `computationally_reproduced`: stimulation gate, Stim8hr DE count is 17.22x the Rest DE count.
+- `computationally_reproduced`: non-immune transfer check, K562 has 1 DE gene for PGGT1B in the reduced Replogle table.
+- `evidence_attached`: prenylation-linked mechanism, external mouse T-cell literature motivates RHOA or RAC pathway readouts.
+
+Assay gates:
+
+- orthogonal knockdown reproduces the Stim8hr transcriptional footprint
+- matched Rest culture stays much smaller than stimulated culture
+- non-immune transfer check remains small before acceptance work
+- RHOA or RAC pathway readout moves in the expected direction
+
+Missing for acceptance:
+
+- target-level summary is not a transcript identity list; acceptance would need the matrix-derived moved-transcript slice
+- orthogonal perturbation has not been run
+- human review has not signed any new accepted state from this hypothesis
+
 ## Hypothesis
 
 PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor.

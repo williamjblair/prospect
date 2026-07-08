@@ -84,6 +84,77 @@ def _cond_kd(node: dict[str, Any], name: str) -> str:
     return str(_cond(node, name).get("kd", ""))
 
 
+def _ratio(numerator: int | None, denominator: int | None) -> float | None:
+    if numerator is None or denominator in (None, 0):
+        return None
+    return round(numerator / denominator, 2)
+
+
+def _effect_balance(condition_summary: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for condition in ["Rest", "Stim8hr", "Stim48hr"]:
+        row = condition_summary.get(condition, {})
+        total = int(row.get("n_total_de_genes", 0))
+        up = int(row.get("n_up_genes", 0))
+        down = int(row.get("n_down_genes", 0))
+        out[condition] = {
+            "up_genes": up,
+            "down_genes": down,
+            "total_de": total,
+            "up_fraction": round(up / total, 3) if total else 0,
+            "down_fraction": round(down / total, 3) if total else 0,
+        }
+    return out
+
+
+def _evidence_capsule(facts: dict[str, Any]) -> dict[str, Any]:
+    condition_summary = facts["condition_summary"]
+    return {
+        "title": "PGGT1B evidence capsule",
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "decision": "advance_to_orthogonal_assay",
+        "strongest_condition": "Stim8hr",
+        "primary_readout": "stimulated CD4+ transcriptional program at 8h",
+        "stimulated_to_rest_ratio": _ratio(facts["stim8hr_de"], facts["rest_de"]),
+        "stimulated_to_k562_ratio": _ratio(facts["stim8hr_de"], facts["k562_de"]),
+        "effect_balance": _effect_balance(condition_summary),
+        "evidence_ladder": [
+            {
+                "claim": "stimulated CD4+ footprint",
+                "status": "computationally_reproduced",
+                "evidence": "3014 DE genes at Stim8hr with on-target PGGT1B knockdown",
+            },
+            {
+                "claim": "stimulation gate",
+                "status": "computationally_reproduced",
+                "evidence": "Stim8hr DE count is 17.22x the Rest DE count",
+            },
+            {
+                "claim": "non-immune transfer check",
+                "status": "computationally_reproduced",
+                "evidence": "K562 has 1 DE gene for PGGT1B in the reduced Replogle table",
+            },
+            {
+                "claim": "prenylation-linked mechanism",
+                "status": "evidence_attached",
+                "evidence": "external mouse T-cell literature motivates RHOA or RAC pathway readouts",
+            },
+        ],
+        "assay_gates": [
+            "orthogonal knockdown reproduces the Stim8hr transcriptional footprint",
+            "matched Rest culture stays much smaller than stimulated culture",
+            "non-immune transfer check remains small before acceptance work",
+            "RHOA or RAC pathway readout moves in the expected direction",
+        ],
+        "missing_for_acceptance": [
+            "target-level summary is not a transcript identity list; acceptance would need the matrix-derived moved-transcript slice",
+            "orthogonal perturbation has not been run",
+            "human review has not signed any new accepted state from this hypothesis",
+        ],
+    }
+
+
 def build_deep_dive() -> dict[str, Any]:
     backbone = _load_backbone()
     node = backbone["PGGT1B"]
@@ -111,6 +182,8 @@ def build_deep_dive() -> dict[str, Any]:
         "condition_summary": condition_summary,
     }
 
+    capsule = _evidence_capsule(facts)
+
     return {
         "gene": "PGGT1B",
         "status": "evidence_attached",
@@ -121,6 +194,7 @@ def build_deep_dive() -> dict[str, Any]:
             "PGGT1B is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome.",
         ),
         "facts": facts,
+        "evidence_capsule": capsule,
         "prospect_read": (
             "PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-target knockdown, "
             "a smaller Rest footprint, no broad K562 footprint, and no CollecTRI regulon annotation."
@@ -185,6 +259,7 @@ def build_deep_dive() -> dict[str, Any]:
 
 def _markdown(dive: dict[str, Any]) -> str:
     f = dive["facts"]
+    capsule = dive["evidence_capsule"]
     refs = dive["literature_context"]
     condition_summary = f.get("condition_summary", {})
     lines = [
@@ -224,6 +299,39 @@ def _markdown(dive: dict[str, Any]) -> str:
             f"{int(row.get('n_total_de_genes', 0)):,} | {row.get('ontarget_effect_size', 'n/a')} | "
             f"{row.get('ontarget_effect_category', 'n/a')} |"
         )
+    lines += [
+        "",
+        "## Evidence capsule",
+        "",
+        f"Decision: `{capsule['decision']}`. Trust boundary: `{capsule['trust_boundary']}`.",
+        "",
+        "| measure | value |",
+        "|---|---:|",
+        f"| strongest condition | {capsule['strongest_condition']} |",
+        f"| stimulated to Rest ratio | {capsule['stimulated_to_rest_ratio']}x |",
+        f"| stimulated to K562 ratio | {capsule['stimulated_to_k562_ratio']}x |",
+        f"| Stim8hr up fraction | {capsule['effect_balance']['Stim8hr']['up_fraction']} |",
+        f"| Stim8hr down fraction | {capsule['effect_balance']['Stim8hr']['down_fraction']} |",
+        "",
+        "Evidence ladder:",
+        "",
+    ]
+    lines += [
+        f"- `{step['status']}`: {step['claim']}, {step['evidence']}."
+        for step in capsule["evidence_ladder"]
+    ]
+    lines += [
+        "",
+        "Assay gates:",
+        "",
+    ]
+    lines += [f"- {gate}" for gate in capsule["assay_gates"]]
+    lines += [
+        "",
+        "Missing for acceptance:",
+        "",
+    ]
+    lines += [f"- {item}" for item in capsule["missing_for_acceptance"]]
     lines += [
         "",
         "## Hypothesis",

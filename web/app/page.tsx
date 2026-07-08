@@ -34,6 +34,20 @@ type PGGT1BDeepDive = {
   claim: string;
   prospect_read: string;
   assay_readout: string;
+  evidence_capsule?: {
+    title: string;
+    status: string;
+    trust_boundary: string;
+    decision: string;
+    strongest_condition: string;
+    primary_readout: string;
+    stimulated_to_rest_ratio: number | null;
+    stimulated_to_k562_ratio: number | null;
+    effect_balance: Record<string, { up_genes: number; down_genes: number; total_de: number; up_fraction: number; down_fraction: number }>;
+    evidence_ladder: { claim: string; status: string; evidence: string }[];
+    assay_gates: string[];
+    missing_for_acceptance: string[];
+  };
   facts: {
     rest_de: number; rest_kd: string; stim8hr_de: number; stim8hr_kd: string;
     stim48hr_de: number; stim48hr_kd: string; k562_de: number | null;
@@ -1422,6 +1436,55 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
           </div>
         ))}
       </div>
+      {dive.evidence_capsule && (
+        <div style={{ display: "grid", gap: 10, paddingTop: 2 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <div className="t-label">Evidence capsule</div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>
+              {dive.evidence_capsule.decision.replace(/_/g, " ")}
+            </span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 8 }}>
+            <div style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+              <div className="t-label" style={{ color: "var(--ink-3)" }}>Stim to Rest</div>
+              <div className="t-mono" style={{ fontSize: 16, fontWeight: 700, marginTop: 2 }}>
+                {dive.evidence_capsule.stimulated_to_rest_ratio == null ? "n/a" : `${dive.evidence_capsule.stimulated_to_rest_ratio}x`}
+              </div>
+              <div className="t-caption" style={{ color: "var(--ink-3)", marginTop: 2 }}>DE ratio</div>
+            </div>
+            <div style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+              <div className="t-label" style={{ color: "var(--ink-3)" }}>Stim to K562</div>
+              <div className="t-mono" style={{ fontSize: 16, fontWeight: 700, marginTop: 2 }}>
+                {dive.evidence_capsule.stimulated_to_k562_ratio == null ? "n/a" : `${dive.evidence_capsule.stimulated_to_k562_ratio}x`}
+              </div>
+              <div className="t-caption" style={{ color: "var(--ink-3)", marginTop: 2 }}>transfer check</div>
+            </div>
+            <div style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+              <div className="t-label" style={{ color: "var(--ink-3)" }}>Stim8hr balance</div>
+              <div className="t-mono" style={{ fontSize: 16, fontWeight: 700, marginTop: 2 }}>
+                {dive.evidence_capsule.effect_balance.Stim8hr.up_fraction}
+              </div>
+              <div className="t-caption" style={{ color: "var(--ink-3)", marginTop: 2 }}>up fraction</div>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Evidence ladder</div>
+              <div style={{ display: "grid", gap: 5 }}>
+                {dive.evidence_capsule.evidence_ladder.map((step) => (
+                  <p key={step.claim} className="t-caption" style={{ margin: 0 }}>
+                    <span className="t-mono">{step.status}</span>: {step.claim}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="t-label" style={{ color: "var(--ink-3)", marginBottom: 4 }}>Missing for acceptance</div>
+              <p className="t-caption" style={{ margin: 0 }}>{dive.evidence_capsule.missing_for_acceptance[0]}.</p>
+            </div>
+          </div>
+        </div>
+      )}
       {dive.validation_plan && (
         <div style={{ display: "grid", gap: 8, paddingTop: 2 }}>
           <div className="t-label">Assay decision plan</div>

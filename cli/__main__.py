@@ -10,6 +10,7 @@
   prospect campaign-review  build the campaign review appendix
   prospect campaign-probe   run Claude probes against campaign rows
   prospect campaign-triage  build deterministic triage from probe disagreements
+  prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect findings-index   build the scannable finding index for the demo
   prospect judge-pack       build the judge packet manifest and handoff
@@ -46,6 +47,8 @@ def main():
         from loop.campaign_probe import main as campaign_probe_main; campaign_probe_main(rest)
     elif cmd == "campaign-triage":
         from frontier.campaign_triage import main as campaign_triage_main; campaign_triage_main()
+    elif cmd == "pggt1b":
+        from frontier.pggt1b_deep_dive import main as pggt1b_main; pggt1b_main()
     elif cmd == "lab-pack":
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
     elif cmd == "findings-index":

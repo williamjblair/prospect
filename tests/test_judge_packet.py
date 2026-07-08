@@ -28,8 +28,10 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["campaign_triage_rows"] == 3
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
+    assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 4
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert "/data/frontier.json" in packet["public_data"]
+    assert "/data/pggt1b_deep_dive.json" in packet["public_data"]
     assert "/data/lab_packet.json" in packet["public_data"]
     assert "/data/agent_campaign_review.json" in packet["public_data"]
     assert "/data/campaign_agent_probe.json" in packet["public_data"]
@@ -52,8 +54,10 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_review_rows"] == 20
     assert data["artifact_counts"]["campaign_probe_rows"] == 5
     assert data["artifact_counts"]["campaign_triage_rows"] == 3
+    assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert "Judge packet" in doc
     assert "No model in the trust path" in doc
+    assert "PGGT1B evidence capsule" in doc
     assert "./prospect verify" in doc
     assert "proposal only" in doc
 

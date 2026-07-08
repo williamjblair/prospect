@@ -49,6 +49,72 @@
       }
     }
   },
+  "evidence_capsule": {
+    "title": "PGGT1B evidence capsule",
+    "status": "evidence_attached",
+    "trust_boundary": "proposal_only",
+    "decision": "advance_to_orthogonal_assay",
+    "strongest_condition": "Stim8hr",
+    "primary_readout": "stimulated CD4+ transcriptional program at 8h",
+    "stimulated_to_rest_ratio": 17.22,
+    "stimulated_to_k562_ratio": 3014.0,
+    "effect_balance": {
+      "Rest": {
+        "up_genes": 145,
+        "down_genes": 30,
+        "total_de": 175,
+        "up_fraction": 0.829,
+        "down_fraction": 0.171
+      },
+      "Stim8hr": {
+        "up_genes": 2172,
+        "down_genes": 842,
+        "total_de": 3014,
+        "up_fraction": 0.721,
+        "down_fraction": 0.279
+      },
+      "Stim48hr": {
+        "up_genes": 171,
+        "down_genes": 31,
+        "total_de": 202,
+        "up_fraction": 0.847,
+        "down_fraction": 0.153
+      }
+    },
+    "evidence_ladder": [
+      {
+        "claim": "stimulated CD4+ footprint",
+        "status": "computationally_reproduced",
+        "evidence": "3014 DE genes at Stim8hr with on-target PGGT1B knockdown"
+      },
+      {
+        "claim": "stimulation gate",
+        "status": "computationally_reproduced",
+        "evidence": "Stim8hr DE count is 17.22x the Rest DE count"
+      },
+      {
+        "claim": "non-immune transfer check",
+        "status": "computationally_reproduced",
+        "evidence": "K562 has 1 DE gene for PGGT1B in the reduced Replogle table"
+      },
+      {
+        "claim": "prenylation-linked mechanism",
+        "status": "evidence_attached",
+        "evidence": "external mouse T-cell literature motivates RHOA or RAC pathway readouts"
+      }
+    ],
+    "assay_gates": [
+      "orthogonal knockdown reproduces the Stim8hr transcriptional footprint",
+      "matched Rest culture stays much smaller than stimulated culture",
+      "non-immune transfer check remains small before acceptance work",
+      "RHOA or RAC pathway readout moves in the expected direction"
+    ],
+    "missing_for_acceptance": [
+      "target-level summary is not a transcript identity list; acceptance would need the matrix-derived moved-transcript slice",
+      "orthogonal perturbation has not been run",
+      "human review has not signed any new accepted state from this hypothesis"
+    ]
+  },
   "prospect_read": "PGGT1B has a large stimulated CD4+ transcriptional footprint at 8h with on-target knockdown, a smaller Rest footprint, no broad K562 footprint, and no CollecTRI regulon annotation.",
   "assay_readout": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers, targeted RNA-seq at 8h and 48h, and prenylation-linked RHOA or RAC pathway readouts",
   "validation_plan": {

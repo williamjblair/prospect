@@ -68,10 +68,11 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Wet-lab assay packet** (`frontier/lab_packet.py`, `./prospect lab-pack`): five proposal-only
   follow-ups translated into assay design fields: intervention, controls, readouts, exclusion rules,
   and public replay links. Exported to `examples/data/lab_packet.*` and [LAB_PACKET.md](LAB_PACKET.md).
-- **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`): a lab-facing packet for the top shortlist
+- **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`, `./prospect pggt1b`): a lab-facing packet for the top shortlist
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
-  It keeps status at `evidence_attached`, binds exact local facts, adds literature context, and gives
-  a stimulated CD4+ assay readout.
+  It keeps status at `evidence_attached`, binds exact local facts, adds an evidence capsule with
+  exact stimulation and transfer ratios, adds literature context, names missing evidence before
+  acceptance, and gives a stimulated CD4+ assay readout.
 - **Agent campaign leaderboard** (`frontier/agent_campaign.py`, `./prospect campaign`): 20
   proposal-only follow-ups ranked by frozen Prospect facts, with deterministic review lanes,
   primary readouts, and "what would weaken it" triage fields, exported to
@@ -133,7 +134,7 @@ accepted state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, lab assay packet, and static receipt-bridge files),
@@ -208,8 +209,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
   more rows or run an additional model pass against the disagreement gates.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
-- **PGGT1B next pass**: extend the shipped deep dive with more literature triangulation and, if time
-  permits, a small reproducible matrix slice around the gene's strongest moved transcripts.
+- **PGGT1B matrix slice**: the deep dive now has exact ratios and missing-evidence gates. A later
+  increment could add a small reproducible matrix slice around the gene's strongest moved transcripts.
 
 ## 8. Demo and submission
 
