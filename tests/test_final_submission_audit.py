@@ -34,6 +34,17 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
     assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
     assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"]
+    requirements = {item["requirement"]: item for item in audit["completion_requirements"]}
+    assert requirements["p0_floor_green"]["status"] == "satisfied"
+    assert "./prospect final-check" in requirements["p0_floor_green"]["evidence"]
+    assert requirements["protocol_generalization"]["status"] == "shipped"
+    assert "/data/substrate_replay_packet.json" in requirements["protocol_generalization"]["evidence"]
+    assert requirements["claude_campaign_pressure"]["status"] == "shipped"
+    assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
+    assert requirements["gladstone_assay_operations"]["status"] == "shipped"
+    assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
+    assert requirements["human_upload"]["status"] == "human_only_remaining"
+    assert requirements["human_upload"]["evidence"] == ["record_demo_video", "submit_project_form"]
     assert "record_demo_video" in audit["human_only_actions"]
     assert "submit_project_form" in audit["human_only_actions"]
     assert "wet_lab_execution" in audit["human_only_actions"]
@@ -70,6 +81,8 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "http://localhost:8124" in doc
     assert "Overview" in doc
     assert "Agent" in doc
+    assert "Completion requirements" in doc
+    assert "human_only_remaining" in doc
     assert "docs/JUDGE_HANDOUT.md" in doc
     assert "record_demo_video" in doc
     assert "./prospect final-check" in doc

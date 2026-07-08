@@ -137,6 +137,73 @@
       }
     ]
   },
+  "completion_requirements": [
+    {
+      "requirement": "p0_floor_green",
+      "status": "satisfied",
+      "evidence": [
+        "./prospect final-check",
+        "./prospect submit-smoke"
+      ]
+    },
+    {
+      "requirement": "protocol_generalization",
+      "status": "shipped",
+      "evidence": [
+        "./prospect substrate-replay",
+        "/data/substrate_replay_packet.json"
+      ]
+    },
+    {
+      "requirement": "claude_campaign_pressure",
+      "status": "shipped",
+      "evidence": [
+        "./prospect campaign-pressure",
+        "/data/campaign_pressure_summary.json"
+      ]
+    },
+    {
+      "requirement": "gladstone_assay_operations",
+      "status": "shipped",
+      "evidence": [
+        "./prospect assay-ops",
+        "/data/assay_operations_bundle.json"
+      ]
+    },
+    {
+      "requirement": "demo_submission_packets",
+      "status": "shipped",
+      "evidence": [
+        "./prospect demo-pack",
+        "./prospect submit-pack",
+        "./prospect judge-handout"
+      ]
+    },
+    {
+      "requirement": "public_production_surface",
+      "status": "satisfied",
+      "evidence": [
+        "https://prospect-sepia-six.vercel.app",
+        "./prospect submit-smoke",
+        "/data/final_submission_audit.json"
+      ]
+    },
+    {
+      "requirement": "human_upload",
+      "status": "human_only_remaining",
+      "evidence": [
+        "record_demo_video",
+        "submit_project_form"
+      ]
+    },
+    {
+      "requirement": "wet_lab_execution",
+      "status": "human_only_remaining",
+      "evidence": [
+        "wet_lab_execution"
+      ]
+    }
+  ],
   "human_only_actions": [
     "record_demo_video",
     "submit_project_form",

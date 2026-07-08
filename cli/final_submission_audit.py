@@ -82,6 +82,49 @@ RENDERED_QA_CHECKLIST = {
     ],
 }
 
+COMPLETION_REQUIREMENTS = [
+    {
+        "requirement": "p0_floor_green",
+        "status": "satisfied",
+        "evidence": ["./prospect final-check", "./prospect submit-smoke"],
+    },
+    {
+        "requirement": "protocol_generalization",
+        "status": "shipped",
+        "evidence": ["./prospect substrate-replay", "/data/substrate_replay_packet.json"],
+    },
+    {
+        "requirement": "claude_campaign_pressure",
+        "status": "shipped",
+        "evidence": ["./prospect campaign-pressure", "/data/campaign_pressure_summary.json"],
+    },
+    {
+        "requirement": "gladstone_assay_operations",
+        "status": "shipped",
+        "evidence": ["./prospect assay-ops", "/data/assay_operations_bundle.json"],
+    },
+    {
+        "requirement": "demo_submission_packets",
+        "status": "shipped",
+        "evidence": ["./prospect demo-pack", "./prospect submit-pack", "./prospect judge-handout"],
+    },
+    {
+        "requirement": "public_production_surface",
+        "status": "satisfied",
+        "evidence": [LIVE_URL, "./prospect submit-smoke", "/data/final_submission_audit.json"],
+    },
+    {
+        "requirement": "human_upload",
+        "status": "human_only_remaining",
+        "evidence": ["record_demo_video", "submit_project_form"],
+    },
+    {
+        "requirement": "wet_lab_execution",
+        "status": "human_only_remaining",
+        "evidence": ["wet_lab_execution"],
+    },
+]
+
 
 def build_audit() -> dict[str, Any]:
     return {
@@ -102,6 +145,7 @@ def build_audit() -> dict[str, Any]:
             "model_accepted_state_mutations": 0,
         },
         "rendered_qa_checklist": RENDERED_QA_CHECKLIST,
+        "completion_requirements": COMPLETION_REQUIREMENTS,
         "human_only_actions": HUMAN_ONLY_ACTIONS,
         "limitation": "Prospect proves computation over released data, not wet-lab or clinical truth.",
     }
@@ -163,6 +207,16 @@ def _markdown(audit: dict[str, Any]) -> str:
     for item in qa["tabs"]:
         must_show = ", ".join(f"`{value}`" for value in item["must_show"])
         lines.append(f"| {item['tab']} | {must_show} |")
+    lines += [
+        "",
+        "## Completion requirements",
+        "",
+        "| requirement | status | evidence |",
+        "|---|---|---|",
+    ]
+    for item in audit["completion_requirements"]:
+        evidence = ", ".join(f"`{value}`" for value in item["evidence"])
+        lines.append(f"| {item['requirement']} | {item['status']} | {evidence} |")
     lines += [
         "",
         "## Public artifacts",

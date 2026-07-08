@@ -64,6 +64,19 @@ Public artifacts: 19
 | Frontier | `Executable bridge path`, `accepted=false`, `human_signature_required` |
 | Agent | `Campaign pressure summary`, `Gladstone assay operations bundle`, `PGGT1B` |
 
+## Completion requirements
+
+| requirement | status | evidence |
+|---|---|---|
+| p0_floor_green | satisfied | `./prospect final-check`, `./prospect submit-smoke` |
+| protocol_generalization | shipped | `./prospect substrate-replay`, `/data/substrate_replay_packet.json` |
+| claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
+| gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
+| demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
+| public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json` |
+| human_upload | human_only_remaining | `record_demo_video`, `submit_project_form` |
+| wet_lab_execution | human_only_remaining | `wet_lab_execution` |
+
 ## Public artifacts
 
 - `/data/frontier.json`

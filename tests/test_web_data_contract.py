@@ -107,6 +107,9 @@ def test_frontier_json_embeds_final_submission_audit():
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
     assert audit["rendered_qa_checklist"]["tabs"][0]["tab"] == "Overview"
     assert "Campaign pressure summary" in audit["rendered_qa_checklist"]["tabs"][-1]["must_show"]
+    requirements = {item["requirement"]: item["status"] for item in audit["completion_requirements"]}
+    assert requirements["p0_floor_green"] == "satisfied"
+    assert requirements["human_upload"] == "human_only_remaining"
     assert "record_demo_video" in audit["human_only_actions"]
     assert "verified" not in json.dumps(audit).lower()
     assert "true" not in json.dumps(audit).lower()
