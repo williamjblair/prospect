@@ -65,6 +65,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 ## Public data
 
 - `/data/frontier.json`
+- `/data/judge_packet.json`
 - `/data/finding_index.json`
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`

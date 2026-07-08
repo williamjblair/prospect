@@ -41,6 +41,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert "/data/frontier.json" in packet["public_data"]
+    assert "/data/judge_packet.json" in packet["public_data"]
     assert "/data/pggt1b_deep_dive.json" in packet["public_data"]
     assert "/data/pggt1b_matrix_slice.json" in packet["public_data"]
     assert "/data/lab_packet.json" in packet["public_data"]
@@ -77,6 +78,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "PGGT1B evidence capsule" in doc
     assert "Campaign gate probe" in doc
     assert "Transfer replay packet" in doc
+    assert "`/data/judge_packet.json`" in doc
     assert "matrix-slice transcripts" in doc
     assert "./prospect verify" in doc
     assert "./prospect submit-smoke" in doc
