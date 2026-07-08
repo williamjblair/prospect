@@ -14,6 +14,7 @@
   prospect pggt1b-defended-evidence build the rank-1 PGGT1B defended-evidence packet
   prospect pggt1b-endgame-decision decide rank-1 PGGT1B under the endgame pre-registration
   prospect defended-discovery-endgame-result build the fixed-bar endgame result ledger
+  prospect substrate-coverage build the context-aware substrate routing packet
   prospect defended-candidate-decisions build the defended-discovery decision ledger
   prospect rcc1l-defended-evidence build the rank-2 RCC1L defended-evidence packet
   prospect mcat-defended-evidence build the rank-3 MCAT defended-evidence packet
@@ -71,6 +72,8 @@ def main():
         from frontier.rank1_pggt1b_endgame_decision import main as pggt1b_endgame_main; pggt1b_endgame_main()
     elif cmd == "defended-discovery-endgame-result":
         from frontier.defended_discovery_endgame_result import main as endgame_result_main; endgame_result_main()
+    elif cmd == "substrate-coverage":
+        from frontier.substrate_coverage import main as substrate_coverage_main; sys.exit(substrate_coverage_main(rest))
     elif cmd == "defended-candidate-decisions":
         from frontier.defended_candidate_decisions import main as decisions_main; decisions_main()
     elif cmd == "rcc1l-defended-evidence":

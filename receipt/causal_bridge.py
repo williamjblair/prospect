@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from receipt.schema import Artifact, EvidenceAtom, Receipt, Verifier
+from receipt.substrate_router import choose_route, coverage_report, enrich_verdicts
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "examples" / "data"
@@ -224,8 +225,10 @@ def build_claude_science_packet() -> dict[str, Any]:
     provenance = _read_json(CLAUDE_EXPORT / "provenance.json")
     signature = _read_json(signature_path)
     genes = signature_genes(signature)
-    verdicts = causal_verdicts(genes, de_table_path=cd8_path)
+    route = choose_route(source_name="Claude Science", filename="signature_genes.json", claim_context="immunotherapy T-cell")
+    verdicts = enrich_verdicts(causal_verdicts(genes, de_table_path=cd8_path), primary_substrate=route["primary_substrate"])
     counts = verdict_counts(verdicts)
+    coverage = coverage_report(verdicts, route)
     artifacts = [
         {"name": "signature_genes.json", "sha256": sha256_file(signature_path), "locator": "examples/data/claude_science_real_export/signature_genes.json"},
         {"name": "responder_DE_CD8.csv", "sha256": sha256_file(cd8_path), "locator": "examples/data/claude_science_real_export/responder_DE_CD8.csv"},
@@ -264,6 +267,8 @@ def build_claude_science_packet() -> dict[str, Any]:
             "trust_path": "frozen Marson lookup plus human key",
             "accepted": False,
             "next": "human_signature_required",
+            "route": route,
+            "coverage_report": coverage,
             "typed_status_counts": counts,
             "receipt_id": receipt["receipt_id"],
             "proposal_id": "proposal_" + hashlib.sha256(receipt["receipt_id"].encode()).hexdigest()[:16],
@@ -328,6 +333,7 @@ def submit_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
             bundle["text"],
             filename=str(bundle.get("filename") or "submission.txt"),
             source_name=str(bundle.get("source_name") or "generic_external"),
+            claim_context=str(bundle.get("claim_context") or ""),
         )
     elif case == "claude_science":
         packet = build_claude_science_packet()

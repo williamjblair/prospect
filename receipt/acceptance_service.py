@@ -15,6 +15,7 @@ from receipt.causal_bridge import (
     verdict_counts,
 )
 from receipt.input_normalizer import parse_submission_text
+from receipt.substrate_router import choose_route, coverage_report, enrich_verdicts, replogle_verdicts
 
 
 def _state_id(frozen: dict[str, Any]) -> str:
@@ -28,10 +29,17 @@ def build_submission_result(
     filename: str = "",
     source_name: str = "external",
     base_url: str = "",
+    claim_context: str = "",
 ) -> dict[str, Any]:
     parsed = parse_submission_text(text, filename=filename)
-    verdicts = causal_verdicts(parsed["genes"])
+    route = choose_route(source_name=source_name, filename=filename, claim_context=claim_context)
+    if route["primary_substrate"] in {"replogle_k562", "replogle_rpe1"}:
+        verdicts = replogle_verdicts(parsed["genes"], route["primary_substrate"])
+    else:
+        verdicts = causal_verdicts(parsed["genes"])
+    verdicts = enrich_verdicts(verdicts, primary_substrate=route["primary_substrate"])
     counts = verdict_counts(verdicts)
+    coverage = coverage_report(verdicts, route)
     input_sha = hashlib.sha256(text.encode()).hexdigest()
     artifacts = [
         {
@@ -61,6 +69,8 @@ def build_submission_result(
     frozen = {
         "claim": claim,
         "source_name": source_name,
+        "claim_context": claim_context,
+        "primary_substrate": route["primary_substrate"],
         "input_sha256": input_sha,
         "genes": [row["gene"] for row in parsed["genes"]],
         "counts": counts,
@@ -83,6 +93,8 @@ def build_submission_result(
             "trust_path": "frozen Marson lookup plus human key",
             "accepted": False,
             "next": "human_signature_required",
+            "route": route,
+            "coverage_report": coverage,
             "typed_status_counts": counts,
             "receipt_id": receipt["receipt_id"],
             "ceiling": "Computation over released data, not wet-lab or clinical truth.",
@@ -101,4 +113,3 @@ def clear_error(exc: Exception) -> dict[str, Any]:
         "next": "fix_submission",
         "ceiling": "Computation over released data, not wet-lab or clinical truth.",
     }
-

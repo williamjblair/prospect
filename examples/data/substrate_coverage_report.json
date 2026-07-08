@@ -1,0 +1,143 @@
+{
+  "accepted": false,
+  "artifacts": {
+    "marson_cd4_activation": {
+      "path": "examples/data/marson_de_full.csv",
+      "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+    },
+    "orcs_primary_tcell": {
+      "path": "examples/data/orcs_tcell_signature_rows.json",
+      "sha256": "d674f2608344e65dc288237d7be1107d6c90c371147cef9791f6f8af4add7ec3"
+    },
+    "replogle_k562": {
+      "path": "examples/data/replogle_k562_de.csv",
+      "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+    },
+    "replogle_rpe1": {
+      "path": "examples/data/replogle_rpe1_de.csv",
+      "sha256": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293"
+    }
+  },
+  "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "commands": {
+    "build": "./prospect substrate-coverage",
+    "k562_submit": "curl -s http://127.0.0.1:8130/submit -H 'content-type: application/json' -d '{\"claim_context\":\"k562\",\"text\":\"MED19\\nBCL10\\nIL7R\"}'",
+    "serve": "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service"
+  },
+  "coverage": {
+    "sade_feldman_signature": {
+      "after": {
+        "basis": "primary T-cell ORCS rows shrink uncovered genes, but remain orthogonal context unless readouts are comparable",
+        "genes": 52,
+        "not_assayed": 5,
+        "not_assayed_fraction": 0.0962,
+        "remaining_genes": [
+          "IGKC",
+          "LINC00152",
+          "MTATP6P1",
+          "MTND2P28",
+          "WARS"
+        ]
+      },
+      "before": {
+        "genes": 52,
+        "not_assayed": 15,
+        "not_assayed_fraction": 0.2885,
+        "typed_status_counts": {
+          "associative_only": 22,
+          "contradicted": 3,
+          "evidence_attached": 12,
+          "not_assayed": 15
+        }
+      },
+      "primary_substrate": "marson_cd4_activation",
+      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate",
+      "substrates": {
+        "marson_cd4_activation": {
+          "covered_genes": 37,
+          "not_assayed_genes": 15,
+          "source_sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+        },
+        "orcs_primary_tcell": {
+          "covered_genes": 10,
+          "covered_not_assayed_genes": [
+            "CLIC1",
+            "FOXP1",
+            "GZMK",
+            "HLA-DPA1",
+            "HLA-DPB1",
+            "HLA-DRA",
+            "HLA-DRB1",
+            "LEF1",
+            "RGPD5",
+            "TIGIT"
+          ],
+          "source_sha256": "d674f2608344e65dc288237d7be1107d6c90c371147cef9791f6f8af4add7ec3"
+        },
+        "replogle_k562": {
+          "covered_genes": 13,
+          "covered_not_assayed_genes": [
+            "CLIC1",
+            "FOXP1",
+            "LEF1",
+            "WARS"
+          ],
+          "source_sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+        },
+        "replogle_rpe1": {
+          "covered_genes": 4,
+          "covered_not_assayed_genes": [
+            "WARS"
+          ],
+          "source_sha256": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293"
+        }
+      }
+    }
+  },
+  "next": "human_signature_required",
+  "packet_id": "substrate_coverage_report_v1",
+  "route_examples": {
+    "k562": {
+      "primary_substrate": "replogle_k562",
+      "routing_reason": "K562 claim routes first to the Replogle K562 perturbation substrate"
+    },
+    "rpe1": {
+      "primary_substrate": "replogle_rpe1",
+      "routing_reason": "RPE1 claim routes first to the Replogle RPE1 perturbation substrate"
+    },
+    "tcell_immunotherapy": {
+      "primary_substrate": "marson_cd4_activation",
+      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate"
+    }
+  },
+  "status": "evidence_attached",
+  "typed_counts": {
+    "k562_example": {
+      "associative_only": 1,
+      "contradicted": 0,
+      "drivers": 1,
+      "evidence_attached": 1,
+      "genes": 3,
+      "not_assayed": 1,
+      "passengers": 1
+    },
+    "rpe1_example": {
+      "associative_only": 0,
+      "contradicted": 0,
+      "drivers": 2,
+      "evidence_attached": 2,
+      "genes": 3,
+      "not_assayed": 1,
+      "passengers": 0
+    },
+    "sade_feldman_signature": {
+      "associative_only": 22,
+      "contradicted": 3,
+      "drivers": 12,
+      "evidence_attached": 12,
+      "genes": 52,
+      "not_assayed": 15,
+      "passengers": 22
+    }
+  }
+}

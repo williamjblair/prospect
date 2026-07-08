@@ -107,6 +107,7 @@ Current public artifacts:
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/claude_science_acceptance_demo.json`
+- `/data/substrate_coverage_report.json`
 - `/data/defended_discovery_endgame_preregistration.json`
 - `/data/pggt1b_endgame_decision.json`
 - `/data/defended_discovery_endgame_result.json`
@@ -129,6 +130,7 @@ Current public artifacts:
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service # paste, HTTP, and MCP acceptance service
 python examples/receipt_bridge_client.py # run the external receipt bridge client
+./prospect substrate-coverage     # build context-aware substrate routing and coverage report
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect disease-overlay        # attach frozen Open Targets disease context to the leaderboard
 ./prospect pggt1b                 # build the PGGT1B evidence packet

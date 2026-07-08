@@ -325,6 +325,7 @@ def _mcp_response(req: dict[str, Any], store: AcceptanceStore, rate_limiter: Rat
                         args["text"],
                         filename=str(args.get("filename") or "submission.txt"),
                         source_name=str(args.get("source_name") or "external"),
+                        claim_context=str(args.get("claim_context") or ""),
                     )
                 else:
                     result = submit_bundle(bundle)
@@ -383,6 +384,7 @@ class Handler(BaseHTTPRequestHandler):
                     str(payload.get("text") or ""),
                     filename=str(payload.get("filename") or "submission.txt"),
                     source_name=str(payload.get("source_name") or "external"),
+                    claim_context=str(payload.get("claim_context") or ""),
                 )
                 _store_result(result, _store(self))
                 _json_response(self, 200, result)
