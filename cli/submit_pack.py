@@ -25,6 +25,7 @@ SOURCE_DOCS = [
     "docs/CROSS_SUBSTRATE_DISCOVERY.md",
     "docs/DONOR_CONDITION_REPLAY.md",
     "docs/DISEASE_GENETICS_OVERLAY.md",
+    "docs/PERTURBATION_ATLAS_SCOUT.md",
     "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",

@@ -29,6 +29,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
     assert "/data/donor_condition_replay.json" in audit["public_artifacts"]
     assert "/data/disease_genetics_overlay.json" in audit["public_artifacts"]
+    assert "docs/PERTURBATION_ATLAS_SCOUT.md" in audit["source_docs"]
     assert "/data/gladstone_pilot_design.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
@@ -55,6 +56,8 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/donor_condition_replay.json" in requirements["donor_condition_replay"]["evidence"]
     assert requirements["disease_genetics_overlay"]["status"] == "shipped"
     assert "/data/disease_genetics_overlay.json" in requirements["disease_genetics_overlay"]["evidence"]
+    assert requirements["perturbation_atlas_scout"]["status"] == "shipped"
+    assert "docs/PERTURBATION_ATLAS_SCOUT.md" in requirements["perturbation_atlas_scout"]["evidence"]
     assert requirements["claude_campaign_pressure"]["status"] == "shipped"
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert "/data/campaign_probe_audit.json" in requirements["claude_campaign_pressure"]["evidence"]
@@ -86,6 +89,7 @@ def test_final_submission_audit_covers_all_shipped_workstreams():
         "cross_substrate_discovery",
         "donor_condition_replay",
         "disease_genetics_overlay",
+        "perturbation_atlas_scout",
         "claude_campaign_pressure",
         "gladstone_assay_operations",
         "demo_and_submission_packets",
@@ -123,6 +127,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "/data/cross_substrate_discovery.json" in doc
     assert "/data/donor_condition_replay.json" in doc
     assert "/data/disease_genetics_overlay.json" in doc
+    assert "docs/PERTURBATION_ATLAS_SCOUT.md" in doc
     assert "/data/campaign_probe_audit.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc

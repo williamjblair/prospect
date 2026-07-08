@@ -50,6 +50,7 @@ Public artifacts: 26
 - `docs/CROSS_SUBSTRATE_DISCOVERY.md`
 - `docs/DONOR_CONDITION_REPLAY.md`
 - `docs/DISEASE_GENETICS_OVERLAY.md`
+- `docs/PERTURBATION_ATLAS_SCOUT.md`
 - `docs/GLADSTONE_PILOT_DESIGN.md`
 - `docs/JUDGE_PACKET.md`
 - `docs/RELEASE_MANIFEST.md`
@@ -64,6 +65,7 @@ Public artifacts: 26
 | cross_substrate_discovery | shipped | `./prospect cross-substrate-discovery`, `/data/cross_substrate_discovery.json` |
 | donor_condition_replay | shipped | `./prospect donor-replay`, `/data/donor_condition_replay.json` |
 | disease_genetics_overlay | shipped | `./prospect disease-overlay`, `/data/disease_genetics_overlay.json` |
+| perturbation_atlas_scout | shipped | `./prospect perturbation-scout`, `docs/PERTURBATION_ATLAS_SCOUT.md` |
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `./prospect pilot-design`, `/data/assay_operations_bundle.json`, `/data/gladstone_pilot_design.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
@@ -92,6 +94,7 @@ Public artifacts: 26
 | cross_substrate_discovery | shipped | `./prospect cross-substrate-discovery`, `/data/cross_substrate_discovery.json` |
 | donor_condition_replay | shipped | `./prospect donor-replay`, `/data/donor_condition_replay.json` |
 | disease_genetics_overlay | shipped | `./prospect disease-overlay`, `/data/disease_genetics_overlay.json` |
+| perturbation_atlas_scout | shipped | `./prospect perturbation-scout`, `docs/PERTURBATION_ATLAS_SCOUT.md` |
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `./prospect pilot-design`, `/data/assay_operations_bundle.json`, `/data/gladstone_pilot_design.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |

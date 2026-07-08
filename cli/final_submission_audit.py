@@ -53,6 +53,11 @@ SHIPPED_WORKSTREAMS = [
         "evidence": ["./prospect disease-overlay", "/data/disease_genetics_overlay.json"],
     },
     {
+        "workstream": "perturbation_atlas_scout",
+        "state": "shipped",
+        "evidence": ["./prospect perturbation-scout", "docs/PERTURBATION_ATLAS_SCOUT.md"],
+    },
+    {
         "workstream": "claude_campaign_pressure",
         "state": "shipped",
         "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
@@ -134,6 +139,11 @@ COMPLETION_REQUIREMENTS = [
         "requirement": "disease_genetics_overlay",
         "status": "shipped",
         "evidence": ["./prospect disease-overlay", "/data/disease_genetics_overlay.json"],
+    },
+    {
+        "requirement": "perturbation_atlas_scout",
+        "status": "shipped",
+        "evidence": ["./prospect perturbation-scout", "docs/PERTURBATION_ATLAS_SCOUT.md"],
     },
     {
         "requirement": "claude_campaign_pressure",

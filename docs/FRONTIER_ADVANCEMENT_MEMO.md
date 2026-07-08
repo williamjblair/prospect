@@ -41,14 +41,25 @@ This memo is based on the current repo plus these source surfaces:
 - scPerturb: https://projects.sanderlab.org/scperturb/
 - scPerturb is a harmonized resource of public single-cell perturbation datasets for benchmarking
   computational systems biology methods.
+- scPerturb RNA and protein H5AD archive on Figshare:
+  https://plus.figshare.com/articles/dataset/scPerturb_Single-Cell_Perturbation_Data_RNA_and_protein_h5ad_files/24160713
+- The scPerturb archive is a 25.01 GB harmonized collection, useful as a future corpus but too broad
+  for a rushed accepted-state boundary.
 - PerturBase, Nucleic Acids Research 2025:
   https://academic.oup.com/nar/article/53/D1/D1099/7815638
 - PerturBase reports 122 scPerturbation datasets from 46 public studies, including genetic and
   chemical perturbations, with search and analysis modules.
 - Tahoe-100M, released through Tahoe and the Arc Virtual Cell Atlas:
-  https://www.tahoebio.ai/news/open-sourcing-tahoe-100m
+  https://arcinstitute.org/news/arc-vevo
 - Tahoe-100M reports 100 million single-cell data points, 60,000 drug-cell interactions, 50 cancer
   cell lines, and 1,200 drug perturbations.
+- CZI K562 Essential Perturb-seq Benchmark Dataset:
+  https://virtualcellmodels.cziscience.com/dataset/k562-essential-perturb-seq
+- The CZI K562 benchmark is the most compact future replay candidate, but it overlaps the already
+  shipped Replogle K562 substrate and needs license review before any committed extract.
+- pertpy Replogle 2022 K562 GWPS loader:
+  https://pertpy.readthedocs.io/en/stable/api/data/pertpy.data.replogle_2022_k562_gwps.html
+- The pertpy loader is useful tooling, but it points back to a substrate Prospect already reduced.
 - Open Targets Platform documentation: https://platform-docs.opentargets.org/
 - Open Targets Platform aggregates target-disease evidence for target identification and exposes a
   GraphQL API and downloads.
@@ -326,32 +337,42 @@ Limitations:
 
 ## Workstream 4: perturbation-atlas scout
 
-Priority: P2, research scout, not a hackathon-critical implementation.
+Priority: P2, shipped as a research scout and no-go memo.
 
 Goal: determine whether a larger perturbation corpus can provide one more credible replay substrate
 before July 13.
 
-Candidate sources:
+Current shipped surface: `./prospect perturbation-scout` emits
+`examples/data/perturbation_atlas_scout.json` and
+[PERTURBATION_ATLAS_SCOUT.md](PERTURBATION_ATLAS_SCOUT.md). It does not add a public endpoint because
+it intentionally ingests no new biological substrate.
+
+Candidate sources scored:
 
 - scPerturb, for harmonized public single-cell perturbation datasets.
 - PerturBase, for a larger curated perturbation database with query and analysis modules.
 - Tahoe-100M, for drug perturbation across many cancer cell lines.
 - K562 Essential Perturb-seq Benchmark Dataset on the CZI Virtual Cells Platform, if a processed
   one-file benchmark is easier than the full Figshare set.
+- pertpy's Replogle K562 loader, as a tooling route back to a known substrate.
 
-Technical shape:
+Current result:
 
-- Build a `docs/PERTURBATION_ATLAS_SCOUT.md` first, not a data ingestion path.
-- Score each candidate source on:
-  - license
-  - download size
-  - API or direct data access
-  - perturbation type
-  - overlap with Prospect genes
-  - ability to freeze a small replay table
-  - risk of overclaiming
-- Only ingest a dataset if it can yield a small frozen table with a deterministic checker in less
-  than one work session.
+- 5 candidate sources scored.
+- 0 go-now ingests.
+- 3 scout-only sources: CZI K562 Essential, scPerturb, PerturBase.
+- 2 no-go large-ingest routes: Tahoe-100M and the pertpy Replogle loader.
+- 0 public app surfaces.
+
+Decision:
+
+- `do_not_ingest_new_large_dataset_before_submission`
+- Next best action: `campaign_challenger_ledger`
+
+Why this matters: not ingesting a huge corpus is an engineering and scientific decision, not a lack
+of ambition. The shipped frontier already has cross-substrate replay, donor-condition replay, and
+disease-context evidence. A rushed large-corpus ingest would add parser, license, and provenance
+risk while giving judges less confidence than the existing replay packets.
 
 Potential discovery:
 
@@ -361,26 +382,30 @@ Potential discovery:
 
 Deliverables:
 
+- `./prospect perturbation-scout`
 - `docs/PERTURBATION_ATLAS_SCOUT.md`
-- Optional `examples/data/perturbation_atlas_scout.json`
-- Optional new checker only if source access is small and stable.
+- `examples/data/perturbation_atlas_scout.json`
 
 Status:
 
 - Scout result is `evidence_attached`.
 - Any small extracted table must be frozen and hashable before being used in a replay packet.
+- No accepted-state mutation.
 
 Gate:
 
 - No public app surface unless the scout produces a real replay packet.
+- Tests cover source count, decisions, recommendation, status, and forbidden strong language.
 - `python tests/test_repo_hygiene.py`
 - `./prospect final-check` for any committed generated artifact.
 
 Go or no-go:
 
-- Go for a scout memo.
+- Shipped as a scout packet.
 - Do not ingest Tahoe-100M during the hackathon unless there is a small official subset with clear
   access and license fit. The source is scientifically exciting but too large for a rushed trust path.
+- Do not use the pertpy Replogle loader as a new substrate. It is useful tooling, but not new
+  frontier information.
 
 ## Workstream 5: campaign challenger ledger
 
@@ -436,7 +461,8 @@ Gate:
 1. Run the floor: `./prospect final-check` and `./prospect submit-smoke`.
 2. Keep Workstream 2, Workstream 1, and Workstream 3 green: cross-substrate discovery,
    donor-condition replay, and disease-genetics overlay are now shipped frontier-advancement packets.
-3. Write Workstream 4 scout memo if time remains. Ingest nothing large unless it can be frozen.
+3. Keep Workstream 4 green: perturbation-atlas scout is shipped as a source-backed no-go for large
+   ingestion before submission.
 4. Run Workstream 5 only after the shipped advancement packets change the campaign ranking or assay
    framing.
 5. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
@@ -458,8 +484,9 @@ The new active goal is complete only when:
 
 ## Immediate recommendation
 
-Build `cross-substrate discovery` first. It is the best combination of scientific credibility,
-implementation feasibility, and hackathon story. It can discover genes where the current campaign
-leaderboard and the independent K562/RPE1 replay disagree, without downloading new data or letting
-Claude decide. If it produces even one clear demotion or promotion candidate, Prospect advances from
-"we proved replay across datasets" to "we used replay across datasets to improve the frontier."
+Do not start a new large data ingest before submission. Prospect has now shipped the defensible
+frontier-advancement set: cross-substrate discovery, donor-condition replay, disease-genetics
+overlay, and perturbation-atlas scout. The next highest-leverage technical move is a campaign
+challenger ledger only if it can use those shipped packets to demote or promote rows without changing
+accepted state. Otherwise, preserve the green floor, keep the demo tight, and let the project win on
+the trust boundary plus the replay packets already shipped.

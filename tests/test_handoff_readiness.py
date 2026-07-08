@@ -17,6 +17,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
         "./prospect transfer-replay",
+        "./prospect perturbation-scout",
         "./prospect pggt1b",
         "./prospect lab-pack",
         "./prospect assay-ops",
@@ -35,6 +36,7 @@ def test_agents_lists_current_cli_surface():
     for verb in [
         "campaign-gate-probe",
         "transfer-replay",
+        "perturbation-scout",
         "lab-pack",
         "assay-ops",
         "pilot-design",
@@ -91,6 +93,7 @@ def test_handoff_points_to_frontier_advancement_memo():
         "donor-condition replay",
         "cross-substrate discovery",
         "disease-genetics overlay",
+        "perturbation-atlas scout",
     ]:
         assert phrase in text
 

@@ -46,6 +46,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/FINAL_SUBMISSION_AUDIT.md",
         "docs/CAMPAIGN_PROBE_AUDIT.md",
         "docs/CROSS_SUBSTRATE_DISCOVERY.md",
+        "docs/PERTURBATION_ATLAS_SCOUT.md",
         "docs/RELEASE_MANIFEST.md",
         "docs/RENDERED_QA_PACKET.md",
     ]:

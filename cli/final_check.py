@@ -42,6 +42,8 @@ COMMANDS = [
     "git diff --exit-code -- examples/data/donor_condition_source_rows.json examples/data/donor_condition_replay.json docs/DONOR_CONDITION_REPLAY.md",
     "./prospect disease-overlay",
     "git diff --exit-code -- examples/data/disease_genetics_source_rows.json examples/data/disease_genetics_overlay.json docs/DISEASE_GENETICS_OVERLAY.md",
+    "./prospect perturbation-scout",
+    "git diff --exit-code -- examples/data/perturbation_atlas_scout.json docs/PERTURBATION_ATLAS_SCOUT.md",
     "./prospect judge-pack",
     "cd web && python gen_data.py",
     "./prospect release-manifest",

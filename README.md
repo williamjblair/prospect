@@ -131,6 +131,10 @@ donor-intermediate, or guide-limited without changing accepted state.
 shows which perturbation candidates have selected immune or hematologic external context while
 keeping those associations outside accepted state.
 
+`prospect perturbation-scout` ranks larger perturbation-atlas sources for future replay work. It
+attaches source-backed feasibility evidence, recommends no rushed large ingest before submission,
+and does not add a public endpoint or accepted-state mutation.
+
 `prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
 required gates, public artifacts, trust boundary, and human-only actions.
 
@@ -197,6 +201,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect cross-substrate-discovery # build the cross-substrate discovery packet
 ./prospect donor-replay           # build the donor-condition replay packet
 ./prospect disease-overlay        # build the disease-genetics overlay packet
+./prospect perturbation-scout     # build the perturbation-atlas scout packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

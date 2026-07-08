@@ -46,6 +46,7 @@
     "docs/CROSS_SUBSTRATE_DISCOVERY.md",
     "docs/DONOR_CONDITION_REPLAY.md",
     "docs/DISEASE_GENETICS_OVERLAY.md",
+    "docs/PERTURBATION_ATLAS_SCOUT.md",
     "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
@@ -108,6 +109,14 @@
       "evidence": [
         "./prospect disease-overlay",
         "/data/disease_genetics_overlay.json"
+      ]
+    },
+    {
+      "workstream": "perturbation_atlas_scout",
+      "state": "shipped",
+      "evidence": [
+        "./prospect perturbation-scout",
+        "docs/PERTURBATION_ATLAS_SCOUT.md"
       ]
     },
     {
@@ -244,6 +253,14 @@
       "evidence": [
         "./prospect disease-overlay",
         "/data/disease_genetics_overlay.json"
+      ]
+    },
+    {
+      "requirement": "perturbation_atlas_scout",
+      "status": "shipped",
+      "evidence": [
+        "./prospect perturbation-scout",
+        "docs/PERTURBATION_ATLAS_SCOUT.md"
       ]
     },
     {
