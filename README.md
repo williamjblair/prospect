@@ -4,6 +4,8 @@ A computationally reproduced regulatory frontier of human CD4+ T-cell biology.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
+Final submitter checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`
+
 An AI can assert a claim about any gene in a second. Confirming it against the data takes
 longer than most people spend, so overstated biology walks into slides, grants, and papers.
 Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is

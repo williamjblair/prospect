@@ -39,6 +39,7 @@ def test_readme_lists_current_commands_and_artifacts():
     assert "Five findings" in findings
     assert "Three findings" not in findings
     assert "docs/GLADSTONE_ASSAY_HANDOFF.md" in text
+    assert "docs/FINAL_SUBMISSION_CHECKLIST.md" in text
 
 
 if __name__ == "__main__":

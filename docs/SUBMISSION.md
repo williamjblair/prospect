@@ -5,6 +5,8 @@
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app) ·
 Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prospect)
 
+Final checklist: [docs/FINAL_SUBMISSION_CHECKLIST.md](FINAL_SUBMISSION_CHECKLIST.md)
+
 ## The problem
 
 AI generates biology faster than anyone can check it. A model asserts that a gene is a key

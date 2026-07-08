@@ -41,6 +41,7 @@ def test_submission_points_to_current_public_artifacts():
         assert artifact in text
 
     assert "GLADSTONE_ASSAY_HANDOFF.md" in text
+    assert "FINAL_SUBMISSION_CHECKLIST.md" in text
 
 
 if __name__ == "__main__":

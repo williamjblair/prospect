@@ -79,6 +79,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - Agent: PGGT1B evidence capsule shows exact ratios, matrix slice, and missing acceptance evidence
 - Agent: Claude probe compared with deterministic review lanes
 - Agent: disagreement triage turns model pressure into assay gates
+- Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority
 
 Rebuild:
 

@@ -4,7 +4,8 @@ Audit date: July 8, 2026
 
 Live project: https://prospect-sepia-six.vercel.app
 
-Current commit audited: `aed8523`
+Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
+the receipt bridge client, final-check gate, Gladstone assay handoff, and campaign gate probe shipped.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -48,13 +49,13 @@ This audit used the current worktree and live production data as the source of r
 
 ### Repo and deployment state
 
-- `master` is clean at `aed8523`.
-- `origin/master` points to `aed8523`.
+- `master` and `origin/master` are checked by `git branch -vv` and `git ls-remote --heads origin master`.
 - `.env` exists locally and contains `ANTHROPIC_API_KEY`, without printing the key.
 - Production alias is `https://prospect-sepia-six.vercel.app`.
 - Live public endpoints return current data:
-  - `/data/judge_packet.json`: root `root_a8b0dcdd4024e12f`, 8 campaign probe rows, 4 campaign triage rows.
+  - `/data/judge_packet.json`: root `root_a8b0dcdd4024e12f`, 8 campaign probe rows, 4 campaign triage rows, 4 campaign gate probe rows.
   - `/data/campaign_agent_probe.json`: 8 rows, 3 aligned, 4 more-aggressive, 1 more-cautious.
+  - `/data/campaign_gate_probe.json`: 4 rows, 2 gate-sufficient, 1 add-control, 1 lower-priority.
   - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
 
 ### Gate state
@@ -93,6 +94,7 @@ Public bundle counts in `web/public/data/frontier.json` and live judge packet:
 - 20 campaign review rows.
 - 8 campaign probe rows.
 - 4 disagreement triage rows.
+- 4 campaign gate probe rows.
 - 5 validation candidates.
 - 5 wet-lab assay packet candidates.
 - 5 PGGT1B evidence ladder steps.
@@ -305,18 +307,15 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/SUBMISSION.md`, `docs/DEMO.md`, live site | Record and submit |
+| Submission packaging | Mostly human task | `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, live site | Record and submit |
 
 ## Recommended next sequence
 
 If work continues, do it in this order:
 
 1. **Human submitter work:** record the two-minute demo and submit. This is the only P0 work.
-2. **Protocol packaging:** add a tiny receipt bridge walkthrough or external client demo.
-3. **Judge convenience:** add a `final-check` command or a compact judge-facing terminal transcript.
-4. **Wet-lab handoff:** add `docs/GLADSTONE_ASSAY_HANDOFF.md`.
-5. **Agent gate probe:** run a proposal-only pass over the four disagreement triage rows.
-6. **Second frontier:** only if the above are done and there is enough time to keep the current story
+2. **Final checklist:** use `docs/FINAL_SUBMISSION_CHECKLIST.md`.
+3. **Second frontier:** only if the above are done and there is enough time to keep the current story
    clean.
 
 ## Definition of done for the next build slice
