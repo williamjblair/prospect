@@ -20,9 +20,11 @@ def test_demo_pack_has_timed_recording_beats():
     assert packet["live_url"] == "https://prospect-sepia-six.vercel.app"
     assert packet["signed_root"] == "root_a8b0dcdd4024e12f"
     assert "./prospect demo-pack" in packet["preflight"]
+    assert "./prospect judge-handout" in packet["preflight"]
     assert [beat["time"] for beat in packet["beats"]] == ["0:00", "0:20", "0:40", "1:05", "1:30", "1:50"]
 
     script = "\n".join(beat["say"] for beat in packet["beats"])
+    show = "\n".join(beat["show"] for beat in packet["beats"])
     for phrase in [
         "A model can assert this in a second",
         "48% were contradicted",
@@ -35,6 +37,7 @@ def test_demo_pack_has_timed_recording_beats():
         "operations bundle says what would promote",
     ]:
         assert phrase in script
+    assert "substrate replay packet" in show
 
 
 def test_demo_pack_bans_overclaim_language():
@@ -109,8 +112,13 @@ def test_long_demo_doc_closes_on_current_artifact_surface():
         "weakening",
         "reject",
         "campaign pressure summary",
+        "Agent tab, campaign pressure summary",
+        "eight probed rows",
+        "four more-aggressive",
+        "substrate replay packet",
     ]:
         assert phrase in text
+    assert "Back to Overview, the propose panel" not in text
 
 
 if __name__ == "__main__":

@@ -24,15 +24,17 @@ at rest and moving 5,000+ genes once stimulated (CD3E 4 → 5,711). Finding 02: 
 change almost nothing on knockdown, each a literature-vs-data contradiction cited to the review that
 calls it a regulator.
 
-**1:05 · The moat.** Finding 04, verifier transfer. The same claim, run through
-`get_checker("marson")` and `get_checker("replogle")`. Essentiality genes reshape a non-immune cell
-too (MED19 moves 3,716 genes in K562); the immune program stays inert (BCL10 moves 2). A second
-independent dataset confirms which regulators are housekeeping and which are T-cell-specific.
+**1:05 · The moat.** Finding 04, verifier transfer, then the substrate replay packet. The same claim,
+run through `get_checker("marson")` and `get_checker("replogle")`. Essentiality genes reshape a
+non-immune cell too (MED19 moves 3,716 genes in K562); the immune program stays inert (BCL10 moves
+2). The substrate replay packet keeps the result `computationally_reproduced` across Marson CD4+ T
+cells, Replogle K562, and Replogle RPE1, with no accepted-state mutation.
 
-**1:30 · The loop.** Back to Overview, the propose panel. Claude proposed fifteen transcription
-factors. The frozen verifier admitted six and rejected nine, including FOXP3, the textbook master
-regulator, because its knockdown does not broadly reshape the transcriptome here. A human signs the
-accepted delta. Claude proposes; the data decides; a human signs.
+**1:30 · The loop.** Agent tab, campaign pressure summary. Claude proposed fifteen transcription
+factors, then pressure-tested the campaign rows. The eight probed rows became review work: three aligned
+with deterministic review, four more-aggressive recommendations became assay gates, one was more
+cautious, and zero accepted-state mutations occurred. Claude proposes; frozen code decides; a human
+key accepts state.
 
 **1:50 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`
 lets another workbench discover the receipt schema, validate a receipt, and submit it only as a

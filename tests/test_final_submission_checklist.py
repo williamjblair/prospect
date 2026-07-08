@@ -62,6 +62,7 @@ def test_demo_recording_runbook_is_submission_ready():
         "./prospect submit-smoke",
         "./prospect submit-pack",
         "./prospect demo-pack",
+        "./prospect judge-handout",
         "0:00",
         "0:20",
         "0:40",

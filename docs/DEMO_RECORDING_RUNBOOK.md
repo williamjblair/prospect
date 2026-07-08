@@ -23,6 +23,7 @@ Run this before recording:
 ./prospect submit-smoke
 ./prospect submit-pack
 ./prospect demo-pack
+./prospect judge-handout
 python examples/receipt_bridge_client.py --json
 ```
 
@@ -32,6 +33,7 @@ Confirm:
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, and source docs.
 - `./prospect demo-pack` prints the six timed recording beats and "Do not say" guardrails.
+- `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.

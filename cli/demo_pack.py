@@ -41,7 +41,7 @@ BEATS = [
     {
         "time": "1:05",
         "title": "The Moat",
-        "show": "Finding 04 and the transfer replay packet.",
+        "show": "Finding 04, the transfer replay packet, and the substrate replay packet.",
         "say": (
             "The same claim runs through Marson and Replogle checkers. MED19 moves 3,716 genes in "
             "K562. BCL10 moves 2. The transfer replay packet stays computationally_reproduced and "
@@ -92,6 +92,7 @@ def build_packet() -> dict[str, object]:
             "./prospect submit-smoke",
             "./prospect submit-pack",
             "./prospect demo-pack",
+            "./prospect judge-handout",
             "python examples/receipt_bridge_client.py --json",
         ],
     }
