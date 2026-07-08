@@ -69,7 +69,8 @@ receipt contract, validate a receipt, and submit it as a proposal. The response 
 
 `prospect lab-pack` turns the top evidence-attached follow-ups into assay-ready rows for a
 Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusion criteria, and
-public replay links. Every row remains proposal only.
+public replay links. Every row remains proposal only. The condensed wet-lab handoff is
+`docs/GLADSTONE_ASSAY_HANDOFF.md`.
 
 `prospect campaign-review` adds the audit appendix for the 20-row campaign: lane counts, audit
 questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without

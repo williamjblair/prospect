@@ -69,6 +69,9 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
 - **Wet-lab assay packet** (`frontier/lab_packet.py`, `./prospect lab-pack`): five proposal-only
   follow-ups translated into assay design fields: intervention, controls, readouts, exclusion rules,
   and public replay links. Exported to `examples/data/lab_packet.*` and [LAB_PACKET.md](LAB_PACKET.md).
+- **Gladstone assay handoff** ([GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md)): one-page
+  wet-lab execution note for the top five assay rows, with controls, readouts, stop rules, and replay
+  links. It stays proposal only.
 - **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`, `./prospect pggt1b`): a lab-facing packet for the top shortlist
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
   It keeps status at `evidence_attached`, binds exact local facts, adds an evidence capsule with
@@ -145,7 +148,8 @@ accepted state, not a document.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
-- **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
+- **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
+  NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
 ### The web app (`web/app/page.tsx`)
 
@@ -207,6 +211,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
+- **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
   additional model pass against the disagreement gates.

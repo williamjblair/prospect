@@ -45,6 +45,8 @@ the graph on its own word. On top of it:
   headed by PGGT1B, formatted for stimulated CD4+ perturbation validation.
 - **Wet-lab assay packet**: `prospect lab-pack` translates the top follow-ups into intervention,
   control, readout, exclusion, and replay fields for a Gladstone-facing assay handoff.
+- **Gladstone assay handoff**: [docs/GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md) condenses
+  the top five rows into controls, readouts, stop rules, replay links, and a Monday-morning protocol.
 - **PGGT1B deep dive**: `prospect pggt1b` emits a lab-facing packet with exact frozen facts,
   a four-step evidence capsule, external literature context, caveats, and an assay readout while
   keeping the claim at `evidence_attached`.
@@ -104,6 +106,7 @@ the graph on its own word. On top of it:
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
+- The Gladstone assay handoff gives the same top five rows as a one-page wet-lab execution note.
 - The mutation-pack floor admits zero tampered claims; a parity test pins the Skill checker to the engine.
 
 ## Public artifacts

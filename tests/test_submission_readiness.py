@@ -37,6 +37,8 @@ def test_submission_points_to_current_public_artifacts():
     ]:
         assert artifact in text
 
+    assert "GLADSTONE_ASSAY_HANDOFF.md" in text
+
 
 if __name__ == "__main__":
     test_submission_lists_current_replay_and_artifact_commands()

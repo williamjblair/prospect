@@ -210,6 +210,7 @@ These could improve the chance of winning without changing the core scientific s
      - Good if the project needs a stronger "Claude as scientific co-worker" signal.
 
 5. **Add a Gladstone assay handoff one-pager.**
+   - Current state: shipped as `docs/GLADSTONE_ASSAY_HANDOFF.md`.
    - Why it matters: the lab packet is already strong, but a single page named for a wet-lab handoff
      would make the practical value easier to judge.
    - Shape:
