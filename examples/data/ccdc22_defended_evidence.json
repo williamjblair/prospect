@@ -1,0 +1,109 @@
+{
+  "acceptance": false,
+  "accepted": false,
+  "candidate_rank": 5,
+  "current_support_count": 5,
+  "decision_recommendation": "hold_and_deepen",
+  "defended_discovery_status": "needs_external_freeze",
+  "falsifiable_experiment": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+  "gene": "CCDC22",
+  "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
+  "kill_attempts": [
+    {
+      "basis": "the frozen campaign row has on-target stimulated knockdown",
+      "kill_id": "technical_confound",
+      "result": "survives_current_frozen_evidence"
+    },
+    {
+      "basis": "Rest DE is 116 and K562 DE is 13, below the pre-registered artifact ceilings",
+      "kill_id": "essentiality_or_proliferation_artifact",
+      "result": "survives_current_frozen_evidence"
+    },
+    {
+      "basis": "Shifrut 2018 row 1107 supports the candidate in an independent primary T-cell screen",
+      "kill_id": "batch_or_dataset_specificity",
+      "result": "survives_current_frozen_evidence"
+    },
+    {
+      "basis": "STRING centers CCDC22 in the CCC and COMMD retromer-associated trafficking complex",
+      "kill_id": "alternative_mechanism",
+      "result": "survives_current_frozen_evidence"
+    }
+  ],
+  "mechanism": "CCDC22 may connect stimulated CD4+ activation state to CCC and COMMD retromer-associated endosomal trafficking.",
+  "next_candidate": null,
+  "next_step": "freeze expanded external datasets before any CCDC22 discovery claim",
+  "open_gates": [
+    {
+      "gate": "expanded_external_freeze",
+      "reason": "the expanded hackathon bar still needs new frozen GWAS Catalog, DepMap, conservation, or additional primary-T-cell comparator evidence"
+    },
+    {
+      "gate": "shifrut_replication_depth",
+      "reason": "one Shifrut row supports CCDC22, while the second Shifrut row is missing from the frozen packet"
+    },
+    {
+      "gate": "human_acceptance",
+      "reason": "no human key has accepted a CCDC22 state transition"
+    }
+  ],
+  "packet_id": "ccdc22_defended_5b0f048ba16f3903",
+  "phase": "rank_5_ccdc22_defended_evidence",
+  "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
+  "real_world_hook": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945",
+  "reproduce_command": "./prospect ccdc22-defended-evidence",
+  "scored_evidence": [
+    {
+      "source": "marson_frontier",
+      "status": "computationally_reproduced",
+      "summary": "619 stimulated DE genes, 116 Rest DE genes"
+    },
+    {
+      "source": "replogle_specificity",
+      "status": "evidence_attached",
+      "summary": "K562 13; RPE1 None"
+    },
+    {
+      "missing_rows": [
+        "shifrut_2018_1109"
+      ],
+      "non_hits": [
+        "schmidt_2022_2427"
+      ],
+      "source": "primary_t_cell_screen_support",
+      "status": "evidence_attached",
+      "summary": "supporting hit: shifrut_2018_1107",
+      "supporting_hits": [
+        "shifrut_2018_1107"
+      ]
+    },
+    {
+      "source": "schmidt_2022_orcs_2427",
+      "status": "orthogonal_phenotype",
+      "summary": "cytokine-production non-hit, not a comparable activation-transcriptome contradiction"
+    },
+    {
+      "source": "string_network",
+      "status": "evidence_attached",
+      "summary": "top partners: CCDC93, VPS35L, COMMD1, COMMD8, COMMD2"
+    },
+    {
+      "source": "dice_expression",
+      "status": "evidence_attached",
+      "summary": "activated CD4 mean TPM 30.218"
+    },
+    {
+      "source": "open_targets_overlay",
+      "status": "evidence_attached",
+      "summary": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945"
+    }
+  ],
+  "source_packets": {
+    "cross_validation": "examples/data/cross_validation.json",
+    "decision_ledger": "examples/data/defended_candidate_decisions.json",
+    "discovery_campaign": "examples/data/discovery_campaign.json"
+  },
+  "status": "evidence_attached",
+  "title": "CCDC22 defended evidence",
+  "trust_boundary": "proposal_only"
+}

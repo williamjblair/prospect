@@ -15,6 +15,7 @@
   prospect rcc1l-defended-evidence build the rank-2 RCC1L defended-evidence packet
   prospect mcat-defended-evidence build the rank-3 MCAT defended-evidence packet
   prospect rwdd2b-defended-evidence build the rank-4 RWDD2B defended-evidence packet
+  prospect ccdc22-defended-evidence build the rank-5 CCDC22 defended-evidence packet
   prospect flagship-module build the flagship mechanistic module packet
   prospect overclaim-counter build the overclaim refusal counter packet
   prospect disease-overlay  attach external disease-genetics context (Open Targets)
@@ -67,6 +68,8 @@ def main():
         from frontier.mcat_defended_evidence import main as mcat_defended_main; mcat_defended_main()
     elif cmd == "rwdd2b-defended-evidence":
         from frontier.rwdd2b_defended_evidence import main as rwdd2b_defended_main; rwdd2b_defended_main()
+    elif cmd == "ccdc22-defended-evidence":
+        from frontier.ccdc22_defended_evidence import main as ccdc22_defended_main; ccdc22_defended_main()
     elif cmd == "flagship-module":
         from frontier.flagship_module import main as flagship_module_main; flagship_module_main()
     elif cmd == "overclaim-counter":
