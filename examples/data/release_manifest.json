@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 23,
-  "hashed_artifact_count": 22,
+  "public_artifact_count": 24,
+  "hashed_artifact_count": 23,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -25,6 +25,7 @@
     "/data/campaign_pressure_summary.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
+    "/data/cross_substrate_discovery.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -36,14 +37,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5824869,
-      "sha256": "52f988d88b8501f50ee57b9bb17be9bb90145188114db530503d6d4a3ea5e24f"
+      "bytes": 5854982,
+      "sha256": "99a6a07daed6419f54367f5361ec2012e611af4ef195ad09d1536fce9cef66fb"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 18649,
-      "sha256": "013ea7317e06e47411c5a315ec45d56818334bc4ba04af023942bd3bd80c36f7"
+      "bytes": 19146,
+      "sha256": "f463d5886d74e78b1424f502980913d6fe1582a3332eff48e6218b74181ca424"
     },
     {
       "path": "/data/finding_index.json",
@@ -136,6 +137,12 @@
       "sha256": "67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895"
     },
     {
+      "path": "/data/cross_substrate_discovery.json",
+      "source_path": "web/public/data/cross_substrate_discovery.json",
+      "bytes": 29152,
+      "sha256": "c7e2d0ce2e7427fde772bf189b58953990099be4deab03a9904ba2cd8513e3bf"
+    },
+    {
       "path": "/data/lab_packet.json",
       "source_path": "web/public/data/lab_packet.json",
       "bytes": 8323,
@@ -156,14 +163,14 @@
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 5774,
-      "sha256": "53a7567d3ffc9e02ce5a1bad8d23ec66da3c8e103b33b273f56ce52fcaf50381"
+      "bytes": 6207,
+      "sha256": "891d7f0f30a74fa3921d75c7aa71c011df22ec309b12c7678916fc8665cdae14"
     },
     {
       "path": "/data/rendered_qa_packet.json",
       "source_path": "web/public/data/rendered_qa_packet.json",
-      "bytes": 1987,
-      "sha256": "e277ac3f844828791f90dae4954e785973911a65cd82dffef0cac57c09f864df"
+      "bytes": 2086,
+      "sha256": "a390812ca8c4417aeeb8107508c01b16bf627e43fca2aee1e01eb8cab4625588"
     }
   ],
   "trust_boundary": {

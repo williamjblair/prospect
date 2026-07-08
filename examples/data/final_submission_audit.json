@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 23,
+  "public_artifact_count": 24,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -23,6 +23,7 @@
     "/data/campaign_pressure_summary.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
+    "/data/cross_substrate_discovery.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/gladstone_pilot_design.json",
@@ -40,6 +41,7 @@
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/CAMPAIGN_PROBE_AUDIT.md",
+    "docs/CROSS_SUBSTRATE_DISCOVERY.md",
     "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
@@ -78,6 +80,14 @@
       "evidence": [
         "./prospect substrate-replay",
         "/data/substrate_replay_packet.json"
+      ]
+    },
+    {
+      "workstream": "cross_substrate_discovery",
+      "state": "shipped",
+      "evidence": [
+        "./prospect cross-substrate-discovery",
+        "/data/cross_substrate_discovery.json"
       ]
     },
     {
@@ -150,6 +160,7 @@
         "must_show": [
           "Scannable findings index",
           "Substrate replay packet",
+          "Cross-substrate discovery packet",
           "MED19"
         ]
       },
@@ -187,6 +198,14 @@
       "evidence": [
         "./prospect substrate-replay",
         "/data/substrate_replay_packet.json"
+      ]
+    },
+    {
+      "requirement": "cross_substrate_discovery",
+      "status": "shipped",
+      "evidence": [
+        "./prospect cross-substrate-discovery",
+        "/data/cross_substrate_discovery.json"
       ]
     },
     {

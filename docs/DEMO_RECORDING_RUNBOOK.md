@@ -54,6 +54,7 @@ Confirm:
   and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
+- `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.
 
 ## Recording Beats
 
@@ -95,6 +96,12 @@ Stay in Findings and show Finding 04.
 Say: the same major-regulator claim runs through Marson and Replogle checkers. MED19 moves 3,716
 genes in K562. BCL10 moves 2. The transfer replay packet keeps this at
 `computationally_reproduced` and changes no accepted state.
+
+Show the cross-substrate discovery packet.
+
+Say: Prospect then classifies every frozen Marson row against K562 and RPE1 counts. The packet keeps
+shared machinery separate from T-cell-specific activation candidates, and PGGT1B remains proposal
+evidence until the lab gate runs.
 
 ### 1:30, The Loop
 

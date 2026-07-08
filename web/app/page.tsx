@@ -259,6 +259,38 @@ type SubstrateReplayPacket = {
     k562_de_genes: number | null; rpe1_de_genes: number | null; finding: string;
   }[];
 };
+type CrossSubstrateDiscovery = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutation: string;
+  counts: {
+    marson_genes_considered: number;
+    overlap_k562: number;
+    overlap_rpe1: number;
+    overlap_any_non_immune: number;
+    campaign_rows_intersected: number;
+  };
+  class_counts: Record<string, number>;
+  exemplar_rows: CrossSubstrateRow[];
+  top_rows: CrossSubstrateRow[];
+  campaign_intersections: CrossSubstrateRow[];
+};
+type CrossSubstrateRow = {
+  gene: string;
+  cross_substrate_class: string;
+  prospect_class: string;
+  rest_de: number;
+  stim8hr_de: number;
+  stim48hr_de: number;
+  stim_max_de: number;
+  strongest_stim_condition: string;
+  k562_de: number | null;
+  rpe1_de: number | null;
+  non_immune_max_de: number;
+  campaign_rank: number | null;
+  campaign_status: string | null;
+};
 type JudgePacket = {
   live_url: string;
   frontier_root: string;
@@ -314,6 +346,7 @@ type Data = {
   assay_operations_bundle?: AssayOperationsBundle | null;
   gladstone_pilot_design?: GladstonePilotDesign | null;
   substrate_replay_packet?: SubstrateReplayPacket | null;
+  cross_substrate_discovery?: CrossSubstrateDiscovery | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -2055,6 +2088,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       </div>
       {d.finding_index && <FindingsIndex index={d.finding_index} />}
       {d.substrate_replay_packet && <SubstrateReplayPacket packet={d.substrate_replay_packet} onGene={onGene} />}
+      {d.cross_substrate_discovery && <CrossSubstrateDiscoveryPacket packet={d.cross_substrate_discovery} onGene={onGene} />}
       {order.map((k) => {
         const f = byKind[k] as Finding | undefined;
         if (!f) return null;
@@ -2139,6 +2173,79 @@ function SubstrateReplayPacket({ packet, onGene }: { packet: SubstrateReplayPack
                 <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{label(r.replogle_k562_status)}</td>
                 <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de_genes == null ? "not measured" : fmt(r.k562_de_genes)}</td>
                 <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.rpe1_de_genes == null ? "not measured" : fmt(r.rpe1_de_genes)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
+      </p>
+    </section>
+  );
+}
+
+function CrossSubstrateDiscoveryPacket({ packet, onGene }: { packet: CrossSubstrateDiscovery; onGene: (g: string) => void }) {
+  const label = (value: string) => value.replace(/_/g, " ");
+  const classTone = (value: string) => {
+    if (value === "shared_cellular_machinery") return "var(--brass)";
+    if (value === "t_cell_specific_activation") return "var(--moss)";
+    if (value === "non_immune_only_effect") return "var(--field-blue)";
+    return "var(--stone)";
+  };
+  const rows = packet.campaign_intersections.slice(0, 8);
+  return (
+    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div style={{ minWidth: 240, flex: 1 }}>
+          <div className="t-label" style={{ marginBottom: 5 }}>Cross-substrate discovery packet</div>
+          <p className="t-body-sm" style={{ maxWidth: "76ch", margin: 0 }}>
+            Frozen Marson, K562, and RPE1 counts classify the frontier into shared machinery, T-cell-specific activation,
+            non-immune-only effects, and ambiguous rows before intersecting the campaign leaderboard.
+          </p>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>{label(packet.status)}</span>
+        <a className="btn btn-secondary btn-sm" href="/data/cross_substrate_discovery.json" target="_blank" rel="noreferrer">
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [fmt(packet.counts.marson_genes_considered), "Marson rows classified", "var(--ink)"],
+          [fmt(packet.class_counts.shared_cellular_machinery ?? 0), "shared machinery", "var(--brass)"],
+          [fmt(packet.class_counts.t_cell_specific_activation ?? 0), "T-cell-specific activation", "var(--moss)"],
+          [fmt(packet.class_counts.non_immune_only_effect ?? 0), "non-immune-only effects", "var(--field-blue)"],
+          [fmt(packet.counts.campaign_rows_intersected), "campaign intersections", "var(--ink-3)"],
+        ].map(([value, title, tone]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color: tone }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
+        <table style={{ width: "100%", minWidth: 840, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "cross-substrate class", "Rest DE", "Stim max DE", "K562 DE", "RPE1 DE"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "8px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={`${r.campaign_rank}-${r.gene}`} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.campaign_rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: classTone(r.cross_substrate_class) }}>
+                  {label(r.cross_substrate_class)}
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.rest_de)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.stim_max_de)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de == null ? "not measured" : fmt(r.k562_de)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.rpe1_de == null ? "not measured" : fmt(r.rpe1_de)}</td>
               </tr>
             ))}
           </tbody>

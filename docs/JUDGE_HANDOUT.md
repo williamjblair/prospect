@@ -16,8 +16,10 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - 5 signed findings
 - 6 portable receipts
-- 23 public data artifacts
+- 24 public data artifacts
 - 377 replayed T-cell regulators across three frozen substrates
+- 11526 Marson rows classified against non-immune substrates
+- 409 T-cell-specific activation candidates
 - 20 Claude probe rows in the pressure loop
 - 11 of 11 gate-probe decisions returned, coverage `complete`
 - 5 proposal-only assay operations rows
@@ -35,14 +37,16 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 1. Overview: A1BG refusal and 48 percent overclaiming number.
 2. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
 3. Findings: substrate replay across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
-4. Frontier: receipt bridge returns proposal-only submission, not accepted state.
-5. Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.
+4. Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.
+5. Frontier: receipt bridge returns proposal-only submission, not accepted state.
+6. Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.
 
 ## Public artifacts to open
 
 - `/data/judge_packet.json`
 - `/data/campaign_pressure_summary.json`
 - `/data/substrate_replay_packet.json`
+- `/data/cross_substrate_discovery.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`

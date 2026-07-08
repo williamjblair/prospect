@@ -29,7 +29,7 @@ def test_browser_qa_plan_uses_rendered_qa_contract_without_entering_trust_path(t
 
     tabs = {item["tab"]: item for item in plan["checks"]}
     assert tabs["Overview"]["texts"] == ["Opening claim checks", "48%", "Judge packet"]
-    assert tabs["Findings"]["texts"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
+    assert tabs["Findings"]["texts"] == ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]
     assert tabs["Frontier"]["texts"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
     assert tabs["Agent"]["texts"] == [
         "Campaign pressure summary",

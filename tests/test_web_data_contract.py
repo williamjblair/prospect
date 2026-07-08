@@ -72,6 +72,21 @@ def test_frontier_json_embeds_substrate_replay_packet():
     assert "true" not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_cross_substrate_discovery_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["cross_substrate_discovery"]
+
+    assert packet["status"] == "computationally_reproduced"
+    assert packet["accepted_state_mutation"] == "none"
+    assert packet["counts"]["marson_genes_considered"] == 11526
+    assert packet["class_counts"]["shared_cellular_machinery"] == 80
+    assert packet["class_counts"]["t_cell_specific_activation"] == 409
+    assert packet["class_counts"]["non_immune_only_effect"] == 333
+    assert packet["campaign_intersections"][0]["gene"] == "PGGT1B"
+    assert "verified" not in json.dumps(packet).lower()
+    assert "true" not in json.dumps(packet).lower()
+
+
 def test_frontier_json_embeds_campaign_pressure_summary():
     data = json.loads(FRONTIER.read_text())
     summary = data["campaign_pressure_summary"]
@@ -162,6 +177,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_pggt1b_matrix_slice()
     test_frontier_json_embeds_transfer_replay_packet()
     test_frontier_json_embeds_substrate_replay_packet()
+    test_frontier_json_embeds_cross_substrate_discovery_packet()
     test_frontier_json_embeds_campaign_pressure_summary()
     test_frontier_json_embeds_campaign_probe_audit()
     test_frontier_json_embeds_assay_operations_bundle()

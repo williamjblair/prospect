@@ -97,6 +97,19 @@ def _current_payloads():
             "counts": {"t_cell_regulators_compared": 377},
             "datasets": [{}, {}, {}],
         },
+        "/data/cross_substrate_discovery.json": {
+            "status": "computationally_reproduced",
+            "trust_boundary": "frozen_counts_over_committed_tables",
+            "accepted_state_mutation": "none",
+            "counts": {"marson_genes_considered": 11526},
+            "class_counts": {
+                "shared_cellular_machinery": 80,
+                "t_cell_specific_activation": 409,
+                "non_immune_only_effect": 333,
+                "ambiguous_or_not_tested": 10704,
+            },
+            "campaign_intersections": [{} for _ in range(20)],
+        },
         "/data/lab_packet.json": {
             "status": "evidence_attached",
             "trust_boundary": "proposal_only",
@@ -130,7 +143,7 @@ def _current_payloads():
             "avoid_port": 3000,
             "tabs": [
                 {"tab": "Overview", "must_show": ["Opening claim checks", "48%", "Judge packet"]},
-                {"tab": "Findings", "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"]},
+                {"tab": "Findings", "must_show": ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]},
                 {"tab": "Frontier", "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"]},
                 {"tab": "Agent", "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]},
             ],
@@ -167,10 +180,11 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 15
+    assert len(result.checks) == 16
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(check.name == "campaign probe audit" and check.ok for check in result.checks)
     assert any(check.name == "Gladstone pilot design" and check.ok for check in result.checks)
+    assert any(check.name == "cross-substrate discovery" and check.ok for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
         for check in result.checks

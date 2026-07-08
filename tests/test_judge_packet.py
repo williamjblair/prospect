@@ -46,6 +46,8 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["final_submission_public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert packet["artifact_counts"]["transfer_replay_rows"] == 377
     assert packet["artifact_counts"]["substrate_replay_rows"] == 377
+    assert packet["artifact_counts"]["cross_substrate_discovery_rows"] == 11526
+    assert packet["artifact_counts"]["cross_substrate_campaign_rows"] == 20
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 20
@@ -58,6 +60,9 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert packet["science_packet"]["pilot_design"]["status"] == "evidence_attached"
     assert packet["science_packet"]["pilot_design"]["culture_arms"] == 90
+    assert packet["science_packet"]["cross_substrate_discovery"]["status"] == "computationally_reproduced"
+    assert packet["science_packet"]["cross_substrate_discovery"]["class_counts"]["t_cell_specific_activation"] == 409
+    assert packet["science_packet"]["cross_substrate_discovery"]["top_campaign_gene"] == "PGGT1B"
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert packet["public_data"] == PUBLIC_ARTIFACTS
     assert "true" not in json.dumps(packet).lower()
@@ -81,6 +86,8 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_probe_audit_issues"] == 0
     assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["substrate_replay_rows"] == 377
+    assert data["artifact_counts"]["cross_substrate_discovery_rows"] == 11526
+    assert data["artifact_counts"]["cross_substrate_campaign_rows"] == 20
     assert data["artifact_counts"]["assay_operations_candidates"] == 5
     assert data["artifact_counts"]["pilot_design_candidates"] == 5
     assert data["artifact_counts"]["pilot_design_culture_arms"] == 90
@@ -93,6 +100,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert data["science_packet"]["pilot_design"]["candidate_count"] == 5
     assert data["science_packet"]["pilot_design"]["culture_arms"] == 90
+    assert data["science_packet"]["cross_substrate_discovery"]["top_campaign_gene"] == "PGGT1B"
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
     assert "Judge packet" in doc
@@ -103,6 +111,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "Campaign probe audit issues" in doc
     assert "Transfer replay packet" in doc
     assert "Substrate replay packet" in doc
+    assert "Cross-substrate discovery packet" in doc
     assert "Gladstone assay operations bundle" in doc
     assert "Gladstone pilot design" in doc
     assert "Final submission audit" in doc

@@ -23,8 +23,8 @@ TABS = [
     },
     {
         "tab": "Findings",
-        "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"],
-        "purpose": "Scientific evidence path and protocol generalization.",
+        "must_show": ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"],
+        "purpose": "Scientific evidence path, protocol generalization, and cross-substrate discovery.",
     },
     {
         "tab": "Frontier",
@@ -70,7 +70,7 @@ def build_packet() -> dict[str, Any]:
         "pass_criteria": [
             "No tab hides the signed root, typed status, or proposal-only boundaries.",
             "Overview opens on the refusal and overclaiming number, not decoration.",
-            "Findings exposes the substrate replay path and MED19 contrast.",
+            "Findings exposes the substrate replay path, cross-substrate discovery packet, and MED19 contrast.",
             "Frontier shows receipt submission as proposal-only.",
             "Agent shows Claude pressure becoming assay gates and pilot design, not accepted state.",
             "Text fits at desktop and mobile viewport sizes.",

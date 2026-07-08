@@ -69,6 +69,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/campaign_pressure_summary.json
 - https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
+- https://prospect-sepia-six.vercel.app/data/cross_substrate_discovery.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
 - https://prospect-sepia-six.vercel.app/data/gladstone_pilot_design.json
@@ -86,8 +87,9 @@ Confirm:
 - `/data/campaign_pressure_summary.json` accounts for 20 Claude probe rows, explicit gate coverage, and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
+- `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.
 - `/data/gladstone_pilot_design.json` reports 90 culture arms and stays proposal only.
-- `/data/final_submission_audit.json` reports 23 public artifacts and human-only actions.
+- `/data/final_submission_audit.json` reports 24 public artifacts and human-only actions.
 - `/data/release_manifest.json` hashes the public data artifact surface.
 - `/data/rendered_qa_packet.json` names the manual browser checkpoints.
 - The receipt bridge demo returns `accepted=false`.
@@ -116,6 +118,7 @@ Close on:
 - campaign gate probe: Claude pressure-tests gates with `gate_sufficient`, `add_control`, or `lower_priority`
 - campaign probe audit: larger Claude passes must clear frozen rationale checks before promotion
 - transfer replay packet: second and third frozen Perturb-seq tables exercise the same checker interface
+- cross-substrate discovery packet: every Marson row is classified against K562/RPE1 before campaign promotion
 
 ## Submit The Project
 

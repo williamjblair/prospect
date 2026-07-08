@@ -31,6 +31,7 @@ RENDERED_QA_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "publ
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
 SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
+CROSS_SUBSTRATE_DISCOVERY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "cross_substrate_discovery.json")
 JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
@@ -94,6 +95,8 @@ _transfer_replay = os.path.join(DATA, "transfer_replay_packet.json")
 transfer_replay_packet = json.load(open(_transfer_replay)) if os.path.exists(_transfer_replay) else None
 _substrate_replay = os.path.join(DATA, "substrate_replay_packet.json")
 substrate_replay_packet = json.load(open(_substrate_replay)) if os.path.exists(_substrate_replay) else None
+_cross_substrate_discovery = os.path.join(DATA, "cross_substrate_discovery.json")
+cross_substrate_discovery = json.load(open(_cross_substrate_discovery)) if os.path.exists(_cross_substrate_discovery) else None
 _judge_packet = os.path.join(DATA, "judge_packet.json")
 judge_packet = json.load(open(_judge_packet)) if os.path.exists(_judge_packet) else None
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
@@ -164,6 +167,7 @@ data = {
     "gladstone_pilot_design": gladstone_pilot_design,
     "final_submission_audit": final_submission_audit,
     "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
+    "cross_substrate_discovery": cross_substrate_discovery,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -207,6 +211,8 @@ if transfer_replay_packet:
     json.dump(transfer_replay_packet, open(TRANSFER_REPLAY_OUT, "w"))
 if substrate_replay_packet:
     json.dump(substrate_replay_packet, open(SUBSTRATE_REPLAY_OUT, "w"))
+if cross_substrate_discovery:
+    json.dump(cross_substrate_discovery, open(CROSS_SUBSTRATE_DISCOVERY_OUT, "w"))
 if judge_packet:
     json.dump(judge_packet, open(JUDGE_PACKET_OUT, "w"))
 json.dump(data, open(OUT, "w"))

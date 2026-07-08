@@ -195,6 +195,26 @@ def _check_substrate(base_url: str, opener: Callable[..., Any], timeout: int) ->
         return Check("substrate replay", False, f"fetch failed: {exc}")
 
 
+def _check_cross_substrate_discovery(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/cross_substrate_discovery.json", opener, timeout)
+        counts = data.get("class_counts", {})
+        ok = (
+            data.get("status") == "computationally_reproduced"
+            and data.get("trust_boundary") == "frozen_counts_over_committed_tables"
+            and data.get("accepted_state_mutation") == "none"
+            and data.get("counts", {}).get("marson_genes_considered") == 11526
+            and counts.get("shared_cellular_machinery") == 80
+            and counts.get("t_cell_specific_activation") == 409
+            and counts.get("non_immune_only_effect") == 333
+            and len(data.get("campaign_intersections", [])) == 20
+        )
+        detail = "11526 genes classified across frozen substrates" if ok else "cross-substrate discovery shape drift"
+        return Check("cross-substrate discovery", ok, detail)
+    except Exception as exc:
+        return Check("cross-substrate discovery", False, f"fetch failed: {exc}")
+
+
 def _check_lab_packet(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/lab_packet.json", opener, timeout)
@@ -339,6 +359,7 @@ def run_checks(
         _check_campaign_probe_audit(base_url, opener, timeout),
         _check_transfer(base_url, opener, timeout),
         _check_substrate(base_url, opener, timeout),
+        _check_cross_substrate_discovery(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
         _check_gladstone_pilot_design(base_url, opener, timeout),

@@ -26,9 +26,10 @@ grade. A human Ed25519 key accepts the signed frontier root. No model is in the 
 The app shows five signed findings: the TCR activation module recovered from perturbation alone,
 famous checkpoint/cytokine overclaims contradicted by the measured data, the essentiality artifact a
 naive ranking mistakes for immunology, cross-cell-type transfer through Replogle K562/RPE1 checkers,
-and CollecTRI regulon recovery. The agent layer converts Claude pressure into proposal-only assay
-gates: 20 campaign rows, all 11 disagreement gates reviewed, headed by PGGT1B and a five-row
-wet-lab handoff for stimulated CD4+ follow-up.
+and CollecTRI regulon recovery. A cross-substrate discovery packet classifies all 11,526 Marson rows
+against K562 and RPE1 counts before intersecting the campaign leaderboard. The agent layer converts
+Claude pressure into proposal-only assay gates: 20 campaign rows, all 11 disagreement gates reviewed,
+headed by PGGT1B and a five-row wet-lab handoff for stimulated CD4+ follow-up.
 
 Statuses stay typed: `computationally_reproduced`, `evidence_attached`, and `contradicted`. Prospect
 does not claim wet-lab or clinical truth. It proves replayable computation, names missing evidence,
@@ -117,6 +118,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/campaign_pressure_summary.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
+- `/data/cross_substrate_discovery.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`

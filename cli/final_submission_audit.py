@@ -38,6 +38,11 @@ SHIPPED_WORKSTREAMS = [
         "evidence": ["./prospect substrate-replay", "/data/substrate_replay_packet.json"],
     },
     {
+        "workstream": "cross_substrate_discovery",
+        "state": "shipped",
+        "evidence": ["./prospect cross-substrate-discovery", "/data/cross_substrate_discovery.json"],
+    },
+    {
         "workstream": "claude_campaign_pressure",
         "state": "shipped",
         "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
@@ -81,7 +86,7 @@ RENDERED_QA_CHECKLIST = {
         },
         {
             "tab": "Findings",
-            "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"],
+            "must_show": ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"],
         },
         {
             "tab": "Frontier",
@@ -104,6 +109,11 @@ COMPLETION_REQUIREMENTS = [
         "requirement": "protocol_generalization",
         "status": "shipped",
         "evidence": ["./prospect substrate-replay", "/data/substrate_replay_packet.json"],
+    },
+    {
+        "requirement": "cross_substrate_discovery",
+        "status": "shipped",
+        "evidence": ["./prospect cross-substrate-discovery", "/data/cross_substrate_discovery.json"],
     },
     {
         "requirement": "claude_campaign_pressure",

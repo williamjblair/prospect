@@ -39,7 +39,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     ]
     tabs = {item["tab"]: item for item in audit["rendered_qa_checklist"]["tabs"]}
     assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
-    assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
+    assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]
     assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
     assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
     requirements = {item["requirement"]: item for item in audit["completion_requirements"]}
@@ -47,6 +47,8 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "./prospect final-check" in requirements["p0_floor_green"]["evidence"]
     assert requirements["protocol_generalization"]["status"] == "shipped"
     assert "/data/substrate_replay_packet.json" in requirements["protocol_generalization"]["evidence"]
+    assert requirements["cross_substrate_discovery"]["status"] == "shipped"
+    assert "/data/cross_substrate_discovery.json" in requirements["cross_substrate_discovery"]["evidence"]
     assert requirements["claude_campaign_pressure"]["status"] == "shipped"
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert "/data/campaign_probe_audit.json" in requirements["claude_campaign_pressure"]["evidence"]
@@ -75,6 +77,7 @@ def test_final_submission_audit_covers_all_shipped_workstreams():
     for name in [
         "submission_floor",
         "second_substrate_replay",
+        "cross_substrate_discovery",
         "claude_campaign_pressure",
         "gladstone_assay_operations",
         "demo_and_submission_packets",
@@ -109,6 +112,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "./prospect browser-qa --target both" in doc
     assert "/data/assay_operations_bundle.json" in doc
     assert "/data/gladstone_pilot_design.json" in doc
+    assert "/data/cross_substrate_discovery.json" in doc
     assert "/data/campaign_probe_audit.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc

@@ -45,6 +45,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
         "docs/FINAL_SUBMISSION_AUDIT.md",
         "docs/CAMPAIGN_PROBE_AUDIT.md",
+        "docs/CROSS_SUBSTRATE_DISCOVERY.md",
         "docs/RELEASE_MANIFEST.md",
         "docs/RENDERED_QA_PACKET.md",
     ]:
@@ -71,6 +72,7 @@ def test_submit_pack_lists_full_judge_public_artifact_surface():
         "/data/campaign_pressure_summary.json",
         "/data/transfer_replay_packet.json",
         "/data/substrate_replay_packet.json",
+        "/data/cross_substrate_discovery.json",
         "/data/lab_packet.json",
         "/data/assay_operations_bundle.json",
         "/data/gladstone_pilot_design.json",

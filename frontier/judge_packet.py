@@ -52,6 +52,7 @@ def build_packet() -> dict[str, Any]:
     final_submission_audit = frontier.get("final_submission_audit") or {}
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
+    cross_substrate_discovery = frontier.get("cross_substrate_discovery") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
 
@@ -119,6 +120,8 @@ def build_packet() -> dict[str, Any]:
             "campaign_pressure_rows": len(campaign_pressure.get("pressure_accounting", [])),
             "transfer_replay_rows": transfer_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "substrate_replay_rows": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
+            "cross_substrate_discovery_rows": cross_substrate_discovery.get("counts", {}).get("marson_genes_considered", 0),
+            "cross_substrate_campaign_rows": len(cross_substrate_discovery.get("campaign_intersections", [])),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
@@ -203,6 +206,14 @@ def build_packet() -> dict[str, Any]:
                 "t_cell_regulators_compared": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
                 "substrate_count": len(substrate_replay.get("datasets", [])),
             },
+            "cross_substrate_discovery": {
+                "status": cross_substrate_discovery.get("status"),
+                "trust_boundary": cross_substrate_discovery.get("trust_boundary"),
+                "accepted_state_mutation": cross_substrate_discovery.get("accepted_state_mutation"),
+                "marson_genes_considered": cross_substrate_discovery.get("counts", {}).get("marson_genes_considered", 0),
+                "class_counts": cross_substrate_discovery.get("class_counts", {}),
+                "top_campaign_gene": (cross_substrate_discovery.get("campaign_intersections") or [{}])[0].get("gene"),
+            },
             "lab_packet": {
                 "status": lab_packet.get("status"),
                 "trust_boundary": lab_packet.get("trust_boundary"),
@@ -270,6 +281,8 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign pressure rows: {counts['campaign_pressure_rows']}",
         f"- Transfer replay rows: {counts['transfer_replay_rows']}",
         f"- Substrate replay rows: {counts['substrate_replay_rows']}",
+        f"- Cross-substrate discovery rows: {counts['cross_substrate_discovery_rows']}",
+        f"- Cross-substrate campaign rows: {counts['cross_substrate_campaign_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- Assay operations candidates: {counts['assay_operations_candidates']}",
@@ -310,6 +323,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Substrate replay packet",
         "",
         "The substrate packet makes the protocol-generalization claim explicit: one checker contract, three frozen substrates, typed status, and no accepted-state mutation.",
+        "",
+        "## Cross-substrate discovery packet",
+        "",
+        "The discovery packet classifies every frozen Marson row against K562 and RPE1 count tables, then intersects the result with the proposal-only campaign leaderboard.",
         "",
         "## Receipt bridge demo",
         "",

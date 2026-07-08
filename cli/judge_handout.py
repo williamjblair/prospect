@@ -26,6 +26,7 @@ def build_handout() -> dict[str, Any]:
     assay = _json(DATA / "assay_operations_bundle.json")
     pilot = _json(DATA / "gladstone_pilot_design.json")
     substrate = _json(DATA / "substrate_replay_packet.json")
+    discovery = _json(DATA / "cross_substrate_discovery.json")
 
     return {
         "title": "Prospect one-page judge handout",
@@ -48,6 +49,8 @@ def build_handout() -> dict[str, Any]:
             "assay_operations_candidates": len(assay["candidates"]),
             "pilot_design_culture_arms": pilot["sample_plan"]["culture_arms"],
             "substrate_replay_rows": substrate["counts"]["t_cell_regulators_compared"],
+            "cross_substrate_discovery_rows": discovery["counts"]["marson_genes_considered"],
+            "cross_substrate_t_cell_candidates": discovery["class_counts"]["t_cell_specific_activation"],
         },
         "trust_boundary": {
             "model_role": "propose_search_pressure_test",
@@ -59,6 +62,7 @@ def build_handout() -> dict[str, Any]:
             "Overview: A1BG refusal and 48 percent overclaiming number.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
             "Findings: substrate replay across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.",
+            "Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.",
             "Frontier: receipt bridge returns proposal-only submission, not accepted state.",
             "Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.",
         ],
@@ -66,6 +70,7 @@ def build_handout() -> dict[str, Any]:
             "/data/judge_packet.json",
             "/data/campaign_pressure_summary.json",
             "/data/substrate_replay_packet.json",
+            "/data/cross_substrate_discovery.json",
             "/data/assay_operations_bundle.json",
             "/data/gladstone_pilot_design.json",
             "/data/final_submission_audit.json",
@@ -107,6 +112,8 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['receipts']} portable receipts",
         f"- {counts['public_artifacts']} public data artifacts",
         f"- {counts['substrate_replay_rows']} replayed T-cell regulators across three frozen substrates",
+        f"- {counts['cross_substrate_discovery_rows']} Marson rows classified against non-immune substrates",
+        f"- {counts['cross_substrate_t_cell_candidates']} T-cell-specific activation candidates",
         f"- {counts['claude_probe_rows']} Claude probe rows in the pressure loop",
         (
             f"- {counts['gate_probe_returned']} of {counts['gate_probe_requested']} gate-probe decisions returned, "

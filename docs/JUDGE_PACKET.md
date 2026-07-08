@@ -39,12 +39,14 @@ cd web && npm run build
 - Campaign pressure rows: 20
 - Transfer replay rows: 377
 - Substrate replay rows: 377
+- Cross-substrate discovery rows: 11526
+- Cross-substrate campaign rows: 20
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
 - Pilot design candidates: 5
 - Pilot design culture arms: 90
-- Final submission public artifacts: 23
+- Final submission public artifacts: 24
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -80,6 +82,10 @@ The transfer packet replays the signed cross-cell-type finding through the Marso
 
 The substrate packet makes the protocol-generalization claim explicit: one checker contract, three frozen substrates, typed status, and no accepted-state mutation.
 
+## Cross-substrate discovery packet
+
+The discovery packet classifies every frozen Marson row against K562 and RPE1 count tables, then intersects the result with the proposal-only campaign leaderboard.
+
 ## Receipt bridge demo
 
 Run the external MCP client:
@@ -109,6 +115,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/campaign_pressure_summary.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
+- `/data/cross_substrate_discovery.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`

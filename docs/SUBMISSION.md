@@ -84,6 +84,8 @@ the graph on its own word. On top of it:
   The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
 - **Substrate replay packet**: `prospect substrate-replay` makes the protocol-generalization claim
   executable across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
+- **Cross-substrate discovery packet**: `prospect cross-substrate-discovery` classifies every frozen
+  Marson row against K562 and RPE1 counts, then intersects the result with the campaign leaderboard.
 
 ## What outlasts the week
 
@@ -140,6 +142,9 @@ the trust floor after the event window without private credentials for the stati
   coverage, zero rationale issues, and no accepted-state mutation.
 - The transfer replay packet compares 377 T-cell regulators against the Replogle K562/RPE1 frozen
   tables and keeps the result at `computationally_reproduced`, with no accepted-state mutation.
+- The cross-substrate discovery packet classifies 11,526 Marson rows: 80 shared cellular machinery
+  rows, 409 T-cell-specific activation candidates, 333 non-immune-only effects, and 20 campaign
+  intersections headed by PGGT1B.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -176,6 +181,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/campaign_pressure_summary.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
+- `/data/cross_substrate_discovery.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -209,6 +215,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet
+./prospect cross-substrate-discovery # write the cross-substrate discovery packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle

@@ -156,7 +156,13 @@ Go or no-go:
 
 ## Workstream 2: cross-substrate discovery
 
-Priority: P0, best protocol advancement if donor replay is blocked.
+Priority: P0, shipped as the first frontier-advancement slice.
+
+Current shipped surface: `./prospect cross-substrate-discovery` emits
+`examples/data/cross_substrate_discovery.json`, [CROSS_SUBSTRATE_DISCOVERY.md](CROSS_SUBSTRATE_DISCOVERY.md),
+and `/data/cross_substrate_discovery.json`. It classifies 11,526 Marson rows into 80 shared
+cellular machinery rows, 409 T-cell-specific activation candidates, 333 non-immune-only effects,
+and 10,704 ambiguous or not tested rows, with 20 campaign intersections headed by PGGT1B.
 
 Goal: move beyond the current four exemplar rows and rank all overlapping genes by cross-substrate
 class: shared cellular machinery, T-cell-specific activation, non-immune-only effect, and
@@ -194,7 +200,8 @@ Deliverables:
 - `./prospect cross-substrate-discovery`
 - `examples/data/cross_substrate_discovery.json`
 - `docs/CROSS_SUBSTRATE_DISCOVERY.md`
-- A compact top-20 table in the Agent or Findings tab if it changes the story.
+- `/data/cross_substrate_discovery.json`
+- A compact campaign-intersection table in the Findings tab.
 
 Status:
 

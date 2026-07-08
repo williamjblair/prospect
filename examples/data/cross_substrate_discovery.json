@@ -1,0 +1,1372 @@
+{
+  "title": "Cross-substrate discovery packet",
+  "status": "computationally_reproduced",
+  "trust_boundary": "frozen_counts_over_committed_tables",
+  "accepted_state_mutation": "none",
+  "signed_frontier_root": "root_a8b0dcdd4024e12f",
+  "source_tables": [
+    {
+      "path": "examples/data/atlas_backbone.json",
+      "role": "primary_human_cd4_t_cell_counts"
+    },
+    {
+      "path": "examples/data/replogle_k562_de.csv",
+      "role": "k562_non_immune_counts"
+    },
+    {
+      "path": "examples/data/replogle_rpe1_de.csv",
+      "role": "rpe1_non_immune_counts"
+    },
+    {
+      "path": "examples/data/agent_campaign.json",
+      "role": "proposal_only_campaign_ranks"
+    }
+  ],
+  "method": {
+    "model_in_trust_path": "no",
+    "accepted_state_mutation": "none",
+    "replay_command": "./prospect cross-substrate-discovery",
+    "classifier": "fixed_threshold_counts",
+    "ranking": "class_priority_then_non_immune_de_then_stim_de"
+  },
+  "thresholds": {
+    "rest_high_de": 1000,
+    "rest_tolerated_de_for_t_cell_candidate": 250,
+    "stim_strong_de": 100,
+    "marson_low_de_for_non_immune_only": 10,
+    "non_immune_major_de": 25,
+    "non_immune_low_de": 25
+  },
+  "classes": [
+    {
+      "class": "shared_cellular_machinery",
+      "rule": "Rest Marson DE above 1000 and any non-immune DE above 25.",
+      "use": "Flag broad cellular machinery before treating a T-cell effect as specific."
+    },
+    {
+      "class": "t_cell_specific_activation",
+      "rule": "On-target stimulated Marson DE above 100, Rest DE at or below 250, and measured non-immune DE at or below 25.",
+      "use": "Prioritize activation-biased CD4+ hypotheses for proposal-only assay follow-up."
+    },
+    {
+      "class": "non_immune_only_effect",
+      "rule": "At least one on-target Marson condition, Marson on-target DE below 10, and any non-immune DE above 25.",
+      "use": "Find cross-dataset disagreements that should not be promoted as CD4+ regulators."
+    },
+    {
+      "class": "ambiguous_or_not_tested",
+      "rule": "Rows with missing comparison data, missing effective Marson knockdown, or mixed evidence.",
+      "use": "Keep uncertain rows outside stronger classes."
+    }
+  ],
+  "counts": {
+    "marson_genes_considered": 11526,
+    "overlap_k562": 8112,
+    "overlap_rpe1": 1337,
+    "overlap_any_non_immune": 8112,
+    "campaign_rows_intersected": 20
+  },
+  "class_counts": {
+    "shared_cellular_machinery": 80,
+    "t_cell_specific_activation": 409,
+    "non_immune_only_effect": 333,
+    "ambiguous_or_not_tested": 10704
+  },
+  "exemplar_rows": [
+    {
+      "gene": "MED19",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2012,
+      "stim8hr_de": 3869,
+      "stim48hr_de": 1270,
+      "stim_max_de": 3869,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 3716,
+      "rpe1_de": 3090,
+      "non_immune_max_de": 3716,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TADA2B",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 4681,
+      "stim8hr_de": 5920,
+      "stim48hr_de": 5260,
+      "stim_max_de": 5920,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 149,
+      "rpe1_de": 657,
+      "non_immune_max_de": 657,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "BCL10",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1,
+      "stim8hr_de": 3456,
+      "stim48hr_de": 2980,
+      "stim_max_de": 3456,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 2,
+      "rpe1_de": null,
+      "non_immune_max_de": 2,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "PGGT1B",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 175,
+      "stim8hr_de": 3014,
+      "stim48hr_de": 202,
+      "stim_max_de": 3014,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 1,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "RAC3",
+      "cross_substrate_class": "non_immune_only_effect",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 0,
+      "stim8hr_de": 0,
+      "stim48hr_de": 3,
+      "stim_max_de": 3,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim48hr"
+      ],
+      "k562_de": 245,
+      "rpe1_de": 3499,
+      "non_immune_max_de": 3499,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "LAT",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 4,
+      "stim8hr_de": 5536,
+      "stim48hr_de": 3187,
+      "stim_max_de": 5536,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": null,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": null,
+      "campaign_status": null
+    }
+  ],
+  "top_rows": [
+    {
+      "gene": "MED19",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2012,
+      "stim8hr_de": 3869,
+      "stim48hr_de": 1270,
+      "stim_max_de": 3869,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 3716,
+      "rpe1_de": 3090,
+      "non_immune_max_de": 3716,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "MED12",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2843,
+      "stim8hr_de": 4142,
+      "stim48hr_de": 2046,
+      "stim_max_de": 4142,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 3576,
+      "rpe1_de": 1464,
+      "non_immune_max_de": 3576,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "RTRAF",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1144,
+      "stim8hr_de": 2287,
+      "stim48hr_de": 581,
+      "stim_max_de": 2287,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1042,
+      "rpe1_de": 2818,
+      "non_immune_max_de": 2818,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "ATP2A2",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 3519,
+      "stim8hr_de": 3260,
+      "stim48hr_de": 1566,
+      "stim_max_de": 3260,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 7,
+      "rpe1_de": 2729,
+      "non_immune_max_de": 2729,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "KDM1A",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2018,
+      "stim8hr_de": 2301,
+      "stim48hr_de": 2913,
+      "stim_max_de": 2913,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 2645,
+      "rpe1_de": 403,
+      "non_immune_max_de": 2645,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "EHMT2",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1429,
+      "stim8hr_de": 1178,
+      "stim48hr_de": 1007,
+      "stim_max_de": 1178,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 204,
+      "rpe1_de": 2289,
+      "non_immune_max_de": 2289,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "WDR82",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1253,
+      "stim8hr_de": 1792,
+      "stim48hr_de": 1563,
+      "stim_max_de": 1792,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1995,
+      "rpe1_de": 20,
+      "non_immune_max_de": 1995,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "EIF1AX",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1289,
+      "stim8hr_de": 2577,
+      "stim48hr_de": 47,
+      "stim_max_de": 2577,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr"
+      ],
+      "k562_de": 919,
+      "rpe1_de": 1734,
+      "non_immune_max_de": 1734,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "CHD4",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1200,
+      "stim8hr_de": 1517,
+      "stim48hr_de": 417,
+      "stim_max_de": 1517,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 413,
+      "rpe1_de": 1544,
+      "non_immune_max_de": 1544,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "ELOB",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1491,
+      "stim8hr_de": 3052,
+      "stim48hr_de": 2340,
+      "stim_max_de": 3052,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 310,
+      "rpe1_de": 1528,
+      "non_immune_max_de": 1528,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "ELOF1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 3300,
+      "stim8hr_de": 4213,
+      "stim48hr_de": 4258,
+      "stim_max_de": 4258,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1439,
+      "rpe1_de": 1149,
+      "non_immune_max_de": 1439,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "DHX36",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2327,
+      "stim8hr_de": 1809,
+      "stim48hr_de": 2299,
+      "stim_max_de": 2299,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1434,
+      "rpe1_de": 1214,
+      "non_immune_max_de": 1434,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TIMM10",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1352,
+      "stim8hr_de": 1056,
+      "stim48hr_de": 125,
+      "stim_max_de": 1056,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 7,
+      "rpe1_de": 1365,
+      "non_immune_max_de": 1365,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "CPSF6",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2158,
+      "stim8hr_de": 2487,
+      "stim48hr_de": 1390,
+      "stim_max_de": 2487,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1284,
+      "rpe1_de": 1000,
+      "non_immune_max_de": 1284,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "NFRKB",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 3020,
+      "stim8hr_de": 2892,
+      "stim48hr_de": 2520,
+      "stim_max_de": 2892,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1117,
+      "rpe1_de": 702,
+      "non_immune_max_de": 1117,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "STAT5B",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1135,
+      "stim8hr_de": 595,
+      "stim48hr_de": 1060,
+      "stim_max_de": 1060,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1053,
+      "rpe1_de": 257,
+      "non_immune_max_de": 1053,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "PTEN",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2929,
+      "stim8hr_de": 1639,
+      "stim48hr_de": 463,
+      "stim_max_de": 1639,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 292,
+      "rpe1_de": 1017,
+      "non_immune_max_de": 1017,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "SRF",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1044,
+      "stim8hr_de": 6,
+      "stim48hr_de": 13,
+      "stim_max_de": 6,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 16,
+      "rpe1_de": 980,
+      "non_immune_max_de": 980,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TAF13",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2190,
+      "stim8hr_de": 3342,
+      "stim48hr_de": 2100,
+      "stim_max_de": 3342,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 284,
+      "rpe1_de": 969,
+      "non_immune_max_de": 969,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "GABPB1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1030,
+      "stim8hr_de": 1582,
+      "stim48hr_de": 790,
+      "stim_max_de": 1582,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 260,
+      "rpe1_de": 958,
+      "non_immune_max_de": 958,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "SMG7",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1668,
+      "stim8hr_de": 1765,
+      "stim48hr_de": 905,
+      "stim_max_de": 1765,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 75,
+      "rpe1_de": 935,
+      "non_immune_max_de": 935,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "EIF4G2",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2014,
+      "stim8hr_de": 2530,
+      "stim48hr_de": 1830,
+      "stim_max_de": 2530,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 590,
+      "rpe1_de": 906,
+      "non_immune_max_de": 906,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "WAC",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1165,
+      "stim8hr_de": 2476,
+      "stim48hr_de": 1669,
+      "stim_max_de": 2476,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 138,
+      "rpe1_de": 840,
+      "non_immune_max_de": 840,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "STRAP",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1700,
+      "stim8hr_de": 1216,
+      "stim48hr_de": 850,
+      "stim_max_de": 1216,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 562,
+      "rpe1_de": 838,
+      "non_immune_max_de": 838,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "CCNC",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2731,
+      "stim8hr_de": 2271,
+      "stim48hr_de": 4091,
+      "stim_max_de": 4091,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 435,
+      "rpe1_de": 826,
+      "non_immune_max_de": 826,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "MYB",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1325,
+      "stim8hr_de": 1025,
+      "stim48hr_de": 1222,
+      "stim_max_de": 1222,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 735,
+      "rpe1_de": 4,
+      "non_immune_max_de": 735,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "SMARCB1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2130,
+      "stim8hr_de": 1921,
+      "stim48hr_de": 1037,
+      "stim_max_de": 1921,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 282,
+      "rpe1_de": 723,
+      "non_immune_max_de": 723,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "DENR",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1897,
+      "stim8hr_de": 3637,
+      "stim48hr_de": 1483,
+      "stim_max_de": 3637,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 717,
+      "rpe1_de": 193,
+      "non_immune_max_de": 717,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "SUPT20H",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 3072,
+      "stim8hr_de": 3948,
+      "stim48hr_de": 3312,
+      "stim_max_de": 3948,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 712,
+      "rpe1_de": 687,
+      "non_immune_max_de": 712,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "ATXN10",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1377,
+      "stim8hr_de": 1306,
+      "stim48hr_de": 0,
+      "stim_max_de": 1306,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 158,
+      "rpe1_de": 690,
+      "non_immune_max_de": 690,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "UBE2L3",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1905,
+      "stim8hr_de": 2874,
+      "stim48hr_de": 1071,
+      "stim_max_de": 2874,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 74,
+      "rpe1_de": 674,
+      "non_immune_max_de": 674,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TADA2B",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 4681,
+      "stim8hr_de": 5920,
+      "stim48hr_de": 5260,
+      "stim_max_de": 5920,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 149,
+      "rpe1_de": 657,
+      "non_immune_max_de": 657,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "BRD8",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1903,
+      "stim8hr_de": 3693,
+      "stim48hr_de": 827,
+      "stim_max_de": 3693,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 625,
+      "rpe1_de": 49,
+      "non_immune_max_de": 625,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TSPYL5",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1799,
+      "stim8hr_de": 2233,
+      "stim48hr_de": 1594,
+      "stim_max_de": 2233,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr"
+      ],
+      "k562_de": 41,
+      "rpe1_de": 619,
+      "non_immune_max_de": 619,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "LEO1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 3015,
+      "stim8hr_de": 2664,
+      "stim48hr_de": 1791,
+      "stim_max_de": 2664,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 586,
+      "rpe1_de": 615,
+      "non_immune_max_de": 615,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "IMPA2",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 1145,
+      "stim8hr_de": 11,
+      "stim48hr_de": 2,
+      "stim_max_de": 11,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 587,
+      "rpe1_de": 389,
+      "non_immune_max_de": 587,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "MED24",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1539,
+      "stim8hr_de": 2795,
+      "stim48hr_de": 1607,
+      "stim_max_de": 2795,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 531,
+      "rpe1_de": 111,
+      "non_immune_max_de": 531,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "TADA1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2944,
+      "stim8hr_de": 3649,
+      "stim48hr_de": 3114,
+      "stim_max_de": 3649,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 274,
+      "rpe1_de": 516,
+      "non_immune_max_de": 516,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "SETDB1",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 2291,
+      "stim8hr_de": 1309,
+      "stim48hr_de": 1184,
+      "stim_max_de": 1309,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 505,
+      "rpe1_de": 142,
+      "non_immune_max_de": 505,
+      "campaign_rank": null,
+      "campaign_status": null
+    },
+    {
+      "gene": "CASC3",
+      "cross_substrate_class": "shared_cellular_machinery",
+      "prospect_class": "constitutive_regulator",
+      "rest_de": 1239,
+      "stim8hr_de": 1431,
+      "stim48hr_de": 1028,
+      "stim_max_de": 1431,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 331,
+      "rpe1_de": 500,
+      "non_immune_max_de": 500,
+      "campaign_rank": null,
+      "campaign_status": null
+    }
+  ],
+  "campaign_intersections": [
+    {
+      "gene": "PGGT1B",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 175,
+      "stim8hr_de": 3014,
+      "stim48hr_de": 202,
+      "stim_max_de": 3014,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 1,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "RCC1L",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 58,
+      "stim8hr_de": 2,
+      "stim48hr_de": 1167,
+      "stim_max_de": 1167,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 5,
+      "rpe1_de": null,
+      "non_immune_max_de": 5,
+      "campaign_rank": 2,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "MCAT",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 113,
+      "stim8hr_de": 2,
+      "stim48hr_de": 780,
+      "stim_max_de": 780,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 20,
+      "rpe1_de": null,
+      "non_immune_max_de": 20,
+      "campaign_rank": 3,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "RWDD2B",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 190,
+      "stim8hr_de": 720,
+      "stim48hr_de": 1,
+      "stim_max_de": 720,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 4,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "CCDC22",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 116,
+      "stim8hr_de": 1,
+      "stim48hr_de": 619,
+      "stim_max_de": 619,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 13,
+      "rpe1_de": null,
+      "non_immune_max_de": 13,
+      "campaign_rank": 5,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "GAS2L1",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 20,
+      "stim8hr_de": 2,
+      "stim48hr_de": 457,
+      "stim_max_de": 457,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim48hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 6,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "SNAP29",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 19,
+      "stim8hr_de": 407,
+      "stim48hr_de": 2,
+      "stim_max_de": 407,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 7,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "CYB5RL",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 11,
+      "stim8hr_de": 1,
+      "stim48hr_de": 389,
+      "stim_max_de": 389,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 13,
+      "rpe1_de": null,
+      "non_immune_max_de": 13,
+      "campaign_rank": 8,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "LETM2",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 18,
+      "stim8hr_de": 47,
+      "stim48hr_de": 386,
+      "stim_max_de": 386,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": null,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 9,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "DAPK2",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 11,
+      "stim8hr_de": 13,
+      "stim48hr_de": 350,
+      "stim_max_de": 350,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim48hr"
+      ],
+      "k562_de": null,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 10,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "SCO2",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 53,
+      "stim8hr_de": 369,
+      "stim48hr_de": 200,
+      "stim_max_de": 369,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 0,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 11,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "CCDC136",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 17,
+      "stim8hr_de": 38,
+      "stim48hr_de": 263,
+      "stim_max_de": 263,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim48hr"
+      ],
+      "k562_de": 0,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 12,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "MITD1",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 11,
+      "stim8hr_de": 1,
+      "stim48hr_de": 250,
+      "stim_max_de": 250,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 13,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "GZMB",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 261,
+      "stim8hr_de": 496,
+      "stim48hr_de": 6,
+      "stim_max_de": 496,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr"
+      ],
+      "k562_de": null,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 14,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "FANCL",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 110,
+      "stim8hr_de": 181,
+      "stim48hr_de": 329,
+      "stim_max_de": 329,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "k562_de": 0,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 15,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "TNNC1",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 104,
+      "stim8hr_de": 136,
+      "stim48hr_de": 260,
+      "stim_max_de": 260,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Stim48hr"
+      ],
+      "k562_de": null,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 16,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "BCKDHA",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 291,
+      "stim8hr_de": 374,
+      "stim48hr_de": 0,
+      "stim_max_de": 374,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr"
+      ],
+      "k562_de": 1,
+      "rpe1_de": null,
+      "non_immune_max_de": 1,
+      "campaign_rank": 17,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "ZC3H12A",
+      "cross_substrate_class": "t_cell_specific_activation",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 181,
+      "stim8hr_de": 261,
+      "stim48hr_de": 796,
+      "stim_max_de": 261,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim8hr"
+      ],
+      "k562_de": 5,
+      "rpe1_de": null,
+      "non_immune_max_de": 5,
+      "campaign_rank": 18,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "IRF4",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 325,
+      "stim8hr_de": 567,
+      "stim48hr_de": 498,
+      "stim_max_de": 567,
+      "strongest_stim_condition": "Stim8hr",
+      "marson_on_target_conditions": [
+        "Stim8hr"
+      ],
+      "k562_de": 0,
+      "rpe1_de": null,
+      "non_immune_max_de": 0,
+      "campaign_rank": 19,
+      "campaign_status": "evidence_attached"
+    },
+    {
+      "gene": "RXRB",
+      "cross_substrate_class": "ambiguous_or_not_tested",
+      "prospect_class": "condition_specific_regulator",
+      "rest_de": 308,
+      "stim8hr_de": 116,
+      "stim48hr_de": 422,
+      "stim_max_de": 422,
+      "strongest_stim_condition": "Stim48hr",
+      "marson_on_target_conditions": [
+        "Rest",
+        "Stim48hr"
+      ],
+      "k562_de": 2,
+      "rpe1_de": null,
+      "non_immune_max_de": 2,
+      "campaign_rank": 20,
+      "campaign_status": "evidence_attached"
+    }
+  ],
+  "limitations": "This packet proves computation over released frozen tables. It does not prove wet-lab result, clinical result, or accepted biological state."
+}

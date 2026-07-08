@@ -120,6 +120,9 @@ checkers. It is `computationally_reproduced` and changes no accepted state.
 `prospect substrate-replay` emits the protocol-generalization packet: one checker contract, three
 frozen substrates, typed status, and no accepted-state mutation.
 
+`prospect cross-substrate-discovery` classifies every frozen Marson row against K562 and RPE1 counts,
+then intersects those classes with the proposal-only campaign leaderboard.
+
 `prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
 required gates, public artifacts, trust boundary, and human-only actions.
 
@@ -145,6 +148,7 @@ Current public artifacts:
 - `/data/campaign_pressure_summary.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
+- `/data/cross_substrate_discovery.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
@@ -180,6 +184,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # build the transfer replay packet
 ./prospect substrate-replay       # build the substrate replay packet
+./prospect cross-substrate-discovery # build the cross-substrate discovery packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle
