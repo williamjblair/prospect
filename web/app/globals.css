@@ -69,6 +69,19 @@
   --state-deprecated-tint: color-mix(in oklab, var(--stone) 10%, transparent);
   --state-deprecated-line: color-mix(in oklab, var(--stone) 35%, transparent);
 
+  /* Canvas graph tokens. Sigma renders through canvas, so these are resolved
+     token companions in sRGB syntax while the UI source still reads the
+     Observatory names instead of literals. */
+  --graph-moss: rgb(78 122 68);
+  --graph-blue: rgb(74 95 138);
+  --graph-stone: rgb(138 130 114);
+  --graph-brass: rgb(176 135 47);
+  --graph-focus: rgb(201 154 58);
+  --graph-up-edge: rgba(78, 122, 68, 0.34);
+  --graph-down-edge: rgba(176, 67, 44, 0.34);
+  --graph-label: rgb(42 47 58);
+  --graph-edge: rgba(18, 21, 27, 0.1);
+
   /* Hasui ambients , the night-band palette. Twilight indigo replaces the
      raw hex hero background; snow is the cool surface for archival/stale
      (old reads as temperature, not greyout); lantern is mix-only, a wash
@@ -320,6 +333,8 @@
   --cinnabar: oklch(64% 0.13 35);
   --field-blue: oklch(64% 0.07 256);
   --plum: oklch(66% 0.08 330);
+  --graph-label: rgb(201 211 224);
+  --graph-edge: rgba(255, 255, 255, 0.12);
 
   /* Lacquer goes deeper still on the night sheet (the ProofWell stays the
      darkest surface in both themes, Observatory rule 1.1). */
@@ -964,6 +979,26 @@ a:hover > .card-paper {
 .state-row__op {
   color: color-mix(in oklab, var(--state, var(--stone)) 78%, var(--ink));
   letter-spacing: 0.01em;
+}
+
+.graph-legend-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  margin-right: 5px;
+}
+
+.graph-legend-dot-focus {
+  background: var(--graph-focus);
+}
+
+.graph-legend-dot-regulator {
+  background: var(--graph-moss);
+}
+
+.graph-legend-dot-target {
+  background: var(--graph-stone);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────

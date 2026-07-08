@@ -2,17 +2,48 @@
 
 import { useEffect, useRef } from "react";
 
-// hex approximations of the observatory materials (sigma renders to canvas, so
-// it needs real colors, not CSS vars). Mid-tones that read on paper and night.
-const PAL = {
-  moss: "#4e7a44", blue: "#4a5f8a", stone: "#8a8272", brass: "#b0872f",
-  gold: "#c99a3a", cinnabar: "#b0432c",
+const FALLBACK = {
+  moss: "rgb(78 122 68)",
+  blue: "rgb(74 95 138)",
+  stone: "rgb(138 130 114)",
+  brass: "rgb(176 135 47)",
+  gold: "rgb(201 154 58)",
+  snow: "rgb(201 211 224)",
+  ink: "rgb(42 47 58)",
+  rule: "rgba(18, 21, 27, 0.1)",
+  reproducedLine: "rgba(78, 122, 68, 0.34)",
+  refutedLine: "rgba(176, 67, 44, 0.34)",
 };
-const classColor = (cls: string) =>
-  cls === "constitutive_regulator" ? PAL.moss
-  : cls === "condition_specific_regulator" ? PAL.blue
-  : cls === "unverifiable_no_kd" ? PAL.brass
-  : PAL.stone;
+
+function token(name: string, fallback: string) {
+  if (typeof document === "undefined") return fallback;
+  const probe = document.createElement("span");
+  probe.style.color = `var(${name}, ${fallback})`;
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).color || fallback;
+  probe.remove();
+  return color;
+}
+
+function graphPalette(dark: boolean) {
+  return {
+    moss: token("--graph-moss", FALLBACK.moss),
+    blue: token("--graph-blue", FALLBACK.blue),
+    stone: token("--graph-stone", FALLBACK.stone),
+    brass: token("--graph-brass", FALLBACK.brass),
+    gold: token("--graph-focus", FALLBACK.gold),
+    upEdge: token("--graph-up-edge", FALLBACK.reproducedLine),
+    downEdge: token("--graph-down-edge", FALLBACK.refutedLine),
+    label: token("--graph-label", dark ? FALLBACK.snow : FALLBACK.ink),
+    defaultEdge: token("--graph-edge", FALLBACK.rule),
+  };
+}
+
+const classColor = (cls: string, pal: ReturnType<typeof graphPalette>) =>
+  cls === "constitutive_regulator" ? pal.moss
+  : cls === "condition_specific_regulator" ? pal.blue
+  : cls === "unverifiable_no_kd" ? pal.brass
+  : pal.stone;
 
 type GData = {
   atlas: { g: string; cls: string; od: number; id: number }[];
@@ -36,6 +67,7 @@ export function GraphView({
       const meta = new Map(data.atlas.map((n) => [n.g, n]));
       const out = data.out[focus] || [], inn = data.in[focus] || [];
       const ids = new Set<string>([focus, ...out.map((x) => x.t), ...inn.map((x) => x.s)]);
+      const pal = graphPalette(dark);
 
       const g = new Graph();
       for (const id of ids) {
@@ -45,12 +77,12 @@ export function GraphView({
           label: id,
           x: Math.random(), y: Math.random(),
           size: isFocus ? 13 : Math.max(4, Math.min(11, 4 + (m ? Math.log((m.od || 0) + 1) * 1.4 : 0))),
-          color: isFocus ? PAL.gold : m ? classColor(m.cls) : PAL.stone,
+          color: isFocus ? pal.gold : m ? classColor(m.cls, pal) : pal.stone,
         });
       }
       const addEdge = (s: string, t: string, d: string) => {
         if (s !== t && g.hasNode(s) && g.hasNode(t) && !g.hasEdge(s, t))
-          g.addEdgeWithKey(`${s}>${t}`, s, t, { size: 1.1, color: d === "up" ? "#4e7a4455" : "#b0432c55" });
+          g.addEdgeWithKey(`${s}>${t}`, s, t, { size: 1.1, color: d === "up" ? pal.upEdge : pal.downEdge });
       };
       for (const x of out) addEdge(focus, x.t, x.d);
       for (const x of inn) addEdge(x.s, focus, x.d);
@@ -63,11 +95,11 @@ export function GraphView({
       });
 
       renderer = new Sigma(g, ref.current, {
-        labelColor: { color: dark ? "#c9d3e0" : "#2a2f3a" },
+        labelColor: { color: pal.label },
         labelSize: 11,
         labelFont: "var(--font-mono), ui-monospace, monospace",
         labelDensity: 0.7, labelGridCellSize: 60,
-        defaultEdgeColor: dark ? "#ffffff20" : "#0000001a",
+        defaultEdgeColor: pal.defaultEdge,
         zIndex: true,
       });
       renderer.on("clickNode", ({ node }: any) => onFocus(node));

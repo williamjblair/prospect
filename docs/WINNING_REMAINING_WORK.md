@@ -16,7 +16,9 @@ static web data. Production smoke fetches every public artifact endpoint and che
 judge packet's public-data list exactly matches the shared `submit-pack` manifest.
 `docs/JUDGE_QUICKSTART.md` now gives judges a five-minute route through the live app, replay
 commands, typed statuses, receipt boundary, and public artifacts. The live Overview also links
-that quickstart from the judge packet card.
+that quickstart from the judge packet card. The Network graph and legend now resolve through
+Observatory graph tokens rather than raw hex literals, with a repo hygiene guardrail keeping React UI
+source token-based.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -100,6 +102,8 @@ Current full-gate evidence:
 - `cd web && npm run build` passed.
 - Generated transfer replay, judge packet, and static web data drift checks passed.
 - `./prospect submit-smoke` passed against production and fetched all 15 public artifact endpoints.
+- Network graph browser QA passed after the graph-token hardening: nonblank canvas, token-colored
+  nodes, and visible token-colored legend dots.
 - Browser QA passed on local port 8124 and production alias.
 - Repo scans passed for no em dashes, no attribution footers, no forbidden prior-work references,
   no retired CSS vocabulary, no stale `verified` state-token names, and no changed-file secret values.

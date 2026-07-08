@@ -683,9 +683,9 @@ function NetworkView({ d, focus, setFocus, dark, onGene }:
       </form>
       {focus && <GraphView data={d} focus={focus} onFocus={setFocus} dark={dark} />}
       <div className="t-caption" style={{ marginTop: 10, display: "flex", gap: 16, flexWrap: "wrap" }}>
-        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#c99a3a", marginRight: 5 }} />focus gene</span>
-        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#4e7a44", marginRight: 5 }} />regulator</span>
-        <span><i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 999, background: "#8a8272", marginRight: 5 }} />target</span>
+        <span><i className="graph-legend-dot graph-legend-dot-focus" />focus gene</span>
+        <span><i className="graph-legend-dot graph-legend-dot-regulator" />regulator</span>
+        <span><i className="graph-legend-dot graph-legend-dot-target" />target</span>
         <span>node size = downstream reach · edges sliced live from the released DE matrix</span>
       </div>
     </div>

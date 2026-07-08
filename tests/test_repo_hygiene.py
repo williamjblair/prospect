@@ -93,10 +93,25 @@ def test_observatory_interaction_motion_uses_deliberate_durations():
     assert "transition: background-color 180ms var(--ease), color 180ms var(--ease);" in css
 
 
+def test_react_ui_uses_observatory_tokens_not_raw_hex():
+    offenders: list[str] = []
+    for path in [
+        ROOT / "web" / "app" / "page.tsx",
+        ROOT / "web" / "components" / "graph-view.tsx",
+    ]:
+        text = path.read_text()
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if "#" in line:
+                offenders.append(f"{path.relative_to(ROOT)}:{line_no}: {line.strip()}")
+
+    assert not offenders, "\n".join(offenders)
+
+
 if __name__ == "__main__":
     test_tracked_files_do_not_contain_em_dash_or_attribution_footer()
     test_tracked_files_do_not_contain_prior_work_or_weak_status_markers()
     test_observatory_css_does_not_keep_retired_project_vocabulary()
     test_observatory_css_uses_typed_status_names_not_verified()
     test_observatory_interaction_motion_uses_deliberate_durations()
+    test_react_ui_uses_observatory_tokens_not_raw_hex()
     print("PASS: repo hygiene")
