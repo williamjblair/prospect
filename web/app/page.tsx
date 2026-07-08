@@ -702,7 +702,17 @@ const BRIDGE_METHOD_ORDER = [
   "prospect.receipt.submit",
 ];
 
-function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]>; bridge?: Data["receipt_bridge"] }) {
+function Receipts({
+  receipts,
+  bridge,
+  bridgeDemo,
+}: {
+  receipts: NonNullable<Data["receipts"]>;
+  bridge?: Data["receipt_bridge"];
+  bridgeDemo?: JudgePacket["receipt_bridge_demo"];
+}) {
+  const boundaryCommand = bridgeDemo?.json_command || "python examples/receipt_bridge_client.py --json";
+  const boundaryNext = bridgeDemo?.next || "human_signature_required";
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <div>
@@ -758,6 +768,15 @@ function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]
                 </div>
               </div>
             ))}
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap",
+            padding: "9px 10px", border: "1px solid var(--rule-faint)",
+            borderRadius: "var(--radius-sm)", background: "var(--gold-tint, var(--state-open-tint))" }}>
+            <span className="t-label" style={{ color: "var(--gold-ink)" }}>Try the boundary</span>
+            <span className="t-mono fz-2xs" style={{ color: "var(--gold-ink)", fontWeight: 700 }}>{boundaryCommand}</span>
+            <span className="t-caption" style={{ color: "var(--ink-3)" }}>
+              expected accepted=false, next={boundaryNext}
+            </span>
           </div>
         </div>
       )}
@@ -817,7 +836,9 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       </div>
 
-      {d.receipts && d.receipts.length > 0 && <Receipts receipts={d.receipts} bridge={d.receipt_bridge} />}
+      {d.receipts && d.receipts.length > 0 && (
+        <Receipts receipts={d.receipts} bridge={d.receipt_bridge} bridgeDemo={d.judge_packet?.receipt_bridge_demo} />
+      )}
 
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions, where AI claims meet the data</div>

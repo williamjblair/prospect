@@ -15,6 +15,10 @@ def test_frontier_surfaces_executable_receipt_bridge_path():
     assert "prospect.receipt.submit" in source
     assert "receipt_bridge_demo" in source
     assert "receipt_bridge_client.py" in source
+    assert "Try the boundary" in source
+    assert "json_command" in source
+    assert "accepted=false" in source
+    assert "human_signature_required" in source
 
 
 if __name__ == "__main__":

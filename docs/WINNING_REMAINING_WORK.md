@@ -6,7 +6,8 @@ Live project: https://prospect-sepia-six.vercel.app
 
 Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
 the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, and
-transfer replay packet shipped.
+transfer replay packet shipped. The Frontier tab now also includes the judge-facing "Try the boundary"
+receipt bridge strip.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -196,6 +197,7 @@ These could improve the chance of winning without changing the core scientific s
      - Show it in the final demo only if there is time after the receipt bridge and lab handoff.
 
 4. **Add a judge-facing receipt bridge card or walkthrough link in the UI.**
+   - Current state: shipped in the Frontier tab as "Try the boundary."
    - Why it matters: the current Frontier tab links bridge artifacts, but the proof that a submitted
      receipt stays proposal-only may be more legible as a short UI beat.
    - Shape:
@@ -203,8 +205,8 @@ These could improve the chance of winning without changing the core scientific s
      - Show the three MCP tools and the key invariant: `submit` returns `accepted: false`.
      - Link to the walkthrough or public contract.
    - Gate:
-     - Static UI contract test.
-     - Browser smoke.
+     - Static UI contract test passed.
+     - Browser smoke passed on local port 8124 with system Chrome.
    - Risk:
      - Low to medium. Avoid adding cards inside cards or explanatory clutter.
 
