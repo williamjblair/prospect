@@ -40,7 +40,7 @@ SHIPPED_WORKSTREAMS = [
     {
         "workstream": "claude_campaign_pressure",
         "state": "shipped",
-        "evidence": ["./prospect campaign-pressure", "/data/campaign_pressure_summary.json"],
+        "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
     },
     {
         "workstream": "gladstone_assay_operations",
@@ -108,7 +108,7 @@ COMPLETION_REQUIREMENTS = [
     {
         "requirement": "claude_campaign_pressure",
         "status": "shipped",
-        "evidence": ["./prospect campaign-pressure", "/data/campaign_pressure_summary.json"],
+        "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
     },
     {
         "requirement": "gladstone_assay_operations",

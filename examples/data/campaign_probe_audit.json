@@ -1,0 +1,50 @@
+{
+  "title": "Campaign probe audit",
+  "status": "computationally_reproduced",
+  "trust_boundary": "frozen_audit_over_probe_artifact",
+  "model_in_trust_path": "no",
+  "accepted_state_mutations": 0,
+  "source": "examples/data/campaign_agent_probe.json",
+  "source_probe_id": "campaign_probe_0890c20aed2180b0",
+  "campaign_id": "campaign_07a2bdd5697274c9",
+  "candidate_count": 8,
+  "coverage": {
+    "requested_limit": 8,
+    "returned_decisions": 8,
+    "coverage_status": "complete",
+    "missing_decisions": 0,
+    "requested_genes": [
+      "PGGT1B",
+      "RCC1L",
+      "MCAT",
+      "RWDD2B",
+      "CCDC22",
+      "GAS2L1",
+      "SNAP29",
+      "CYB5RL"
+    ],
+    "returned_genes": [
+      "PGGT1B",
+      "RCC1L",
+      "MCAT",
+      "RWDD2B",
+      "CCDC22",
+      "GAS2L1",
+      "SNAP29",
+      "CYB5RL"
+    ],
+    "missing_genes": []
+  },
+  "passed": "yes",
+  "issue_count": 0,
+  "checks": [
+    "proposal_only_status",
+    "complete_coverage",
+    "deterministic_review_lane_match",
+    "closed_recommendation_enum",
+    "rationale_contradicts_frozen_kd",
+    "rationale_contradicts_k562_transfer"
+  ],
+  "issues": [],
+  "promotion_rule": "A campaign probe can be promoted only when coverage is complete, recommendations are closed, deterministic review fields match, and rationale audit reports no frozen-fact contradictions."
+}

@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 21,
-  "hashed_artifact_count": 20,
+  "public_artifact_count": 22,
+  "hashed_artifact_count": 21,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -19,6 +19,7 @@
     "/data/agent_campaign.json",
     "/data/agent_campaign_review.json",
     "/data/campaign_agent_probe.json",
+    "/data/campaign_probe_audit.json",
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
     "/data/campaign_pressure_summary.json",
@@ -34,14 +35,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5688531,
-      "sha256": "d75b7a5ccb08d4f1f98bec2065f67ef23ede62802c759ba1b345705ab4145d1c"
+      "bytes": 5690341,
+      "sha256": "d05b6adabbdc0b115e190df8f3b8e95267046b3d4e56daf82b7855f572cf0d35"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 16913,
-      "sha256": "649cfd6bb3c6aaf0d0f9935d1658501bd141e0e9b4e0b39ea0652ac700ca37b7"
+      "bytes": 17345,
+      "sha256": "3639a7541cca46bf5ec07d241f9ae8cfe66a3447d72de02611e9a1d79ef3209c"
     },
     {
       "path": "/data/finding_index.json",
@@ -98,6 +99,12 @@
       "sha256": "bbcb8837d47fc921e7c824dab2fc7ea9e0b4b8faa47ccdf445e0024f4cb6cc64"
     },
     {
+      "path": "/data/campaign_probe_audit.json",
+      "source_path": "web/public/data/campaign_probe_audit.json",
+      "bytes": 1145,
+      "sha256": "bee3662b2ba80832e4dac7199820477b8494af2e4f4818a8b61471be5d166fac"
+    },
+    {
       "path": "/data/campaign_triage.json",
       "source_path": "web/public/data/campaign_triage.json",
       "bytes": 4268,
@@ -142,8 +149,8 @@
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 5244,
-      "sha256": "0892ca09e1e4318f3ceddfc860f84a72180c6ba0fb9f085e999b530bcec9a075"
+      "bytes": 5451,
+      "sha256": "646c5f5a2a41f7b418ab3b14d19c75775748a9765ed6dd60f413354177eb4e40"
     },
     {
       "path": "/data/rendered_qa_packet.json",

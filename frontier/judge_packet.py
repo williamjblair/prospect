@@ -42,6 +42,7 @@ def build_packet() -> dict[str, Any]:
     campaign = frontier["agent_campaign"]
     campaign_review = frontier.get("agent_campaign_review") or {}
     campaign_probe = frontier.get("campaign_agent_probe") or {}
+    campaign_probe_audit = frontier.get("campaign_probe_audit") or {}
     campaign_triage = frontier.get("campaign_triage") or {}
     campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
     campaign_pressure = frontier.get("campaign_pressure_summary") or {}
@@ -111,6 +112,7 @@ def build_packet() -> dict[str, Any]:
             "agent_campaign_candidates": len(campaign["candidates"]),
             "campaign_review_rows": len(campaign_review.get("rows", [])),
             "campaign_probe_rows": len(campaign_probe.get("rows", [])),
+            "campaign_probe_audit_issues": campaign_probe_audit.get("issue_count", 0),
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "campaign_gate_probe_rows": len(campaign_gate_probe.get("rows", [])),
             "campaign_pressure_rows": len(campaign_pressure.get("pressure_accounting", [])),
@@ -154,6 +156,13 @@ def build_packet() -> dict[str, Any]:
                 "candidate_count": len(campaign_probe.get("rows", [])),
                 "coverage": campaign_probe.get("coverage", {}),
                 "summary": campaign_probe.get("summary", {}),
+            },
+            "campaign_probe_audit": {
+                "status": campaign_probe_audit.get("status"),
+                "trust_boundary": campaign_probe_audit.get("trust_boundary"),
+                "passed": campaign_probe_audit.get("passed"),
+                "issue_count": campaign_probe_audit.get("issue_count"),
+                "promotion_rule": campaign_probe_audit.get("promotion_rule"),
             },
             "campaign_triage": {
                 "status": campaign_triage.get("status"),
@@ -242,6 +251,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign candidates: {counts['agent_campaign_candidates']}",
         f"- Campaign review rows: {counts['campaign_review_rows']}",
         f"- Campaign probe rows: {counts['campaign_probe_rows']}",
+        f"- Campaign probe audit issues: {counts['campaign_probe_audit_issues']}",
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Campaign gate probe rows: {counts['campaign_gate_probe_rows']}",
         f"- Campaign pressure rows: {counts['campaign_pressure_rows']}",

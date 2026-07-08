@@ -75,6 +75,8 @@ the graph on its own word. On top of it:
   closed recommendations, `gate_sufficient`, `add_control`, or `lower_priority`.
 - **Campaign pressure summary**: `prospect campaign-pressure` summarizes what Claude changed, what
   Prospect refused to change, and which assay gates remain before accepted state can move.
+- **Campaign probe audit**: `prospect campaign-probe-audit` replays probe coverage and rationales
+  through frozen facts before any larger Claude pass can be promoted into the public chain.
 - **Transfer replay packet**: `prospect transfer-replay` emits the compact replay object behind the
   signed cross-cell-type finding, using Marson and Replogle checkers without changing accepted state.
   The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
@@ -100,6 +102,8 @@ the trust floor after the event window without private credentials for the stati
   review.
 - **As triage input**: model pressure becomes review work, not state. `prospect campaign-triage`
   records the assay gates required before disagreement rows earn more capacity.
+- **As auditable pressure**: `prospect campaign-probe-audit` checks that probe coverage is complete
+  and rationales do not contradict frozen lookup facts before promotion.
 - **For literature**: finding contradictions are grounded in real reviews resolved through PubMed.
 - **To build**: the whole system was written in Claude Code during the event.
 
@@ -130,6 +134,8 @@ the trust floor after the event window without private credentials for the stati
   queues with orthogonal knockdown and transfer gates.
 - The gate probe asks whether those gates are sufficient, need another control, or should be lower
   priority. It is visible, proposal only, and does not move state.
+- The campaign probe audit is a frozen check over the committed Claude probe. It reports complete
+  coverage, zero rationale issues, and no accepted-state mutation.
 - The transfer replay packet compares 377 T-cell regulators against the Replogle K562/RPE1 frozen
   tables and keeps the result at `computationally_reproduced`, with no accepted-state mutation.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
@@ -160,6 +166,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`
@@ -193,6 +200,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect campaign-pressure      # summarize model pressure and remaining gates
+./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet

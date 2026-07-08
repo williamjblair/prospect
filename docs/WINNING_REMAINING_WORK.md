@@ -57,6 +57,7 @@ Prospect is currently strong enough to submit. Do not lose any of this while bui
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes against production.
 - `./prospect release-manifest` hashes the public data artifact surface.
+- `./prospect campaign-probe-audit` checks committed probe coverage and rationales before promotion.
 - `./prospect rendered-qa` emits the durable browser QA checklist.
 - `./prospect verify` re-derives 53,485 objects with 0 drift.
 - `python benchmark/mutation_pack.py` admits 0 tampered claims.
@@ -72,6 +73,7 @@ Preserve the floor with every change:
 ./prospect submit-smoke
 ./prospect release-manifest
 ./prospect rendered-qa
+./prospect campaign-probe-audit
 ./prospect submit-pack
 ./prospect demo-pack
 ```
@@ -185,7 +187,9 @@ more-aggressive rows converted to assay gates, gate-probe recommendations, and 0
 mutations. The campaign probe now records requested versus returned coverage, so a larger model pass
 cannot be mistaken for complete coverage if Claude returns fewer decisions than requested. The probe
 runner also supports bounded chunked live passes into temporary files, which is the right path for
-all-20 expansion experiments.
+all-20 expansion experiments. `./prospect campaign-probe-audit` is now the promotion gate for probe
+artifacts: it replays coverage, deterministic decision parity, closed recommendation enums, and
+rationale claims against frozen facts before a probe enters the public chain.
 
 Recommended shape:
 
@@ -198,6 +202,8 @@ Recommended shape:
   triage artifacts are regenerated together.
 - If a larger pass returns complete coverage but any rationale contradicts frozen lookup facts, keep
   it out of the public chain or turn the contradiction into explicit review work before promotion.
+- Run `./prospect campaign-probe-audit --input <probe.json> --out-json /tmp/audit.json --out-doc /tmp/audit.md --strict`
+  before considering any larger probe for promotion.
 - Keep outputs proposal-only and deterministic where possible.
 - Preserve existing enums such as `gate_sufficient`, `add_control`, and `lower_priority`.
 - Add a summary layer that tells judges what Claude changed, what Prospect refused to change, and

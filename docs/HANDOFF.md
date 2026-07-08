@@ -100,6 +100,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   The artifact records exact requested, returned, and missing genes, remains proposal-only, and does
   not move accepted state. For larger experiments, run chunked probes to `/tmp` first:
   `./prospect campaign-probe --limit 20 --chunk-size 4 --out-json /tmp/probe.json --out-doc /tmp/probe.md`.
+- **Campaign probe audit** (`loop/campaign_probe_audit.py`, `./prospect campaign-probe-audit`):
+  frozen audit over probe coverage and rationales before a Claude pass can be promoted. The committed
+  eight-row probe has zero issues, no accepted-state mutation, and is exported to
+  `examples/data/campaign_probe_audit.json` and [CAMPAIGN_PROBE_AUDIT.md](CAMPAIGN_PROBE_AUDIT.md).
 - **Campaign disagreement triage** (`frontier/campaign_triage.py`, `./prospect campaign-triage`):
   deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: RCC1L,
   MCAT, RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
@@ -184,7 +188,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -220,7 +224,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
-`agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
+`agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_probe_audit.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
 `campaign_gate_probe.json`, `campaign_pressure_summary.json`, `assay_operations_bundle.*`,
 `transfer_replay_packet.json`, `substrate_replay_packet.json`, `rendered_qa_packet.json`.
@@ -260,6 +264,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
+  The committed probe now has a frozen audit artifact at `./prospect campaign-probe-audit`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. Larger model passes are useful
   only if their requested versus returned coverage is explicit, rationales survive frozen-fact review,
   and downstream triage artifacts are regenerated together.

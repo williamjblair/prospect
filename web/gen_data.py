@@ -18,6 +18,7 @@ PGGT1B_SLICE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pub
 CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
 CAMPAIGN_REVIEW_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign_review.json")
 CAMPAIGN_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_agent_probe.json")
+CAMPAIGN_PROBE_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_probe_audit.json")
 CAMPAIGN_TRIAGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_triage.json")
 CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_gate_probe.json")
 CAMPAIGN_PRESSURE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_pressure_summary.json")
@@ -66,6 +67,8 @@ _campaign_review = os.path.join(DATA, "agent_campaign_review.json")
 agent_campaign_review = json.load(open(_campaign_review)) if os.path.exists(_campaign_review) else None
 _campaign_probe = os.path.join(DATA, "campaign_agent_probe.json")
 campaign_agent_probe = json.load(open(_campaign_probe)) if os.path.exists(_campaign_probe) else None
+_campaign_probe_audit = os.path.join(DATA, "campaign_probe_audit.json")
+campaign_probe_audit = json.load(open(_campaign_probe_audit)) if os.path.exists(_campaign_probe_audit) else None
 _campaign_triage = os.path.join(DATA, "campaign_triage.json")
 campaign_triage = json.load(open(_campaign_triage)) if os.path.exists(_campaign_triage) else None
 _campaign_gate_probe = os.path.join(DATA, "campaign_gate_probe.json")
@@ -151,6 +154,7 @@ data = {
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "agent_campaign_review": agent_campaign_review, "campaign_agent_probe": campaign_agent_probe,
+    "campaign_probe_audit": campaign_probe_audit,
     "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe,
     "campaign_pressure_summary": campaign_pressure_summary, "lab_packet": lab_packet,
     "assay_operations_bundle": assay_operations_bundle,
@@ -173,6 +177,8 @@ if agent_campaign_review:
     json.dump(agent_campaign_review, open(CAMPAIGN_REVIEW_OUT, "w"))
 if campaign_agent_probe:
     json.dump(campaign_agent_probe, open(CAMPAIGN_PROBE_OUT, "w"))
+if campaign_probe_audit:
+    json.dump(campaign_probe_audit, open(CAMPAIGN_PROBE_AUDIT_OUT, "w"))
 if campaign_triage:
     json.dump(campaign_triage, open(CAMPAIGN_TRIAGE_OUT, "w"))
 if campaign_gate_probe:

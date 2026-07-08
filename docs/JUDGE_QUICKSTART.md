@@ -66,6 +66,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`

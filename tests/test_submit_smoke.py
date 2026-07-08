@@ -72,6 +72,14 @@ def _current_payloads():
             "accepted_state_mutations": 0,
             "counts": {"claude_probe_rows": 8, "triage_rows": 4},
         },
+        "/data/campaign_probe_audit.json": {
+            "status": "computationally_reproduced",
+            "trust_boundary": "frozen_audit_over_probe_artifact",
+            "model_in_trust_path": "no",
+            "accepted_state_mutations": 0,
+            "passed": "yes",
+            "issue_count": 0,
+        },
         "/data/transfer_replay_packet.json": {
             "status": "computationally_reproduced",
             "accepted_state_mutation": "none",
@@ -145,8 +153,9 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 13
+    assert len(result.checks) == 14
     assert any(check.name == "judge packet" for check in result.checks)
+    assert any(check.name == "campaign probe audit" and check.ok for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
         for check in result.checks

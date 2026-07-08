@@ -37,6 +37,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["campaign_triage_rows"] == 4
     assert packet["artifact_counts"]["campaign_gate_probe_rows"] == 4
     assert packet["artifact_counts"]["campaign_pressure_rows"] == 8
+    assert packet["artifact_counts"]["campaign_probe_audit_issues"] == 0
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
     assert packet["artifact_counts"]["assay_operations_candidates"] == 5
@@ -47,6 +48,8 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 8
     assert packet["science_packet"]["campaign_probe"]["coverage"]["coverage_status"] == "complete"
+    assert packet["science_packet"]["campaign_probe_audit"]["passed"] == "yes"
+    assert packet["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert packet["public_data"] == PUBLIC_ARTIFACTS
     assert "true" not in json.dumps(packet).lower()
@@ -67,6 +70,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_triage_rows"] == 4
     assert data["artifact_counts"]["campaign_gate_probe_rows"] == 4
     assert data["artifact_counts"]["campaign_pressure_rows"] == 8
+    assert data["artifact_counts"]["campaign_probe_audit_issues"] == 0
     assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["substrate_replay_rows"] == 377
     assert data["artifact_counts"]["assay_operations_candidates"] == 5
@@ -74,6 +78,8 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert data["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 8
     assert data["science_packet"]["campaign_probe"]["coverage"]["coverage_status"] == "complete"
+    assert data["science_packet"]["campaign_probe_audit"]["passed"] == "yes"
+    assert data["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
     assert "Judge packet" in doc
@@ -81,6 +87,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "PGGT1B evidence capsule" in doc
     assert "Campaign gate probe" in doc
     assert "Campaign pressure summary" in doc
+    assert "Campaign probe audit issues" in doc
     assert "Transfer replay packet" in doc
     assert "Substrate replay packet" in doc
     assert "Gladstone assay operations bundle" in doc

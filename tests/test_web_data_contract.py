@@ -1,8 +1,13 @@
 """Public web data contract guardrails."""
 import json
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from cli.submit_pack import PUBLIC_ARTIFACTS
+
 FRONTIER = ROOT / "web" / "public" / "data" / "frontier.json"
 
 
@@ -81,6 +86,20 @@ def test_frontier_json_embeds_campaign_pressure_summary():
     assert "true" not in json.dumps(summary).lower()
 
 
+def test_frontier_json_embeds_campaign_probe_audit():
+    data = json.loads(FRONTIER.read_text())
+    audit = data["campaign_probe_audit"]
+
+    assert audit["status"] == "computationally_reproduced"
+    assert audit["trust_boundary"] == "frozen_audit_over_probe_artifact"
+    assert audit["model_in_trust_path"] == "no"
+    assert audit["accepted_state_mutations"] == 0
+    assert audit["passed"] == "yes"
+    assert audit["issue_count"] == 0
+    assert "verified" not in json.dumps(audit).lower()
+    assert "true" not in json.dumps(audit).lower()
+
+
 def test_frontier_json_embeds_assay_operations_bundle():
     data = json.loads(FRONTIER.read_text())
     bundle = data["assay_operations_bundle"]
@@ -102,7 +121,8 @@ def test_frontier_json_embeds_final_submission_audit():
 
     assert audit["readiness"] == "submission_ready_for_human_upload"
     assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
-    assert audit["public_artifact_count"] == 21
+    assert audit["public_artifact_count"] == len(PUBLIC_ARTIFACTS)
+    assert "/data/campaign_probe_audit.json" in audit["public_artifacts"]
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
@@ -125,6 +145,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_transfer_replay_packet()
     test_frontier_json_embeds_substrate_replay_packet()
     test_frontier_json_embeds_campaign_pressure_summary()
+    test_frontier_json_embeds_campaign_probe_audit()
     test_frontier_json_embeds_assay_operations_bundle()
     test_frontier_json_embeds_final_submission_audit()
     print("PASS: web data contract")

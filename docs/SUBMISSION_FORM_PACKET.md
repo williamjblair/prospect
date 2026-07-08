@@ -63,6 +63,8 @@ Claude is used in three ways:
 - Measured: the benchmark grades Claude and other frontier models against the frozen screen.
 - In the loop: `./prospect propose` and `./prospect agent` use Claude to propose and investigate.
 - As pressure test: campaign probes ask Claude to challenge deterministic assay gates.
+- As audited pressure: probe artifacts must pass frozen coverage and rationale checks before
+  promotion into the public chain.
 
 The frozen verifier and human key remain the gate. No model in the trust path.
 
@@ -105,6 +107,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`

@@ -8,7 +8,7 @@ Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjbla
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-Public artifacts: 21
+Public artifacts: 22
 
 ## Trust boundary
 
@@ -41,6 +41,7 @@ Public artifacts: 21
 - `docs/JUDGE_HANDOUT.md`
 - `docs/FINAL_SUBMISSION_CHECKLIST.md`
 - `docs/FINAL_SUBMISSION_AUDIT.md`
+- `docs/CAMPAIGN_PROBE_AUDIT.md`
 - `docs/JUDGE_PACKET.md`
 - `docs/RELEASE_MANIFEST.md`
 - `docs/RENDERED_QA_PACKET.md`
@@ -51,7 +52,7 @@ Public artifacts: 21
 |---|---|---|
 | submission_floor | shipped | `./prospect final-check`, `./prospect submit-smoke`, `root_a8b0dcdd4024e12f` |
 | second_substrate_replay | shipped | `./prospect substrate-replay`, `/data/substrate_replay_packet.json` |
-| claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
+| claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json` |
@@ -76,7 +77,7 @@ Public artifacts: 21
 |---|---|---|
 | p0_floor_green | satisfied | `./prospect final-check`, `./prospect submit-smoke` |
 | protocol_generalization | shipped | `./prospect substrate-replay`, `/data/substrate_replay_packet.json` |
-| claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
+| claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json`, `./prospect submit-smoke` |
@@ -98,6 +99,7 @@ Public artifacts: 21
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`

@@ -13,16 +13,16 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 ## Hash scope
 
 - Hash algorithm: `sha256`
-- Public artifacts: 21
-- Hashed artifacts: 20
+- Public artifacts: 22
+- Hashed artifacts: 21
 - Manifest self hash: `excluded`
 
 ## Public artifact hashes
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5688531 | `d75b7a5ccb08d4f1f98bec2065f67ef23ede62802c759ba1b345705ab4145d1c` |
-| `/data/judge_packet.json` | 16913 | `649cfd6bb3c6aaf0d0f9935d1658501bd141e0e9b4e0b39ea0652ac700ca37b7` |
+| `/data/frontier.json` | 5690341 | `d05b6adabbdc0b115e190df8f3b8e95267046b3d4e56daf82b7855f572cf0d35` |
+| `/data/judge_packet.json` | 17345 | `3639a7541cca46bf5ec07d241f9ae8cfe66a3447d72de02611e9a1d79ef3209c` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -32,6 +32,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/agent_campaign.json` | 30164 | `9b1581e2d357f733ab1e6b9400922de292b2963a226b94330f09e156de9664e6` |
 | `/data/agent_campaign_review.json` | 14555 | `ac5cb2bb8522a1ae38049db139c537b6f3d732487546dd251df613c734253223` |
 | `/data/campaign_agent_probe.json` | 19306 | `bbcb8837d47fc921e7c824dab2fc7ea9e0b4b8faa47ccdf445e0024f4cb6cc64` |
+| `/data/campaign_probe_audit.json` | 1145 | `bee3662b2ba80832e4dac7199820477b8494af2e4f4818a8b61471be5d166fac` |
 | `/data/campaign_triage.json` | 4268 | `677446a7344ee41e96638569bfc0cccceeafcee1e451acd9e78df55efa462121` |
 | `/data/campaign_gate_probe.json` | 15377 | `d87a941d138db73e7bbb833567a8f041854848a8ebd512f455d44ec994f1c62b` |
 | `/data/campaign_pressure_summary.json` | 5788 | `70a1564915ec71d9b3646f23443fb66a3811b4dab8a89e523c0bea5c32fddac4` |
@@ -39,7 +40,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
-| `/data/final_submission_audit.json` | 5244 | `0892ca09e1e4318f3ceddfc860f84a72180c6ba0fb9f085e999b530bcec9a075` |
+| `/data/final_submission_audit.json` | 5451 | `646c5f5a2a41f7b418ab3b14d19c75775748a9765ed6dd60f413354177eb4e40` |
 | `/data/rendered_qa_packet.json` | 1819 | `466e06490a213085945933cc9314f1bcaf4ea4fb35473acfe9d76f62e1df31c8` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 

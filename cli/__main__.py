@@ -9,6 +9,7 @@
   prospect campaign         build the proposal-only agent campaign leaderboard
   prospect campaign-review  build the campaign review appendix
   prospect campaign-probe   run Claude probes against campaign rows
+  prospect campaign-probe-audit audit campaign probe artifacts before promotion
   prospect campaign-triage  build deterministic triage from probe disagreements
   prospect campaign-gate-probe run Claude probes against disagreement assay gates
   prospect campaign-pressure build the campaign pressure summary packet
@@ -58,6 +59,8 @@ def main():
         from frontier.campaign_review import main as campaign_review_main; campaign_review_main()
     elif cmd == "campaign-probe":
         from loop.campaign_probe import main as campaign_probe_main; campaign_probe_main(rest)
+    elif cmd == "campaign-probe-audit":
+        from loop.campaign_probe_audit import main as campaign_probe_audit_main; sys.exit(campaign_probe_audit_main(rest))
     elif cmd == "campaign-triage":
         from frontier.campaign_triage import main as campaign_triage_main; campaign_triage_main()
     elif cmd == "campaign-gate-probe":

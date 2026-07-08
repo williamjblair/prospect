@@ -39,6 +39,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/JUDGE_HANDOUT.md",
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
         "docs/FINAL_SUBMISSION_AUDIT.md",
+        "docs/CAMPAIGN_PROBE_AUDIT.md",
         "docs/RELEASE_MANIFEST.md",
         "docs/RENDERED_QA_PACKET.md",
     ]:
@@ -59,6 +60,7 @@ def test_submit_pack_lists_full_judge_public_artifact_surface():
         "/data/agent_campaign.json",
         "/data/agent_campaign_review.json",
         "/data/campaign_agent_probe.json",
+        "/data/campaign_probe_audit.json",
         "/data/campaign_triage.json",
         "/data/campaign_gate_probe.json",
         "/data/campaign_pressure_summary.json",

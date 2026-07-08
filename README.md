@@ -105,6 +105,10 @@ have to pass before a conservative reviewer spends primary assay capacity.
 `prospect campaign-pressure` summarizes the full Claude campaign pressure loop: what aligned, what
 became assay gates, what needed controls, and what stayed out of accepted state.
 
+`prospect campaign-probe-audit` replays a campaign probe artifact through frozen checks before it
+can be promoted into the public chain. The committed eight-row probe has zero audit issues; larger
+temporary probes must pass the same rationale and coverage audit first.
+
 `prospect transfer-replay` emits a compact replay packet for the signed cross-cell-type finding:
 the same major-regulator claim through the Marson CD4+ T-cell checker and the Replogle K562/RPE1
 checkers. It is `computationally_reproduced` and changes no accepted state.
@@ -131,6 +135,7 @@ Current public artifacts:
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`
@@ -166,6 +171,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect campaign-pressure      # summarize model pressure and remaining gates
+./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # build the transfer replay packet
 ./prospect substrate-replay       # build the substrate replay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet

@@ -33,6 +33,7 @@ cd web && npm run build
 - Campaign candidates: 20
 - Campaign review rows: 20
 - Campaign probe rows: 8
+- Campaign probe audit issues: 0
 - Campaign triage rows: 4
 - Campaign gate probe rows: 4
 - Campaign pressure rows: 8
@@ -41,7 +42,7 @@ cd web && npm run build
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
-- Final submission public artifacts: 21
+- Final submission public artifacts: 22
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -96,6 +97,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_probe_audit.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`

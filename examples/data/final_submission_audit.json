@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 21,
+  "public_artifact_count": 22,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -17,6 +17,7 @@
     "/data/agent_campaign.json",
     "/data/agent_campaign_review.json",
     "/data/campaign_agent_probe.json",
+    "/data/campaign_probe_audit.json",
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
     "/data/campaign_pressure_summary.json",
@@ -37,6 +38,7 @@
     "docs/JUDGE_HANDOUT.md",
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/FINAL_SUBMISSION_AUDIT.md",
+    "docs/CAMPAIGN_PROBE_AUDIT.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
     "docs/RENDERED_QA_PACKET.md"
@@ -77,7 +79,9 @@
       "state": "shipped",
       "evidence": [
         "./prospect campaign-pressure",
-        "/data/campaign_pressure_summary.json"
+        "./prospect campaign-probe-audit",
+        "/data/campaign_pressure_summary.json",
+        "/data/campaign_probe_audit.json"
       ]
     },
     {
@@ -181,7 +185,9 @@
       "status": "shipped",
       "evidence": [
         "./prospect campaign-pressure",
-        "/data/campaign_pressure_summary.json"
+        "./prospect campaign-probe-audit",
+        "/data/campaign_pressure_summary.json",
+        "/data/campaign_probe_audit.json"
       ]
     },
     {

@@ -24,6 +24,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert audit["public_artifacts"] == PUBLIC_ARTIFACTS
     assert "docs/JUDGE_HANDOUT.md" in audit["source_docs"]
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
+    assert "/data/campaign_probe_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
@@ -43,6 +44,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/substrate_replay_packet.json" in requirements["protocol_generalization"]["evidence"]
     assert requirements["claude_campaign_pressure"]["status"] == "shipped"
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
+    assert "/data/campaign_probe_audit.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert requirements["gladstone_assay_operations"]["status"] == "shipped"
     assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
     assert requirements["public_release_manifest"]["status"] == "shipped"
@@ -98,6 +100,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "./prospect final-check" in doc
     assert "./prospect release-manifest" in doc
     assert "/data/assay_operations_bundle.json" in doc
+    assert "/data/campaign_probe_audit.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc
 
