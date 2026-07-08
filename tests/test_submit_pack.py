@@ -40,6 +40,29 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         assert path in packet["source_docs"]
 
 
+def test_submit_pack_lists_full_judge_public_artifact_surface():
+    packet = build_packet()
+    expected = [
+        "/data/frontier.json",
+        "/data/judge_packet.json",
+        "/data/finding_index.json",
+        "/data/receipt_bridge/receipt_contract.json",
+        "/data/receipt_bridge/receipt_manifest.json",
+        "/data/receipt_bridge/receipt_bundle.json",
+        "/data/pggt1b_deep_dive.json",
+        "/data/pggt1b_matrix_slice.json",
+        "/data/agent_campaign.json",
+        "/data/agent_campaign_review.json",
+        "/data/campaign_agent_probe.json",
+        "/data/campaign_triage.json",
+        "/data/campaign_gate_probe.json",
+        "/data/transfer_replay_packet.json",
+        "/data/lab_packet.json",
+    ]
+
+    assert packet["public_artifacts"] == expected
+
+
 def test_submit_pack_cli_prints_human_packet():
     proc = subprocess.run(
         [os.path.join(ROOT, "prospect"), "submit-pack"],
@@ -78,6 +101,7 @@ def test_submit_pack_cli_can_emit_json():
 
 if __name__ == "__main__":
     test_submit_pack_includes_copy_safe_submission_fields()
+    test_submit_pack_lists_full_judge_public_artifact_surface()
     test_submit_pack_cli_prints_human_packet()
     test_submit_pack_cli_can_emit_json()
     print("PASS: submit pack")

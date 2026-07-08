@@ -126,8 +126,13 @@ the graph on its own word. On top of it:
 
 - `/data/frontier.json`
 - `/data/judge_packet.json`
+- `/data/finding_index.json`
+- `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
+- `/data/receipt_bridge/receipt_bundle.json`
+- `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
+- `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
