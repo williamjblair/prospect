@@ -18,6 +18,7 @@ def test_demo_pack_has_timed_recording_beats():
 
     assert packet["live_url"] == "https://prospect-sepia-six.vercel.app"
     assert packet["signed_root"] == "root_a8b0dcdd4024e12f"
+    assert "./prospect demo-pack" in packet["preflight"]
     assert [beat["time"] for beat in packet["beats"]] == ["0:00", "0:20", "0:40", "1:05", "1:30", "1:50"]
 
     script = "\n".join(beat["say"] for beat in packet["beats"])
@@ -88,6 +89,10 @@ def test_demo_teleprompter_doc_tracks_packet():
         "Do not claim wet-lab or clinical truth",
     ]:
         assert phrase in text
+
+    preflight = text.split("## Preflight", 1)[1].split("## Script", 1)[0]
+    for command in build_packet()["preflight"]:
+        assert command in preflight
 
 
 if __name__ == "__main__":

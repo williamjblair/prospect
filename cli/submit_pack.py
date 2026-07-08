@@ -24,6 +24,7 @@ SOURCE_DOCS = [
 VERIFICATION_COMMANDS = [
     "./prospect final-check",
     "./prospect submit-smoke",
+    "./prospect submit-pack",
     "./prospect demo-pack",
     "./prospect verify",
     "python benchmark/mutation_pack.py",

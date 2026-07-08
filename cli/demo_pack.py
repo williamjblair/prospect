@@ -89,6 +89,7 @@ def build_packet() -> dict[str, object]:
             "./prospect final-check",
             "./prospect submit-smoke",
             "./prospect submit-pack",
+            "./prospect demo-pack",
             "python examples/receipt_bridge_client.py --json",
         ],
     }
