@@ -70,8 +70,16 @@ def _check_judge(base_url: str, opener: Callable[..., Any], timeout: int) -> Che
         for command in REQUIRED_GATE_COMMANDS:
             if command not in gate_commands:
                 failures.append(f"missing {command.removeprefix('./prospect ')} gate")
-        if "/data/transfer_replay_packet.json" not in data.get("public_data", []):
-            failures.append("missing transfer replay public data")
+        public_data = data.get("public_data", [])
+        if public_data != PUBLIC_ARTIFACTS:
+            missing = [path for path in PUBLIC_ARTIFACTS if path not in public_data]
+            extra = [path for path in public_data if path not in PUBLIC_ARTIFACTS]
+            detail = "public data drift"
+            if missing:
+                detail += f", missing {missing[0]}"
+            if extra:
+                detail += f", extra {extra[0]}"
+            failures.append(detail)
         if failures:
             return Check("judge packet", False, "; ".join(failures))
         return Check("judge packet", True, f"root {ROOT}")

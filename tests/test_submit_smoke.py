@@ -49,7 +49,7 @@ def _current_payloads():
                 "./prospect submit-pack",
                 "./prospect demo-pack",
             ],
-            "public_data": ["/data/transfer_replay_packet.json"],
+            "public_data": PUBLIC_ARTIFACTS,
             "receipt_bridge_demo": {"next": "human_signature_required"},
         },
         "/data/campaign_gate_probe.json": {
@@ -106,6 +106,23 @@ def test_submit_smoke_rejects_missing_public_artifact():
     )
 
 
+def test_submit_smoke_rejects_judge_public_data_drift():
+    payloads = _current_payloads()
+    payloads["/data/judge_packet.json"] = {
+        **payloads["/data/judge_packet.json"],
+        "public_data": [path for path in PUBLIC_ARTIFACTS if path != "/data/lab_packet.json"],
+    }
+
+    result = run_checks("https://example.test", opener=_opener(payloads))
+
+    assert result.ok is False
+    assert any(
+        check.name == "judge packet" and "public data drift" in check.detail
+        for check in result.checks
+        if not check.ok
+    )
+
+
 def test_submit_smoke_rejects_wrong_frontier_root():
     payloads = {
         "/": "<html><body>Prospect</body></html>",
@@ -155,6 +172,8 @@ def test_submit_smoke_cli_is_discoverable():
 
 if __name__ == "__main__":
     test_submit_smoke_accepts_current_public_payload_shapes()
+    test_submit_smoke_rejects_missing_public_artifact()
+    test_submit_smoke_rejects_judge_public_data_drift()
     test_submit_smoke_rejects_wrong_frontier_root()
     test_submit_smoke_rejects_stale_judge_gate_commands()
     test_submit_smoke_cli_is_discoverable()
