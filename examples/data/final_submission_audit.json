@@ -93,6 +93,14 @@
         "./prospect submit-pack",
         "docs/FINAL_SUBMISSION_CHECKLIST.md"
       ]
+    },
+    {
+      "workstream": "public_release_manifest",
+      "state": "shipped",
+      "evidence": [
+        "./prospect release-manifest",
+        "/data/release_manifest.json"
+      ]
     }
   ],
   "trust_boundary": {
@@ -180,6 +188,15 @@
         "./prospect demo-pack",
         "./prospect submit-pack",
         "./prospect judge-handout"
+      ]
+    },
+    {
+      "requirement": "public_release_manifest",
+      "status": "shipped",
+      "evidence": [
+        "./prospect release-manifest",
+        "/data/release_manifest.json",
+        "./prospect submit-smoke"
       ]
     },
     {

@@ -21,7 +21,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5687141 | `2a1951be4269e39498a40da693c3c9cef6661fcdaa54bda7fd96d02449bf112a` |
+| `/data/frontier.json` | 5687448 | `a8c0953c404bb57536efa4d8cc6faf7fd9f0a7a063033b7358da19edad53a438` |
 | `/data/judge_packet.json` | 16548 | `240ca7d68544bb7ee13df2d14b4dab224067597e338d501f6689d51dcec9c164` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
@@ -39,7 +39,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
-| `/data/final_submission_audit.json` | 4551 | `9a6f5a8db82c8d69332680eb6dd3ab86d0f7ffa0d8f120178ac3d88c4003aa51` |
+| `/data/final_submission_audit.json` | 4858 | `7f96cf3b615ff66578bfd5558416d5de6bdbeb594cbbce31f9164d36996455a5` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 
 Hashes prove deployed byte identity, not wet-lab or clinical truth.

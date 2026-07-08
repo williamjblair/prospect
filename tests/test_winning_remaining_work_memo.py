@@ -15,6 +15,7 @@ def test_winning_memo_names_expanded_active_goal_and_floor():
         "Preserve the floor",
         "./prospect final-check",
         "./prospect submit-smoke",
+        "./prospect release-manifest",
         "root_a8b0dcdd4024e12f",
     ]:
         assert phrase in text
@@ -29,6 +30,7 @@ def test_winning_memo_lists_high_ceiling_workstreams():
         "P1, complete the Claude campaign pressure loop",
         "P1, Gladstone-ready assay operations bundle",
         "P2, submission and demo production",
+        "Public release manifest",
         "P3, deliberate non-goals",
     ]:
         assert phrase in text
@@ -46,6 +48,7 @@ def test_winning_memo_keeps_trust_boundary_and_scope_constraints():
         "no accepted-state mutation",
         "Do not chase a full wet-lab result",
         "Do not add clinical or therapeutic claims",
+        "Hashes prove deployed byte identity",
     ]:
         assert phrase in text
 

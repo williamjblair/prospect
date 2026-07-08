@@ -44,6 +44,8 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/campaign_pressure_summary.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert requirements["gladstone_assay_operations"]["status"] == "shipped"
     assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
+    assert requirements["public_release_manifest"]["status"] == "shipped"
+    assert "./prospect release-manifest" in requirements["public_release_manifest"]["evidence"]
     assert "/data/release_manifest.json" in requirements["public_production_surface"]["evidence"]
     assert requirements["human_upload"]["status"] == "human_only_remaining"
     assert requirements["human_upload"]["evidence"] == ["record_demo_video", "submit_project_form"]
@@ -65,6 +67,7 @@ def test_final_submission_audit_covers_all_shipped_workstreams():
         "claude_campaign_pressure",
         "gladstone_assay_operations",
         "demo_and_submission_packets",
+        "public_release_manifest",
     ]:
         assert shipped[name]["state"] == "shipped"
 

@@ -57,6 +57,7 @@ def test_handoff_describes_current_production_smoke_gate():
         "transfer replay packet",
         "lab packet",
         "receipt bridge manifest",
+        "release manifest hashes",
     ]:
         assert phrase in text
 
@@ -68,6 +69,7 @@ def test_handoff_points_to_judge_quickstart():
         "[JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md)",
         "five-minute judge path",
         "`./prospect submit-pack`",
+        "release-manifest",
     ]:
         assert phrase in text
 

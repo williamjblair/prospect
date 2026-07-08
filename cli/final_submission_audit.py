@@ -51,6 +51,11 @@ SHIPPED_WORKSTREAMS = [
         "state": "shipped",
         "evidence": ["./prospect demo-pack", "./prospect submit-pack", "docs/FINAL_SUBMISSION_CHECKLIST.md"],
     },
+    {
+        "workstream": "public_release_manifest",
+        "state": "shipped",
+        "evidence": ["./prospect release-manifest", "/data/release_manifest.json"],
+    },
 ]
 
 HUMAN_ONLY_ACTIONS = [
@@ -108,6 +113,11 @@ COMPLETION_REQUIREMENTS = [
         "requirement": "demo_submission_packets",
         "status": "shipped",
         "evidence": ["./prospect demo-pack", "./prospect submit-pack", "./prospect judge-handout"],
+    },
+    {
+        "requirement": "public_release_manifest",
+        "status": "shipped",
+        "evidence": ["./prospect release-manifest", "/data/release_manifest.json", "./prospect submit-smoke"],
     },
     {
         "requirement": "public_production_surface",

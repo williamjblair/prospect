@@ -39,6 +39,7 @@ Prospect is currently strong enough to submit. Do not lose any of this while bui
 - Signed root: `root_a8b0dcdd4024e12f`
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes against production.
+- `./prospect release-manifest` hashes the public data artifact surface.
 - `./prospect verify` re-derives 53,485 objects with 0 drift.
 - `python benchmark/mutation_pack.py` admits 0 tampered claims.
 - `python tests/test_skill_parity.py` checks 112 claims with 0 mismatches.
@@ -51,6 +52,7 @@ Preserve the floor with every change:
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
+./prospect release-manifest
 ./prospect submit-pack
 ./prospect demo-pack
 ```
@@ -87,6 +89,7 @@ Deliverables:
 - Keep `docs/FINAL_SUBMISSION_CHECKLIST.md`, `docs/JUDGE_QUICKSTART.md`,
   `docs/SUBMISSION_FORM_PACKET.md`, and `docs/DEMO_TELEPROMPTER.md` current.
 - Keep production smoke aligned with the public artifact manifest.
+- Keep `./prospect release-manifest` aligned with every public endpoint.
 - Keep the live URL stable and redeployed after every web-facing change.
 - Keep the root and replay counts honest in every public doc.
 
@@ -94,6 +97,7 @@ Gate:
 
 - `./prospect final-check`
 - `./prospect submit-smoke`
+- `./prospect release-manifest`
 - Production rendered QA for web-facing changes.
 
 Risk:
@@ -274,6 +278,9 @@ Only do these after the P1 workstreams and demo path are coherent.
 
 - A one-page print handout generated from existing docs. Shipped as `./prospect judge-handout` and
   [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md).
+- Public release manifest. Shipped as `./prospect release-manifest` and
+  [RELEASE_MANIFEST.md](RELEASE_MANIFEST.md). Hashes prove deployed byte identity, not wet-lab or
+  clinical truth.
 - A short static "judge packet" landing view if the live Overview becomes too dense.
 - A small visual diagram of the receipt boundary, only if it clarifies rather than decorates.
 
@@ -302,6 +309,7 @@ Do not spend hackathon time here unless the core plan changes.
 | Mutation floor | Satisfied | Keep `benchmark/mutation_pack.py` in the gate. |
 | Skill parity | Satisfied | Keep `python tests/test_skill_parity.py` in the gate. |
 | Live production | Satisfied | Redeploy after web changes and run `./prospect submit-smoke`. |
+| Public release manifest | Shipped | Keep `./prospect release-manifest` in final-check and submit-smoke. |
 | Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
 | Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
 | Gladstone usefulness | Shipped stronger | Keep the assay operations bundle in the Agent tab, judge packet, final-check, and submit-smoke. |
@@ -314,7 +322,8 @@ Do not spend hackathon time here unless the core plan changes.
 3. Build or extend Claude campaign pressure loop. Shipped as the pressure summary.
 4. Build Gladstone assay operations bundle. Shipped.
 5. Refresh demo and submission surfaces. Shipped with `./prospect submission-audit`.
-6. Record and submit.
+6. Keep the public release manifest current. Shipped.
+7. Record and submit.
 
 ## Definition of done for the full active goal
 
@@ -328,6 +337,7 @@ The active goal is complete only when:
 - Production is deployed and smoke-tested.
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes.
+- `./prospect release-manifest` is current.
 - The final memo states any remaining human-only actions plainly.
 - `./prospect submission-audit` names shipped workstreams, required gates, public artifacts, and
   human-only actions.

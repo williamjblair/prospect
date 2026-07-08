@@ -52,6 +52,7 @@ Public artifacts: 20
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
+| public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json` |
 
 ## Rendered QA checklist
 
@@ -75,6 +76,7 @@ Public artifacts: 20
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `/data/campaign_pressure_summary.json` |
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
+| public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json`, `./prospect submit-smoke` |
 | public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json`, `/data/release_manifest.json` |
 | human_upload | human_only_remaining | `record_demo_video`, `submit_project_form` |
 | wet_lab_execution | human_only_remaining | `wet_lab_execution` |
