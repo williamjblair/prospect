@@ -750,7 +750,7 @@ function Receipts({ receipts, bridge }: { receipts: NonNullable<Data["receipts"]
 
 function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
-    <div style={{ display: "grid", gap: 24 }}>
+    <div className="frontier-pane" style={{ display: "grid", gap: 24 }}>
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>The frontier</h2>
         <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>

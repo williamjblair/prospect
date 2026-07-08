@@ -1137,6 +1137,18 @@ a:hover > .card-paper {
   min-width: 0;
 }
 
+.frontier-pane,
+.frontier-pane > *,
+.frontier-pane h1,
+.frontier-pane h2,
+.frontier-pane h3,
+.frontier-pane p,
+.frontier-pane .card-paper,
+.frontier-pane .state-row {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .app-main header p {
   text-wrap: pretty;
 }
@@ -1452,7 +1464,7 @@ a:hover > .card-paper {
    via --measure (41.5rem) on its own blocks, never the frame. `.page-wide` is a
    harmless no-op alias on pages that still carry it. */
 .app-main {
-  max-width: 118rem;
+  max-width: 78rem;
 }
 
 /* Skeletons (the polish floor): async surfaces rest on paper-recessed,
