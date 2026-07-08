@@ -122,6 +122,12 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   It accounts for what aligned, what became assay gates, what needed controls, and the zero accepted-state
   mutations, exported to `examples/data/campaign_pressure_summary.json` and
   [CAMPAIGN_PRESSURE_SUMMARY.md](CAMPAIGN_PRESSURE_SUMMARY.md).
+- **Campaign challenger ledger** (`frontier/campaign_challenger_ledger.py`,
+  `./prospect campaign-challenger`): deterministic reconciliation over shipped campaign pressure,
+  donor replay, cross-substrate discovery, and disease-context packets. It challenges RWDD2B for
+  primary assay capacity, adds CYB5RL as the replacement row, keeps all rows `evidence_attached`,
+  changes no accepted state, and exports `examples/data/campaign_challenger_ledger.json` plus
+  [CAMPAIGN_CHALLENGER_LEDGER.md](CAMPAIGN_CHALLENGER_LEDGER.md).
 - **Transfer replay packet** (`frontier/transfer_replay.py`, `./prospect transfer-replay`): compact
   replay object for the signed cross-cell-type finding. It summarizes the Marson + Replogle K562/RPE1
   checker replay as `computationally_reproduced`, reports 377 compared T-cell regulators, and changes
@@ -218,7 +224,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|campaign-challenger|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, cross-substrate discovery packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -256,7 +262,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_probe_audit.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `donor_condition_replay.json`,
+`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `campaign_challenger_ledger.json`, `donor_condition_replay.json`,
 `disease_genetics_overlay.json`,
 `perturbation_atlas_scout.json`,
 `assay_operations_bundle.*`,
@@ -294,10 +300,10 @@ The next technical and data campaign is now specified in
 [FRONTIER_ADVANCEMENT_MEMO.md](FRONTIER_ADVANCEMENT_MEMO.md). Treat that memo as the source of truth
 for work aimed at real discovery or protocol advancement before July 13: donor-condition replay,
 cross-substrate discovery, disease-genetics overlay, perturbation-atlas scout, and campaign
-challenger ledger. Cross-substrate discovery, donor-condition replay, disease-genetics overlay, and
-the perturbation-atlas scout are now shipped. The current recommendation is to run a challenger
-ledger only if the shipped packets materially change campaign priority, otherwise preserve the
-green floor and harden the demo.
+challenger ledger. Cross-substrate discovery, donor-condition replay, disease-genetics overlay,
+perturbation-atlas scout, and the campaign challenger ledger are now shipped. The current
+recommendation is to preserve the green floor and harden the demo unless a new small, licensed replay
+table appears.
 
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
@@ -307,6 +313,8 @@ green floor and harden the demo.
 - **Final submission gate**: shipped as `./prospect final-check`.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
+- **Campaign challenger ledger**: shipped as `./prospect campaign-challenger`; it removes RWDD2B
+  from primary assay capacity and adds CYB5RL to the lab-facing proposal panel.
 - **Agent campaign next pass**: shipped for all 20 campaign rows as `./prospect campaign-probe`.
   The committed probe now has a frozen audit artifact at `./prospect campaign-probe-audit`.
   Disagreement triage is shipped as `./prospect campaign-triage`. The gate probe now covers all

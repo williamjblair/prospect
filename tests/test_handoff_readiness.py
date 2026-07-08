@@ -16,6 +16,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect campaign-probe",
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
+        "./prospect campaign-challenger",
         "./prospect transfer-replay",
         "./prospect perturbation-scout",
         "./prospect pggt1b",
@@ -35,6 +36,7 @@ def test_agents_lists_current_cli_surface():
 
     for verb in [
         "campaign-gate-probe",
+        "campaign-challenger",
         "transfer-replay",
         "perturbation-scout",
         "lab-pack",

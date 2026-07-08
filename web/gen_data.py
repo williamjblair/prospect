@@ -22,6 +22,7 @@ CAMPAIGN_PROBE_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__
 CAMPAIGN_TRIAGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_triage.json")
 CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_gate_probe.json")
 CAMPAIGN_PRESSURE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_pressure_summary.json")
+CAMPAIGN_CHALLENGER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_challenger_ledger.json")
 LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
 ASSAY_OPERATIONS_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "assay_operations_bundle.json")
 GLADSTONE_PILOT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "gladstone_pilot_design.json")
@@ -79,6 +80,8 @@ _campaign_gate_probe = os.path.join(DATA, "campaign_gate_probe.json")
 campaign_gate_probe = json.load(open(_campaign_gate_probe)) if os.path.exists(_campaign_gate_probe) else None
 _campaign_pressure = os.path.join(DATA, "campaign_pressure_summary.json")
 campaign_pressure_summary = json.load(open(_campaign_pressure)) if os.path.exists(_campaign_pressure) else None
+_campaign_challenger = os.path.join(DATA, "campaign_challenger_ledger.json")
+campaign_challenger_ledger = json.load(open(_campaign_challenger)) if os.path.exists(_campaign_challenger) else None
 _lab_packet = os.path.join(DATA, "lab_packet.json")
 lab_packet = json.load(open(_lab_packet)) if os.path.exists(_lab_packet) else None
 _assay_operations = os.path.join(DATA, "assay_operations_bundle.json")
@@ -168,7 +171,9 @@ data = {
     "agent_campaign_review": agent_campaign_review, "campaign_agent_probe": campaign_agent_probe,
     "campaign_probe_audit": campaign_probe_audit,
     "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe,
-    "campaign_pressure_summary": campaign_pressure_summary, "lab_packet": lab_packet,
+    "campaign_pressure_summary": campaign_pressure_summary,
+    "campaign_challenger_ledger": campaign_challenger_ledger,
+    "lab_packet": lab_packet,
     "assay_operations_bundle": assay_operations_bundle,
     "gladstone_pilot_design": gladstone_pilot_design,
     "final_submission_audit": final_submission_audit,
@@ -201,6 +206,8 @@ if campaign_gate_probe:
     json.dump(campaign_gate_probe, open(CAMPAIGN_GATE_PROBE_OUT, "w"))
 if campaign_pressure_summary:
     json.dump(campaign_pressure_summary, open(CAMPAIGN_PRESSURE_OUT, "w"))
+if campaign_challenger_ledger:
+    json.dump(campaign_challenger_ledger, open(CAMPAIGN_CHALLENGER_OUT, "w"))
 if lab_packet:
     json.dump(lab_packet, open(LAB_PACKET_OUT, "w"))
 if assay_operations_bundle:

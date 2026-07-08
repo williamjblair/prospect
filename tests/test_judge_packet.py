@@ -37,6 +37,9 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["campaign_triage_rows"] == 11
     assert packet["artifact_counts"]["campaign_gate_probe_rows"] == 11
     assert packet["artifact_counts"]["campaign_pressure_rows"] == 20
+    assert packet["artifact_counts"]["campaign_challenger_rows"] == 20
+    assert packet["artifact_counts"]["campaign_challenger_primary_challenges"] == 1
+    assert packet["artifact_counts"]["campaign_challenger_replacements"] == 1
     assert packet["artifact_counts"]["campaign_probe_audit_issues"] == 0
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
@@ -61,6 +64,10 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["science_packet"]["campaign_gate_probe"]["coverage"]["requested_limit"] == 11
     assert packet["science_packet"]["campaign_gate_probe"]["coverage"]["coverage_status"] == "complete"
     assert packet["science_packet"]["campaign_pressure_summary"]["gate_probe_coverage"]["coverage_status"] == "complete"
+    assert packet["science_packet"]["campaign_challenger_ledger"]["status"] == "evidence_attached"
+    assert packet["science_packet"]["campaign_challenger_ledger"]["primary_panel_challenges"] == 1
+    assert packet["science_packet"]["campaign_challenger_ledger"]["panel_delta"]["remove"] == ["RWDD2B"]
+    assert packet["science_packet"]["campaign_challenger_ledger"]["panel_delta"]["add"] == ["CYB5RL"]
     assert packet["science_packet"]["campaign_probe_audit"]["passed"] == "yes"
     assert packet["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert packet["science_packet"]["pilot_design"]["status"] == "evidence_attached"
@@ -96,6 +103,9 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_triage_rows"] == 11
     assert data["artifact_counts"]["campaign_gate_probe_rows"] == 11
     assert data["artifact_counts"]["campaign_pressure_rows"] == 20
+    assert data["artifact_counts"]["campaign_challenger_rows"] == 20
+    assert data["artifact_counts"]["campaign_challenger_primary_challenges"] == 1
+    assert data["artifact_counts"]["campaign_challenger_replacements"] == 1
     assert data["artifact_counts"]["campaign_probe_audit_issues"] == 0
     assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["substrate_replay_rows"] == 377
@@ -114,6 +124,8 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 20
     assert data["science_packet"]["campaign_probe"]["coverage"]["coverage_status"] == "complete"
     assert data["science_packet"]["campaign_gate_probe"]["coverage"]["coverage_status"] == "complete"
+    assert data["science_packet"]["campaign_challenger_ledger"]["panel_delta"]["remove"] == ["RWDD2B"]
+    assert data["science_packet"]["campaign_challenger_ledger"]["panel_delta"]["add"] == ["CYB5RL"]
     assert data["science_packet"]["campaign_probe_audit"]["passed"] == "yes"
     assert data["science_packet"]["campaign_probe_audit"]["issue_count"] == 0
     assert data["science_packet"]["pilot_design"]["candidate_count"] == 5
@@ -128,6 +140,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "PGGT1B evidence capsule" in doc
     assert "Campaign gate probe" in doc
     assert "Campaign pressure summary" in doc
+    assert "Campaign challenger ledger" in doc
     assert "Campaign probe audit issues" in doc
     assert "Transfer replay packet" in doc
     assert "Substrate replay packet" in doc

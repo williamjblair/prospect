@@ -7,6 +7,10 @@ Status for every row remains `evidence_attached`. Receipt submission and this ha
 Accepted state still requires the frozen replay path plus the human signing path, and a
 biological conclusion would require new wet-lab evidence.
 
+The current queue follows the campaign challenger ledger: RWDD2B is removed from primary assay
+capacity because donor replay is fragile and the gate probe lowered priority. CYB5RL fills the open
+slot because it is donor-supported and its disagreement gate was sufficient.
+
 ## Assay Frame
 
 Question: which non-canonical perturbations gate the stimulated CD4+ activation program without
@@ -52,8 +56,8 @@ more than an assay candidate.
 | 1 | PGGT1B | Stim8hr | 3014 | 175 | 1 | strongest stimulated footprint, cell-type-specific transfer check, no CollecTRI regulon |
 | 2 | RCC1L | Stim48hr | 1167 | 58 | 5 | high stimulated footprint with low Rest and low K562 signal |
 | 3 | MCAT | Stim48hr | 780 | 113 | 20 | capacity-gated row because the Rest condition carries a knockdown caveat |
-| 4 | RWDD2B | Stim8hr | 720 | 190 | 1 | stimulated and cell-type-specific, but Rest signal is higher |
-| 5 | CCDC22 | Stim48hr | 619 | 116 | 13 | clean on-target stimulated footprint, mid-tier magnitude |
+| 4 | CCDC22 | Stim48hr | 619 | 116 | 13 | clean on-target stimulated footprint with selected immune genetic context |
+| 5 | CYB5RL | Stim48hr | 389 | 11 | 13 | challenger-added row with low Rest signal, donor support, and sufficient gate probe |
 
 ## Monday-Morning Protocol
 
@@ -67,6 +71,7 @@ more than an assay candidate.
 ## Replay Links
 
 - `/data/lab_packet.json`
+- `/data/campaign_challenger_ledger.json`
 - `/data/judge_packet.json`
 - `/data/frontier.json`
 - `/data/pggt1b_deep_dive.json`

@@ -29,6 +29,7 @@ def build_handout() -> dict[str, Any]:
     discovery = _json(DATA / "cross_substrate_discovery.json")
     donor = _json(DATA / "donor_condition_replay.json")
     disease = _json(DATA / "disease_genetics_overlay.json")
+    challenger = _json(DATA / "campaign_challenger_ledger.json")
 
     return {
         "title": "Prospect one-page judge handout",
@@ -58,6 +59,8 @@ def build_handout() -> dict[str, Any]:
             "disease_overlay_rows": disease["counts"]["campaign_rows"],
             "disease_overlay_context_rows": disease["counts"]["immune_or_hematologic_context"],
             "disease_overlay_genetic_context_rows": disease["counts"]["immune_or_hematologic_genetic_context"],
+            "campaign_challenger_rows": challenger["counts"]["campaign_rows"],
+            "campaign_challenger_primary_challenges": challenger["counts"]["primary_panel_challenges"],
         },
         "trust_boundary": {
             "model_role": "propose_search_pressure_test",
@@ -72,6 +75,7 @@ def build_handout() -> dict[str, Any]:
             "Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.",
             "Agent: donor replay separates donor-supported campaign rows from donor-fragile rows.",
             "Agent: disease overlay attaches external context without changing accepted state.",
+            "Agent: challenger ledger adjusts assay capacity before the lab handoff.",
             "Frontier: receipt bridge returns proposal-only submission, not accepted state.",
             "Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.",
         ],
@@ -82,6 +86,7 @@ def build_handout() -> dict[str, Any]:
             "/data/cross_substrate_discovery.json",
             "/data/donor_condition_replay.json",
             "/data/disease_genetics_overlay.json",
+            "/data/campaign_challenger_ledger.json",
             "/data/assay_operations_bundle.json",
             "/data/gladstone_pilot_design.json",
             "/data/final_submission_audit.json",
@@ -130,6 +135,8 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['disease_overlay_rows']} campaign rows overlaid with external disease context",
         f"- {counts['disease_overlay_context_rows']} rows with selected immune or hematologic context",
         f"- {counts['disease_overlay_genetic_context_rows']} rows with selected immune or hematologic genetic context",
+        f"- {counts['campaign_challenger_rows']} campaign rows reconciled by the challenger ledger",
+        f"- {counts['campaign_challenger_primary_challenges']} primary assay row challenged before handoff",
         f"- {counts['claude_probe_rows']} Claude probe rows in the pressure loop",
         (
             f"- {counts['gate_probe_returned']} of {counts['gate_probe_requested']} gate-probe decisions returned, "

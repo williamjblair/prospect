@@ -77,6 +77,8 @@ the graph on its own word. On top of it:
   closed recommendations, `gate_sufficient`, `add_control`, or `lower_priority`.
 - **Campaign pressure summary**: `prospect campaign-pressure` summarizes what Claude changed, what
   Prospect refused to change, and which assay gates remain before accepted state can move.
+- **Campaign challenger ledger**: `prospect campaign-challenger` reconciles shipped replay packets,
+  challenges RWDD2B for primary assay capacity, and adds CYB5RL to the proposal-only lab panel.
 - **Campaign probe audit**: `prospect campaign-probe-audit` replays probe coverage and rationales
   through frozen facts before any larger Claude pass can be promoted into the public chain.
 - **Transfer replay packet**: `prospect transfer-replay` emits the compact replay object behind the
@@ -161,6 +163,8 @@ the trust floor after the event window without private credentials for the stati
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
   follow-ups for a Gladstone-facing perturbation screen.
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
+- The campaign challenger ledger reconciles shipped replay packets, removes RWDD2B from primary
+  assay capacity, and adds CYB5RL to the proposal-only lab panel.
 - The assay operations bundle names what would promote, weaken, or reject each row before any status
   change.
 - The pilot design turns the top five rows into a 90-culture-arm plan across three donor replicates,
@@ -185,6 +189,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`
+- `/data/campaign_challenger_ledger.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
@@ -220,6 +225,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect campaign-pressure      # summarize model pressure and complete gate coverage
+./prospect campaign-challenger    # build the proposal-only assay challenger ledger
 ./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet

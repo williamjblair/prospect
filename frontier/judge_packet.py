@@ -46,6 +46,7 @@ def build_packet() -> dict[str, Any]:
     campaign_triage = frontier.get("campaign_triage") or {}
     campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
     campaign_pressure = frontier.get("campaign_pressure_summary") or {}
+    campaign_challenger = frontier.get("campaign_challenger_ledger") or {}
     lab_packet = frontier.get("lab_packet") or {}
     assay_operations = frontier.get("assay_operations_bundle") or {}
     pilot_design = frontier.get("gladstone_pilot_design") or {}
@@ -105,6 +106,7 @@ def build_packet() -> dict[str, Any]:
             "Agent: Claude probe compared with deterministic review lanes",
             "Agent: disagreement triage turns model pressure into assay gates",
             "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority",
+            "Agent: challenger ledger reconciles shipped packets and challenges one primary assay row",
         ],
         "public_data": PUBLIC_ARTIFACTS,
         "artifact_counts": {
@@ -120,6 +122,9 @@ def build_packet() -> dict[str, Any]:
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "campaign_gate_probe_rows": len(campaign_gate_probe.get("rows", [])),
             "campaign_pressure_rows": len(campaign_pressure.get("pressure_accounting", [])),
+            "campaign_challenger_rows": len(campaign_challenger.get("rows", [])),
+            "campaign_challenger_primary_challenges": campaign_challenger.get("counts", {}).get("primary_panel_challenges", 0),
+            "campaign_challenger_replacements": len(campaign_challenger.get("panel_delta", {}).get("add", [])),
             "transfer_replay_rows": transfer_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "substrate_replay_rows": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "cross_substrate_discovery_rows": cross_substrate_discovery.get("counts", {}).get("marson_genes_considered", 0),
@@ -198,6 +203,15 @@ def build_packet() -> dict[str, Any]:
                 "triage_rows": campaign_pressure.get("counts", {}).get("triage_rows", 0),
                 "gate_recommendations": campaign_pressure.get("gate_recommendations", {}),
                 "gate_probe_coverage": campaign_pressure.get("gate_probe_coverage", {}),
+            },
+            "campaign_challenger_ledger": {
+                "status": campaign_challenger.get("status"),
+                "trust_boundary": campaign_challenger.get("trust_boundary"),
+                "accepted_state_mutation": campaign_challenger.get("accepted_state_mutation"),
+                "campaign_rows": campaign_challenger.get("counts", {}).get("campaign_rows", 0),
+                "primary_panel_challenges": campaign_challenger.get("counts", {}).get("primary_panel_challenges", 0),
+                "recommended_primary_panel": campaign_challenger.get("recommended_primary_panel", []),
+                "panel_delta": campaign_challenger.get("panel_delta", {}),
             },
             "transfer_replay": {
                 "status": transfer_replay.get("status"),
@@ -306,6 +320,9 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Campaign gate probe rows: {counts['campaign_gate_probe_rows']}",
         f"- Campaign pressure rows: {counts['campaign_pressure_rows']}",
+        f"- Campaign challenger rows: {counts['campaign_challenger_rows']}",
+        f"- Campaign challenger primary challenges: {counts['campaign_challenger_primary_challenges']}",
+        f"- Campaign challenger replacements: {counts['campaign_challenger_replacements']}",
         f"- Transfer replay rows: {counts['transfer_replay_rows']}",
         f"- Substrate replay rows: {counts['substrate_replay_rows']}",
         f"- Cross-substrate discovery rows: {counts['cross_substrate_discovery_rows']}",
@@ -347,6 +364,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Campaign pressure summary",
         "",
         "The pressure summary accounts for what Claude changed, what Prospect refused to change, and which assay gates remain before any accepted state can move.",
+        "",
+        "## Campaign challenger ledger",
+        "",
+        "The challenger ledger joins shipped packets and challenges one current primary assay row. It recommends removing RWDD2B from the primary panel and adding CYB5RL, without changing accepted state.",
         "",
         "## Transfer replay packet",
         "",

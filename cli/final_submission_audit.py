@@ -58,6 +58,11 @@ SHIPPED_WORKSTREAMS = [
         "evidence": ["./prospect perturbation-scout", "docs/PERTURBATION_ATLAS_SCOUT.md"],
     },
     {
+        "workstream": "campaign_challenger_ledger",
+        "state": "shipped",
+        "evidence": ["./prospect campaign-challenger", "/data/campaign_challenger_ledger.json"],
+    },
+    {
         "workstream": "claude_campaign_pressure",
         "state": "shipped",
         "evidence": ["./prospect campaign-pressure", "./prospect campaign-probe-audit", "/data/campaign_pressure_summary.json", "/data/campaign_probe_audit.json"],
@@ -109,7 +114,7 @@ RENDERED_QA_CHECKLIST = {
         },
         {
             "tab": "Agent",
-            "must_show": ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
+            "must_show": ["Campaign pressure summary", "Campaign challenger ledger", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
         },
     ],
 }
@@ -144,6 +149,11 @@ COMPLETION_REQUIREMENTS = [
         "requirement": "perturbation_atlas_scout",
         "status": "shipped",
         "evidence": ["./prospect perturbation-scout", "docs/PERTURBATION_ATLAS_SCOUT.md"],
+    },
+    {
+        "requirement": "campaign_challenger_ledger",
+        "status": "shipped",
+        "evidence": ["./prospect campaign-challenger", "/data/campaign_challenger_ledger.json"],
     },
     {
         "requirement": "claude_campaign_pressure",

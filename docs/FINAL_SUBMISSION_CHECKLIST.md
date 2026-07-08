@@ -67,6 +67,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/campaign_gate_probe.json
 - https://prospect-sepia-six.vercel.app/data/campaign_probe_audit.json
 - https://prospect-sepia-six.vercel.app/data/campaign_pressure_summary.json
+- https://prospect-sepia-six.vercel.app/data/campaign_challenger_ledger.json
 - https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/cross_substrate_discovery.json
@@ -87,13 +88,14 @@ Confirm:
 - `/data/campaign_gate_probe.json` has 11 rows, records complete 11-of-11 coverage, and stays proposal only.
 - `/data/campaign_probe_audit.json` reports zero issues for the committed probe artifact.
 - `/data/campaign_pressure_summary.json` accounts for 20 Claude probe rows, explicit gate coverage, and zero accepted-state mutations.
+- `/data/campaign_challenger_ledger.json` removes RWDD2B from primary assay capacity and adds CYB5RL without changing accepted state.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.
 - `/data/donor_condition_replay.json` reports 20 campaign rows, 13 donor-supported rows, and no accepted-state mutation.
 - `/data/disease_genetics_overlay.json` reports 20 campaign rows, 10 selected immune or hematologic context rows, and no accepted-state mutation.
 - `/data/gladstone_pilot_design.json` reports 90 culture arms and stays proposal only.
-- `/data/final_submission_audit.json` reports 26 public artifacts and human-only actions.
+- `/data/final_submission_audit.json` reports 27 public artifacts and human-only actions.
 - `/data/release_manifest.json` hashes the public data artifact surface.
 - `/data/rendered_qa_packet.json` names the manual browser checkpoints.
 - The receipt bridge demo returns `accepted=false`.

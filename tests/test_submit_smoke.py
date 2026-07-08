@@ -86,6 +86,14 @@ def _current_payloads():
             "passed": "yes",
             "issue_count": 0,
         },
+        "/data/campaign_challenger_ledger.json": {
+            "status": "evidence_attached",
+            "trust_boundary": "frozen_join_over_committed_packets",
+            "accepted_state_mutation": "none",
+            "model_in_trust_path": "no",
+            "counts": {"campaign_rows": 20, "primary_panel_challenges": 1},
+            "panel_delta": {"remove": ["RWDD2B"], "add": ["CYB5RL"]},
+        },
         "/data/transfer_replay_packet.json": {
             "status": "computationally_reproduced",
             "accepted_state_mutation": "none",
@@ -169,7 +177,7 @@ def _current_payloads():
                 {"tab": "Overview", "must_show": ["Opening claim checks", "48%", "Judge packet"]},
                 {"tab": "Findings", "must_show": ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]},
                 {"tab": "Frontier", "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"]},
-                {"tab": "Agent", "must_show": ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]},
+                {"tab": "Agent", "must_show": ["Campaign pressure summary", "Campaign challenger ledger", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]},
             ],
         },
         "/data/receipt_bridge/receipt_manifest.json": {
@@ -204,9 +212,10 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 18
+    assert len(result.checks) == 19
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(check.name == "campaign probe audit" and check.ok for check in result.checks)
+    assert any(check.name == "campaign challenger ledger" and check.ok for check in result.checks)
     assert any(check.name == "Gladstone pilot design" and check.ok for check in result.checks)
     assert any(check.name == "cross-substrate discovery" and check.ok for check in result.checks)
     assert any(check.name == "donor-condition replay" and check.ok for check in result.checks)

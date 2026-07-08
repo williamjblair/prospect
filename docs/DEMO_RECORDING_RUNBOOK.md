@@ -52,6 +52,7 @@ Confirm:
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
 - `/data/campaign_pressure_summary.json` accounts for 20 Claude probe rows, all 11 gate decisions,
   and zero accepted-state mutations.
+- `/data/campaign_challenger_ledger.json` records the proposal-only RWDD2B to CYB5RL panel change.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - `/data/cross_substrate_discovery.json` reports 11,526 classified Marson rows and 20 campaign intersections.

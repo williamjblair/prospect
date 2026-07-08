@@ -168,6 +168,25 @@ def _check_campaign_probe_audit(base_url: str, opener: Callable[..., Any], timeo
         return Check("campaign probe audit", False, f"fetch failed: {exc}")
 
 
+def _check_campaign_challenger(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/campaign_challenger_ledger.json", opener, timeout)
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("trust_boundary") == "frozen_join_over_committed_packets"
+            and data.get("accepted_state_mutation") == "none"
+            and data.get("model_in_trust_path") == "no"
+            and data.get("counts", {}).get("campaign_rows") == 20
+            and data.get("counts", {}).get("primary_panel_challenges") == 1
+            and data.get("panel_delta", {}).get("remove") == ["RWDD2B"]
+            and data.get("panel_delta", {}).get("add") == ["CYB5RL"]
+        )
+        detail = "1 primary-panel challenge and 1 replacement row" if ok else "campaign challenger shape drift"
+        return Check("campaign challenger ledger", ok, detail)
+    except Exception as exc:
+        return Check("campaign challenger ledger", False, f"fetch failed: {exc}")
+
+
 def _check_transfer(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/transfer_replay_packet.json", opener, timeout)
@@ -397,6 +416,7 @@ def run_checks(
         _check_campaign_gate(base_url, opener, timeout),
         _check_campaign_pressure(base_url, opener, timeout),
         _check_campaign_probe_audit(base_url, opener, timeout),
+        _check_campaign_challenger(base_url, opener, timeout),
         _check_transfer(base_url, opener, timeout),
         _check_substrate(base_url, opener, timeout),
         _check_cross_substrate_discovery(base_url, opener, timeout),

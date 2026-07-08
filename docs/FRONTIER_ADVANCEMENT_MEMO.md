@@ -99,7 +99,9 @@ Already shipped:
 - PGGT1B evidence packet and matrix slice.
 - Twenty-row campaign leaderboard, all-row Claude probe, frozen probe audit, disagreement triage,
   full 11-of-11 gate probe, and pressure summary.
-- Gladstone assay operations bundle and pilot design.
+- Campaign challenger ledger.
+- Gladstone assay operations bundle and pilot design, now following the challenger-adjusted primary
+  assay panel.
 - Receipt bridge and external client.
 - Final submission audit, release manifest, rendered QA packet, submit smoke, and final-check.
 
@@ -409,26 +411,41 @@ Go or no-go:
 
 ## Workstream 5: campaign challenger ledger
 
-Priority: P1 if more Claude budget is acceptable, otherwise P2.
+Priority: P1, shipped.
 
-Goal: convert additional model pressure into a challenger ledger rather than replacing the promoted
-campaign probe.
+Goal: convert shipped model pressure and replay packets into a challenger ledger rather than
+replacing the promoted campaign probe.
 
 Why this matters: the current all-20 probe is strong. The next Claude loop should ask a sharper
 question: where would a skeptical model demote Prospect's top assay candidates after seeing the
 cross-substrate and donor packets?
 
+Current shipped surface: `./prospect campaign-challenger` emits
+`examples/data/campaign_challenger_ledger.json`, [CAMPAIGN_CHALLENGER_LEDGER.md](CAMPAIGN_CHALLENGER_LEDGER.md),
+and `/data/campaign_challenger_ledger.json`. The live Agent tab shows the panel delta.
+
+Current result:
+
+- 20 campaign rows reconciled across campaign review, Claude pressure, donor replay, cross-substrate
+  discovery, and disease context.
+- 1 current primary assay row challenged: RWDD2B.
+- 2 replacement candidates found: CYB5RL and MITD1.
+- Recommended primary panel: PGGT1B, RCC1L, MCAT, CCDC22, CYB5RL.
+- Panel delta: remove RWDD2B, add CYB5RL.
+- The lab packet, assay operations bundle, pilot design, and Gladstone handoff now follow this
+  challenger-adjusted panel.
+
 Technical shape:
 
 - Keep the promoted campaign probe immutable.
-- Add a challenger run under `/tmp` first.
 - Compare challenger recommendations against:
   - deterministic campaign review
   - campaign probe
   - gate probe
   - donor-condition replay
   - cross-substrate discovery
-- Promote only if coverage is complete and the frozen audit has zero issues.
+  - disease-genetics overlay
+- Promote assay-panel changes only as proposal-only planning, never accepted state.
 
 Potential discovery:
 
@@ -438,11 +455,11 @@ Potential discovery:
 
 Deliverables:
 
-- `./prospect campaign-challenger` only if needed.
-- Otherwise, use existing `./prospect campaign-probe` and `./prospect campaign-probe-audit` with
-  a new input packet.
+- `./prospect campaign-challenger`
 - `examples/data/campaign_challenger_ledger.json`
 - `docs/CAMPAIGN_CHALLENGER_LEDGER.md`
+- `/data/campaign_challenger_ledger.json`
+- Updated lab packet, assay operations bundle, pilot design, and Gladstone assay handoff
 
 Status:
 
@@ -451,9 +468,8 @@ Status:
 
 Gate:
 
-- Coverage audit.
-- Rationale audit against frozen local facts.
-- Complete requested versus returned gene list.
+- Tests cover panel delta, source joins, no accepted-state mutation, public data embedding, and
+  Agent-tab visibility.
 - `./prospect final-check`.
 
 ## Ranked execution plan
@@ -463,8 +479,8 @@ Gate:
    donor-condition replay, and disease-genetics overlay are now shipped frontier-advancement packets.
 3. Keep Workstream 4 green: perturbation-atlas scout is shipped as a source-backed no-go for large
    ingestion before submission.
-4. Run Workstream 5 only after the shipped advancement packets change the campaign ranking or assay
-   framing.
+4. Keep Workstream 5 green: the campaign challenger ledger is shipped and the lab-facing panel now
+   follows the challenger-adjusted slate.
 5. Refresh demo, submit packet, judge packet, release manifest, and web data after any public artifact.
 6. Deploy only after web or public-data changes, using the deployment command in `AGENTS.md`.
 
@@ -486,7 +502,7 @@ The new active goal is complete only when:
 
 Do not start a new large data ingest before submission. Prospect has now shipped the defensible
 frontier-advancement set: cross-substrate discovery, donor-condition replay, disease-genetics
-overlay, and perturbation-atlas scout. The next highest-leverage technical move is a campaign
-challenger ledger only if it can use those shipped packets to demote or promote rows without changing
-accepted state. Otherwise, preserve the green floor, keep the demo tight, and let the project win on
-the trust boundary plus the replay packets already shipped.
+overlay, perturbation-atlas scout, and campaign challenger ledger. The challenger ledger demotes
+RWDD2B from primary assay capacity and adds CYB5RL to the lab-facing panel without changing accepted
+state. The next highest-leverage work is demo hardening and submission polish unless a new small,
+licensed replay table appears.

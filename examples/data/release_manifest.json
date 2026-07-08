@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 26,
-  "hashed_artifact_count": 25,
+  "public_artifact_count": 27,
+  "hashed_artifact_count": 26,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -23,6 +23,7 @@
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
     "/data/campaign_pressure_summary.json",
+    "/data/campaign_challenger_ledger.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
@@ -39,14 +40,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5934393,
-      "sha256": "481997c12b20777e9ed4a2ed753ae3aa127c7125bb3acb9bea928b94cbd36470"
+      "bytes": 5953696,
+      "sha256": "1666efe5de1cd443594d8e270f942675eb30f82cf8296cdce17e66c98f78b893"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 20205,
-      "sha256": "bd81580b626c6ba70a3744a221fb7d3e39d6ac63249006990f2bfa6c209024f3"
+      "bytes": 20814,
+      "sha256": "66a8872c1078289b60fb9f1b390c6b424dadaf712266bcd22ed37ac7be2fe1bc"
     },
     {
       "path": "/data/finding_index.json",
@@ -127,6 +128,12 @@
       "sha256": "ac3faa262e69650ad352a22d8d97ce034920ad911a100c878d5f24a63de291cc"
     },
     {
+      "path": "/data/campaign_challenger_ledger.json",
+      "source_path": "web/public/data/campaign_challenger_ledger.json",
+      "bytes": 17900,
+      "sha256": "9a87620801edf120ba9e8907427dbd86c407d7626c84a28c75910921618d5bcf"
+    },
+    {
       "path": "/data/transfer_replay_packet.json",
       "source_path": "web/public/data/transfer_replay_packet.json",
       "bytes": 1480,
@@ -159,32 +166,32 @@
     {
       "path": "/data/lab_packet.json",
       "source_path": "web/public/data/lab_packet.json",
-      "bytes": 8323,
-      "sha256": "51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482"
+      "bytes": 8656,
+      "sha256": "3846f6b401e1f5325bac22ff3d25e3cacd4c88f588a3842511569af360a5840b"
     },
     {
       "path": "/data/assay_operations_bundle.json",
       "source_path": "web/public/data/assay_operations_bundle.json",
-      "bytes": 14350,
-      "sha256": "0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb"
+      "bytes": 14354,
+      "sha256": "16de3c65459143096bc112ef372dd6dde215e778676173e1b08956241c871d85"
     },
     {
       "path": "/data/gladstone_pilot_design.json",
       "source_path": "web/public/data/gladstone_pilot_design.json",
-      "bytes": 10075,
-      "sha256": "804ede72ae41cd4dbbf10ca9245ce0834700768d3e2d9efdeeaaa480b7b64e95"
+      "bytes": 10079,
+      "sha256": "908967a92079c685f4f1ba038ba3b268ec61a91413ae6f95ff96d540cabd3ce0"
     },
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 7331,
-      "sha256": "bb38875fee85c19865b56ee0dfbb6d83b4868e097fca18daec0addfdcb4c6790"
+      "bytes": 7752,
+      "sha256": "f804cf906c81d8165ec3d2f26e36527a66f61bdf848177e103ee0dff2871fade"
     },
     {
       "path": "/data/rendered_qa_packet.json",
       "source_path": "web/public/data/rendered_qa_packet.json",
-      "bytes": 2209,
-      "sha256": "fdd3ffc2a250acfc5b760c947f0b078103363808565baaa55186aa1ce475cf32"
+      "bytes": 2258,
+      "sha256": "6e497255a87314ee129f388ef0275eb0dd16ba67605a6fb328b1233de5a6b8fa"
     }
   ],
   "trust_boundary": {

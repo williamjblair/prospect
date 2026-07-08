@@ -176,6 +176,29 @@ type CampaignPressureSummary = {
     gate_recommendation: string; assay_gate: string; reason: string;
   }[];
 };
+type CampaignChallengerLedger = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutation: string;
+  model_in_trust_path: string;
+  counts: {
+    campaign_rows: number; current_primary_panel_rows: number; recommended_primary_panel_rows: number;
+    primary_panel_challenges: number; replacement_candidates: number; retain_primary_panel: number;
+    promote_if_capacity: number; contextual_priority: number; hold_for_review: number;
+    demote_or_control: number; challenge_primary_panel: number;
+  };
+  current_primary_panel: string[];
+  recommended_primary_panel: string[];
+  panel_delta: { remove: string[]; add: string[]; changed: string };
+  rows: {
+    rank: number; gene: string; status: string; trust_boundary: string; current_primary_panel: string;
+    campaign_score: number; review_decision: string; claude_pressure_alignment: string;
+    gate_recommendation: string; donor_replay_class: string; cross_substrate_class: string;
+    disease_overlay_class: string; challenger_action: string; recommended_change: string;
+    challenger_score: number; reason: string;
+  }[];
+};
 type LabPacket = {
   title: string;
   status: string;
@@ -406,6 +429,7 @@ type Data = {
   campaign_triage?: CampaignTriage | null;
   campaign_gate_probe?: CampaignGateProbe | null;
   campaign_pressure_summary?: CampaignPressureSummary | null;
+  campaign_challenger_ledger?: CampaignChallengerLedger | null;
   lab_packet?: LabPacket | null;
   assay_operations_bundle?: AssayOperationsBundle | null;
   gladstone_pilot_design?: GladstonePilotDesign | null;
@@ -1376,6 +1400,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.campaign_pressure_summary && <CampaignPressureSummaryCard summary={d.campaign_pressure_summary} onGene={onGene} />}
 
+      {d.campaign_challenger_ledger && <CampaignChallengerLedgerCard ledger={d.campaign_challenger_ledger} onGene={onGene} />}
+
       {d.donor_condition_replay && <DonorConditionReplayCard packet={d.donor_condition_replay} onGene={onGene} />}
 
       {d.disease_genetics_overlay && <DiseaseGeneticsOverlayCard packet={d.disease_genetics_overlay} onGene={onGene} />}
@@ -1756,6 +1782,88 @@ function CampaignPressureSummaryCard({ summary, onGene }: { summary: CampaignPre
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Trust boundary: {label(summary.trust_boundary)}. Model in trust path: {summary.model_in_trust_path}.
+      </p>
+    </div>
+  );
+}
+
+function CampaignChallengerLedgerCard({ ledger, onGene }: { ledger: CampaignChallengerLedger; onGene: (g: string) => void }) {
+  const label = (value: string) => value.replace(/_/g, " ");
+  const tone = (value: string) => {
+    if (value === "retain_primary_panel" || value === "promote_if_capacity") return "var(--moss)";
+    if (value === "challenge_primary_panel" || value === "demote_or_control") return "var(--cinnabar)";
+    if (value === "contextual_priority") return "var(--field-blue)";
+    return "var(--stone)";
+  };
+  const rows = ledger.rows.filter((row) => (
+    row.challenger_action === "challenge_primary_panel" ||
+    row.challenger_action === "promote_if_capacity" ||
+    row.challenger_action === "contextual_priority"
+  ));
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Campaign challenger ledger</div>
+          <p className="t-body-sm" style={{ maxWidth: "76ch", margin: 0 }}>
+            Frozen join over campaign pressure, donor replay, cross-substrate discovery, and disease context.
+            It challenges RWDD2B for primary assay capacity and adds CYB5RL as the replacement row.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/campaign_challenger_ledger.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 8 }}>
+        {[
+          [ledger.counts.campaign_rows, "campaign rows", "var(--ink)"],
+          [ledger.counts.primary_panel_challenges, "primary challenges", "var(--cinnabar)"],
+          [ledger.counts.replacement_candidates, "replacement candidates", "var(--moss)"],
+          [ledger.accepted_state_mutation, "accepted mutation", "var(--stone)"],
+        ].map(([value, title, color]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ display: "grid", gap: 8 }}>
+        <div className="t-body-sm"><b>Current panel:</b> {ledger.current_primary_panel.join(", ")}</div>
+        <div className="t-body-sm"><b>Recommended panel:</b> {ledger.recommended_primary_panel.join(", ")}</div>
+        <div className="t-body-sm">
+          <b>Delta:</b> remove {ledger.panel_delta.remove.join(", ") || "none"}, add {ledger.panel_delta.add.join(", ") || "none"}.
+        </div>
+      </div>
+      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
+        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "donor", "substrate", "gate", "action", "reason"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.donor_replay_class)}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.cross_substrate_class)}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.gate_recommendation)}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone(row.challenger_action) }}>{label(row.challenger_action)}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{row.reason}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Trust boundary: {label(ledger.trust_boundary)}. Model in trust path: {ledger.model_in_trust_path}.
       </p>
     </div>
   );

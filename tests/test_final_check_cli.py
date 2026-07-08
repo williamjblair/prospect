@@ -37,6 +37,8 @@ def test_final_check_lists_submission_gate_commands():
         "git diff --exit-code -- examples/data/campaign_pressure_summary.json docs/CAMPAIGN_PRESSURE_SUMMARY.md",
         "./prospect campaign-probe-audit --strict",
         "git diff --exit-code -- examples/data/campaign_probe_audit.json docs/CAMPAIGN_PROBE_AUDIT.md",
+        "./prospect lab-pack",
+        "git diff --exit-code -- examples/data/lab_packet.json examples/data/lab_packet.csv docs/LAB_PACKET.md",
         "./prospect assay-ops",
         "git diff --exit-code -- examples/data/assay_operations_bundle.json examples/data/assay_operations_bundle.csv docs/ASSAY_OPERATIONS_BUNDLE.md",
         "./prospect pilot-design",
@@ -53,10 +55,13 @@ def test_final_check_lists_submission_gate_commands():
         "git diff --exit-code -- examples/data/disease_genetics_source_rows.json examples/data/disease_genetics_overlay.json docs/DISEASE_GENETICS_OVERLAY.md",
         "./prospect perturbation-scout",
         "git diff --exit-code -- examples/data/perturbation_atlas_scout.json docs/PERTURBATION_ATLAS_SCOUT.md",
+        "./prospect campaign-challenger",
+        "git diff --exit-code -- examples/data/campaign_challenger_ledger.json docs/CAMPAIGN_CHALLENGER_LEDGER.md",
+        "cd web && python gen_data.py",
         "./prospect judge-pack",
         "cd web && python gen_data.py",
         "./prospect release-manifest",
-        "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md examples/data/release_manifest.json docs/RELEASE_MANIFEST.md web/public/data/frontier.json web/public/data/judge_packet.json web/public/data/campaign_agent_probe.json web/public/data/campaign_probe_audit.json web/public/data/campaign_pressure_summary.json web/public/data/assay_operations_bundle.json web/public/data/gladstone_pilot_design.json web/public/data/final_submission_audit.json web/public/data/substrate_replay_packet.json web/public/data/cross_substrate_discovery.json web/public/data/donor_condition_replay.json web/public/data/disease_genetics_overlay.json web/public/data/release_manifest.json web/public/data/rendered_qa_packet.json",
+        "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md examples/data/release_manifest.json docs/RELEASE_MANIFEST.md web/public/data/frontier.json web/public/data/judge_packet.json web/public/data/campaign_agent_probe.json web/public/data/campaign_probe_audit.json web/public/data/campaign_pressure_summary.json web/public/data/campaign_challenger_ledger.json web/public/data/lab_packet.json web/public/data/assay_operations_bundle.json web/public/data/gladstone_pilot_design.json web/public/data/final_submission_audit.json web/public/data/substrate_replay_packet.json web/public/data/cross_substrate_discovery.json web/public/data/donor_condition_replay.json web/public/data/disease_genetics_overlay.json web/public/data/release_manifest.json web/public/data/rendered_qa_packet.json",
     ]:
         assert command in proc.stdout
 

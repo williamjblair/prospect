@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 26,
+  "public_artifact_count": 27,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -21,6 +21,7 @@
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
     "/data/campaign_pressure_summary.json",
+    "/data/campaign_challenger_ledger.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
@@ -43,6 +44,7 @@
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/CAMPAIGN_PROBE_AUDIT.md",
+    "docs/CAMPAIGN_CHALLENGER_LEDGER.md",
     "docs/CROSS_SUBSTRATE_DISCOVERY.md",
     "docs/DONOR_CONDITION_REPLAY.md",
     "docs/DISEASE_GENETICS_OVERLAY.md",
@@ -117,6 +119,14 @@
       "evidence": [
         "./prospect perturbation-scout",
         "docs/PERTURBATION_ATLAS_SCOUT.md"
+      ]
+    },
+    {
+      "workstream": "campaign_challenger_ledger",
+      "state": "shipped",
+      "evidence": [
+        "./prospect campaign-challenger",
+        "/data/campaign_challenger_ledger.json"
       ]
     },
     {
@@ -205,6 +215,7 @@
         "tab": "Agent",
         "must_show": [
           "Campaign pressure summary",
+          "Campaign challenger ledger",
           "Donor-condition replay packet",
           "Disease-genetics overlay packet",
           "Gladstone assay operations bundle",
@@ -261,6 +272,14 @@
       "evidence": [
         "./prospect perturbation-scout",
         "docs/PERTURBATION_ATLAS_SCOUT.md"
+      ]
+    },
+    {
+      "requirement": "campaign_challenger_ledger",
+      "status": "shipped",
+      "evidence": [
+        "./prospect campaign-challenger",
+        "/data/campaign_challenger_ledger.json"
       ]
     },
     {

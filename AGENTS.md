@@ -43,7 +43,7 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|campaign-challenger|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
 ./prospect final-check              # full local submission gate, including generated-artifact drift checks
 ./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
@@ -54,6 +54,7 @@ python tests/test_skill_parity.py   # the Skill checker matches the engine (112 
 ./prospect campaign-triage          # turns probe disagreements into assay gates
 ./prospect campaign-gate-probe      # Claude pressure-tests disagreement gates, still proposal-only
 ./prospect campaign-pressure        # summarizes model pressure, refusals, and remaining gates
+./prospect campaign-challenger      # joins shipped packets into a proposal-only assay challenger ledger
 ./prospect transfer-replay          # compact cross-dataset replay packet, no accepted-state mutation
 ./prospect substrate-replay         # protocol-generalization packet across frozen substrates
 ./prospect cross-substrate-discovery # classify Marson rows against K562/RPE1 counts

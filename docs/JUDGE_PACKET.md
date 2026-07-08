@@ -37,6 +37,9 @@ cd web && npm run build
 - Campaign triage rows: 11
 - Campaign gate probe rows: 11
 - Campaign pressure rows: 20
+- Campaign challenger rows: 20
+- Campaign challenger primary challenges: 1
+- Campaign challenger replacements: 1
 - Transfer replay rows: 377
 - Substrate replay rows: 377
 - Cross-substrate discovery rows: 11526
@@ -51,7 +54,7 @@ cd web && npm run build
 - Assay operations candidates: 5
 - Pilot design candidates: 5
 - Pilot design culture arms: 90
-- Final submission public artifacts: 26
+- Final submission public artifacts: 27
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -78,6 +81,10 @@ The gate probe pressure-tests the disagreement triage rows with closed recommend
 ## Campaign pressure summary
 
 The pressure summary accounts for what Claude changed, what Prospect refused to change, and which assay gates remain before any accepted state can move.
+
+## Campaign challenger ledger
+
+The challenger ledger joins shipped packets and challenges one current primary assay row. It recommends removing RWDD2B from the primary panel and adding CYB5RL, without changing accepted state.
 
 ## Transfer replay packet
 
@@ -122,6 +129,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`
+- `/data/campaign_challenger_ledger.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
@@ -145,6 +153,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - Agent: Claude probe compared with deterministic review lanes
 - Agent: disagreement triage turns model pressure into assay gates
 - Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority
+- Agent: challenger ledger reconciles shipped packets and challenges one primary assay row
 
 Rebuild:
 

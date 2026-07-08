@@ -31,6 +31,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect campaign-probe",
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
+        "./prospect campaign-challenger",
         "./prospect transfer-replay",
         "./prospect perturbation-scout",
         "./prospect lab-pack",

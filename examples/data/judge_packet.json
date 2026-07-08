@@ -48,7 +48,8 @@
     "Agent: Gladstone assay operations bundle names promotion, weakening, and rejection evidence",
     "Agent: Claude probe compared with deterministic review lanes",
     "Agent: disagreement triage turns model pressure into assay gates",
-    "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority"
+    "Agent: gate probe checks whether gates are sufficient, need controls, or should be lower priority",
+    "Agent: challenger ledger reconciles shipped packets and challenges one primary assay row"
   ],
   "public_data": [
     "/data/frontier.json",
@@ -66,6 +67,7 @@
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
     "/data/campaign_pressure_summary.json",
+    "/data/campaign_challenger_ledger.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/cross_substrate_discovery.json",
@@ -91,6 +93,9 @@
     "campaign_triage_rows": 11,
     "campaign_gate_probe_rows": 11,
     "campaign_pressure_rows": 20,
+    "campaign_challenger_rows": 20,
+    "campaign_challenger_primary_challenges": 1,
+    "campaign_challenger_replacements": 1,
     "transfer_replay_rows": 377,
     "substrate_replay_rows": 377,
     "cross_substrate_discovery_rows": 11526,
@@ -105,7 +110,7 @@
     "assay_operations_candidates": 5,
     "pilot_design_candidates": 5,
     "pilot_design_culture_arms": 90,
-    "final_submission_public_artifacts": 26,
+    "final_submission_public_artifacts": 27,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -829,6 +834,29 @@
         "missing_genes": []
       }
     },
+    "campaign_challenger_ledger": {
+      "status": "evidence_attached",
+      "trust_boundary": "frozen_join_over_committed_packets",
+      "accepted_state_mutation": "none",
+      "campaign_rows": 20,
+      "primary_panel_challenges": 1,
+      "recommended_primary_panel": [
+        "PGGT1B",
+        "RCC1L",
+        "MCAT",
+        "CCDC22",
+        "CYB5RL"
+      ],
+      "panel_delta": {
+        "remove": [
+          "RWDD2B"
+        ],
+        "add": [
+          "CYB5RL"
+        ],
+        "changed": "yes"
+      }
+    },
     "transfer_replay": {
       "status": "computationally_reproduced",
       "trust_boundary": "frozen_checkers_over_frozen_tables",
@@ -910,7 +938,7 @@
     },
     "final_submission_audit": {
       "readiness": "submission_ready_for_human_upload",
-      "public_artifact_count": 26,
+      "public_artifact_count": 27,
       "human_only_actions": [
         "record_demo_video",
         "submit_project_form",

@@ -3,10 +3,11 @@
   "status": "evidence_attached",
   "trust_boundary": "proposal_only",
   "acceptance": false,
-  "source": "frozen Prospect validation ranking",
+  "source": "campaign challenger ledger recommended primary panel",
   "scope": "assay planning, not accepted biological state",
   "method": {
-    "candidate_source": "frontier.validation_sheet.rank_candidates",
+    "candidate_source": "frontier.campaign_challenger_ledger.build_ledger",
+    "base_ranking": "frontier.validation_sheet.rank_candidates",
     "assay": "stimulated primary CD4+ CRISPRi follow-up",
     "negative_controls": [
       "non-targeting guide",
@@ -27,6 +28,7 @@
     "replay_links": [
       "/data/frontier.json",
       "/data/agent_campaign.json",
+      "/data/campaign_challenger_ledger.json",
       "/data/pggt1b_deep_dive.json",
       "/data/receipt_bridge/receipt_contract.json"
     ]
@@ -67,6 +69,7 @@
       "replay_links": [
         "/data/frontier.json",
         "/data/agent_campaign.json",
+        "/data/campaign_challenger_ledger.json",
         "/data/pggt1b_deep_dive.json",
         "/data/receipt_bridge/receipt_contract.json"
       ],
@@ -119,6 +122,7 @@
       "replay_links": [
         "/data/frontier.json",
         "/data/agent_campaign.json",
+        "/data/campaign_challenger_ledger.json",
         "/data/pggt1b_deep_dive.json",
         "/data/receipt_bridge/receipt_contract.json"
       ],
@@ -171,6 +175,7 @@
       "replay_links": [
         "/data/frontier.json",
         "/data/agent_campaign.json",
+        "/data/campaign_challenger_ledger.json",
         "/data/pggt1b_deep_dive.json",
         "/data/receipt_bridge/receipt_contract.json"
       ],
@@ -190,58 +195,6 @@
     },
     {
       "rank": 4,
-      "gene": "RWDD2B",
-      "status": "evidence_attached",
-      "trust_boundary": "proposal_only",
-      "intervention": "CRISPRi knockdown",
-      "sample": "primary human CD4+ T cells",
-      "conditions": [
-        "Rest",
-        "Stim8hr",
-        "Stim48hr"
-      ],
-      "biological_question": "Does RWDD2B gate the stimulated CD4+ activation program without acting as a broad housekeeping perturbation?",
-      "primary_readout": "stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
-      "secondary_readout": "compare Rest, Stim8hr, and Stim48hr programs against non-targeting and pathway controls",
-      "decision_rule": "advance only if stimulated knockdown shifts the activation program without a Rest-only or broad non-immune effect",
-      "negative_controls": [
-        "non-targeting guide",
-        "safe-harbor guide",
-        "unstimulated matched culture"
-      ],
-      "positive_controls": [
-        "VAV1",
-        "LAT",
-        "CD3E"
-      ],
-      "exclusion_criteria": [
-        "failed on-target knockdown",
-        "broad non-immune effect",
-        "Rest-only transcriptional shift",
-        "canonical effector readout without upstream program shift"
-      ],
-      "replay_links": [
-        "/data/frontier.json",
-        "/data/agent_campaign.json",
-        "/data/pggt1b_deep_dive.json",
-        "/data/receipt_bridge/receipt_contract.json"
-      ],
-      "stim_max_de": 720,
-      "strongest_condition": "Stim8hr",
-      "rest_de": 190,
-      "k562_de": 1,
-      "rpe1_de": null,
-      "known_regulon_targets": 0,
-      "score": 1080,
-      "evidence": [
-        "720 DE genes under Stim8hr with on-target KD",
-        "190 DE genes at Rest",
-        "1 DE genes in K562 and not measured in RPE1",
-        "0 CollecTRI targets"
-      ]
-    },
-    {
-      "rank": 5,
       "gene": "CCDC22",
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
@@ -275,6 +228,7 @@
       "replay_links": [
         "/data/frontier.json",
         "/data/agent_campaign.json",
+        "/data/campaign_challenger_ledger.json",
         "/data/pggt1b_deep_dive.json",
         "/data/receipt_bridge/receipt_contract.json"
       ],
@@ -288,6 +242,59 @@
       "evidence": [
         "619 DE genes under Stim48hr with on-target KD",
         "116 DE genes at Rest",
+        "13 DE genes in K562 and not measured in RPE1",
+        "0 CollecTRI targets"
+      ]
+    },
+    {
+      "rank": 5,
+      "gene": "CYB5RL",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "intervention": "CRISPRi knockdown",
+      "sample": "primary human CD4+ T cells",
+      "conditions": [
+        "Rest",
+        "Stim8hr",
+        "Stim48hr"
+      ],
+      "biological_question": "Does CYB5RL gate the stimulated CD4+ activation program without acting as a broad housekeeping perturbation?",
+      "primary_readout": "stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h",
+      "secondary_readout": "compare Rest, Stim8hr, and Stim48hr programs against non-targeting and pathway controls",
+      "decision_rule": "advance only if stimulated knockdown shifts the activation program without a Rest-only or broad non-immune effect",
+      "negative_controls": [
+        "non-targeting guide",
+        "safe-harbor guide",
+        "unstimulated matched culture"
+      ],
+      "positive_controls": [
+        "VAV1",
+        "LAT",
+        "CD3E"
+      ],
+      "exclusion_criteria": [
+        "failed on-target knockdown",
+        "broad non-immune effect",
+        "Rest-only transcriptional shift",
+        "canonical effector readout without upstream program shift"
+      ],
+      "replay_links": [
+        "/data/frontier.json",
+        "/data/agent_campaign.json",
+        "/data/campaign_challenger_ledger.json",
+        "/data/pggt1b_deep_dive.json",
+        "/data/receipt_bridge/receipt_contract.json"
+      ],
+      "stim_max_de": 389,
+      "strongest_condition": "Stim48hr",
+      "rest_de": 11,
+      "k562_de": 13,
+      "rpe1_de": null,
+      "known_regulon_targets": 0,
+      "score": 928,
+      "evidence": [
+        "389 DE genes under Stim48hr with on-target KD",
+        "11 DE genes at Rest",
         "13 DE genes in K562 and not measured in RPE1",
         "0 CollecTRI targets"
       ]

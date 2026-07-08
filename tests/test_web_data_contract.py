@@ -135,6 +135,22 @@ def test_frontier_json_embeds_campaign_pressure_summary():
     assert "true" not in json.dumps(summary).lower()
 
 
+def test_frontier_json_embeds_campaign_challenger_ledger():
+    data = json.loads(FRONTIER.read_text())
+    ledger = data["campaign_challenger_ledger"]
+
+    assert ledger["status"] == "evidence_attached"
+    assert ledger["trust_boundary"] == "frozen_join_over_committed_packets"
+    assert ledger["accepted_state_mutation"] == "none"
+    assert ledger["counts"]["campaign_rows"] == 20
+    assert ledger["counts"]["primary_panel_challenges"] == 1
+    assert ledger["panel_delta"]["remove"] == ["RWDD2B"]
+    assert ledger["panel_delta"]["add"] == ["CYB5RL"]
+    assert ledger["recommended_primary_panel"] == ["PGGT1B", "RCC1L", "MCAT", "CCDC22", "CYB5RL"]
+    assert "verified" not in json.dumps(ledger).lower()
+    assert "true" not in json.dumps(ledger).lower()
+
+
 def test_frontier_json_embeds_campaign_probe_audit():
     data = json.loads(FRONTIER.read_text())
     audit = data["campaign_probe_audit"]

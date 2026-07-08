@@ -7,9 +7,11 @@ DOC = ROOT / "docs" / "GLADSTONE_ASSAY_HANDOFF.md"
 
 def test_gladstone_assay_handoff_names_all_lab_packet_candidates():
     text = DOC.read_text()
+    compact = " ".join(text.split())
 
-    for gene in ["PGGT1B", "RCC1L", "MCAT", "RWDD2B", "CCDC22"]:
+    for gene in ["PGGT1B", "RCC1L", "MCAT", "CCDC22", "CYB5RL"]:
         assert gene in text
+    assert "RWDD2B is removed from primary assay capacity" in compact
 
 
 def test_gladstone_assay_handoff_keeps_boundary_and_controls():
@@ -25,6 +27,7 @@ def test_gladstone_assay_handoff_keeps_boundary_and_controls():
         "activation-marker flow cytometry",
         "targeted RNA-seq",
         "/data/lab_packet.json",
+        "/data/campaign_challenger_ledger.json",
         "/data/judge_packet.json",
         "human signing path",
     ]:

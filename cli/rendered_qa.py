@@ -31,11 +31,11 @@ TABS = [
         "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"],
         "purpose": "Receipt boundary and no-model-in-trust-path behavior.",
     },
-    {
-        "tab": "Agent",
-        "must_show": ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
-        "purpose": "Claude pressure, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff.",
-    },
+        {
+            "tab": "Agent",
+            "must_show": ["Campaign pressure summary", "Campaign challenger ledger", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
+            "purpose": "Claude pressure, challenger ledger, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff.",
+        },
 ]
 
 VIEWPORTS = [

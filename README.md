@@ -109,6 +109,10 @@ have to pass before a conservative reviewer spends primary assay capacity.
 `prospect campaign-pressure` summarizes the full Claude campaign pressure loop: what aligned, what
 became assay gates, what needed controls, and what stayed out of accepted state.
 
+`prospect campaign-challenger` joins the shipped campaign, donor, cross-substrate, disease, and
+pressure packets into one proposal-only ledger. It challenges RWDD2B for primary assay capacity and
+adds CYB5RL as the replacement row without changing accepted state.
+
 `prospect campaign-probe-audit` replays a campaign probe artifact through frozen checks before it
 can be promoted into the public chain. The committed 20-row probe has zero audit issues; every
 larger or follow-up probe must pass the same rationale and coverage audit first.
@@ -158,6 +162,7 @@ Current public artifacts:
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/campaign_pressure_summary.json`
+- `/data/campaign_challenger_ledger.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/cross_substrate_discovery.json`
@@ -195,6 +200,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect campaign-pressure      # summarize model pressure and complete gate coverage
+./prospect campaign-challenger    # build the proposal-only assay challenger ledger
 ./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # build the transfer replay packet
 ./prospect substrate-replay       # build the substrate replay packet

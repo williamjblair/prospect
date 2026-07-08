@@ -24,7 +24,7 @@ This packet makes the final browser pass durable. It does not claim automated vi
 | Overview | `Opening claim checks`, `48%`, `Judge packet` | Opening refusal, overclaim rate, and replay entry point. |
 | Findings | `Scannable findings index`, `Substrate replay packet`, `Cross-substrate discovery packet`, `MED19` | Scientific evidence path, protocol generalization, and cross-substrate discovery. |
 | Frontier | `Executable bridge path`, `accepted=false`, `human_signature_required` | Receipt boundary and no-model-in-trust-path behavior. |
-| Agent | `Campaign pressure summary`, `Donor-condition replay packet`, `Disease-genetics overlay packet`, `Gladstone assay operations bundle`, `Gladstone pilot design`, `PGGT1B` | Claude pressure, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff. |
+| Agent | `Campaign pressure summary`, `Campaign challenger ledger`, `Donor-condition replay packet`, `Disease-genetics overlay packet`, `Gladstone assay operations bundle`, `Gladstone pilot design`, `PGGT1B` | Claude pressure, challenger ledger, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff. |
 
 ## Evidence commands
 

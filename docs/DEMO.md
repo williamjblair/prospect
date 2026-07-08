@@ -42,9 +42,11 @@ proposal. Agent tab, PGGT1B deep dive. The packet shows 3,014 Stim8hr DE genes, 
 1 K562 DE gene, 0 CollecTRI targets, a 17.22x stimulation ratio, a 3014x transfer check, two
 literature hooks, a released-matrix slice of 671 moved transcripts, missing evidence before acceptance,
 and a stimulated CD4+ assay readout.
-Then scroll to the lab assay packet, assay operations bundle, and pilot design. It gives five
+Then scroll to the campaign challenger ledger, lab assay packet, assay operations bundle, and pilot design. It gives five
 assay-ready rows with expected positive results, weakening results, rejection results, missing
 evidence before any status change, and 90 proposal-only culture arms across three donor replicates.
+The challenger ledger removes RWDD2B from primary assay capacity and adds CYB5RL without changing
+accepted state.
 The campaign leaderboard keeps 20 proposal-only follow-ups ranked by the same frozen facts,
 plus the review appendix with lane counts, audit questions, per-row decisions, and stop rules. The
 campaign pressure summary shows Claude aligned on some rows, pushed harder on others, and still

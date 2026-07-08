@@ -13,6 +13,7 @@
   prospect campaign-triage  build deterministic triage from probe disagreements
   prospect campaign-gate-probe run Claude probes against disagreement assay gates
   prospect campaign-pressure build the campaign pressure summary packet
+  prospect campaign-challenger build the deterministic campaign challenger ledger
   prospect transfer-replay  build a compact transfer replay packet
   prospect substrate-replay build the protocol-generalization substrate replay packet
   prospect cross-substrate-discovery build the cross-substrate discovery packet
@@ -73,6 +74,8 @@ def main():
         from loop.campaign_gate_probe import main as campaign_gate_probe_main; campaign_gate_probe_main(rest)
     elif cmd == "campaign-pressure":
         from frontier.campaign_pressure_summary import main as campaign_pressure_main; campaign_pressure_main()
+    elif cmd == "campaign-challenger":
+        from frontier.campaign_challenger_ledger import main as campaign_challenger_main; sys.exit(campaign_challenger_main(rest))
     elif cmd == "transfer-replay":
         from frontier.transfer_replay import main as transfer_replay_main; transfer_replay_main()
     elif cmd == "substrate-replay":

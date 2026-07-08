@@ -30,6 +30,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect campaign-probe",
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
+        "./prospect campaign-challenger",
         "./prospect transfer-replay",
         "./prospect lab-pack",
         "./prospect assay-ops",

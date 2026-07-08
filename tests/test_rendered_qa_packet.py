@@ -33,7 +33,7 @@ def test_rendered_qa_packet_names_browser_path_without_overclaiming():
     assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
     assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "Cross-substrate discovery packet", "MED19"]
     assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
-    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
+    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Campaign challenger ledger", "Donor-condition replay packet", "Disease-genetics overlay packet", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
     assert "./prospect submit-smoke" in packet["evidence_commands"]
     assert "./prospect final-check" in packet["evidence_commands"]
     assert "verified" not in json.dumps(packet).lower()

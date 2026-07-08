@@ -53,13 +53,14 @@
       "tab": "Agent",
       "must_show": [
         "Campaign pressure summary",
+        "Campaign challenger ledger",
         "Donor-condition replay packet",
         "Disease-genetics overlay packet",
         "Gladstone assay operations bundle",
         "Gladstone pilot design",
         "PGGT1B"
       ],
-      "purpose": "Claude pressure, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff."
+      "purpose": "Claude pressure, challenger ledger, donor replay, disease context, proposal-only assay gates, pilot design, and lab handoff."
     }
   ],
   "evidence_commands": [

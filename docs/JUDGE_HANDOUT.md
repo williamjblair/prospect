@@ -16,7 +16,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - 5 signed findings
 - 6 portable receipts
-- 26 public data artifacts
+- 27 public data artifacts
 - 377 replayed T-cell regulators across three frozen substrates
 - 11526 Marson rows classified against non-immune substrates
 - 409 T-cell-specific activation candidates
@@ -25,6 +25,8 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 4 rows with selected immune or hematologic genetic context
+- 20 campaign rows reconciled by the challenger ledger
+- 1 primary assay row challenged before handoff
 - 20 Claude probe rows in the pressure loop
 - 11 of 11 gate-probe decisions returned, coverage `complete`
 - 5 proposal-only assay operations rows
@@ -45,8 +47,9 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 4. Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.
 5. Agent: donor replay separates donor-supported campaign rows from donor-fragile rows.
 6. Agent: disease overlay attaches external context without changing accepted state.
-7. Frontier: receipt bridge returns proposal-only submission, not accepted state.
-8. Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.
+7. Agent: challenger ledger adjusts assay capacity before the lab handoff.
+8. Frontier: receipt bridge returns proposal-only submission, not accepted state.
+9. Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.
 
 ## Public artifacts to open
 
@@ -56,6 +59,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/cross_substrate_discovery.json`
 - `/data/donor_condition_replay.json`
 - `/data/disease_genetics_overlay.json`
+- `/data/campaign_challenger_ledger.json`
 - `/data/assay_operations_bundle.json`
 - `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
