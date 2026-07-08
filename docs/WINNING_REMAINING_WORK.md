@@ -15,7 +15,8 @@ The final gate now also regenerates and drift-checks the transfer replay packet,
 static web data. Production smoke fetches every public artifact endpoint and checks that the live
 judge packet's public-data list exactly matches the shared `submit-pack` manifest.
 `docs/JUDGE_QUICKSTART.md` now gives judges a five-minute route through the live app, replay
-commands, typed statuses, receipt boundary, and public artifacts.
+commands, typed statuses, receipt boundary, and public artifacts. The live Overview also links
+that quickstart from the judge packet card.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -125,7 +126,8 @@ Public bundle counts in `web/public/data/frontier.json` and live judge packet:
 ### Current narrative surface
 
 The core story is present and coherent across `README.md`, `docs/PROTOCOL.md`, `docs/FINDINGS.md`,
-`docs/DEMO.md`, `docs/SUBMISSION.md`, `docs/JUDGE_QUICKSTART.md`, and `docs/JUDGE_PACKET.md`:
+`docs/DEMO.md`, `docs/SUBMISSION.md`, `docs/JUDGE_QUICKSTART.md`, the live Overview judge
+quickstart card, and `docs/JUDGE_PACKET.md`:
 
 - Generation got cheap; adjudication did not.
 - Activity is not state.
@@ -354,7 +356,7 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/JUDGE_QUICKSTART.md`, `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
+| Submission packaging | Mostly human task | Live Overview quickstart, `docs/JUDGE_QUICKSTART.md`, `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
 
 ## Recommended next sequence
 

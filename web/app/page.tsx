@@ -544,18 +544,22 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
 function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab: string) => void }) {
   const counts = packet.artifact_counts;
   const receiptBridgeCommand = packet.receipt_bridge_demo?.command || "python examples/receipt_bridge_client.py";
+  const quickstartHref = "https://github.com/williamjblair/prospect/blob/master/docs/JUDGE_QUICKSTART.md";
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
         <div style={{ minWidth: 240, flex: 1 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Judge packet</div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Judge quickstart</div>
           <p className="t-body-sm" style={{ margin: 0, maxWidth: "72ch" }}>
-            One manifest for the replay path: signed root, gate commands, public data endpoints,
-            receipt bridge, PGGT1B packet, and campaign leaderboard.
+            Five-minute path: start with the A1BG refusal, read the signed findings, try the receipt
+            boundary, then close on the PGGT1B packet and lab handoff.
           </p>
         </div>
+        <a className="btn btn-secondary btn-sm" href={quickstartHref} target="_blank" rel="noreferrer">
+          docs/JUDGE_QUICKSTART.md <ExternalLink size={13} />
+        </a>
         <a className="btn btn-secondary btn-sm" href="/data/judge_packet.json" target="_blank" rel="noreferrer">
-          JSON <ExternalLink size={13} />
+          Judge packet JSON <ExternalLink size={13} />
         </a>
       </div>
       <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "baseline" }}>
