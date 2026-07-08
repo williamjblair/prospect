@@ -28,6 +28,7 @@
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
+  prospect serve-acceptance expose paste, HTTP, and MCP-style acceptance endpoints
 
 The loop: propose (Claude), check/verify (frozen code), sign (human key). No model in the trust path.
 A receipt is the portable proposal that crosses the boundary from activity into state.
@@ -103,6 +104,8 @@ def main():
         from receipt.emit import main as receipt_main; receipt_main(rest)
     elif cmd == "mcp":
         from receipt.mcp_server import main as mcp_main; mcp_main()
+    elif cmd == "serve-acceptance":
+        from services.prospect_acceptance_service import main as service_main; sys.exit(service_main(rest))
     else:
         print(__doc__)
         sys.exit(0 if cmd in ("help", "-h", "--help") else 2)

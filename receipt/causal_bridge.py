@@ -321,7 +321,15 @@ def build_openresearch_packet() -> dict[str, Any]:
 
 def submit_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
     case = bundle.get("case", "")
-    if case == "claude_science":
+    if isinstance(bundle.get("text"), str):
+        from receipt.acceptance_service import build_submission_result
+
+        packet = build_submission_result(
+            bundle["text"],
+            filename=str(bundle.get("filename") or "submission.txt"),
+            source_name=str(bundle.get("source_name") or "generic_external"),
+        )
+    elif case == "claude_science":
         packet = build_claude_science_packet()
     elif case == "openresearch":
         packet = build_openresearch_packet()

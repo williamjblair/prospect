@@ -54,6 +54,36 @@ def test_mcp_validate_and_submit_never_accepts_state():
     assert submit_res["result"]["structuredContent"]["next"] == "human_signature_required"
 
 
+def test_mcp_submit_artifact_accepts_freeform_submission_text():
+    req = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "tools/call",
+        "params": {
+            "name": "prospect.receipt.submit_artifact",
+            "arguments": {
+                "bundle": {
+                    "text": "IL7R\nCCR7\nPD-1\nNOTGENE",
+                    "filename": "signature.txt",
+                    "source_name": "external_team",
+                }
+            },
+        },
+    }
+    res = handle_request(req)
+    payload = res["result"]["structuredContent"]
+    counts = payload["prospect"]["typed_status_counts"]
+
+    assert res["result"]["isError"] is False
+    assert payload["accepted"] is False
+    assert payload["next"] == "human_signature_required"
+    assert payload["state_url"].startswith("/state/")
+    assert counts["drivers"] == 1
+    assert counts["passengers"] == 1
+    assert counts["contradicted"] == 1
+    assert counts["not_assayed"] == 1
+
+
 def test_prospect_mcp_stdio_roundtrip():
     payload = {"jsonrpc": "2.0", "id": 4, "method": "tools/list", "params": {}}
     proc = subprocess.run(

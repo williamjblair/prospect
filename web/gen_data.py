@@ -1,6 +1,6 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import json, os, sys
+import csv, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
@@ -8,7 +8,9 @@ from loop.find_surprises import mine
 from engine.schema import Claim
 from engine.checkers.marson_perturbseq import MarsonPerturbseqChecker
 from examples.openresearch_receipt_client import preview as external_run_receipt_preview
+from receipt.causal_bridge import CAUSAL_RULE, EXPLICIT_DRIVER_CLAIMS
 from receipt.bridge import export_bridge
+from receipt.input_normalizer import ALIASES
 
 DATA = os.path.join(ROOT, "examples", "data")
 FR = os.path.join(ROOT, "frontier")
@@ -114,6 +116,36 @@ def compact(n):
             "id": n.get("in_degree", 0), "C": C}
 
 atlas = [compact(n) for n in nodes]
+gene_id_map = {"ensembl_to_symbol": {}}
+_seen_gene_ids = set()
+_assay_rows = defaultdict(list)
+with open(os.path.join(DATA, "marson_de_full.csv"), newline="") as f:
+    for row in csv.DictReader(f):
+        ensembl = row.get("target_contrast", "")
+        symbol = row.get("target_contrast_gene_name", "")
+        if ensembl and symbol and ensembl not in _seen_gene_ids:
+            gene_id_map["ensembl_to_symbol"][ensembl.upper()] = symbol
+            _seen_gene_ids.add(ensembl)
+        if symbol:
+            _assay_rows[symbol].append(row)
+acceptance_lookup = {}
+for symbol, rows_for_symbol in _assay_rows.items():
+    on_target = [r for r in rows_for_symbol if r.get("ontarget_effect_category") == "on-target KD"]
+    if on_target:
+        best = max(on_target, key=lambda r: int(r["n_total_de_genes"]))
+        acceptance_lookup[symbol] = {
+            "on_target": True,
+            "condition": best["culture_condition"],
+            "n_total_de_genes": int(best["n_total_de_genes"]),
+        }
+    else:
+        acceptance_lookup[symbol] = {"on_target": False, "condition": "", "n_total_de_genes": None}
+acceptance_rule = {
+    "causal_rule": CAUSAL_RULE,
+    "aliases": ALIASES,
+    "explicit_driver_claims": EXPLICIT_DRIVER_CLAIMS,
+    "lookup": acceptance_lookup,
+}
 dist = Counter(public_class(n["type"]) for n in nodes)
 OUTa, INa = defaultdict(list), defaultdict(list)
 for e in edges:
@@ -167,6 +199,8 @@ data = {
     "stats": {"n_genes": len(nodes), "n_perturbations": sum(len(n["conditions"]) for n in nodes),
               "dist": dict(dist), "n_edges": len(edges)},
     "atlas": atlas, "out": out_adj, "in": in_adj,
+    "gene_id_map": gene_id_map,
+    "acceptance_rule": acceptance_rule,
     "contra": [{"gene": c["subject"], "claimant": c["claimant"], "claim": c["claim"],
                 "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions],
     "open": [o["gene"] for o in openq[:80]],

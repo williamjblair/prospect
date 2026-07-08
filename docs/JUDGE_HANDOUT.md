@@ -34,13 +34,14 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 ## Five-minute judge path
 
 1. Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.
-2. Overview: the A1BG refusal and the overclaiming number.
-3. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
-4. Findings: the scannable finding index.
-5. Agent: the campaign leaderboard, every row a proposal, none accepted state.
-6. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
-7. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
-8. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
+2. Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.
+3. Overview: the A1BG refusal and the overclaiming number.
+4. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
+5. Findings: the scannable finding index.
+6. Agent: the campaign leaderboard, every row a proposal, none accepted state.
+7. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
+8. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
+9. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
 
 ## Public artifacts to open
 
@@ -62,6 +63,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect verify`
 - `./prospect submit-pack`
 - `./prospect claude-science`
+- `./prospect serve-acceptance --port 8130`
 - `python benchmark/mutation_pack.py`
 - `python examples/receipt_bridge_client.py --json`
 - `python examples/claude_science_connector_client.py --json`

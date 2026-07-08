@@ -76,6 +76,7 @@ def build_handout() -> dict[str, Any]:
         },
         "five_minute_path": [
             "Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.",
+            "Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.",
             "Overview: the A1BG refusal and the overclaiming number.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
             "Findings: the scannable finding index.",
@@ -89,6 +90,7 @@ def build_handout() -> dict[str, Any]:
             "./prospect verify",
             "./prospect submit-pack",
             "./prospect claude-science",
+            "./prospect serve-acceptance --port 8130",
             "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
             "python examples/claude_science_connector_client.py --json",

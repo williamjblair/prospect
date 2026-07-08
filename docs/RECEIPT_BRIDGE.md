@@ -8,6 +8,8 @@ state still requires the frozen verifier and the human signing path.
 The written receipt shape is [RECEIPT_SCHEMA.md](RECEIPT_SCHEMA.md), backed by
 `receipt/receipt_schema_v0.json`.
 
+The public submit guide is [RUN_YOUR_OWN_CLAIM.md](RUN_YOUR_OWN_CLAIM.md).
+
 Run:
 
 ```bash
@@ -65,6 +67,18 @@ The OpenResearch-style client constructs a biology-shaped external run bundle,
 replays the VAV1 claim against the Marson checker through the same
 `prospect.receipt.submit_artifact` tool, and submits the resulting receipt as a
 proposal only.
+
+For arbitrary submissions without stdio setup:
+
+```bash
+./prospect serve-acceptance --port 8130
+```
+
+Then POST a signature JSON, DE CSV, ranked marker table, or plain gene list to
+`/submit`, or call `/mcp` with `prospect.receipt.submit_artifact`. The service
+returns a receipt, typed driver/passenger/contradicted/not_assayed counts,
+`accepted=false`, `human_signature_required`, and a shareable `/state/<id>`
+page.
 
 The static export lives at:
 

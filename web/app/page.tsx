@@ -406,6 +406,12 @@ type ClaudeScienceAcceptanceDemo = {
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
+  gene_id_map?: { ensembl_to_symbol: Record<string, string> };
+  acceptance_rule?: {
+    aliases: Record<string, string>;
+    explicit_driver_claims: Record<string, string>;
+    lookup: Record<string, AcceptanceLookup>;
+  };
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
   finding_index?: FindingIndex | null;
@@ -464,6 +470,233 @@ const DEMOC: Record<string, string> = {
   needs_qualification: "var(--brass)", asserted: "var(--stone)",
 };
 const fmt = (n: number) => n.toLocaleString();
+type AcceptanceStatus = "evidence_attached" | "associative_only" | "contradicted" | "not_assayed";
+type AcceptanceVerdict = {
+  gene: string;
+  submitted: string;
+  typed_status: AcceptanceStatus;
+  condition: string;
+  n_total_de_genes: number | null;
+  reason: string;
+};
+type AcceptanceResult = {
+  input_kind: string;
+  submitted_gene_count: number;
+  receipt_id: string;
+  state_id: string;
+  state_url: string;
+  accepted: false;
+  next: "human_signature_required";
+  counts: Record<AcceptanceStatus | "drivers" | "passengers" | "genes", number>;
+  verdicts: AcceptanceVerdict[];
+  warnings: string[];
+  ceiling: string;
+};
+type AcceptanceLookup = {
+  on_target: boolean;
+  condition: string;
+  n_total_de_genes: number | null;
+};
+const ACCEPTANCE_CEILING = "Computation over released data, not wet-lab or clinical truth.";
+const ACCEPTANCE_HASH_PREFIX = `${String.fromCharCode(35)}prospect-state=`;
+const ACCEPTANCE_EXAMPLE = `IL7R
+CCR7
+PD-1
+ENSG00000121410
+NOTGENE`;
+
+function stableHash(text: string) {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i += 1) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
+  return (h >>> 0).toString(16).padStart(8, "0");
+}
+
+function splitDelimited(line: string, delimiter: string) {
+  return line.split(delimiter).map((x) => x.trim().replace(/^["']|["']$/g, ""));
+}
+
+function collectJsonGenes(value: any, out: string[]) {
+  if (typeof value === "string") {
+    out.push(value);
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((v) => collectJsonGenes(v, out));
+    return;
+  }
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, v]) => {
+      if (["AUC", "metrics", "metadata"].includes(key)) return;
+      if (["gene", "symbol", "marker", "target", "name"].includes(key.toLowerCase()) && typeof v === "string") out.push(v);
+      else if (Array.isArray(v)) collectJsonGenes(v, out);
+    });
+  }
+}
+
+function normalizeSubmittedGene(raw: string, symbols: Set<string>, ensemblToSymbol: Record<string, string>, aliases: Record<string, string>) {
+  const trimmed = raw.trim().replace(/^["']|["']$/g, "");
+  if (!trimmed) return "";
+  const upper = trimmed.toUpperCase().replace(/\.\d+$/, "");
+  const alias = aliases[upper] || aliases[trimmed] || "";
+  if (alias) return alias;
+  if (ensemblToSymbol[upper]) return ensemblToSymbol[upper];
+  if (symbols.has(upper)) return upper;
+  return upper;
+}
+
+function parseAcceptanceInput(text: string, d: Data) {
+  const source = text.trim();
+  if (!source) throw new Error("submission is empty");
+  const symbols = new Set(d.atlas.map((n) => n.g));
+  const ensemblToSymbol = d.gene_id_map?.ensembl_to_symbol || {};
+  const aliases = d.acceptance_rule?.aliases || {};
+  const warnings: string[] = [];
+  let rawGenes: string[] = [];
+  let inputKind = "gene_list";
+
+  if (source.startsWith("{") || source.startsWith("[")) {
+    const parsed = JSON.parse(source);
+    collectJsonGenes(parsed, rawGenes);
+    inputKind = "signature_json";
+  } else {
+    const lines = source.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    const delimiter = lines[0]?.includes("\t") ? "\t" : lines[0]?.includes(",") ? "," : "";
+    if (delimiter) {
+      const header = splitDelimited(lines[0], delimiter).map((x) => x.toLowerCase().replace(/[^a-z0-9]+/g, "_"));
+      const geneCol = header.findIndex((h) => ["gene", "genes", "symbol", "gene_symbol", "marker", "markers", "feature", "target", "name"].includes(h));
+      if (geneCol < 0) throw new Error("table needs a gene, symbol, marker, target, feature, or name column");
+      rawGenes = lines.slice(1).map((line) => splitDelimited(line, delimiter)[geneCol]).filter(Boolean);
+      inputKind = "table";
+    } else {
+      rawGenes = source.split(/[\s,;]+/).filter(Boolean);
+    }
+  }
+
+  const seen = new Set<string>();
+  const genes: { gene: string; submitted: string }[] = [];
+  rawGenes.forEach((raw) => {
+    const gene = normalizeSubmittedGene(raw, symbols, ensemblToSymbol, aliases);
+    if (!gene) return;
+    if (seen.has(gene)) {
+      warnings.push(`duplicate gene ignored: ${gene}`);
+      return;
+    }
+    seen.add(gene);
+    genes.push({ gene, submitted: raw });
+  });
+  if (!genes.length) throw new Error("submission contained no genes");
+  return { inputKind, genes, warnings };
+}
+
+function classifyAcceptanceGene(
+  item: { gene: string; submitted: string },
+  lookup: Record<string, AcceptanceLookup>,
+  explicitDriverClaims: Record<string, string>,
+): AcceptanceVerdict {
+  const row = lookup[item.gene];
+  if (!row) {
+    return {
+      gene: item.gene,
+      submitted: item.submitted,
+      typed_status: "not_assayed",
+      condition: "",
+      n_total_de_genes: null,
+      reason: `${item.gene} is absent from the frozen Marson table.`,
+    };
+  }
+  if (!row.on_target) {
+    return {
+      gene: item.gene,
+      submitted: item.submitted,
+      typed_status: "not_assayed",
+      condition: "",
+      n_total_de_genes: null,
+      reason: `${item.gene} lacks on-target knockdown in all Marson conditions.`,
+    };
+  }
+  const n = row.n_total_de_genes ?? 0;
+  if (n > 10) {
+    return {
+      gene: item.gene,
+      submitted: item.submitted,
+      typed_status: "evidence_attached",
+      condition: row.condition,
+      n_total_de_genes: n,
+      reason: `${item.gene} has on-target knockdown and moves ${fmt(n)} transcripts in ${row.condition}.`,
+    };
+  }
+  if (explicitDriverClaims[item.gene]) {
+    return {
+      gene: item.gene,
+      submitted: item.submitted,
+      typed_status: "contradicted",
+      condition: row.condition,
+      n_total_de_genes: n,
+      reason: `${item.gene} has an explicit driver claim, but on-target knockdown moves only ${fmt(n)} transcripts at strongest effect.`,
+    };
+  }
+  return {
+    gene: item.gene,
+    submitted: item.submitted,
+    typed_status: "associative_only",
+    condition: row.condition,
+    n_total_de_genes: n,
+    reason: `${item.gene} is in the submitted signature, but perturbation moves only ${fmt(n)} transcripts at strongest effect.`,
+  };
+}
+
+function buildAcceptanceResult(text: string, d: Data): AcceptanceResult {
+  const parsed = parseAcceptanceInput(text, d);
+  const lookup = d.acceptance_rule?.lookup || {};
+  const explicitDriverClaims = d.acceptance_rule?.explicit_driver_claims || {};
+  const verdicts = parsed.genes.map((gene) => classifyAcceptanceGene(gene, lookup, explicitDriverClaims));
+  const counts = verdicts.reduce((acc, row) => {
+    acc[row.typed_status] += 1;
+    return acc;
+  }, { genes: verdicts.length, drivers: 0, passengers: 0, evidence_attached: 0, associative_only: 0, contradicted: 0, not_assayed: 0 } as Record<AcceptanceStatus | "drivers" | "passengers" | "genes", number>);
+  counts.drivers = counts.evidence_attached;
+  counts.passengers = counts.associative_only;
+  const frozen = JSON.stringify({ genes: parsed.genes, verdicts: verdicts.map((v) => [v.gene, v.typed_status, v.n_total_de_genes]) });
+  const id = stableHash(frozen);
+  return {
+    input_kind: parsed.inputKind,
+    submitted_gene_count: parsed.genes.length,
+    receipt_id: `receipt_${id}`,
+    state_id: `state_${id}`,
+    state_url: `${ACCEPTANCE_HASH_PREFIX}${encodeURIComponent(btoa(JSON.stringify({ receipt_id: `receipt_${id}`, verdicts, counts })))}`,
+    accepted: false,
+    next: "human_signature_required",
+    counts,
+    verdicts,
+    warnings: parsed.warnings,
+    ceiling: ACCEPTANCE_CEILING,
+  };
+}
+
+function decodeSharedAcceptanceState(): AcceptanceResult | null {
+  if (typeof window === "undefined") return null;
+  if (!window.location.hash.startsWith(ACCEPTANCE_HASH_PREFIX)) return null;
+  const encoded = window.location.hash.slice(ACCEPTANCE_HASH_PREFIX.length);
+  try {
+    const payload = JSON.parse(atob(decodeURIComponent(encoded)));
+    const stateId = String(payload.receipt_id || "receipt_shared").replace(/^receipt_/, "state_");
+    return {
+      input_kind: "shared_link",
+      submitted_gene_count: payload.verdicts?.length || 0,
+      receipt_id: payload.receipt_id || "receipt_shared",
+      state_id: stateId,
+      state_url: window.location.href,
+      accepted: false,
+      next: "human_signature_required",
+      counts: payload.counts,
+      verdicts: payload.verdicts || [],
+      warnings: [],
+      ceiling: ACCEPTANCE_CEILING,
+    };
+  } catch {
+    return null;
+  }
+}
 
 const NAV = [
   { k: "overview", label: "Overview", icon: LayoutGrid },
@@ -620,6 +853,8 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
+
+      <ProspectAcceptanceWorkbench d={d} />
 
       <DiscoveryCampaignSurface d={d} onGene={onGene} />
 
@@ -989,6 +1224,159 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
       </div>
     </section>
   );
+}
+
+function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
+  const [text, setText] = useState(ACCEPTANCE_EXAMPLE);
+  const [result, setResult] = useState<AcceptanceResult | null>(null);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const shared = decodeSharedAcceptanceState();
+    if (shared) setResult(shared);
+  }, []);
+
+  const run = () => {
+    try {
+      const next = buildAcceptanceResult(text, d);
+      setResult(next);
+      setError("");
+      setCopied(false);
+      if (typeof window !== "undefined") window.history.replaceState(null, "", next.state_url);
+    } catch (err) {
+      setResult(null);
+      setError(err instanceof Error ? err.message : "submission failed");
+    }
+  };
+
+  const shareUrl = result && typeof window !== "undefined"
+    ? `${window.location.origin}${window.location.pathname}${result.state_url}`
+    : "";
+
+  return (
+    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
+      <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Run your own claim through Prospect</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>Paste a signature, DE table, ranked markers, or gene list.</h2>
+          <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)", maxWidth: "78ch" }}>
+            Prospect normalizes symbols, common checkpoint aliases like PD-1, Ensembl IDs from the frozen table,
+            duplicates, and unknowns. It returns driver, passenger, contradicted, and not_assayed verdicts,
+            plus a receipt and shareable state page. accepted=false until a human signature.
+          </p>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gap: 8 }}>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            aria-label="Paste gene list, signature JSON, ranked marker table, or DE CSV"
+            spellCheck={false}
+            style={{
+              minHeight: 180,
+              width: "100%",
+              resize: "vertical",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius-sm)",
+              background: "var(--paper-recessed)",
+              color: "var(--ink)",
+              padding: "10px 11px",
+              lineHeight: 1.45,
+            }}
+            className="t-mono fz-xs"
+          />
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <button type="button" className="btn btn-secondary btn-sm" onClick={run}>Submit to Prospect</button>
+            <button type="button" className="btn btn-secondary btn-sm" onClick={() => setText(ACCEPTANCE_EXAMPLE)}>Load example</button>
+            {error && <span className="t-caption" style={{ color: "var(--cinnabar)" }}>{error}</span>}
+          </div>
+        </div>
+
+        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)", display: "grid", gap: 10 }}>
+          {result ? (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span className="t-mono" style={{ fontWeight: 700 }}>{result.receipt_id}</span>
+                <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
+                <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{result.next}</span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(86px, 1fr))", gap: 8 }}>
+                <AcceptanceCount label="drivers" value={result.counts.drivers} tone="var(--brass)" />
+                <AcceptanceCount label="passengers" value={result.counts.passengers} tone="var(--stone)" />
+                <AcceptanceCount label="contradicted" value={result.counts.contradicted} tone="var(--cinnabar)" />
+                <AcceptanceCount label="not_assayed" value={result.counts.not_assayed} tone="var(--ink-3)" />
+              </div>
+              <div style={{ overflowX: "auto", borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
+                <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr className="t-label">
+                      {["gene", "status", "condition", "DE", "reason"].map((h) => (
+                        <th key={h} style={{ textAlign: "left", padding: "6px 7px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.verdicts.slice(0, 80).map((row) => (
+                      <tr key={`${row.gene}-${row.typed_status}`} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                        <td className="t-mono" style={{ padding: "6px 7px", fontWeight: 700 }}>{row.gene}</td>
+                        <td style={{ padding: "6px 7px" }}><span className="chip" style={{ ["--tone" as any]: statusTone(row.typed_status) }}>{row.typed_status}</span></td>
+                        <td className="t-caption" style={{ padding: "6px 7px", color: "var(--ink-3)" }}>{row.condition || "not assayed"}</td>
+                        <td className="t-caption" style={{ padding: "6px 7px", color: "var(--ink-3)" }}>{row.n_total_de_genes ?? "na"}</td>
+                        <td className="t-caption" style={{ padding: "6px 7px", color: "var(--ink-3)" }}>{row.reason}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <button type="button" className="btn btn-secondary btn-sm"
+                  onClick={() => {
+                    if (!shareUrl) return;
+                    navigator.clipboard?.writeText(shareUrl);
+                    setCopied(true);
+                  }}>
+                  <ExternalLink /> <span>{copied ? "Copied state link" : "Copy state link"}</span>
+                </button>
+                <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", overflowWrap: "anywhere" }}>{shareUrl}</span>
+              </div>
+              {result.warnings.length > 0 && (
+                <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{result.warnings.slice(0, 3).join("; ")}</p>
+              )}
+              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{result.ceiling}</p>
+            </>
+          ) : (
+            <div style={{ display: "grid", gap: 8, alignContent: "center", minHeight: 180 }}>
+              <div className="t-label">No local setup required</div>
+              <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+                The same frozen rule is also exposed by <span className="t-mono">./prospect serve-acceptance --port 8130</span>
+                {" "}and by the MCP tool <span className="t-mono">prospect.receipt.submit_artifact</span>.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AcceptanceCount({ label, value, tone }: { label: string; value: number; tone: string }) {
+  return (
+    <div style={{ borderTop: `2px solid ${tone}`, paddingTop: 6 }}>
+      <div className="stat-figure" style={{ fontSize: "1.3rem", color: tone }}>{fmt(value)}</div>
+      <div className="t-label">{label}</div>
+    </div>
+  );
+}
+
+function statusTone(status: AcceptanceStatus) {
+  if (status === "evidence_attached") return "var(--brass)";
+  if (status === "contradicted") return "var(--cinnabar)";
+  if (status === "associative_only") return "var(--stone)";
+  return "var(--ink-3)";
 }
 
 function VerdictExample({
