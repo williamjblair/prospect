@@ -1,0 +1,498 @@
+{
+  "probe_id": "campaign_gate_probe_a575022da05ec6c3",
+  "title": "Campaign gate probe",
+  "status": "evidence_attached",
+  "trust_boundary": "proposal_only",
+  "acceptance": false,
+  "scope": "model pressure test of deterministic disagreement assay gates",
+  "source": "loop.campaign_gate_probe",
+  "source_triage_id": "campaign_probe_0890c20aed2180b0",
+  "campaign_id": "campaign_07a2bdd5697274c9",
+  "model": "claude-opus-4-8",
+  "candidate_count": 4,
+  "cost_usd": 0.1161,
+  "tool_call_count": 13,
+  "tool_calls": [
+    {
+      "round": 1,
+      "tool": "triage_rows",
+      "input": {},
+      "result": {
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "acceptance": "no",
+        "source_probe_id": "campaign_probe_0890c20aed2180b0",
+        "rows": [
+          {
+            "rank": 2,
+            "gene": "RCC1L",
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "alignment": "more_aggressive",
+            "deterministic_decision": "hold_as_ranked_backup",
+            "agent_recommendation": "advance_to_assay_design",
+            "triage_decision": "secondary_assay_queue",
+            "stimulated_signal": "1167 DE at Stim48hr",
+            "specificity": "Rest 58 DE, K562 5 DE, RPE1 not measured",
+            "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+            "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps RCC1L at hold as ranked backup until the assay gate passes",
+            "stop_rules": [
+              "failed on-target knockdown in the stimulated condition",
+              "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+            ],
+            "agent_rationale": "Strong Stim48hr footprint (1167 DE) with on-target KD, low Rest DE (58), and cell-type-specific (K562 inert)."
+          },
+          {
+            "rank": 3,
+            "gene": "MCAT",
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "alignment": "more_aggressive",
+            "deterministic_decision": "hold_as_ranked_backup",
+            "agent_recommendation": "advance_if_capacity_allows",
+            "triage_decision": "capacity_assay_queue",
+            "stimulated_signal": "780 DE at Stim48hr",
+            "specificity": "Rest 113 DE, K562 20 DE, RPE1 not measured",
+            "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+            "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps MCAT at hold as ranked backup until the assay gate passes",
+            "stop_rules": [
+              "failed on-target knockdown in the stimulated condition",
+              "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+            ],
+            "agent_rationale": "On-target 780-DE Stim48hr footprint but the Rest condition carries a 'putative off-target' KD flag, warranting capacity gating."
+          },
+          {
+            "rank": 4,
+            "gene": "RWDD2B",
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "alignment": "more_aggressive",
+            "deterministic_decision": "hold_as_ranked_backup",
+            "agent_recommendation": "advance_if_capacity_allows",
+            "triage_decision": "capacity_assay_queue",
+            "stimulated_signal": "720 DE at Stim8hr",
+            "specificity": "Rest 190 DE, K562 1 DE, RPE1 not measured",
+            "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+            "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps RWDD2B at hold as ranked backup until the assay gate passes",
+            "stop_rules": [
+              "failed on-target knockdown in the stimulated condition",
+              "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+            ],
+            "agent_rationale": "On-target 720-DE Stim8hr footprint and cell-type-specific, but elevated Rest DE (190) makes it a capacity-gated candidate."
+          },
+          {
+            "rank": 5,
+            "gene": "CCDC22",
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "alignment": "more_aggressive",
+            "deterministic_decision": "hold_as_ranked_backup",
+            "agent_recommendation": "advance_if_capacity_allows",
+            "triage_decision": "capacity_assay_queue",
+            "stimulated_signal": "619 DE at Stim48hr",
+            "specificity": "Rest 116 DE, K562 13 DE, RPE1 not measured",
+            "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+            "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CCDC22 at hold as ranked backup until the assay gate passes",
+            "stop_rules": [
+              "failed on-target knockdown in the stimulated condition",
+              "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+            ],
+            "agent_rationale": "Clean on-target 619-DE Stim48hr footprint that is K562-inert but mid-tier in magnitude, fitting capacity-dependent advancement."
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "tool": "triage_row",
+      "input": {
+        "gene": "RCC1L"
+      },
+      "result": {
+        "in_triage": "yes",
+        "rank": 2,
+        "gene": "RCC1L",
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "alignment": "more_aggressive",
+        "deterministic_decision": "hold_as_ranked_backup",
+        "agent_recommendation": "advance_to_assay_design",
+        "triage_decision": "secondary_assay_queue",
+        "stimulated_signal": "1167 DE at Stim48hr",
+        "specificity": "Rest 58 DE, K562 5 DE, RPE1 not measured",
+        "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+        "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps RCC1L at hold as ranked backup until the assay gate passes",
+        "stop_rules": [
+          "failed on-target knockdown in the stimulated condition",
+          "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+        ],
+        "agent_rationale": "Strong Stim48hr footprint (1167 DE) with on-target KD, low Rest DE (58), and cell-type-specific (K562 inert)."
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "RCC1L"
+      },
+      "result": {
+        "gene": "RCC1L",
+        "in_screen": "yes",
+        "class": "condition_specific_regulator",
+        "rest_de": 58,
+        "stim_max_de": 1167,
+        "is_canonical_Tcell_gene": "no",
+        "is_activation_module": "no",
+        "is_essentiality_artifact": "no",
+        "conditions": {
+          "Rest": {
+            "n_de": 58,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 1167,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 2,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "RCC1L"
+      },
+      "result": {
+        "gene": "RCC1L",
+        "k562_de": 5,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "triage_row",
+      "input": {
+        "gene": "MCAT"
+      },
+      "result": {
+        "in_triage": "yes",
+        "rank": 3,
+        "gene": "MCAT",
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "alignment": "more_aggressive",
+        "deterministic_decision": "hold_as_ranked_backup",
+        "agent_recommendation": "advance_if_capacity_allows",
+        "triage_decision": "capacity_assay_queue",
+        "stimulated_signal": "780 DE at Stim48hr",
+        "specificity": "Rest 113 DE, K562 20 DE, RPE1 not measured",
+        "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+        "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps MCAT at hold as ranked backup until the assay gate passes",
+        "stop_rules": [
+          "failed on-target knockdown in the stimulated condition",
+          "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+        ],
+        "agent_rationale": "On-target 780-DE Stim48hr footprint but the Rest condition carries a 'putative off-target' KD flag, warranting capacity gating."
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "MCAT"
+      },
+      "result": {
+        "gene": "MCAT",
+        "in_screen": "yes",
+        "class": "condition_specific_regulator",
+        "rest_de": 113,
+        "stim_max_de": 780,
+        "is_canonical_Tcell_gene": "no",
+        "is_activation_module": "no",
+        "is_essentiality_artifact": "no",
+        "conditions": {
+          "Rest": {
+            "n_de": 113,
+            "kd": "putative off-target",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 780,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 2,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "MCAT"
+      },
+      "result": {
+        "gene": "MCAT",
+        "k562_de": 20,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "triage_row",
+      "input": {
+        "gene": "RWDD2B"
+      },
+      "result": {
+        "in_triage": "yes",
+        "rank": 4,
+        "gene": "RWDD2B",
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "alignment": "more_aggressive",
+        "deterministic_decision": "hold_as_ranked_backup",
+        "agent_recommendation": "advance_if_capacity_allows",
+        "triage_decision": "capacity_assay_queue",
+        "stimulated_signal": "720 DE at Stim8hr",
+        "specificity": "Rest 190 DE, K562 1 DE, RPE1 not measured",
+        "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+        "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps RWDD2B at hold as ranked backup until the assay gate passes",
+        "stop_rules": [
+          "failed on-target knockdown in the stimulated condition",
+          "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+        ],
+        "agent_rationale": "On-target 720-DE Stim8hr footprint and cell-type-specific, but elevated Rest DE (190) makes it a capacity-gated candidate."
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "RWDD2B"
+      },
+      "result": {
+        "gene": "RWDD2B",
+        "in_screen": "yes",
+        "class": "condition_specific_regulator",
+        "rest_de": 190,
+        "stim_max_de": 720,
+        "is_canonical_Tcell_gene": "no",
+        "is_activation_module": "no",
+        "is_essentiality_artifact": "no",
+        "conditions": {
+          "Rest": {
+            "n_de": 190,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 1,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 720,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "RWDD2B"
+      },
+      "result": {
+        "gene": "RWDD2B",
+        "k562_de": 1,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "triage_row",
+      "input": {
+        "gene": "CCDC22"
+      },
+      "result": {
+        "in_triage": "yes",
+        "rank": 5,
+        "gene": "CCDC22",
+        "status": "evidence_attached",
+        "trust_boundary": "proposal_only",
+        "alignment": "more_aggressive",
+        "deterministic_decision": "hold_as_ranked_backup",
+        "agent_recommendation": "advance_if_capacity_allows",
+        "triage_decision": "capacity_assay_queue",
+        "stimulated_signal": "619 DE at Stim48hr",
+        "specificity": "Rest 116 DE, K562 13 DE, RPE1 not measured",
+        "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+        "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CCDC22 at hold as ranked backup until the assay gate passes",
+        "stop_rules": [
+          "failed on-target knockdown in the stimulated condition",
+          "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+        ],
+        "agent_rationale": "Clean on-target 619-DE Stim48hr footprint that is K562-inert but mid-tier in magnitude, fitting capacity-dependent advancement."
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "CCDC22"
+      },
+      "result": {
+        "gene": "CCDC22",
+        "in_screen": "yes",
+        "class": "condition_specific_regulator",
+        "rest_de": 116,
+        "stim_max_de": 619,
+        "is_canonical_Tcell_gene": "no",
+        "is_activation_module": "no",
+        "is_essentiality_artifact": "no",
+        "conditions": {
+          "Rest": {
+            "n_de": 116,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 619,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 1,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "CCDC22"
+      },
+      "result": {
+        "gene": "CCDC22",
+        "k562_de": 13,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    }
+  ],
+  "valid_recommendations": [
+    "add_control",
+    "gate_sufficient",
+    "lower_priority"
+  ],
+  "summary": {
+    "add_control": 1,
+    "gate_sufficient": 2,
+    "lower_priority": 1
+  },
+  "rows": [
+    {
+      "rank": 2,
+      "gene": "RCC1L",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "source_triage_decision": "secondary_assay_queue",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_to_assay_design",
+      "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+      "gate_recommendation": "gate_sufficient",
+      "gate_rationale": "On-target KD in all conditions with a 1167-DE Stim48hr footprint, low Rest (58 DE), and K562-inert cell-type-specificity, all covered by the matched Rest/Stim8hr/Stim48hr RNA-seq gate.",
+      "stimulated_signal": "1167 DE at Stim48hr",
+      "specificity": "Rest 58 DE, K562 5 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 3,
+      "gene": "MCAT",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "source_triage_decision": "capacity_assay_queue",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "gate_recommendation": "add_control",
+      "gate_rationale": "check_regulator reports a 'putative off-target' KD flag in the Rest condition that the generic gate does not specifically resolve, so an off-target control is warranted.",
+      "stimulated_signal": "780 DE at Stim48hr",
+      "specificity": "Rest 113 DE, K562 20 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 4,
+      "gene": "RWDD2B",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "source_triage_decision": "capacity_assay_queue",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "gate_recommendation": "lower_priority",
+      "gate_rationale": "The footprint is transient at Stim8hr (720 DE) but collapses to 1 DE at Stim48hr while carrying the highest Rest DE (190) of the set, weakening its specificity.",
+      "stimulated_signal": "720 DE at Stim8hr",
+      "specificity": "Rest 190 DE, K562 1 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 5,
+      "gene": "CCDC22",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "source_triage_decision": "capacity_assay_queue",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "gate_recommendation": "gate_sufficient",
+      "gate_rationale": "Clean on-target KD across conditions with a 619-DE Stim48hr footprint and K562-inert verdict is adequately covered by the orthogonal-KD plus non-immune transfer-check gate.",
+      "stimulated_signal": "619 DE at Stim48hr",
+      "specificity": "Rest 116 DE, K562 13 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    }
+  ]
+}

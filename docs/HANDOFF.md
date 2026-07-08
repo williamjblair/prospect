@@ -99,6 +99,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   MCAT, RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
   `examples/data/campaign_triage.*` and [CAMPAIGN_TRIAGE.md](CAMPAIGN_TRIAGE.md). It converts model
   pressure into review work, not accepted state.
+- **Campaign gate probe** (`loop/campaign_gate_probe.py`, `./prospect campaign-gate-probe`):
+  proposal-only pressure test of the disagreement assay gates. It asks whether each gate is sufficient,
+  needs another control, or should be lower priority, exported to `examples/data/campaign_gate_probe.json`
+  and [CAMPAIGN_GATE_PROBE.md](CAMPAIGN_GATE_PROBE.md).
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -144,7 +148,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|lab-pack|findings-index|judge-pack|final-check|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|pggt1b|lab-pack|findings-index|judge-pack|final-check|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, lab assay packet, and static receipt-bridge files),
@@ -182,6 +186,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
+`campaign_gate_probe.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -214,6 +219,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
 - **Final submission gate**: shipped as `./prospect final-check`.
+- **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
   additional model pass against the disagreement gates.

@@ -83,6 +83,9 @@ proposal only; it shows where Claude pushes harder and where the frozen review s
 `prospect campaign-triage` converts those more-aggressive probe rows into assay gates: what would
 have to pass before a conservative reviewer spends primary assay capacity.
 
+`prospect campaign-gate-probe` pressure-tests those assay gates with closed recommendations:
+`gate_sufficient`, `add_control`, or `lower_priority`. It remains proposal only.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -92,6 +95,7 @@ Current public artifacts:
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
+- `/data/campaign_gate_probe.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -109,6 +113,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
+./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest

@@ -16,6 +16,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect campaign",
         "./prospect campaign-probe",
         "./prospect campaign-triage",
+        "./prospect campaign-gate-probe",
         "./prospect lab-pack",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
@@ -34,6 +35,7 @@ def test_submission_points_to_current_public_artifacts():
         "/data/pggt1b_matrix_slice.json",
         "/data/campaign_agent_probe.json",
         "/data/campaign_triage.json",
+        "/data/campaign_gate_probe.json",
         "/data/lab_packet.json",
     ]:
         assert artifact in text

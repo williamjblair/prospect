@@ -137,6 +137,24 @@ type CampaignTriage = {
     stop_rules: string[]; agent_rationale: string;
   }[];
 };
+type CampaignGateProbe = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  source_triage_id: string;
+  campaign_id: string;
+  model: string;
+  candidate_count: number;
+  tool_call_count: number;
+  summary: Record<string, number>;
+  rows: {
+    rank: number; gene: string; status: string; trust_boundary: string; alignment: string;
+    source_triage_decision: string; deterministic_decision: string; agent_recommendation: string;
+    assay_gate: string; gate_recommendation: string; gate_rationale: string;
+    stimulated_signal: string; specificity: string; stop_rules: string[];
+  }[];
+};
 type LabPacket = {
   title: string;
   status: string;
@@ -202,6 +220,7 @@ type Data = {
   agent_campaign_review?: CampaignReview | null;
   campaign_agent_probe?: CampaignAgentProbe | null;
   campaign_triage?: CampaignTriage | null;
+  campaign_gate_probe?: CampaignGateProbe | null;
   lab_packet?: LabPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -1128,6 +1147,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.campaign_triage && <CampaignDisagreementTriage triage={d.campaign_triage} onGene={onGene} />}
 
+      {d.campaign_gate_probe && <CampaignGateProbe probe={d.campaign_gate_probe} onGene={onGene} />}
+
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
       {d.validation && d.validation.length > 0 && (
@@ -1375,6 +1396,65 @@ function CampaignDisagreementTriage({ triage, onGene }: { triage: CampaignTriage
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Source probe <span className="t-mono">{triage.source_probe_id}</span>. Trust boundary: {triage.trust_boundary.replace(/_/g, " ")}.
+      </p>
+    </div>
+  );
+}
+
+function CampaignGateProbe({ probe, onGene }: { probe: CampaignGateProbe; onGene: (g: string) => void }) {
+  const tone = (recommendation: string) => recommendation === "gate_sufficient" ? "var(--moss)" :
+    recommendation === "add_control" ? "var(--brass)" : "var(--field-blue)";
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Campaign gate probe</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Claude pressure-tests the disagreement assay gates. The allowed outputs are closed:
+            gate sufficient, add control, or lower priority. The artifact stays proposal only.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/campaign_gate_probe.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {Object.entries(probe.summary).map(([recommendation, count]) => (
+          <div key={recommendation} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
+            <div className="t-label" style={{ color: tone(recommendation), marginTop: 3 }}>{recommendation.replace(/_/g, " ")}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "triage", "gate probe", "signal", "rationale"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {probe.rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.source_triage_decision.replace(/_/g, " ")}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone(r.gate_recommendation) }}>{r.gate_recommendation.replace(/_/g, " ")}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{r.stimulated_signal}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{r.gate_rationale}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Source triage <span className="t-mono">{probe.source_triage_id}</span>. Trust boundary: {probe.trust_boundary.replace(/_/g, " ")}.
       </p>
     </div>
   );

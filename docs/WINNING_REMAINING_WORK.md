@@ -191,6 +191,7 @@ These could improve the chance of winning without changing the core scientific s
      - Low to medium. Avoid adding cards inside cards or explanatory clutter.
 
 4. **Run an agent pass against disagreement gates.**
+   - Current state: shipped as `./prospect campaign-gate-probe`.
    - Why it matters: the campaign probe currently asks Claude to inspect top campaign candidates.
      A second pass could ask whether the deterministic assay gates are sufficient, too strict, or
      missing a control, without moving state.

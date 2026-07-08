@@ -41,6 +41,7 @@ def build_packet() -> dict[str, Any]:
     campaign_review = frontier.get("agent_campaign_review") or {}
     campaign_probe = frontier.get("campaign_agent_probe") or {}
     campaign_triage = frontier.get("campaign_triage") or {}
+    campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
     lab_packet = frontier.get("lab_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
@@ -99,6 +100,7 @@ def build_packet() -> dict[str, Any]:
             "/data/agent_campaign_review.json",
             "/data/campaign_agent_probe.json",
             "/data/campaign_triage.json",
+            "/data/campaign_gate_probe.json",
             "/data/lab_packet.json",
         ],
         "artifact_counts": {
@@ -111,6 +113,7 @@ def build_packet() -> dict[str, Any]:
             "campaign_review_rows": len(campaign_review.get("rows", [])),
             "campaign_probe_rows": len(campaign_probe.get("rows", [])),
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
+            "campaign_gate_probe_rows": len(campaign_gate_probe.get("rows", [])),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
@@ -152,6 +155,12 @@ def build_packet() -> dict[str, Any]:
                 "trust_boundary": campaign_triage.get("trust_boundary"),
                 "candidate_count": len(campaign_triage.get("rows", [])),
                 "summary": campaign_triage.get("summary", {}),
+            },
+            "campaign_gate_probe": {
+                "status": campaign_gate_probe.get("status"),
+                "trust_boundary": campaign_gate_probe.get("trust_boundary"),
+                "candidate_count": len(campaign_gate_probe.get("rows", [])),
+                "summary": campaign_gate_probe.get("summary", {}),
             },
             "lab_packet": {
                 "status": lab_packet.get("status"),
@@ -195,6 +204,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign review rows: {counts['campaign_review_rows']}",
         f"- Campaign probe rows: {counts['campaign_probe_rows']}",
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
+        f"- Campaign gate probe rows: {counts['campaign_gate_probe_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
@@ -203,6 +213,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## PGGT1B evidence capsule",
         "",
         "The top agent hypothesis has an evidence capsule with exact ratios, a released-matrix moved-transcript slice, assay gates, and missing evidence. Status remains `evidence_attached`.",
+        "",
+        "## Campaign gate probe",
+        "",
+        "The gate probe pressure-tests the disagreement triage rows with closed recommendations: `gate_sufficient`, `add_control`, or `lower_priority`. It stays proposal only.",
         "",
         "## Receipt bridge demo",
         "",

@@ -56,6 +56,7 @@
     "/data/agent_campaign_review.json",
     "/data/campaign_agent_probe.json",
     "/data/campaign_triage.json",
+    "/data/campaign_gate_probe.json",
     "/data/lab_packet.json"
   ],
   "artifact_counts": {
@@ -68,6 +69,7 @@
     "campaign_review_rows": 20,
     "campaign_probe_rows": 8,
     "campaign_triage_rows": 4,
+    "campaign_gate_probe_rows": 4,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "pggt1b_evidence_ladder_steps": 5,
@@ -645,6 +647,16 @@
         "more_aggressive": 4,
         "secondary_assay_queue": 1,
         "capacity_assay_queue": 3
+      }
+    },
+    "campaign_gate_probe": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "candidate_count": 4,
+      "summary": {
+        "add_control": 1,
+        "gate_sufficient": 2,
+        "lower_priority": 1
       }
     },
     "lab_packet": {
