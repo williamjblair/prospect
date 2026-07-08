@@ -46,20 +46,24 @@ def test_decision_ledger_demotes_pggt1b_without_overclaiming():
     )
 
 
-def test_decision_ledger_advances_to_rank_5_candidate():
+def test_decision_ledger_holds_rank_5_candidate():
     packet = build_defended_candidate_decisions()
-    next_candidate = packet["next_candidate"]
 
     assert packet["decided_count"] == 4
-    assert packet["remaining_candidate_count"] == 14
-    assert next_candidate == {
+    assert packet["remaining_candidate_count"] == 13
+    assert packet["next_candidate"] is None
+    assert packet["held_candidate"] == {
         "rank": 5,
         "gene": "CCDC22",
-        "status": "pending_deep_dive",
-        "required_next_packet": "rank_5_ccdc22_defended_evidence",
+        "typed_status": "evidence_attached",
+        "defended_discovery_status": "computational_bar_cleared_pending_human_key",
+        "evidence_packet": "examples/data/ccdc22_defended_evidence.json",
+        "evidence_packet_id": "ccdc22_defended_f874c4789e5ed6c2",
+        "disposition": "hold_and_deepen",
+        "orthogonal_public_dataset_count": 8,
     }
-    assert packet["campaign_state"] == "continue_ranked_list"
-    assert packet["completion_status"] == "not_complete"
+    assert packet["campaign_state"] == "candidate_hold_pending_human_key"
+    assert packet["completion_status"] == "computational_bar_cleared_pending_human_key"
 
 
 def test_decision_ledger_links_frozen_evidence_and_kill_state():
@@ -136,6 +140,7 @@ def test_decision_ledger_writes_clean_json_and_markdown(tmp_path):
     assert "RWDD2B" in doc
     assert "CCDC22" in doc
     assert "not cleared full bar" in doc
+    assert "computational bar cleared, pending human key" in doc
     assert "demote and advance" in doc
     assert "\u2014" not in doc
     assert ("veri" + "fied") not in text

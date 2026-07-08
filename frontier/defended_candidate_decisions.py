@@ -17,6 +17,7 @@ PGGT1B_JSON = DATA / "pggt1b_defended_evidence.json"
 RCC1L_JSON = DATA / "rcc1l_defended_evidence.json"
 MCAT_JSON = DATA / "mcat_defended_evidence.json"
 RWDD2B_JSON = DATA / "rwdd2b_defended_evidence.json"
+CCDC22_JSON = DATA / "ccdc22_defended_evidence.json"
 OUT_JSON = DATA / "defended_candidate_decisions.json"
 OUT_DOC = ROOT / "docs" / "DEFENDED_CANDIDATE_DECISIONS.md"
 
@@ -135,8 +136,24 @@ def build_defended_candidate_decisions() -> dict[str, Any]:
                 ),
             )
         )
+    held_candidate = None
+    held_ranks: set[int] = set()
+    if CCDC22_JSON.exists():
+        ccdc22 = _load(CCDC22_JSON)
+        held_candidate = {
+            "rank": ccdc22["candidate_rank"],
+            "gene": ccdc22["gene"],
+            "typed_status": ccdc22["status"],
+            "defended_discovery_status": ccdc22["defended_discovery_status"],
+            "evidence_packet": "examples/data/ccdc22_defended_evidence.json",
+            "evidence_packet_id": ccdc22["packet_id"],
+            "disposition": ccdc22["decision_recommendation"],
+            "orthogonal_public_dataset_count": ccdc22["orthogonal_public_dataset_count"],
+        }
+        held_ranks.add(ccdc22["candidate_rank"])
     decided_ranks = {row["rank"] for row in decisions}
-    next_candidate = _next_candidate(discovery, decided_ranks)
+    excluded_ranks = decided_ranks | held_ranks
+    next_candidate = None if held_candidate else _next_candidate(discovery, excluded_ranks)
     packet = {
         "phase": "defended_candidate_decision_ledger",
         "title": "Defended candidate decision ledger",
@@ -147,15 +164,26 @@ def build_defended_candidate_decisions() -> dict[str, Any]:
         "honest_ceiling": HONEST_CEILING,
         "pre_registration_id": prereg["pre_registration_id"],
         "candidate_set_id": discovery["candidate_set_id"],
-        "campaign_state": "continue_ranked_list" if next_candidate else "exhausted_ranked_list",
-        "completion_status": "not_complete",
+        "campaign_state": (
+            "candidate_hold_pending_human_key"
+            if held_candidate
+            else ("continue_ranked_list" if next_candidate else "exhausted_ranked_list")
+        ),
+        "completion_status": (
+            "computational_bar_cleared_pending_human_key"
+            if held_candidate
+            else "not_complete"
+        ),
         "decided_count": len(decided_ranks),
-        "remaining_candidate_count": discovery["candidate_count"] - len(decided_ranks),
+        "remaining_candidate_count": discovery["candidate_count"] - len(excluded_ranks),
         "candidate_decisions": decisions,
+        "held_candidate": held_candidate,
         "next_candidate": next_candidate,
         "reproduce_command": "./prospect defended-candidate-decisions",
         "next_step": (
-            "build the next ranked defended evidence packet, starting from the same frozen bar and kill rules"
+            "human review of the held candidate, then optional human-key acceptance"
+            if held_candidate
+            else "build the next ranked defended evidence packet, starting from the same frozen bar and kill rules"
         ),
     }
     packet["packet_id"] = _hash_obj("defended_decisions", packet)
@@ -185,6 +213,19 @@ def _markdown(packet: dict[str, Any]) -> str:
     lines += [
         "",
         "These candidates are not contradicted by this ledger. They are below the full defended-discovery bar because the frozen evidence does not supply every required rung.",
+        "",
+        "## Held candidate",
+        "",
+    ]
+    if packet["held_candidate"]:
+        held = packet["held_candidate"]
+        lines.append(
+            f"Rank {held['rank']}: {held['gene']} has computational bar cleared, pending human key. "
+            f"Packet `{held['evidence_packet_id']}` remains proposal only."
+        )
+    else:
+        lines.append("No held candidate.")
+    lines += [
         "",
         "## Next candidate",
         "",

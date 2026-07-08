@@ -3,8 +3,8 @@
 Status: `evidence_attached`. Trust boundary: proposal only.
 
 Honest ceiling: computation over released data, not wet-lab or clinical truth.
-Campaign state: `continue_ranked_list`.
-Completion status: `not_complete`.
+Campaign state: `candidate_hold_pending_human_key`.
+Completion status: `computational_bar_cleared_pending_human_key`.
 
 ## Decisions
 
@@ -17,9 +17,13 @@ Completion status: `not_complete`.
 
 These candidates are not contradicted by this ledger. They are below the full defended-discovery bar because the frozen evidence does not supply every required rung.
 
+## Held candidate
+
+Rank 5: CCDC22 has computational bar cleared, pending human key. Packet `ccdc22_defended_f874c4789e5ed6c2` remains proposal only.
+
 ## Next candidate
 
-Rank 5: CCDC22 with required packet `rank_5_ccdc22_defended_evidence`.
+No ranked candidate remains.
 
 Rebuild:
 
