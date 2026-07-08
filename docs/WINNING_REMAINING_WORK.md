@@ -9,7 +9,8 @@ the receipt bridge client, final-check gate, Gladstone assay handoff, campaign g
 replay packet, production submit smoke, copy-safe submit packet, and demo teleprompter shipped. The
 Frontier tab now also includes the judge-facing "Try the boundary" receipt bridge strip. The demo
 recording runbook, teleprompter, submission form packet, `./prospect demo-pack`, and
-`./prospect submit-pack` now package the human recording and upload path.
+`./prospect submit-pack` now package the human recording and upload path. The judge packet now lists
+the same final command surface: `final-check`, `submit-smoke`, `submit-pack`, and `demo-pack`.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -59,6 +60,8 @@ This audit used the current worktree and live production data as the source of r
   - `/data/campaign_gate_probe.json`: 4 rows, 2 gate-sufficient, 1 add-control, 1 lower-priority.
   - `/data/transfer_replay_packet.json`: 377 compared T-cell regulators, no accepted-state mutation.
   - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
+  - `/data/judge_packet.json`: replay gate includes `./prospect final-check`, `./prospect submit-smoke`,
+    `./prospect submit-pack`, and `./prospect demo-pack`.
   - `./prospect submit-smoke`: executable production smoke for the upload checklist.
   - `./prospect submit-pack`: local copy-safe packet for the final upload fields and replay commands.
   - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails.

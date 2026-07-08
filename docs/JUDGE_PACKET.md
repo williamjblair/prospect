@@ -14,6 +14,9 @@ A model proposes, searches, and drafts. Frozen code over a frozen released table
 
 ```bash
 ./prospect final-check
+./prospect submit-smoke
+./prospect submit-pack
+./prospect demo-pack
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

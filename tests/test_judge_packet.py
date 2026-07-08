@@ -19,6 +19,9 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["trust_boundary"]["receipt_submission"] == "proposal_only"
     assert "./prospect verify" in packet["gate_commands"]
     assert "./prospect final-check" in packet["gate_commands"]
+    assert "./prospect submit-smoke" in packet["gate_commands"]
+    assert "./prospect submit-pack" in packet["gate_commands"]
+    assert "./prospect demo-pack" in packet["gate_commands"]
     assert "python benchmark/mutation_pack.py" in packet["gate_commands"]
     assert "python tests/test_skill_parity.py" in packet["gate_commands"]
     assert packet["receipt_bridge_demo"]["command"] == "python examples/receipt_bridge_client.py"
@@ -76,6 +79,9 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "Transfer replay packet" in doc
     assert "matrix-slice transcripts" in doc
     assert "./prospect verify" in doc
+    assert "./prospect submit-smoke" in doc
+    assert "./prospect submit-pack" in doc
+    assert "./prospect demo-pack" in doc
     assert "python examples/receipt_bridge_client.py" in doc
     assert "proposal only" in doc
 
