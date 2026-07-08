@@ -21,8 +21,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5687867 | `e0f958a514b80028ad918531a881b2aa8fb9329dbeb242eb54a896129d032998` |
-| `/data/judge_packet.json` | 16581 | `f10dece227a07e157157413dfd306fcf4bdd74284aa68d4fed752db0a52b33ae` |
+| `/data/frontier.json` | 5688099 | `a4330ec84da30b326a665b5e28241c6adfd0bb2ee7c6d8e117bd397290e80454` |
+| `/data/judge_packet.json` | 16697 | `c71fc6c2ae2e37e7cd7e1108a89ac376051d3be4220272419395a28a1ab62259` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -31,7 +31,7 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/pggt1b_matrix_slice.json` | 2445 | `3fa2af8c47f4edaebbb21dea8c4fb3e1ecefdb8126f672f2412f1a5dcb84a281` |
 | `/data/agent_campaign.json` | 30164 | `9b1581e2d357f733ab1e6b9400922de292b2963a226b94330f09e156de9664e6` |
 | `/data/agent_campaign_review.json` | 14555 | `ac5cb2bb8522a1ae38049db139c537b6f3d732487546dd251df613c734253223` |
-| `/data/campaign_agent_probe.json` | 18974 | `fb24f9416d88151c3ead9f95a0e5690f2715dac42c27e38c36c3e60da8b8d365` |
+| `/data/campaign_agent_probe.json` | 19090 | `438fc2357ee5ef40584d27a2cbfff94025f4e07270ec880aa20815f74c297063` |
 | `/data/campaign_triage.json` | 4268 | `677446a7344ee41e96638569bfc0cccceeafcee1e451acd9e78df55efa462121` |
 | `/data/campaign_gate_probe.json` | 15377 | `d87a941d138db73e7bbb833567a8f041854848a8ebd512f455d44ec994f1c62b` |
 | `/data/campaign_pressure_summary.json` | 5788 | `70a1564915ec71d9b3646f23443fb66a3811b4dab8a89e523c0bea5c32fddac4` |

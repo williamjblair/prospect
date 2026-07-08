@@ -45,6 +45,8 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["substrate_replay_rows"] == 377
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
+    assert packet["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 8
+    assert packet["science_packet"]["campaign_probe"]["coverage"]["coverage_status"] == "complete"
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert packet["public_data"] == PUBLIC_ARTIFACTS
     assert "true" not in json.dumps(packet).lower()
@@ -70,6 +72,8 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["assay_operations_candidates"] == 5
     assert data["artifact_counts"]["final_submission_public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert data["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
+    assert data["science_packet"]["campaign_probe"]["coverage"]["returned_decisions"] == 8
+    assert data["science_packet"]["campaign_probe"]["coverage"]["coverage_status"] == "complete"
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
     assert "Judge packet" in doc

@@ -19,6 +19,23 @@ production. Every slice must keep Prospect's trust rules intact and pass the gat
 Submission-ready is the floor, not the finish line. The project is already live, replayable, and
 credible. The remaining work should raise the ceiling without weakening the story.
 
+## Hackathon runway
+
+This memo treats July 8, 2026 as day one of the build window, with work available through the end of
+July 13, 2026. The correct posture is not "nothing remains." The correct posture is: the floor is
+green, production is live, and the remaining time should be spent only on work that increases the
+chance of winning without weakening the trust boundary.
+
+The active goal is therefore not a single feature. It is the whole remaining campaign:
+
+- Keep the signed, replayable floor green at all times.
+- Keep the live app and public artifacts aligned with the committed state.
+- Increase protocol credibility through replay surfaces and receipt portability.
+- Increase the Built with Claude story through bounded model pressure, never model acceptance.
+- Increase Gladstone usefulness through assay-ready packets and explicit stop rules.
+- End with a recorded demo, submission packet, production smoke, release manifest, and a memo that
+  names any human-only actions plainly.
+
 ## Non-negotiable rules
 
 - New Work Only and standalone. No prior-project imports, branding, or references.
@@ -165,7 +182,8 @@ Status: shipped as `./prospect campaign-pressure`,
 `/data/campaign_pressure_summary.json`, the judge packet, final-check, submit-smoke, and an Agent tab
 card. It accounts for 20 campaign rows, 20 deterministic review rows, 8 Claude probe rows, 4
 more-aggressive rows converted to assay gates, gate-probe recommendations, and 0 accepted-state
-mutations.
+mutations. The campaign probe now records requested versus returned coverage, so a larger model pass
+cannot be mistaken for complete coverage if Claude returns fewer decisions than requested.
 
 Recommended shape:
 
@@ -173,6 +191,9 @@ Recommended shape:
   disagreement gates.
 - Prefer a controlled pass over all 20 campaign candidates only if it returns closed recommendations
   and bounded evidence.
+- If a larger pass returns fewer decisions than requested, keep it as a partial pressure artifact or
+  rerun it. Do not let it replace the committed eight-row chain unless the coverage and downstream
+  triage artifacts are regenerated together.
 - Keep outputs proposal-only and deterministic where possible.
 - Preserve existing enums such as `gate_sufficient`, `add_control`, and `lower_priority`.
 - Add a summary layer that tells judges what Claude changed, what Prospect refused to change, and

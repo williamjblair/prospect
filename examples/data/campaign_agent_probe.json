@@ -9,6 +9,12 @@
   "campaign_id": "campaign_07a2bdd5697274c9",
   "model": "claude-opus-4-8",
   "candidate_count": 8,
+  "coverage": {
+    "requested_limit": 8,
+    "returned_decisions": 8,
+    "coverage_status": "complete",
+    "missing_decisions": 0
+  },
   "cost_usd": 0.1581,
   "tool_call_count": 25,
   "tool_calls": [

@@ -652,6 +652,12 @@
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
       "candidate_count": 8,
+      "coverage": {
+        "requested_limit": 8,
+        "returned_decisions": 8,
+        "coverage_status": "complete",
+        "missing_decisions": 0
+      },
       "summary": {
         "aligned": 3,
         "more_aggressive": 4,

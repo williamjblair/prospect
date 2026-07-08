@@ -41,6 +41,7 @@ def test_campaign_probe_compares_model_recommendations_to_review_lanes():
         model="claude-opus-4-8",
         tool_calls=[],
         cost_usd=0.0,
+        requested_limit=5,
     )
 
     rows = probe["rows"]
@@ -50,6 +51,12 @@ def test_campaign_probe_compares_model_recommendations_to_review_lanes():
     assert probe["trust_boundary"] == "proposal_only"
     assert probe["acceptance"] is False
     assert probe["candidate_count"] == 3
+    assert probe["coverage"] == {
+        "requested_limit": 5,
+        "returned_decisions": 3,
+        "coverage_status": "partial",
+        "missing_decisions": 2,
+    }
     assert probe["summary"]["aligned"] == 2
     assert probe["summary"]["more_aggressive"] == 1
     assert by_gene["PGGT1B"]["deterministic_decision"] == "advance_to_assay_design"
@@ -81,6 +88,7 @@ def test_campaign_probe_writes_json_and_markdown(tmp_path):
     assert "No candidate enters accepted state" in doc
     assert "more_aggressive" in doc
     assert "python loop/campaign_probe.py --limit 3" in doc
+    assert "Coverage: 3 returned / 3 requested. Complete: yes." in doc
     assert "PGGT1B" in out_json.read_text()
 
 
@@ -105,7 +113,9 @@ def test_campaign_probe_sample_cli_runs_without_api_key(tmp_path):
 
     assert proc.returncode == 0, proc.stderr
     assert "campaign_agent_probe.json" in proc.stdout
-    assert json.loads(out_json.read_text())["candidate_count"] == 3
+    data = json.loads(out_json.read_text())
+    assert data["candidate_count"] == 3
+    assert data["coverage"]["coverage_status"] == "complete"
 
 
 def test_campaign_probe_runs_from_prospect_cli(tmp_path):
@@ -129,7 +139,9 @@ def test_campaign_probe_runs_from_prospect_cli(tmp_path):
 
     assert proc.returncode == 0, proc.stderr
     assert "campaign_agent_probe.json" in proc.stdout
-    assert json.loads(out_json.read_text())["trust_boundary"] == "proposal_only"
+    data = json.loads(out_json.read_text())
+    assert data["trust_boundary"] == "proposal_only"
+    assert data["coverage"]["returned_decisions"] == 3
 
 
 def test_campaign_probe_is_in_public_web_bundle():
@@ -140,6 +152,8 @@ def test_campaign_probe_is_in_public_web_bundle():
     assert probe["trust_boundary"] == "proposal_only"
     assert probe["acceptance"] is False
     assert probe["rows"][0]["gene"] == "PGGT1B"
+    assert probe["coverage"]["returned_decisions"] == probe["candidate_count"]
+    assert probe["coverage"]["coverage_status"] == "complete"
 
 
 def test_campaign_probe_is_visible_in_agent_tab():
@@ -149,6 +163,7 @@ def test_campaign_probe_is_visible_in_agent_tab():
     assert "campaign_agent_probe" in gen_data
     assert "CampaignAgentProbe" in page
     assert "Campaign agent probes" in page
+    assert "Coverage:" in page
     assert "/data/campaign_agent_probe.json" in page
     assert "d.campaign_agent_probe" in page
 

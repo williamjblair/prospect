@@ -113,6 +113,7 @@ type CampaignAgentProbe = {
   campaign_id: string;
   model: string;
   candidate_count: number;
+  coverage: { requested_limit: number; returned_decisions: number; coverage_status: string; missing_decisions: number };
   tool_call_count: number;
   cost_usd: number;
   summary: Record<string, number>;
@@ -1455,6 +1456,7 @@ function CampaignAgentProbe({ probe, onGene }: { probe: CampaignAgentProbe; onGe
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Probe <span className="t-mono">{probe.probe_id}</span> used {probe.tool_call_count} tool calls.
+        {" "}Coverage: {probe.coverage.returned_decisions}/{probe.coverage.requested_limit} rows, {probe.coverage.coverage_status}.
         No candidate enters accepted state from this artifact.
       </p>
     </div>

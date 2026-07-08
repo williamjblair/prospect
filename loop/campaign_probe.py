@@ -196,6 +196,7 @@ def build_probe(
     model: str,
     tool_calls: list[dict[str, Any]],
     cost_usd: float,
+    requested_limit: int | None = None,
 ) -> dict[str, Any]:
     review = build_review()
     review_by_gene = {row["gene"]: row for row in review["rows"]}
@@ -225,6 +226,8 @@ def build_probe(
     rows.sort(key=lambda row: row["rank"])
     summary = Counter(row["alignment"] for row in rows)
     campaign = build_campaign(limit=20)
+    requested = requested_limit if requested_limit is not None else len(rows)
+    missing = max(requested - len(rows), 0)
     return {
         "probe_id": _probe_id(rows, model),
         "title": "Campaign agent probes",
@@ -236,6 +239,12 @@ def build_probe(
         "campaign_id": campaign["campaign_id"],
         "model": model,
         "candidate_count": len(rows),
+        "coverage": {
+            "requested_limit": requested,
+            "returned_decisions": len(rows),
+            "coverage_status": "complete" if missing == 0 else "partial",
+            "missing_decisions": missing,
+        },
         "cost_usd": round(cost_usd, 4),
         "tool_call_count": len(tool_calls),
         "tool_calls": tool_calls,
@@ -253,6 +262,11 @@ def _markdown(probe: dict[str, Any]) -> str:
         (
             f"Probe: `{probe['probe_id']}`. Campaign: `{probe['campaign_id']}`. "
             f"Model: `{probe['model']}`. Tool calls: {probe['tool_call_count']}."
+        ),
+        (
+            f"Coverage: {probe['coverage']['returned_decisions']} returned / "
+            f"{probe['coverage']['requested_limit']} requested. Complete: "
+            f"{'yes' if probe['coverage']['coverage_status'] == 'complete' else 'no'}."
         ),
         "",
         "## Summary",
@@ -277,7 +291,7 @@ def _markdown(probe: dict[str, Any]) -> str:
         "Rebuild with a live model run:",
         "",
         "```bash",
-        f"python loop/campaign_probe.py --limit {probe['candidate_count']}",
+        f"python loop/campaign_probe.py --limit {probe['coverage']['requested_limit']}",
         "```",
     ]
     return "\n".join(lines) + "\n"
@@ -290,12 +304,14 @@ def write_probe(
     model: str = MODEL,
     tool_calls: list[dict[str, Any]] | None = None,
     cost_usd: float = 0.0,
+    requested_limit: int | None = None,
 ) -> dict[str, Any]:
     probe = build_probe(
         decisions=decisions or SAMPLE_DECISIONS,
         model=model,
         tool_calls=tool_calls or [],
         cost_usd=cost_usd,
+        requested_limit=requested_limit,
     )
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_doc.parent.mkdir(parents=True, exist_ok=True)
@@ -389,7 +405,13 @@ def run_live(limit: int) -> dict[str, Any]:
     decisions = parse_decisions(final_text)
     pin, pout = price_for(MODEL)
     cost = tin / 1e6 * pin + tout / 1e6 * pout
-    return write_probe(decisions=decisions, model=MODEL, tool_calls=transcript, cost_usd=cost)
+    return write_probe(
+        decisions=decisions,
+        model=MODEL,
+        tool_calls=transcript,
+        cost_usd=cost,
+        requested_limit=limit,
+    )
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -415,6 +437,7 @@ def main(argv: list[str] | None = None) -> None:
                 model=probe["model"],
                 tool_calls=probe["tool_calls"],
                 cost_usd=probe["cost_usd"],
+                requested_limit=probe["coverage"]["requested_limit"],
             )
     print(f"wrote {args.out_json} ({probe['candidate_count']} candidates)")
     print(f"wrote {args.out_doc}")

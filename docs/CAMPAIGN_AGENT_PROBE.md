@@ -3,6 +3,7 @@
 Status: `evidence_attached`. Trust boundary: proposal only. No candidate enters accepted state from these probes.
 
 Probe: `campaign_probe_0890c20aed2180b0`. Campaign: `campaign_07a2bdd5697274c9`. Model: `claude-opus-4-8`. Tool calls: 25.
+Coverage: 8 returned / 8 requested. Complete: yes.
 
 ## Summary
 

@@ -152,6 +152,7 @@ def build_packet() -> dict[str, Any]:
                 "status": campaign_probe.get("status"),
                 "trust_boundary": campaign_probe.get("trust_boundary"),
                 "candidate_count": len(campaign_probe.get("rows", [])),
+                "coverage": campaign_probe.get("coverage", {}),
                 "summary": campaign_probe.get("summary", {}),
             },
             "campaign_triage": {
