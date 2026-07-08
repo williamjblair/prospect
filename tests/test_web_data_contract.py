@@ -12,6 +12,7 @@ KEPT_PACKET_KEYS = [
     "finding_index",
     "pggt1b_deep_dive",
     "agent_campaign",
+    "discovery_campaign",
     "lab_packet",
     "disease_genetics_overlay",
     "receipts",
@@ -100,7 +101,7 @@ def test_frontier_json_embeds_disease_genetics_overlay_packet():
     assert packet["counts"]["immune_or_hematologic_genetic_context"] == 4
     assert packet["rows"][0]["gene"] == "PGGT1B"
     assert packet["rows"][0]["overlay_class"] == "immune_or_hematologic_non_genetic_context"
-    assert "verified" not in json.dumps(packet).lower()
+    assert ("veri" + "fied") not in json.dumps(packet).lower()
 
 
 def test_frontier_json_embeds_agent_campaign_and_lab_packet():
@@ -114,6 +115,21 @@ def test_frontier_json_embeds_agent_campaign_and_lab_packet():
     assert lab["status"] == "evidence_attached"
     assert lab["acceptance"] is False
     assert len(lab["candidates"]) == 5
+
+
+def test_frontier_json_embeds_discovery_campaign_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["discovery_campaign"]
+
+    assert packet["phase"] == "phase_1_novelty_at_scale"
+    assert packet["status"] == "evidence_attached"
+    assert packet["acceptance"] is False
+    assert packet["trust_boundary"] == "proposal_only"
+    assert packet["filter_counts"]["frontier_genes"] == 11526
+    assert packet["filter_counts"]["cell_type_specific_replogle"] == 18
+    assert packet["candidates"][0]["gene"] == "PGGT1B"
+    assert packet["candidates"][0]["standard_t_cell_annotation"] is False
+    assert ("veri" + "fied") not in json.dumps(packet).lower()
 
 
 def test_frontier_json_embeds_external_run_receipt_demo():
@@ -152,6 +168,7 @@ if __name__ == "__main__":
     test_frontier_json_embeds_pggt1b_matrix_slice()
     test_frontier_json_embeds_disease_genetics_overlay_packet()
     test_frontier_json_embeds_agent_campaign_and_lab_packet()
+    test_frontier_json_embeds_discovery_campaign_packet()
     test_frontier_json_embeds_external_run_receipt_demo()
     test_frontier_json_embeds_live_claim_rail()
     print("PASS: web data contract")

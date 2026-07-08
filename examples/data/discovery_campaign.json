@@ -1,0 +1,878 @@
+{
+  "acceptance": false,
+  "accepted": false,
+  "candidate_count": 18,
+  "candidate_set_id": "discovery_35a9129da0c18f80",
+  "candidates": [
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "3014 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "175 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "PGGT1B",
+      "hypothesis": "PGGT1B may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 1,
+      "rationale": "hypothesis to test: PGGT1B has 3014 DE genes under Stim8hr, 175 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 175,
+      "rpe1_de": null,
+      "score": 3389,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 202,
+      "stim8hr_de": 3014,
+      "stim_max_de": 3014,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "1167 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "58 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 5; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "RCC1L",
+      "hypothesis": "RCC1L may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 5,
+      "known_regulon_targets": 0,
+      "rank": 2,
+      "rationale": "hypothesis to test: RCC1L has 1167 DE genes under Stim48hr, 58 DE at Rest, 5 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 58,
+      "rpe1_de": null,
+      "score": 1659,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 1167,
+      "stim8hr_de": 2,
+      "stim_max_de": 1167,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "780 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "113 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 20; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "MCAT",
+      "hypothesis": "MCAT may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 20,
+      "known_regulon_targets": 0,
+      "rank": 3,
+      "rationale": "hypothesis to test: MCAT has 780 DE genes under Stim48hr, 113 DE at Rest, 20 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 113,
+      "rpe1_de": null,
+      "score": 1217,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 780,
+      "stim8hr_de": 2,
+      "stim_max_de": 780,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "720 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "190 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "RWDD2B",
+      "hypothesis": "RWDD2B may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 4,
+      "rationale": "hypothesis to test: RWDD2B has 720 DE genes under Stim8hr, 190 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 190,
+      "rpe1_de": null,
+      "score": 1080,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 1,
+      "stim8hr_de": 720,
+      "stim_max_de": 720,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "619 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "116 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 13; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "CCDC22",
+      "hypothesis": "CCDC22 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 13,
+      "known_regulon_targets": 0,
+      "rank": 5,
+      "rationale": "hypothesis to test: CCDC22 has 619 DE genes under Stim48hr, 116 DE at Rest, 13 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 116,
+      "rpe1_de": null,
+      "score": 1053,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 619,
+      "stim8hr_de": 1,
+      "stim_max_de": 619,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "457 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "20 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "GAS2L1",
+      "hypothesis": "GAS2L1 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 6,
+      "rationale": "hypothesis to test: GAS2L1 has 457 DE genes under Stim48hr, 20 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 20,
+      "rpe1_de": null,
+      "score": 987,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 457,
+      "stim8hr_de": 2,
+      "stim_max_de": 457,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "407 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "19 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "SNAP29",
+      "hypothesis": "SNAP29 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 7,
+      "rationale": "hypothesis to test: SNAP29 has 407 DE genes under Stim8hr, 19 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 19,
+      "rpe1_de": null,
+      "score": 938,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 2,
+      "stim8hr_de": 407,
+      "stim_max_de": 407,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "389 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "11 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 13; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "CYB5RL",
+      "hypothesis": "CYB5RL may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 13,
+      "known_regulon_targets": 0,
+      "rank": 8,
+      "rationale": "hypothesis to test: CYB5RL has 389 DE genes under Stim48hr, 11 DE at Rest, 13 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 928,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 389,
+      "stim8hr_de": 1,
+      "stim_max_de": 389,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "386 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "18 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 None; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "LETM2",
+      "hypothesis": "LETM2 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "rank": 9,
+      "rationale": "hypothesis to test: LETM2 has 386 DE genes under Stim48hr, 18 DE at Rest, not tested DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 18,
+      "rpe1_de": null,
+      "score": 918,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 386,
+      "stim8hr_de": 47,
+      "stim_max_de": 386,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "350 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "11 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 None; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "DAPK2",
+      "hypothesis": "DAPK2 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "rank": 10,
+      "rationale": "hypothesis to test: DAPK2 has 350 DE genes under Stim48hr, 11 DE at Rest, not tested DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 889,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 350,
+      "stim8hr_de": 13,
+      "stim_max_de": 350,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "369 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "53 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 0; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "SCO2",
+      "hypothesis": "SCO2 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "rank": 11,
+      "rationale": "hypothesis to test: SCO2 has 369 DE genes under Stim8hr, 53 DE at Rest, 0 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 53,
+      "rpe1_de": null,
+      "score": 866,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 200,
+      "stim8hr_de": 369,
+      "stim_max_de": 369,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "263 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "17 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 0; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "CCDC136",
+      "hypothesis": "CCDC136 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "rank": 12,
+      "rationale": "hypothesis to test: CCDC136 has 263 DE genes under Stim48hr, 17 DE at Rest, 0 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 17,
+      "rpe1_de": null,
+      "score": 796,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 263,
+      "stim8hr_de": 38,
+      "stim_max_de": 263,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "250 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "11 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "MITD1",
+      "hypothesis": "MITD1 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 13,
+      "rationale": "hypothesis to test: MITD1 has 250 DE genes under Stim48hr, 11 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 11,
+      "rpe1_de": null,
+      "score": 789,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 250,
+      "stim8hr_de": 1,
+      "stim_max_de": 250,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "496 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "261 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 None; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "GZMB",
+      "hypothesis": "GZMB may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "rank": 14,
+      "rationale": "hypothesis to test: GZMB has 496 DE genes under Stim8hr, 261 DE at Rest, not tested DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 261,
+      "rpe1_de": null,
+      "score": 785,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 6,
+      "stim8hr_de": 496,
+      "stim_max_de": 496,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "329 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "110 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 0; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "FANCL",
+      "hypothesis": "FANCL may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 0,
+      "known_regulon_targets": 0,
+      "rank": 15,
+      "rationale": "hypothesis to test: FANCL has 329 DE genes under Stim48hr, 110 DE at Rest, 0 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 110,
+      "rpe1_de": null,
+      "score": 769,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 329,
+      "stim8hr_de": 181,
+      "stim_max_de": 329,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "260 DE genes under Stim48hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "104 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 None; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "TNNC1",
+      "hypothesis": "TNNC1 may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": null,
+      "known_regulon_targets": 0,
+      "rank": 16,
+      "rationale": "hypothesis to test: TNNC1 has 260 DE genes under Stim48hr, 104 DE at Rest, not tested DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 104,
+      "rpe1_de": null,
+      "score": 706,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 260,
+      "stim8hr_de": 136,
+      "stim_max_de": 260,
+      "strongest_condition": "Stim48hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "374 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "291 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 1; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "BCKDHA",
+      "hypothesis": "BCKDHA may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 1,
+      "known_regulon_targets": 0,
+      "rank": 17,
+      "rationale": "hypothesis to test: BCKDHA has 374 DE genes under Stim8hr, 291 DE at Rest, 1 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 291,
+      "rpe1_de": null,
+      "score": 633,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 0,
+      "stim8hr_de": 374,
+      "stim_max_de": 374,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    },
+    {
+      "class": "condition_specific_regulator",
+      "cross_cell_type": "cell-type-specific",
+      "evidence_ladder": [
+        {
+          "detail": "261 DE genes under Stim8hr",
+          "rung": "marson_stimulated_effect",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "181 DE genes at Rest",
+          "rung": "rest_specificity",
+          "status": "computationally_reproduced"
+        },
+        {
+          "detail": "K562 5; RPE1 None",
+          "rung": "non_immune_transfer",
+          "status": "evidence_attached"
+        },
+        {
+          "detail": "absent from CollecTRI and the standard T-cell annotation set",
+          "rung": "novelty_filter",
+          "status": "evidence_attached"
+        }
+      ],
+      "falsifiable_test": "repeat CRISPRi or orthogonal knockdown in stimulated primary CD4+ T cells; measure activation markers and targeted RNA-seq at 8h and 48h",
+      "gene": "ZC3H12A",
+      "hypothesis": "ZC3H12A may act as a non-standard regulator of stimulated human CD4+ T-cell activation.",
+      "k562_de": 5,
+      "known_regulon_targets": 0,
+      "rank": 18,
+      "rationale": "hypothesis to test: ZC3H12A has 261 DE genes under Stim8hr, 181 DE at Rest, 5 DE in K562, and 0 CollecTRI targets",
+      "replayability": "attested",
+      "rest_de": 181,
+      "rpe1_de": null,
+      "score": 630,
+      "standard_t_cell_annotation": false,
+      "status": "evidence_attached",
+      "stim48hr_de": 796,
+      "stim8hr_de": 261,
+      "stim_max_de": 261,
+      "strongest_condition": "Stim8hr",
+      "strongest_kd": "on-target KD",
+      "trust_boundary": "proposal_only"
+    }
+  ],
+  "claim": "Hypothesis set: non-standard genes may regulate human CD4+ T-cell activation when they show a strong stimulated Marson effect, little non-immune transfer, and no CollecTRI or standard T-cell regulator annotation.",
+  "filter_counts": {
+    "cell_type_specific_replogle": 18,
+    "collectri_absent": 40,
+    "condition_specific_regulator": 3463,
+    "frontier_genes": 11526,
+    "non_artifact_non_activation": 3302,
+    "noncanonical_condition_specific": 3440,
+    "on_target_stimulated": 3175,
+    "rest_ceiling": 44,
+    "strong_stimulated_effect": 60
+  },
+  "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
+  "method": {
+    "filters": [
+      "condition-specific regulator in the frozen Marson frontier",
+      "absent from the standard T-cell annotation set",
+      "not an essentiality artifact or activation-module gene",
+      "on-target knockdown under stimulation",
+      "stimulated DE at or above threshold",
+      "Rest DE at or below ceiling",
+      "zero CollecTRI targets",
+      "no broad K562 or RPE1 transfer effect where measured"
+    ],
+    "max_replogle_de": 25,
+    "max_rest_de": 350,
+    "min_stim_de": 250,
+    "ranking": "score = stimulated DE minus Rest DE plus novelty and transfer bonuses"
+  },
+  "next_phase": "freeze and attach independent public T-cell, protein-interaction, expression, and disease-genetics evidence",
+  "phase": "phase_1_novelty_at_scale",
+  "refusal_counts": {
+    "artifact_or_activation_module": 138,
+    "collectri_present": 4,
+    "non_immune_transfer_effect": 22,
+    "not_condition_specific": 8063,
+    "not_on_target_stimulated": 127,
+    "rest_above_ceiling": 16,
+    "standard_t_cell_annotation": 23,
+    "weak_stimulated_effect": 3115
+  },
+  "replayability": "attested",
+  "reproduce_command": "./prospect discovery-campaign",
+  "source_artifact_hashes": {
+    "collectri": "9e065f57f3da52b12b0b114da4dada6d8b39bb54dbfa405ae2c583d94cde622f",
+    "frontier_backbone": "60ce305107d8d3d2f8b726c91c5c2afff970a4126d512f0abcff55ef6ae8122c",
+    "replogle_k562": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204",
+    "replogle_rpe1": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293",
+    "standard_t_cell_annotations": "f69d9b3779aa5b0773c53dde18187f0986dcd45f440acf2befd6de5f09034381"
+  },
+  "source_artifacts": {
+    "collectri": "examples/data/collectri_human.csv",
+    "frontier_backbone": "examples/data/atlas_backbone.json",
+    "replogle_k562": "examples/data/replogle_k562_de.csv",
+    "replogle_rpe1": "examples/data/replogle_rpe1_de.csv",
+    "standard_t_cell_annotations": "loop.find_surprises.CANON"
+  },
+  "status": "evidence_attached",
+  "title": "Phase 1 discovery campaign",
+  "trust_boundary": "proposal_only"
+}
