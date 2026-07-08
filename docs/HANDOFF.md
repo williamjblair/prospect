@@ -108,6 +108,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   checker replay as `computationally_reproduced`, reports 377 compared T-cell regulators, and changes
   no accepted state. Exported to `examples/data/transfer_replay_packet.json` and
   [TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
+- **Substrate replay packet** (`frontier/substrate_replay.py`, `./prospect substrate-replay`):
+  protocol-generalization artifact over Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
+  It keeps status at `computationally_reproduced`, changes no accepted state, and exports
+  `examples/data/substrate_replay_packet.json` plus [SUBSTRATE_REPLAY_PACKET.md](SUBSTRATE_REPLAY_PACKET.md).
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -153,10 +157,10 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|substrate-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, lab assay packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, substrate replay packet, lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, SUBMISSION_FORM_PACKET, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
   NEW_WORK, PRODUCT, DESIGN, AGENTS.
@@ -191,7 +195,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `transfer_replay_packet.json`.
+`campaign_gate_probe.json`, `transfer_replay_packet.json`, `substrate_replay_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.

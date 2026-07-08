@@ -12,6 +12,7 @@
   prospect campaign-triage  build deterministic triage from probe disagreements
   prospect campaign-gate-probe run Claude probes against disagreement assay gates
   prospect transfer-replay  build a compact transfer replay packet
+  prospect substrate-replay build the protocol-generalization substrate replay packet
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect findings-index   build the scannable finding index for the demo
@@ -57,6 +58,8 @@ def main():
         from loop.campaign_gate_probe import main as campaign_gate_probe_main; campaign_gate_probe_main(rest)
     elif cmd == "transfer-replay":
         from frontier.transfer_replay import main as transfer_replay_main; transfer_replay_main()
+    elif cmd == "substrate-replay":
+        from frontier.substrate_replay import main as substrate_replay_main; substrate_replay_main()
     elif cmd == "pggt1b":
         from frontier.pggt1b_deep_dive import main as pggt1b_main; pggt1b_main()
     elif cmd == "lab-pack":

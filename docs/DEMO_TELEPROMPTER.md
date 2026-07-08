@@ -49,7 +49,7 @@ drivers.
 
 ### 1:05, The Moat
 
-Show: Finding 04 and the transfer replay packet.
+Show: Finding 04, the transfer replay packet, and the substrate replay packet.
 
 Say: The same claim runs through Marson and Replogle checkers. MED19 moves 3,716 genes in K562.
 BCL10 moves 2. The transfer replay packet stays `computationally_reproduced` and changes no accepted

@@ -104,6 +104,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/transfer_replay_packet.json`
+- `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Safety copy

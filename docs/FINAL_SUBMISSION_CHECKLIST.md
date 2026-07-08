@@ -50,6 +50,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/judge_packet.json
 - https://prospect-sepia-six.vercel.app/data/campaign_gate_probe.json
 - https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
+- https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/receipt_bridge/receipt_manifest.json
 
@@ -59,6 +60,7 @@ Confirm:
 - `/data/judge_packet.json` lists `./prospect final-check`.
 - `/data/campaign_gate_probe.json` has four rows and stays proposal only.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
+- `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - The receipt bridge demo returns `accepted=false`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.

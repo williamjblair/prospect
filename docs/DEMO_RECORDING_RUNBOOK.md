@@ -36,6 +36,7 @@ Confirm:
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
+- `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 
 ## Recording Beats
 

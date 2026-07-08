@@ -62,6 +62,12 @@ def _current_payloads():
             "accepted_state_mutation": "none",
             "counts": {"t_cell_regulators_compared": 377},
         },
+        "/data/substrate_replay_packet.json": {
+            "status": "computationally_reproduced",
+            "accepted_state_mutation": "none",
+            "counts": {"t_cell_regulators_compared": 377},
+            "datasets": [{}, {}, {}],
+        },
         "/data/lab_packet.json": {
             "status": "evidence_attached",
             "trust_boundary": "proposal_only",
@@ -84,7 +90,7 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 7
+    assert len(result.checks) == 8
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"

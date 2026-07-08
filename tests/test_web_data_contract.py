@@ -54,9 +54,23 @@ def test_frontier_json_embeds_transfer_replay_packet():
     assert "true" not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_substrate_replay_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["substrate_replay_packet"]
+
+    assert packet["status"] == "computationally_reproduced"
+    assert packet["accepted_state_mutation"] == "none"
+    assert packet["counts"]["t_cell_regulators_compared"] == 377
+    assert packet["substrate_classes"][0]["class"] == "shared_cellular_machinery"
+    assert packet["substrate_classes"][1]["class"] == "t_cell_specific_regulation"
+    assert "verified" not in json.dumps(packet).lower()
+    assert "true" not in json.dumps(packet).lower()
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_pggt1b_matrix_slice()
     test_frontier_json_embeds_transfer_replay_packet()
+    test_frontier_json_embeds_substrate_replay_packet()
     print("PASS: web data contract")

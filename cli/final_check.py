@@ -20,9 +20,11 @@ COMMANDS = [
     "./prospect demo-pack --json",
     "./prospect transfer-replay",
     "git diff --exit-code -- examples/data/transfer_replay_packet.json docs/TRANSFER_REPLAY_PACKET.md",
+    "./prospect substrate-replay",
+    "git diff --exit-code -- examples/data/substrate_replay_packet.json docs/SUBSTRATE_REPLAY_PACKET.md",
     "./prospect judge-pack",
     "cd web && python gen_data.py",
-    "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md web/public/data/frontier.json web/public/data/judge_packet.json",
+    "git diff --exit-code -- examples/data/judge_packet.json docs/JUDGE_PACKET.md web/public/data/frontier.json web/public/data/judge_packet.json web/public/data/substrate_replay_packet.json",
 ]
 
 

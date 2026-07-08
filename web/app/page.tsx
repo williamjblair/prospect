@@ -171,6 +171,36 @@ type LabPacket = {
     known_regulon_targets: number; score: number; evidence: string[];
   }[];
 };
+type SubstrateReplayPacket = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutation: string;
+  datasets: { id: string; substrate: string }[];
+  counts: {
+    t_cell_regulators_compared: number;
+    essentiality_artifact_regulators: number;
+    essentiality_artifact_regulators_reproduced_in_k562: number;
+    activation_or_effector_regulators: number;
+    activation_or_effector_regulators_cell_type_specific: number;
+  };
+  rates: {
+    essentiality_replication: { numerator: number; denominator: number; rate: number };
+    activation_specificity: { numerator: number; denominator: number; rate: number };
+  };
+  substrate_classes: {
+    class: string;
+    interpretation: string;
+    example_genes: {
+      gene: string; class: string; marson_cd4_status: string; replogle_k562_status: string;
+      k562_de_genes: number | null; rpe1_de_genes: number | null; finding: string;
+    }[];
+  }[];
+  replay_rows: {
+    gene: string; class: string; marson_cd4_status: string; replogle_k562_status: string;
+    k562_de_genes: number | null; rpe1_de_genes: number | null; finding: string;
+  }[];
+};
 type JudgePacket = {
   live_url: string;
   frontier_root: string;
@@ -222,6 +252,7 @@ type Data = {
   campaign_triage?: CampaignTriage | null;
   campaign_gate_probe?: CampaignGateProbe | null;
   lab_packet?: LabPacket | null;
+  substrate_replay_packet?: SubstrateReplayPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -1765,6 +1796,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </p>
       </div>
       {d.finding_index && <FindingsIndex index={d.finding_index} />}
+      {d.substrate_replay_packet && <SubstrateReplayPacket packet={d.substrate_replay_packet} onGene={onGene} />}
       {order.map((k) => {
         const f = byKind[k] as Finding | undefined;
         if (!f) return null;
@@ -1793,6 +1825,71 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </section>
       )}
     </div>
+  );
+}
+
+function SubstrateReplayPacket({ packet, onGene }: { packet: SubstrateReplayPacket; onGene: (g: string) => void }) {
+  const essRate = Math.round(packet.rates.essentiality_replication.rate * 100);
+  const actRate = Math.round(packet.rates.activation_specificity.rate * 100);
+  const label = (value: string) => value.replace(/_/g, " ");
+  return (
+    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div style={{ minWidth: 240, flex: 1 }}>
+          <div className="t-label" style={{ marginBottom: 5 }}>Substrate replay packet</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Protocol generalization: one checker contract, three frozen substrates, typed status, and no accepted-state mutation.
+          </p>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>{label(packet.status)}</span>
+        <a className="btn btn-secondary btn-sm" href="/data/substrate_replay_packet.json" target="_blank" rel="noreferrer">
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [fmt(packet.counts.t_cell_regulators_compared), "T-cell regulators compared", "var(--ink)"],
+          [`${essRate}%`, "essentiality reproduced in K562", "var(--brass)"],
+          [`${actRate}%`, "activation remains cell-type-specific", "var(--moss)"],
+          [fmt(packet.datasets.length), "frozen substrates", "var(--field-blue)"],
+        ].map(([value, title, tone]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color: tone }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
+        <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["gene", "substrate class", "Marson CD4", "K562", "K562 DE", "RPE1 DE"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "8px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {packet.replay_rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: r.class === "shared_cellular_machinery" ? "var(--brass)" : "var(--moss)" }}>
+                  {label(r.class)}
+                </td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{label(r.marson_cd4_status)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{label(r.replogle_k562_status)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de_genes == null ? "not measured" : fmt(r.k562_de_genes)}</td>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.rpe1_de_genes == null ? "not measured" : fmt(r.rpe1_de_genes)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
+      </p>
+    </section>
   );
 }
 

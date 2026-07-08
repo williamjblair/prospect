@@ -100,6 +100,9 @@ have to pass before a conservative reviewer spends primary assay capacity.
 the same major-regulator claim through the Marson CD4+ T-cell checker and the Replogle K562/RPE1
 checkers. It is `computationally_reproduced` and changes no accepted state.
 
+`prospect substrate-replay` emits the protocol-generalization packet: one checker contract, three
+frozen substrates, typed status, and no accepted-state mutation.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -116,6 +119,7 @@ Current public artifacts:
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/transfer_replay_packet.json`
+- `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -138,6 +142,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect transfer-replay        # build the transfer replay packet
+./prospect substrate-replay       # build the substrate replay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest

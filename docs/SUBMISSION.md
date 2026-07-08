@@ -70,6 +70,8 @@ the graph on its own word. On top of it:
 - **Transfer replay packet**: `prospect transfer-replay` emits the compact replay object behind the
   signed cross-cell-type finding, using Marson and Replogle checkers without changing accepted state.
   The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
+- **Substrate replay packet**: `prospect substrate-replay` makes the protocol-generalization claim
+  executable across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
 
 ## What outlasts the week
 
@@ -147,6 +149,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/transfer_replay_packet.json`
+- `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Verify it yourself
@@ -167,6 +170,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
 ./prospect transfer-replay        # write the transfer replay packet
+./prospect substrate-replay       # write the substrate replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index

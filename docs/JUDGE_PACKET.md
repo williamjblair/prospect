@@ -35,6 +35,7 @@ cd web && npm run build
 - Campaign triage rows: 4
 - Campaign gate probe rows: 4
 - Transfer replay rows: 377
+- Substrate replay rows: 377
 - Validation candidates: 5
 - Lab packet candidates: 5
 - PGGT1B evidence ladder steps: 5
@@ -51,6 +52,10 @@ The gate probe pressure-tests the disagreement triage rows with closed recommend
 ## Transfer replay packet
 
 The transfer packet replays the signed cross-cell-type finding through the Marson and Replogle checkers, without changing accepted state.
+
+## Substrate replay packet
+
+The substrate packet makes the protocol-generalization claim explicit: one checker contract, three frozen substrates, typed status, and no accepted-state mutation.
 
 ## Receipt bridge demo
 
@@ -78,6 +83,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
 - `/data/transfer_replay_packet.json`
+- `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Demo path

@@ -23,6 +23,7 @@ CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)
 LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
+SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
 JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
@@ -70,6 +71,8 @@ _finding_index = os.path.join(DATA, "finding_index.json")
 finding_index = json.load(open(_finding_index)) if os.path.exists(_finding_index) else None
 _transfer_replay = os.path.join(DATA, "transfer_replay_packet.json")
 transfer_replay_packet = json.load(open(_transfer_replay)) if os.path.exists(_transfer_replay) else None
+_substrate_replay = os.path.join(DATA, "substrate_replay_packet.json")
+substrate_replay_packet = json.load(open(_substrate_replay)) if os.path.exists(_substrate_replay) else None
 _judge_packet = os.path.join(DATA, "judge_packet.json")
 judge_packet = json.load(open(_judge_packet)) if os.path.exists(_judge_packet) else None
 citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
@@ -134,7 +137,7 @@ data = {
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "agent_campaign_review": agent_campaign_review, "campaign_agent_probe": campaign_agent_probe,
     "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe, "lab_packet": lab_packet,
-    "transfer_replay_packet": transfer_replay_packet,
+    "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -162,6 +165,8 @@ if finding_index:
     json.dump(finding_index, open(FINDING_INDEX_OUT, "w"))
 if transfer_replay_packet:
     json.dump(transfer_replay_packet, open(TRANSFER_REPLAY_OUT, "w"))
+if substrate_replay_packet:
+    json.dump(substrate_replay_packet, open(SUBSTRATE_REPLAY_OUT, "w"))
 if judge_packet:
     json.dump(judge_packet, open(JUDGE_PACKET_OUT, "w"))
 json.dump(data, open(OUT, "w"))

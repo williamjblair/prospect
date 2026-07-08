@@ -134,6 +134,20 @@ def _check_transfer(base_url: str, opener: Callable[..., Any], timeout: int) -> 
         return Check("transfer replay", False, f"fetch failed: {exc}")
 
 
+def _check_substrate(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/substrate_replay_packet.json", opener, timeout)
+        ok = (
+            data.get("status") == "computationally_reproduced"
+            and data.get("accepted_state_mutation") == "none"
+            and data.get("counts", {}).get("t_cell_regulators_compared") == 377
+            and len(data.get("datasets", [])) == 3
+        )
+        return Check("substrate replay", ok, "377 reproduced rows across 3 substrates" if ok else "substrate replay shape drift")
+    except Exception as exc:
+        return Check("substrate replay", False, f"fetch failed: {exc}")
+
+
 def _check_lab_packet(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/lab_packet.json", opener, timeout)
@@ -171,6 +185,7 @@ def run_checks(
         _check_public_artifacts(base_url, opener, timeout),
         _check_campaign_gate(base_url, opener, timeout),
         _check_transfer(base_url, opener, timeout),
+        _check_substrate(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),
     ]
