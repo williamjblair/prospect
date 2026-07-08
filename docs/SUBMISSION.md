@@ -205,7 +205,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
-./prospect campaign-pressure      # summarize model pressure and remaining gates
+./prospect campaign-pressure      # summarize model pressure and complete gate coverage
 ./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet

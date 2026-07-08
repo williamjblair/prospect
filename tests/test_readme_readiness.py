@@ -51,6 +51,8 @@ def test_readme_lists_current_commands_and_artifacts():
     assert "docs/FINAL_SUBMISSION_CHECKLIST.md" in text
     assert "docs/DEMO_TELEPROMPTER.md" in text
     assert "docs/JUDGE_HANDOUT.md" in text
+    assert "remaining gates" not in text
+    assert "complete gate coverage" in text
 
 
 if __name__ == "__main__":

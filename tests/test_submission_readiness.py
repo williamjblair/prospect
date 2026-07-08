@@ -40,6 +40,9 @@ def test_submission_lists_current_replay_and_artifact_commands():
     ]:
         assert command in text
 
+    assert "remaining gates" not in text
+    assert "complete gate coverage" in text
+
 
 def test_submission_points_to_current_public_artifacts():
     text = SUBMISSION.read_text()
