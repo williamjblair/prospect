@@ -158,7 +158,7 @@ accepted state, not a document.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
-- **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
+- **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, SUBMISSION_FORM_PACKET, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
   NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
 ### The web app (`web/app/page.tsx`)
@@ -239,6 +239,9 @@ uses restrained paint-only transitions in the 180-220ms band.
   loop), runs entirely off the live site. [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
   adds exact preflight commands, click beats, and phrases to avoid. Will records the video.
 - **Submission text**: [SUBMISSION.md](SUBMISSION.md).
+- **Submission form packet**: [SUBMISSION_FORM_PACKET.md](SUBMISSION_FORM_PACKET.md), copy-paste
+  fields for title, short description, long description, URLs, demo, verification commands, and
+  limitation language.
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the
   findings recovering known biology (TBX21/GATA3) and catching the field's mislabels (PD-1/TIM-3), show
   the cross-dataset moat, then the autonomous agent producing a novel signed hypothesis, and close on

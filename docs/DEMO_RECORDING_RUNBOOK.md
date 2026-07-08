@@ -116,6 +116,7 @@ Close with: generation is cheap. Accepted state is scarce, replayable, and signe
 
 - Live URL: https://prospect-sepia-six.vercel.app
 - Repo URL: https://github.com/williamjblair/prospect
+- Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
 - Submission text: `docs/SUBMISSION.md`
 - Demo script: `docs/DEMO.md`
 - Final checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`

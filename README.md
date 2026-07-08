@@ -6,6 +6,8 @@ Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Final submitter checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`
 
+Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
+
 Demo recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
 
 An AI can assert a claim about any gene in a second. Confirming it against the data takes

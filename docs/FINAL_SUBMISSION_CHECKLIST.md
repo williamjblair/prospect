@@ -10,6 +10,8 @@ Repo URL: https://github.com/williamjblair/prospect
 
 Submission text: `docs/SUBMISSION.md`
 
+Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
+
 Demo script: `docs/DEMO.md`
 
 Recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
@@ -69,7 +71,7 @@ Submit the project with:
 
 - live URL: https://prospect-sepia-six.vercel.app
 - repo URL: https://github.com/williamjblair/prospect
-- project text from `docs/SUBMISSION.md`
+- project text from `docs/SUBMISSION_FORM_PACKET.md` or `docs/SUBMISSION.md`
 - demo video recorded from `docs/DEMO.md`
 
 Do not paste secrets. Do not mention internal deployment team names. Do not claim wet-lab or clinical

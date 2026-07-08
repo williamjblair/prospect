@@ -7,7 +7,8 @@ Live project: https://prospect-sepia-six.vercel.app
 Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
 the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, and
 transfer replay packet shipped. The Frontier tab now also includes the judge-facing "Try the boundary"
-receipt bridge strip. The demo recording runbook now packages the human recording path.
+receipt bridge strip. The demo recording runbook and submission form packet now package the human
+recording and upload path.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -132,7 +133,7 @@ These are not repo blockers. They are human/process tasks.
 2. **Submit the project.**
    - Use live URL: `https://prospect-sepia-six.vercel.app`.
    - Use repo URL: `https://github.com/williamjblair/prospect`.
-   - Use `docs/SUBMISSION.md` as the base text.
+   - Use `docs/SUBMISSION_FORM_PACKET.md` for copy-paste fields.
    - Include the replay gate commands from `docs/JUDGE_PACKET.md`.
 
 3. **Do a final submitter-side smoke right before upload.**
@@ -327,7 +328,7 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, live site | Record and submit |
+| Submission packaging | Mostly human task | `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, live site | Record and submit |
 
 ## Recommended next sequence
 
