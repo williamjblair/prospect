@@ -25,12 +25,14 @@ def test_campaign_triage_turns_more_aggressive_probe_rows_into_assay_gates():
     assert triage["trust_boundary"] == "proposal_only"
     assert triage["acceptance"] is False
     assert triage["source_probe_id"].startswith("campaign_probe_")
-    assert triage["summary"]["more_aggressive"] == 3
-    assert [row["gene"] for row in rows] == ["RCC1L", "RWDD2B", "CCDC22"]
+    assert triage["summary"]["more_aggressive"] == 4
+    assert triage["summary"]["capacity_assay_queue"] == 3
+    assert [row["gene"] for row in rows] == ["RCC1L", "MCAT", "RWDD2B", "CCDC22"]
     assert by_gene["RCC1L"]["deterministic_decision"] == "hold_as_ranked_backup"
     assert by_gene["RCC1L"]["agent_recommendation"] == "advance_to_assay_design"
     assert by_gene["RCC1L"]["triage_decision"] == "secondary_assay_queue"
     assert "orthogonal knockdown" in by_gene["RCC1L"]["assay_gate"]
+    assert by_gene["MCAT"]["triage_decision"] == "capacity_assay_queue"
     assert "model disagreement" in by_gene["RWDD2B"]["reason_to_hold"].lower()
     assert all(row["status"] == "evidence_attached" for row in rows)
     assert all(row["trust_boundary"] == "proposal_only" for row in rows)
@@ -50,7 +52,7 @@ def test_campaign_triage_writes_json_csv_and_markdown(tmp_path):
     assert "Campaign disagreement triage" in doc
     assert "proposal only" in doc
     assert "RCC1L" in out_csv.read_text()
-    assert json.loads(out_json.read_text())["summary"]["more_aggressive"] == 3
+    assert json.loads(out_json.read_text())["summary"]["more_aggressive"] == 4
 
 
 def test_campaign_triage_runs_from_prospect_cli():

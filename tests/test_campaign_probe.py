@@ -80,6 +80,7 @@ def test_campaign_probe_writes_json_and_markdown(tmp_path):
     assert "proposal only" in doc
     assert "No candidate enters accepted state" in doc
     assert "more_aggressive" in doc
+    assert "python loop/campaign_probe.py --limit 3" in doc
     assert "PGGT1B" in out_json.read_text()
 
 

@@ -92,10 +92,10 @@ the graph on its own word. On top of it:
 - The campaign review appendix turns that leaderboard into an auditable assay queue: one top
   assay-design row, six clean-specificity rows, six late-activation follow-ups, five ranked backups,
   and two regulon anchors, each with stop rules.
-- The campaign agent probe ran 16 frozen-tool calls over the top five rows. Claude aligned on
-  PGGT1B and MCAT, and pushed more aggressively on RCC1L, RWDD2B, and CCDC22. The comparison is
-  visible, but state does not move.
-- The disagreement triage turns those three more-aggressive rows into secondary or capacity assay
+- The campaign agent probe ran 25 frozen-tool calls over the top eight rows. Claude aligned on
+  PGGT1B, GAS2L1, and CYB5RL, pushed more aggressively on RCC1L, MCAT, RWDD2B, and CCDC22,
+  and was more cautious on SNAP29. The comparison is visible, but state does not move.
+- The disagreement triage turns those four more-aggressive rows into secondary or capacity assay
   queues with orthogonal knockdown and transfer gates.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.

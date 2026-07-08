@@ -85,13 +85,13 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   without upgrading any row beyond `evidence_attached`.
 - **Campaign agent probes** (`loop/campaign_probe.py`, `./prospect campaign-probe`): Claude
   cross-examines the top campaign rows with frozen lookup tools, then Prospect compares the model's
-  recommendations to deterministic review lanes. First run: 5 rows, 16 tool calls, 2 aligned
-  recommendations and 3 more-aggressive recommendations. Exported to
+  recommendations to deterministic review lanes. Current run: 8 rows, 25 tool calls, 3 aligned
+  recommendations, 4 more-aggressive recommendations, and 1 more-cautious recommendation. Exported to
   `examples/data/campaign_agent_probe.json` and [CAMPAIGN_AGENT_PROBE.md](CAMPAIGN_AGENT_PROBE.md).
   The artifact remains proposal-only and does not move accepted state.
 - **Campaign disagreement triage** (`frontier/campaign_triage.py`, `./prospect campaign-triage`):
-  deterministic lab-facing response to the more-aggressive Claude probe rows. First run: RCC1L,
-  RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
+  deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: RCC1L,
+  MCAT, RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
   `examples/data/campaign_triage.*` and [CAMPAIGN_TRIAGE.md](CAMPAIGN_TRIAGE.md). It converts model
   pressure into review work, not accepted state.
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
@@ -204,9 +204,9 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
 
 **Bigger swings (higher ceiling, in rough priority):**
-- **Agent campaign next pass**: shipped for the top five campaign rows as `./prospect campaign-probe`.
-  Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would probe
-  more rows or run an additional model pass against the disagreement gates.
+- **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
+  Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
+  additional model pass against the disagreement gates.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around

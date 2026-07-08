@@ -277,7 +277,7 @@ def _markdown(probe: dict[str, Any]) -> str:
         "Rebuild with a live model run:",
         "",
         "```bash",
-        "python loop/campaign_probe.py --limit 5",
+        f"python loop/campaign_probe.py --limit {probe['candidate_count']}",
         "```",
     ]
     return "\n".join(lines) + "\n"

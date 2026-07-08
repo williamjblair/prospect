@@ -1,5 +1,5 @@
 {
-  "probe_id": "campaign_probe_77f01058c6dc2cbe",
+  "probe_id": "campaign_probe_0890c20aed2180b0",
   "title": "Campaign agent probes",
   "status": "evidence_attached",
   "trust_boundary": "proposal_only",
@@ -8,18 +8,18 @@
   "source": "loop.campaign_probe",
   "campaign_id": "campaign_07a2bdd5697274c9",
   "model": "claude-opus-4-8",
-  "candidate_count": 5,
-  "cost_usd": 0.1318,
-  "tool_call_count": 16,
+  "candidate_count": 8,
+  "cost_usd": 0.1581,
+  "tool_call_count": 25,
   "tool_calls": [
     {
       "round": 1,
       "tool": "campaign_candidates",
       "input": {
-        "limit": 5
+        "limit": 8
       },
       "result": {
-        "campaign_id": "campaign_37877960479a921a",
+        "campaign_id": "campaign_d5f0c19568e2693c",
         "status": "evidence_attached",
         "trust_boundary": "proposal_only",
         "acceptance": false,
@@ -128,6 +128,72 @@
             "evidence": [
               "619 DE genes under Stim48hr with on-target KD",
               "116 DE genes at Rest",
+              "13 DE genes in K562 and not measured in RPE1",
+              "0 CollecTRI targets"
+            ],
+            "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+            "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+          },
+          {
+            "rank": 6,
+            "gene": "GAS2L1",
+            "score": 987,
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "stim_max_de": 457,
+            "strongest_condition": "Stim48hr",
+            "strongest_kd": "on-target KD",
+            "rest_de": 20,
+            "k562_de": 1,
+            "rpe1_de": null,
+            "known_regulon_targets": 0,
+            "evidence": [
+              "457 DE genes under Stim48hr with on-target KD",
+              "20 DE genes at Rest",
+              "1 DE genes in K562 and not measured in RPE1",
+              "0 CollecTRI targets"
+            ],
+            "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+            "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+          },
+          {
+            "rank": 7,
+            "gene": "SNAP29",
+            "score": 938,
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "stim_max_de": 407,
+            "strongest_condition": "Stim8hr",
+            "strongest_kd": "on-target KD",
+            "rest_de": 19,
+            "k562_de": 1,
+            "rpe1_de": null,
+            "known_regulon_targets": 0,
+            "evidence": [
+              "407 DE genes under Stim8hr with on-target KD",
+              "19 DE genes at Rest",
+              "1 DE genes in K562 and not measured in RPE1",
+              "0 CollecTRI targets"
+            ],
+            "main_risk": "proposal-only until an orthogonal perturbation reproduces the stimulated CD4+ footprint.",
+            "what_would_weaken": "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+          },
+          {
+            "rank": 8,
+            "gene": "CYB5RL",
+            "score": 928,
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "stim_max_de": 389,
+            "strongest_condition": "Stim48hr",
+            "strongest_kd": "on-target KD",
+            "rest_de": 11,
+            "k562_de": 13,
+            "rpe1_de": null,
+            "known_regulon_targets": 0,
+            "evidence": [
+              "389 DE genes under Stim48hr with on-target KD",
+              "11 DE genes at Rest",
               "13 DE genes in K562 and not measured in RPE1",
               "0 CollecTRI targets"
             ],
@@ -309,6 +375,108 @@
     },
     {
       "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "GAS2L1"
+      },
+      "result": {
+        "gene": "GAS2L1",
+        "in_screen": true,
+        "class": "condition_specific_regulator",
+        "rest_de": 20,
+        "stim_max_de": 457,
+        "is_canonical_Tcell_gene": false,
+        "is_activation_module": false,
+        "is_essentiality_artifact": false,
+        "conditions": {
+          "Rest": {
+            "n_de": 20,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 457,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 2,
+            "kd": "no on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "SNAP29"
+      },
+      "result": {
+        "gene": "SNAP29",
+        "in_screen": true,
+        "class": "condition_specific_regulator",
+        "rest_de": 19,
+        "stim_max_de": 407,
+        "is_canonical_Tcell_gene": false,
+        "is_activation_module": false,
+        "is_essentiality_artifact": false,
+        "conditions": {
+          "Rest": {
+            "n_de": 19,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 2,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 407,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "tool": "check_regulator",
+      "input": {
+        "gene": "CYB5RL"
+      },
+      "result": {
+        "gene": "CYB5RL",
+        "in_screen": true,
+        "class": "condition_specific_regulator",
+        "rest_de": 11,
+        "stim_max_de": 389,
+        "is_canonical_Tcell_gene": false,
+        "is_activation_module": false,
+        "is_essentiality_artifact": false,
+        "conditions": {
+          "Rest": {
+            "n_de": 11,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim48hr": {
+            "n_de": 389,
+            "kd": "on-target KD",
+            "rest_de": null
+          },
+          "Stim8hr": {
+            "n_de": 1,
+            "kd": "on-target KD",
+            "rest_de": null
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
       "tool": "cross_cell_type",
       "input": {
         "gene": "PGGT1B"
@@ -384,6 +552,51 @@
     },
     {
       "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "GAS2L1"
+      },
+      "result": {
+        "gene": "GAS2L1",
+        "k562_de": 1,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "SNAP29"
+      },
+      "result": {
+        "gene": "SNAP29",
+        "k562_de": 1,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "cross_cell_type",
+      "input": {
+        "gene": "CYB5RL"
+      },
+      "result": {
+        "gene": "CYB5RL",
+        "k562_de": 13,
+        "k562": "inert",
+        "rpe1_de": null,
+        "rpe1": null,
+        "verdict": "cell-type-specific"
+      }
+    },
+    {
+      "round": 2,
       "tool": "known_regulon",
       "input": {
         "gene": "PGGT1B"
@@ -446,11 +659,51 @@
         "n_known_targets": 0,
         "note": "absent = no annotated regulon; a novel regulatory role would be more surprising"
       }
+    },
+    {
+      "round": 2,
+      "tool": "known_regulon",
+      "input": {
+        "gene": "GAS2L1"
+      },
+      "result": {
+        "gene": "GAS2L1",
+        "is_known_TF_in_CollecTRI": false,
+        "n_known_targets": 0,
+        "note": "absent = no annotated regulon; a novel regulatory role would be more surprising"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "known_regulon",
+      "input": {
+        "gene": "SNAP29"
+      },
+      "result": {
+        "gene": "SNAP29",
+        "is_known_TF_in_CollecTRI": false,
+        "n_known_targets": 0,
+        "note": "absent = no annotated regulon; a novel regulatory role would be more surprising"
+      }
+    },
+    {
+      "round": 2,
+      "tool": "known_regulon",
+      "input": {
+        "gene": "CYB5RL"
+      },
+      "result": {
+        "gene": "CYB5RL",
+        "is_known_TF_in_CollecTRI": false,
+        "n_known_targets": 0,
+        "note": "absent = no annotated regulon; a novel regulatory role would be more surprising"
+      }
     }
   ],
   "summary": {
-    "aligned": 2,
-    "more_aggressive": 3
+    "aligned": 3,
+    "more_aggressive": 4,
+    "more_cautious": 1
   },
   "rows": [
     {
@@ -462,7 +715,7 @@
       "deterministic_decision": "advance_to_assay_design",
       "agent_recommendation": "advance_to_assay_design",
       "alignment": "aligned",
-      "agent_rationale": "Largest stimulated footprint (3014 DE at Stim8hr) with on-target KD at its strongest condition and K562-inert cell-type-specific behavior, though it remains proposal-only pending orthogonal reproduction.",
+      "agent_rationale": "Largest stimulated footprint (3014 DE at Stim8hr) with on-target KD at its strongest condition and K562-inert cell-type-specific verdict.",
       "stimulated_signal": "3014 DE at Stim8hr",
       "specificity": "Rest 175 DE, K562 1 DE, RPE1 not measured",
       "stop_rules": [
@@ -479,7 +732,7 @@
       "deterministic_decision": "hold_as_ranked_backup",
       "agent_recommendation": "advance_to_assay_design",
       "alignment": "more_aggressive",
-      "agent_rationale": "Robust on-target Stim48hr footprint (1167 DE) with a low Rest baseline (58 DE) and K562-inert profile, making it a clean condition-specific candidate.",
+      "agent_rationale": "Strong Stim48hr footprint (1167 DE) with on-target KD, low Rest DE (58), and cell-type-specific (K562 inert).",
       "stimulated_signal": "1167 DE at Stim48hr",
       "specificity": "Rest 58 DE, K562 5 DE, RPE1 not measured",
       "stop_rules": [
@@ -494,9 +747,9 @@
       "trust_boundary": "proposal_only",
       "deterministic_lane": "late activation follow-up",
       "deterministic_decision": "hold_as_ranked_backup",
-      "agent_recommendation": "hold_as_ranked_backup",
-      "alignment": "aligned",
-      "agent_rationale": "Its Rest-condition KD is flagged as putative off-target and K562 shows the highest residual signal (20 DE) among the set, warranting caution despite the on-target Stim48hr footprint.",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "alignment": "more_aggressive",
+      "agent_rationale": "On-target 780-DE Stim48hr footprint but the Rest condition carries a 'putative off-target' KD flag, warranting capacity gating.",
       "stimulated_signal": "780 DE at Stim48hr",
       "specificity": "Rest 113 DE, K562 20 DE, RPE1 not measured",
       "stop_rules": [
@@ -513,7 +766,7 @@
       "deterministic_decision": "hold_as_ranked_backup",
       "agent_recommendation": "advance_if_capacity_allows",
       "alignment": "more_aggressive",
-      "agent_rationale": "On-target Stim8hr footprint (720 DE) is meaningful but the elevated Rest baseline (190 DE) and near-zero Stim48hr signal (1 DE) make its stimulated specificity less clean than the top pair.",
+      "agent_rationale": "On-target 720-DE Stim8hr footprint and cell-type-specific, but elevated Rest DE (190) makes it a capacity-gated candidate.",
       "stimulated_signal": "720 DE at Stim8hr",
       "specificity": "Rest 190 DE, K562 1 DE, RPE1 not measured",
       "stop_rules": [
@@ -530,9 +783,60 @@
       "deterministic_decision": "hold_as_ranked_backup",
       "agent_recommendation": "advance_if_capacity_allows",
       "alignment": "more_aggressive",
-      "agent_rationale": "Clean on-target condition-specific Stim48hr footprint (619 DE) with modest Rest (116 DE) and K562-inert behavior, ranking it as a solid but lower-priority advance.",
+      "agent_rationale": "Clean on-target 619-DE Stim48hr footprint that is K562-inert but mid-tier in magnitude, fitting capacity-dependent advancement.",
       "stimulated_signal": "619 DE at Stim48hr",
       "specificity": "Rest 116 DE, K562 13 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 6,
+      "gene": "GAS2L1",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "deterministic_lane": "clean specificity",
+      "deterministic_decision": "advance_if_capacity_allows",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "alignment": "aligned",
+      "agent_rationale": "On-target 457-DE footprint at its strongest Stim48hr condition with low Rest DE (20), though Stim8hr shows no on-target KD, so gate on capacity.",
+      "stimulated_signal": "457 DE at Stim48hr",
+      "specificity": "Rest 20 DE, K562 1 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 7,
+      "gene": "SNAP29",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "deterministic_lane": "clean specificity",
+      "deterministic_decision": "advance_if_capacity_allows",
+      "agent_recommendation": "hold_as_ranked_backup",
+      "alignment": "more_cautious",
+      "agent_rationale": "Clean on-target 407-DE Stim8hr footprint with low Rest DE (19) but a smaller, less distinctive footprint suited to backup ranking.",
+      "stimulated_signal": "407 DE at Stim8hr",
+      "specificity": "Rest 19 DE, K562 1 DE, RPE1 not measured",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ]
+    },
+    {
+      "rank": 8,
+      "gene": "CYB5RL",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "deterministic_lane": "late activation follow-up",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "hold_as_ranked_backup",
+      "alignment": "aligned",
+      "agent_rationale": "Smallest stimulated footprint (389 DE) among the eight, on-target and cell-type-specific but lowest-magnitude, best held as a ranked backup.",
+      "stimulated_signal": "389 DE at Stim48hr",
+      "specificity": "Rest 11 DE, K562 13 DE, RPE1 not measured",
       "stop_rules": [
         "failed on-target knockdown in the stimulated condition",
         "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."

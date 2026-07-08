@@ -27,8 +27,8 @@ cd web && npm run build
 - Receipts: 6
 - Campaign candidates: 20
 - Campaign review rows: 20
-- Campaign probe rows: 5
-- Campaign triage rows: 3
+- Campaign probe rows: 8
+- Campaign triage rows: 4
 - Validation candidates: 5
 - Lab packet candidates: 5
 - PGGT1B evidence ladder steps: 5

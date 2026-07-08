@@ -53,8 +53,8 @@
     "receipts": 6,
     "agent_campaign_candidates": 20,
     "campaign_review_rows": 20,
-    "campaign_probe_rows": 5,
-    "campaign_triage_rows": 3,
+    "campaign_probe_rows": 8,
+    "campaign_triage_rows": 4,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "pggt1b_evidence_ladder_steps": 5,
@@ -611,26 +611,27 @@
       "top_gene": "PGGT1B",
       "candidate_count": 20,
       "review_rows": 20,
-      "probe_rows": 5,
-      "triage_rows": 3
+      "probe_rows": 8,
+      "triage_rows": 4
     },
     "campaign_probe": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 5,
+      "candidate_count": 8,
       "summary": {
-        "aligned": 2,
-        "more_aggressive": 3
+        "aligned": 3,
+        "more_aggressive": 4,
+        "more_cautious": 1
       }
     },
     "campaign_triage": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "summary": {
-        "more_aggressive": 3,
+        "more_aggressive": 4,
         "secondary_assay_queue": 1,
-        "capacity_assay_queue": 2
+        "capacity_assay_queue": 3
       }
     },
     "lab_packet": {
