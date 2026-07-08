@@ -41,7 +41,7 @@ cd web && npm run build
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
-- Final submission public artifacts: 20
+- Final submission public artifacts: 21
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -105,6 +105,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
+- `/data/rendered_qa_packet.json`
 
 ## Demo path
 

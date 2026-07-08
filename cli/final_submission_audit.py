@@ -19,6 +19,7 @@ REQUIRED_GATES = [
     "./prospect demo-pack",
     "./prospect judge-handout",
     "./prospect release-manifest",
+    "./prospect rendered-qa",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -55,6 +56,11 @@ SHIPPED_WORKSTREAMS = [
         "workstream": "public_release_manifest",
         "state": "shipped",
         "evidence": ["./prospect release-manifest", "/data/release_manifest.json"],
+    },
+    {
+        "workstream": "rendered_qa_packet",
+        "state": "shipped",
+        "evidence": ["./prospect rendered-qa", "/data/rendered_qa_packet.json"],
     },
 ]
 
@@ -120,9 +126,14 @@ COMPLETION_REQUIREMENTS = [
         "evidence": ["./prospect release-manifest", "/data/release_manifest.json", "./prospect submit-smoke"],
     },
     {
+        "requirement": "rendered_qa_packet",
+        "status": "shipped",
+        "evidence": ["./prospect rendered-qa", "/data/rendered_qa_packet.json"],
+    },
+    {
         "requirement": "public_production_surface",
         "status": "satisfied",
-        "evidence": [LIVE_URL, "./prospect submit-smoke", "/data/final_submission_audit.json", "/data/release_manifest.json"],
+        "evidence": [LIVE_URL, "./prospect submit-smoke", "/data/final_submission_audit.json", "/data/release_manifest.json", "/data/rendered_qa_packet.json"],
     },
     {
         "requirement": "human_upload",

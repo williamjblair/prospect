@@ -13,16 +13,16 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 ## Hash scope
 
 - Hash algorithm: `sha256`
-- Public artifacts: 20
-- Hashed artifacts: 19
+- Public artifacts: 21
+- Hashed artifacts: 20
 - Manifest self hash: `excluded`
 
 ## Public artifact hashes
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5687448 | `a8c0953c404bb57536efa4d8cc6faf7fd9f0a7a063033b7358da19edad53a438` |
-| `/data/judge_packet.json` | 16548 | `240ca7d68544bb7ee13df2d14b4dab224067597e338d501f6689d51dcec9c164` |
+| `/data/frontier.json` | 5687867 | `e0f958a514b80028ad918531a881b2aa8fb9329dbeb242eb54a896129d032998` |
+| `/data/judge_packet.json` | 16581 | `f10dece227a07e157157413dfd306fcf4bdd74284aa68d4fed752db0a52b33ae` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -39,7 +39,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
-| `/data/final_submission_audit.json` | 4858 | `7f96cf3b615ff66578bfd5558416d5de6bdbeb594cbbce31f9164d36996455a5` |
+| `/data/final_submission_audit.json` | 5244 | `0892ca09e1e4318f3ceddfc860f84a72180c6ba0fb9f085e999b530bcec9a075` |
+| `/data/rendered_qa_packet.json` | 1819 | `466e06490a213085945933cc9314f1bcaf4ea4fb35473acfe9d76f62e1df31c8` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 
 Hashes prove deployed byte identity, not wet-lab or clinical truth.

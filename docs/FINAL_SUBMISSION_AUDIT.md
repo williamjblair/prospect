@@ -8,7 +8,7 @@ Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjbla
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-Public artifacts: 20
+Public artifacts: 21
 
 ## Trust boundary
 
@@ -25,6 +25,7 @@ Public artifacts: 20
 - `./prospect demo-pack`
 - `./prospect judge-handout`
 - `./prospect release-manifest`
+- `./prospect rendered-qa`
 - `./prospect verify`
 - `python benchmark/mutation_pack.py`
 - `python tests/test_skill_parity.py`
@@ -42,6 +43,7 @@ Public artifacts: 20
 - `docs/FINAL_SUBMISSION_AUDIT.md`
 - `docs/JUDGE_PACKET.md`
 - `docs/RELEASE_MANIFEST.md`
+- `docs/RENDERED_QA_PACKET.md`
 
 ## Shipped workstreams
 
@@ -53,6 +55,7 @@ Public artifacts: 20
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json` |
+| rendered_qa_packet | shipped | `./prospect rendered-qa`, `/data/rendered_qa_packet.json` |
 
 ## Rendered QA checklist
 
@@ -77,7 +80,8 @@ Public artifacts: 20
 | gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json`, `./prospect submit-smoke` |
-| public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json`, `/data/release_manifest.json` |
+| rendered_qa_packet | shipped | `./prospect rendered-qa`, `/data/rendered_qa_packet.json` |
+| public_production_surface | satisfied | `https://prospect-sepia-six.vercel.app`, `./prospect submit-smoke`, `/data/final_submission_audit.json`, `/data/release_manifest.json`, `/data/rendered_qa_packet.json` |
 | human_upload | human_only_remaining | `record_demo_video`, `submit_project_form` |
 | wet_lab_execution | human_only_remaining | `wet_lab_execution` |
 
@@ -103,6 +107,7 @@ Public artifacts: 20
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
+- `/data/rendered_qa_packet.json`
 
 ## Human-only actions
 

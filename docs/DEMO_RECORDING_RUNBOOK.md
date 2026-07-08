@@ -25,6 +25,7 @@ Run this before recording:
 ./prospect demo-pack
 ./prospect judge-handout
 ./prospect release-manifest
+./prospect rendered-qa
 python examples/receipt_bridge_client.py --json
 ```
 
@@ -36,6 +37,7 @@ Confirm:
 - `./prospect demo-pack` prints the six timed recording beats and "Do not say" guardrails.
 - `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
 - `./prospect release-manifest` writes `/data/release_manifest.json`.
+- `./prospect rendered-qa` writes `/data/rendered_qa_packet.json`.
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.

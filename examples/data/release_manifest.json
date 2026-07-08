@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 20,
-  "hashed_artifact_count": 19,
+  "public_artifact_count": 21,
+  "hashed_artifact_count": 20,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -27,20 +27,21 @@
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
     "/data/final_submission_audit.json",
-    "/data/release_manifest.json"
+    "/data/release_manifest.json",
+    "/data/rendered_qa_packet.json"
   ],
   "artifacts": [
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5687448,
-      "sha256": "a8c0953c404bb57536efa4d8cc6faf7fd9f0a7a063033b7358da19edad53a438"
+      "bytes": 5687867,
+      "sha256": "e0f958a514b80028ad918531a881b2aa8fb9329dbeb242eb54a896129d032998"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 16548,
-      "sha256": "240ca7d68544bb7ee13df2d14b4dab224067597e338d501f6689d51dcec9c164"
+      "bytes": 16581,
+      "sha256": "f10dece227a07e157157413dfd306fcf4bdd74284aa68d4fed752db0a52b33ae"
     },
     {
       "path": "/data/finding_index.json",
@@ -141,8 +142,14 @@
     {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 4858,
-      "sha256": "7f96cf3b615ff66578bfd5558416d5de6bdbeb594cbbce31f9164d36996455a5"
+      "bytes": 5244,
+      "sha256": "0892ca09e1e4318f3ceddfc860f84a72180c6ba0fb9f085e999b530bcec9a075"
+    },
+    {
+      "path": "/data/rendered_qa_packet.json",
+      "source_path": "web/public/data/rendered_qa_packet.json",
+      "bytes": 1819,
+      "sha256": "466e06490a213085945933cc9314f1bcaf4ea4fb35473acfe9d76f62e1df31c8"
     }
   ],
   "trust_boundary": {

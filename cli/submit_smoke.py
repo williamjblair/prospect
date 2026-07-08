@@ -212,6 +212,24 @@ def _check_final_submission_audit(base_url: str, opener: Callable[..., Any], tim
         return Check("final submission audit", False, f"fetch failed: {exc}")
 
 
+def _check_rendered_qa_packet(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/rendered_qa_packet.json", opener, timeout)
+        tabs = {item.get("tab"): item for item in data.get("tabs", [])}
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("automation_claim") == "manual_browser_checklist"
+            and data.get("production_url") == DEFAULT_BASE_URL
+            and data.get("local_url") == "http://localhost:8124"
+            and data.get("avoid_port") == 3000
+            and "Overview" in tabs
+            and "Campaign pressure summary" in tabs.get("Agent", {}).get("must_show", [])
+        )
+        return Check("rendered QA packet", ok, "manual browser checklist shape" if ok else "rendered QA packet shape drift")
+    except Exception as exc:
+        return Check("rendered QA packet", False, f"fetch failed: {exc}")
+
+
 def _check_receipt_manifest(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/receipt_bridge/receipt_manifest.json", opener, timeout)
@@ -280,6 +298,7 @@ def run_checks(
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
         _check_final_submission_audit(base_url, opener, timeout),
+        _check_rendered_qa_packet(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),
         _check_release_manifest(base_url, opener, timeout),
     ]

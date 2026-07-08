@@ -34,6 +34,7 @@ Replay gate:
 ./prospect judge-handout
 ./prospect submission-audit
 ./prospect release-manifest
+./prospect rendered-qa
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -52,6 +53,7 @@ Run this before submitting:
 ./prospect judge-handout
 ./prospect submission-audit
 ./prospect release-manifest
+./prospect rendered-qa
 ```
 
 Then open:
@@ -66,6 +68,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
 - https://prospect-sepia-six.vercel.app/data/final_submission_audit.json
 - https://prospect-sepia-six.vercel.app/data/release_manifest.json
+- https://prospect-sepia-six.vercel.app/data/rendered_qa_packet.json
 - https://prospect-sepia-six.vercel.app/data/receipt_bridge/receipt_manifest.json
 
 Confirm:
@@ -76,13 +79,15 @@ Confirm:
 - `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
-- `/data/final_submission_audit.json` reports 20 public artifacts and human-only actions.
+- `/data/final_submission_audit.json` reports 21 public artifacts and human-only actions.
 - `/data/release_manifest.json` hashes the public data artifact surface.
+- `/data/rendered_qa_packet.json` names the manual browser checkpoints.
 - The receipt bridge demo returns `accepted=false`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
 - `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.
 - `./prospect demo-pack` prints the recording teleprompter.
 - `./prospect judge-handout` writes `docs/JUDGE_HANDOUT.md`.
+- `./prospect rendered-qa` writes `docs/RENDERED_QA_PACKET.md`.
 
 ## Record The Demo Video
 

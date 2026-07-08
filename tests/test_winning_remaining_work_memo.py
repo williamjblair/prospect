@@ -16,6 +16,7 @@ def test_winning_memo_names_expanded_active_goal_and_floor():
         "./prospect final-check",
         "./prospect submit-smoke",
         "./prospect release-manifest",
+        "./prospect rendered-qa",
         "root_a8b0dcdd4024e12f",
     ]:
         assert phrase in text
@@ -31,6 +32,7 @@ def test_winning_memo_lists_high_ceiling_workstreams():
         "P1, Gladstone-ready assay operations bundle",
         "P2, submission and demo production",
         "Public release manifest",
+        "Rendered QA packet",
         "P3, deliberate non-goals",
     ]:
         assert phrase in text

@@ -23,6 +23,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect judge-handout",
         "./prospect submission-audit",
         "./prospect release-manifest",
+        "./prospect rendered-qa",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
         "./prospect campaign",

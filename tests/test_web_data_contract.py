@@ -102,15 +102,17 @@ def test_frontier_json_embeds_final_submission_audit():
 
     assert audit["readiness"] == "submission_ready_for_human_upload"
     assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
-    assert audit["public_artifact_count"] == 20
+    assert audit["public_artifact_count"] == 21
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
+    assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
     assert audit["rendered_qa_checklist"]["tabs"][0]["tab"] == "Overview"
     assert "Campaign pressure summary" in audit["rendered_qa_checklist"]["tabs"][-1]["must_show"]
     requirements = {item["requirement"]: item["status"] for item in audit["completion_requirements"]}
     assert requirements["p0_floor_green"] == "satisfied"
     assert requirements["human_upload"] == "human_only_remaining"
+    assert requirements["rendered_qa_packet"] == "shipped"
     assert "record_demo_video" in audit["human_only_actions"]
     assert "verified" not in json.dumps(audit).lower()
     assert "true" not in json.dumps(audit).lower()

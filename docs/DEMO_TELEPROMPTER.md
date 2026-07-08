@@ -20,6 +20,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 ./prospect demo-pack
 ./prospect judge-handout
 ./prospect release-manifest
+./prospect rendered-qa
 python examples/receipt_bridge_client.py --json
 ```
 

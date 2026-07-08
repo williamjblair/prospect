@@ -40,6 +40,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/FINAL_SUBMISSION_CHECKLIST.md",
         "docs/FINAL_SUBMISSION_AUDIT.md",
         "docs/RELEASE_MANIFEST.md",
+        "docs/RENDERED_QA_PACKET.md",
     ]:
         assert path in packet["source_docs"]
 
@@ -67,6 +68,7 @@ def test_submit_pack_lists_full_judge_public_artifact_surface():
         "/data/assay_operations_bundle.json",
         "/data/final_submission_audit.json",
         "/data/release_manifest.json",
+        "/data/rendered_qa_packet.json",
     ]
 
     assert packet["public_artifacts"] == expected

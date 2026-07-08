@@ -23,6 +23,7 @@ SOURCE_DOCS = [
     "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
+    "docs/RENDERED_QA_PACKET.md",
 ]
 
 VERIFICATION_COMMANDS = [
@@ -32,6 +33,7 @@ VERIFICATION_COMMANDS = [
     "./prospect demo-pack",
     "./prospect judge-handout",
     "./prospect release-manifest",
+    "./prospect rendered-qa",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
@@ -59,6 +61,7 @@ PUBLIC_ARTIFACTS = [
     "/data/assay_operations_bundle.json",
     "/data/final_submission_audit.json",
     "/data/release_manifest.json",
+    "/data/rendered_qa_packet.json",
 ]
 
 

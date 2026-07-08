@@ -25,6 +25,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "docs/JUDGE_HANDOUT.md" in audit["source_docs"]
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
+    assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
@@ -46,6 +47,8 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
     assert requirements["public_release_manifest"]["status"] == "shipped"
     assert "./prospect release-manifest" in requirements["public_release_manifest"]["evidence"]
+    assert requirements["rendered_qa_packet"]["status"] == "shipped"
+    assert "/data/rendered_qa_packet.json" in requirements["rendered_qa_packet"]["evidence"]
     assert "/data/release_manifest.json" in requirements["public_production_surface"]["evidence"]
     assert requirements["human_upload"]["status"] == "human_only_remaining"
     assert requirements["human_upload"]["evidence"] == ["record_demo_video", "submit_project_form"]
@@ -68,6 +71,7 @@ def test_final_submission_audit_covers_all_shipped_workstreams():
         "gladstone_assay_operations",
         "demo_and_submission_packets",
         "public_release_manifest",
+        "rendered_qa_packet",
     ]:
         assert shipped[name]["state"] == "shipped"
 
@@ -95,6 +99,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "./prospect release-manifest" in doc
     assert "/data/assay_operations_bundle.json" in doc
     assert "/data/release_manifest.json" in doc
+    assert "/data/rendered_qa_packet.json" in doc
 
 
 def test_final_submission_audit_runs_from_prospect_cli():

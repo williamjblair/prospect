@@ -140,6 +140,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   avoid a circular artifact, exports `examples/data/release_manifest.json`,
   `web/public/data/release_manifest.json`, and [RELEASE_MANIFEST.md](RELEASE_MANIFEST.md), and
   `submit-smoke` recomputes live production hashes against it.
+- **Rendered QA packet** (`cli/rendered_qa.py`, `./prospect rendered-qa`): deterministic manual
+  browser checklist for the final judge path. It records the production URL, local `8124` fallback,
+  desktop and mobile viewport targets, and the required Overview, Findings, Frontier, and Agent tab
+  evidence. Exported to `examples/data/rendered_qa_packet.json` and [RENDERED_QA_PACKET.md](RENDERED_QA_PACKET.md).
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -178,7 +182,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -217,7 +221,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
 `campaign_gate_probe.json`, `campaign_pressure_summary.json`, `assay_operations_bundle.*`,
-`transfer_replay_packet.json`, `substrate_replay_packet.json`.
+`transfer_replay_packet.json`, `substrate_replay_packet.json`, `rendered_qa_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -278,7 +282,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet command
   surface, exact public-data parity with the shared `submit-pack` manifest, all public artifact
   endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle,
-  receipt bridge manifest, and release manifest hashes
+  receipt bridge manifest, rendered QA packet, and release manifest hashes
   before upload.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.

@@ -81,6 +81,7 @@ JSON endpoints let a judge rerun the trust floor after the event window.
 ./prospect submit-pack
 ./prospect demo-pack
 ./prospect judge-handout
+./prospect rendered-qa
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
@@ -113,6 +114,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
+- `/data/rendered_qa_packet.json`
 
 ## Safety copy
 

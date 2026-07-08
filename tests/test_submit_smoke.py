@@ -100,6 +100,19 @@ def _current_payloads():
             "public_artifact_count": len(PUBLIC_ARTIFACTS),
             "human_only_actions": ["record_demo_video", "submit_project_form", "wet_lab_execution"],
         },
+        "/data/rendered_qa_packet.json": {
+            "status": "evidence_attached",
+            "automation_claim": "manual_browser_checklist",
+            "production_url": "https://prospect-sepia-six.vercel.app",
+            "local_url": "http://localhost:8124",
+            "avoid_port": 3000,
+            "tabs": [
+                {"tab": "Overview", "must_show": ["Opening claim checks", "48%", "Judge packet"]},
+                {"tab": "Findings", "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"]},
+                {"tab": "Frontier", "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"]},
+                {"tab": "Agent", "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"]},
+            ],
+        },
         "/data/receipt_bridge/receipt_manifest.json": {
             "frontier_root": "root_a8b0dcdd4024e12f",
             "receipt_count": 6,
@@ -132,7 +145,7 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 12
+    assert len(result.checks) == 13
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
@@ -142,6 +155,7 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
         check.name == "release manifest" and check.detail == f"{len(PUBLIC_ARTIFACTS) - 1} hashes match live artifacts"
         for check in result.checks
     )
+    assert any(check.name == "rendered QA packet" and check.ok for check in result.checks)
 
 
 def test_submit_smoke_rejects_missing_public_artifact():

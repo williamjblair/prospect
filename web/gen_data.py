@@ -25,6 +25,7 @@ LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "publi
 ASSAY_OPERATIONS_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "assay_operations_bundle.json")
 FINAL_SUBMISSION_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "final_submission_audit.json")
 RELEASE_MANIFEST_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "release_manifest.json")
+RENDERED_QA_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "rendered_qa_packet.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
 SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
@@ -79,6 +80,8 @@ _final_submission_audit = os.path.join(DATA, "final_submission_audit.json")
 final_submission_audit = json.load(open(_final_submission_audit)) if os.path.exists(_final_submission_audit) else None
 _release_manifest = os.path.join(DATA, "release_manifest.json")
 release_manifest = json.load(open(_release_manifest)) if os.path.exists(_release_manifest) else None
+_rendered_qa = os.path.join(DATA, "rendered_qa_packet.json")
+rendered_qa_packet = json.load(open(_rendered_qa)) if os.path.exists(_rendered_qa) else None
 _finding_index = os.path.join(DATA, "finding_index.json")
 finding_index = json.load(open(_finding_index)) if os.path.exists(_finding_index) else None
 _transfer_replay = os.path.join(DATA, "transfer_replay_packet.json")
@@ -184,6 +187,8 @@ if final_submission_audit:
     json.dump(final_submission_audit, open(FINAL_SUBMISSION_AUDIT_OUT, "w"))
 if release_manifest:
     json.dump(release_manifest, open(RELEASE_MANIFEST_OUT, "w"))
+if rendered_qa_packet:
+    json.dump(rendered_qa_packet, open(RENDERED_QA_OUT, "w"))
 if finding_index:
     json.dump(finding_index, open(FINDING_INDEX_OUT, "w"))
 if transfer_replay_packet:

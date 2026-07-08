@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from cli.judge_handout import build_handout, write_handout
+from cli.submit_pack import PUBLIC_ARTIFACTS
 
 
 def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
@@ -21,7 +22,7 @@ def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
     assert handout["readiness"] == "submission_ready_for_human_upload"
     assert handout["trust_boundary"]["model_in_trust_path"] == "no"
     assert handout["trust_boundary"]["accepted_state"] == "human_signed_replayable_root"
-    assert handout["counts"]["public_artifacts"] == 20
+    assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert handout["counts"]["claude_probe_rows"] == 8
     assert handout["counts"]["assay_operations_candidates"] == 5
     assert handout["counts"]["substrate_replay_rows"] == 377
@@ -45,6 +46,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect final-check" in doc
     assert "/data/final_submission_audit.json" in doc
     assert "/data/release_manifest.json" in doc
+    assert "/data/rendered_qa_packet.json" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     assert "verified" not in json.dumps(handout).lower()
 

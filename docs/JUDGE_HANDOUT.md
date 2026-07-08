@@ -16,7 +16,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - 5 signed findings
 - 6 portable receipts
-- 20 public data artifacts
+- 21 public data artifacts
 - 377 replayed T-cell regulators across three frozen substrates
 - 8 Claude probe rows in the pressure loop
 - 5 proposal-only assay operations rows
@@ -44,6 +44,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/assay_operations_bundle.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
+- `/data/rendered_qa_packet.json`
 
 ## Replay commands
 

@@ -40,6 +40,7 @@ Prospect is currently strong enough to submit. Do not lose any of this while bui
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes against production.
 - `./prospect release-manifest` hashes the public data artifact surface.
+- `./prospect rendered-qa` emits the durable browser QA checklist.
 - `./prospect verify` re-derives 53,485 objects with 0 drift.
 - `python benchmark/mutation_pack.py` admits 0 tampered claims.
 - `python tests/test_skill_parity.py` checks 112 claims with 0 mismatches.
@@ -53,6 +54,7 @@ Preserve the floor with every change:
 ./prospect final-check
 ./prospect submit-smoke
 ./prospect release-manifest
+./prospect rendered-qa
 ./prospect submit-pack
 ./prospect demo-pack
 ```
@@ -90,6 +92,7 @@ Deliverables:
   `docs/SUBMISSION_FORM_PACKET.md`, and `docs/DEMO_TELEPROMPTER.md` current.
 - Keep production smoke aligned with the public artifact manifest.
 - Keep `./prospect release-manifest` aligned with every public endpoint.
+- Keep `./prospect rendered-qa` aligned with the final judge path.
 - Keep the live URL stable and redeployed after every web-facing change.
 - Keep the root and replay counts honest in every public doc.
 
@@ -98,6 +101,7 @@ Gate:
 - `./prospect final-check`
 - `./prospect submit-smoke`
 - `./prospect release-manifest`
+- `./prospect rendered-qa`
 - Production rendered QA for web-facing changes.
 
 Risk:
@@ -270,6 +274,7 @@ Gate:
 - `./prospect demo-pack --json`
 - `./prospect submit-pack --json`
 - `./prospect submit-smoke`
+- `./prospect rendered-qa`
 - Manual browser pass through Overview, Findings, Frontier, Agent.
 
 ### P2, optional polish after the ceiling work
@@ -281,6 +286,9 @@ Only do these after the P1 workstreams and demo path are coherent.
 - Public release manifest. Shipped as `./prospect release-manifest` and
   [RELEASE_MANIFEST.md](RELEASE_MANIFEST.md). Hashes prove deployed byte identity, not wet-lab or
   clinical truth.
+- Rendered QA packet. Shipped as `./prospect rendered-qa` and
+  [RENDERED_QA_PACKET.md](RENDERED_QA_PACKET.md). It preserves the manual browser checklist for
+  Overview, Findings, Frontier, and Agent across desktop and mobile viewports.
 - A short static "judge packet" landing view if the live Overview becomes too dense.
 - A small visual diagram of the receipt boundary, only if it clarifies rather than decorates.
 
@@ -310,6 +318,7 @@ Do not spend hackathon time here unless the core plan changes.
 | Skill parity | Satisfied | Keep `python tests/test_skill_parity.py` in the gate. |
 | Live production | Satisfied | Redeploy after web changes and run `./prospect submit-smoke`. |
 | Public release manifest | Shipped | Keep `./prospect release-manifest` in final-check and submit-smoke. |
+| Rendered QA packet | Shipped | Keep `./prospect rendered-qa` in final-check and the final audit. |
 | Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
 | Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
 | Gladstone usefulness | Shipped stronger | Keep the assay operations bundle in the Agent tab, judge packet, final-check, and submit-smoke. |
@@ -323,7 +332,8 @@ Do not spend hackathon time here unless the core plan changes.
 4. Build Gladstone assay operations bundle. Shipped.
 5. Refresh demo and submission surfaces. Shipped with `./prospect submission-audit`.
 6. Keep the public release manifest current. Shipped.
-7. Record and submit.
+7. Keep the rendered QA packet current. Shipped.
+8. Record and submit.
 
 ## Definition of done for the full active goal
 
@@ -338,6 +348,7 @@ The active goal is complete only when:
 - `./prospect final-check` passes.
 - `./prospect submit-smoke` passes.
 - `./prospect release-manifest` is current.
+- `./prospect rendered-qa` is current.
 - The final memo states any remaining human-only actions plainly.
 - `./prospect submission-audit` names shipped workstreams, required gates, public artifacts, and
   human-only actions.

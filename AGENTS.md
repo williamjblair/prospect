@@ -43,7 +43,7 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
 ./prospect final-check              # full local submission gate, including generated-artifact drift checks
 ./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
@@ -64,6 +64,7 @@ python tests/test_skill_parity.py   # the Skill checker matches the engine (112 
 ./prospect judge-handout            # builds the one-page judge handout
 ./prospect submission-audit         # builds the final submission audit packet
 ./prospect release-manifest         # hashes the public data artifact surface
+./prospect rendered-qa              # builds the rendered QA checklist packet
 python examples/receipt_bridge_client.py --json  # external receipt bridge demo, accepted=false
 
 # regenerate the frontier + site data after a data change:
