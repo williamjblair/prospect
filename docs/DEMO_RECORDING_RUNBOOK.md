@@ -19,6 +19,7 @@ Run this before recording:
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
+./prospect submit-pack
 python examples/receipt_bridge_client.py --json
 ```
 
@@ -26,6 +27,7 @@ Confirm:
 
 - `./prospect final-check` ends with `FINAL CHECK PASS`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
+- `./prospect submit-pack` prints the live URL, repo URL, signed root, and source docs.
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.

@@ -43,7 +43,7 @@ State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for the reasoning.
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|findings-index|judge-pack|receipt)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|findings-index|judge-pack|submit-pack|receipt)
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
 python benchmark/mutation_pack.py   # the floor: zero tampered claim ever admitted
 python tests/test_skill_parity.py   # the Skill checker matches the engine (112 claims, 0 drift)

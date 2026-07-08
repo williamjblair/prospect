@@ -137,6 +137,8 @@ the graph on its own word. On top of it:
 
 ```bash
 ./prospect final-check            # run the submission gate
+./prospect submit-smoke           # check production submission endpoints
+./prospect submit-pack            # print the copy-safe submission packet
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts

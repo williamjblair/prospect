@@ -18,6 +18,7 @@
   prospect judge-pack       build the judge packet manifest and handoff
   prospect final-check      run the local submission gate
   prospect submit-smoke     run production submission smoke checks
+  prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity → signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
 
@@ -67,6 +68,8 @@ def main():
         from cli.final_check import main as final_check_main; sys.exit(final_check_main(rest))
     elif cmd == "submit-smoke":
         from cli.submit_smoke import main as submit_smoke_main; sys.exit(submit_smoke_main(rest))
+    elif cmd == "submit-pack":
+        from cli.submit_pack import main as submit_pack_main; sys.exit(submit_pack_main(rest))
     elif cmd == "receipt":
         from receipt.emit import main as receipt_main; receipt_main(rest)
     elif cmd == "mcp":

@@ -12,6 +12,8 @@ def test_readme_lists_current_commands_and_artifacts():
     for command in [
         "./prospect verify",
         "./prospect final-check",
+        "./prospect submit-smoke",
+        "./prospect submit-pack",
         "./prospect mcp",
         "python examples/receipt_bridge_client.py",
         "./prospect campaign",

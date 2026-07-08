@@ -65,6 +65,7 @@ The frozen verifier and human key remain the gate. No model in the trust path.
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
+./prospect submit-pack
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

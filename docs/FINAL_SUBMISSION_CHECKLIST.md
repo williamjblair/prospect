@@ -21,6 +21,7 @@ Replay gate:
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
+./prospect submit-pack
 ```
 
 Signed root to name if asked: `root_a8b0dcdd4024e12f`
@@ -34,6 +35,7 @@ Run this before submitting:
 ```bash
 ./prospect final-check
 ./prospect submit-smoke
+./prospect submit-pack
 ```
 
 Then open:
@@ -53,6 +55,7 @@ Confirm:
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - The receipt bridge demo returns `accepted=false`.
 - `./prospect submit-smoke` ends with `SUBMIT SMOKE PASS`.
+- `./prospect submit-pack` prints the live URL, repo URL, signed root, source docs, and verification commands.
 
 ## Record The Demo Video
 
@@ -76,6 +79,7 @@ Submit the project with:
 - repo URL: https://github.com/williamjblair/prospect
 - project text from `docs/SUBMISSION_FORM_PACKET.md` or `docs/SUBMISSION.md`
 - demo video recorded from `docs/DEMO.md`
+- local copy-safe packet from `./prospect submit-pack`
 
 Do not paste secrets. Do not mention internal deployment team names. Do not claim wet-lab or clinical
 truth. No model in the trust path: Claude proposes and pressure-tests, frozen code replays, and a
