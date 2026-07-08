@@ -1,7 +1,7 @@
 # Demo script (2 minutes)
 
 The arc is connector, refusal, then reveal. Never open on the map. Open on reproducible association
-meeting causal state.
+being separated into drivers and passengers.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
@@ -10,10 +10,10 @@ Recording runbook: [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
 **0:00 · Connector.** Overview tab. Start at the acceptance-layer panel. A real Claude Science export
 from the Sade-Feldman melanoma ICB scRNA-seq session produces a reproducible associative signature
 with AUC 0.859 and an internal review completed with 0 findings. Prospect asks the causal question
-the session itself does not answer: do those genes regulate the stimulated CD4+ activation program
-when perturbed in Marson CRISPRi? The answer is typed, not laundered: 52 genes checked, 11
-`evidence_attached`, 22 `contradicted`, 19 `not_assayed`, `accepted=false`, and
-`human_signature_required`.
+the session itself says remains open: which genes are causal drivers and which are associative
+passengers when perturbed in Marson CRISPRi? The answer is typed, not laundered: 52 genes checked,
+12 drivers typed `evidence_attached`, 22 `associative_only` passengers, 3 `contradicted` explicit
+checkpoint-driver claims, 15 `not_assayed`, `accepted=false`, and `human_signature_required`.
 
 **0:25 · Refusal.** Overview tab. Read the AI claim on the opening claim cards: *"CRISPRi of A1BG drives
 a broad activation program in stimulated CD4 T cells, a promising target."* It sounds right. The

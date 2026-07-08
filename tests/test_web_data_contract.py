@@ -214,10 +214,15 @@ def test_frontier_json_embeds_claude_science_acceptance_demo():
     assert demo["prospect"]["next"] == "human_signature_required"
     assert demo["prospect"]["typed_status_counts"] == {
         "genes": 52,
-        "evidence_attached": 11,
-        "contradicted": 22,
-        "not_assayed": 19,
+        "drivers": 12,
+        "evidence_attached": 12,
+        "passengers": 22,
+        "associative_only": 22,
+        "contradicted": 3,
+        "not_assayed": 15,
     }
+    assert demo["causal_rule"]["comparison"] == "driver_vs_passenger"
+    assert {row["gene"] for row in demo["verdicts"] if row["typed_status"] == "contradicted"} == {"HAVCR2", "LAG3", "PDCD1"}
     assert demo["commands"]["claude_science"] == "python examples/claude_science_connector_client.py --json"
     assert demo["commands"]["generic"] == "python examples/prospect_connector_client.py --case openresearch --json"
     assert ("veri" + "fied") not in json.dumps(demo).lower()

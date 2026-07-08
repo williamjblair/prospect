@@ -22,7 +22,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
 - 12 public data artifacts
-- 52 real Claude Science signature genes typed by Prospect causal replay
+- 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
 
 ## Trust boundary
 

@@ -57,12 +57,17 @@ def test_claude_science_connector_returns_two_typed_directions_and_no_state_writ
     assert summary["proposal_id"].startswith("proposal_")
     assert summary["typed_status_counts"] == {
         "genes": 52,
-        "evidence_attached": 11,
-        "contradicted": 22,
-        "not_assayed": 19,
+        "drivers": 12,
+        "evidence_attached": 12,
+        "passengers": 22,
+        "associative_only": 22,
+        "contradicted": 3,
+        "not_assayed": 15,
     }
     assert {row["typed_status"] for row in summary["evidence_examples"]} == {"evidence_attached"}
     assert {row["typed_status"] for row in summary["contradiction_examples"]} == {"contradicted"}
+    assert {row["gene"] for row in summary["contradiction_examples"]} == {"HAVCR2", "LAG3", "PDCD1"}
+    assert {row["typed_status"] for row in summary["passenger_examples"]} == {"associative_only"}
     assert "Computation over released data" in summary["ceiling"]
 
     assert FRONTIER_SIG.read_text() == before_sig
@@ -78,7 +83,10 @@ def test_same_connector_accepts_second_external_producer_example():
     assert summary["next"] == "human_signature_required"
     assert summary["typed_status_counts"] == {
         "genes": 1,
+        "drivers": 1,
         "evidence_attached": 1,
+        "passengers": 0,
+        "associative_only": 0,
         "contradicted": 0,
         "not_assayed": 0,
     }

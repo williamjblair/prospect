@@ -63,6 +63,10 @@ def build_handout() -> dict[str, Any]:
             "disease_overlay_context_rows": disease["counts"]["immune_or_hematologic_context"],
             "lab_packet_rows": len(lab.get("candidates", [])),
             "claude_science_genes": claude_science["prospect"]["typed_status_counts"]["genes"],
+            "claude_science_drivers": claude_science["prospect"]["typed_status_counts"]["drivers"],
+            "claude_science_passengers": claude_science["prospect"]["typed_status_counts"]["passengers"],
+            "claude_science_contradicted": claude_science["prospect"]["typed_status_counts"]["contradicted"],
+            "claude_science_not_assayed": claude_science["prospect"]["typed_status_counts"]["not_assayed"],
         },
         "trust_boundary": {
             "model_role": "propose, search, pressure-test",
@@ -122,7 +126,12 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['disease_overlay_context_rows']} rows with selected immune or hematologic context",
         f"- {counts['lab_packet_rows']} proposal-only wet-lab assay rows",
         f"- {counts['public_artifacts']} public data artifacts",
-        f"- {counts['claude_science_genes']} real Claude Science signature genes typed by Prospect causal replay",
+        (
+            f"- {counts['claude_science_genes']} real Claude Science signature genes typed by Prospect: "
+            f"{counts['claude_science_drivers']} drivers, {counts['claude_science_passengers']} passengers, "
+            f"{counts['claude_science_contradicted']} contradicted driver claims, "
+            f"{counts['claude_science_not_assayed']} not assayed"
+        ),
         "",
         "## Trust boundary",
         "",

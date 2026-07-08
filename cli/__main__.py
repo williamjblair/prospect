@@ -90,7 +90,8 @@ def main():
         print(
             "wrote examples/data/claude_science_acceptance_demo.json "
             f"({counts['genes']} genes, {counts['evidence_attached']} evidence_attached, "
-            f"{counts['contradicted']} contradicted, {counts['not_assayed']} not_assayed)"
+            f"{counts['associative_only']} associative_only, {counts['contradicted']} contradicted, "
+            f"{counts['not_assayed']} not_assayed)"
         )
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()

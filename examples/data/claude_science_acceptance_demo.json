@@ -22,13 +22,15 @@
     }
   ],
   "causal_rule": {
-    "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
-    "condition": "Stim8hr",
-    "contradicted": "on-target knockdown in Stim8hr and 10 or fewer DE genes",
-    "evidence_attached": "on-target knockdown in Stim8hr and more than 10 DE genes",
-    "not_assayed": "absent from the Marson table or no on-target knockdown in Stim8hr"
+    "associative_only": "on-target knockdown in at least one Marson condition but 10 or fewer DE genes in the strongest condition, with no explicit causal driver claim",
+    "claim_under_test": "Which genes in the associative Claude Science response signature behave as causal regulators of the CD4+ activation program?",
+    "comparison": "driver_vs_passenger",
+    "condition_rule": "strongest on-target effect across Rest, Stim8hr, and Stim48hr",
+    "contradicted": "an explicit causal or driver claim exists, and on-target knockdown moves 10 or fewer genes in the strongest condition",
+    "evidence_attached": "on-target knockdown in any Marson condition and more than 10 DE genes in the strongest condition",
+    "not_assayed": "absent from the Marson table or no on-target knockdown in any Marson condition"
   },
-  "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
+  "claim_under_test": "Which genes in the associative Claude Science response signature behave as causal regulators of the CD4+ activation program?",
   "claude_science": {
     "artifact_status": "reproducible_export",
     "auc": {
@@ -51,15 +53,19 @@
   "prospect": {
     "accepted": false,
     "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+    "interpretation": "Prospect separates candidate causal drivers from associative passengers. It does not say the response signature is wrong.",
     "next": "human_signature_required",
-    "proposal_id": "proposal_9f4c876b09de5974",
-    "receipt_id": "rcpt_b6aeadd1a9e168f8",
+    "proposal_id": "proposal_f90497690c449a86",
+    "receipt_id": "rcpt_0a0bd5ec8c3666c3",
     "trust_path": "frozen Marson lookup plus human key",
     "typed_status_counts": {
-      "contradicted": 22,
-      "evidence_attached": 11,
+      "associative_only": 22,
+      "contradicted": 3,
+      "drivers": 12,
+      "evidence_attached": 12,
       "genes": 52,
-      "not_assayed": 19
+      "not_assayed": 15,
+      "passengers": 22
     },
     "verifier": "ProspectCausalReceiptBridge"
   },
@@ -89,27 +95,34 @@
         "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
       }
     ],
-    "claim": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
+    "claim": "Which genes in the associative Claude Science response signature behave as causal regulators of the CD4+ activation program?",
     "conditions": [
+      "Rest",
       "Stim8hr",
+      "Stim48hr",
       "released Marson DE table",
       "proposal only"
     ],
     "evidence": [
       {
-        "fact": "genes with causal support",
-        "source": "Marson Stim8hr frozen table",
-        "value": "11"
+        "fact": "signature genes typed as candidate drivers",
+        "source": "Marson frozen table",
+        "value": "12"
       },
       {
-        "fact": "genes contradicted for causal-regulator claim",
-        "source": "Marson Stim8hr frozen table",
+        "fact": "signature genes typed as associative passengers",
+        "source": "Marson frozen table",
         "value": "22"
       },
       {
+        "fact": "explicit driver claims contradicted",
+        "source": "Marson frozen table",
+        "value": "3"
+      },
+      {
         "fact": "genes not assayed comparably",
-        "source": "Marson Stim8hr frozen table",
-        "value": "19"
+        "source": "Marson frozen table",
+        "value": "15"
       }
     ],
     "frontier": "prospect_marson_cd4_perturbseq",
@@ -120,16 +133,18 @@
       "real_export": true,
       "run": "sade_feldman_signature_export"
     },
-    "receipt_id": "rcpt_b6aeadd1a9e168f8",
+    "receipt_id": "rcpt_0a0bd5ec8c3666c3",
     "replay_metadata": {
       "ceiling": "Computation over released data, not wet-lab or clinical truth.",
       "command": "python examples/claude_science_connector_client.py --json",
       "rule": {
-        "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
-        "condition": "Stim8hr",
-        "contradicted": "on-target knockdown in Stim8hr and 10 or fewer DE genes",
-        "evidence_attached": "on-target knockdown in Stim8hr and more than 10 DE genes",
-        "not_assayed": "absent from the Marson table or no on-target knockdown in Stim8hr"
+        "associative_only": "on-target knockdown in at least one Marson condition but 10 or fewer DE genes in the strongest condition, with no explicit causal driver claim",
+        "claim_under_test": "Which genes in the associative Claude Science response signature behave as causal regulators of the CD4+ activation program?",
+        "comparison": "driver_vs_passenger",
+        "condition_rule": "strongest on-target effect across Rest, Stim8hr, and Stim48hr",
+        "contradicted": "an explicit causal or driver claim exists, and on-target knockdown moves 10 or fewer genes in the strongest condition",
+        "evidence_attached": "on-target knockdown in any Marson condition and more than 10 DE genes in the strongest condition",
+        "not_assayed": "absent from the Marson table or no on-target knockdown in any Marson condition"
       }
     },
     "replayability": "exact",
@@ -146,49 +161,49 @@
       "IL7R",
       "GZMB",
       "PGAM1",
-      "PSMB9",
       "ATM",
-      "PRF1",
-      "YPEL5",
-      "TNFRSF9",
+      "PSMB9",
       "CCL5",
-      "LTB",
+      "YPEL5",
+      "PRF1",
+      "ENTPD1",
       "SORL1",
-      "IFI6",
-      "CD38",
-      "GBP5",
-      "NKG7",
-      "GPR183",
-      "MT2A",
-      "CCR7",
+      "TNFRSF9",
+      "LTB",
       "LAG3",
+      "PDCD1",
+      "HAVCR2",
+      "CD38",
+      "IFI6",
+      "GPR183",
+      "CST7",
+      "GBP5",
+      "MT2A",
+      "NKG7",
+      "TSPYL2",
+      "CCR7",
+      "PER1",
       "TCF7",
+      "CCL3",
       "CD55",
       "CD63",
-      "CCL4",
-      "CST7",
       "DDX3Y",
       "GZMA",
       "GZMH",
-      "HAVCR2",
       "MGAT4A",
-      "PDCD1",
       "PLAC8",
-      "SELL",
-      "TSPYL2",
-      "ENTPD1",
-      "HLA-DRB1",
-      "GZMK",
+      "CCL4",
       "LY9",
-      "CCL3",
+      "SELL",
       "CLIC1",
       "FOXP1",
+      "GZMK",
       "HLA-DPA1",
-      "LEF1",
-      "PER1",
       "HLA-DPB1",
       "HLA-DRA",
+      "HLA-DRB1",
       "IGKC",
+      "LEF1",
       "LINC00152",
       "MTATP6P1",
       "MTND2P28",
@@ -208,7 +223,7 @@
       "human_ed25519_signature"
     ],
     "verifier": {
-      "method": "frozen lookup over Marson Stim8hr on-target knockdown and DE count",
+      "method": "frozen lookup over the strongest Marson on-target condition and DE count",
       "name": "ProspectCausalReceiptBridge",
       "replay": "python examples/claude_science_connector_client.py --json"
     }
@@ -218,10 +233,11 @@
     {
       "condition": "Stim8hr",
       "de_rank": 1342,
+      "driver_claim": "",
       "gene": "IL7R",
       "n_total_de_genes": 812,
       "ontarget_effect_category": "on-target KD",
-      "reason": "IL7R has on-target knockdown and moves 812 transcripts in Stim8hr.",
+      "reason": "IL7R has on-target knockdown and moves 812 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": 1.4335315,
       "signature_padj": 0.042100611915804984,
       "signature_roles": [
@@ -233,10 +249,11 @@
     {
       "condition": "Stim8hr",
       "de_rank": 366,
+      "driver_claim": "",
       "gene": "GZMB",
       "n_total_de_genes": 496,
       "ontarget_effect_category": "on-target KD",
-      "reason": "GZMB has on-target knockdown and moves 496 transcripts in Stim8hr.",
+      "reason": "GZMB has on-target knockdown and moves 496 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": -2.2275739,
       "signature_padj": 0.012858613500836611,
       "signature_roles": [
@@ -247,10 +264,11 @@
     {
       "condition": "Stim8hr",
       "de_rank": 35,
+      "driver_claim": "",
       "gene": "PGAM1",
       "n_total_de_genes": 172,
       "ontarget_effect_category": "on-target KD",
-      "reason": "PGAM1 has on-target knockdown and moves 172 transcripts in Stim8hr.",
+      "reason": "PGAM1 has on-target knockdown and moves 172 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": -1.7789621,
       "signature_padj": 0.0063142217173764136,
       "signature_roles": [
@@ -259,26 +277,13 @@
       "typed_status": "evidence_attached"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 382,
-      "gene": "PSMB9",
-      "n_total_de_genes": 125,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "PSMB9 has on-target knockdown and moves 125 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.8190942,
-      "signature_padj": 0.01320985982158791,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "evidence_attached"
-    },
-    {
-      "condition": "Stim8hr",
+      "condition": "Stim48hr",
       "de_rank": 3008,
+      "driver_claim": "",
       "gene": "ATM",
-      "n_total_de_genes": 71,
+      "n_total_de_genes": 143,
       "ontarget_effect_category": "on-target KD",
-      "reason": "ATM has on-target knockdown and moves 71 transcripts in Stim8hr.",
+      "reason": "ATM has on-target knockdown and moves 143 transcripts in Stim48hr, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": 0.60791135,
       "signature_padj": 0.12377556615783335,
       "signature_roles": [
@@ -288,25 +293,42 @@
     },
     {
       "condition": "Stim8hr",
-      "de_rank": 104,
-      "gene": "PRF1",
-      "n_total_de_genes": 44,
+      "de_rank": 382,
+      "driver_claim": "",
+      "gene": "PSMB9",
+      "n_total_de_genes": 125,
       "ontarget_effect_category": "on-target KD",
-      "reason": "PRF1 has on-target knockdown and moves 44 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -2.304947,
-      "signature_padj": 0.007638792226844955,
+      "reason": "PSMB9 has on-target knockdown and moves 125 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
+      "signature_diff_R_minus_NR": -1.8190942,
+      "signature_padj": 0.01320985982158791,
       "signature_roles": [
         "responder_down_NRup"
       ],
       "typed_status": "evidence_attached"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 7796,
-      "gene": "YPEL5",
-      "n_total_de_genes": 38,
+      "condition": "Rest",
+      "de_rank": 485,
+      "driver_claim": "",
+      "gene": "CCL5",
+      "n_total_de_genes": 98,
       "ontarget_effect_category": "on-target KD",
-      "reason": "YPEL5 has on-target knockdown and moves 38 transcripts in Stim8hr.",
+      "reason": "CCL5 has on-target knockdown and moves 98 transcripts in Rest, so Prospect types it as a candidate driver.",
+      "signature_diff_R_minus_NR": -1.9023304,
+      "signature_padj": 0.015765173814841545,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "evidence_attached"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 7796,
+      "driver_claim": "",
+      "gene": "YPEL5",
+      "n_total_de_genes": 57,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "YPEL5 has on-target knockdown and moves 57 transcripts in Rest, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": 0.7923398,
       "signature_padj": 0.5099011261058275,
       "signature_roles": [
@@ -316,11 +338,57 @@
     },
     {
       "condition": "Stim8hr",
+      "de_rank": 104,
+      "driver_claim": "",
+      "gene": "PRF1",
+      "n_total_de_genes": 44,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "PRF1 has on-target knockdown and moves 44 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
+      "signature_diff_R_minus_NR": -2.304947,
+      "signature_padj": 0.007638792226844955,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "evidence_attached"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 2896,
+      "driver_claim": "",
+      "gene": "ENTPD1",
+      "n_total_de_genes": 35,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "ENTPD1 has on-target knockdown and moves 35 transcripts in Stim48hr, so Prospect types it as a candidate driver.",
+      "signature_diff_R_minus_NR": -0.81133246,
+      "signature_padj": 0.1153538157609669,
+      "signature_roles": [
+        "paper_nonresponder"
+      ],
+      "typed_status": "evidence_attached"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 1859,
+      "driver_claim": "",
+      "gene": "SORL1",
+      "n_total_de_genes": 27,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "SORL1 has on-target knockdown and moves 27 transcripts in Stim48hr, so Prospect types it as a candidate driver.",
+      "signature_diff_R_minus_NR": 0.67342913,
+      "signature_padj": 0.06279665281388341,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "evidence_attached"
+    },
+    {
+      "condition": "Stim8hr",
       "de_rank": 3516,
+      "driver_claim": "",
       "gene": "TNFRSF9",
       "n_total_de_genes": 25,
       "ontarget_effect_category": "on-target KD",
-      "reason": "TNFRSF9 has on-target knockdown and moves 25 transcripts in Stim8hr.",
+      "reason": "TNFRSF9 has on-target knockdown and moves 25 transcripts in Stim8hr, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": -0.66354525,
       "signature_padj": 0.15592617642057038,
       "signature_roles": [
@@ -329,26 +397,13 @@
       "typed_status": "evidence_attached"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 485,
-      "gene": "CCL5",
-      "n_total_de_genes": 20,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CCL5 has on-target knockdown and moves 20 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.9023304,
-      "signature_padj": 0.015765173814841545,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "evidence_attached"
-    },
-    {
-      "condition": "Stim8hr",
+      "condition": "Rest",
       "de_rank": 2554,
+      "driver_claim": "",
       "gene": "LTB",
-      "n_total_de_genes": 17,
+      "n_total_de_genes": 23,
       "ontarget_effect_category": "on-target KD",
-      "reason": "LTB has on-target knockdown and moves 17 transcripts in Stim8hr.",
+      "reason": "LTB has on-target knockdown and moves 23 transcripts in Rest, so Prospect types it as a candidate driver.",
       "signature_diff_R_minus_NR": 0.58779335,
       "signature_padj": 0.09734044297592898,
       "signature_roles": [
@@ -359,125 +414,12 @@
     },
     {
       "condition": "Stim8hr",
-      "de_rank": 1859,
-      "gene": "SORL1",
-      "n_total_de_genes": 16,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "SORL1 has on-target knockdown and moves 16 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.67342913,
-      "signature_padj": 0.06279665281388341,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "evidence_attached"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 153,
-      "gene": "IFI6",
-      "n_total_de_genes": 9,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "IFI6 has on-target knockdown but moves only 9 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.8545563,
-      "signature_padj": 0.009056521356522558,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 120,
-      "gene": "CD38",
-      "n_total_de_genes": 8,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CD38 has on-target knockdown but moves only 8 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.775437,
-      "signature_padj": 0.00799140757698304,
-      "signature_roles": [
-        "responder_down_NRup",
-        "paper_nonresponder"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 194,
-      "gene": "GBP5",
-      "n_total_de_genes": 6,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "GBP5 has on-target knockdown but moves only 6 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.7795994,
-      "signature_padj": 0.009638699035349418,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 40,
-      "gene": "NKG7",
-      "n_total_de_genes": 5,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "NKG7 has on-target knockdown but moves only 5 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -2.5849814,
-      "signature_padj": 0.006451183302191948,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 4785,
-      "gene": "GPR183",
-      "n_total_de_genes": 4,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "GPR183 has on-target knockdown but moves only 4 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 1.1858824,
-      "signature_padj": 0.2568930582335667,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 108,
-      "gene": "MT2A",
-      "n_total_de_genes": 4,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "MT2A has on-target knockdown but moves only 4 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.7921777,
-      "signature_padj": 0.007726947346096143,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 1767,
-      "gene": "CCR7",
-      "n_total_de_genes": 3,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CCR7 has on-target knockdown but moves only 3 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 1.1368195,
-      "signature_padj": 0.05841805322445584,
-      "signature_roles": [
-        "responder_up",
-        "paper_responder"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
       "de_rank": 1379,
+      "driver_claim": "LAG-3 is cited as a co-inhibitory receptor and checkpoint target.",
       "gene": "LAG3",
       "n_total_de_genes": 3,
       "ontarget_effect_category": "on-target KD",
-      "reason": "LAG3 has on-target knockdown but moves only 3 transcripts in Stim8hr.",
+      "reason": "LAG3 has an explicit driver claim, but on-target knockdown moves only 3 transcripts at strongest effect in Stim8hr.",
       "signature_diff_R_minus_NR": -0.90592194,
       "signature_padj": 0.04337041471558709,
       "signature_roles": [
@@ -486,153 +428,13 @@
       "typed_status": "contradicted"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 1425,
-      "gene": "TCF7",
-      "n_total_de_genes": 3,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "TCF7 has on-target knockdown but moves only 3 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.98125505,
-      "signature_padj": 0.04503624320014765,
-      "signature_roles": [
-        "responder_up",
-        "paper_responder"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 5066,
-      "gene": "CD55",
-      "n_total_de_genes": 2,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CD55 has on-target knockdown but moves only 2 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.75909495,
-      "signature_padj": 0.27927396209595734,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 766,
-      "gene": "CD63",
-      "n_total_de_genes": 2,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CD63 has on-target knockdown but moves only 2 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.0604136,
-      "signature_padj": 0.024154636821985036,
-      "signature_roles": [
-        "paper_nonresponder"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 523,
-      "gene": "CCL4",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CCL4 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.9476478,
-      "signature_padj": 0.016229732827026312,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 135,
-      "gene": "CST7",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "CST7 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.9331245,
-      "signature_padj": 0.0083710031850132,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 8196,
-      "gene": "DDX3Y",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "DDX3Y has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.5622753,
-      "signature_padj": 0.5540186152890059,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 133,
-      "gene": "GZMA",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "GZMA has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -2.1838012,
-      "signature_padj": 0.0083710031850132,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 64,
-      "gene": "GZMH",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "GZMH has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -2.1382716,
-      "signature_padj": 0.0070212331445642555,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 1726,
-      "gene": "HAVCR2",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "HAVCR2 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": -1.3856668,
-      "signature_padj": 0.056349702853514184,
-      "signature_roles": [
-        "paper_nonresponder"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 2505,
-      "gene": "MGAT4A",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "MGAT4A has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.6026391,
-      "signature_padj": 0.09412393234729341,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
+      "condition": "Stim48hr",
       "de_rank": 511,
+      "driver_claim": "PD-1 is cited as a central inhibitory checkpoint receptor.",
       "gene": "PDCD1",
-      "n_total_de_genes": 1,
+      "n_total_de_genes": 2,
       "ontarget_effect_category": "on-target KD",
-      "reason": "PDCD1 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
+      "reason": "PDCD1 has an explicit driver claim, but on-target knockdown moves only 2 transcripts at strongest effect in Stim48hr.",
       "signature_diff_R_minus_NR": -1.5977216,
       "signature_padj": 0.016229732827026312,
       "signature_roles": [
@@ -641,126 +443,363 @@
       "typed_status": "contradicted"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 2641,
-      "gene": "PLAC8",
+      "condition": "Rest",
+      "de_rank": 1726,
+      "driver_claim": "TIM-3 is cited as a co-inhibitory receptor regulating T-cell responses.",
+      "gene": "HAVCR2",
       "n_total_de_genes": 1,
       "ontarget_effect_category": "on-target KD",
-      "reason": "PLAC8 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
+      "reason": "HAVCR2 has an explicit driver claim, but on-target knockdown moves only 1 transcript at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": -1.3856668,
+      "signature_padj": 0.056349702853514184,
+      "signature_roles": [
+        "paper_nonresponder"
+      ],
+      "typed_status": "contradicted"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 120,
+      "driver_claim": "",
+      "gene": "CD38",
+      "n_total_de_genes": 10,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CD38 is in the associative signature, but on-target knockdown moves only 10 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": -1.775437,
+      "signature_padj": 0.00799140757698304,
+      "signature_roles": [
+        "responder_down_NRup",
+        "paper_nonresponder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim8hr",
+      "de_rank": 153,
+      "driver_claim": "",
+      "gene": "IFI6",
+      "n_total_de_genes": 9,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "IFI6 is in the associative signature, but on-target knockdown moves only 9 transcripts at strongest effect in Stim8hr.",
+      "signature_diff_R_minus_NR": -1.8545563,
+      "signature_padj": 0.009056521356522558,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 4785,
+      "driver_claim": "",
+      "gene": "GPR183",
+      "n_total_de_genes": 7,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "GPR183 is in the associative signature, but on-target knockdown moves only 7 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": 1.1858824,
+      "signature_padj": 0.2568930582335667,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 135,
+      "driver_claim": "",
+      "gene": "CST7",
+      "n_total_de_genes": 6,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CST7 is in the associative signature, but on-target knockdown moves only 6 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": -1.9331245,
+      "signature_padj": 0.0083710031850132,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim8hr",
+      "de_rank": 194,
+      "driver_claim": "",
+      "gene": "GBP5",
+      "n_total_de_genes": 6,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "GBP5 is in the associative signature, but on-target knockdown moves only 6 transcripts at strongest effect in Stim8hr.",
+      "signature_diff_R_minus_NR": -1.7795994,
+      "signature_padj": 0.009638699035349418,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 108,
+      "driver_claim": "",
+      "gene": "MT2A",
+      "n_total_de_genes": 6,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "MT2A is in the associative signature, but on-target knockdown moves only 6 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": -1.7921777,
+      "signature_padj": 0.007726947346096143,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim8hr",
+      "de_rank": 40,
+      "driver_claim": "",
+      "gene": "NKG7",
+      "n_total_de_genes": 5,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "NKG7 is in the associative signature, but on-target knockdown moves only 5 transcripts at strongest effect in Stim8hr.",
+      "signature_diff_R_minus_NR": -2.5849814,
+      "signature_padj": 0.006451183302191948,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 6585,
+      "driver_claim": "",
+      "gene": "TSPYL2",
+      "n_total_de_genes": 4,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "TSPYL2 is in the associative signature, but on-target knockdown moves only 4 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": 0.68141484,
+      "signature_padj": 0.4036110422893423,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 1767,
+      "driver_claim": "",
+      "gene": "CCR7",
+      "n_total_de_genes": 3,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CCR7 is in the associative signature, but on-target knockdown moves only 3 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 1.1368195,
+      "signature_padj": 0.05841805322445584,
+      "signature_roles": [
+        "responder_up",
+        "paper_responder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 5299,
+      "driver_claim": "",
+      "gene": "PER1",
+      "n_total_de_genes": 3,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "PER1 is in the associative signature, but on-target knockdown moves only 3 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": 0.5576012,
+      "signature_padj": 0.3017250751501787,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 1425,
+      "driver_claim": "",
+      "gene": "TCF7",
+      "n_total_de_genes": 3,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "TCF7 is in the associative signature, but on-target knockdown moves only 3 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 0.98125505,
+      "signature_padj": 0.04503624320014765,
+      "signature_roles": [
+        "responder_up",
+        "paper_responder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 1086,
+      "driver_claim": "",
+      "gene": "CCL3",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CCL3 is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": -1.335232,
+      "signature_padj": 0.033483530973224304,
+      "signature_roles": [
+        "paper_nonresponder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 5066,
+      "driver_claim": "",
+      "gene": "CD55",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CD55 is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 0.75909495,
+      "signature_padj": 0.27927396209595734,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim8hr",
+      "de_rank": 766,
+      "driver_claim": "",
+      "gene": "CD63",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CD63 is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Stim8hr.",
+      "signature_diff_R_minus_NR": -1.0604136,
+      "signature_padj": 0.024154636821985036,
+      "signature_roles": [
+        "paper_nonresponder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 8196,
+      "driver_claim": "",
+      "gene": "DDX3Y",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "DDX3Y is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 0.5622753,
+      "signature_padj": 0.5540186152890059,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 133,
+      "driver_claim": "",
+      "gene": "GZMA",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "GZMA is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": -2.1838012,
+      "signature_padj": 0.0083710031850132,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 64,
+      "driver_claim": "",
+      "gene": "GZMH",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "GZMH is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Stim48hr.",
+      "signature_diff_R_minus_NR": -2.1382716,
+      "signature_padj": 0.0070212331445642555,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 2505,
+      "driver_claim": "",
+      "gene": "MGAT4A",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "MGAT4A is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 0.6026391,
+      "signature_padj": 0.09412393234729341,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Stim48hr",
+      "de_rank": 2641,
+      "driver_claim": "",
+      "gene": "PLAC8",
+      "n_total_de_genes": 2,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "PLAC8 is in the associative signature, but on-target knockdown moves only 2 transcripts at strongest effect in Stim48hr.",
       "signature_diff_R_minus_NR": 0.80078995,
       "signature_padj": 0.10095642809888139,
       "signature_roles": [
         "responder_up",
         "paper_responder"
       ],
-      "typed_status": "contradicted"
+      "typed_status": "associative_only"
     },
     {
       "condition": "Stim8hr",
+      "de_rank": 523,
+      "driver_claim": "",
+      "gene": "CCL4",
+      "n_total_de_genes": 1,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "CCL4 is in the associative signature, but on-target knockdown moves only 1 transcript at strongest effect in Stim8hr.",
+      "signature_diff_R_minus_NR": -1.9476478,
+      "signature_padj": 0.016229732827026312,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
+      "de_rank": 12388,
+      "driver_claim": "",
+      "gene": "LY9",
+      "n_total_de_genes": 1,
+      "ontarget_effect_category": "on-target KD",
+      "reason": "LY9 is in the associative signature, but on-target knockdown moves only 1 transcript at strongest effect in Rest.",
+      "signature_diff_R_minus_NR": 0.043902874,
+      "signature_padj": 0.9159520619590493,
+      "signature_roles": [
+        "paper_responder"
+      ],
+      "typed_status": "associative_only"
+    },
+    {
+      "condition": "Rest",
       "de_rank": 2886,
+      "driver_claim": "",
       "gene": "SELL",
       "n_total_de_genes": 1,
       "ontarget_effect_category": "on-target KD",
-      "reason": "SELL has on-target knockdown but moves only 1 transcripts in Stim8hr.",
+      "reason": "SELL is in the associative signature, but on-target knockdown moves only 1 transcript at strongest effect in Rest.",
       "signature_diff_R_minus_NR": 0.9846202,
       "signature_padj": 0.1153538157609669,
       "signature_roles": [
         "responder_up",
         "paper_responder"
       ],
-      "typed_status": "contradicted"
+      "typed_status": "associative_only"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 6585,
-      "gene": "TSPYL2",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "on-target KD",
-      "reason": "TSPYL2 has on-target knockdown but moves only 1 transcripts in Stim8hr.",
-      "signature_diff_R_minus_NR": 0.68141484,
-      "signature_padj": 0.4036110422893423,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "contradicted"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 2896,
-      "gene": "ENTPD1",
-      "n_total_de_genes": 13,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "ENTPD1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": -0.81133246,
-      "signature_padj": 0.1153538157609669,
-      "signature_roles": [
-        "paper_nonresponder"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 300,
-      "gene": "HLA-DRB1",
-      "n_total_de_genes": 9,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "HLA-DRB1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": -1.8561013,
-      "signature_padj": 0.01113767529538161,
-      "signature_roles": [
-        "responder_down_NRup"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 3674,
-      "gene": "GZMK",
-      "n_total_de_genes": 5,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "GZMK lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": -1.2162094,
-      "signature_padj": 0.1675927383281806,
-      "signature_roles": [
-        "paper_responder"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 12388,
-      "gene": "LY9",
-      "n_total_de_genes": 3,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "LY9 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": 0.043902874,
-      "signature_padj": 0.9159520619590493,
-      "signature_roles": [
-        "paper_responder"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 1086,
-      "gene": "CCL3",
-      "n_total_de_genes": 2,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "CCL3 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": -1.335232,
-      "signature_padj": 0.033483530973224304,
-      "signature_roles": [
-        "paper_nonresponder"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 78,
+      "driver_claim": "",
       "gene": "CLIC1",
-      "n_total_de_genes": 2,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "CLIC1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "CLIC1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": -1.8561883,
       "signature_padj": 0.007103621341058683,
       "signature_roles": [
@@ -769,12 +808,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 640,
+      "driver_claim": "",
       "gene": "FOXP1",
-      "n_total_de_genes": 1,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "FOXP1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "FOXP1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": 0.85947347,
       "signature_padj": 0.0197460164695293,
       "signature_roles": [
@@ -784,12 +824,28 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 17,
-      "gene": "HLA-DPA1",
-      "n_total_de_genes": 1,
+      "condition": "",
+      "de_rank": 3674,
+      "driver_claim": "",
+      "gene": "GZMK",
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "HLA-DPA1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "GZMK lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
+      "signature_diff_R_minus_NR": -1.2162094,
+      "signature_padj": 0.1675927383281806,
+      "signature_roles": [
+        "paper_responder"
+      ],
+      "typed_status": "not_assayed"
+    },
+    {
+      "condition": "",
+      "de_rank": 17,
+      "driver_claim": "",
+      "gene": "HLA-DPA1",
+      "n_total_de_genes": null,
+      "ontarget_effect_category": "no on-target KD",
+      "reason": "HLA-DPA1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": -2.266039,
       "signature_padj": 0.005173363799878478,
       "signature_roles": [
@@ -798,40 +854,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
-      "de_rank": 3522,
-      "gene": "LEF1",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "LEF1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": 0.6258859,
-      "signature_padj": 0.15592617642057038,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
-      "de_rank": 5299,
-      "gene": "PER1",
-      "n_total_de_genes": 1,
-      "ontarget_effect_category": "no on-target KD",
-      "reason": "PER1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
-      "signature_diff_R_minus_NR": 0.5576012,
-      "signature_padj": 0.3017250751501787,
-      "signature_roles": [
-        "responder_up"
-      ],
-      "typed_status": "not_assayed"
-    },
-    {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 217,
+      "driver_claim": "",
       "gene": "HLA-DPB1",
-      "n_total_de_genes": 0,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "HLA-DPB1 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "HLA-DPB1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": -1.810399,
       "signature_padj": 0.009813795353097033,
       "signature_roles": [
@@ -840,12 +869,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 144,
+      "driver_claim": "",
       "gene": "HLA-DRA",
-      "n_total_de_genes": 0,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "HLA-DRA lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "HLA-DRA lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": -1.8773961,
       "signature_padj": 0.00867686674530819,
       "signature_roles": [
@@ -854,12 +884,28 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
+      "de_rank": 300,
+      "driver_claim": "",
+      "gene": "HLA-DRB1",
+      "n_total_de_genes": null,
+      "ontarget_effect_category": "no on-target KD",
+      "reason": "HLA-DRB1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
+      "signature_diff_R_minus_NR": -1.8561013,
+      "signature_padj": 0.01113767529538161,
+      "signature_roles": [
+        "responder_down_NRup"
+      ],
+      "typed_status": "not_assayed"
+    },
+    {
+      "condition": "",
       "de_rank": 10129,
+      "driver_claim": "",
       "gene": "IGKC",
       "n_total_de_genes": null,
       "ontarget_effect_category": "not_found",
-      "reason": "IGKC is absent from the frozen Marson table for Stim8hr.",
+      "reason": "IGKC is absent from the frozen Marson table.",
       "signature_diff_R_minus_NR": 0.104873806,
       "signature_padj": 0.7260877271557349,
       "signature_roles": [
@@ -868,12 +914,28 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
+      "de_rank": 3522,
+      "driver_claim": "",
+      "gene": "LEF1",
+      "n_total_de_genes": null,
+      "ontarget_effect_category": "no on-target KD",
+      "reason": "LEF1 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
+      "signature_diff_R_minus_NR": 0.6258859,
+      "signature_padj": 0.15592617642057038,
+      "signature_roles": [
+        "responder_up"
+      ],
+      "typed_status": "not_assayed"
+    },
+    {
+      "condition": "",
       "de_rank": 158,
+      "driver_claim": "",
       "gene": "LINC00152",
       "n_total_de_genes": null,
       "ontarget_effect_category": "not_found",
-      "reason": "LINC00152 is absent from the frozen Marson table for Stim8hr.",
+      "reason": "LINC00152 is absent from the frozen Marson table.",
       "signature_diff_R_minus_NR": -1.8301575,
       "signature_padj": 0.009056521356522558,
       "signature_roles": [
@@ -882,12 +944,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 7856,
+      "driver_claim": "",
       "gene": "MTATP6P1",
       "n_total_de_genes": null,
       "ontarget_effect_category": "not_found",
-      "reason": "MTATP6P1 is absent from the frozen Marson table for Stim8hr.",
+      "reason": "MTATP6P1 is absent from the frozen Marson table.",
       "signature_diff_R_minus_NR": 0.60589314,
       "signature_padj": 0.5099011261058275,
       "signature_roles": [
@@ -896,12 +959,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 2073,
+      "driver_claim": "",
       "gene": "MTND2P28",
       "n_total_de_genes": null,
       "ontarget_effect_category": "not_found",
-      "reason": "MTND2P28 is absent from the frozen Marson table for Stim8hr.",
+      "reason": "MTND2P28 is absent from the frozen Marson table.",
       "signature_diff_R_minus_NR": 0.8740425,
       "signature_padj": 0.07258002506503164,
       "signature_roles": [
@@ -910,12 +974,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 4566,
+      "driver_claim": "",
       "gene": "RGPD5",
-      "n_total_de_genes": 0,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "RGPD5 lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "RGPD5 lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": 0.6390796,
       "signature_padj": 0.2426527894135564,
       "signature_roles": [
@@ -924,12 +989,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 1429,
+      "driver_claim": "",
       "gene": "TIGIT",
-      "n_total_de_genes": 0,
+      "n_total_de_genes": null,
       "ontarget_effect_category": "no on-target KD",
-      "reason": "TIGIT lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction.",
+      "reason": "TIGIT lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger.",
       "signature_diff_R_minus_NR": -1.3873074,
       "signature_padj": 0.04503624320014765,
       "signature_roles": [
@@ -938,12 +1004,13 @@
       "typed_status": "not_assayed"
     },
     {
-      "condition": "Stim8hr",
+      "condition": "",
       "de_rank": 280,
+      "driver_claim": "",
       "gene": "WARS",
       "n_total_de_genes": null,
       "ontarget_effect_category": "not_found",
-      "reason": "WARS is absent from the frozen Marson table for Stim8hr.",
+      "reason": "WARS is absent from the frozen Marson table.",
       "signature_diff_R_minus_NR": -1.2781402,
       "signature_padj": 0.01092911524669545,
       "signature_roles": [

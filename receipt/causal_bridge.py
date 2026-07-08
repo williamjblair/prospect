@@ -20,12 +20,22 @@ CLAUDE_EXPORT = DATA / "claude_science_real_export"
 MARSON_FULL = DATA / "marson_de_full.csv"
 
 CAUSAL_RULE = {
-    "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
-    "condition": "Stim8hr",
-    "evidence_attached": "on-target knockdown in Stim8hr and more than 10 DE genes",
-    "contradicted": "on-target knockdown in Stim8hr and 10 or fewer DE genes",
-    "not_assayed": "absent from the Marson table or no on-target knockdown in Stim8hr",
+    "claim_under_test": "Which genes in the associative Claude Science response signature behave as causal regulators of the CD4+ activation program?",
+    "comparison": "driver_vs_passenger",
+    "condition_rule": "strongest on-target effect across Rest, Stim8hr, and Stim48hr",
+    "evidence_attached": "on-target knockdown in any Marson condition and more than 10 DE genes in the strongest condition",
+    "associative_only": "on-target knockdown in at least one Marson condition but 10 or fewer DE genes in the strongest condition, with no explicit causal driver claim",
+    "contradicted": "an explicit causal or driver claim exists, and on-target knockdown moves 10 or fewer genes in the strongest condition",
+    "not_assayed": "absent from the Marson table or no on-target knockdown in any Marson condition",
 }
+
+EXPLICIT_DRIVER_CLAIMS = {
+    "HAVCR2": "TIM-3 is cited as a co-inhibitory receptor regulating T-cell responses.",
+    "LAG3": "LAG-3 is cited as a co-inhibitory receptor and checkpoint target.",
+    "PDCD1": "PD-1 is cited as a central inhibitory checkpoint receptor.",
+}
+
+CONDITIONS = ["Rest", "Stim8hr", "Stim48hr"]
 
 
 def sha256_file(path: Path) -> str:
@@ -62,6 +72,10 @@ def _de_lookup(path: Path) -> dict[str, dict[str, str]]:
     return lookup
 
 
+def _transcripts(n: int) -> str:
+    return "1 transcript" if n == 1 else f"{n} transcripts"
+
+
 def signature_genes(signature: dict[str, Any]) -> list[dict[str, str]]:
     roles: dict[str, list[str]] = defaultdict(list)
     for role, value in signature.items():
@@ -89,30 +103,39 @@ def causal_verdicts(
         else:
             gene = str(item.get("gene", ""))
             roles = [str(role) for role in item.get("roles", [])]
-        row = rows.get((gene, CAUSAL_RULE["condition"]))
+        condition_rows = [rows[(gene, cond)] for cond in CONDITIONS if (gene, cond) in rows]
+        on_target_rows = [row for row in condition_rows if row["ontarget_effect_category"] == "on-target KD"]
+        row = max(on_target_rows, key=lambda r: int(r["n_total_de_genes"])) if on_target_rows else None
+        explicit_driver_claim = EXPLICIT_DRIVER_CLAIMS.get(gene, "")
         if row is None:
             typed_status = "not_assayed"
-            reason = f"{gene} is absent from the frozen Marson table for Stim8hr."
+            if condition_rows:
+                reason = f"{gene} lacks on-target knockdown in all Marson conditions, so Prospect does not type it as a driver or passenger."
+            else:
+                reason = f"{gene} is absent from the frozen Marson table."
             n_de = None
-            ontarget = "not_found"
+            condition = ""
+            ontarget = "not_found" if not condition_rows else "no on-target KD"
         else:
             n_de = int(row["n_total_de_genes"])
             ontarget = row["ontarget_effect_category"]
-            if ontarget != "on-target KD":
-                typed_status = "not_assayed"
-                reason = f"{gene} lacks on-target knockdown in Stim8hr, so Prospect does not call a causal contradiction."
-            elif n_de > 10:
+            condition = row["culture_condition"]
+            if n_de > 10:
                 typed_status = "evidence_attached"
-                reason = f"{gene} has on-target knockdown and moves {n_de} transcripts in Stim8hr."
-            else:
+                reason = f"{gene} has on-target knockdown and moves {_transcripts(n_de)} in {condition}, so Prospect types it as a candidate driver."
+            elif explicit_driver_claim:
                 typed_status = "contradicted"
-                reason = f"{gene} has on-target knockdown but moves only {n_de} transcripts in Stim8hr."
+                reason = f"{gene} has an explicit driver claim, but on-target knockdown moves only {_transcripts(n_de)} at strongest effect in {condition}."
+            else:
+                typed_status = "associative_only"
+                reason = f"{gene} is in the associative signature, but on-target knockdown moves only {_transcripts(n_de)} at strongest effect in {condition}."
         de_row = de.get(gene, {})
         verdicts.append({
             "gene": gene,
             "signature_roles": roles,
             "typed_status": typed_status,
-            "condition": CAUSAL_RULE["condition"],
+            "driver_claim": explicit_driver_claim,
+            "condition": condition,
             "n_total_de_genes": n_de,
             "ontarget_effect_category": ontarget,
             "de_rank": int(de_row["rank"]) if de_row.get("rank") else None,
@@ -123,7 +146,7 @@ def causal_verdicts(
     return sorted(
         verdicts,
         key=lambda v: (
-            {"evidence_attached": 0, "contradicted": 1, "not_assayed": 2}.get(v["typed_status"], 9),
+            {"evidence_attached": 0, "contradicted": 1, "associative_only": 2, "not_assayed": 3}.get(v["typed_status"], 9),
             -(v["n_total_de_genes"] or 0),
             v["gene"],
         ),
@@ -134,7 +157,10 @@ def verdict_counts(verdicts: list[dict[str, Any]]) -> dict[str, int]:
     counts = Counter(v["typed_status"] for v in verdicts)
     return {
         "genes": len(verdicts),
+        "drivers": counts.get("evidence_attached", 0),
         "evidence_attached": counts.get("evidence_attached", 0),
+        "passengers": counts.get("associative_only", 0),
+        "associative_only": counts.get("associative_only", 0),
         "contradicted": counts.get("contradicted", 0),
         "not_assayed": counts.get("not_assayed", 0),
     }
@@ -158,18 +184,19 @@ def _receipt_from_verdicts(
         producer=producer,
         artifacts=[Artifact(**a) for a in artifacts],
         evidence=[
-            EvidenceAtom("genes with causal support", str(counts["evidence_attached"]), "Marson Stim8hr frozen table"),
-            EvidenceAtom("genes contradicted for causal-regulator claim", str(counts["contradicted"]), "Marson Stim8hr frozen table"),
-            EvidenceAtom("genes not assayed comparably", str(counts["not_assayed"]), "Marson Stim8hr frozen table"),
+            EvidenceAtom("signature genes typed as candidate drivers", str(counts["drivers"]), "Marson frozen table"),
+            EvidenceAtom("signature genes typed as associative passengers", str(counts["passengers"]), "Marson frozen table"),
+            EvidenceAtom("explicit driver claims contradicted", str(counts["contradicted"]), "Marson frozen table"),
+            EvidenceAtom("genes not assayed comparably", str(counts["not_assayed"]), "Marson frozen table"),
         ],
         verifier=Verifier(
             name="ProspectCausalReceiptBridge",
-            method="frozen lookup over Marson Stim8hr on-target knockdown and DE count",
+            method="frozen lookup over the strongest Marson on-target condition and DE count",
             replay=replay,
         ),
         status=status,
         replayability="exact",
-        conditions=["Stim8hr", "released Marson DE table", "proposal only"],
+        conditions=["Rest", "Stim8hr", "Stim48hr", "released Marson DE table", "proposal only"],
         verification_requirements=[
             "frozen_replay_passes",
             "reviewer_accepts_state_delta",
@@ -241,6 +268,7 @@ def build_claude_science_packet() -> dict[str, Any]:
             "receipt_id": receipt["receipt_id"],
             "proposal_id": "proposal_" + hashlib.sha256(receipt["receipt_id"].encode()).hexdigest()[:16],
             "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+            "interpretation": "Prospect separates candidate causal drivers from associative passengers. It does not say the response signature is wrong.",
         },
         "artifacts": artifacts,
         "verdicts": verdicts,
@@ -340,4 +368,3 @@ def write_claude_science_packet(path: Path | None = None) -> dict[str, Any]:
     out = path or DATA / "claude_science_acceptance_demo.json"
     out.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n")
     return packet
-

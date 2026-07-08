@@ -376,7 +376,15 @@ type ClaudeScienceAcceptanceDemo = {
     trust_path: string;
     accepted: boolean;
     next: string;
-    typed_status_counts: { genes: number; evidence_attached: number; contradicted: number; not_assayed: number };
+    typed_status_counts: {
+      genes: number;
+      drivers: number;
+      evidence_attached: number;
+      passengers: number;
+      associative_only: number;
+      contradicted: number;
+      not_assayed: number;
+    };
     receipt_id: string;
     proposal_id: string;
     ceiling: string;
@@ -918,6 +926,7 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
   const examples = {
     supported: demo.verdicts.filter((v) => v.typed_status === "evidence_attached").slice(0, 3),
     contradicted: demo.verdicts.filter((v) => v.typed_status === "contradicted").slice(0, 3),
+    passengers: demo.verdicts.filter((v) => v.typed_status === "associative_only").slice(0, 3),
     open: demo.verdicts.filter((v) => v.typed_status === "not_assayed").slice(0, 3),
   };
   return (
@@ -925,12 +934,12 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
       <div style={{ display: "flex", alignItems: "start", gap: 14, flexWrap: "wrap" }}>
         <div style={{ minWidth: 260, flex: 1 }}>
           <div className="t-label" style={{ marginBottom: 5 }}>Acceptance layer for AI-generated biology</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>Reproducible association enters. Prospect types causation.</h2>
+          <h2 className="h2-app" style={{ margin: 0 }}>Prospect separates drivers from passengers.</h2>
           <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "76ch", color: "var(--ink-3)" }}>
             A real Claude Science export from {demo.source_dataset} submits a responder signature. Claude Science
             preserved the artifact and internal review completed with {demo.claude_science.internal_review_findings} findings.
-            Prospect asks a different question: do these genes causally regulate the stimulated CD4+ activation program
-            when perturbed in Marson CRISPRi?
+            Prospect does not say the signature is wrong. It asks which signature genes behave as causal drivers,
+            which stay associative passengers, and which explicit driver claims the perturbation data contradicts.
           </p>
         </div>
         <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>real export={String(demo.real_export)}</span>
@@ -951,8 +960,9 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
         <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)" }}>
           <div className="t-label">Prospect lane</div>
           <p className="t-body-sm" style={{ margin: "5px 0 0", color: "var(--ink-3)" }}>
-            {counts.genes} genes checked against the frozen Marson table: {counts.evidence_attached} evidence_attached,
-            {" "}{counts.contradicted} contradicted, {counts.not_assayed} not assayed comparably.
+            {counts.genes} genes checked against the frozen Marson table: {counts.drivers} drivers,
+            {" "}{counts.passengers} associative passengers, {counts.contradicted} contradicted driver claims,
+            {" "}{counts.not_assayed} not assayed comparably.
           </p>
           <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
             next={demo.prospect.next}. {demo.prospect.ceiling}
@@ -962,6 +972,7 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
         <VerdictExample title="evidence_attached" tone="var(--brass)" rows={examples.supported} />
+        <VerdictExample title="associative_only" tone="var(--stone)" rows={examples.passengers} />
         <VerdictExample title="contradicted" tone="var(--cinnabar)" rows={examples.contradicted} />
         <VerdictExample title="not_assayed" tone="var(--stone)" rows={examples.open} />
       </div>

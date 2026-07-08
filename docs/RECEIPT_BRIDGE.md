@@ -52,10 +52,12 @@ The Claude Science client submits a real local export from the Sade-Feldman
 - `examples/data/claude_science_real_export/responder_DE_all.csv`
 
 The source session produced an associative responder signature and noted that
-the signature needs independent validation. Prospect tests a different claim:
-whether the signature genes causally regulate the stimulated CD4+ activation
-program when perturbed in the frozen Marson CRISPRi screen. The pinned result is
-52 submitted genes, 11 `evidence_attached`, 22 `contradicted`, and 19
+the signature needs independent validation. Prospect does not say the signature
+is wrong. It separates candidate causal drivers from associative passengers by
+checking each gene against its strongest on-target effect across Rest, Stim8hr,
+and Stim48hr in the frozen Marson CRISPRi screen. The pinned result is 52
+submitted genes, 12 drivers typed `evidence_attached`, 22 `associative_only`
+passengers, 3 `contradicted` explicit checkpoint-driver claims, and 15
 `not_assayed` comparably. The connector returns `accepted=false` and
 `next=human_signature_required`.
 

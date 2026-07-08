@@ -40,9 +40,9 @@
   },
   "session_caveat": "The source report states that the AUCs are associative, sample size is modest, and signatures need independent validation before translational claims.",
   "prospect_comparison": {
-    "claim_under_test": "Signature genes are causal regulators of the stimulated CD4+ activation program.",
+    "claim_under_test": "Which genes in the associative response signature behave as causal drivers, which remain associative passengers, and which explicit driver claims are contradicted?",
     "frozen_table": "examples/data/marson_de_full.csv",
-    "condition": "Stim8hr",
+    "condition": "strongest on-target condition across Rest, Stim8hr, and Stim48hr",
     "ceiling": "Computation over released data, not wet-lab or clinical truth."
   }
 }

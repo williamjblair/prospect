@@ -50,6 +50,9 @@ def run() -> dict[str, Any]:
         "contradiction_examples": [
             v for v in submit["verdicts"] if v["typed_status"] == "contradicted"
         ][:3],
+        "passenger_examples": [
+            v for v in submit["verdicts"] if v["typed_status"] == "associative_only"
+        ][:3],
         "not_assayed_examples": [
             v for v in submit["verdicts"] if v["typed_status"] == "not_assayed"
         ][:3],
