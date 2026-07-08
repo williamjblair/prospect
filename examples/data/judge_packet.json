@@ -27,7 +27,8 @@
     "Findings: five-row index, then evidence tables",
     "Frontier: signed root, contradictions, receipts, MCP bridge",
     "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
-    "Agent: Claude probe compared with deterministic review lanes"
+    "Agent: Claude probe compared with deterministic review lanes",
+    "Agent: disagreement triage turns model pressure into assay gates"
   ],
   "public_data": [
     "/data/frontier.json",
@@ -39,6 +40,7 @@
     "/data/agent_campaign.json",
     "/data/agent_campaign_review.json",
     "/data/campaign_agent_probe.json",
+    "/data/campaign_triage.json",
     "/data/lab_packet.json"
   ],
   "artifact_counts": {
@@ -50,6 +52,7 @@
     "agent_campaign_candidates": 20,
     "campaign_review_rows": 20,
     "campaign_probe_rows": 5,
+    "campaign_triage_rows": 3,
     "validation_candidates": 5,
     "lab_packet_candidates": 5
   },
@@ -98,7 +101,8 @@
       "top_gene": "PGGT1B",
       "candidate_count": 20,
       "review_rows": 20,
-      "probe_rows": 5
+      "probe_rows": 5,
+      "triage_rows": 3
     },
     "campaign_probe": {
       "status": "evidence_attached",
@@ -107,6 +111,16 @@
       "summary": {
         "aligned": 2,
         "more_aggressive": 3
+      }
+    },
+    "campaign_triage": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "candidate_count": 3,
+      "summary": {
+        "more_aggressive": 3,
+        "secondary_assay_queue": 1,
+        "capacity_assay_queue": 2
       }
     },
     "lab_packet": {

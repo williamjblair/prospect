@@ -78,6 +78,9 @@ moving any row beyond proposal-only state.
 then compares the model's recommendations to the deterministic review lanes. The output remains
 proposal only; it shows where Claude pushes harder and where the frozen review stays conservative.
 
+`prospect campaign-triage` converts those more-aggressive probe rows into assay gates: what would
+have to pass before a conservative reviewer spends primary assay capacity.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -85,6 +88,7 @@ Current public artifacts:
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_triage.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -99,6 +103,7 @@ Current public artifacts:
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows
+./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root

@@ -40,6 +40,7 @@ def build_packet() -> dict[str, Any]:
     campaign = frontier["agent_campaign"]
     campaign_review = frontier.get("agent_campaign_review") or {}
     campaign_probe = frontier.get("campaign_agent_probe") or {}
+    campaign_triage = frontier.get("campaign_triage") or {}
     lab_packet = frontier.get("lab_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
@@ -70,6 +71,7 @@ def build_packet() -> dict[str, Any]:
             "Frontier: signed root, contradictions, receipts, MCP bridge",
             "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
             "Agent: Claude probe compared with deterministic review lanes",
+            "Agent: disagreement triage turns model pressure into assay gates",
         ],
         "public_data": [
             "/data/frontier.json",
@@ -81,6 +83,7 @@ def build_packet() -> dict[str, Any]:
             "/data/agent_campaign.json",
             "/data/agent_campaign_review.json",
             "/data/campaign_agent_probe.json",
+            "/data/campaign_triage.json",
             "/data/lab_packet.json",
         ],
         "artifact_counts": {
@@ -92,6 +95,7 @@ def build_packet() -> dict[str, Any]:
             "agent_campaign_candidates": len(campaign["candidates"]),
             "campaign_review_rows": len(campaign_review.get("rows", [])),
             "campaign_probe_rows": len(campaign_probe.get("rows", [])),
+            "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
         },
@@ -116,12 +120,19 @@ def build_packet() -> dict[str, Any]:
                 "candidate_count": len(campaign["candidates"]),
                 "review_rows": len(campaign_review.get("rows", [])),
                 "probe_rows": len(campaign_probe.get("rows", [])),
+                "triage_rows": len(campaign_triage.get("rows", [])),
             },
             "campaign_probe": {
                 "status": campaign_probe.get("status"),
                 "trust_boundary": campaign_probe.get("trust_boundary"),
                 "candidate_count": len(campaign_probe.get("rows", [])),
                 "summary": campaign_probe.get("summary", {}),
+            },
+            "campaign_triage": {
+                "status": campaign_triage.get("status"),
+                "trust_boundary": campaign_triage.get("trust_boundary"),
+                "candidate_count": len(campaign_triage.get("rows", [])),
+                "summary": campaign_triage.get("summary", {}),
             },
             "lab_packet": {
                 "status": lab_packet.get("status"),
@@ -164,6 +175,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign candidates: {counts['agent_campaign_candidates']}",
         f"- Campaign review rows: {counts['campaign_review_rows']}",
         f"- Campaign probe rows: {counts['campaign_probe_rows']}",
+        f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         "",

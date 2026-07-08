@@ -14,6 +14,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect mcp",
         "./prospect campaign",
         "./prospect campaign-probe",
+        "./prospect campaign-triage",
         "./prospect lab-pack",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
@@ -26,6 +27,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "/data/judge_packet.json",
         "/data/receipt_bridge/receipt_manifest.json",
         "/data/campaign_agent_probe.json",
+        "/data/campaign_triage.json",
         "/data/lab_packet.json",
     ]:
         assert artifact in text

@@ -53,6 +53,8 @@ the graph on its own word. On top of it:
 - **Campaign agent probes**: `prospect campaign-probe` has Claude cross-examine the top campaign
   rows with frozen tools, then compares its recommendations to deterministic review lanes. It
   remains proposal only.
+- **Campaign disagreement triage**: `prospect campaign-triage` turns the more-aggressive Claude
+  rows into assay gates, preserving the deterministic review decision and the proposal-only boundary.
 
 ## How it uses Claude
 
@@ -64,6 +66,8 @@ the graph on its own word. On top of it:
 - **As a pressure test**: `prospect campaign-probe` asks Claude to challenge the campaign ranking
   using frozen lookups, then Prospect records where it aligns or pushes harder than the deterministic
   review.
+- **As triage input**: model pressure becomes review work, not state. `prospect campaign-triage`
+  records the assay gates required before disagreement rows earn more capacity.
 - **For literature**: finding contradictions are grounded in real reviews resolved through PubMed.
 - **To build**: the whole system was written in Claude Code during the event.
 
@@ -88,6 +92,8 @@ the graph on its own word. On top of it:
 - The campaign agent probe ran 16 frozen-tool calls over the top five rows. Claude aligned on
   PGGT1B and MCAT, and pushed more aggressively on RCC1L, RWDD2B, and CCDC22. The comparison is
   visible, but state does not move.
+- The disagreement triage turns those three more-aggressive rows into secondary or capacity assay
+  queues with orthogonal knockdown and transfer gates.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
@@ -102,6 +108,7 @@ the graph on its own word. On top of it:
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_triage.json`
 - `/data/lab_packet.json`
 
 ## Verify it yourself
@@ -114,6 +121,7 @@ the graph on its own word. On top of it:
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
 ./prospect campaign-probe         # run Claude probes against campaign rows
+./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest

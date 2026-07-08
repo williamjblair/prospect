@@ -28,6 +28,7 @@ cd web && npm run build
 - Campaign candidates: 20
 - Campaign review rows: 20
 - Campaign probe rows: 5
+- Campaign triage rows: 3
 - Validation candidates: 5
 - Lab packet candidates: 5
 
@@ -42,6 +43,7 @@ cd web && npm run build
 - `/data/agent_campaign.json`
 - `/data/agent_campaign_review.json`
 - `/data/campaign_agent_probe.json`
+- `/data/campaign_triage.json`
 - `/data/lab_packet.json`
 
 ## Demo path
@@ -51,6 +53,7 @@ cd web && npm run build
 - Frontier: signed root, contradictions, receipts, MCP bridge
 - Agent: PGGT1B packet, campaign leaderboard, lab assay packet
 - Agent: Claude probe compared with deterministic review lanes
+- Agent: disagreement triage turns model pressure into assay gates
 
 Rebuild:
 
