@@ -10,6 +10,12 @@ from urllib.request import urlopen
 
 DEFAULT_BASE_URL = "https://prospect-sepia-six.vercel.app"
 ROOT = "root_a8b0dcdd4024e12f"
+REQUIRED_GATE_COMMANDS = [
+    "./prospect final-check",
+    "./prospect submit-smoke",
+    "./prospect submit-pack",
+    "./prospect demo-pack",
+]
 
 
 @dataclass(frozen=True)
@@ -57,8 +63,10 @@ def _check_judge(base_url: str, opener: Callable[..., Any], timeout: int) -> Che
         failures = []
         if data.get("frontier_root") != ROOT:
             failures.append(f"frontier root {data.get('frontier_root')}")
-        if "./prospect final-check" not in data.get("gate_commands", []):
-            failures.append("missing final-check gate")
+        gate_commands = data.get("gate_commands", [])
+        for command in REQUIRED_GATE_COMMANDS:
+            if command not in gate_commands:
+                failures.append(f"missing {command.removeprefix('./prospect ')} gate")
         if "/data/transfer_replay_packet.json" not in data.get("public_data", []):
             failures.append("missing transfer replay public data")
         if failures:

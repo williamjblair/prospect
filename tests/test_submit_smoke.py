@@ -42,7 +42,12 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
         "/": "<html><title>Prospect</title><body>Prospect</body></html>",
         "/data/judge_packet.json": {
             "frontier_root": "root_a8b0dcdd4024e12f",
-            "gate_commands": ["./prospect final-check"],
+            "gate_commands": [
+                "./prospect final-check",
+                "./prospect submit-smoke",
+                "./prospect submit-pack",
+                "./prospect demo-pack",
+            ],
             "public_data": ["/data/transfer_replay_packet.json"],
             "receipt_bridge_demo": {"next": "human_signature_required"},
         },
@@ -91,6 +96,22 @@ def test_submit_smoke_rejects_wrong_frontier_root():
     assert any("frontier root" in check.detail for check in result.checks if not check.ok)
 
 
+def test_submit_smoke_rejects_stale_judge_gate_commands():
+    payloads = {
+        "/": "<html><body>Prospect</body></html>",
+        "/data/judge_packet.json": {
+            "frontier_root": "root_a8b0dcdd4024e12f",
+            "gate_commands": ["./prospect final-check"],
+            "public_data": ["/data/transfer_replay_packet.json"],
+        },
+    }
+
+    result = run_checks("https://example.test", opener=_opener(payloads))
+
+    assert result.ok is False
+    assert any("missing demo-pack gate" in check.detail for check in result.checks if not check.ok)
+
+
 def test_submit_smoke_cli_is_discoverable():
     proc = subprocess.run(
         [os.path.join(ROOT, "prospect"), "submit-smoke", "--help"],
@@ -109,5 +130,6 @@ def test_submit_smoke_cli_is_discoverable():
 if __name__ == "__main__":
     test_submit_smoke_accepts_current_public_payload_shapes()
     test_submit_smoke_rejects_wrong_frontier_root()
+    test_submit_smoke_rejects_stale_judge_gate_commands()
     test_submit_smoke_cli_is_discoverable()
     print("PASS: submit smoke")
