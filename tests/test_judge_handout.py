@@ -12,38 +12,26 @@ from cli.judge_handout import build_handout, write_handout
 from cli.submit_pack import PUBLIC_ARTIFACTS
 
 
-def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
+def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     handout = build_handout()
 
     assert handout["title"] == "Prospect one-page judge handout"
     assert handout["live_url"] == "https://prospect-sepia-six.vercel.app"
     assert handout["repo_url"] == "https://github.com/williamjblair/prospect"
     assert handout["signed_root"] == "root_a8b0dcdd4024e12f"
-    assert handout["readiness"] == "submission_ready_for_human_upload"
     assert handout["trust_boundary"]["model_in_trust_path"] == "no"
     assert handout["trust_boundary"]["accepted_state"] == "human_signed_replayable_root"
+    assert handout["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
-    assert handout["counts"]["claude_probe_rows"] == 20
-    assert handout["counts"]["gate_probe_returned"] == 11
-    assert handout["counts"]["gate_probe_requested"] == 11
-    assert handout["counts"]["gate_probe_coverage_status"] == "complete"
-    assert handout["counts"]["assay_operations_candidates"] == 5
-    assert handout["counts"]["pilot_design_culture_arms"] == 90
-    assert handout["counts"]["substrate_replay_rows"] == 377
-    assert handout["counts"]["cross_substrate_discovery_rows"] == 11526
-    assert handout["counts"]["cross_substrate_t_cell_candidates"] == 409
-    assert handout["counts"]["donor_condition_rows"] == 20
-    assert handout["counts"]["donor_supported_rows"] == 13
+    assert handout["counts"]["findings"] >= 3
+    assert handout["counts"]["campaign_rows"] == 20
     assert handout["counts"]["disease_overlay_rows"] == 20
     assert handout["counts"]["disease_overlay_context_rows"] == 10
-    assert handout["counts"]["disease_overlay_genetic_context_rows"] == 4
-    assert handout["counts"]["campaign_challenger_rows"] == 20
-    assert handout["counts"]["campaign_challenger_primary_challenges"] == 1
-    assert "record_demo_video" in handout["human_only_actions"]
-    assert "submit_project_form" in handout["human_only_actions"]
-    assert "wet_lab_execution" in handout["human_only_actions"]
+    assert handout["counts"]["lab_packet_rows"] == 5
+    assert "sign the frontier root" in handout["human_only_actions"]
+    assert "accept a submitted receipt" in handout["human_only_actions"]
+    assert "wet-lab execution" in handout["human_only_actions"]
     assert "verified" not in json.dumps(handout).lower()
-    assert "true" not in json.dumps(handout).lower()
 
 
 def test_judge_handout_writes_print_friendly_markdown(tmp_path):
@@ -56,16 +44,13 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "Five-minute judge path" in doc
     assert "What Prospect proves" in doc
     assert "What remains human-only" in doc
-    assert "./prospect final-check" in doc
-    assert "/data/final_submission_audit.json" in doc
-    assert "/data/gladstone_pilot_design.json" in doc
-    assert "/data/cross_substrate_discovery.json" in doc
-    assert "/data/donor_condition_replay.json" in doc
+    assert "./prospect verify" in doc
     assert "/data/disease_genetics_overlay.json" in doc
-    assert "/data/campaign_challenger_ledger.json" in doc
-    assert "/data/release_manifest.json" in doc
-    assert "/data/rendered_qa_packet.json" in doc
+    assert "/data/lab_packet.json" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
+    # No cut surface leaks back in.
+    for cut in ["final_submission_audit", "gladstone_pilot_design", "campaign_challenger", "release_manifest"]:
+        assert cut not in doc
     assert "verified" not in json.dumps(handout).lower()
 
 
@@ -84,7 +69,7 @@ def test_judge_handout_runs_from_prospect_cli():
 
 
 if __name__ == "__main__":
-    test_judge_handout_summarizes_current_winning_path_without_overclaiming()
+    test_judge_handout_summarizes_the_kept_surface_without_overclaiming()
     test_judge_handout_writes_print_friendly_markdown(Path("/tmp/prospect-judge-handout-test"))
     test_judge_handout_runs_from_prospect_cli()
     print("PASS: judge handout")

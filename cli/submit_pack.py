@@ -13,48 +13,25 @@ REPO_URL = "https://github.com/williamjblair/prospect"
 SIGNED_ROOT = "root_a8b0dcdd4024e12f"
 
 SOURCE_DOCS = [
-    "docs/JUDGE_QUICKSTART.md",
-    "docs/SUBMISSION_FORM_PACKET.md",
+    "README.md",
     "docs/SUBMISSION.md",
-    "docs/DEMO_RECORDING_RUNBOOK.md",
-    "docs/DEMO_TELEPROMPTER.md",
+    "docs/DEMO.md",
+    "docs/FINDINGS.md",
+    "docs/PROTOCOL.md",
+    "docs/RECEIPT_BRIDGE.md",
     "docs/JUDGE_HANDOUT.md",
-    "docs/FINAL_SUBMISSION_CHECKLIST.md",
-    "docs/FINAL_SUBMISSION_AUDIT.md",
-    "docs/CAMPAIGN_PROBE_AUDIT.md",
-    "docs/CAMPAIGN_CHALLENGER_LEDGER.md",
-    "docs/CROSS_SUBSTRATE_DISCOVERY.md",
-    "docs/DONOR_CONDITION_REPLAY.md",
-    "docs/DISEASE_GENETICS_OVERLAY.md",
-    "docs/PERTURBATION_ATLAS_SCOUT.md",
-    "docs/GLADSTONE_PILOT_DESIGN.md",
-    "docs/JUDGE_PACKET.md",
-    "docs/RELEASE_MANIFEST.md",
-    "docs/RENDERED_QA_PACKET.md",
 ]
 
 VERIFICATION_COMMANDS = [
-    "./prospect final-check",
-    "./prospect submit-smoke",
-    "./prospect submit-pack",
-    "./prospect demo-pack",
-    "./prospect judge-handout",
-    "./prospect release-manifest",
-    "./prospect rendered-qa",
     "./prospect verify",
     "python benchmark/mutation_pack.py",
     "python tests/test_skill_parity.py",
+    "python tests/test_marson.py",
     "python examples/receipt_bridge_client.py --json",
-]
-
-OPTIONAL_OPERATOR_COMMANDS = [
-    "cd web && npm run start",
-    "./prospect browser-qa --target both",
 ]
 
 PUBLIC_ARTIFACTS = [
     "/data/frontier.json",
-    "/data/judge_packet.json",
     "/data/finding_index.json",
     "/data/receipt_bridge/receipt_contract.json",
     "/data/receipt_bridge/receipt_manifest.json",
@@ -62,24 +39,8 @@ PUBLIC_ARTIFACTS = [
     "/data/pggt1b_deep_dive.json",
     "/data/pggt1b_matrix_slice.json",
     "/data/agent_campaign.json",
-    "/data/agent_campaign_review.json",
-    "/data/campaign_agent_probe.json",
-    "/data/campaign_probe_audit.json",
-    "/data/campaign_triage.json",
-    "/data/campaign_gate_probe.json",
-    "/data/campaign_pressure_summary.json",
-    "/data/campaign_challenger_ledger.json",
-    "/data/transfer_replay_packet.json",
-    "/data/substrate_replay_packet.json",
-    "/data/cross_substrate_discovery.json",
-    "/data/donor_condition_replay.json",
     "/data/disease_genetics_overlay.json",
     "/data/lab_packet.json",
-    "/data/assay_operations_bundle.json",
-    "/data/gladstone_pilot_design.json",
-    "/data/final_submission_audit.json",
-    "/data/release_manifest.json",
-    "/data/rendered_qa_packet.json",
 ]
 
 
@@ -98,12 +59,10 @@ def build_packet() -> dict[str, object]:
         "signed_root": SIGNED_ROOT,
         "source_docs": SOURCE_DOCS,
         "verification_commands": VERIFICATION_COMMANDS,
-        "optional_operator_commands": OPTIONAL_OPERATOR_COMMANDS,
         "public_artifacts": PUBLIC_ARTIFACTS,
         "demo_opening": "Start on the A1BG refusal, not the graph.",
         "demo_close": (
-            "Receipt bridge, PGGT1B evidence_attached packet, assay operations bundle, "
-            "campaign gates, signed state."
+            "Receipt bridge, PGGT1B evidence_attached packet, campaign leaderboard, signed state."
         ),
         "limitations": (
             "Prospect proves computation over released data, not wet-lab or clinical truth. "
@@ -127,10 +86,6 @@ def _print_text(packet: dict[str, object]) -> None:
     print("")
     print("Run before upload:")
     for command in packet["verification_commands"]:
-        print(f"- {command}")
-    print("")
-    print("Optional operator confidence check:")
-    for command in packet["optional_operator_commands"]:
         print(f"- {command}")
     print("")
     print("Public artifacts:")

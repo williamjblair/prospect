@@ -1,4 +1,4 @@
-"""Build the one-page judge handout."""
+"""Build the one-page judge handout from the kept, signed surfaces."""
 from __future__ import annotations
 
 import argparse
@@ -6,12 +6,21 @@ import json
 from pathlib import Path
 from typing import Any
 
-from cli.final_submission_audit import HUMAN_ONLY_ACTIONS
 from cli.submit_pack import LIVE_URL, PUBLIC_ARTIFACTS, REPO_URL, SIGNED_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "examples" / "data"
+FRONTIER = ROOT / "frontier"
+RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 OUT_DOC = ROOT / "docs" / "JUDGE_HANDOUT.md"
+
+# The trust boundary: these stay a human key-custody decision, never a model's.
+HUMAN_ONLY_ACTIONS = [
+    "sign the frontier root",
+    "accept a submitted receipt",
+    "sign an agent or campaign hypothesis",
+    "wet-lab execution",
+]
 
 
 def _json(path: Path) -> Any:
@@ -20,20 +29,22 @@ def _json(path: Path) -> Any:
     return json.loads(path.read_text())
 
 
+def _jsonl(path: Path) -> list[Any]:
+    if not path.exists():
+        return []
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+
+
 def build_handout() -> dict[str, Any]:
-    judge = _json(DATA / "judge_packet.json")
-    campaign = _json(DATA / "campaign_pressure_summary.json")
-    assay = _json(DATA / "assay_operations_bundle.json")
-    pilot = _json(DATA / "gladstone_pilot_design.json")
-    substrate = _json(DATA / "substrate_replay_packet.json")
-    discovery = _json(DATA / "cross_substrate_discovery.json")
-    donor = _json(DATA / "donor_condition_replay.json")
+    campaign = _json(DATA / "agent_campaign.json")
     disease = _json(DATA / "disease_genetics_overlay.json")
-    challenger = _json(DATA / "campaign_challenger_ledger.json")
+    lab = _json(DATA / "lab_packet.json")
+    index = _json(DATA / "finding_index.json")
+    findings = _jsonl(FRONTIER / "findings.jsonl")
+    receipts = _jsonl(RECEIPTS)
 
     return {
         "title": "Prospect one-page judge handout",
-        "readiness": "submission_ready_for_human_upload",
         "live_url": LIVE_URL,
         "repo_url": REPO_URL,
         "signed_root": SIGNED_ROOT,
@@ -43,61 +54,34 @@ def build_handout() -> dict[str, Any]:
         ),
         "counts": {
             "public_artifacts": len(PUBLIC_ARTIFACTS),
-            "findings": judge["artifact_counts"]["findings"],
-            "receipts": judge["artifact_counts"]["receipts"],
-            "claude_probe_rows": campaign["counts"]["claude_probe_rows"],
-            "gate_probe_returned": campaign["gate_probe_coverage"]["returned_decisions"],
-            "gate_probe_requested": campaign["gate_probe_coverage"]["requested_limit"],
-            "gate_probe_coverage_status": campaign["gate_probe_coverage"]["coverage_status"],
-            "assay_operations_candidates": len(assay["candidates"]),
-            "pilot_design_culture_arms": pilot["sample_plan"]["culture_arms"],
-            "substrate_replay_rows": substrate["counts"]["t_cell_regulators_compared"],
-            "cross_substrate_discovery_rows": discovery["counts"]["marson_genes_considered"],
-            "cross_substrate_t_cell_candidates": discovery["class_counts"]["t_cell_specific_activation"],
-            "donor_condition_rows": donor["counts"]["campaign_rows"],
-            "donor_supported_rows": donor["counts"]["donor_supported"],
+            "findings": len(findings),
+            "receipts": len(receipts),
+            "finding_index_rows": len(index.get("items", [])),
+            "campaign_rows": len(campaign.get("candidates", [])),
             "disease_overlay_rows": disease["counts"]["campaign_rows"],
             "disease_overlay_context_rows": disease["counts"]["immune_or_hematologic_context"],
-            "disease_overlay_genetic_context_rows": disease["counts"]["immune_or_hematologic_genetic_context"],
-            "campaign_challenger_rows": challenger["counts"]["campaign_rows"],
-            "campaign_challenger_primary_challenges": challenger["counts"]["primary_panel_challenges"],
+            "lab_packet_rows": len(lab.get("candidates", [])),
         },
         "trust_boundary": {
-            "model_role": "propose_search_pressure_test",
+            "model_role": "propose, search, pressure-test",
             "model_in_trust_path": "no",
             "accepted_state": "human_signed_replayable_root",
             "model_accepted_state_mutations": 0,
         },
         "five_minute_path": [
-            "Overview: A1BG refusal and 48 percent overclaiming number.",
+            "Overview: the A1BG refusal and the overclaiming number.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
-            "Findings: substrate replay across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.",
-            "Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.",
-            "Agent: donor replay separates donor-supported campaign rows from donor-fragile rows.",
-            "Agent: disease overlay attaches external context without changing accepted state.",
-            "Agent: challenger ledger adjusts assay capacity before the lab handoff.",
-            "Frontier: receipt bridge returns proposal-only submission, not accepted state.",
-            "Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.",
+            "Findings: the scannable finding index.",
+            "Agent: the campaign leaderboard, every row a proposal, none accepted state.",
+            "Agent: the PGGT1B evidence packet and the disease-genetics overlay.",
+            "Agent: the wet-lab assay packet, proposal-only, ready for a lab.",
+            "Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.",
         ],
-        "public_artifacts_to_open": [
-            "/data/judge_packet.json",
-            "/data/campaign_pressure_summary.json",
-            "/data/substrate_replay_packet.json",
-            "/data/cross_substrate_discovery.json",
-            "/data/donor_condition_replay.json",
-            "/data/disease_genetics_overlay.json",
-            "/data/campaign_challenger_ledger.json",
-            "/data/assay_operations_bundle.json",
-            "/data/gladstone_pilot_design.json",
-            "/data/final_submission_audit.json",
-            "/data/release_manifest.json",
-            "/data/rendered_qa_packet.json",
-        ],
+        "public_artifacts_to_open": PUBLIC_ARTIFACTS,
         "commands": [
-            "./prospect final-check",
-            "./prospect submit-smoke",
+            "./prospect verify",
             "./prospect submit-pack",
-            "./prospect demo-pack",
+            "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
         ],
         "human_only_actions": HUMAN_ONLY_ACTIONS,
@@ -126,24 +110,12 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
         f"- {counts['findings']} signed findings",
         f"- {counts['receipts']} portable receipts",
-        f"- {counts['public_artifacts']} public data artifacts",
-        f"- {counts['substrate_replay_rows']} replayed T-cell regulators across three frozen substrates",
-        f"- {counts['cross_substrate_discovery_rows']} Marson rows classified against non-immune substrates",
-        f"- {counts['cross_substrate_t_cell_candidates']} T-cell-specific activation candidates",
-        f"- {counts['donor_condition_rows']} campaign rows replayed against donor-correlation fields",
-        f"- {counts['donor_supported_rows']} donor-supported campaign rows",
+        f"- {counts['finding_index_rows']} rows in the scannable finding index",
+        f"- {counts['campaign_rows']} proposal-only campaign rows",
         f"- {counts['disease_overlay_rows']} campaign rows overlaid with external disease context",
         f"- {counts['disease_overlay_context_rows']} rows with selected immune or hematologic context",
-        f"- {counts['disease_overlay_genetic_context_rows']} rows with selected immune or hematologic genetic context",
-        f"- {counts['campaign_challenger_rows']} campaign rows reconciled by the challenger ledger",
-        f"- {counts['campaign_challenger_primary_challenges']} primary assay row challenged before handoff",
-        f"- {counts['claude_probe_rows']} Claude probe rows in the pressure loop",
-        (
-            f"- {counts['gate_probe_returned']} of {counts['gate_probe_requested']} gate-probe decisions returned, "
-            f"coverage `{counts['gate_probe_coverage_status']}`"
-        ),
-        f"- {counts['assay_operations_candidates']} proposal-only assay operations rows",
-        f"- {counts['pilot_design_culture_arms']} proposal-only pilot culture arms",
+        f"- {counts['lab_packet_rows']} proposal-only wet-lab assay rows",
+        f"- {counts['public_artifacts']} public data artifacts",
         "",
         "## Trust boundary",
         "",
@@ -156,32 +128,13 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
     ]
     lines += [f"{idx}. {step}" for idx, step in enumerate(handout["five_minute_path"], start=1)]
-    lines += [
-        "",
-        "## Public artifacts to open",
-        "",
-    ]
+    lines += ["", "## Public artifacts to open", ""]
     lines += [f"- `{path}`" for path in handout["public_artifacts_to_open"]]
-    lines += [
-        "",
-        "## Replay commands",
-        "",
-    ]
+    lines += ["", "## Replay commands", ""]
     lines += [f"- `{command}`" for command in handout["commands"]]
-    lines += [
-        "",
-        "## What remains human-only",
-        "",
-    ]
-    lines += [f"- `{action}`" for action in handout["human_only_actions"]]
-    lines += [
-        "",
-        "Rebuild:",
-        "",
-        "```bash",
-        "./prospect judge-handout",
-        "```",
-    ]
+    lines += ["", "## What remains human-only", ""]
+    lines += [f"- {action}" for action in handout["human_only_actions"]]
+    lines += ["", "Rebuild:", "", "```bash", "./prospect judge-handout", "```"]
     return "\n".join(lines) + "\n"
 
 
@@ -202,7 +155,6 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(handout, indent=2, sort_keys=True))
         return 0
     print(f"wrote {OUT_DOC}")
-    print(f"readiness {handout['readiness']}")
     return 0
 
 

@@ -43,36 +43,23 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|campaign-challenger|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
-./prospect final-check              # full local submission gate, including generated-artifact drift checks
-./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
+# one CLI for the whole loop: build|verify|sign|check|propose|agent|campaign|disease-overlay|pggt1b|lab-pack|findings-index|judge-handout|submit-pack|receipt|mcp
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
 python benchmark/mutation_pack.py   # the floor: zero tampered claim ever admitted
 python tests/test_skill_parity.py   # the Skill checker matches the engine (112 claims, 0 drift)
-./prospect campaign-probe           # Claude probes campaign rows, output remains proposal-only
-./prospect campaign-probe-audit     # frozen audit over probe coverage and rationales
-./prospect campaign-triage          # turns probe disagreements into assay gates
-./prospect campaign-gate-probe      # Claude pressure-tests disagreement gates, still proposal-only
-./prospect campaign-pressure        # summarizes model pressure, refusals, and remaining gates
-./prospect campaign-challenger      # joins shipped packets into a proposal-only assay challenger ledger
-./prospect transfer-replay          # compact cross-dataset replay packet, no accepted-state mutation
-./prospect substrate-replay         # protocol-generalization packet across frozen substrates
-./prospect cross-substrate-discovery # classify Marson rows against K562/RPE1 counts
-./prospect donor-replay             # donor-condition replay over campaign rows
+python tests/test_marson.py         # the frozen-table checker over the released DE object
+python -m pytest tests/ -q          # the full test suite
+./prospect campaign                 # builds the proposal-only campaign leaderboard (20 rows)
 ./prospect disease-overlay          # external disease-context overlay, no accepted-state mutation
-./prospect perturbation-scout        # source-backed no-ingest scout for larger perturbation atlases
 ./prospect pggt1b                   # builds the PGGT1B evidence packet
 ./prospect lab-pack                 # builds the wet-lab assay packet
-./prospect assay-ops                # builds the Gladstone assay operations bundle
-./prospect pilot-design             # builds the Gladstone pilot design packet
-./prospect judge-pack               # builds the judge-facing replay manifest
-./prospect submit-pack              # prints copy-safe upload fields and public artifact links
-./prospect demo-pack                # prints the two-minute recording teleprompter
+./prospect findings-index           # builds the scannable finding index
 ./prospect judge-handout            # builds the one-page judge handout
-./prospect submission-audit         # builds the final submission audit packet
-./prospect release-manifest         # hashes the public data artifact surface
-./prospect rendered-qa              # builds the rendered QA checklist packet
-./prospect browser-qa --target both # optional local Playwright QA, after starting web on 8124
+./prospect submit-pack              # prints copy-safe upload fields and public artifact links
+./prospect propose                  # Claude proposes, the frozen verifier decides, a human signs
+./prospect agent                    # autonomous agent: search, verify, converge on a hypothesis
+./prospect receipt                  # emit the activity-to-state receipts
+./prospect mcp                      # expose the receipt bridge over MCP stdio
 python examples/receipt_bridge_client.py --json  # external receipt bridge demo, accepted=false
 
 # regenerate the frontier + site data after a data change:

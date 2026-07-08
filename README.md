@@ -4,17 +4,7 @@ A computationally reproduced regulatory frontier of human CD4+ T-cell biology.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
-Judge quickstart: `docs/JUDGE_QUICKSTART.md`, also linked from the live Overview.
-
-Final submitter checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`
-
-Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
-
-Demo recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
-
-Demo teleprompter: `docs/DEMO_TELEPROMPTER.md`
-
-One-page judge handout: `docs/JUDGE_HANDOUT.md`
+One-page judge handout: [docs/JUDGE_HANDOUT.md](docs/JUDGE_HANDOUT.md). Demo script: [docs/DEMO.md](docs/DEMO.md).
 
 An AI can assert a claim about any gene in a second. Confirming it against the data takes
 longer than most people spend, so overstated biology walks into slides, grants, and papers.
@@ -79,76 +69,23 @@ receipt contract, validate a receipt, and submit it as a proposal. The response 
 `accepted: false`; accepted state requires the frozen verifier and the human signing path.
 `python examples/receipt_bridge_client.py` runs that bridge as a tiny external client.
 
-`prospect lab-pack` turns the top evidence-attached follow-ups into assay-ready rows for a
-Gladstone-facing perturbation handoff: intervention, controls, readouts, exclusion criteria, and
-public replay links. Every row remains proposal only. The condensed wet-lab handoff is
-`docs/GLADSTONE_ASSAY_HANDOFF.md`.
+`prospect campaign` builds a proposal-only leaderboard of candidate regulators: ranked by
+stimulated CD4+ effect, cell-type specificity, and distance from canonical effectors, every row
+typed `evidence_attached` and none accepted. `prospect pggt1b` opens one row into a full evidence
+packet, and `prospect disease-overlay` attaches frozen Open Targets disease context to the
+leaderboard without moving any association into accepted state.
 
-`prospect assay-ops` turns the handoff into a Gladstone assay operations bundle. Each row names the
-expected positive result, weakening result, rejection result, missing evidence before acceptance, and
-public replay links.
+`prospect lab-pack` turns the top evidence-attached follow-ups into assay-ready rows: intervention,
+controls, readouts, exclusion criteria, and public replay links. Every row remains proposal only,
+ready for a wet lab to run and report back.
 
-`prospect pilot-design` turns the operations bundle into a proposal-only pilot plan: three donor
-replicates, matched Rest/Stim8hr/Stim48hr conditions, controls, 90 culture arms, and per-row
-promotion, weakening, and rejection gates.
-
-`prospect campaign-review` adds the audit appendix for the 20-row campaign: lane counts, audit
-questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without
-moving any row beyond proposal-only state.
-
-`prospect campaign-probe` runs a Claude tool-use cross-examination against the top campaign rows,
-then compares the model's recommendations to the deterministic review lanes. The output remains
-proposal only; it shows where Claude pushes harder and where the frozen review stays conservative.
-
-`prospect campaign-triage` converts those more-aggressive probe rows into assay gates: what would
-have to pass before a conservative reviewer spends primary assay capacity.
-
-`prospect campaign-gate-probe` pressure-tests those assay gates with closed recommendations:
-`gate_sufficient`, `add_control`, or `lower_priority`. It remains proposal only.
-
-`prospect campaign-pressure` summarizes the full Claude campaign pressure loop: what aligned, what
-became assay gates, what needed controls, and what stayed out of accepted state.
-
-`prospect campaign-challenger` joins the shipped campaign, donor, cross-substrate, disease, and
-pressure packets into one proposal-only ledger. It challenges RWDD2B for primary assay capacity and
-adds CYB5RL as the replacement row without changing accepted state.
-
-`prospect campaign-probe-audit` replays a campaign probe artifact through frozen checks before it
-can be promoted into the public chain. The committed 20-row probe has zero audit issues; every
-larger or follow-up probe must pass the same rationale and coverage audit first.
-
-`prospect transfer-replay` emits a compact replay packet for the signed cross-cell-type finding:
-the same major-regulator claim through the Marson CD4+ T-cell checker and the Replogle K562/RPE1
-checkers. It is `computationally_reproduced` and changes no accepted state.
-
-`prospect substrate-replay` emits the protocol-generalization packet: one checker contract, three
-frozen substrates, typed status, and no accepted-state mutation.
-
-`prospect cross-substrate-discovery` classifies every frozen Marson row against K562 and RPE1 counts,
-then intersects those classes with the proposal-only campaign leaderboard.
-
-`prospect donor-replay` replays the top campaign rows against donor-correlation and guide-support
-fields from the released Marson DE object. It labels rows as donor-supported, donor-fragile,
-donor-intermediate, or guide-limited without changing accepted state.
-
-`prospect disease-overlay` attaches frozen Open Targets disease context to the campaign rows. It
-shows which perturbation candidates have selected immune or hematologic external context while
-keeping those associations outside accepted state.
-
-`prospect perturbation-scout` ranks larger perturbation-atlas sources for future replay work. It
-attaches source-backed feasibility evidence, recommends no rushed large ingest before submission,
-and does not add a public endpoint or accepted-state mutation.
-
-`prospect submission-audit` emits the final audit packet for upload readiness: shipped workstreams,
-required gates, public artifacts, trust boundary, and human-only actions.
-
-`prospect judge-handout` emits a one-page judge handout with the live URL, signed root, five-minute
-path, trust boundary, public artifacts to open, replay commands, and human-only actions.
+`prospect findings-index` builds a scannable index of the signed findings, and `prospect
+judge-handout` emits a one-page handout with the live URL, signed root, five-minute path, trust
+boundary, artifacts to open, and the actions that stay human-only.
 
 Current public artifacts:
 
 - `/data/frontier.json`
-- `/data/judge_packet.json`
 - `/data/finding_index.json`
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
@@ -156,67 +93,30 @@ Current public artifacts:
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`
-- `/data/agent_campaign_review.json`
-- `/data/campaign_agent_probe.json`
-- `/data/campaign_probe_audit.json`
-- `/data/campaign_triage.json`
-- `/data/campaign_gate_probe.json`
-- `/data/campaign_pressure_summary.json`
-- `/data/campaign_challenger_ledger.json`
-- `/data/transfer_replay_packet.json`
-- `/data/substrate_replay_packet.json`
-- `/data/cross_substrate_discovery.json`
-- `/data/donor_condition_replay.json`
 - `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
-- `/data/assay_operations_bundle.json`
-- `/data/gladstone_pilot_design.json`
-- `/data/final_submission_audit.json`
-- `/data/release_manifest.json`
-- `/data/rendered_qa_packet.json`
 
 ## Run it
 
 ```bash
-./prospect final-check            # run the submission gate
-./prospect submit-smoke           # check the production submission endpoints
-./prospect submit-pack            # print the copy-safe submission packet
-./prospect demo-pack              # print the two-minute recording teleprompter
-./prospect judge-handout          # build the one-page judge handout
-./prospect submission-audit       # build the final submission audit packet
-./prospect release-manifest       # hash the public data artifact surface
-./prospect rendered-qa            # build the rendered QA checklist packet
-./prospect browser-qa --target both # optional browser smoke after local web starts on 8124
 ./prospect verify                 # re-derive every object from frozen data (EXACT lane, 0 drift)
+./prospect sign                   # the human ceremony: accept the frontier root
 ./prospect check claims.json --data <released_table.csv>   # grade typed claims
 ./prospect propose --n 15         # Claude proposes; the frozen verifier decides
-./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
-./prospect receipt                # emit portable receipts (activity → signed replayable state)
+./prospect agent                  # autonomous agent: search, verify, converge on a hypothesis
+./prospect receipt                # emit portable receipts (activity to signed replayable state)
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 python examples/receipt_bridge_client.py # run the external receipt bridge client
 ./prospect campaign               # build the proposal-only campaign leaderboard
-./prospect campaign-review        # build the campaign review appendix
-./prospect campaign-probe         # run Claude probes against campaign rows
-./prospect campaign-triage        # turn probe disagreements into assay gates
-./prospect campaign-gate-probe    # pressure-test disagreement assay gates
-./prospect campaign-pressure      # summarize model pressure and complete gate coverage
-./prospect campaign-challenger    # build the proposal-only assay challenger ledger
-./prospect campaign-probe-audit   # audit campaign probe coverage and rationales
-./prospect transfer-replay        # build the transfer replay packet
-./prospect substrate-replay       # build the substrate replay packet
-./prospect cross-substrate-discovery # build the cross-substrate discovery packet
-./prospect donor-replay           # build the donor-condition replay packet
-./prospect disease-overlay        # build the disease-genetics overlay packet
-./prospect perturbation-scout     # build the perturbation-atlas scout packet
+./prospect disease-overlay        # attach frozen Open Targets disease context to the leaderboard
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
-./prospect assay-ops              # build the Gladstone assay operations bundle
-./prospect pilot-design           # build the Gladstone pilot design packet
-./prospect judge-pack             # build the judge packet manifest
-./prospect sign                   # the human ceremony: accept the frontier root
+./prospect findings-index         # build the scannable finding index
+./prospect judge-handout          # build the one-page judge handout
+./prospect submit-pack            # print the copy-safe submission packet
+./prospect build                  # rebuild the frontier from frozen data
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted
 python tests/test_skill_parity.py # Skill checker matches the engine
-python frontier/validation_sheet.py # write the wet-lab validation shortlist
 ```
 
 The web app reads a single signed `frontier.json`; it runs credential-free and offline.
@@ -232,8 +132,6 @@ The web app reads a single signed `frontier.json`; it runs credential-free and o
   copies cannot drift.
 - The MCP bridge can validate and submit receipts only as proposals. A human key remains the only
   path into accepted state.
-- The transfer replay packet is a public audit object, not a new accepted-state mutation. See
-  [docs/TRANSFER_REPLAY_PACKET.md](docs/TRANSFER_REPLAY_PACKET.md).
 
 ## Data
 

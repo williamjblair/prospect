@@ -16,69 +16,56 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - 5 signed findings
 - 6 portable receipts
-- 27 public data artifacts
-- 377 replayed T-cell regulators across three frozen substrates
-- 11526 Marson rows classified against non-immune substrates
-- 409 T-cell-specific activation candidates
-- 20 campaign rows replayed against donor-correlation fields
-- 13 donor-supported campaign rows
+- 5 rows in the scannable finding index
+- 20 proposal-only campaign rows
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
-- 4 rows with selected immune or hematologic genetic context
-- 20 campaign rows reconciled by the challenger ledger
-- 1 primary assay row challenged before handoff
-- 20 Claude probe rows in the pressure loop
-- 11 of 11 gate-probe decisions returned, coverage `complete`
-- 5 proposal-only assay operations rows
-- 90 proposal-only pilot culture arms
+- 5 proposal-only wet-lab assay rows
+- 10 public data artifacts
 
 ## Trust boundary
 
-- Model role: `propose_search_pressure_test`
+- Model role: `propose, search, pressure-test`
 - Model in trust path: `no`
 - Accepted state: `human_signed_replayable_root`
 - Model accepted-state mutations: 0
 
 ## Five-minute judge path
 
-1. Overview: A1BG refusal and 48 percent overclaiming number.
+1. Overview: the A1BG refusal and the overclaiming number.
 2. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
-3. Findings: substrate replay across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
-4. Findings: cross-substrate discovery classifies shared machinery and T-cell-specific candidates.
-5. Agent: donor replay separates donor-supported campaign rows from donor-fragile rows.
-6. Agent: disease overlay attaches external context without changing accepted state.
-7. Agent: challenger ledger adjusts assay capacity before the lab handoff.
-8. Frontier: receipt bridge returns proposal-only submission, not accepted state.
-9. Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.
+3. Findings: the scannable finding index.
+4. Agent: the campaign leaderboard, every row a proposal, none accepted state.
+5. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
+6. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
+7. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
 
 ## Public artifacts to open
 
-- `/data/judge_packet.json`
-- `/data/campaign_pressure_summary.json`
-- `/data/substrate_replay_packet.json`
-- `/data/cross_substrate_discovery.json`
-- `/data/donor_condition_replay.json`
+- `/data/frontier.json`
+- `/data/finding_index.json`
+- `/data/receipt_bridge/receipt_contract.json`
+- `/data/receipt_bridge/receipt_manifest.json`
+- `/data/receipt_bridge/receipt_bundle.json`
+- `/data/pggt1b_deep_dive.json`
+- `/data/pggt1b_matrix_slice.json`
+- `/data/agent_campaign.json`
 - `/data/disease_genetics_overlay.json`
-- `/data/campaign_challenger_ledger.json`
-- `/data/assay_operations_bundle.json`
-- `/data/gladstone_pilot_design.json`
-- `/data/final_submission_audit.json`
-- `/data/release_manifest.json`
-- `/data/rendered_qa_packet.json`
+- `/data/lab_packet.json`
 
 ## Replay commands
 
-- `./prospect final-check`
-- `./prospect submit-smoke`
+- `./prospect verify`
 - `./prospect submit-pack`
-- `./prospect demo-pack`
+- `python benchmark/mutation_pack.py`
 - `python examples/receipt_bridge_client.py --json`
 
 ## What remains human-only
 
-- `record_demo_video`
-- `submit_project_form`
-- `wet_lab_execution`
+- sign the frontier root
+- accept a submitted receipt
+- sign an agent or campaign hypothesis
+- wet-lab execution
 
 Rebuild:
 

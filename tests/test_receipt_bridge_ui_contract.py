@@ -19,6 +19,9 @@ def test_frontier_surfaces_executable_receipt_bridge_path():
     assert "json_command" in source
     assert "accepted=false" in source
     assert "human_signature_required" in source
+    assert "openresearch_receipt_client.py --json" in source
+    assert "external_run_receipt_demo" in source
+    assert "external auto-research producer" in source
 
 
 if __name__ == "__main__":

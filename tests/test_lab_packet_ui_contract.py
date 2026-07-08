@@ -11,7 +11,7 @@ def test_lab_packet_is_bundled_and_visible_in_agent_tab():
     gen_data = GEN_DATA.read_text()
 
     assert "lab_packet" in gen_data
-    assert "LAB_PACKET_OUT" in gen_data
+    assert "lab_packet.json" in gen_data
     assert "type LabPacket" in page
     assert "LabPacketCard" in page
     assert "/data/lab_packet.json" in page

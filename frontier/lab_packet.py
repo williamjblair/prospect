@@ -11,7 +11,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from frontier.campaign_challenger_ledger import build_ledger
 from frontier.agent_campaign import MIN_STIM_DE, MAX_REST_DE
 from frontier.validation_sheet import rank_candidates
 
@@ -23,7 +22,6 @@ OUT_DOC = ROOT / "docs" / "LAB_PACKET.md"
 REPLAY_LINKS = [
     "/data/frontier.json",
     "/data/agent_campaign.json",
-    "/data/campaign_challenger_ledger.json",
     "/data/pggt1b_deep_dive.json",
     "/data/receipt_bridge/receipt_contract.json",
 ]
@@ -100,23 +98,17 @@ def _candidate(rank: int, row: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_lab_packet(limit: int = 5) -> dict[str, Any]:
-    ranked = {
-        row["gene"]: row
-        for row in rank_candidates(limit=20, min_stim_de=MIN_STIM_DE, max_rest_de=MAX_REST_DE)
-    }
-    panel = build_ledger()["recommended_primary_panel"][:limit]
-    rows = [ranked[gene] for gene in panel]
+    rows = rank_candidates(limit=limit, min_stim_de=MIN_STIM_DE, max_rest_de=MAX_REST_DE)
     candidates = [_candidate(i, row) for i, row in enumerate(rows, 1)]
     return {
         "title": "Wet-lab assay packet",
         "status": "evidence_attached",
         "trust_boundary": "proposal_only",
         "acceptance": False,
-        "source": "campaign challenger ledger recommended primary panel",
+        "source": "validation-sheet ranked candidates: stimulated CD4+ effect, cell-type-specific, non-canonical",
         "scope": "assay planning, not accepted biological state",
         "method": {
-            "candidate_source": "frontier.campaign_challenger_ledger.build_ledger",
-            "base_ranking": "frontier.validation_sheet.rank_candidates",
+            "candidate_source": "frontier.validation_sheet.rank_candidates",
             "assay": "stimulated primary CD4+ CRISPRi follow-up",
             "negative_controls": NEGATIVE_CONTROLS,
             "positive_controls": POSITIVE_CONTROLS,

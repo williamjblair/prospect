@@ -1,50 +1,28 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import csv, json, os, sys
+import json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
 from loop.find_surprises import mine
 from engine.schema import Claim
 from engine.checkers.marson_perturbseq import MarsonPerturbseqChecker
+from examples.openresearch_receipt_client import preview as external_run_receipt_preview
 from receipt.bridge import export_bridge
 
 DATA = os.path.join(ROOT, "examples", "data")
 FR = os.path.join(ROOT, "frontier")
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "frontier.json")
-BRIDGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "receipt_bridge")
-PGGT1B_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_deep_dive.json")
-PGGT1B_SLICE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "pggt1b_matrix_slice.json")
-CAMPAIGN_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign.json")
-CAMPAIGN_REVIEW_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "agent_campaign_review.json")
-CAMPAIGN_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_agent_probe.json")
-CAMPAIGN_PROBE_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_probe_audit.json")
-CAMPAIGN_TRIAGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_triage.json")
-CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_gate_probe.json")
-CAMPAIGN_PRESSURE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_pressure_summary.json")
-CAMPAIGN_CHALLENGER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_challenger_ledger.json")
-LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
-ASSAY_OPERATIONS_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "assay_operations_bundle.json")
-GLADSTONE_PILOT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "gladstone_pilot_design.json")
-FINAL_SUBMISSION_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "final_submission_audit.json")
-RELEASE_MANIFEST_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "release_manifest.json")
-RENDERED_QA_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "rendered_qa_packet.json")
-FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
-TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
-SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
-CROSS_SUBSTRATE_DISCOVERY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "cross_substrate_discovery.json")
-DONOR_CONDITION_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "donor_condition_replay.json")
-DISEASE_GENETICS_OVERLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "disease_genetics_overlay.json")
-JUDGE_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "judge_packet.json")
+PUB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data")
+OUT = os.path.join(PUB, "frontier.json")
+BRIDGE_OUT = os.path.join(PUB, "receipt_bridge")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
+def load(name):
+    p = os.path.join(DATA, name)
+    return json.load(open(p)) if os.path.exists(p) else None
 
-PUBLIC_CLASS = {
-    "verified_non_regulator": "reproduced_non_regulator",
-}
-
-def public_class(value):
-    return PUBLIC_CLASS.get(value, value)
+PUBLIC_CLASS = {"verified_non_regulator": "reproduced_non_regulator"}
+def public_class(value): return PUBLIC_CLASS.get(value, value)
 
 nodes = jl(os.path.join(FR, "nodes.jsonl"))
 edges = jl(os.path.join(FR, "edges.jsonl"))
@@ -58,60 +36,20 @@ receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["r
              "n_evidence": len(r.get("evidence", [])), "n_artifacts": len(r.get("artifacts", [])),
              "verifier": r["verifier"]["name"], "replay": r["verifier"]["replay"],
              "signer": (r.get("acceptance") or {}).get("signer")} for r in _receipts_raw]
-bridge_bundle = export_bridge(BRIDGE_OUT)
-bridge = bridge_bundle["manifest"]
-_vc = os.path.join(DATA, "validation_candidates.csv")
-validation = [r for r in csv.DictReader(open(_vc))] if os.path.exists(_vc) else []
-_pg = os.path.join(DATA, "pggt1b_deep_dive.json")
-pggt1b_deep_dive = json.load(open(_pg)) if os.path.exists(_pg) else None
-_pg_slice = os.path.join(DATA, "pggt1b_matrix_slice.json")
-pggt1b_matrix_slice = json.load(open(_pg_slice)) if os.path.exists(_pg_slice) else None
-_campaign = os.path.join(DATA, "agent_campaign.json")
-agent_campaign = json.load(open(_campaign)) if os.path.exists(_campaign) else None
-_campaign_review = os.path.join(DATA, "agent_campaign_review.json")
-agent_campaign_review = json.load(open(_campaign_review)) if os.path.exists(_campaign_review) else None
-_campaign_probe = os.path.join(DATA, "campaign_agent_probe.json")
-campaign_agent_probe = json.load(open(_campaign_probe)) if os.path.exists(_campaign_probe) else None
-_campaign_probe_audit = os.path.join(DATA, "campaign_probe_audit.json")
-campaign_probe_audit = json.load(open(_campaign_probe_audit)) if os.path.exists(_campaign_probe_audit) else None
-_campaign_triage = os.path.join(DATA, "campaign_triage.json")
-campaign_triage = json.load(open(_campaign_triage)) if os.path.exists(_campaign_triage) else None
-_campaign_gate_probe = os.path.join(DATA, "campaign_gate_probe.json")
-campaign_gate_probe = json.load(open(_campaign_gate_probe)) if os.path.exists(_campaign_gate_probe) else None
-_campaign_pressure = os.path.join(DATA, "campaign_pressure_summary.json")
-campaign_pressure_summary = json.load(open(_campaign_pressure)) if os.path.exists(_campaign_pressure) else None
-_campaign_challenger = os.path.join(DATA, "campaign_challenger_ledger.json")
-campaign_challenger_ledger = json.load(open(_campaign_challenger)) if os.path.exists(_campaign_challenger) else None
-_lab_packet = os.path.join(DATA, "lab_packet.json")
-lab_packet = json.load(open(_lab_packet)) if os.path.exists(_lab_packet) else None
-_assay_operations = os.path.join(DATA, "assay_operations_bundle.json")
-assay_operations_bundle = json.load(open(_assay_operations)) if os.path.exists(_assay_operations) else None
-_gladstone_pilot = os.path.join(DATA, "gladstone_pilot_design.json")
-gladstone_pilot_design = json.load(open(_gladstone_pilot)) if os.path.exists(_gladstone_pilot) else None
-_final_submission_audit = os.path.join(DATA, "final_submission_audit.json")
-final_submission_audit = json.load(open(_final_submission_audit)) if os.path.exists(_final_submission_audit) else None
-_release_manifest = os.path.join(DATA, "release_manifest.json")
-release_manifest = json.load(open(_release_manifest)) if os.path.exists(_release_manifest) else None
-_rendered_qa = os.path.join(DATA, "rendered_qa_packet.json")
-rendered_qa_packet = json.load(open(_rendered_qa)) if os.path.exists(_rendered_qa) else None
-_finding_index = os.path.join(DATA, "finding_index.json")
-finding_index = json.load(open(_finding_index)) if os.path.exists(_finding_index) else None
-_transfer_replay = os.path.join(DATA, "transfer_replay_packet.json")
-transfer_replay_packet = json.load(open(_transfer_replay)) if os.path.exists(_transfer_replay) else None
-_substrate_replay = os.path.join(DATA, "substrate_replay_packet.json")
-substrate_replay_packet = json.load(open(_substrate_replay)) if os.path.exists(_substrate_replay) else None
-_cross_substrate_discovery = os.path.join(DATA, "cross_substrate_discovery.json")
-cross_substrate_discovery = json.load(open(_cross_substrate_discovery)) if os.path.exists(_cross_substrate_discovery) else None
-_donor_condition_replay = os.path.join(DATA, "donor_condition_replay.json")
-donor_condition_replay = json.load(open(_donor_condition_replay)) if os.path.exists(_donor_condition_replay) else None
-_disease_genetics_overlay = os.path.join(DATA, "disease_genetics_overlay.json")
-disease_genetics_overlay = json.load(open(_disease_genetics_overlay)) if os.path.exists(_disease_genetics_overlay) else None
-_judge_packet = os.path.join(DATA, "judge_packet.json")
-judge_packet = json.load(open(_judge_packet)) if os.path.exists(_judge_packet) else None
-citations = json.load(open(os.path.join(DATA, "literature_citations.json")))["citations"] \
-    if os.path.exists(os.path.join(DATA, "literature_citations.json")) else {}
-_pp = os.path.join(DATA, "proposal_run.json")
-proposal = json.load(open(_pp)) if os.path.exists(_pp) else None
+bridge = export_bridge(BRIDGE_OUT)["manifest"]
+external_run_receipt_demo = external_run_receipt_preview()
+
+# Kept packets surfaced in the app.
+pggt1b_deep_dive = load("pggt1b_deep_dive.json")
+pggt1b_matrix_slice = load("pggt1b_matrix_slice.json")
+agent_campaign = load("agent_campaign.json")
+lab_packet = load("lab_packet.json")
+finding_index = load("finding_index.json")
+disease_genetics_overlay = load("disease_genetics_overlay.json")
+
+citations = load("literature_citations.json")
+citations = citations["citations"] if citations else {}
+proposal = load("proposal_run.json")
 _ap = os.path.join(DATA, "agent_run.json")
 _asig = os.path.join(DATA, "agent_run.sig.json")
 agent = None
@@ -145,8 +83,8 @@ in_adj = {g: top(v) for g, v in INa.items() if v}
 ck = MarsonPerturbseqChecker(os.path.join(DATA, "marson_de_demo_slice.csv"))
 demo = [{"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason": v.reason}
         for v in (ck.check(Claim(**c)) for c in json.load(open(os.path.join(ROOT, "examples", "claims_demo.json"))))]
-phantom = json.load(open(os.path.join(DATA, "phantom_summary.json"))) if os.path.exists(os.path.join(DATA, "phantom_summary.json")) else {}
-models = json.load(open(os.path.join(DATA, "model_comparison.json"))) if os.path.exists(os.path.join(DATA, "model_comparison.json")) else []
+phantom = load("phantom_summary.json") or {}
+models = load("model_comparison.json") or []
 
 data = {
     "stats": {"n_genes": len(nodes), "n_perturbations": sum(len(n["conditions"]) for n in nodes),
@@ -156,7 +94,7 @@ data = {
                 "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions],
     "open": [o["gene"] for o in openq[:80]],
     "surprises": mine(os.path.join(DATA, "atlas_backbone.json")),
-    "finding_index": finding_index, "judge_packet": judge_packet,
+    "finding_index": finding_index,
     "findings": [{"kind": f["kind"], "claim": f["claim"], "status": f["status"],
                   "n_genes": len(f["genes"]), "genes": f["genes"], "evidence": f["evidence"],
                   "cid": f["cid"]} for f in findings],
@@ -166,74 +104,22 @@ data = {
                   "cost_usd": proposal.get("cost_usd", 0), "delta_id": proposal.get("delta_id", ""),
                   "items": [{"gene": p["gene"], "verdict": p["verdict"], "rationale": p["rationale"]}
                             for p in proposal["proposals"]]} if proposal else None),
-    "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
+    "agent": agent, "receipts": receipts, "receipt_bridge": bridge,
+    "external_run_receipt_demo": external_run_receipt_demo,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
-    "agent_campaign_review": agent_campaign_review, "campaign_agent_probe": campaign_agent_probe,
-    "campaign_probe_audit": campaign_probe_audit,
-    "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe,
-    "campaign_pressure_summary": campaign_pressure_summary,
-    "campaign_challenger_ledger": campaign_challenger_ledger,
-    "lab_packet": lab_packet,
-    "assay_operations_bundle": assay_operations_bundle,
-    "gladstone_pilot_design": gladstone_pilot_design,
-    "final_submission_audit": final_submission_audit,
-    "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
-    "cross_substrate_discovery": cross_substrate_discovery,
-    "donor_condition_replay": donor_condition_replay,
-    "disease_genetics_overlay": disease_genetics_overlay,
+    "lab_packet": lab_packet, "disease_genetics_overlay": disease_genetics_overlay,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
                  "n_contra": len(contradictions), "n_open": len(openq),
                  "n_findings": len(findings)},
 }
-os.makedirs(os.path.dirname(OUT), exist_ok=True)
-if pggt1b_deep_dive:
-    json.dump(pggt1b_deep_dive, open(PGGT1B_OUT, "w"))
-if pggt1b_matrix_slice:
-    json.dump(pggt1b_matrix_slice, open(PGGT1B_SLICE_OUT, "w"))
-if agent_campaign:
-    json.dump(agent_campaign, open(CAMPAIGN_OUT, "w"))
-if agent_campaign_review:
-    json.dump(agent_campaign_review, open(CAMPAIGN_REVIEW_OUT, "w"))
-if campaign_agent_probe:
-    json.dump(campaign_agent_probe, open(CAMPAIGN_PROBE_OUT, "w"))
-if campaign_probe_audit:
-    json.dump(campaign_probe_audit, open(CAMPAIGN_PROBE_AUDIT_OUT, "w"))
-if campaign_triage:
-    json.dump(campaign_triage, open(CAMPAIGN_TRIAGE_OUT, "w"))
-if campaign_gate_probe:
-    json.dump(campaign_gate_probe, open(CAMPAIGN_GATE_PROBE_OUT, "w"))
-if campaign_pressure_summary:
-    json.dump(campaign_pressure_summary, open(CAMPAIGN_PRESSURE_OUT, "w"))
-if campaign_challenger_ledger:
-    json.dump(campaign_challenger_ledger, open(CAMPAIGN_CHALLENGER_OUT, "w"))
-if lab_packet:
-    json.dump(lab_packet, open(LAB_PACKET_OUT, "w"))
-if assay_operations_bundle:
-    json.dump(assay_operations_bundle, open(ASSAY_OPERATIONS_OUT, "w"))
-if gladstone_pilot_design:
-    json.dump(gladstone_pilot_design, open(GLADSTONE_PILOT_OUT, "w"))
-if final_submission_audit:
-    json.dump(final_submission_audit, open(FINAL_SUBMISSION_AUDIT_OUT, "w"))
-if release_manifest:
-    json.dump(release_manifest, open(RELEASE_MANIFEST_OUT, "w"))
-if rendered_qa_packet:
-    json.dump(rendered_qa_packet, open(RENDERED_QA_OUT, "w"))
-if finding_index:
-    json.dump(finding_index, open(FINDING_INDEX_OUT, "w"))
-if transfer_replay_packet:
-    json.dump(transfer_replay_packet, open(TRANSFER_REPLAY_OUT, "w"))
-if substrate_replay_packet:
-    json.dump(substrate_replay_packet, open(SUBSTRATE_REPLAY_OUT, "w"))
-if cross_substrate_discovery:
-    json.dump(cross_substrate_discovery, open(CROSS_SUBSTRATE_DISCOVERY_OUT, "w"))
-if donor_condition_replay:
-    json.dump(donor_condition_replay, open(DONOR_CONDITION_REPLAY_OUT, "w"))
-if disease_genetics_overlay:
-    json.dump(disease_genetics_overlay, open(DISEASE_GENETICS_OVERLAY_OUT, "w"))
-if judge_packet:
-    json.dump(judge_packet, open(JUDGE_PACKET_OUT, "w"))
+os.makedirs(PUB, exist_ok=True)
+for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_slice, "pggt1b_matrix_slice.json"),
+                  (agent_campaign, "agent_campaign.json"), (lab_packet, "lab_packet.json"),
+                  (finding_index, "finding_index.json"), (disease_genetics_overlay, "disease_genetics_overlay.json")]:
+    if obj:
+        json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

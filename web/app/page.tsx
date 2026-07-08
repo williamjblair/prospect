@@ -88,117 +88,6 @@ type AgentCampaign = {
     what_would_weaken: string; review_summary: string;
   }[];
 };
-type CampaignReview = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  campaign_id: string;
-  candidate_count: number;
-  top_gene: string;
-  lane_counts: Record<string, number>;
-  audit_questions: { question: string; field: string; pass_condition: string }[];
-  rows: {
-    rank: number; gene: string; status: string; trust_boundary: string; review_lane: string; decision: string;
-    stimulated_signal: string; specificity: string; regulon_context: string; primary_readout: string;
-    why_interesting: string; stop_rules: string[];
-  }[];
-};
-type CampaignAgentProbe = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  probe_id: string;
-  campaign_id: string;
-  model: string;
-  candidate_count: number;
-  coverage: { requested_limit: number; returned_decisions: number; coverage_status: string; missing_decisions: number };
-  tool_call_count: number;
-  cost_usd: number;
-  summary: Record<string, number>;
-  rows: {
-    rank: number; gene: string; status: string; trust_boundary: string; deterministic_lane: string;
-    deterministic_decision: string; agent_recommendation: string; alignment: string; agent_rationale: string;
-    stimulated_signal: string; specificity: string; stop_rules: string[];
-  }[];
-};
-type CampaignTriage = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  source_probe_id: string;
-  campaign_id: string;
-  summary: Record<string, number>;
-  rows: {
-    rank: number; gene: string; status: string; trust_boundary: string; alignment: string;
-    deterministic_decision: string; agent_recommendation: string; triage_decision: string;
-    stimulated_signal: string; specificity: string; assay_gate: string; reason_to_hold: string;
-    stop_rules: string[]; agent_rationale: string;
-  }[];
-};
-type CampaignGateProbe = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  source_triage_id: string;
-  campaign_id: string;
-  model: string;
-  candidate_count: number;
-  tool_call_count: number;
-  summary: Record<string, number>;
-  rows: {
-    rank: number; gene: string; status: string; trust_boundary: string; alignment: string;
-    source_triage_decision: string; deterministic_decision: string; agent_recommendation: string;
-    assay_gate: string; gate_recommendation: string; gate_rationale: string;
-    stimulated_signal: string; specificity: string; stop_rules: string[];
-  }[];
-};
-type CampaignPressureSummary = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  accepted_state_mutations: number;
-  model_in_trust_path: string;
-  counts: {
-    campaign_candidates: number; deterministic_review_rows: number; claude_probe_rows: number;
-    aligned_rows: number; more_aggressive_rows: number; more_cautious_rows: number;
-    triage_rows: number; gate_probe_rows: number;
-  };
-  gate_recommendations: Record<string, number>;
-  boundary_statement: string;
-  pressure_accounting: {
-    rank: number; gene: string; status: string; trust_boundary: string; deterministic_decision: string;
-    claude_recommendation: string; alignment: string; pressure_result: string; triage_decision: string;
-    gate_recommendation: string; assay_gate: string; reason: string;
-  }[];
-};
-type CampaignChallengerLedger = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  model_in_trust_path: string;
-  counts: {
-    campaign_rows: number; current_primary_panel_rows: number; recommended_primary_panel_rows: number;
-    primary_panel_challenges: number; replacement_candidates: number; retain_primary_panel: number;
-    promote_if_capacity: number; contextual_priority: number; hold_for_review: number;
-    demote_or_control: number; challenge_primary_panel: number;
-  };
-  current_primary_panel: string[];
-  recommended_primary_panel: string[];
-  panel_delta: { remove: string[]; add: string[]; changed: string };
-  rows: {
-    rank: number; gene: string; status: string; trust_boundary: string; current_primary_panel: string;
-    campaign_score: number; review_decision: string; claude_pressure_alignment: string;
-    gate_recommendation: string; donor_replay_class: string; cross_substrate_class: string;
-    disease_overlay_class: string; challenger_action: string; recommended_change: string;
-    challenger_score: number; reason: string;
-  }[];
-};
 type LabPacket = {
   title: string;
   status: string;
@@ -214,137 +103,6 @@ type LabPacket = {
     strongest_condition: string; rest_de: number; k562_de: number | null; rpe1_de: number | null;
     known_regulon_targets: number; score: number; evidence: string[];
   }[];
-};
-type AssayOperationsBundle = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutations: number;
-  scope: string;
-  method: { replay_links: string[] };
-  candidates: {
-    rank: number; gene: string; status: string; trust_boundary: string; queue: string;
-    intervention: string; strongest_condition: string; stim_max_de: number; rest_de: number;
-    k562_de: number | null; rpe1_de: number | null;
-    readouts: { primary: string; secondary: string };
-    controls: { negative: string[]; positive: string[] };
-    assay_steps: string[]; decision_gates: string[];
-    expected_positive_result: string; weakening_result: string; rejection_result: string;
-    missing_evidence_before_acceptance: string[]; replay_links: string[];
-  }[];
-};
-type GladstonePilotDesign = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutations: number;
-  model_in_trust_path: string;
-  sample_plan: {
-    sample: string; donor_replicates: number; conditions: string[]; candidate_count: number;
-    control_arms: number; culture_arms: number; batching: string; readouts: string[];
-  };
-  controls: { negative: string[]; positive: string[]; control_note: string };
-  decision_gates: string[];
-  candidates: {
-    rank: number; gene: string; status: string; trust_boundary: string; queue: string;
-    strongest_condition: string; primary_question: string; promote_if: string; weaken_if: string;
-    reject_if: string; missing_evidence_before_acceptance: string[]; acceptance_gate: string;
-    decision_record: string; replay_links: string[];
-  }[];
-};
-type SubstrateReplayPacket = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  datasets: { id: string; substrate: string }[];
-  counts: {
-    t_cell_regulators_compared: number;
-    essentiality_artifact_regulators: number;
-    essentiality_artifact_regulators_reproduced_in_k562: number;
-    activation_or_effector_regulators: number;
-    activation_or_effector_regulators_cell_type_specific: number;
-  };
-  rates: {
-    essentiality_replication: { numerator: number; denominator: number; rate: number };
-    activation_specificity: { numerator: number; denominator: number; rate: number };
-  };
-  substrate_classes: {
-    class: string;
-    interpretation: string;
-    example_genes: {
-      gene: string; class: string; marson_cd4_status: string; replogle_k562_status: string;
-      k562_de_genes: number | null; rpe1_de_genes: number | null; finding: string;
-    }[];
-  }[];
-  replay_rows: {
-    gene: string; class: string; marson_cd4_status: string; replogle_k562_status: string;
-    k562_de_genes: number | null; rpe1_de_genes: number | null; finding: string;
-  }[];
-};
-type CrossSubstrateDiscovery = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  counts: {
-    marson_genes_considered: number;
-    overlap_k562: number;
-    overlap_rpe1: number;
-    overlap_any_non_immune: number;
-    campaign_rows_intersected: number;
-  };
-  class_counts: Record<string, number>;
-  exemplar_rows: CrossSubstrateRow[];
-  top_rows: CrossSubstrateRow[];
-  campaign_intersections: CrossSubstrateRow[];
-};
-type CrossSubstrateRow = {
-  gene: string;
-  cross_substrate_class: string;
-  prospect_class: string;
-  rest_de: number;
-  stim8hr_de: number;
-  stim48hr_de: number;
-  stim_max_de: number;
-  strongest_stim_condition: string;
-  k562_de: number | null;
-  rpe1_de: number | null;
-  non_immune_max_de: number;
-  campaign_rank: number | null;
-  campaign_status: string | null;
-};
-type DonorConditionReplay = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  counts: {
-    campaign_rows: number;
-    strongest_condition_rows: number;
-    donor_supported: number;
-    donor_intermediate: number;
-    donor_fragile: number;
-    guide_limited: number;
-    donor_not_estimated: number;
-    aggregate_not_actionable: number;
-  };
-  rows: DonorConditionReplayRow[];
-  promotion_candidates: DonorConditionReplayRow[];
-  capacity_warnings: DonorConditionReplayRow[];
-};
-type DonorConditionReplayRow = {
-  rank: number;
-  gene: string;
-  condition: string;
-  campaign_status: string;
-  n_total_de_genes: number;
-  donor_correlation_hits_min: number | null;
-  donor_correlation_hits_mean: number | null;
-  n_guides: number;
-  guide_n_signif_ontarget: number | null;
-  single_guide_estimate: string;
-  donor_replay_class: string;
 };
 type DiseaseGeneticsOverlay = {
   title: string;
@@ -378,33 +136,12 @@ type DiseaseGeneticsContext = {
   evidence_type: string;
   has_genetic_association: string;
 };
-type JudgePacket = {
-  live_url: string;
-  frontier_root: string;
-  gate_commands: string[];
-  receipt_bridge_demo?: {
-    command: string;
-    json_command: string;
-    transport: string;
-    tools: string[];
-    accepted: boolean;
-    next: string;
-  };
-  demo_path: string[];
-  public_data: string[];
-  artifact_counts: {
-    genes: number; edges: number; findings: number; receipts: number;
-    agent_campaign_candidates: number; validation_candidates: number;
-  };
-  trust_boundary: { receipt_submission: string; model_moves_accepted_state: boolean };
-};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
   finding_index?: FindingIndex | null;
-  judge_packet?: JudgePacket | null;
   findings: Finding[]; citations: Record<string, Cite>;
   proposal?: { model: string; proposed: number; admitted: number; rejected: number; cost_usd: number;
     delta_id: string; items: { gene: string; verdict: string; rationale: string }[] } | null;
@@ -418,24 +155,14 @@ type Data = {
     frontier_root: string; receipt_count: number; replay: string; mcp_command: string; exported_files: string[];
     protocol_path?: { step: number; method: string; action: string; result: string; accepted: boolean }[];
   };
-  validation?: { gene: string; status: string; replayability: string; rest_de: string; stim8hr_de: string;
-    stim48hr_de: string; stim_max_de: string; strongest_condition: string; k562_de: string;
-    rpe1_de: string; known_regulon_targets: string; score: string; rationale: string;
-    validation_assay: string }[];
+  external_run_receipt_demo?: {
+    command: string; producer: string; domain: string; lineage_id: string; claim: string; frontier_root: string;
+    typed_status: string; engine_verdict: string; receipt_id: string; accepted: boolean; next: string;
+    verifier_replay: string; human_acceptance_requires: string[];
+  };
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
   agent_campaign?: AgentCampaign | null;
-  agent_campaign_review?: CampaignReview | null;
-  campaign_agent_probe?: CampaignAgentProbe | null;
-  campaign_triage?: CampaignTriage | null;
-  campaign_gate_probe?: CampaignGateProbe | null;
-  campaign_pressure_summary?: CampaignPressureSummary | null;
-  campaign_challenger_ledger?: CampaignChallengerLedger | null;
   lab_packet?: LabPacket | null;
-  assay_operations_bundle?: AssayOperationsBundle | null;
-  gladstone_pilot_design?: GladstonePilotDesign | null;
-  substrate_replay_packet?: SubstrateReplayPacket | null;
-  cross_substrate_discovery?: CrossSubstrateDiscovery | null;
-  donor_condition_replay?: DonorConditionReplay | null;
   disease_genetics_overlay?: DiseaseGeneticsOverlay | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -586,6 +313,13 @@ export default function Page() {
   );
 }
 
+const DEMO_PATH: { label: string; tab?: string }[] = [
+  { label: "Overview: the A1BG refusal and the overclaiming number." },
+  { label: "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.", tab: "findings" },
+  { label: "Frontier: the receipt boundary and the MCP bridge, a proposal, never accepted state.", tab: "frontier" },
+  { label: "Agent: the campaign leaderboard, PGGT1B, the disease-genetics overlay, and the wet-lab packet.", tab: "agent" },
+];
+
 function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom, dist = d.stats.dist;
   const order = ["constitutive_regulator", "condition_specific_regulator", "reproduced_non_regulator", "unverifiable_no_kd"];
@@ -684,7 +418,46 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </div>
       </section>
 
-      {d.judge_packet && <JudgePacketCard packet={d.judge_packet} setTab={setTab} />}
+      <section style={{ display: "grid", gap: 10 }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Demo path</div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "70ch" }}>
+            A self-guided five-minute read. Each step opens the tab it names.
+          </p>
+        </div>
+        <ol style={{ display: "grid", gap: 6, margin: 0, padding: 0, listStyle: "none" }}>
+          {DEMO_PATH.map((step, i) => (
+            <li key={i} style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
+              <span className="t-mono t-caption" style={{ color: "var(--ink-3)", minWidth: 18 }}>{i + 1}</span>
+              {step.tab ? (
+                <button onClick={() => setTab(step.tab!)} className="t-body-sm"
+                  style={{ textAlign: "left", background: "none", border: "none", padding: 0, cursor: "pointer",
+                    color: "var(--ink)", borderBottom: "1px solid var(--rule)" }}>
+                  {step.label}
+                </button>
+              ) : (
+                <span className="t-body-sm" style={{ color: "var(--ink)" }}>{step.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+          paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
+          <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
+          <button type="button" className="btn btn-secondary btn-sm"
+            title={DEMO_PATH[1].label} onClick={() => setTab("findings")}>
+            Findings
+          </button>
+          <button type="button" className="btn btn-secondary btn-sm"
+            title={DEMO_PATH[2].label} onClick={() => setTab("frontier")}>
+            Frontier
+          </button>
+          <button type="button" className="btn btn-secondary btn-sm"
+            title={DEMO_PATH[3].label} onClick={() => setTab("agent")}>
+            Agent
+          </button>
+        </div>
+      </section>
 
       {d.proposal && (
         <section style={{ display: "grid", gap: 10 }}>
@@ -753,88 +526,6 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </section>
       )}
     </div>
-  );
-}
-
-function JudgePacketCard({ packet, setTab }: { packet: JudgePacket; setTab: (tab: string) => void }) {
-  const counts = packet.artifact_counts;
-  const receiptBridgeCommand = packet.receipt_bridge_demo?.command || "python examples/receipt_bridge_client.py";
-  const quickstartHref = "https://github.com/williamjblair/prospect/blob/master/docs/JUDGE_QUICKSTART.md";
-  return (
-    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
-      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-        <div style={{ minWidth: 240, flex: 1 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Judge quickstart</div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "72ch" }}>
-            Five-minute path: start with the A1BG refusal, read the signed findings, try the receipt
-            boundary, then close on the PGGT1B packet and lab handoff.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href={quickstartHref} target="_blank" rel="noreferrer">
-          docs/JUDGE_QUICKSTART.md <ExternalLink size={13} />
-        </a>
-        <a className="btn btn-secondary btn-sm" href="/data/judge_packet.json" target="_blank" rel="noreferrer">
-          Judge packet JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "baseline" }}>
-        {[
-          [fmt(counts.findings), "findings"],
-          [fmt(counts.receipts), "receipts"],
-          [fmt(counts.agent_campaign_candidates), "campaign rows"],
-          [fmt(counts.validation_candidates), "wet-lab rows"],
-        ].map(([value, label]) => (
-          <div key={label}>
-            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700 }}>{value}</div>
-            <div className="t-label" style={{ marginTop: 3 }}>{label}</div>
-          </div>
-        ))}
-        <div style={{ marginLeft: "auto" }} className="t-caption">
-          root <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{packet.frontier_root}</span><br />
-          receipt submission: {packet.trust_boundary.receipt_submission.replace(/_/g, " ")}
-        </div>
-      </div>
-      <div style={{ display: "grid", gap: 8, padding: "12px 0",
-        borderTop: "1px solid var(--rule-faint)", borderBottom: "1px solid var(--rule-faint)" }}>
-        <div className="t-label">What outlasts the week</div>
-        <p className="t-body-sm" style={{ margin: 0, maxWidth: "76ch" }}>
-          This is working software for a skeptical immunologist reading the Marson lab screen: a replayable CLI,
-          public data endpoints, receipt bridge, wet-lab handoff, and human-signed root. Judges can rerun
-          the trust floor after the event without private credentials for the static app.
-        </p>
-      </div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        {packet.gate_commands.slice(0, 3).map((cmd) => (
-          <span key={cmd} className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
-            background: "var(--paper-recessed)", border: "1px solid var(--rule-faint)" }}>{cmd}</span>
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <span className="t-label">Receipt bridge</span>
-        <span className="t-mono fz-2xs" style={{ padding: "4px 7px", borderRadius: 5,
-          background: "var(--gold-tint, var(--state-open-tint))", color: "var(--gold-ink)",
-          border: "1px solid var(--brass-gold)" }}>{receiptBridgeCommand}</span>
-        <span className="t-caption" style={{ color: "var(--ink-3)" }}>
-          returns accepted=false, next={packet.receipt_bridge_demo?.next || "human_signature_required"}
-        </span>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
-        paddingTop: 2, borderTop: "1px solid var(--rule-faint)" }}>
-        <span className="t-label" style={{ marginRight: 2 }}>Demo path</span>
-        <button type="button" className="btn btn-secondary btn-sm"
-          title={packet.demo_path[1]} onClick={() => setTab("findings")}>
-          Findings
-        </button>
-        <button type="button" className="btn btn-secondary btn-sm"
-          title={packet.demo_path[2]} onClick={() => setTab("frontier")}>
-          Frontier
-        </button>
-        <button type="button" className="btn btn-secondary btn-sm"
-          title={packet.demo_path[3]} onClick={() => setTab("agent")}>
-          Agent
-        </button>
-      </div>
-    </section>
   );
 }
 
@@ -929,18 +620,28 @@ const BRIDGE_METHOD_ORDER = [
   "prospect.receipt.validate",
   "prospect.receipt.submit",
 ];
+const EXTERNAL_RUN_COMMAND = "python examples/openresearch_receipt_client.py --json";
 
 function Receipts({
   receipts,
   bridge,
-  bridgeDemo,
+  externalDemo,
 }: {
   receipts: NonNullable<Data["receipts"]>;
   bridge?: Data["receipt_bridge"];
-  bridgeDemo?: JudgePacket["receipt_bridge_demo"];
+  externalDemo?: Data["external_run_receipt_demo"];
 }) {
-  const boundaryCommand = bridgeDemo?.json_command || "python examples/receipt_bridge_client.py --json";
-  const boundaryNext = bridgeDemo?.next || "human_signature_required";
+  // The executable boundary demo. Static facts about the receipt bridge, so it renders without any packet.
+  const receipt_bridge_demo = {
+    command: "python examples/receipt_bridge_client.py --json",
+    json_command: "python examples/receipt_bridge_client.py --json",
+    transport: "MCP stdio",
+    tools: BRIDGE_METHOD_ORDER,
+    accepted: false,
+    next: "human_signature_required",
+  };
+  const boundaryCommand = receipt_bridge_demo.json_command;
+  const boundaryNext = receipt_bridge_demo.next;
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <div>
@@ -1008,6 +709,63 @@ function Receipts({
           </div>
         </div>
       )}
+      {externalDemo && (
+        <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+            <div style={{ minWidth: 240, flex: 1 }}>
+              <div className="t-label">External run to receipt</div>
+              <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+                An external auto-research producer submits a biology-shaped Perturb-seq reproduction as a receipt.
+                The Marson checker re-derives the local facts, then the bridge still holds it as proposal only.
+              </p>
+            </div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>
+              {externalDemo.typed_status.replace(/_/g, " ")}
+            </span>
+            <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
+              accepted={String(externalDemo.accepted)}
+            </span>
+          </div>
+          <div style={{ display: "grid", gap: 6 }}>
+            <div className="t-body-sm" style={{ fontWeight: 650 }}>{externalDemo.claim}</div>
+            <div className="t-caption" style={{ color: "var(--ink-3)" }}>
+              lineage <span className="t-mono">{externalDemo.lineage_id}</span> · receipt{" "}
+              <span className="t-mono">{externalDemo.receipt_id}</span>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 8 }}>
+            <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
+              background: "var(--paper-recessed)" }}>
+              <div className="t-label">frozen replay</div>
+              <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>{externalDemo.verifier_replay}</div>
+            </div>
+            <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
+              background: "var(--paper-recessed)" }}>
+              <div className="t-label">bridge result</div>
+              <div className="t-mono fz-2xs" style={{ color: "var(--gold-ink)", fontWeight: 700 }}>
+                accepted=false · next={externalDemo.next}
+              </div>
+            </div>
+            <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
+              background: "var(--paper-recessed)" }}>
+              <div className="t-label">judge command</div>
+              <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+                {externalDemo.command || EXTERNAL_RUN_COMMAND}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="t-label" style={{ marginBottom: 5 }}>Human-only acceptance requires</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {externalDemo.human_acceptance_requires.map((item) => (
+                <span key={item} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+                  {item.replace(/_/g, " ")}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, padding: "6px 14px" }}>
           {["claim", "status", "replay"].map((h, i) => (
@@ -1065,7 +823,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       </div>
 
       {d.receipts && d.receipts.length > 0 && (
-        <Receipts receipts={d.receipts} bridge={d.receipt_bridge} bridgeDemo={d.judge_packet?.receipt_bridge_demo} />
+        <Receipts receipts={d.receipts} bridge={d.receipt_bridge} externalDemo={d.external_run_receipt_demo} />
       )}
 
       <div>
@@ -1390,31 +1148,9 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
 
-      {d.agent_campaign_review && <CampaignReviewAppendix review={d.agent_campaign_review} onGene={onGene} />}
-
-      {d.campaign_agent_probe && <CampaignAgentProbe probe={d.campaign_agent_probe} onGene={onGene} />}
-
-      {d.campaign_triage && <CampaignDisagreementTriage triage={d.campaign_triage} onGene={onGene} />}
-
-      {d.campaign_gate_probe && <CampaignGateProbe probe={d.campaign_gate_probe} onGene={onGene} />}
-
-      {d.campaign_pressure_summary && <CampaignPressureSummaryCard summary={d.campaign_pressure_summary} onGene={onGene} />}
-
-      {d.campaign_challenger_ledger && <CampaignChallengerLedgerCard ledger={d.campaign_challenger_ledger} onGene={onGene} />}
-
-      {d.donor_condition_replay && <DonorConditionReplayCard packet={d.donor_condition_replay} onGene={onGene} />}
-
       {d.disease_genetics_overlay && <DiseaseGeneticsOverlayCard packet={d.disease_genetics_overlay} onGene={onGene} />}
 
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
-
-      {d.assay_operations_bundle && <AssayOperationsBundleCard bundle={d.assay_operations_bundle} onGene={onGene} />}
-
-      {d.gladstone_pilot_design && <GladstonePilotDesignCard packet={d.gladstone_pilot_design} onGene={onGene} />}
-
-      {d.validation && d.validation.length > 0 && (
-        <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
-      )}
 
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
@@ -1489,452 +1225,6 @@ function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaig
       <p className="t-caption" style={{ margin: 0 }}>
         Campaign <span className="t-mono">{campaign.campaign_id}</span> is {campaign.trust_boundary.replace(/_/g, " ")}.
         It ranks follow-ups; accepted state still requires the frozen gate and human key.
-      </p>
-    </div>
-  );
-}
-
-function CampaignReviewAppendix({ review, onGene }: { review: CampaignReview; onGene: (g: string) => void }) {
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign review appendix</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            A deterministic audit layer over the proposal-only campaign: what each row rests on, what would weaken it,
-            and which candidates should advance to assay design first.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/agent_campaign_review.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 8 }}>
-        {Object.entries(review.lane_counts).map(([lane, count]) => (
-          <div key={lane} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{lane}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "decision", "signal", "specificity", "stop rule"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {review.rows.slice(0, 8).map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: r.decision === "advance_to_assay_design" ? "var(--brass)" : "var(--field-blue)" }}>
-                    {r.decision.replace(/_/g, " ")}
-                  </span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{r.stimulated_signal}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 240 }}>{r.specificity}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.stop_rules[0]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Review <span className="t-mono">{review.campaign_id}</span> covers {review.candidate_count} proposal-only rows. It does not accept biological state.
-      </p>
-    </div>
-  );
-}
-
-function CampaignAgentProbe({ probe, onGene }: { probe: CampaignAgentProbe; onGene: (g: string) => void }) {
-  const tone = (alignment: string) => alignment === "aligned" ? "var(--moss)" :
-    alignment === "more_aggressive" ? "var(--brass)" : alignment === "more_cautious" ? "var(--field-blue)" : "var(--stone)";
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign agent probes</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Claude cross-examines the campaign rows with frozen lookup tools, then Prospect compares its
-            recommendations to the deterministic review lane. The probe is proposal only.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/campaign_agent_probe.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {Object.entries(probe.summary).map(([alignment, count]) => (
-          <div key={alignment} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
-            <div className="t-label" style={{ color: tone(alignment), marginTop: 3 }}>{alignment}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "deterministic", "Claude probe", "alignment", "rationale"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {probe.rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.deterministic_decision.replace(/_/g, " ")}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.agent_recommendation.replace(/_/g, " ")}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(r.alignment) }}>{r.alignment.replace(/_/g, " ")}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 340 }}>{r.agent_rationale}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Probe <span className="t-mono">{probe.probe_id}</span> used {probe.tool_call_count} tool calls.
-        {" "}Coverage: {probe.coverage.returned_decisions}/{probe.coverage.requested_limit} rows, {probe.coverage.coverage_status}.
-        No candidate enters accepted state from this artifact.
-      </p>
-    </div>
-  );
-}
-
-function CampaignDisagreementTriage({ triage, onGene }: { triage: CampaignTriage; onGene: (g: string) => void }) {
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign disagreement triage</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            When Claude pushes harder than the deterministic lane, Prospect turns the disagreement into
-            assay gates, not accepted state. These rows stay proposal only.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/campaign_triage.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "Claude probe", "Prospect triage", "signal", "assay gate"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {triage.rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.agent_recommendation.replace(/_/g, " ")}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>{r.triage_decision.replace(/_/g, " ")}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{r.stimulated_signal}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{r.assay_gate}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Source probe <span className="t-mono">{triage.source_probe_id}</span>. Trust boundary: {triage.trust_boundary.replace(/_/g, " ")}.
-      </p>
-    </div>
-  );
-}
-
-function CampaignGateProbe({ probe, onGene }: { probe: CampaignGateProbe; onGene: (g: string) => void }) {
-  const tone = (recommendation: string) => recommendation === "gate_sufficient" ? "var(--moss)" :
-    recommendation === "add_control" ? "var(--brass)" : "var(--field-blue)";
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign gate probe</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Claude pressure-tests the disagreement assay gates. The allowed outputs are closed:
-            gate sufficient, add control, or lower priority. The artifact stays proposal only.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/campaign_gate_probe.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {Object.entries(probe.summary).map(([recommendation, count]) => (
-          <div key={recommendation} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
-            <div className="t-label" style={{ color: tone(recommendation), marginTop: 3 }}>{recommendation.replace(/_/g, " ")}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "triage", "gate probe", "signal", "rationale"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {probe.rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.source_triage_decision.replace(/_/g, " ")}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(r.gate_recommendation) }}>{r.gate_recommendation.replace(/_/g, " ")}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{r.stimulated_signal}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{r.gate_rationale}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Source triage <span className="t-mono">{probe.source_triage_id}</span>. Trust boundary: {probe.trust_boundary.replace(/_/g, " ")}.
-      </p>
-    </div>
-  );
-}
-
-function CampaignPressureSummaryCard({ summary, onGene }: { summary: CampaignPressureSummary; onGene: (g: string) => void }) {
-  const label = (value: string) => value.replace(/_/g, " ");
-  const tone = (value: string) => value === "aligned_with_deterministic_review" ? "var(--moss)" :
-    value === "converted_to_assay_gate" ? "var(--brass)" : value === "model_more_cautious" ? "var(--field-blue)" : "var(--stone)";
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign pressure summary</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Claude pressure became review work: aligned rows stayed aligned, more-aggressive rows became assay gates,
-            and no accepted state moved.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/campaign_pressure_summary.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [summary.counts.campaign_candidates, "campaign rows", "var(--ink)"],
-          [summary.counts.claude_probe_rows, "Claude probe rows", "var(--field-blue)"],
-          [summary.counts.more_aggressive_rows, "converted to gates", "var(--brass)"],
-          [summary.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 920, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "Claude pressure", "Prospect result", "gate", "reason"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {summary.pressure_accounting.map((row) => (
-              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.claude_recommendation)}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(row.pressure_result) }}>{label(row.pressure_result)}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.gate_recommendation)}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{row.reason}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(summary.trust_boundary)}. Model in trust path: {summary.model_in_trust_path}.
-      </p>
-    </div>
-  );
-}
-
-function CampaignChallengerLedgerCard({ ledger, onGene }: { ledger: CampaignChallengerLedger; onGene: (g: string) => void }) {
-  const label = (value: string) => value.replace(/_/g, " ");
-  const tone = (value: string) => {
-    if (value === "retain_primary_panel" || value === "promote_if_capacity") return "var(--moss)";
-    if (value === "challenge_primary_panel" || value === "demote_or_control") return "var(--cinnabar)";
-    if (value === "contextual_priority") return "var(--field-blue)";
-    return "var(--stone)";
-  };
-  const rows = ledger.rows.filter((row) => (
-    row.challenger_action === "challenge_primary_panel" ||
-    row.challenger_action === "promote_if_capacity" ||
-    row.challenger_action === "contextual_priority"
-  ));
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Campaign challenger ledger</div>
-          <p className="t-body-sm" style={{ maxWidth: "76ch", margin: 0 }}>
-            Frozen join over campaign pressure, donor replay, cross-substrate discovery, and disease context.
-            It challenges RWDD2B for primary assay capacity and adds CYB5RL as the replacement row.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/campaign_challenger_ledger.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 8 }}>
-        {[
-          [ledger.counts.campaign_rows, "campaign rows", "var(--ink)"],
-          [ledger.counts.primary_panel_challenges, "primary challenges", "var(--cinnabar)"],
-          [ledger.counts.replacement_candidates, "replacement candidates", "var(--moss)"],
-          [ledger.accepted_state_mutation, "accepted mutation", "var(--stone)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ display: "grid", gap: 8 }}>
-        <div className="t-body-sm"><b>Current panel:</b> {ledger.current_primary_panel.join(", ")}</div>
-        <div className="t-body-sm"><b>Recommended panel:</b> {ledger.recommended_primary_panel.join(", ")}</div>
-        <div className="t-body-sm">
-          <b>Delta:</b> remove {ledger.panel_delta.remove.join(", ") || "none"}, add {ledger.panel_delta.add.join(", ") || "none"}.
-        </div>
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "donor", "substrate", "gate", "action", "reason"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.donor_replay_class)}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.cross_substrate_class)}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.gate_recommendation)}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(row.challenger_action) }}>{label(row.challenger_action)}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{row.reason}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(ledger.trust_boundary)}. Model in trust path: {ledger.model_in_trust_path}.
-      </p>
-    </div>
-  );
-}
-
-function DonorConditionReplayCard({ packet, onGene }: { packet: DonorConditionReplay; onGene: (g: string) => void }) {
-  const label = (value: string) => value.replace(/_/g, " ");
-  const tone = (value: string) => {
-    if (value === "donor_supported") return "var(--moss)";
-    if (value === "donor_fragile") return "var(--cinnabar)";
-    if (value === "guide_limited") return "var(--brass)";
-    if (value === "donor_intermediate") return "var(--field-blue)";
-    return "var(--stone)";
-  };
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Donor-condition replay packet</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Released donor-correlation and guide-support fields replay the 20 campaign strongest-condition rows.
-            PGGT1B is donor-supported; donor-fragile rows stay behind assay gates.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/donor_condition_replay.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [packet.counts.campaign_rows, "campaign rows", "var(--ink)"],
-          [packet.counts.donor_supported, "donor-supported", "var(--moss)"],
-          [packet.counts.donor_fragile, "donor-fragile", "var(--cinnabar)"],
-          [packet.counts.guide_limited, "guide-limited", "var(--brass)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 840, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "condition", "donor replay", "DE genes", "donor hits min", "guides"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {packet.rows.slice(0, 8).map((row) => (
-              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.condition}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(row.donor_replay_class) }}>{label(row.donor_replay_class)}</span>
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(row.n_total_de_genes)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.donor_correlation_hits_min == null ? "not estimated" : row.donor_correlation_hits_min}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.n_guides}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
       </p>
     </div>
   );
@@ -2059,131 +1349,6 @@ function LabPacketCard({ packet, onGene }: { packet: LabPacket; onGene: (g: stri
             <span className="t-mono">{link}</span>
           </span>
         ))}. Trust boundary: {packet.trust_boundary.replace(/_/g, " ")}.
-      </p>
-    </div>
-  );
-}
-
-function AssayOperationsBundleCard({ bundle, onGene }: { bundle: AssayOperationsBundle; onGene: (g: string) => void }) {
-  const rows = bundle.candidates.slice(0, 5);
-  const label = (value: string) => value.replace(/_/g, " ");
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Gladstone assay operations bundle</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Bench-facing decision frame for the five proposal-only rows: expected positive result,
-            weakening result, rejection result, missing evidence, and replay links before any state moves.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/assay_operations_bundle.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [bundle.candidates.length, "operation rows", "var(--ink)"],
-          [bundle.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
-          [rows[0]?.gene || "PGGT1B", "top queue", "var(--brass)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 1120, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "queue", "expected positive result", "weakening result", "rejection result"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: r.queue === "primary_assay_queue" ? "var(--brass)" : "var(--field-blue)" }}>{label(r.queue)}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 300 }}>{r.expected_positive_result}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.weakening_result}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 300 }}>{r.rejection_result}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Missing evidence before acceptance: {rows[0]?.missing_evidence_before_acceptance.join(", ")}. Trust boundary: {label(bundle.trust_boundary)}.
-      </p>
-    </div>
-  );
-}
-
-function GladstonePilotDesignCard({ packet, onGene }: { packet: GladstonePilotDesign; onGene: (g: string) => void }) {
-  const rows = packet.candidates.slice(0, 5);
-  const label = (value: string) => value.replace(/_/g, " ");
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Gladstone pilot design</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Proposal-only bench plan for the assay operations rows: 90 culture arms across three donor replicates,
-            matched Rest, Stim8hr, and Stim48hr conditions, controls, and explicit acceptance gates.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/gladstone_pilot_design.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [packet.sample_plan.culture_arms, "culture arms", "var(--ink)"],
-          [packet.sample_plan.donor_replicates, "donor replicates", "var(--brass)"],
-          [packet.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "queue", "primary question", "reject if"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: r.queue === "primary_assay_queue" ? "var(--brass)" : "var(--field-blue)" }}>{label(r.queue)}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 330 }}>{r.primary_question}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 330 }}>{r.reject_if}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Controls: {packet.controls.negative.join(", ")}; positives: {packet.controls.positive.join(", ")}. Trust boundary: {label(packet.trust_boundary)}.
       </p>
     </div>
   );
@@ -2344,51 +1509,6 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
   );
 }
 
-function ValidationShortlist({ rows, onGene }: { rows: NonNullable<Data["validation"]>; onGene: (g: string) => void }) {
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div>
-        <div className="t-label" style={{ marginBottom: 5 }}>Wet-lab validation shortlist</div>
-        <p className="t-body-sm" style={{ maxWidth: "70ch", margin: 0 }}>
-          Frozen lookups ranked into hypotheses to test: non-canonical, condition-specific, not housekeeping,
-          inert in non-immune cells where measured, and no broad annotated regulon when possible.
-        </p>
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 720, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["gene", "status", "stim max", "Rest", "K562", "regulon", "assay-ready note"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td style={{ padding: "8px 12px" }}><span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{r.status.replace(/_/g, " ")}</span></td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>{fmt(Number(r.stim_max_de))}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(Number(r.rest_de))}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de || "·"}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.known_regulon_targets}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
-                  {r.strongest_condition} follow-up · targeted RNA-seq
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Full sheet: <span className="t-mono">examples/data/validation_candidates.csv</span> and <span className="t-mono">docs/WETLAB_VALIDATION.md</span>.
-      </p>
-    </div>
-  );
-}
-
 function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   const byKind = Object.fromEntries(d.findings.map((f) => [f.kind, f]));
   const order = ["activation_module", "regulator_vs_effector", "essentiality_artifact", "cross_cell_type_transfer", "regulon_recovery"];
@@ -2403,8 +1523,6 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </p>
       </div>
       {d.finding_index && <FindingsIndex index={d.finding_index} />}
-      {d.substrate_replay_packet && <SubstrateReplayPacket packet={d.substrate_replay_packet} onGene={onGene} />}
-      {d.cross_substrate_discovery && <CrossSubstrateDiscoveryPacket packet={d.cross_substrate_discovery} onGene={onGene} />}
       {order.map((k) => {
         const f = byKind[k] as Finding | undefined;
         if (!f) return null;
@@ -2433,144 +1551,6 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </section>
       )}
     </div>
-  );
-}
-
-function SubstrateReplayPacket({ packet, onGene }: { packet: SubstrateReplayPacket; onGene: (g: string) => void }) {
-  const essRate = Math.round(packet.rates.essentiality_replication.rate * 100);
-  const actRate = Math.round(packet.rates.activation_specificity.rate * 100);
-  const label = (value: string) => value.replace(/_/g, " ");
-  return (
-    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 12 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div style={{ minWidth: 240, flex: 1 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Substrate replay packet</div>
-          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-            Protocol generalization: one checker contract, three frozen substrates, typed status, and no accepted-state mutation.
-          </p>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>{label(packet.status)}</span>
-        <a className="btn btn-secondary btn-sm" href="/data/substrate_replay_packet.json" target="_blank" rel="noreferrer">
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [fmt(packet.counts.t_cell_regulators_compared), "T-cell regulators compared", "var(--ink)"],
-          [`${essRate}%`, "essentiality reproduced in K562", "var(--brass)"],
-          [`${actRate}%`, "activation remains cell-type-specific", "var(--moss)"],
-          [fmt(packet.datasets.length), "frozen substrates", "var(--field-blue)"],
-        ].map(([value, title, tone]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color: tone }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["gene", "substrate class", "Marson CD4", "K562", "K562 DE", "RPE1 DE"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "8px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {packet.replay_rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: r.class === "shared_cellular_machinery" ? "var(--brass)" : "var(--moss)" }}>
-                  {label(r.class)}
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{label(r.marson_cd4_status)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{label(r.replogle_k562_status)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de_genes == null ? "not measured" : fmt(r.k562_de_genes)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.rpe1_de_genes == null ? "not measured" : fmt(r.rpe1_de_genes)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
-      </p>
-    </section>
-  );
-}
-
-function CrossSubstrateDiscoveryPacket({ packet, onGene }: { packet: CrossSubstrateDiscovery; onGene: (g: string) => void }) {
-  const label = (value: string) => value.replace(/_/g, " ");
-  const classTone = (value: string) => {
-    if (value === "shared_cellular_machinery") return "var(--brass)";
-    if (value === "t_cell_specific_activation") return "var(--moss)";
-    if (value === "non_immune_only_effect") return "var(--field-blue)";
-    return "var(--stone)";
-  };
-  const rows = packet.campaign_intersections.slice(0, 8);
-  return (
-    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 12 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div style={{ minWidth: 240, flex: 1 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Cross-substrate discovery packet</div>
-          <p className="t-body-sm" style={{ maxWidth: "76ch", margin: 0 }}>
-            Frozen Marson, K562, and RPE1 counts classify the frontier into shared machinery, T-cell-specific activation,
-            non-immune-only effects, and ambiguous rows before intersecting the campaign leaderboard.
-          </p>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>{label(packet.status)}</span>
-        <a className="btn btn-secondary btn-sm" href="/data/cross_substrate_discovery.json" target="_blank" rel="noreferrer">
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [fmt(packet.counts.marson_genes_considered), "Marson rows classified", "var(--ink)"],
-          [fmt(packet.class_counts.shared_cellular_machinery ?? 0), "shared machinery", "var(--brass)"],
-          [fmt(packet.class_counts.t_cell_specific_activation ?? 0), "T-cell-specific activation", "var(--moss)"],
-          [fmt(packet.class_counts.non_immune_only_effect ?? 0), "non-immune-only effects", "var(--field-blue)"],
-          [fmt(packet.counts.campaign_rows_intersected), "campaign intersections", "var(--ink-3)"],
-        ].map(([value, title, tone]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color: tone }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 840, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "cross-substrate class", "Rest DE", "Stim max DE", "K562 DE", "RPE1 DE"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "8px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={`${r.campaign_rank}-${r.gene}`} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.campaign_rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: classTone(r.cross_substrate_class) }}>
-                  {label(r.cross_substrate_class)}
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.rest_de)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.stim_max_de)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de == null ? "not measured" : fmt(r.k562_de)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.rpe1_de == null ? "not measured" : fmt(r.rpe1_de)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
-      </p>
-    </section>
   );
 }
 

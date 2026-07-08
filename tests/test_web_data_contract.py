@@ -6,9 +6,39 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from cli.submit_pack import PUBLIC_ARTIFACTS
-
 FRONTIER = ROOT / "web" / "public" / "data" / "frontier.json"
+
+KEPT_PACKET_KEYS = [
+    "finding_index",
+    "pggt1b_deep_dive",
+    "agent_campaign",
+    "lab_packet",
+    "disease_genetics_overlay",
+    "receipts",
+    "receipt_bridge",
+    "external_run_receipt_demo",
+]
+
+CUT_PACKET_KEYS = [
+    "judge_packet",
+    "agent_campaign_review",
+    "campaign_agent_probe",
+    "campaign_triage",
+    "campaign_gate_probe",
+    "campaign_pressure_summary",
+    "campaign_challenger_ledger",
+    "campaign_probe_audit",
+    "assay_operations_bundle",
+    "gladstone_pilot_design",
+    "substrate_replay_packet",
+    "cross_substrate_discovery",
+    "donor_condition_replay",
+    "transfer_replay_packet",
+    "final_submission_audit",
+    "release_manifest",
+    "rendered_qa_packet",
+    "validation",
+]
 
 
 def test_frontier_json_uses_public_typed_class_names():
@@ -21,6 +51,14 @@ def test_frontier_json_uses_public_typed_class_names():
     assert "verified_non_regulator" not in text
     assert "reproduced_non_regulator" in data["stats"]["dist"]
     assert any(node["cls"] == "reproduced_non_regulator" for node in data["atlas"])
+
+
+def test_frontier_json_keeps_only_the_consolidated_packet_surface():
+    data = json.loads(FRONTIER.read_text())
+    for key in KEPT_PACKET_KEYS:
+        assert key in data, f"missing kept packet key: {key}"
+    for key in CUT_PACKET_KEYS:
+        assert key not in data, f"cut packet key still embedded: {key}"
 
 
 def test_frontier_json_embeds_pggt1b_evidence_capsule():
@@ -47,61 +85,6 @@ def test_frontier_json_embeds_pggt1b_matrix_slice():
     assert matrix_slice["top_down"][0]["gene"] == "IL5"
 
 
-def test_frontier_json_embeds_transfer_replay_packet():
-    data = json.loads(FRONTIER.read_text())
-    packet = data["transfer_replay_packet"]
-
-    assert packet["status"] == "computationally_reproduced"
-    assert packet["accepted_state_mutation"] == "none"
-    assert packet["counts"]["t_cell_regulators_compared"] == 377
-    assert packet["rates"]["activation_specificity"]["rate"] == 0.8024
-    assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
-
-
-def test_frontier_json_embeds_substrate_replay_packet():
-    data = json.loads(FRONTIER.read_text())
-    packet = data["substrate_replay_packet"]
-
-    assert packet["status"] == "computationally_reproduced"
-    assert packet["accepted_state_mutation"] == "none"
-    assert packet["counts"]["t_cell_regulators_compared"] == 377
-    assert packet["substrate_classes"][0]["class"] == "shared_cellular_machinery"
-    assert packet["substrate_classes"][1]["class"] == "t_cell_specific_regulation"
-    assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
-
-
-def test_frontier_json_embeds_cross_substrate_discovery_packet():
-    data = json.loads(FRONTIER.read_text())
-    packet = data["cross_substrate_discovery"]
-
-    assert packet["status"] == "computationally_reproduced"
-    assert packet["accepted_state_mutation"] == "none"
-    assert packet["counts"]["marson_genes_considered"] == 11526
-    assert packet["class_counts"]["shared_cellular_machinery"] == 80
-    assert packet["class_counts"]["t_cell_specific_activation"] == 409
-    assert packet["class_counts"]["non_immune_only_effect"] == 333
-    assert packet["campaign_intersections"][0]["gene"] == "PGGT1B"
-    assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
-
-
-def test_frontier_json_embeds_donor_condition_replay_packet():
-    data = json.loads(FRONTIER.read_text())
-    packet = data["donor_condition_replay"]
-
-    assert packet["status"] == "computationally_reproduced"
-    assert packet["accepted_state_mutation"] == "none"
-    assert packet["counts"]["campaign_rows"] == 20
-    assert packet["counts"]["donor_supported"] == 13
-    assert packet["counts"]["donor_fragile"] == 4
-    assert packet["rows"][0]["gene"] == "PGGT1B"
-    assert packet["rows"][0]["donor_replay_class"] == "donor_supported"
-    assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
-
-
 def test_frontier_json_embeds_disease_genetics_overlay_packet():
     data = json.loads(FRONTIER.read_text())
     packet = data["disease_genetics_overlay"]
@@ -115,121 +98,45 @@ def test_frontier_json_embeds_disease_genetics_overlay_packet():
     assert packet["rows"][0]["gene"] == "PGGT1B"
     assert packet["rows"][0]["overlay_class"] == "immune_or_hematologic_non_genetic_context"
     assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
 
 
-def test_frontier_json_embeds_campaign_pressure_summary():
+def test_frontier_json_embeds_agent_campaign_and_lab_packet():
     data = json.loads(FRONTIER.read_text())
-    summary = data["campaign_pressure_summary"]
+    campaign = data["agent_campaign"]
+    lab = data["lab_packet"]
 
-    assert summary["status"] == "evidence_attached"
-    assert summary["trust_boundary"] == "proposal_only"
-    assert summary["accepted_state_mutations"] == 0
-    assert summary["counts"]["claude_probe_rows"] == 20
-    assert summary["counts"]["triage_rows"] == 11
-    assert summary["counts"]["gate_probe_rows"] == 11
-    assert summary["gate_recommendations"]["gate_sufficient"] == 6
-    assert summary["gate_probe_coverage"]["coverage_status"] == "complete"
-    assert summary["gate_probe_coverage"]["returned_decisions"] == 11
-    assert "verified" not in json.dumps(summary).lower()
-    assert "true" not in json.dumps(summary).lower()
+    assert campaign["trust_boundary"] == "proposal_only"
+    assert campaign["acceptance"] is False
+    assert len(campaign["candidates"]) == 20
+    assert lab["status"] == "evidence_attached"
+    assert lab["acceptance"] is False
+    assert len(lab["candidates"]) == 5
 
 
-def test_frontier_json_embeds_campaign_challenger_ledger():
+def test_frontier_json_embeds_external_run_receipt_demo():
     data = json.loads(FRONTIER.read_text())
-    ledger = data["campaign_challenger_ledger"]
+    demo = data["external_run_receipt_demo"]
 
-    assert ledger["status"] == "evidence_attached"
-    assert ledger["trust_boundary"] == "frozen_join_over_committed_packets"
-    assert ledger["accepted_state_mutation"] == "none"
-    assert ledger["counts"]["campaign_rows"] == 20
-    assert ledger["counts"]["primary_panel_challenges"] == 1
-    assert ledger["panel_delta"]["remove"] == ["RWDD2B"]
-    assert ledger["panel_delta"]["add"] == ["CYB5RL"]
-    assert ledger["recommended_primary_panel"] == ["PGGT1B", "RCC1L", "MCAT", "CCDC22", "CYB5RL"]
-    assert "verified" not in json.dumps(ledger).lower()
-    assert "true" not in json.dumps(ledger).lower()
-
-
-def test_frontier_json_embeds_campaign_probe_audit():
-    data = json.loads(FRONTIER.read_text())
-    audit = data["campaign_probe_audit"]
-
-    assert audit["status"] == "computationally_reproduced"
-    assert audit["trust_boundary"] == "frozen_audit_over_probe_artifact"
-    assert audit["model_in_trust_path"] == "no"
-    assert audit["accepted_state_mutations"] == 0
-    assert audit["passed"] == "yes"
-    assert audit["issue_count"] == 0
-    assert "verified" not in json.dumps(audit).lower()
-    assert "true" not in json.dumps(audit).lower()
-
-
-def test_frontier_json_embeds_assay_operations_bundle():
-    data = json.loads(FRONTIER.read_text())
-    bundle = data["assay_operations_bundle"]
-
-    assert bundle["status"] == "evidence_attached"
-    assert bundle["trust_boundary"] == "proposal_only"
-    assert bundle["accepted_state_mutations"] == 0
-    assert len(bundle["candidates"]) == 5
-    assert bundle["candidates"][0]["gene"] == "PGGT1B"
-    assert bundle["candidates"][0]["queue"] == "primary_assay_queue"
-    assert "orthogonal knockdown" in bundle["candidates"][0]["missing_evidence_before_acceptance"]
-    assert "verified" not in json.dumps(bundle).lower()
-    assert "true" not in json.dumps(bundle).lower()
-
-
-def test_frontier_json_embeds_gladstone_pilot_design():
-    data = json.loads(FRONTIER.read_text())
-    packet = data["gladstone_pilot_design"]
-
-    assert packet["status"] == "evidence_attached"
-    assert packet["trust_boundary"] == "proposal_only"
-    assert packet["accepted_state_mutations"] == 0
-    assert packet["sample_plan"]["culture_arms"] == 90
-    assert len(packet["candidates"]) == 5
-    assert packet["candidates"][0]["gene"] == "PGGT1B"
-    assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
-
-
-def test_frontier_json_embeds_final_submission_audit():
-    data = json.loads(FRONTIER.read_text())
-    audit = data["final_submission_audit"]
-
-    assert audit["readiness"] == "submission_ready_for_human_upload"
-    assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
-    assert audit["public_artifact_count"] == len(PUBLIC_ARTIFACTS)
-    assert "/data/campaign_probe_audit.json" in audit["public_artifacts"]
-    assert "/data/final_submission_audit.json" in audit["public_artifacts"]
-    assert "/data/release_manifest.json" in audit["public_artifacts"]
-    assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
-    assert "/data/gladstone_pilot_design.json" in audit["public_artifacts"]
-    assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
-    assert audit["rendered_qa_checklist"]["tabs"][0]["tab"] == "Overview"
-    assert "Campaign pressure summary" in audit["rendered_qa_checklist"]["tabs"][-1]["must_show"]
-    requirements = {item["requirement"]: item["status"] for item in audit["completion_requirements"]}
-    assert requirements["p0_floor_green"] == "satisfied"
-    assert requirements["human_upload"] == "human_only_remaining"
-    assert requirements["rendered_qa_packet"] == "shipped"
-    assert "record_demo_video" in audit["human_only_actions"]
-    assert "verified" not in json.dumps(audit).lower()
-    assert "true" not in json.dumps(audit).lower()
+    assert demo["producer"] == "external_auto_research"
+    assert demo["domain"] == "biology"
+    assert demo["typed_status"] == "computationally_reproduced"
+    assert demo["accepted"] is False
+    assert demo["next"] == "human_signature_required"
+    assert demo["engine_verdict"] == "supported"
+    assert demo["command"] == "python examples/openresearch_receipt_client.py --json"
+    assert demo["human_acceptance_requires"] == [
+        "frozen_replay_passes",
+        "reviewer_accepts_state_delta",
+        "human_ed25519_signature",
+    ]
 
 
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
+    test_frontier_json_keeps_only_the_consolidated_packet_surface()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_pggt1b_matrix_slice()
-    test_frontier_json_embeds_transfer_replay_packet()
-    test_frontier_json_embeds_substrate_replay_packet()
-    test_frontier_json_embeds_cross_substrate_discovery_packet()
-    test_frontier_json_embeds_donor_condition_replay_packet()
     test_frontier_json_embeds_disease_genetics_overlay_packet()
-    test_frontier_json_embeds_campaign_pressure_summary()
-    test_frontier_json_embeds_campaign_probe_audit()
-    test_frontier_json_embeds_assay_operations_bundle()
-    test_frontier_json_embeds_gladstone_pilot_design()
-    test_frontier_json_embeds_final_submission_audit()
+    test_frontier_json_embeds_agent_campaign_and_lab_packet()
+    test_frontier_json_embeds_external_run_receipt_demo()
     print("PASS: web data contract")

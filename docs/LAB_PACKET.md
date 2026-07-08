@@ -15,14 +15,13 @@ Status: `evidence_attached`. Trust boundary: proposal only. This packet is assay
 | 1 | PGGT1B | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 3014 | 175 | 1 | 3389 |
 | 2 | RCC1L | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 1167 | 58 | 5 | 1659 |
 | 3 | MCAT | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 780 | 113 | 20 | 1217 |
-| 4 | CCDC22 | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 619 | 116 | 13 | 1053 |
-| 5 | CYB5RL | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 389 | 11 | 13 | 928 |
+| 4 | RWDD2B | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 720 | 190 | 1 | 1080 |
+| 5 | CCDC22 | stimulated primary CD4+ T cells: activation-marker flow cytometry plus targeted RNA-seq at 8h and 48h | 619 | 116 | 13 | 1053 |
 
 ## Replay links
 
 - `/data/frontier.json`
 - `/data/agent_campaign.json`
-- `/data/campaign_challenger_ledger.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/receipt_bridge/receipt_contract.json`
 

@@ -13,9 +13,9 @@ PUBLIC_COPY_FILES = [
     ROOT / "web" / "app" / "layout.tsx",
     ROOT / "docs" / "HANDOFF.md",
     ROOT / "docs" / "DEMO.md",
-    ROOT / "docs" / "JUDGE_PACKET.md",
     ROOT / "docs" / "PROTOCOL.md",
     ROOT / "docs" / "SUBMISSION.md",
+    ROOT / "docs" / "JUDGE_HANDOUT.md",
 ]
 
 PROHIBITED_PHRASES = [

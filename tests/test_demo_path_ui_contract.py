@@ -8,11 +8,12 @@ PAGE = ROOT / "web" / "app" / "page.tsx"
 def test_overview_exposes_judge_demo_path_tabs():
     source = PAGE.read_text()
 
-    assert "packet.demo_path" in source
-    assert 'setTab("findings")' in source
-    assert 'setTab("frontier")' in source
-    assert 'setTab("agent")' in source
+    assert "DEMO_PATH" in source
     assert "Demo path" in source
+    # The guided strip navigates to the three deep tabs.
+    assert "setTab(step.tab" in source
+    for tab in ['"findings"', '"frontier"', '"agent"']:
+        assert tab in source
 
 
 def test_overview_renders_visible_claim_check_strip():

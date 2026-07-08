@@ -21,9 +21,9 @@ def test_lab_packet_builds_assay_ready_rows_without_acceptance():
     assert packet["trust_boundary"] == "proposal_only"
     assert packet["acceptance"] is False
     assert len(rows) == 5
-    assert [row["gene"] for row in rows] == ["PGGT1B", "RCC1L", "MCAT", "CCDC22", "CYB5RL"]
-    assert packet["source"] == "campaign challenger ledger recommended primary panel"
-    assert packet["method"]["candidate_source"] == "frontier.campaign_challenger_ledger.build_ledger"
+    assert [row["gene"] for row in rows] == ["PGGT1B", "RCC1L", "MCAT", "RWDD2B", "CCDC22"]
+    assert packet["source"].startswith("validation-sheet ranked candidates")
+    assert packet["method"]["candidate_source"] == "frontier.validation_sheet.rank_candidates"
     assert pg["gene"] == "PGGT1B"
     assert pg["status"] == "evidence_attached"
     assert pg["intervention"] == "CRISPRi knockdown"
@@ -33,11 +33,8 @@ def test_lab_packet_builds_assay_ready_rows_without_acceptance():
     assert "broad non-immune effect" in pg["exclusion_criteria"]
     assert "/data/frontier.json" in pg["replay_links"]
     assert "/data/agent_campaign.json" in pg["replay_links"]
-    assert "/data/campaign_challenger_ledger.json" in pg["replay_links"]
-    assert all(row["gene"] != "RWDD2B" for row in rows)
-    assert any(row["gene"] == "CYB5RL" for row in rows)
+    assert "/data/campaign_challenger_ledger.json" not in pg["replay_links"]
     assert "verified" not in json.dumps(packet).lower()
-    assert "true" not in json.dumps(packet).lower()
 
 
 def test_lab_packet_writes_json_csv_and_markdown(tmp_path):
@@ -53,12 +50,10 @@ def test_lab_packet_writes_json_csv_and_markdown(tmp_path):
     assert packet["candidates"][0]["gene"] == "PGGT1B"
     assert data["candidates"][0]["gene"] == "PGGT1B"
     assert csv_rows[0]["gene"] == "PGGT1B"
-    assert [row["gene"] for row in data["candidates"]] == ["PGGT1B", "RCC1L", "MCAT", "CCDC22", "CYB5RL"]
+    assert [row["gene"] for row in data["candidates"]] == ["PGGT1B", "RCC1L", "MCAT", "RWDD2B", "CCDC22"]
     assert "Wet-lab assay packet" in doc
     assert "evidence_attached" in doc
     assert "proposal only" in doc
-    assert "CYB5RL" in doc
-    assert "RWDD2B" not in doc
 
 
 def test_lab_packet_runs_from_prospect_cli():

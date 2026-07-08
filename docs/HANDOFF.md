@@ -16,8 +16,9 @@ Status: fully built, committed, deployed, and live. Nothing is mid-flight.
 - Repo: github.com/williamjblair/prospect, branch `master`
 - Deployed via Vercel CLI: `cd web && vercel --prod --yes --scope constellate-dc388081`
 - Signed frontier root: `root_a8b0dcdd4024e12f` (re-derives, 0 drift)
-- The gate is green: `final-check`, `verify` 0 drift, `mutation_pack` 0 false admissions,
-  `test_skill_parity` 112/0.
+- The gate is green: `./prospect verify` 0 drift, `python benchmark/mutation_pack.py` 0 false
+  admissions, `python tests/test_skill_parity.py` 112/0, `python tests/test_marson.py`,
+  `python -m pytest tests/ -q`, and `cd web && npm run build`.
 
 ## 2. The thesis (why this wins)
 
@@ -66,21 +67,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   `python examples/receipt_bridge_client.py` runs the bridge as a tiny external client for judges.
 - **Wet-lab validation shortlist** (`frontier/validation_sheet.py`): five evidence-attached,
   on-target, non-canonical, cell-type-specific follow-ups headed by PGGT1B, exported to
-  `examples/data/validation_candidates.csv` and [WETLAB_VALIDATION.md](WETLAB_VALIDATION.md).
+  `examples/data/validation_candidates.csv`.
 - **Wet-lab assay packet** (`frontier/lab_packet.py`, `./prospect lab-pack`): five proposal-only
   follow-ups translated into assay design fields: intervention, controls, readouts, exclusion rules,
   and public replay links. Exported to `examples/data/lab_packet.*` and [LAB_PACKET.md](LAB_PACKET.md).
-- **Gladstone assay operations bundle** (`frontier/assay_operations.py`, `./prospect assay-ops`):
-  deterministic operations layer over the lab packet. It names expected positive, weakening, and
-  rejection evidence for each row, keeps all rows `evidence_attached`, and exports
-  `examples/data/assay_operations_bundle.*` plus [ASSAY_OPERATIONS_BUNDLE.md](ASSAY_OPERATIONS_BUNDLE.md).
-- **Gladstone pilot design** (`frontier/gladstone_pilot_design.py`, `./prospect pilot-design`):
-  deterministic bench-planning layer over the operations bundle. It keeps status at
-  `evidence_attached`, reports 90 culture arms across three donor replicates, and exports
-  `examples/data/gladstone_pilot_design.*` plus [GLADSTONE_PILOT_DESIGN.md](GLADSTONE_PILOT_DESIGN.md).
-- **Gladstone assay handoff** ([GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md)): one-page
-  wet-lab execution note for the top five assay rows, with controls, readouts, stop rules, and replay
-  links. It stays proposal only.
 - **PGGT1B deep dive** (`frontier/pggt1b_deep_dive.py`, `./prospect pggt1b`): a lab-facing packet for the top shortlist
   gene, exported to `examples/data/pggt1b_deep_dive.json` and [PGGT1B_DEEP_DIVE.md](PGGT1B_DEEP_DIVE.md).
   It keeps status at `evidence_attached`, binds exact local facts, adds an evidence capsule with
@@ -91,101 +81,18 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   primary readouts, and "what would weaken it" triage fields, exported to
   `examples/data/agent_campaign.*` and [AGENT_CAMPAIGN.md](AGENT_CAMPAIGN.md). It widens the
   single-agent result without moving accepted state.
-- **Campaign review appendix** (`frontier/campaign_review.py`, `./prospect campaign-review`):
-  deterministic audit questions, lane counts, per-row decisions, and stop rules for all 20 campaign
-  hypotheses, exported to `examples/data/agent_campaign_review.*` and
-  [AGENT_CAMPAIGN_REVIEW.md](AGENT_CAMPAIGN_REVIEW.md). It helps judges inspect the leaderboard
-  without upgrading any row beyond `evidence_attached`.
-- **Campaign agent probes** (`loop/campaign_probe.py`, `./prospect campaign-probe`): Claude
-  cross-examines the top campaign rows with frozen lookup tools, then Prospect compares the model's
-  recommendations to deterministic review lanes. Current run: 20 rows, 80 tool calls, 6 aligned
-  recommendations, 11 more-aggressive recommendations, and 3 more-cautious recommendations. Exported to
-  `examples/data/campaign_agent_probe.json` and [CAMPAIGN_AGENT_PROBE.md](CAMPAIGN_AGENT_PROBE.md).
-  The artifact records exact requested, returned, and missing genes, remains proposal-only, and does
-  not move accepted state. For larger experiments, run chunked probes to `/tmp` first:
-  `./prospect campaign-probe --limit 20 --chunk-size 4 --out-json /tmp/probe.json --out-doc /tmp/probe.md`.
-- **Campaign probe audit** (`loop/campaign_probe_audit.py`, `./prospect campaign-probe-audit`):
-  frozen audit over probe coverage and rationales before a Claude pass can be promoted. The committed
-  20-row probe has zero issues, no accepted-state mutation, and is exported to
-  `examples/data/campaign_probe_audit.json` and [CAMPAIGN_PROBE_AUDIT.md](CAMPAIGN_PROBE_AUDIT.md).
-- **Campaign disagreement triage** (`frontier/campaign_triage.py`, `./prospect campaign-triage`):
-  deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: 11 rows
-  get secondary or capacity assay gates, exported to
-  `examples/data/campaign_triage.*` and [CAMPAIGN_TRIAGE.md](CAMPAIGN_TRIAGE.md). It converts model
-  pressure into review work, not accepted state.
-- **Campaign gate probe** (`loop/campaign_gate_probe.py`, `./prospect campaign-gate-probe`):
-  proposal-only pressure test of the disagreement assay gates. It asks whether each gate is sufficient,
-  needs another control, or should be lower priority, exported to `examples/data/campaign_gate_probe.json`
-  and [CAMPAIGN_GATE_PROBE.md](CAMPAIGN_GATE_PROBE.md).
-- **Campaign pressure summary** (`frontier/campaign_pressure_summary.py`, `./prospect campaign-pressure`):
-  deterministic synthesis over the campaign, review, Claude probe, triage, and gate-probe artifacts.
-  It accounts for what aligned, what became assay gates, what needed controls, and the zero accepted-state
-  mutations, exported to `examples/data/campaign_pressure_summary.json` and
-  [CAMPAIGN_PRESSURE_SUMMARY.md](CAMPAIGN_PRESSURE_SUMMARY.md).
-- **Campaign challenger ledger** (`frontier/campaign_challenger_ledger.py`,
-  `./prospect campaign-challenger`): deterministic reconciliation over shipped campaign pressure,
-  donor replay, cross-substrate discovery, and disease-context packets. It challenges RWDD2B for
-  primary assay capacity, adds CYB5RL as the replacement row, keeps all rows `evidence_attached`,
-  changes no accepted state, and exports `examples/data/campaign_challenger_ledger.json` plus
-  [CAMPAIGN_CHALLENGER_LEDGER.md](CAMPAIGN_CHALLENGER_LEDGER.md).
-- **Transfer replay packet** (`frontier/transfer_replay.py`, `./prospect transfer-replay`): compact
-  replay object for the signed cross-cell-type finding. It summarizes the Marson + Replogle K562/RPE1
-  checker replay as `computationally_reproduced`, reports 377 compared T-cell regulators, and changes
-  no accepted state. Exported to `examples/data/transfer_replay_packet.json` and
-  [TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
-- **Substrate replay packet** (`frontier/substrate_replay.py`, `./prospect substrate-replay`):
-  protocol-generalization artifact over Marson CD4+ T cells, Replogle K562, and Replogle RPE1.
-  It keeps status at `computationally_reproduced`, changes no accepted state, and exports
-  `examples/data/substrate_replay_packet.json` plus [SUBSTRATE_REPLAY_PACKET.md](SUBSTRATE_REPLAY_PACKET.md).
-- **Cross-substrate discovery packet** (`frontier/cross_substrate_discovery.py`,
-  `./prospect cross-substrate-discovery`): fixed-threshold classification over every frozen Marson
-  row against K562 and RPE1 counts. It reports 80 shared cellular machinery rows, 409
-  T-cell-specific activation candidates, 333 non-immune-only effects, and 20 campaign intersections.
-  It stays `computationally_reproduced`, changes no accepted state, and exports
-  `examples/data/cross_substrate_discovery.json` plus [CROSS_SUBSTRATE_DISCOVERY.md](CROSS_SUBSTRATE_DISCOVERY.md).
-- **Donor-condition replay packet** (`frontier/donor_condition_replay.py`,
-  `./prospect donor-replay`): replays the 20 campaign rows against donor-correlation and
-  guide-support fields from the released Marson DE object. It reports 13 donor-supported rows,
-  2 donor-intermediate rows, 4 donor-fragile rows, and 1 guide-limited row. It stays
-  `computationally_reproduced`, changes no accepted state, and exports
-  `examples/data/donor_condition_replay.json` plus [DONOR_CONDITION_REPLAY.md](DONOR_CONDITION_REPLAY.md).
 - **Disease-genetics overlay packet** (`frontier/disease_genetics_overlay.py`,
   `./prospect disease-overlay`): attaches frozen Open Targets disease context to the 20 campaign
   rows. It reports 10 selected immune or hematologic context rows and 4 selected genetic-context
   rows. It stays `evidence_attached`, changes no accepted state, and exports
   `examples/data/disease_genetics_overlay.json` plus [DISEASE_GENETICS_OVERLAY.md](DISEASE_GENETICS_OVERLAY.md).
-- **Perturbation-atlas scout packet** (`frontier/perturbation_atlas_scout.py`,
-  `./prospect perturbation-scout`): ranks CZI K562 Essential, scPerturb, PerturBase, Tahoe-100M,
-  and the pertpy Replogle loader as future replay substrates. It recommends no rushed large ingest
-  before submission, stays `evidence_attached`, changes no accepted state, and exports
-  `examples/data/perturbation_atlas_scout.json` plus [PERTURBATION_ATLAS_SCOUT.md](PERTURBATION_ATLAS_SCOUT.md).
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
   before the evidence tables.
-- **Judge packet** (`frontier/judge_packet.py`, `./prospect judge-pack`): one replay manifest with
-  the live URL, signed root, gate commands, public data endpoints, artifact counts, and trust-boundary
-  summary, exported to `examples/data/judge_packet.json` and [JUDGE_PACKET.md](JUDGE_PACKET.md).
 - **One-page judge handout** (`cli/judge_handout.py`, `./prospect judge-handout`): a print-ready
   final-production handout with the live URL, signed root, five-minute path, trust boundary, public
   artifacts to open, replay commands, and human-only actions, exported to [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md).
-- **Final submission audit** (`cli/final_submission_audit.py`, `./prospect submission-audit`):
-  deterministic upload-readiness packet. It names shipped workstreams, required gates, public
-  artifacts, trust boundary, and human-only actions, exported to
-  `examples/data/final_submission_audit.json` and [FINAL_SUBMISSION_AUDIT.md](FINAL_SUBMISSION_AUDIT.md).
-- **Public release manifest** (`frontier/release_manifest.py`, `./prospect release-manifest`):
-  deterministic SHA-256 manifest over the public data artifact surface. It excludes its own hash to
-  avoid a circular artifact, exports `examples/data/release_manifest.json`,
-  `web/public/data/release_manifest.json`, and [RELEASE_MANIFEST.md](RELEASE_MANIFEST.md), and
-  `submit-smoke` recomputes live production hashes against it.
-- **Rendered QA packet** (`cli/rendered_qa.py`, `./prospect rendered-qa`): deterministic manual
-  browser checklist for the final judge path. It records the production URL, local `8124` fallback,
-  desktop and mobile viewport targets, and the required Overview, Findings, Frontier, and Agent tab
-  evidence. Exported to `examples/data/rendered_qa_packet.json` and [RENDERED_QA_PACKET.md](RENDERED_QA_PACKET.md).
-- **Optional browser QA** (`cli/browser_qa.py`, `./prospect browser-qa --target both`): live
-  Playwright DOM smoke over production and local `8124`. It writes screenshots and JSON under
-  ignored `output/playwright/`. It is operator evidence only, not signed state, not a release
-  artifact, and not part of `final-check`.
 - **The floor**: `benchmark/mutation_pack.py` admits zero tampered claims; `tests/test_skill_parity.py`
   pins the stdlib Skill checker to the engine.
 - **UI**: 6-tab Next.js app on the Observatory design system, ran through an impeccable critique +
@@ -224,12 +131,13 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|campaign-challenger|transfer-replay|substrate-replay|cross-substrate-discovery|donor-replay|disease-overlay|perturbation-scout|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|browser-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|disease-overlay|pggt1b|lab-pack|findings-index|judge-handout|submit-pack|receipt|mcp`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, cross-substrate discovery packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the finding index, the PGGT1B packet and matrix slice, the campaign leaderboard, the disease-genetics overlay, the lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
-- **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, SUBMISSION_FORM_PACKET, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
+- **`docs/`**: HANDOFF, PROTOCOL, FINDINGS, DEMO, SUBMISSION, RECEIPT_BRIDGE, AGENT_CAMPAIGN,
+  DISEASE_GENETICS_OVERLAY, PGGT1B_DEEP_DIVE, LAB_PACKET, FINDING_INDEX, JUDGE_HANDOUT. Root: README,
   NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
 ### The web app (`web/app/page.tsx`)
@@ -259,15 +167,8 @@ the Agent tab shows the wet-lab validation shortlist and assay packet.
 Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `frontier/*.jsonl`,
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
-`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
-`agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_probe_audit.json`, `campaign_triage.*`, `lab_packet.*`,
-`finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `campaign_challenger_ledger.json`, `donor_condition_replay.json`,
-`disease_genetics_overlay.json`,
-`perturbation_atlas_scout.json`,
-`assay_operations_bundle.*`,
-`gladstone_pilot_design.*`,
-`transfer_replay_packet.json`, `substrate_replay_packet.json`, `rendered_qa_packet.json`.
+`agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `pggt1b_matrix_slice.json`,
+`agent_campaign.*`, `lab_packet.*`, `finding_index.json`, `disease_genetics_overlay.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -296,29 +197,13 @@ Nothing is required; the entry is complete and strong. The small polish follow-u
 `web/app/globals.css` no longer carries the retired record-map vocabulary, and tab or hover feedback
 uses restrained paint-only transitions in the 180-220ms band.
 
-The next technical and data campaign is now specified in
-[FRONTIER_ADVANCEMENT_MEMO.md](FRONTIER_ADVANCEMENT_MEMO.md). Treat that memo as the source of truth
-for work aimed at real discovery or protocol advancement before July 13: donor-condition replay,
-cross-substrate discovery, disease-genetics overlay, perturbation-atlas scout, and campaign
-challenger ledger. Cross-substrate discovery, donor-condition replay, disease-genetics overlay,
-perturbation-atlas scout, and the campaign challenger ledger are now shipped. The current
-recommendation is to preserve the green floor and harden the demo unless a new small, licensed replay
-table appears.
+The current recommendation is to preserve the green floor and harden the demo unless a new small,
+licensed replay table appears.
 
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
-- **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
-- **Gladstone assay operations bundle**: shipped as `./prospect assay-ops`.
-- **Gladstone pilot design**: shipped as `./prospect pilot-design`.
-- **Final submission gate**: shipped as `./prospect final-check`.
-- **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
-- **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
-- **Campaign challenger ledger**: shipped as `./prospect campaign-challenger`; it removes RWDD2B
-  from primary assay capacity and adds CYB5RL to the lab-facing proposal panel.
-- **Agent campaign next pass**: shipped for all 20 campaign rows as `./prospect campaign-probe`.
-  The committed probe now has a frozen audit artifact at `./prospect campaign-probe-audit`.
-  Disagreement triage is shipped as `./prospect campaign-triage`. The gate probe now covers all
-  11 disagreement gates with closed recommendations while staying proposal only.
+- **Disease-genetics overlay**: shipped as `./prospect disease-overlay`; it attaches frozen Open
+  Targets disease context to the campaign rows without moving accepted state.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around
@@ -326,26 +211,11 @@ table appears.
 
 ## 8. Demo and submission
 
-- **Judge quickstart**: [JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md), a five-minute judge path through
-  the live app, replay commands, trust boundary, typed statuses, and public artifacts.
 - **Judge handout**: [JUDGE_HANDOUT.md](JUDGE_HANDOUT.md), a one-page path through the live URL,
   signed root, public artifacts to open, replay commands, and human-only actions.
 - **Demo script**: [DEMO.md](DEMO.md), a 2-minute beat-by-beat (refusal -> reveal -> number -> moat ->
-  loop), runs entirely off the live site. [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
-  adds exact preflight commands and click beats. [DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md) and
-  `./prospect demo-pack` provide the final spoken script and phrases to avoid. Will records the video.
+  loop), runs entirely off the live site. Will records the video.
 - **Submission text**: [SUBMISSION.md](SUBMISSION.md).
-- **Submission form packet**: [SUBMISSION_FORM_PACKET.md](SUBMISSION_FORM_PACKET.md), copy-paste
-  fields for title, short description, long description, URLs, demo, verification commands, and
-  limitation language.
-- **Production smoke**: `./prospect submit-smoke` checks the live alias, judge packet command
-  surface, exact public-data parity with the shared `submit-pack` manifest, all public artifact
-  endpoints, campaign gate probe, transfer replay packet, lab packet, assay operations bundle,
-  receipt bridge manifest, rendered QA packet, and release manifest hashes
-  before upload.
-- **Optional browser QA**: after `cd web && npm run start`, run
-  `./prospect browser-qa --target both` to check Overview, Findings, Frontier, and Agent across
-  production and local `8124` at desktop and mobile widths. Keep the resulting screenshots local.
 - **Submission packet**: `./prospect submit-pack` prints the copy-safe live URL, repo URL, signed
   root, source docs, verification commands, and public artifact links for the final upload.
 - The winning arc: open on a model being wrong (the A1BG refusal), reveal the 48%/64% number, show the

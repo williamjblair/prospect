@@ -4,41 +4,19 @@
   prospect verify           re-derive every object (EXACT-lane, 0 drift)
   prospect sign             the human ceremony: accept the frontier root
   prospect check <claims>   grade typed claims against a dataset  (--dataset --data --out)
-  prospect propose          Claude proposes → the frozen verifier decides  (--n --model --sign)
-  prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
+  prospect propose          Claude proposes, the frozen verifier decides  (--n --model --sign)
+  prospect agent            autonomous Claude agent: search, verify, converge  (--sign)
   prospect campaign         build the proposal-only agent campaign leaderboard
-  prospect campaign-review  build the campaign review appendix
-  prospect campaign-probe   run Claude probes against campaign rows
-  prospect campaign-probe-audit audit campaign probe artifacts before promotion
-  prospect campaign-triage  build deterministic triage from probe disagreements
-  prospect campaign-gate-probe run Claude probes against disagreement assay gates
-  prospect campaign-pressure build the campaign pressure summary packet
-  prospect campaign-challenger build the deterministic campaign challenger ledger
-  prospect transfer-replay  build a compact transfer replay packet
-  prospect substrate-replay build the protocol-generalization substrate replay packet
-  prospect cross-substrate-discovery build the cross-substrate discovery packet
-  prospect donor-replay    build the donor-condition replay packet
-  prospect disease-overlay build the disease-genetics overlay packet
-  prospect perturbation-scout build the perturbation-atlas scout packet
+  prospect disease-overlay  attach external disease-genetics context (Open Targets)
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
-  prospect assay-ops        build the Gladstone assay operations bundle
-  prospect pilot-design     build the Gladstone pilot design packet
-  prospect findings-index   build the scannable finding index for the demo
-  prospect demo-pack        print the final recording teleprompter
+  prospect findings-index   build the scannable finding index
   prospect judge-handout    build the one-page judge handout
-  prospect submission-audit build the final submission audit packet
-  prospect release-manifest build public SHA-256 hashes for deployed artifacts
-  prospect rendered-qa      build the final rendered QA checklist packet
-  prospect browser-qa       run optional Playwright browser QA evidence locally
-  prospect judge-pack       build the judge packet manifest and handoff
-  prospect final-check      run the local submission gate
-  prospect submit-smoke     run production submission smoke checks
   prospect submit-pack      print the copy-safe submission packet
-  prospect receipt          emit portable receipts (activity → signed replayable state)
+  prospect receipt          emit portable receipts (activity to signed replayable state)
   prospect mcp              expose the receipt bridge over MCP stdio
 
-The loop: propose (Claude) → check/verify (frozen code) → sign (human key). No model in the trust path.
+The loop: propose (Claude), check/verify (frozen code), sign (human key). No model in the trust path.
 A receipt is the portable proposal that crosses the boundary from activity into state.
 """
 import sys
@@ -62,60 +40,16 @@ def main():
         from loop.agent import main as agent_main; agent_main(rest)
     elif cmd == "campaign":
         from frontier.agent_campaign import main as campaign_main; campaign_main()
-    elif cmd == "campaign-review":
-        from frontier.campaign_review import main as campaign_review_main; campaign_review_main()
-    elif cmd == "campaign-probe":
-        from loop.campaign_probe import main as campaign_probe_main; campaign_probe_main(rest)
-    elif cmd == "campaign-probe-audit":
-        from loop.campaign_probe_audit import main as campaign_probe_audit_main; sys.exit(campaign_probe_audit_main(rest))
-    elif cmd == "campaign-triage":
-        from frontier.campaign_triage import main as campaign_triage_main; campaign_triage_main()
-    elif cmd == "campaign-gate-probe":
-        from loop.campaign_gate_probe import main as campaign_gate_probe_main; campaign_gate_probe_main(rest)
-    elif cmd == "campaign-pressure":
-        from frontier.campaign_pressure_summary import main as campaign_pressure_main; campaign_pressure_main()
-    elif cmd == "campaign-challenger":
-        from frontier.campaign_challenger_ledger import main as campaign_challenger_main; sys.exit(campaign_challenger_main(rest))
-    elif cmd == "transfer-replay":
-        from frontier.transfer_replay import main as transfer_replay_main; transfer_replay_main()
-    elif cmd == "substrate-replay":
-        from frontier.substrate_replay import main as substrate_replay_main; substrate_replay_main()
-    elif cmd == "cross-substrate-discovery":
-        from frontier.cross_substrate_discovery import main as cross_substrate_discovery_main; cross_substrate_discovery_main()
-    elif cmd == "donor-replay":
-        from frontier.donor_condition_replay import main as donor_condition_replay_main; sys.exit(donor_condition_replay_main(rest))
     elif cmd == "disease-overlay":
-        from frontier.disease_genetics_overlay import main as disease_genetics_overlay_main; sys.exit(disease_genetics_overlay_main(rest))
-    elif cmd == "perturbation-scout":
-        from frontier.perturbation_atlas_scout import main as perturbation_atlas_scout_main; sys.exit(perturbation_atlas_scout_main(rest))
+        from frontier.disease_genetics_overlay import main as disease_main; sys.exit(disease_main(rest))
     elif cmd == "pggt1b":
         from frontier.pggt1b_deep_dive import main as pggt1b_main; pggt1b_main()
     elif cmd == "lab-pack":
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
-    elif cmd == "assay-ops":
-        from frontier.assay_operations import main as assay_operations_main; assay_operations_main()
-    elif cmd == "pilot-design":
-        from frontier.gladstone_pilot_design import main as pilot_design_main; pilot_design_main()
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
-    elif cmd == "demo-pack":
-        from cli.demo_pack import main as demo_pack_main; sys.exit(demo_pack_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
-    elif cmd == "submission-audit":
-        from cli.final_submission_audit import main as final_submission_audit_main; sys.exit(final_submission_audit_main(rest))
-    elif cmd == "release-manifest":
-        from frontier.release_manifest import main as release_manifest_main; sys.exit(release_manifest_main(rest))
-    elif cmd == "rendered-qa":
-        from cli.rendered_qa import main as rendered_qa_main; sys.exit(rendered_qa_main(rest))
-    elif cmd == "browser-qa":
-        from cli.browser_qa import main as browser_qa_main; sys.exit(browser_qa_main(rest))
-    elif cmd == "judge-pack":
-        from frontier.judge_packet import main as judge_packet_main; judge_packet_main()
-    elif cmd == "final-check":
-        from cli.final_check import main as final_check_main; sys.exit(final_check_main(rest))
-    elif cmd == "submit-smoke":
-        from cli.submit_smoke import main as submit_smoke_main; sys.exit(submit_smoke_main(rest))
     elif cmd == "submit-pack":
         from cli.submit_pack import main as submit_pack_main; sys.exit(submit_pack_main(rest))
     elif cmd == "receipt":
