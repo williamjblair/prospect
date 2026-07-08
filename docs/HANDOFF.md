@@ -265,6 +265,13 @@ Nothing is required; the entry is complete and strong. The small polish follow-u
 `web/app/globals.css` no longer carries the retired record-map vocabulary, and tab or hover feedback
 uses restrained paint-only transitions in the 180-220ms band.
 
+The next technical and data campaign is now specified in
+[FRONTIER_ADVANCEMENT_MEMO.md](FRONTIER_ADVANCEMENT_MEMO.md). Treat that memo as the source of truth
+for work aimed at real discovery or protocol advancement before July 13: donor-condition replay,
+cross-substrate discovery, disease-genetics overlay, perturbation-atlas scout, and campaign
+challenger ledger. The current recommendation is to build cross-substrate discovery first because it
+uses committed frozen data and can improve the frontier without adding a new trust path.
+
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).

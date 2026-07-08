@@ -83,8 +83,21 @@ def test_handoff_points_to_judge_quickstart():
         assert phrase in text
 
 
+def test_handoff_points_to_frontier_advancement_memo():
+    text = HANDOFF.read_text()
+
+    for phrase in [
+        "[FRONTIER_ADVANCEMENT_MEMO.md](FRONTIER_ADVANCEMENT_MEMO.md)",
+        "donor-condition replay",
+        "cross-substrate discovery",
+        "disease-genetics overlay",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_agents_lists_current_cli_surface()
     test_handoff_describes_current_production_smoke_gate()
     test_handoff_points_to_judge_quickstart()
+    test_handoff_points_to_frontier_advancement_memo()
     print("PASS: handoff readiness")
