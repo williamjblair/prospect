@@ -11,6 +11,9 @@ Frontier tab now also includes the judge-facing "Try the boundary" receipt bridg
 recording runbook, teleprompter, submission form packet, `./prospect demo-pack`, and
 `./prospect submit-pack` now package the human recording and upload path. The judge packet now lists
 the same final command surface: `final-check`, `submit-smoke`, `submit-pack`, and `demo-pack`.
+The final gate now also regenerates and drift-checks the transfer replay packet, judge packet, and
+static web data. Production smoke fetches every public artifact endpoint and checks that the live
+judge packet's public-data list exactly matches the shared `submit-pack` manifest.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -63,7 +66,9 @@ This audit used the current worktree and live production data as the source of r
   - `/data/judge_packet.json`: replay gate includes `./prospect final-check`, `./prospect submit-smoke`,
     `./prospect submit-pack`, and `./prospect demo-pack`.
   - `./prospect submit-smoke`: executable production smoke for the upload checklist, including the
-    current judge-packet command surface and every public artifact endpoint listed by `submit-pack`.
+    current judge-packet command surface, exact live judge-packet parity with the shared
+    `submit-pack` public-artifact manifest, and every public artifact endpoint listed by
+    `submit-pack`.
   - `./prospect submit-pack`: local copy-safe packet for the final upload fields, full public artifact
     list, and replay commands, with a self-contained preflight list.
   - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails and a
@@ -85,10 +90,13 @@ Observed results:
 - `python benchmark/mutation_pack.py`: 0 false admissions, 10 of 10 clean regulator claims admitted.
 - `python tests/test_skill_parity.py`: 112 claims checked, 0 mismatches.
 
-Recent full-gate evidence from the preceding deployment pass:
+Current full-gate evidence:
 
+- `./prospect final-check` passed after the shared public-artifact manifest hardening.
 - Full `tests/test_*.py` sweep passed.
 - `cd web && npm run build` passed.
+- Generated transfer replay, judge packet, and static web data drift checks passed.
+- `./prospect submit-smoke` passed against production and fetched all 15 public artifact endpoints.
 - Browser QA passed on local port 8124 and production alias.
 - Repo scans passed for no em dashes, no attribution footers, no forbidden prior-work references,
   no retired CSS vocabulary, no stale `verified` state-token names, and no changed-file secret values.
@@ -184,7 +192,9 @@ These could improve the chance of winning without changing the core scientific s
    - Why it matters: judges can see one command that reproduces the trust floor.
    - Shape:
      - `./prospect final-check` runs `verify`, mutation pack, Skill parity, Python tests, web build,
-       em dash scan, forbidden-reference scan, and a post-generator transfer replay drift check.
+       repo hygiene, git whitespace checks, receipt bridge client, submission and demo packet checks,
+       transfer replay regeneration, judge packet regeneration, static web data regeneration, and
+       generated-artifact drift checks.
      - It prints a compact report, not a wall of logs.
    - Gate:
      - Test the CLI dispatch.
@@ -338,7 +348,7 @@ These could improve the chance of winning without changing the core scientific s
 | Mutation floor | Satisfied | `python benchmark/mutation_pack.py`, 0 false admissions | None |
 | Skill parity | Satisfied | `python tests/test_skill_parity.py`, 112 claims, 0 mismatches | None |
 | Buildable web app | Satisfied by recent gate | `cd web && npm run build` passed in final deployment pass | None |
-| Live production | Satisfied | Stable alias returns current public JSON and Agent content; `./prospect submit-smoke` checks the final upload endpoints | None |
+| Live production | Satisfied | Stable alias returns current public JSON and Agent content; `./prospect submit-smoke` checks the final upload endpoints, live judge-packet manifest parity, and all 15 public artifacts | None |
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
@@ -358,6 +368,8 @@ If work continues, do it in this order:
 Any remaining build slice should pass all of the following before deployment:
 
 ```bash
+./prospect final-check
+./prospect submit-smoke
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
