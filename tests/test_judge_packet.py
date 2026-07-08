@@ -18,6 +18,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["trust_boundary"]["model_moves_accepted_state"] is False
     assert packet["trust_boundary"]["receipt_submission"] == "proposal_only"
     assert "./prospect verify" in packet["gate_commands"]
+    assert "./prospect final-check" in packet["gate_commands"]
     assert "python benchmark/mutation_pack.py" in packet["gate_commands"]
     assert "python tests/test_skill_parity.py" in packet["gate_commands"]
     assert packet["receipt_bridge_demo"]["command"] == "python examples/receipt_bridge_client.py"

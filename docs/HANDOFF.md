@@ -16,7 +16,8 @@ Status: fully built, committed, deployed, and live. Nothing is mid-flight.
 - Repo: github.com/williamjblair/prospect, branch `master`
 - Deployed via Vercel CLI: `cd web && vercel --prod --yes --scope constellate-dc388081`
 - Signed frontier root: `root_a8b0dcdd4024e12f` (re-derives, 0 drift)
-- The gate is green: `verify` 0 drift, `mutation_pack` 0 false admissions, `test_skill_parity` 112/0.
+- The gate is green: `final-check`, `verify` 0 drift, `mutation_pack` 0 false admissions,
+  `test_skill_parity` 112/0.
 
 ## 2. The thesis (why this wins)
 
@@ -143,7 +144,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|pggt1b|lab-pack|findings-index|judge-pack|final-check|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, lab assay packet, and static receipt-bridge files),
@@ -212,6 +213,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 **Bigger swings (higher ceiling, in rough priority):**
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
+- **Final submission gate**: shipped as `./prospect final-check`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
   additional model pass against the disagreement gates.

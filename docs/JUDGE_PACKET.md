@@ -13,6 +13,7 @@ A model proposes, searches, and drafts. Frozen code over a frozen released table
 ## Replay gate
 
 ```bash
+./prospect final-check
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py

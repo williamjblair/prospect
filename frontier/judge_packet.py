@@ -60,6 +60,7 @@ def build_packet() -> dict[str, Any]:
         },
         "typed_statuses": ["computationally_reproduced", "evidence_attached", "contradicted"],
         "gate_commands": [
+            "./prospect final-check",
             "./prospect verify",
             "python benchmark/mutation_pack.py",
             "python tests/test_skill_parity.py",

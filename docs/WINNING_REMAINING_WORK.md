@@ -162,6 +162,7 @@ These could improve the chance of winning without changing the core scientific s
      - Do this before attempting a second frontier.
 
 2. **Add a final-check command.**
+   - Current state: shipped as `./prospect final-check`.
    - Why it matters: judges can see one command that reproduces the trust floor.
    - Shape:
      - `./prospect final-check` runs `verify`, mutation pack, Skill parity, Python tests, web build,

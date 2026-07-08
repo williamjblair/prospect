@@ -123,6 +123,7 @@ the graph on its own word. On top of it:
 ## Verify it yourself
 
 ```bash
+./prospect final-check            # run the submission gate
 ./prospect verify                 # re-derive 53k objects from frozen data, 0 drift
 ./prospect agent                  # autonomous agent: search → verify → converge on a hypothesis
 ./prospect receipt                # emit the activity → state receipts
