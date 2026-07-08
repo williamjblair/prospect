@@ -12,6 +12,7 @@
   prospect defended-discovery-preregister build the defended discovery pre-registration packet
   prospect pggt1b-defended-evidence build the rank-1 PGGT1B defended-evidence packet
   prospect defended-candidate-decisions build the defended-discovery decision ledger
+  prospect rcc1l-defended-evidence build the rank-2 RCC1L defended-evidence packet
   prospect flagship-module build the flagship mechanistic module packet
   prospect overclaim-counter build the overclaim refusal counter packet
   prospect disease-overlay  attach external disease-genetics context (Open Targets)
@@ -58,6 +59,8 @@ def main():
         from frontier.pggt1b_defended_evidence import main as pggt1b_defended_main; sys.exit(pggt1b_defended_main(rest))
     elif cmd == "defended-candidate-decisions":
         from frontier.defended_candidate_decisions import main as decisions_main; decisions_main()
+    elif cmd == "rcc1l-defended-evidence":
+        from frontier.rcc1l_defended_evidence import main as rcc1l_defended_main; rcc1l_defended_main()
     elif cmd == "flagship-module":
         from frontier.flagship_module import main as flagship_module_main; flagship_module_main()
     elif cmd == "overclaim-counter":
