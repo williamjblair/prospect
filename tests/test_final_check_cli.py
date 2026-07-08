@@ -28,6 +28,7 @@ def test_final_check_lists_submission_gate_commands():
         "./prospect submit-pack --json",
         "./prospect demo-pack --json",
         "./prospect transfer-replay",
+        "git diff --exit-code -- examples/data/transfer_replay_packet.json docs/TRANSFER_REPLAY_PACKET.md",
     ]:
         assert command in proc.stdout
 

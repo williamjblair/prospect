@@ -184,7 +184,7 @@ These could improve the chance of winning without changing the core scientific s
    - Why it matters: judges can see one command that reproduces the trust floor.
    - Shape:
      - `./prospect final-check` runs `verify`, mutation pack, Skill parity, Python tests, web build,
-       em dash scan, forbidden-reference scan.
+       em dash scan, forbidden-reference scan, and a post-generator transfer replay drift check.
      - It prints a compact report, not a wall of logs.
    - Gate:
      - Test the CLI dispatch.
