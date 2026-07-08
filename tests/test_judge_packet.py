@@ -24,12 +24,14 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["receipts"] == 6
     assert packet["artifact_counts"]["agent_campaign_candidates"] == 20
     assert packet["artifact_counts"]["campaign_review_rows"] == 20
+    assert packet["artifact_counts"]["campaign_probe_rows"] == 5
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
     assert "/data/frontier.json" in packet["public_data"]
     assert "/data/lab_packet.json" in packet["public_data"]
     assert "/data/agent_campaign_review.json" in packet["public_data"]
+    assert "/data/campaign_agent_probe.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_contract.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_manifest.json" in packet["public_data"]
     assert "true" not in json.dumps(packet).lower()
@@ -46,6 +48,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     doc = out_doc.read_text()
     assert data["artifact_counts"]["findings"] == 5
     assert data["artifact_counts"]["campaign_review_rows"] == 20
+    assert data["artifact_counts"]["campaign_probe_rows"] == 5
     assert "Judge packet" in doc
     assert "No model in the trust path" in doc
     assert "./prospect verify" in doc

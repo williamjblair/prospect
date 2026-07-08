@@ -74,12 +74,17 @@ public replay links. Every row remains proposal only.
 questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without
 moving any row beyond proposal-only state.
 
+`prospect campaign-probe` runs a Claude tool-use cross-examination against the top campaign rows,
+then compares the model's recommendations to the deterministic review lanes. The output remains
+proposal only; it shows where Claude pushes harder and where the frozen review stays conservative.
+
 Current public artifacts:
 
 - `/data/frontier.json`
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/agent_campaign_review.json`
+- `/data/campaign_agent_probe.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -93,6 +98,7 @@ Current public artifacts:
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
+./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root

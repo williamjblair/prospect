@@ -50,6 +50,9 @@ the graph on its own word. On top of it:
   proposal-only follow-ups, each ranked from frozen facts and held at `evidence_attached`.
 - **Campaign review appendix**: `prospect campaign-review` adds deterministic audit questions,
   lane counts, per-row decisions, and stop rules for the 20-row campaign without accepting any row.
+- **Campaign agent probes**: `prospect campaign-probe` has Claude cross-examine the top campaign
+  rows with frozen tools, then compares its recommendations to deterministic review lanes. It
+  remains proposal only.
 
 ## How it uses Claude
 
@@ -58,6 +61,9 @@ the graph on its own word. On top of it:
 - **In the loop**: `prospect propose` and `prospect agent` use Claude (Opus 4.8, adaptive thinking,
   the agent via real SDK tool-use) to propose and investigate. The frozen verifier gates every
   claim and a human key accepts. Claude is useful, and never in the trust path.
+- **As a pressure test**: `prospect campaign-probe` asks Claude to challenge the campaign ranking
+  using frozen lookups, then Prospect records where it aligns or pushes harder than the deterministic
+  review.
 - **For literature**: finding contradictions are grounded in real reviews resolved through PubMed.
 - **To build**: the whole system was written in Claude Code during the event.
 
@@ -79,6 +85,9 @@ the graph on its own word. On top of it:
 - The campaign review appendix turns that leaderboard into an auditable assay queue: one top
   assay-design row, six clean-specificity rows, six late-activation follow-ups, five ranked backups,
   and two regulon anchors, each with stop rules.
+- The campaign agent probe ran 16 frozen-tool calls over the top five rows. Claude aligned on
+  PGGT1B and MCAT, and pushed more aggressively on RCC1L, RWDD2B, and CCDC22. The comparison is
+  visible, but state does not move.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path.
 - The validation shortlist ranks five non-canonical, cell-type-specific, on-target stimulated
@@ -92,6 +101,7 @@ the graph on its own word. On top of it:
 - `/data/judge_packet.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/agent_campaign_review.json`
+- `/data/campaign_agent_probe.json`
 - `/data/lab_packet.json`
 
 ## Verify it yourself
@@ -103,6 +113,7 @@ the graph on its own word. On top of it:
 ./prospect mcp                    # expose the receipt bridge over MCP stdio
 ./prospect campaign               # build the proposal-only campaign leaderboard
 ./prospect campaign-review        # build the campaign review appendix
+./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest

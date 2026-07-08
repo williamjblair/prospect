@@ -38,6 +38,7 @@ proposal. Agent tab, PGGT1B deep dive. The packet shows 3,014 Stim8hr DE genes, 
 1 K562 DE gene, 0 CollecTRI targets, two literature hooks, and a stimulated CD4+ assay readout.
 Then scroll to the lab assay packet and campaign leaderboard: five assay-ready rows and 20
 proposal-only follow-ups ranked by the same frozen facts, plus the review appendix with lane counts,
-audit questions, per-row decisions, and stop rules. The whole frontier re-derives from frozen data
-with zero drift and carries one human signature. Generation is cheap. Accepted state is the scarce
-thing, and it compounds.
+audit questions, per-row decisions, and stop rules. The campaign agent probes show Claude pushing
+harder on some rows, while Prospect keeps the comparison proposal-only. The whole frontier re-derives
+from frozen data with zero drift and carries one human signature. Generation is cheap. Accepted state
+is the scarce thing, and it compounds.

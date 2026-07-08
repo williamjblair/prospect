@@ -78,6 +78,24 @@ type CampaignReview = {
     why_interesting: string; stop_rules: string[];
   }[];
 };
+type CampaignAgentProbe = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  probe_id: string;
+  campaign_id: string;
+  model: string;
+  candidate_count: number;
+  tool_call_count: number;
+  cost_usd: number;
+  summary: Record<string, number>;
+  rows: {
+    rank: number; gene: string; status: string; trust_boundary: string; deterministic_lane: string;
+    deterministic_decision: string; agent_recommendation: string; alignment: string; agent_rationale: string;
+    stimulated_signal: string; specificity: string; stop_rules: string[];
+  }[];
+};
 type LabPacket = {
   title: string;
   status: string;
@@ -133,6 +151,7 @@ type Data = {
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
   agent_campaign?: AgentCampaign | null;
   agent_campaign_review?: CampaignReview | null;
+  campaign_agent_probe?: CampaignAgentProbe | null;
   lab_packet?: LabPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -1042,6 +1061,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.agent_campaign_review && <CampaignReviewAppendix review={d.agent_campaign_review} onGene={onGene} />}
 
+      {d.campaign_agent_probe && <CampaignAgentProbe probe={d.campaign_agent_probe} onGene={onGene} />}
+
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
       {d.validation && d.validation.length > 0 && (
@@ -1180,6 +1201,66 @@ function CampaignReviewAppendix({ review, onGene }: { review: CampaignReview; on
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Review <span className="t-mono">{review.campaign_id}</span> covers {review.candidate_count} proposal-only rows. It does not accept biological state.
+      </p>
+    </div>
+  );
+}
+
+function CampaignAgentProbe({ probe, onGene }: { probe: CampaignAgentProbe; onGene: (g: string) => void }) {
+  const tone = (alignment: string) => alignment === "aligned" ? "var(--moss)" :
+    alignment === "more_aggressive" ? "var(--brass)" : alignment === "more_cautious" ? "var(--field-blue)" : "var(--stone)";
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Campaign agent probes</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Claude cross-examines the campaign rows with frozen lookup tools, then Prospect compares its
+            recommendations to the deterministic review lane. The probe is proposal only.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/campaign_agent_probe.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {Object.entries(probe.summary).map(([alignment, count]) => (
+          <div key={alignment} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700 }}>{count}</div>
+            <div className="t-label" style={{ color: tone(alignment), marginTop: 3 }}>{alignment}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "deterministic", "Claude probe", "alignment", "rationale"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {probe.rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.deterministic_decision.replace(/_/g, " ")}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.agent_recommendation.replace(/_/g, " ")}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone(r.alignment) }}>{r.alignment.replace(/_/g, " ")}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 340 }}>{r.agent_rationale}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Probe <span className="t-mono">{probe.probe_id}</span> used {probe.tool_call_count} tool calls.
+        No candidate enters accepted state from this artifact.
       </p>
     </div>
   );

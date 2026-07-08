@@ -8,6 +8,7 @@
   prospect agent            autonomous Claude agent: search → verify → converge  (--sign)
   prospect campaign         build the proposal-only agent campaign leaderboard
   prospect campaign-review  build the campaign review appendix
+  prospect campaign-probe   run Claude probes against campaign rows
   prospect lab-pack         build the wet-lab assay packet
   prospect findings-index   build the scannable finding index for the demo
   prospect judge-pack       build the judge packet manifest and handoff
@@ -40,6 +41,8 @@ def main():
         from frontier.agent_campaign import main as campaign_main; campaign_main()
     elif cmd == "campaign-review":
         from frontier.campaign_review import main as campaign_review_main; campaign_review_main()
+    elif cmd == "campaign-probe":
+        from loop.campaign_probe import main as campaign_probe_main; campaign_probe_main(rest)
     elif cmd == "lab-pack":
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
     elif cmd == "findings-index":

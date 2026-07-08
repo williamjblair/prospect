@@ -26,7 +26,8 @@
     "Overview: AI claim refusal and 48 percent overclaim rate",
     "Findings: five-row index, then evidence tables",
     "Frontier: signed root, contradictions, receipts, MCP bridge",
-    "Agent: PGGT1B packet, campaign leaderboard, lab assay packet"
+    "Agent: PGGT1B packet, campaign leaderboard, lab assay packet",
+    "Agent: Claude probe compared with deterministic review lanes"
   ],
   "public_data": [
     "/data/frontier.json",
@@ -37,6 +38,7 @@
     "/data/pggt1b_deep_dive.json",
     "/data/agent_campaign.json",
     "/data/agent_campaign_review.json",
+    "/data/campaign_agent_probe.json",
     "/data/lab_packet.json"
   ],
   "artifact_counts": {
@@ -47,6 +49,7 @@
     "receipts": 6,
     "agent_campaign_candidates": 20,
     "campaign_review_rows": 20,
+    "campaign_probe_rows": 5,
     "validation_candidates": 5,
     "lab_packet_candidates": 5
   },
@@ -94,7 +97,17 @@
       "trust_boundary": "proposal_only",
       "top_gene": "PGGT1B",
       "candidate_count": 20,
-      "review_rows": 20
+      "review_rows": 20,
+      "probe_rows": 5
+    },
+    "campaign_probe": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "candidate_count": 5,
+      "summary": {
+        "aligned": 2,
+        "more_aggressive": 3
+      }
     },
     "lab_packet": {
       "status": "evidence_attached",

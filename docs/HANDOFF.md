@@ -82,6 +82,12 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   hypotheses, exported to `examples/data/agent_campaign_review.*` and
   [AGENT_CAMPAIGN_REVIEW.md](AGENT_CAMPAIGN_REVIEW.md). It helps judges inspect the leaderboard
   without upgrading any row beyond `evidence_attached`.
+- **Campaign agent probes** (`loop/campaign_probe.py`, `./prospect campaign-probe`): Claude
+  cross-examines the top campaign rows with frozen lookup tools, then Prospect compares the model's
+  recommendations to deterministic review lanes. First run: 5 rows, 16 tool calls, 2 aligned
+  recommendations and 3 more-aggressive recommendations. Exported to
+  `examples/data/campaign_agent_probe.json` and [CAMPAIGN_AGENT_PROBE.md](CAMPAIGN_AGENT_PROBE.md).
+  The artifact remains proposal-only and does not move accepted state.
 - **Scannable findings index** (`frontier/finding_index.py`, `./prospect findings-index`): a
   five-row reader map over the signed finding objects, exported to `examples/data/finding_index.json`
   and [FINDING_INDEX.md](FINDING_INDEX.md). It gives the Findings tab a judge-friendly entry point
@@ -122,10 +128,10 @@ accepted state, not a document.
     (benchmark), `propose.py` (propose loop), `agent.py` (autonomous agent). `compare.py`/`score.py` are legacy.
 - **`receipt/`**: `schema.py` (Receipt), `emit.py` (from findings + agent), `bridge.py`
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|lab-pack|findings-index|judge-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard and review appendix, the lab assay packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, SUBMISSION, HANDOFF. Root: README, NEW_WORK, PRODUCT, DESIGN, AGENTS.
 
@@ -157,7 +163,8 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `frontier.sig.json`, `bench_*`, `model_comparison.json`, `replogle_*_de.csv`, `collectri_human.csv`,
 `marson_regulons.json`, `benchmark_corpus.json`, `literature_citations.json`, `proposal_run*.json`,
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
-`agent_campaign_review.*`, `lab_packet.*`, `finding_index.json`, `judge_packet.json`.
+`agent_campaign_review.*`, `campaign_agent_probe.json`, `lab_packet.*`, `finding_index.json`,
+`judge_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -191,8 +198,8 @@ Nothing is required; the entry is complete and strong. Prioritized options if co
 - Purposeful 150-250ms transitions on tab and hover (currently near-static).
 
 **Bigger swings (higher ceiling, in rough priority):**
-- **Agent campaign next pass**: optionally run additional Claude tool-use episodes against the campaign
-  rows and compare them to the deterministic review lanes, while keeping the leaderboard proposal-only.
+- **Agent campaign next pass**: shipped for the top five campaign rows as `./prospect campaign-probe`.
+  A next increment would either probe more rows or use the disagreement rows to refine assay triage.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B next pass**: extend the shipped deep dive with more literature triangulation and, if time

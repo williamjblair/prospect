@@ -12,6 +12,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect verify",
         "./prospect mcp",
         "./prospect campaign",
+        "./prospect campaign-probe",
         "./prospect lab-pack",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
@@ -27,6 +28,7 @@ def test_submission_points_to_current_public_artifacts():
         "/data/frontier.json",
         "/data/judge_packet.json",
         "/data/receipt_bridge/receipt_manifest.json",
+        "/data/campaign_agent_probe.json",
         "/data/lab_packet.json",
     ]:
         assert artifact in text
