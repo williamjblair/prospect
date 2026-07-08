@@ -64,19 +64,19 @@ def _current_payloads():
         "/data/campaign_gate_probe.json": {
             "status": "evidence_attached",
             "trust_boundary": "proposal_only",
-            "rows": [{}, {}, {}, {}, {}],
+            "rows": [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
             "coverage": {
                 "requested_limit": 11,
-                "returned_decisions": 5,
-                "coverage_status": "partial",
+                "returned_decisions": 11,
+                "coverage_status": "complete",
             },
         },
         "/data/campaign_pressure_summary.json": {
             "status": "evidence_attached",
             "trust_boundary": "proposal_only",
             "accepted_state_mutations": 0,
-            "counts": {"claude_probe_rows": 20, "triage_rows": 11, "gate_probe_rows": 5},
-            "gate_probe_coverage": {"coverage_status": "partial"},
+            "counts": {"claude_probe_rows": 20, "triage_rows": 11, "gate_probe_rows": 11},
+            "gate_probe_coverage": {"coverage_status": "complete"},
         },
         "/data/campaign_probe_audit.json": {
             "status": "computationally_reproduced",

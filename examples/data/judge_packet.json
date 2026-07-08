@@ -86,7 +86,7 @@
     "campaign_probe_rows": 20,
     "campaign_probe_audit_issues": 0,
     "campaign_triage_rows": 11,
-    "campaign_gate_probe_rows": 5,
+    "campaign_gate_probe_rows": 11,
     "campaign_pressure_rows": 20,
     "transfer_replay_rows": 377,
     "substrate_replay_rows": 377,
@@ -734,12 +734,12 @@
     "campaign_gate_probe": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 5,
+      "candidate_count": 11,
       "coverage": {
         "requested_limit": 11,
-        "returned_decisions": 5,
-        "coverage_status": "partial",
-        "missing_decisions": 6,
+        "returned_decisions": 11,
+        "coverage_status": "complete",
+        "missing_decisions": 0,
         "requested_genes": [
           "RCC1L",
           "RWDD2B",
@@ -758,20 +758,19 @@
           "RWDD2B",
           "CCDC22",
           "CYB5RL",
-          "SCO2"
-        ],
-        "missing_genes": [
+          "SCO2",
           "CCDC136",
           "MITD1",
           "GZMB",
           "FANCL",
           "BCKDHA",
           "ZC3H12A"
-        ]
+        ],
+        "missing_genes": []
       },
       "summary": {
-        "add_control": 1,
-        "gate_sufficient": 3,
+        "add_control": 4,
+        "gate_sufficient": 6,
         "lower_priority": 1
       }
     },
@@ -782,15 +781,15 @@
       "claude_probe_rows": 20,
       "triage_rows": 11,
       "gate_recommendations": {
-        "add_control": 1,
-        "gate_sufficient": 3,
+        "add_control": 4,
+        "gate_sufficient": 6,
         "lower_priority": 1
       },
       "gate_probe_coverage": {
         "requested_limit": 11,
-        "returned_decisions": 5,
-        "coverage_status": "partial",
-        "missing_decisions": 6,
+        "returned_decisions": 11,
+        "coverage_status": "complete",
+        "missing_decisions": 0,
         "requested_genes": [
           "RCC1L",
           "RWDD2B",
@@ -809,16 +808,15 @@
           "RWDD2B",
           "CCDC22",
           "CYB5RL",
-          "SCO2"
-        ],
-        "missing_genes": [
+          "SCO2",
           "CCDC136",
           "MITD1",
           "GZMB",
           "FANCL",
           "BCKDHA",
           "ZC3H12A"
-        ]
+        ],
+        "missing_genes": []
       }
     },
     "transfer_replay": {

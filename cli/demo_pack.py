@@ -57,8 +57,8 @@ BEATS = [
         "say": (
             "Claude proposed fifteen transcription factors, then pressure-tested the campaign rows. "
             "Claude pressure became review work: twenty probed rows, eleven more-aggressive calls "
-            "converted to assay gates, and five of eleven gate probes returned as proposal-only "
-            "review evidence. Zero accepted-state mutations. Claude proposes, frozen code decides, "
+            "converted to assay gates, and all eleven gates returned proposal-only review evidence. "
+            "Zero accepted-state mutations. Claude proposes, frozen code decides, "
             "and a human key accepts state."
         ),
     },

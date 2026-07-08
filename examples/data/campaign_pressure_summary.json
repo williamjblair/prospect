@@ -14,7 +14,7 @@
   ],
   "campaign_id": "campaign_07a2bdd5697274c9",
   "probe_id": "campaign_probe_0c252cc895887e61",
-  "gate_probe_id": "campaign_gate_probe_d3b3bd75a27d54e7",
+  "gate_probe_id": "campaign_gate_probe_e37545b3a0703803",
   "counts": {
     "campaign_candidates": 20,
     "deterministic_review_rows": 20,
@@ -23,18 +23,18 @@
     "more_aggressive_rows": 11,
     "more_cautious_rows": 3,
     "triage_rows": 11,
-    "gate_probe_rows": 5
+    "gate_probe_rows": 11
   },
   "gate_recommendations": {
-    "add_control": 1,
-    "gate_sufficient": 3,
+    "add_control": 4,
+    "gate_sufficient": 6,
     "lower_priority": 1
   },
   "gate_probe_coverage": {
     "requested_limit": 11,
-    "returned_decisions": 5,
-    "coverage_status": "partial",
-    "missing_decisions": 6,
+    "returned_decisions": 11,
+    "coverage_status": "complete",
+    "missing_decisions": 0,
     "requested_genes": [
       "RCC1L",
       "RWDD2B",
@@ -53,16 +53,15 @@
       "RWDD2B",
       "CCDC22",
       "CYB5RL",
-      "SCO2"
-    ],
-    "missing_genes": [
+      "SCO2",
       "CCDC136",
       "MITD1",
       "GZMB",
       "FANCL",
       "BCKDHA",
       "ZC3H12A"
-    ]
+    ],
+    "missing_genes": []
   },
   "closed_recommendations": [
     "add_control",
@@ -234,7 +233,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "secondary_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "add_control",
       "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CCDC136 at advance if capacity allows until the assay gate passes"
     },
@@ -248,7 +247,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "secondary_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "gate_sufficient",
       "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps MITD1 at advance if capacity allows until the assay gate passes"
     },
@@ -262,7 +261,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "capacity_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "add_control",
       "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps GZMB at hold as ranked backup until the assay gate passes"
     },
@@ -276,7 +275,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "capacity_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "gate_sufficient",
       "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps FANCL at hold as ranked backup until the assay gate passes"
     },
@@ -304,7 +303,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "secondary_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "gate_sufficient",
       "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps BCKDHA at hold as ranked backup until the assay gate passes"
     },
@@ -318,7 +317,7 @@
       "alignment": "more_aggressive",
       "pressure_result": "converted_to_assay_gate",
       "triage_decision": "capacity_assay_queue",
-      "gate_recommendation": "none",
+      "gate_recommendation": "add_control",
       "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
       "reason": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps ZC3H12A at hold as ranked backup until the assay gate passes"
     },

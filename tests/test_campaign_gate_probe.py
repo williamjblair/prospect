@@ -13,7 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from loop.campaign_gate_probe import build_gate_probe, write_gate_probe
+import loop.campaign_gate_probe as gate_probe_module
+from loop.campaign_gate_probe import build_gate_probe, merge_probe_decisions, parse_gene_list, write_gate_probe
 
 
 FIXTURE_DECISIONS = [
@@ -115,6 +116,107 @@ def test_campaign_gate_probe_deduplicates_and_filters_to_requested_genes():
         "returned_genes": ["RCC1L"],
         "missing_genes": ["RWDD2B"],
     }
+
+
+def test_campaign_gate_probe_parses_focused_gene_list_in_triage_order():
+    assert parse_gene_list("MITD1, ccdc136, MITD1") == ["CCDC136", "MITD1"]
+
+
+def test_campaign_gate_probe_rejects_genes_outside_disagreement_triage():
+    try:
+        parse_gene_list("PGGT1B")
+    except ValueError as exc:
+        assert "not in campaign disagreement triage" in str(exc)
+    else:
+        raise AssertionError("expected PGGT1B to be rejected")
+
+
+def test_campaign_gate_probe_live_focuses_requested_genes_and_custom_paths(tmp_path):
+    out_json = tmp_path / "focused_gate_probe.json"
+    out_doc = tmp_path / "FOCUSED_GATE_PROBE.md"
+    default_before = (ROOT / "examples" / "data" / "campaign_gate_probe.json").read_text()
+    calls = []
+
+    def fake_run_live_prompt(goal, requested_genes=None):
+        calls.append((goal, requested_genes))
+        assert "CCDC136, MITD1" in goal
+        assert "RCC1L" not in goal
+        return {
+            "decisions": [
+                {
+                    "gene": "CCDC136",
+                    "gate_recommendation": "gate_sufficient",
+                    "rationale": "The matched stimulated and Rest gate covers the main promotion risk.",
+                },
+                {
+                    "gene": "MITD1",
+                    "gate_recommendation": "add_control",
+                    "rationale": "The missing non-immune transfer evidence needs a matched transfer control.",
+                },
+            ],
+            "tool_calls": [],
+            "cost_usd": 0.0,
+        }
+
+    original = gate_probe_module._run_live_prompt
+    try:
+        gate_probe_module._run_live_prompt = fake_run_live_prompt
+        probe = gate_probe_module.run_live(
+            chunk_size=2,
+            requested_genes=["CCDC136", "MITD1"],
+            out_json=out_json,
+            out_doc=out_doc,
+        )
+    finally:
+        gate_probe_module._run_live_prompt = original
+
+    assert calls == [(gate_probe_module._goal_for_genes(["CCDC136", "MITD1"]), ["CCDC136", "MITD1"])]
+    assert probe["coverage"]["coverage_status"] == "complete"
+    assert probe["coverage"]["requested_genes"] == ["CCDC136", "MITD1"]
+    assert [row["gene"] for row in probe["rows"]] == ["CCDC136", "MITD1"]
+    assert out_json.exists()
+    assert out_doc.exists()
+    assert (ROOT / "examples" / "data" / "campaign_gate_probe.json").read_text() == default_before
+
+
+def test_campaign_gate_probe_merges_existing_and_followup_decisions():
+    existing = build_gate_probe(
+        decisions=[{
+            "gene": "RCC1L",
+            "gate_recommendation": "gate_sufficient",
+            "rationale": "Existing decision.",
+        }],
+        model="claude-opus-4-8",
+        tool_calls=[],
+        cost_usd=0.0,
+        requested_genes=["RCC1L", "CCDC136"],
+    )
+    followup = build_gate_probe(
+        decisions=[{
+            "gene": "CCDC136",
+            "gate_recommendation": "add_control",
+            "rationale": "Follow-up decision.",
+        }],
+        model="claude-opus-4-8",
+        tool_calls=[],
+        cost_usd=0.0,
+        requested_genes=["CCDC136"],
+    )
+
+    merged = merge_probe_decisions(existing, followup)
+
+    assert merged == [
+        {
+            "gene": "RCC1L",
+            "gate_recommendation": "gate_sufficient",
+            "rationale": "Existing decision.",
+        },
+        {
+            "gene": "CCDC136",
+            "gate_recommendation": "add_control",
+            "rationale": "Follow-up decision.",
+        },
+    ]
 
 
 def test_campaign_gate_probe_writes_json_and_markdown(tmp_path):

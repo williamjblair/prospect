@@ -33,7 +33,7 @@ cells, Replogle K562, and Replogle RPE1, with no accepted-state mutation.
 **1:30 · The loop.** Agent tab, campaign pressure summary. Claude proposed fifteen transcription
 factors, then pressure-tested the campaign rows. The twenty probed rows became review work: six
 aligned with deterministic review, eleven more-aggressive recommendations became assay gates, three
-were more cautious, and five of eleven gate probes returned as proposal-only review evidence. Zero
+were more cautious, and all eleven gates returned proposal-only review evidence. Zero
 accepted-state mutations occurred. Claude proposes; frozen code decides; a human key accepts state.
 
 **1:50 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`

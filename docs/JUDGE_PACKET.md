@@ -35,7 +35,7 @@ cd web && npm run build
 - Campaign probe rows: 20
 - Campaign probe audit issues: 0
 - Campaign triage rows: 11
-- Campaign gate probe rows: 5
+- Campaign gate probe rows: 11
 - Campaign pressure rows: 20
 - Transfer replay rows: 377
 - Substrate replay rows: 377

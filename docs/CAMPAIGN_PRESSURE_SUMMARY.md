@@ -18,19 +18,19 @@ Claude pressure became review work: aligned rows stayed aligned, more-aggressive
 - Aligned rows: 6
 - More-aggressive rows converted to assay gates: 11
 - More-cautious rows: 3
-- Gate probe rows: 5
+- Gate probe rows: 11
 
 ## Gate coverage
 
 - Requested gates: 11
-- Returned gate decisions: 5
-- Coverage status: `partial`
-- Missing decisions: 6
+- Returned gate decisions: 11
+- Coverage status: `complete`
+- Missing decisions: 0
 
 ## Gate recommendations
 
-- `add_control`: 1
-- `gate_sufficient`: 3
+- `add_control`: 4
+- `gate_sufficient`: 6
 - `lower_priority`: 1
 
 ## Pressure accounting
@@ -48,13 +48,13 @@ Claude pressure became review work: aligned rows stayed aligned, more-aggressive
 | 9 | LETM2 | advance_if_capacity_allows | aligned_with_deterministic_review | none |
 | 10 | DAPK2 | hold_as_ranked_backup | model_more_cautious | none |
 | 11 | SCO2 | advance_if_capacity_allows | converted_to_assay_gate | add_control |
-| 12 | CCDC136 | advance_to_assay_design | converted_to_assay_gate | none |
-| 13 | MITD1 | advance_to_assay_design | converted_to_assay_gate | none |
-| 14 | GZMB | advance_if_capacity_allows | converted_to_assay_gate | none |
-| 15 | FANCL | advance_if_capacity_allows | converted_to_assay_gate | none |
+| 12 | CCDC136 | advance_to_assay_design | converted_to_assay_gate | add_control |
+| 13 | MITD1 | advance_to_assay_design | converted_to_assay_gate | gate_sufficient |
+| 14 | GZMB | advance_if_capacity_allows | converted_to_assay_gate | add_control |
+| 15 | FANCL | advance_if_capacity_allows | converted_to_assay_gate | gate_sufficient |
 | 16 | TNNC1 | hold_as_ranked_backup | aligned_with_deterministic_review | none |
-| 17 | BCKDHA | advance_to_assay_design | converted_to_assay_gate | none |
-| 18 | ZC3H12A | advance_if_capacity_allows | converted_to_assay_gate | none |
+| 17 | BCKDHA | advance_to_assay_design | converted_to_assay_gate | gate_sufficient |
+| 18 | ZC3H12A | advance_if_capacity_allows | converted_to_assay_gate | add_control |
 | 19 | IRF4 | use_as_regulon_anchor | aligned_with_deterministic_review | none |
 | 20 | RXRB | hold_as_ranked_backup | model_more_cautious | none |
 

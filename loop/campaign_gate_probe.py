@@ -61,6 +61,27 @@ def triage_genes() -> list[str]:
     return [row["gene"] for row in _triage_rows()]
 
 
+def parse_gene_list(value: str | None) -> list[str] | None:
+    """Parse a comma-separated focused gate list in current triage order."""
+    if not value:
+        return None
+    requested = []
+    seen = set()
+    for raw in value.split(","):
+        gene = raw.strip().upper()
+        if not gene or gene in seen:
+            continue
+        requested.append(gene)
+        seen.add(gene)
+    triage_order = triage_genes()
+    triage_set = set(triage_order)
+    invalid = [gene for gene in requested if gene not in triage_set]
+    if invalid:
+        raise ValueError(f"{', '.join(invalid)} not in campaign disagreement triage")
+    requested_set = set(requested)
+    return [gene for gene in triage_order if gene in requested_set]
+
+
 def chunk_gene_batches(genes: list[str], chunk_size: int) -> list[list[str]]:
     """Split gate genes into non-empty rank-preserving batches."""
     if chunk_size < 1:
@@ -311,6 +332,24 @@ def write_gate_probe(
     return probe
 
 
+def merge_probe_decisions(existing_probe: dict[str, Any], followup_probe: dict[str, Any]) -> list[dict[str, str]]:
+    """Return decision inputs from two probe artifacts, preserving first decision per gene."""
+    decisions: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for probe in (existing_probe, followup_probe):
+        for row in probe.get("rows", []):
+            gene = str(row.get("gene", "")).upper()
+            if not gene or gene in seen:
+                continue
+            seen.add(gene)
+            decisions.append({
+                "gene": gene,
+                "gate_recommendation": str(row.get("gate_recommendation", "")),
+                "rationale": str(row.get("gate_rationale", row.get("rationale", ""))),
+            })
+    return decisions
+
+
 def parse_decisions(text: str) -> list[dict[str, Any]]:
     candidates: list[str] = [text.strip()]
     for line in reversed(text.strip().splitlines()):
@@ -369,7 +408,7 @@ def _run_live_prompt(goal: str, requested_genes: list[str] | None = None) -> dic
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set in .env")
     client = anthropic.Anthropic()
-    messages = [{"role": "user", "content": _goal()}]
+    messages = [{"role": "user", "content": goal}]
     transcript: list[dict[str, Any]] = []
     tin = 0
     tout = 0
@@ -413,8 +452,13 @@ def _run_live_prompt(goal: str, requested_genes: list[str] | None = None) -> dic
     return {"decisions": decisions, "tool_calls": transcript, "cost_usd": cost}
 
 
-def run_live(chunk_size: int | None = None) -> dict[str, Any]:
-    requested_genes = triage_genes()
+def run_live(
+    chunk_size: int | None = None,
+    requested_genes: list[str] | None = None,
+    out_json: Path = OUT_JSON,
+    out_doc: Path = OUT_DOC,
+) -> dict[str, Any]:
+    requested_genes = requested_genes or triage_genes()
     if chunk_size is not None:
         decisions: list[dict[str, Any]] = []
         transcript: list[dict[str, Any]] = []
@@ -425,6 +469,8 @@ def run_live(chunk_size: int | None = None) -> dict[str, Any]:
             transcript.extend(result["tool_calls"])
             cost += result["cost_usd"]
         return write_gate_probe(
+            out_json=out_json,
+            out_doc=out_doc,
             decisions=decisions,
             model=MODEL,
             tool_calls=transcript,
@@ -434,6 +480,8 @@ def run_live(chunk_size: int | None = None) -> dict[str, Any]:
 
     result = _run_live_prompt(_goal(), requested_genes=requested_genes)
     return write_gate_probe(
+        out_json=out_json,
+        out_doc=out_doc,
         decisions=result["decisions"],
         model=MODEL,
         tool_calls=result["tool_calls"],
@@ -446,27 +494,35 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="campaign_gate_probe")
     parser.add_argument("--sample", action="store_true", help="write a fixture gate probe without calling the API")
     parser.add_argument("--chunk-size", type=int, help="run live gate probes in rank-ordered gene batches")
+    parser.add_argument("--genes", help="comma-separated disagreement gate genes to request")
+    parser.add_argument("--merge-existing", type=Path, help="merge a focused live probe with an existing gate-probe artifact")
     parser.add_argument("--out-json", type=Path, default=OUT_JSON)
     parser.add_argument("--out-doc", type=Path, default=OUT_DOC)
     args = parser.parse_args(argv)
+    requested_genes = parse_gene_list(args.genes)
     if args.sample:
-        requested = [item["gene"] for item in SAMPLE_DECISIONS]
+        requested = requested_genes or [item["gene"] for item in SAMPLE_DECISIONS]
         probe = write_gate_probe(out_json=args.out_json, out_doc=args.out_doc, requested_genes=requested)
     else:
-        probe = run_live(chunk_size=args.chunk_size)
-        if args.out_json != OUT_JSON or args.out_doc != OUT_DOC:
-            write_gate_probe(
+        live_probe = run_live(
+            chunk_size=args.chunk_size,
+            requested_genes=requested_genes,
+            out_json=args.out_json,
+            out_doc=args.out_doc,
+        )
+        probe = live_probe
+        if args.merge_existing:
+            existing = json.loads(args.merge_existing.read_text())
+            decisions = merge_probe_decisions(existing, live_probe)
+            requested = triage_genes()
+            probe = write_gate_probe(
                 out_json=args.out_json,
                 out_doc=args.out_doc,
-                decisions=[{
-                    "gene": row["gene"],
-                    "gate_recommendation": row["gate_recommendation"],
-                    "rationale": row["gate_rationale"],
-                } for row in probe["rows"]],
-                model=probe["model"],
-                tool_calls=probe["tool_calls"],
-                cost_usd=probe["cost_usd"],
-                requested_genes=probe["coverage"]["requested_genes"],
+                decisions=decisions,
+                model=live_probe["model"],
+                tool_calls=existing.get("tool_calls", []) + live_probe["tool_calls"],
+                cost_usd=float(existing.get("cost_usd", 0.0)) + float(live_probe["cost_usd"]),
+                requested_genes=requested,
             )
     print(f"wrote {args.out_json} ({probe['candidate_count']} candidates)")
     print(f"wrote {args.out_doc}")

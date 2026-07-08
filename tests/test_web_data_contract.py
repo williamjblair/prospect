@@ -81,10 +81,10 @@ def test_frontier_json_embeds_campaign_pressure_summary():
     assert summary["accepted_state_mutations"] == 0
     assert summary["counts"]["claude_probe_rows"] == 20
     assert summary["counts"]["triage_rows"] == 11
-    assert summary["counts"]["gate_probe_rows"] == 5
-    assert summary["gate_recommendations"]["gate_sufficient"] == 3
-    assert summary["gate_probe_coverage"]["coverage_status"] == "partial"
-    assert summary["gate_probe_coverage"]["returned_decisions"] == 5
+    assert summary["counts"]["gate_probe_rows"] == 11
+    assert summary["gate_recommendations"]["gate_sufficient"] == 6
+    assert summary["gate_probe_coverage"]["coverage_status"] == "complete"
+    assert summary["gate_probe_coverage"]["returned_decisions"] == 11
     assert "verified" not in json.dumps(summary).lower()
     assert "true" not in json.dumps(summary).lower()
 

@@ -191,26 +191,24 @@ Status: shipped as `./prospect campaign-pressure`,
 `/data/campaign_pressure_summary.json`, the judge packet, final-check, submit-smoke, and an Agent tab
 card. It now accounts for 20 campaign rows, 20 deterministic review rows, 20 Claude probe rows, 6
 aligned recommendations, 11 more-aggressive recommendations converted to assay gates, 3
-more-cautious recommendations, 5 returned gate-probe decisions, 6 explicitly missing gate-probe
-decisions, and 0 accepted-state mutations. The promoted all-20 probe passed
-`./prospect campaign-probe-audit --strict` with complete coverage and zero rationale issues. The
-gate probe is intentionally visible as partial coverage: 5 of 11 disagreement gates returned
-closed recommendations, and the missing genes remain named in the artifact. That is a strength, not
-a gap to hide.
+more-cautious recommendations, all 11 gate-probe decisions, and 0 accepted-state mutations. The
+promoted all-20 probe passed `./prospect campaign-probe-audit --strict` with complete coverage and
+zero rationale issues. The follow-up gate probe closed the previous six missing gate decisions while
+keeping every result proposal only.
 
 `./prospect campaign-probe-audit` is the promotion gate for probe artifacts: it replays coverage,
 deterministic decision parity, closed recommendation enums, and rationale claims against frozen
 facts before a probe enters the public chain. The campaign probe and gate probe both record requested
 versus returned coverage, so a model return cannot be mistaken for complete coverage if Claude
-returns fewer decisions than requested.
+returns fewer decisions than requested. Current gate coverage is complete.
 
 Recommended shape:
 
-- Treat the all-20 campaign probe as the current promoted baseline.
-- A remaining optional improvement is a second gate-focused pass over the 6 missing gate genes:
-  `CCDC136`, `MITD1`, `GZMB`, `FANCL`, `BCKDHA`, and `ZC3H12A`.
-- If that pass returns fewer decisions than requested, keep it as a partial pressure artifact or
-  rerun it. Do not launder missing coverage into a complete gate probe.
+- Treat the all-20 campaign probe and all-11 gate probe as the current promoted baseline.
+- Future optional passes should be treated as challenger review artifacts, not replacements, unless
+  they return complete coverage and survive the same coverage and rationale review.
+- If a follow-up pass returns fewer decisions than requested, keep it as a partial pressure artifact
+  or rerun it. Do not launder missing coverage into a complete gate probe.
 - If a follow-up pass returns complete coverage but any rationale contradicts frozen lookup facts, keep
   it out of the public chain or turn the contradiction into explicit review work before promotion.
 - Run `./prospect campaign-probe-audit --input <probe.json> --out-json /tmp/audit.json --out-doc /tmp/audit.md --strict`

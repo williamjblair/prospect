@@ -275,8 +275,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
 - **Agent campaign next pass**: shipped for all 20 campaign rows as `./prospect campaign-probe`.
   The committed probe now has a frozen audit artifact at `./prospect campaign-probe-audit`.
-  Disagreement triage is shipped as `./prospect campaign-triage`. The gate probe currently returned
-  5 of 11 gate decisions and records the 6 missing decisions; keep that partial coverage visible.
+  Disagreement triage is shipped as `./prospect campaign-triage`. The gate probe now covers all
+  11 disagreement gates with closed recommendations while staying proposal only.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around

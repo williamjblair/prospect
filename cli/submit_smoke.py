@@ -121,15 +121,15 @@ def _check_campaign_gate(base_url: str, opener: Callable[..., Any], timeout: int
         ok = (
             data.get("status") == "evidence_attached"
             and data.get("trust_boundary") == "proposal_only"
-            and len(data.get("rows", [])) == 5
-            and coverage.get("coverage_status") == "partial"
-            and coverage.get("returned_decisions") == 5
+            and len(data.get("rows", [])) == 11
+            and coverage.get("coverage_status") == "complete"
+            and coverage.get("returned_decisions") == 11
             and coverage.get("requested_limit") == 11
         )
         return Check(
             "campaign gate probe",
             ok,
-            "5 proposal-only rows, partial coverage recorded" if ok else "campaign gate probe shape drift",
+            "11 proposal-only rows, complete gate coverage recorded" if ok else "campaign gate probe shape drift",
         )
     except Exception as exc:
         return Check("campaign gate probe", False, f"fetch failed: {exc}")
@@ -144,8 +144,8 @@ def _check_campaign_pressure(base_url: str, opener: Callable[..., Any], timeout:
             and data.get("accepted_state_mutations") == 0
             and data.get("counts", {}).get("claude_probe_rows") == 20
             and data.get("counts", {}).get("triage_rows") == 11
-            and data.get("counts", {}).get("gate_probe_rows") == 5
-            and data.get("gate_probe_coverage", {}).get("coverage_status") == "partial"
+            and data.get("counts", {}).get("gate_probe_rows") == 11
+            and data.get("gate_probe_coverage", {}).get("coverage_status") == "complete"
         )
         return Check("campaign pressure", ok, "20 probe rows summarized without accepted state" if ok else "campaign pressure shape drift")
     except Exception as exc:

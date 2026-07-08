@@ -21,8 +21,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5807378 | `2ae388f29681682d6fc73ba08dc083b10edebb085333e82a2b957becaa15d80d` |
-| `/data/judge_packet.json` | 18639 | `aaeea2d1429f03b5b77bc243c70e5e14c817558a6595c0a22fa81115cfbd7f3b` |
+| `/data/frontier.json` | 5824869 | `52f988d88b8501f50ee57b9bb17be9bb90145188114db530503d6d4a3ea5e24f` |
+| `/data/judge_packet.json` | 18649 | `013ea7317e06e47411c5a315ec45d56818334bc4ba04af023942bd3bd80c36f7` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -34,8 +34,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/campaign_agent_probe.json` | 54286 | `0df468c2ab5599dd5499bb8ae94703877efb8268067761e4a3d423c143c97886` |
 | `/data/campaign_probe_audit.json` | 1366 | `4d51685b7fe9d1588bf1c137cc6a8f3431d81707004c02d55e29bc74d850a10a` |
 | `/data/campaign_triage.json` | 11777 | `39e4fce014fb0a84ce857ea3d3b2c878cee2bc451b9e41111513aec71885fd43` |
-| `/data/campaign_gate_probe.json` | 70293 | `ea171fb7c809a67095f7ee55acc4a3e3720a5d5741aa8360bbfa35242281342d` |
-| `/data/campaign_pressure_summary.json` | 13479 | `727c1d97123c1483b49e9d0b4436e9810613a273d6d6ef40ab3b582078266d15` |
+| `/data/campaign_gate_probe.json` | 87715 | `9eedf8ee67babe1c68e19f7168399d430a1f07f6c7f1872fb6b93d9c461f6dbb` |
+| `/data/campaign_pressure_summary.json` | 13538 | `ac3faa262e69650ad352a22d8d97ce034920ad911a100c878d5f24a63de291cc` |
 | `/data/transfer_replay_packet.json` | 1480 | `3bb41d0e0eb3bb4da6579efee02899244a4b0c52bfbb22eb34562d224c825651` |
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |

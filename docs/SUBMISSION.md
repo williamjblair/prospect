@@ -135,8 +135,7 @@ the trust floor after the event window without private credentials for the stati
 - The disagreement triage turns those 11 more-aggressive rows into secondary or capacity assay
   queues with orthogonal knockdown and transfer gates.
 - The gate probe asks whether those gates are sufficient, need another control, or should be lower
-  priority. It returned 5 of 11 gate decisions, records the 6 missing decisions, stays proposal only,
-  and does not move state.
+  priority. It returned all 11 gate decisions, stays proposal only, and does not move state.
 - The campaign probe audit is a frozen check over the committed Claude probe. It reports complete
   coverage, zero rationale issues, and no accepted-state mutation.
 - The transfer replay packet compares 377 T-cell regulators against the Replogle K562/RPE1 frozen
