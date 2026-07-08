@@ -10,6 +10,8 @@ Repo URL: https://github.com/williamjblair/prospect
 
 Submission text: `docs/SUBMISSION.md`
 
+Judge quickstart: `docs/JUDGE_QUICKSTART.md`
+
 Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`
 
 Demo script: `docs/DEMO.md`
@@ -84,6 +86,7 @@ Submit the project with:
 - live URL: https://prospect-sepia-six.vercel.app
 - repo URL: https://github.com/williamjblair/prospect
 - project text from `docs/SUBMISSION_FORM_PACKET.md` or `docs/SUBMISSION.md`
+- five-minute judge path from `docs/JUDGE_QUICKSTART.md`
 - demo video recorded from `docs/DEMO.md`
 - local copy-safe packet from `./prospect submit-pack`
 - recording teleprompter from `./prospect demo-pack`

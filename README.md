@@ -4,6 +4,8 @@ A computationally reproduced regulatory frontier of human CD4+ T-cell biology.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
+Judge quickstart: `docs/JUDGE_QUICKSTART.md`
+
 Final submitter checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`
 
 Submission form packet: `docs/SUBMISSION_FORM_PACKET.md`

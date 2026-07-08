@@ -13,6 +13,7 @@ REPO_URL = "https://github.com/williamjblair/prospect"
 SIGNED_ROOT = "root_a8b0dcdd4024e12f"
 
 SOURCE_DOCS = [
+    "docs/JUDGE_QUICKSTART.md",
     "docs/SUBMISSION_FORM_PACKET.md",
     "docs/SUBMISSION.md",
     "docs/DEMO_RECORDING_RUNBOOK.md",

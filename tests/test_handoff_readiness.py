@@ -55,7 +55,19 @@ def test_handoff_describes_current_production_smoke_gate():
         assert phrase in text
 
 
+def test_handoff_points_to_judge_quickstart():
+    text = HANDOFF.read_text()
+
+    for phrase in [
+        "[JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md)",
+        "five-minute judge path",
+        "`./prospect submit-pack`",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_agents_lists_current_cli_surface()
     test_handoff_describes_current_production_smoke_gate()
+    test_handoff_points_to_judge_quickstart()
     print("PASS: handoff readiness")

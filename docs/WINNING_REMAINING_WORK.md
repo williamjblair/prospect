@@ -14,6 +14,8 @@ the same final command surface: `final-check`, `submit-smoke`, `submit-pack`, an
 The final gate now also regenerates and drift-checks the transfer replay packet, judge packet, and
 static web data. Production smoke fetches every public artifact endpoint and checks that the live
 judge packet's public-data list exactly matches the shared `submit-pack` manifest.
+`docs/JUDGE_QUICKSTART.md` now gives judges a five-minute route through the live app, replay
+commands, typed statuses, receipt boundary, and public artifacts.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -70,7 +72,7 @@ This audit used the current worktree and live production data as the source of r
     `submit-pack` public-artifact manifest, and every public artifact endpoint listed by
     `submit-pack`.
   - `./prospect submit-pack`: local copy-safe packet for the final upload fields, full public artifact
-    list, and replay commands, with a self-contained preflight list.
+    list, replay commands, and source docs, including `docs/JUDGE_QUICKSTART.md`.
   - `./prospect demo-pack`: local two-minute teleprompter with trust-boundary guardrails and a
     self-contained recording preflight list.
 
@@ -123,7 +125,7 @@ Public bundle counts in `web/public/data/frontier.json` and live judge packet:
 ### Current narrative surface
 
 The core story is present and coherent across `README.md`, `docs/PROTOCOL.md`, `docs/FINDINGS.md`,
-`docs/DEMO.md`, `docs/SUBMISSION.md`, and `docs/JUDGE_PACKET.md`:
+`docs/DEMO.md`, `docs/SUBMISSION.md`, `docs/JUDGE_QUICKSTART.md`, and `docs/JUDGE_PACKET.md`:
 
 - Generation got cheap; adjudication did not.
 - Activity is not state.
@@ -352,14 +354,14 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
+| Submission packaging | Mostly human task | `docs/JUDGE_QUICKSTART.md`, `docs/SUBMISSION_FORM_PACKET.md`, `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/DEMO_TELEPROMPTER.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, `./prospect submit-pack`, `./prospect demo-pack`, live site | Record and submit |
 
 ## Recommended next sequence
 
 If work continues, do it in this order:
 
 1. **Human submitter work:** record the two-minute demo from `docs/DEMO_RECORDING_RUNBOOK.md` and submit. This is the only P0 work.
-2. **Final checklist:** use `docs/FINAL_SUBMISSION_CHECKLIST.md`.
+2. **Final checklist:** use `docs/FINAL_SUBMISSION_CHECKLIST.md` and `docs/JUDGE_QUICKSTART.md`.
 3. **Second frontier:** only if the above are done and there is enough time to keep the current story
    clean.
 

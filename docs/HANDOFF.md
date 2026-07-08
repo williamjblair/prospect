@@ -235,6 +235,8 @@ uses restrained paint-only transitions in the 180-220ms band.
 
 ## 8. Demo and submission
 
+- **Judge quickstart**: [JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md), a five-minute judge path through
+  the live app, replay commands, trust boundary, typed statuses, and public artifacts.
 - **Demo script**: [DEMO.md](DEMO.md), a 2-minute beat-by-beat (refusal -> reveal -> number -> moat ->
   loop), runs entirely off the live site. [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
   adds exact preflight commands and click beats. [DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md) and

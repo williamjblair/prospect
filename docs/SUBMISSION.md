@@ -7,6 +7,8 @@ Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prosp
 
 Final checklist: [docs/FINAL_SUBMISSION_CHECKLIST.md](FINAL_SUBMISSION_CHECKLIST.md)
 
+Judge quickstart: [docs/JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md)
+
 Recording teleprompter: [docs/DEMO_TELEPROMPTER.md](DEMO_TELEPROMPTER.md)
 
 ## The problem

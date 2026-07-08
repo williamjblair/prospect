@@ -52,6 +52,8 @@ and signed replayable state.
 
 Teleprompter: `docs/DEMO_TELEPROMPTER.md` or `./prospect demo-pack`.
 
+Judge quickstart: `docs/JUDGE_QUICKSTART.md`.
+
 ## Built with Claude
 
 Claude is used in three ways:
