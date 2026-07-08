@@ -64,6 +64,13 @@ Claude is used in three ways:
 
 The frozen verifier and human key remain the gate. No model in the trust path.
 
+## What outlasts the week
+
+Prospect is working software for a skeptical immunologist or computational biologist reading the
+Marson lab screen. The durable pieces are the live app, replayable CLI, public data endpoints,
+receipt bridge, wet-lab handoff, and signed root accepted by a human signature. The docs and public
+JSON endpoints let a judge rerun the trust floor after the event window.
+
 ## Verification commands
 
 ```bash

@@ -71,6 +71,13 @@ the graph on its own word. On top of it:
   signed cross-cell-type finding, using Marson and Replogle checkers without changing accepted state.
   The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
 
+## What outlasts the week
+
+Prospect is working software for a skeptical immunologist or computational biologist reading the
+Marson lab screen. The durable parts are the live app, replayable CLI, public data endpoints,
+receipt bridge, wet-lab handoff, and signed root accepted by a human signature. A judge can rerun
+the trust floor after the event window without private credentials for the static web app.
+
 ## How it uses Claude
 
 - **Measured**: the benchmark grades Claude and other frontier models against ground truth, turning

@@ -18,7 +18,9 @@ judge packet's public-data list exactly matches the shared `submit-pack` manifes
 commands, typed statuses, receipt boundary, and public artifacts. The live Overview also links
 that quickstart from the judge packet card. The Network graph and legend now resolve through
 Observatory graph tokens rather than raw hex literals, with a repo hygiene guardrail keeping React UI
-source token-based.
+source token-based. The judge quickstart and submission form packet now also name the durable Build
+Track evidence directly: the named skeptical-scientist user, working software, replayable CLI, public
+data endpoints, receipt bridge, wet-lab handoff, and human-signed root.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -142,6 +144,9 @@ quickstart card, and `docs/JUDGE_PACKET.md`:
 - Prospect recovers known biology before making surprising claims.
 - PGGT1B remains a hypothesis to test, not an accepted biological result.
 - The lab packet and campaign triage convert model pressure into assay gates, not accepted state.
+- The durable Build Track artifact is working software for a skeptical immunologist or computational
+  biologist reading the Marson lab screen: live app, replayable CLI, public endpoints, receipt bridge,
+  wet-lab handoff, and human-signed state.
 
 ## Remaining work by priority
 

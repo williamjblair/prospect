@@ -59,7 +59,24 @@ def test_judge_quickstart_is_in_submission_sources_and_entrypoints():
     assert "JUDGE_QUICKSTART.md" in submission
 
 
+def test_judge_quickstart_names_durable_build_track_evidence():
+    text = DOC.read_text()
+
+    for phrase in [
+        "## What outlasts the week",
+        "a skeptical immunologist or computational biologist reading the Marson lab screen",
+        "working software",
+        "replayable CLI",
+        "public data endpoints",
+        "receipt bridge",
+        "wet-lab handoff",
+        "human signature",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_judge_quickstart_exists_and_points_to_core_evidence()
     test_judge_quickstart_is_in_submission_sources_and_entrypoints()
+    test_judge_quickstart_names_durable_build_track_evidence()
     print("PASS: judge quickstart")

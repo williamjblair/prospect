@@ -77,3 +77,15 @@ Prospect is working software for a named user: a skeptical immunologist or compu
 reading the Marson lab screen. It ships a live app, a replayable CLI, a public judge packet, an MCP
 receipt bridge, and a wet-lab handoff. Claude is useful in the loop, but accepted state remains
 replayable and human accepted.
+
+## What outlasts the week
+
+The durable user is a skeptical immunologist or computational biologist reading the Marson lab screen.
+The durable artifact is working software, not a notebook or a one-off transcript:
+
+- live app at the production URL above
+- replayable CLI with `./prospect final-check`, `./prospect verify`, and `./prospect submit-smoke`
+- public data endpoints listed in this quickstart and checked by production smoke
+- receipt bridge that lets external activity submit a proposal while preserving `accepted=false`
+- wet-lab handoff that names controls, readouts, exclusion rules, and missing evidence before acceptance
+- human signature over the signed root that separates accepted state from model activity

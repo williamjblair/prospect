@@ -46,7 +46,24 @@ def test_submission_points_to_current_public_artifacts():
     assert "DEMO_TELEPROMPTER.md" in text
 
 
+def test_submission_names_durable_build_track_artifact():
+    text = SUBMISSION.read_text()
+
+    for phrase in [
+        "What outlasts the week",
+        "skeptical immunologist or computational biologist",
+        "working software",
+        "replayable CLI",
+        "public data endpoints",
+        "receipt bridge",
+        "wet-lab handoff",
+        "human signature",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_submission_lists_current_replay_and_artifact_commands()
     test_submission_points_to_current_public_artifacts()
+    test_submission_names_durable_build_track_artifact()
     print("PASS: submission readiness")

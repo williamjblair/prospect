@@ -101,6 +101,12 @@ def test_submission_form_packet_has_copy_paste_fields():
         "`evidence_attached`",
         "`contradicted`",
         "Do not claim wet-lab or clinical truth",
+        "What outlasts the week",
+        "working software",
+        "replayable CLI",
+        "public data endpoints",
+        "receipt bridge",
+        "wet-lab handoff",
     ]:
         assert phrase in text
 
