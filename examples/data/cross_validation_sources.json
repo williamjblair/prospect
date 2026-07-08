@@ -1,0 +1,2859 @@
+{
+  "bundle_date": "2026-07-08",
+  "dice_expression": {
+    "BCKDHA": {
+      "activated_cd4_ensembl_id": "ENSG00000248098.11",
+      "activated_cd4_max_tpm": 0.788,
+      "activated_cd4_mean_tpm": 0.121,
+      "activated_cd4_min_tpm": 0.0,
+      "activated_cd4_replicates": 88,
+      "annotation": "BCKDHA;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, memory TREG",
+      "max_cd4_tpm": 0.326,
+      "max_non_cd4_cell_type": "NK cell, CD56dim CD16+",
+      "max_non_cd4_tpm": 0.234,
+      "mean_file_ensembl_id": "ENSG00000248098"
+    },
+    "CCDC136": {
+      "activated_cd4_ensembl_id": "ENSG00000128596.16",
+      "activated_cd4_max_tpm": 2.652,
+      "activated_cd4_mean_tpm": 1.419,
+      "activated_cd4_min_tpm": 0.388,
+      "activated_cd4_replicates": 88,
+      "annotation": "CCDC136;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, memory TREG",
+      "max_cd4_tpm": 12.106,
+      "max_non_cd4_cell_type": "NK cell, CD56dim CD16+",
+      "max_non_cd4_tpm": 7.397,
+      "mean_file_ensembl_id": "ENSG00000128596"
+    },
+    "CCDC22": {
+      "activated_cd4_ensembl_id": "ENSG00000101997.12",
+      "activated_cd4_max_tpm": 54.288,
+      "activated_cd4_mean_tpm": 30.218,
+      "activated_cd4_min_tpm": 8.342,
+      "activated_cd4_replicates": 88,
+      "annotation": "CCDC22;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, TFH",
+      "max_cd4_tpm": 39.287,
+      "max_non_cd4_cell_type": "T cell, CD8, naive",
+      "max_non_cd4_tpm": 24.129,
+      "mean_file_ensembl_id": "ENSG00000101997"
+    },
+    "CYB5RL": {
+      "activated_cd4_ensembl_id": "ENSG00000215883.10",
+      "activated_cd4_max_tpm": 4.343,
+      "activated_cd4_mean_tpm": 2.774,
+      "activated_cd4_min_tpm": 1.41,
+      "activated_cd4_replicates": 88,
+      "annotation": "CYB5RL;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive TREG",
+      "max_cd4_tpm": 6.037,
+      "max_non_cd4_cell_type": "B cell, naive",
+      "max_non_cd4_tpm": 5.577,
+      "mean_file_ensembl_id": "ENSG00000215883"
+    },
+    "DAPK2": {
+      "activated_cd4_ensembl_id": "ENSG00000035664.11",
+      "activated_cd4_max_tpm": 1.159,
+      "activated_cd4_mean_tpm": 0.33,
+      "activated_cd4_min_tpm": 0.125,
+      "activated_cd4_replicates": 88,
+      "annotation": "DAPK2;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, TH17",
+      "max_cd4_tpm": 2.481,
+      "max_non_cd4_cell_type": "NK cell, CD56dim CD16+",
+      "max_non_cd4_tpm": 8.398,
+      "mean_file_ensembl_id": "ENSG00000035664"
+    },
+    "FANCL": {
+      "activated_cd4_ensembl_id": "ENSG00000115392.11",
+      "activated_cd4_max_tpm": 10.086,
+      "activated_cd4_mean_tpm": 3.398,
+      "activated_cd4_min_tpm": 1.047,
+      "activated_cd4_replicates": 88,
+      "annotation": "FANCL;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive TREG",
+      "max_cd4_tpm": 11.949,
+      "max_non_cd4_cell_type": "B cell, naive",
+      "max_non_cd4_tpm": 24.12,
+      "mean_file_ensembl_id": "ENSG00000115392"
+    },
+    "GAS2L1": {
+      "activated_cd4_ensembl_id": "ENSG00000185340.15",
+      "activated_cd4_max_tpm": 0.168,
+      "activated_cd4_mean_tpm": 0.031,
+      "activated_cd4_min_tpm": 0.0,
+      "activated_cd4_replicates": 88,
+      "annotation": "GAS2L1;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, TH1/17",
+      "max_cd4_tpm": 0.514,
+      "max_non_cd4_cell_type": "Monocyte, classical",
+      "max_non_cd4_tpm": 7.485,
+      "mean_file_ensembl_id": "ENSG00000185340"
+    },
+    "GZMB": {
+      "activated_cd4_ensembl_id": "ENSG00000100453.12",
+      "activated_cd4_max_tpm": 36.327,
+      "activated_cd4_mean_tpm": 7.422,
+      "activated_cd4_min_tpm": 0.889,
+      "activated_cd4_replicates": 88,
+      "annotation": "GZMB;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, TH1",
+      "max_cd4_tpm": 18.816,
+      "max_non_cd4_cell_type": "NK cell, CD56dim CD16+",
+      "max_non_cd4_tpm": 1793.65,
+      "mean_file_ensembl_id": "ENSG00000100453"
+    },
+    "LETM2": {
+      "activated_cd4_ensembl_id": "ENSG00000165046.12",
+      "activated_cd4_max_tpm": 4.42,
+      "activated_cd4_mean_tpm": 2.731,
+      "activated_cd4_min_tpm": 1.526,
+      "activated_cd4_replicates": 88,
+      "annotation": "LETM2;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, memory TREG",
+      "max_cd4_tpm": 6.042,
+      "max_non_cd4_cell_type": "B cell, naive",
+      "max_non_cd4_tpm": 8.486,
+      "mean_file_ensembl_id": "ENSG00000165046"
+    },
+    "MCAT": {
+      "activated_cd4_ensembl_id": "ENSG00000100294.12",
+      "activated_cd4_max_tpm": 41.53,
+      "activated_cd4_mean_tpm": 23.3,
+      "activated_cd4_min_tpm": 10.779,
+      "activated_cd4_replicates": 88,
+      "annotation": "MCAT;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive [activated]",
+      "max_cd4_tpm": 23.987,
+      "max_non_cd4_cell_type": "T cell, CD8, naive [activated]",
+      "max_non_cd4_tpm": 31.103,
+      "mean_file_ensembl_id": "ENSG00000100294"
+    },
+    "MITD1": {
+      "activated_cd4_ensembl_id": "ENSG00000158411.11",
+      "activated_cd4_max_tpm": 103.486,
+      "activated_cd4_mean_tpm": 63.126,
+      "activated_cd4_min_tpm": 38.216,
+      "activated_cd4_replicates": 88,
+      "annotation": "MITD1;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive [activated]",
+      "max_cd4_tpm": 38.23,
+      "max_non_cd4_cell_type": "T cell, CD8, naive [activated]",
+      "max_non_cd4_tpm": 43.96,
+      "mean_file_ensembl_id": "ENSG00000158411"
+    },
+    "PGGT1B": {
+      "activated_cd4_ensembl_id": "ENSG00000164219.9",
+      "activated_cd4_max_tpm": 23.088,
+      "activated_cd4_mean_tpm": 16.101,
+      "activated_cd4_min_tpm": 6.952,
+      "activated_cd4_replicates": 88,
+      "annotation": "PGGT1B;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive TREG",
+      "max_cd4_tpm": 36.444,
+      "max_non_cd4_cell_type": "Monocyte, non-classical",
+      "max_non_cd4_tpm": 85.068,
+      "mean_file_ensembl_id": "ENSG00000164219"
+    },
+    "RCC1L": {
+      "activated_cd4_ensembl_id": "ENSG00000274523.4",
+      "activated_cd4_max_tpm": 17.954,
+      "activated_cd4_mean_tpm": 10.784,
+      "activated_cd4_min_tpm": 4.61,
+      "activated_cd4_replicates": 88,
+      "annotation": "RCC1L;protein_coding",
+      "max_cd4_cell_type": null,
+      "max_cd4_tpm": null,
+      "max_non_cd4_cell_type": null,
+      "max_non_cd4_tpm": null,
+      "mean_file_ensembl_id": null
+    },
+    "RWDD2B": {
+      "activated_cd4_ensembl_id": "ENSG00000156253.6",
+      "activated_cd4_max_tpm": 17.257,
+      "activated_cd4_mean_tpm": 7.941,
+      "activated_cd4_min_tpm": 4.523,
+      "activated_cd4_replicates": 88,
+      "annotation": "RWDD2B;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive",
+      "max_cd4_tpm": 13.868,
+      "max_non_cd4_cell_type": "T cell, CD8, naive",
+      "max_non_cd4_tpm": 14.031,
+      "mean_file_ensembl_id": "ENSG00000156253"
+    },
+    "SCO2": {
+      "activated_cd4_ensembl_id": "ENSG00000284194.1",
+      "activated_cd4_max_tpm": 0.0,
+      "activated_cd4_mean_tpm": 0.0,
+      "activated_cd4_min_tpm": 0.0,
+      "activated_cd4_replicates": 88,
+      "annotation": "SCO2;protein_coding",
+      "max_cd4_cell_type": null,
+      "max_cd4_tpm": null,
+      "max_non_cd4_cell_type": null,
+      "max_non_cd4_tpm": null,
+      "mean_file_ensembl_id": null
+    },
+    "SNAP29": {
+      "activated_cd4_ensembl_id": "ENSG00000099940.11",
+      "activated_cd4_max_tpm": 17.941,
+      "activated_cd4_mean_tpm": 12.202,
+      "activated_cd4_min_tpm": 7.406,
+      "activated_cd4_replicates": 88,
+      "annotation": "SNAP29;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, memory TREG",
+      "max_cd4_tpm": 83.079,
+      "max_non_cd4_cell_type": "Monocyte, non-classical",
+      "max_non_cd4_tpm": 181.061,
+      "mean_file_ensembl_id": "ENSG00000099940"
+    },
+    "TNNC1": {
+      "activated_cd4_ensembl_id": "ENSG00000114854.7",
+      "activated_cd4_max_tpm": 8.483,
+      "activated_cd4_mean_tpm": 4.171,
+      "activated_cd4_min_tpm": 0.454,
+      "activated_cd4_replicates": 88,
+      "annotation": "TNNC1;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive TREG",
+      "max_cd4_tpm": 7.96,
+      "max_non_cd4_cell_type": "T cell, CD8, naive",
+      "max_non_cd4_tpm": 10.248,
+      "mean_file_ensembl_id": "ENSG00000114854"
+    },
+    "ZC3H12A": {
+      "activated_cd4_ensembl_id": "ENSG00000163874.10",
+      "activated_cd4_max_tpm": 513.761,
+      "activated_cd4_mean_tpm": 262.315,
+      "activated_cd4_min_tpm": 80.389,
+      "activated_cd4_replicates": 88,
+      "annotation": "ZC3H12A;protein_coding",
+      "max_cd4_cell_type": "T cell, CD4, naive [activated]",
+      "max_cd4_tpm": 201.608,
+      "max_non_cd4_cell_type": "T cell, CD8, naive [activated]",
+      "max_non_cd4_tpm": 194.143,
+      "mean_file_ensembl_id": "ENSG00000163874"
+    }
+  },
+  "notes": [
+    {
+      "detail": "screen rows are reduced exact table rows for the 18 Phase 1 candidate genes",
+      "source": "BioGRID ORCS"
+    },
+    {
+      "detail": "expression rows are reduced from public TPM downloads by Ensembl ID",
+      "source": "DICE"
+    },
+    {
+      "detail": "interaction rows are top interaction_partner API rows, limit 10 per gene",
+      "source": "STRING"
+    }
+  ],
+  "screen_rows": {
+    "BCKDHA": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 1606,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.027824,
+          "mageck_neg_score": 0.78472,
+          "mageck_pos_score": 0.0092444,
+          "neg_fdr": 1.0,
+          "pos_fdr": 0.279837
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 6477,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.018823,
+          "mageck_neg_score": 0.66453,
+          "mageck_pos_score": 0.33207,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.14739
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 4267,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.00096059,
+          "mageck_score": 0.11501,
+          "p_value": 0.3523
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "CCDC136": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 4178,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.039715,
+          "mageck_neg_score": 0.28759,
+          "mageck_pos_score": 0.055412,
+          "neg_fdr": 0.862758,
+          "pos_fdr": 0.633134
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 6656,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.082268,
+          "mageck_neg_score": 0.5976,
+          "mageck_pos_score": 0.34365,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.14739
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 8522,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": -0.03838,
+          "mageck_score": 0.31999,
+          "p_value": 0.62993
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "CCDC22": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 12110,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.25537,
+          "mageck_neg_score": 0.081025,
+          "mageck_pos_score": 0.41246,
+          "neg_fdr": 0.647732,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "hit",
+        "rank": 515,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.21321,
+          "mageck_neg_score": 0.89536,
+          "mageck_pos_score": 0.0043448,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.00029324
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "not_in_table",
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "CYB5RL": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 917,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.26125,
+          "mageck_neg_score": 0.84348,
+          "mageck_pos_score": 0.0030906,
+          "neg_fdr": 1.0,
+          "pos_fdr": 0.176075
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 17198,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.12473,
+          "mageck_neg_score": 0.46006,
+          "mageck_pos_score": 0.91363,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.80495
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 10654,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.024537,
+          "mageck_score": 0.49634,
+          "p_value": 0.66091
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "DAPK2": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 8544,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.028377,
+          "mageck_neg_score": 0.45014,
+          "mageck_pos_score": 0.20605,
+          "neg_fdr": 0.945827,
+          "pos_fdr": 0.900371
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 9599,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.070023,
+          "mageck_neg_score": 0.73256,
+          "mageck_pos_score": 0.52924,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.28601
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 12246,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": -0.030104,
+          "mageck_score": 0.63196,
+          "p_value": 0.78547
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "FANCL": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 10279,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.13289,
+          "mageck_neg_score": 0.55566,
+          "mageck_pos_score": 0.30169,
+          "neg_fdr": 0.980096,
+          "pos_fdr": 0.978111
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 16077,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.049489,
+          "mageck_neg_score": 0.11115,
+          "mageck_pos_score": 0.85999,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.69631
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 2798,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.17609,
+          "mageck_score": 0.063493,
+          "p_value": 0.23411
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "GAS2L1": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 1789,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.48174,
+          "mageck_neg_score": 0.4604,
+          "mageck_pos_score": 0.011468,
+          "neg_fdr": 0.95156,
+          "pos_fdr": 0.30192
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 14761,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.085942,
+          "mageck_neg_score": 0.14254,
+          "mageck_pos_score": 0.79638,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.60416
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 3274,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.17646,
+          "mageck_score": 0.077136,
+          "p_value": 0.28507
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "GZMB": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 15198,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.095639,
+          "mageck_neg_score": 0.043605,
+          "mageck_pos_score": 0.67508,
+          "neg_fdr": 0.590242,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 17347,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.010462,
+          "mageck_neg_score": 0.6462,
+          "mageck_pos_score": 0.92027,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.80854
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 11878,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.00077797,
+          "mageck_score": 0.60166,
+          "p_value": 0.77637
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "LETM2": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 16301,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.050279,
+          "mageck_neg_score": 1.25e-05,
+          "mageck_pos_score": 0.7976,
+          "neg_fdr": 0.009186,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 17096,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.080341,
+          "mageck_neg_score": 0.066503,
+          "mageck_pos_score": 0.90934,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.78427
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "hit",
+        "rank": 108,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.34142,
+          "mageck_score": 0.0010929,
+          "p_value": 0.011996
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "MCAT": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 6707,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.25686,
+          "mageck_neg_score": 0.13263,
+          "mageck_pos_score": 0.13529,
+          "neg_fdr": 0.752223,
+          "pos_fdr": 0.805409
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 13976,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.017886,
+          "mageck_neg_score": 0.87338,
+          "mageck_pos_score": 0.75518,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.54716
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 10238,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.035811,
+          "mageck_score": 0.45653,
+          "p_value": 0.70498
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "MITD1": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 16540,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.30599,
+          "mageck_neg_score": 0.057264,
+          "mageck_pos_score": 0.81774,
+          "neg_fdr": 0.60796,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 16505,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.010055,
+          "mageck_neg_score": 0.50454,
+          "mageck_pos_score": 0.88042,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.71725
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 6119,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.037876,
+          "mageck_score": 0.20549,
+          "p_value": 0.4886
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "PGGT1B": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 4529,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.07719,
+          "mageck_neg_score": 0.74577,
+          "mageck_pos_score": 0.063812,
+          "neg_fdr": 1.0,
+          "pos_fdr": 0.684922
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "hit",
+        "rank": 1095,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.22271,
+          "mageck_neg_score": 0.98941,
+          "mageck_pos_score": 0.018928,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.0038949
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 18667,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": -0.20496,
+          "mageck_score": 0.98908,
+          "p_value": 0.9973
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "RCC1L": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 14130,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.10619,
+          "mageck_neg_score": 0.3978,
+          "mageck_pos_score": 0.58222,
+          "neg_fdr": 0.927738,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 13217,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.13031,
+          "mageck_neg_score": 0.027622,
+          "mageck_pos_score": 0.7153,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.49614
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 8423,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.17916,
+          "mageck_score": 0.3149,
+          "p_value": 0.62001
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "RWDD2B": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 4316,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.13308,
+          "mageck_neg_score": 0.58665,
+          "mageck_pos_score": 0.058609,
+          "neg_fdr": 0.983424,
+          "pos_fdr": 0.65937
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 16791,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.16997,
+          "mageck_neg_score": 0.081284,
+          "mageck_pos_score": 0.89398,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.75463
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 2609,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.26737,
+          "mageck_score": 0.058652,
+          "p_value": 0.22853
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "SCO2": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 6483,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.00051401,
+          "mageck_neg_score": 0.62063,
+          "mageck_pos_score": 0.12682,
+          "neg_fdr": 0.99203,
+          "pos_fdr": 0.804094
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 17386,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.22306,
+          "mageck_neg_score": 0.036656,
+          "mageck_pos_score": 0.92216,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.8109
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 2371,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.3075,
+          "mageck_score": 0.051746,
+          "p_value": 0.20956
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "SNAP29": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 17974,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.06047,
+          "mageck_neg_score": 0.21772,
+          "mageck_pos_score": 0.95564,
+          "neg_fdr": 0.820186,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 4105,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.12393,
+          "mageck_neg_score": 0.72206,
+          "mageck_pos_score": 0.15158,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.065497
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 15128,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": -0.24592,
+          "mageck_score": 0.8099,
+          "p_value": 0.90874
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "TNNC1": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 2585,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.070868,
+          "mageck_neg_score": 0.13111,
+          "mageck_pos_score": 0.022116,
+          "neg_fdr": 0.742734,
+          "pos_fdr": 0.437114
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "hit",
+        "rank": 688,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.18798,
+          "mageck_neg_score": 0.66008,
+          "mageck_pos_score": 0.0078864,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.00090987
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 15563,
+        "records_filtered": 2,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": -0.0059911,
+          "mageck_score": 0.83271,
+          "p_value": 0.92256
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    },
+    "ZC3H12A": {
+      "schmidt_2022_2427": {
+        "hit_status": "non_hit",
+        "rank": 14484,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_fdr",
+          "mageck_neg_score",
+          "neg_fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": -0.12242,
+          "mageck_neg_score": 0.3039,
+          "mageck_pos_score": 0.60922,
+          "neg_fdr": 0.87335,
+          "pos_fdr": 1.0
+        },
+        "screen_id": "2427",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1107": {
+        "hit_status": "non_hit",
+        "rank": 19006,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_pos_score",
+          "pos_p_value",
+          "mageck_neg_score",
+          "neg_p_value",
+          "log2fc"
+        ],
+        "scores": {
+          "log2fc": 0.38951,
+          "mageck_neg_score": 0.0011148,
+          "mageck_pos_score": 0.99666,
+          "neg_p_value": 1.0,
+          "pos_p_value": 0.98676
+        },
+        "screen_id": "1107",
+        "source": "BioGRID ORCS"
+      },
+      "shifrut_2018_1109": {
+        "hit_status": "non_hit",
+        "rank": 2858,
+        "records_filtered": 1,
+        "score_names": [
+          "mageck_score",
+          "p_value",
+          "fdr",
+          "log2fc"
+        ],
+        "scores": {
+          "fdr": 1.0,
+          "log2fc": 0.32916,
+          "mageck_score": 0.064909,
+          "p_value": 0.23763
+        },
+        "screen_id": "1109",
+        "source": "BioGRID ORCS"
+      }
+    }
+  },
+  "source_urls": {
+    "dice_cd4_stim_tpm": "https://dice-database.org/download/CD4_STIM_TPM.csv",
+    "dice_mean_tpm": "https://dice-database.org/download/mean_tpm_merged.csv",
+    "open_targets_overlay": "examples/data/disease_genetics_overlay.json",
+    "orcs_schmidt_2427": "https://orcs.thebiogrid.org/Screen/2427",
+    "orcs_shifrut_1107": "https://orcs.thebiogrid.org/Screen/1107",
+    "orcs_shifrut_1109": "https://orcs.thebiogrid.org/Screen/1109",
+    "orcs_shifrut_dataset": "https://orcs.thebiogrid.org/Dataset/230",
+    "string_interaction_partners": "https://string-db.org/api/tsv/interaction_partners"
+  },
+  "string_network": {
+    "BCKDHA": {
+      "interactions": [
+        {
+          "database_score": 0.978,
+          "experimental_score": 0.996,
+          "partner": "BCKDHB",
+          "score": 0.999,
+          "textmining_score": 0.998
+        },
+        {
+          "database_score": 0.74,
+          "experimental_score": 0.776,
+          "partner": "PDHB",
+          "score": 0.999,
+          "textmining_score": 0.398
+        },
+        {
+          "database_score": 0.95,
+          "experimental_score": 0.312,
+          "partner": "DBT",
+          "score": 0.999,
+          "textmining_score": 0.89
+        },
+        {
+          "database_score": 0.977,
+          "experimental_score": 0.131,
+          "partner": "DLD",
+          "score": 0.999,
+          "textmining_score": 0.97
+        },
+        {
+          "database_score": 0.956,
+          "experimental_score": 0.0,
+          "partner": "BCAT2",
+          "score": 0.997,
+          "textmining_score": 0.933
+        },
+        {
+          "database_score": 0.956,
+          "experimental_score": 0.0,
+          "partner": "BCAT1",
+          "score": 0.985,
+          "textmining_score": 0.656
+        },
+        {
+          "database_score": 0.4,
+          "experimental_score": 0.832,
+          "partner": "PPM1K",
+          "score": 0.965,
+          "textmining_score": 0.677
+        },
+        {
+          "database_score": 0.828,
+          "experimental_score": 0.312,
+          "partner": "DLST",
+          "score": 0.963,
+          "textmining_score": 0.249
+        },
+        {
+          "database_score": 0.633,
+          "experimental_score": 0.312,
+          "partner": "PDHX",
+          "score": 0.951,
+          "textmining_score": 0.389
+        },
+        {
+          "database_score": 0.633,
+          "experimental_score": 0.312,
+          "partner": "DLAT",
+          "score": 0.945,
+          "textmining_score": 0.355
+        }
+      ],
+      "top_partners": [
+        "BCKDHB",
+        "PDHB",
+        "DBT",
+        "DLD",
+        "BCAT2",
+        "BCAT1",
+        "PPM1K",
+        "DLST",
+        "PDHX",
+        "DLAT"
+      ]
+    },
+    "CCDC136": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "MEGF10",
+          "score": 0.832,
+          "textmining_score": 0.825
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "TMEM8B",
+          "score": 0.679,
+          "textmining_score": 0.671
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.633,
+          "partner": "GCC2",
+          "score": 0.634,
+          "textmining_score": 0.043
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.098,
+          "partner": "MEGF6",
+          "score": 0.624,
+          "textmining_score": 0.588
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "MEGF11",
+          "score": 0.619,
+          "textmining_score": 0.609
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.091,
+          "partner": "ZNF385D",
+          "score": 0.606,
+          "textmining_score": 0.576
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.237,
+          "partner": "AP2M1",
+          "score": 0.576,
+          "textmining_score": 0.468
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.563,
+          "partner": "CTTNBP2",
+          "score": 0.572,
+          "textmining_score": 0.0
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "FAM90A7P",
+          "score": 0.57,
+          "textmining_score": 0.57
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.099,
+          "partner": "ALMS1",
+          "score": 0.545,
+          "textmining_score": 0.253
+        }
+      ],
+      "top_partners": [
+        "MEGF10",
+        "TMEM8B",
+        "GCC2",
+        "MEGF6",
+        "MEGF11",
+        "ZNF385D",
+        "AP2M1",
+        "CTTNBP2",
+        "FAM90A7P",
+        "ALMS1"
+      ]
+    },
+    "CCDC22": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.904,
+          "partner": "CCDC93",
+          "score": 0.999,
+          "textmining_score": 0.997
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.848,
+          "partner": "VPS35L",
+          "score": 0.996,
+          "textmining_score": 0.977
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.867,
+          "partner": "COMMD1",
+          "score": 0.996,
+          "textmining_score": 0.95
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.84,
+          "partner": "COMMD8",
+          "score": 0.986,
+          "textmining_score": 0.845
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.886,
+          "partner": "COMMD2",
+          "score": 0.984,
+          "textmining_score": 0.744
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.836,
+          "partner": "VPS26C",
+          "score": 0.984,
+          "textmining_score": 0.901
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.847,
+          "partner": "COMMD4",
+          "score": 0.981,
+          "textmining_score": 0.775
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.868,
+          "partner": "COMMD3",
+          "score": 0.98,
+          "textmining_score": 0.725
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.903,
+          "partner": "COMMD10",
+          "score": 0.979,
+          "textmining_score": 0.59
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.837,
+          "partner": "COMMD6",
+          "score": 0.976,
+          "textmining_score": 0.729
+        }
+      ],
+      "top_partners": [
+        "CCDC93",
+        "VPS35L",
+        "COMMD1",
+        "COMMD8",
+        "COMMD2",
+        "VPS26C",
+        "COMMD4",
+        "COMMD3",
+        "COMMD10",
+        "COMMD6"
+      ]
+    },
+    "CYB5RL": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.108,
+          "partner": "CYB5B",
+          "score": 0.994,
+          "textmining_score": 0.993
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.108,
+          "partner": "CYB5A",
+          "score": 0.994,
+          "textmining_score": 0.993
+        },
+        {
+          "database_score": 0.352,
+          "experimental_score": 0.469,
+          "partner": "DHODH",
+          "score": 0.928,
+          "textmining_score": 0.527
+        },
+        {
+          "database_score": 0.352,
+          "experimental_score": 0.469,
+          "partner": "DPYD",
+          "score": 0.877,
+          "textmining_score": 0.251
+        },
+        {
+          "database_score": 0.449,
+          "experimental_score": 0.0,
+          "partner": "UMPS",
+          "score": 0.854,
+          "textmining_score": 0.233
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "SCD",
+          "score": 0.824,
+          "textmining_score": 0.821
+        },
+        {
+          "database_score": 0.119,
+          "experimental_score": 0.456,
+          "partner": "FDXR",
+          "score": 0.701,
+          "textmining_score": 0.376
+        },
+        {
+          "database_score": 0.116,
+          "experimental_score": 0.071,
+          "partner": "POR",
+          "score": 0.698,
+          "textmining_score": 0.662
+        },
+        {
+          "database_score": 0.279,
+          "experimental_score": 0.048,
+          "partner": "TMEM116",
+          "score": 0.627,
+          "textmining_score": 0.156
+        },
+        {
+          "database_score": 0.279,
+          "experimental_score": 0.048,
+          "partner": "CAD",
+          "score": 0.616,
+          "textmining_score": 0.156
+        }
+      ],
+      "top_partners": [
+        "CYB5B",
+        "CYB5A",
+        "DHODH",
+        "DPYD",
+        "UMPS",
+        "SCD",
+        "FDXR",
+        "POR",
+        "TMEM116",
+        "CAD"
+      ]
+    },
+    "DAPK2": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.967,
+          "partner": "CALM3",
+          "score": 0.991,
+          "textmining_score": 0.739
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "BECN1",
+          "score": 0.972,
+          "textmining_score": 0.735
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.967,
+          "partner": "CALM2",
+          "score": 0.97,
+          "textmining_score": 0.115
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.168,
+          "partner": "MAPK3",
+          "score": 0.924,
+          "textmining_score": 0.139
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.168,
+          "partner": "MAPK1",
+          "score": 0.92,
+          "textmining_score": 0.117
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "BECN2",
+          "score": 0.91,
+          "textmining_score": 0.127
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.487,
+          "partner": "CALML5",
+          "score": 0.908,
+          "textmining_score": 0.824
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.462,
+          "partner": "CALML3",
+          "score": 0.905,
+          "textmining_score": 0.824
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "DAPK3",
+          "score": 0.903,
+          "textmining_score": 0.059
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "DAPK1",
+          "score": 0.903,
+          "textmining_score": 0.074
+        }
+      ],
+      "top_partners": [
+        "CALM3",
+        "BECN1",
+        "CALM2",
+        "MAPK3",
+        "MAPK1",
+        "BECN2",
+        "CALML5",
+        "CALML3",
+        "DAPK3",
+        "DAPK1"
+      ]
+    },
+    "FANCL": {
+      "interactions": [
+        {
+          "database_score": 0.8,
+          "experimental_score": 0.994,
+          "partner": "HES1",
+          "score": 0.999,
+          "textmining_score": 0.461
+        },
+        {
+          "database_score": 0.8,
+          "experimental_score": 0.998,
+          "partner": "FAAP100",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.998,
+          "partner": "FANCG",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.998,
+          "partner": "FANCB",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.994,
+          "partner": "FANCM",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.998,
+          "partner": "FANCC",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.98,
+          "partner": "FANCD2",
+          "score": 0.999,
+          "textmining_score": 0.988
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.994,
+          "partner": "FAAP24",
+          "score": 0.999,
+          "textmining_score": 0.964
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.998,
+          "partner": "FANCA",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.994,
+          "partner": "CENPS",
+          "score": 0.999,
+          "textmining_score": 0.72
+        }
+      ],
+      "top_partners": [
+        "HES1",
+        "FAAP100",
+        "FANCG",
+        "FANCB",
+        "FANCM",
+        "FANCC",
+        "FANCD2",
+        "FAAP24",
+        "FANCA",
+        "CENPS"
+      ]
+    },
+    "GAS2L1": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.045,
+          "partner": "RASL10A",
+          "score": 0.924,
+          "textmining_score": 0.921
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "AP1B1",
+          "score": 0.856,
+          "textmining_score": 0.852
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.795,
+          "partner": "MAPRE3",
+          "score": 0.848,
+          "textmining_score": 0.256
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.788,
+          "partner": "MAPRE1",
+          "score": 0.826,
+          "textmining_score": 0.21
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "LIPI",
+          "score": 0.761,
+          "textmining_score": 0.761
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "SPA17",
+          "score": 0.694,
+          "textmining_score": 0.694
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "EWSR1",
+          "score": 0.684,
+          "textmining_score": 0.684
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "LRRC45",
+          "score": 0.621,
+          "textmining_score": 0.605
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "PLEC",
+          "score": 0.619,
+          "textmining_score": 0.59
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "ASCC2",
+          "score": 0.604,
+          "textmining_score": 0.6
+        }
+      ],
+      "top_partners": [
+        "RASL10A",
+        "AP1B1",
+        "MAPRE3",
+        "MAPRE1",
+        "LIPI",
+        "SPA17",
+        "EWSR1",
+        "LRRC45",
+        "PLEC",
+        "ASCC2"
+      ]
+    },
+    "GZMB": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.299,
+          "partner": "PRF1",
+          "score": 0.999,
+          "textmining_score": 0.999
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "GNLY",
+          "score": 0.995,
+          "textmining_score": 0.977
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.515,
+          "partner": "CASP3",
+          "score": 0.986,
+          "textmining_score": 0.735
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.292,
+          "partner": "DFFA",
+          "score": 0.966,
+          "textmining_score": 0.568
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.292,
+          "partner": "BID",
+          "score": 0.964,
+          "textmining_score": 0.54
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.51,
+          "partner": "SRGN",
+          "score": 0.964,
+          "textmining_score": 0.921
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "SHC1",
+          "score": 0.963,
+          "textmining_score": 0.963
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "CD8A",
+          "score": 0.963,
+          "textmining_score": 0.935
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.292,
+          "partner": "CASP8",
+          "score": 0.962,
+          "textmining_score": 0.502
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.294,
+          "partner": "SERPINB9",
+          "score": 0.958,
+          "textmining_score": 0.941
+        }
+      ],
+      "top_partners": [
+        "PRF1",
+        "GNLY",
+        "CASP3",
+        "DFFA",
+        "BID",
+        "SRGN",
+        "SHC1",
+        "CD8A",
+        "CASP8",
+        "SERPINB9"
+      ]
+    },
+    "LETM2": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.053,
+          "partner": "GOT1L1",
+          "score": 0.59,
+          "textmining_score": 0.567
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "NSD3",
+          "score": 0.584,
+          "textmining_score": 0.552
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.071,
+          "partner": "RAB11FIP1",
+          "score": 0.568,
+          "textmining_score": 0.543
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "DDHD2",
+          "score": 0.556,
+          "textmining_score": 0.521
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "BRF2",
+          "score": 0.544,
+          "textmining_score": 0.525
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.071,
+          "partner": "FAM118A",
+          "score": 0.506,
+          "textmining_score": 0.49
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.49,
+          "partner": "RPS9",
+          "score": 0.503,
+          "textmining_score": 0.066
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "PLPP5",
+          "score": 0.499,
+          "textmining_score": 0.478
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.429,
+          "partner": "RPS2",
+          "score": 0.496,
+          "textmining_score": 0.155
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.49,
+          "partner": "RPS11",
+          "score": 0.489,
+          "textmining_score": 0.0
+        }
+      ],
+      "top_partners": [
+        "GOT1L1",
+        "NSD3",
+        "RAB11FIP1",
+        "DDHD2",
+        "BRF2",
+        "FAM118A",
+        "RPS9",
+        "PLPP5",
+        "RPS2",
+        "RPS11"
+      ]
+    },
+    "MCAT": {
+      "interactions": [
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.071,
+          "partner": "OXSM",
+          "score": 0.999,
+          "textmining_score": 0.71
+        },
+        {
+          "database_score": 0.75,
+          "experimental_score": 0.882,
+          "partner": "NDUFAB1",
+          "score": 0.993,
+          "textmining_score": 0.419
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.319,
+          "partner": "FASN",
+          "score": 0.982,
+          "textmining_score": 0.559
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "ACACA",
+          "score": 0.975,
+          "textmining_score": 0.678
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "ACACB",
+          "score": 0.969,
+          "textmining_score": 0.596
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.916,
+          "partner": "MRPS16",
+          "score": 0.967,
+          "textmining_score": 0.187
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.842,
+          "partner": "PALB2",
+          "score": 0.958,
+          "textmining_score": 0.349
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.932,
+          "partner": "ERAL1",
+          "score": 0.949,
+          "textmining_score": 0.051
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.888,
+          "partner": "MRPS6",
+          "score": 0.946,
+          "textmining_score": 0.31
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "ACSF3",
+          "score": 0.938,
+          "textmining_score": 0.377
+        }
+      ],
+      "top_partners": [
+        "OXSM",
+        "NDUFAB1",
+        "FASN",
+        "ACACA",
+        "ACACB",
+        "MRPS16",
+        "PALB2",
+        "ERAL1",
+        "MRPS6",
+        "ACSF3"
+      ]
+    },
+    "MITD1": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.919,
+          "partner": "CHMP1A",
+          "score": 0.983,
+          "textmining_score": 0.797
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.486,
+          "partner": "CHMP2A",
+          "score": 0.934,
+          "textmining_score": 0.876
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "VPS4A",
+          "score": 0.751,
+          "textmining_score": 0.737
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "IST1",
+          "score": 0.741,
+          "textmining_score": 0.739
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "CHMP3",
+          "score": 0.74,
+          "textmining_score": 0.724
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "RNF103-CHMP3",
+          "score": 0.724,
+          "textmining_score": 0.724
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "VPS4B",
+          "score": 0.699,
+          "textmining_score": 0.667
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.395,
+          "partner": "CHMP5",
+          "score": 0.679,
+          "textmining_score": 0.426
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "ENTPD2",
+          "score": 0.668,
+          "textmining_score": 0.668
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.285,
+          "partner": "CHMP1B",
+          "score": 0.591,
+          "textmining_score": 0.446
+        }
+      ],
+      "top_partners": [
+        "CHMP1A",
+        "CHMP2A",
+        "VPS4A",
+        "IST1",
+        "CHMP3",
+        "RNF103-CHMP3",
+        "VPS4B",
+        "CHMP5",
+        "ENTPD2",
+        "CHMP1B"
+      ]
+    },
+    "PGGT1B": {
+      "interactions": [
+        {
+          "database_score": 0.967,
+          "experimental_score": 0.987,
+          "partner": "FNTA",
+          "score": 0.999,
+          "textmining_score": 0.986
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.735,
+          "partner": "HEYL",
+          "score": 0.768,
+          "textmining_score": 0.161
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "RABGGTA",
+          "score": 0.767,
+          "textmining_score": 0.763
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.056,
+          "partner": "CCDC112",
+          "score": 0.72,
+          "textmining_score": 0.253
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "WTIP",
+          "score": 0.692,
+          "textmining_score": 0.0
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.676,
+          "partner": "AMMECR1L",
+          "score": 0.676,
+          "textmining_score": 0.0
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.229,
+          "partner": "FNTB",
+          "score": 0.553,
+          "textmining_score": 0.429
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.114,
+          "partner": "RAP1A",
+          "score": 0.521,
+          "textmining_score": 0.475
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.238,
+          "partner": "CDC42",
+          "score": 0.502,
+          "textmining_score": 0.321
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.114,
+          "partner": "HRAS",
+          "score": 0.497,
+          "textmining_score": 0.455
+        }
+      ],
+      "top_partners": [
+        "FNTA",
+        "HEYL",
+        "RABGGTA",
+        "CCDC112",
+        "WTIP",
+        "AMMECR1L",
+        "FNTB",
+        "RAP1A",
+        "CDC42",
+        "HRAS"
+      ]
+    },
+    "RCC1L": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.509,
+          "partner": "RPUSD4",
+          "score": 0.874,
+          "textmining_score": 0.749
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.71,
+          "partner": "TRUB2",
+          "score": 0.854,
+          "textmining_score": 0.512
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.329,
+          "partner": "NGRN",
+          "score": 0.848,
+          "textmining_score": 0.778
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.091,
+          "partner": "NEK6",
+          "score": 0.843,
+          "textmining_score": 0.83
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.753,
+          "partner": "NME6",
+          "score": 0.822,
+          "textmining_score": 0.266
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.292,
+          "partner": "RPUSD3",
+          "score": 0.808,
+          "textmining_score": 0.735
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.329,
+          "partner": "FASTKD2",
+          "score": 0.791,
+          "textmining_score": 0.698
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.243,
+          "partner": "RAN",
+          "score": 0.754,
+          "textmining_score": 0.683
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.062,
+          "partner": "RPGRIP1",
+          "score": 0.749,
+          "textmining_score": 0.743
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "RABIF",
+          "score": 0.737,
+          "textmining_score": 0.736
+        }
+      ],
+      "top_partners": [
+        "RPUSD4",
+        "TRUB2",
+        "NGRN",
+        "NEK6",
+        "NME6",
+        "RPUSD3",
+        "FASTKD2",
+        "RAN",
+        "RPGRIP1",
+        "RABIF"
+      ]
+    },
+    "RWDD2B": {
+      "interactions": [],
+      "top_partners": []
+    },
+    "SCO2": {
+      "interactions": [
+        {
+          "database_score": 0.792,
+          "experimental_score": 0.812,
+          "partner": "MT-CO2",
+          "score": 0.996,
+          "textmining_score": 0.89
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.46,
+          "partner": "COX17",
+          "score": 0.98,
+          "textmining_score": 0.964
+        },
+        {
+          "database_score": 0.467,
+          "experimental_score": 0.073,
+          "partner": "COX15",
+          "score": 0.976,
+          "textmining_score": 0.925
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "SURF1",
+          "score": 0.97,
+          "textmining_score": 0.955
+        },
+        {
+          "database_score": 0.792,
+          "experimental_score": 0.0,
+          "partner": "MT-CO1",
+          "score": 0.969,
+          "textmining_score": 0.796
+        },
+        {
+          "database_score": 0.792,
+          "experimental_score": 0.0,
+          "partner": "MT-CO3",
+          "score": 0.965,
+          "textmining_score": 0.781
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.157,
+          "partner": "TP53",
+          "score": 0.961,
+          "textmining_score": 0.577
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "COX10",
+          "score": 0.955,
+          "textmining_score": 0.938
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.073,
+          "partner": "COX11",
+          "score": 0.923,
+          "textmining_score": 0.862
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.449,
+          "partner": "COA6",
+          "score": 0.907,
+          "textmining_score": 0.832
+        }
+      ],
+      "top_partners": [
+        "MT-CO2",
+        "COX17",
+        "COX15",
+        "SURF1",
+        "MT-CO1",
+        "MT-CO3",
+        "TP53",
+        "COX10",
+        "COX11",
+        "COA6"
+      ]
+    },
+    "SNAP29": {
+      "interactions": [
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.999,
+          "partner": "STX17",
+          "score": 0.999,
+          "textmining_score": 0.998
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.51,
+          "partner": "ATG14",
+          "score": 0.999,
+          "textmining_score": 0.992
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.823,
+          "partner": "VAMP7",
+          "score": 0.999,
+          "textmining_score": 0.995
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.988,
+          "partner": "VAMP8",
+          "score": 0.999,
+          "textmining_score": 0.997
+        },
+        {
+          "database_score": 0.54,
+          "experimental_score": 0.822,
+          "partner": "STX7",
+          "score": 0.999,
+          "textmining_score": 0.99
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.994,
+          "partner": "STX6",
+          "score": 0.999,
+          "textmining_score": 0.898
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.659,
+          "partner": "STX4",
+          "score": 0.994,
+          "textmining_score": 0.852
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.374,
+          "partner": "SNAP23",
+          "score": 0.993,
+          "textmining_score": 0.896
+        },
+        {
+          "database_score": 0.54,
+          "experimental_score": 0.759,
+          "partner": "STX3",
+          "score": 0.992,
+          "textmining_score": 0.934
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.823,
+          "partner": "STX12",
+          "score": 0.992,
+          "textmining_score": 0.604
+        }
+      ],
+      "top_partners": [
+        "STX17",
+        "ATG14",
+        "VAMP7",
+        "VAMP8",
+        "STX7",
+        "STX6",
+        "STX4",
+        "SNAP23",
+        "STX3",
+        "STX12"
+      ]
+    },
+    "TNNC1": {
+      "interactions": [
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.963,
+          "partner": "TNNT2",
+          "score": 0.999,
+          "textmining_score": 0.916
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.973,
+          "partner": "TNNI2",
+          "score": 0.999,
+          "textmining_score": 0.847
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.989,
+          "partner": "TNNI3",
+          "score": 0.999,
+          "textmining_score": 0.863
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.843,
+          "partner": "TNNI1",
+          "score": 0.993,
+          "textmining_score": 0.867
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.299,
+          "partner": "TNNT1",
+          "score": 0.99,
+          "textmining_score": 0.833
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.127,
+          "partner": "TNNT3",
+          "score": 0.984,
+          "textmining_score": 0.784
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.905,
+          "partner": "TPM1",
+          "score": 0.981,
+          "textmining_score": 0.611
+        },
+        {
+          "database_score": 0.5,
+          "experimental_score": 0.905,
+          "partner": "TPM3",
+          "score": 0.968,
+          "textmining_score": 0.314
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.908,
+          "partner": "ACTA1",
+          "score": 0.964,
+          "textmining_score": 0.314
+        },
+        {
+          "database_score": 0.9,
+          "experimental_score": 0.0,
+          "partner": "TNNC2",
+          "score": 0.93,
+          "textmining_score": 0.057
+        }
+      ],
+      "top_partners": [
+        "TNNT2",
+        "TNNI2",
+        "TNNI3",
+        "TNNI1",
+        "TNNT1",
+        "TNNT3",
+        "TPM1",
+        "TPM3",
+        "ACTA1",
+        "TNNC2"
+      ]
+    },
+    "ZC3H12A": {
+      "interactions": [
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.594,
+          "partner": "TANK",
+          "score": 0.955,
+          "textmining_score": 0.889
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "REG1B",
+          "score": 0.905,
+          "textmining_score": 0.905
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "REG1A",
+          "score": 0.889,
+          "textmining_score": 0.889
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.292,
+          "partner": "NFKBIZ",
+          "score": 0.831,
+          "textmining_score": 0.598
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.292,
+          "partner": "IL6",
+          "score": 0.825,
+          "textmining_score": 0.689
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "RC3H1",
+          "score": 0.771,
+          "textmining_score": 0.767
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "BFAR",
+          "score": 0.762,
+          "textmining_score": 0.762
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.31,
+          "partner": "TRAF6",
+          "score": 0.757,
+          "textmining_score": 0.659
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.51,
+          "partner": "USP10",
+          "score": 0.744,
+          "textmining_score": 0.5
+        },
+        {
+          "database_score": 0.0,
+          "experimental_score": 0.0,
+          "partner": "CCL2",
+          "score": 0.737,
+          "textmining_score": 0.724
+        }
+      ],
+      "top_partners": [
+        "TANK",
+        "REG1B",
+        "REG1A",
+        "NFKBIZ",
+        "IL6",
+        "RC3H1",
+        "BFAR",
+        "TRAF6",
+        "USP10",
+        "CCL2"
+      ]
+    }
+  }
+}

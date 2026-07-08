@@ -8,6 +8,7 @@
   prospect agent            autonomous Claude agent: search, verify, converge  (--sign)
   prospect campaign         build the proposal-only agent campaign leaderboard
   prospect discovery-campaign build the whole-frontier novelty campaign packet
+  prospect cross-validation build the independent cross-validation packet
   prospect disease-overlay  attach external disease-genetics context (Open Targets)
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
@@ -44,6 +45,8 @@ def main():
         from frontier.agent_campaign import main as campaign_main; campaign_main()
     elif cmd == "discovery-campaign":
         from frontier.discovery_campaign import main as discovery_main; discovery_main()
+    elif cmd == "cross-validation":
+        from frontier.cross_validation import main as cross_validation_main; cross_validation_main()
     elif cmd == "disease-overlay":
         from frontier.disease_genetics_overlay import main as disease_main; sys.exit(disease_main(rest))
     elif cmd == "pggt1b":

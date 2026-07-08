@@ -79,6 +79,7 @@ pggt1b_deep_dive = load("pggt1b_deep_dive.json")
 pggt1b_matrix_slice = load("pggt1b_matrix_slice.json")
 agent_campaign = load("agent_campaign.json")
 discovery_campaign = load("discovery_campaign.json")
+cross_validation = load("cross_validation.json")
 lab_packet = load("lab_packet.json")
 lab_writeback_receipt = load("lab_writeback_receipt.json")
 finding_index = load("finding_index.json")
@@ -181,6 +182,7 @@ data = {
     "cross_domain_benchmark": cross_domain_benchmark,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "discovery_campaign": discovery_campaign,
+    "cross_validation": cross_validation,
     "lab_packet": lab_packet, "lab_writeback_receipt": lab_writeback_receipt,
     "disease_genetics_overlay": disease_genetics_overlay,
     "demo": demo, "phantom": phantom, "models": models,
@@ -192,6 +194,7 @@ data = {
 os.makedirs(PUB, exist_ok=True)
 for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_slice, "pggt1b_matrix_slice.json"),
                   (agent_campaign, "agent_campaign.json"), (discovery_campaign, "discovery_campaign.json"),
+                  (cross_validation, "cross_validation.json"),
                   (lab_packet, "lab_packet.json"),
                   (lab_writeback_receipt, "lab_writeback_receipt.json"),
                   (finding_index, "finding_index.json"), (disease_genetics_overlay, "disease_genetics_overlay.json")]:
