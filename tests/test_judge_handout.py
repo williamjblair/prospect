@@ -28,6 +28,10 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["disease_overlay_rows"] == 20
     assert handout["counts"]["disease_overlay_context_rows"] == 10
     assert handout["counts"]["lab_packet_rows"] == 5
+    assert handout["counts"]["endgame_candidates"] == 18
+    assert handout["counts"]["endgame_cleared"] == 0
+    assert handout["counts"]["endgame_with_t_cell_support"] == 4
+    assert handout["counts"]["endgame_rpe1_not_assayed"] == 18
     assert "sign the frontier root" in handout["human_only_actions"]
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
@@ -47,6 +51,10 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect verify" in doc
     assert "/data/disease_genetics_overlay.json" in doc
     assert "/data/lab_packet.json" in doc
+    assert "/data/defended_discovery_endgame_exhaustion.json" in doc
+    assert "./prospect defended-discovery-endgame-exhaustion" in doc
+    assert "18 locked candidates" in doc
+    assert "0 cleared the pre-registered bar" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     # No cut surface leaks back in.
     for cut in ["final_submission_audit", "gladstone_pilot_design", "campaign_challenger", "release_manifest"]:

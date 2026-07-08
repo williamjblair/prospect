@@ -54,6 +54,12 @@ the graph on its own word. On top of it:
   proposal-only follow-ups, each ranked from frozen facts and held at `evidence_attached`.
 - **Disease-genetics overlay**: `prospect disease-overlay` attaches frozen Open Targets disease
   context to the campaign rows, without moving accepted state.
+- **Real Claude Science acceptance layer**: a real scRNA-seq immunotherapy signature export enters
+  Prospect through the connector and receives typed driver, passenger, contradicted-driver-claim,
+  and not-assayed verdicts with `accepted=false`.
+- **Defended-discovery endgame**: a stricter pre-registration worked down 18 locked candidates.
+  Zero cleared the full bar. Four retained independent primary T-cell support, and all 18 were
+  blocked by missing RPE1 assay coverage before any accepted-state transition.
 
 ## What outlasts the week
 
@@ -81,7 +87,7 @@ the trust floor after the event window without private credentials for the stati
 - Cross-cell transfer: essentiality artifacts move a median of 71 genes in K562, the activation
   module 4. MED19 moves 3,716; BCL10 moves 2.
 - The agent made 12 frozen-data tool calls over 3 rounds and converged on PGGT1B, a stimulation-gated,
-  cell-type-specific regulator with no annotated regulon; a human signed the hypothesis to test.
+  cell-type-specific proposal with no annotated regulon; a human signed the hypothesis to test.
 - PGGT1B has 3,014 DE genes at Stim8hr with on-target knockdown, 175 at Rest, 1 in K562, and 0
   CollecTRI targets. Literature context points to PGGT1B-linked T-cell prenylation, RHOA, RAC, and
   TCR-dependent programming. The evidence capsule adds the exact 17.22x Stim8hr-to-Rest ratio,
@@ -92,6 +98,10 @@ the trust floor after the event window without private credentials for the stati
 - The disease-genetics overlay attaches frozen Open Targets disease context to those rows: 10 rows
   have selected immune or hematologic context, 4 have selected genetic context, and none can move
   accepted state.
+- The defended-discovery endgame locked the candidate order and bar before the deep dive. PGGT1B
+  remained rank 1 and evidence_attached, but it did not clear the full bar because RPE1 coverage
+  was missing and the independent primary T-cell screen support did not replay the activation
+  transcriptome. Across all 18 candidates, 0 cleared.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -109,6 +119,10 @@ the trust floor after the event window without private credentials for the stati
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
+- `/data/claude_science_acceptance_demo.json`
+- `/data/defended_discovery_endgame_preregistration.json`
+- `/data/pggt1b_endgame_decision.json`
+- `/data/defended_discovery_endgame_exhaustion.json`
 - `/data/pggt1b_deep_dive.json`
 - `/data/pggt1b_matrix_slice.json`
 - `/data/agent_campaign.json`

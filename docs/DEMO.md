@@ -39,11 +39,13 @@ non-immune cell too (MED19 moves 3,716 genes in K562); the immune program stays 
 2). The substrate replay packet keeps the result `computationally_reproduced` across Marson CD4+ T
 cells, Replogle K562, and Replogle RPE1, with no accepted-state mutation.
 
-**1:40 · The loop.** Agent tab, campaign pressure summary. Claude proposed fifteen transcription
-factors, then pressure-tested the campaign rows. The twenty probed rows became review work: six
-aligned with deterministic review, eleven more-aggressive recommendations became assay gates, three
-were more cautious, and all eleven gates returned proposal-only review evidence. Zero
-accepted-state mutations occurred. Claude proposes; frozen code decides; a human key accepts state.
+**1:40 · The defended endgame.** Overview tab. Scroll to the defended-discovery endgame. The
+pre-registration locked the bar before the deep dive: strong Marson driver signal, Replogle K562
+and RPE1 specificity, five-plus frozen public datasets, comparator-readout checks, mechanism, hook,
+three kill attempts, and a falsifiable stimulated primary CD4+ experiment. Prospect worked down all
+18 locked candidates. Zero cleared. Four retained independent primary T-cell support, but all 18
+hit the same hard blocker: missing RPE1 assay coverage. This is the point, the system found signal
+and refused to promote it past the evidence.
 
 **1:55 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`
 lets Claude Science or another workbench discover the receipt schema, validate a receipt, submit a
@@ -52,16 +54,6 @@ packet shows 3,014 Stim8hr DE genes, 175 Rest DE genes,
 1 K562 DE gene, 0 CollecTRI targets, a 17.22x stimulation ratio, a 3014x transfer check, two
 literature hooks, a released-matrix slice of 671 moved transcripts, missing evidence before acceptance,
 and a stimulated CD4+ assay readout.
-Then scroll to the campaign challenger ledger, lab assay packet, assay operations bundle, and pilot design. It gives five
-assay-ready rows with expected positive results, weakening results, rejection results, missing
-evidence before any status change, and 90 proposal-only culture arms across three donor replicates.
-The challenger ledger removes RWDD2B from primary assay capacity and adds CYB5RL without changing
-accepted state.
-The campaign leaderboard keeps 20 proposal-only follow-ups ranked by the same frozen facts,
-plus the review appendix with lane counts, audit questions, per-row decisions, and stop rules. The
-campaign pressure summary shows Claude aligned on some rows, pushed harder on others, and still
-caused zero accepted-state mutations. The disagreement triage turns that pressure into assay gates,
-not accepted state. The campaign gate probe asks whether those gates are sufficient, need another
-control, or should be lower priority. The whole frontier re-derives from frozen data with zero drift
-and carries one human signature. Generation is cheap. Accepted state is the scarce thing, and it
-compounds.
+Then open `/data/defended_discovery_endgame_exhaustion.json`. The whole frontier re-derives from
+frozen data with zero drift and carries one human signature. Generation is cheap. Accepted state is
+the scarce thing, and it compounds.

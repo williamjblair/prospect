@@ -25,6 +25,9 @@ KEPT_PACKET_KEYS = [
     "cross_domain_benchmark",
     "lab_writeback_receipt",
     "claude_science_acceptance_demo",
+    "defended_discovery_endgame_preregistration",
+    "pggt1b_endgame_decision",
+    "defended_discovery_endgame_exhaustion",
 ]
 
 CUT_PACKET_KEYS = [

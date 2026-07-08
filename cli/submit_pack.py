@@ -43,6 +43,9 @@ PUBLIC_ARTIFACTS = [
     "/data/receipt_bridge/receipt_manifest.json",
     "/data/receipt_bridge/receipt_bundle.json",
     "/data/claude_science_acceptance_demo.json",
+    "/data/defended_discovery_endgame_preregistration.json",
+    "/data/pggt1b_endgame_decision.json",
+    "/data/defended_discovery_endgame_exhaustion.json",
     "/data/pggt1b_deep_dive.json",
     "/data/pggt1b_matrix_slice.json",
     "/data/agent_campaign.json",
@@ -70,7 +73,7 @@ def build_packet() -> dict[str, object]:
         "public_artifacts": PUBLIC_ARTIFACTS,
         "demo_opening": "Start on the real Claude Science export entering Prospect, then the A1BG refusal.",
         "demo_close": (
-            "Receipt bridge, PGGT1B evidence_attached packet, campaign leaderboard, signed state."
+            "Receipt bridge, defended-discovery exhaustion ledger, PGGT1B evidence_attached packet, signed state."
         ),
         "limitations": (
             "Prospect proves computation over released data, not wet-lab or clinical truth. "
