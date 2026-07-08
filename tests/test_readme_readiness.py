@@ -1,7 +1,12 @@
 """README must match the current submission surface."""
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from cli.submit_pack import PUBLIC_ARTIFACTS
+
 README = ROOT / "README.md"
 
 
@@ -29,23 +34,7 @@ def test_readme_lists_current_commands_and_artifacts():
     ]:
         assert command in text
 
-    for artifact in [
-        "/data/frontier.json",
-        "/data/judge_packet.json",
-        "/data/finding_index.json",
-        "/data/receipt_bridge/receipt_contract.json",
-        "/data/receipt_bridge/receipt_manifest.json",
-        "/data/receipt_bridge/receipt_bundle.json",
-        "/data/pggt1b_deep_dive.json",
-        "/data/pggt1b_matrix_slice.json",
-        "/data/campaign_agent_probe.json",
-        "/data/agent_campaign.json",
-        "/data/agent_campaign_review.json",
-        "/data/campaign_triage.json",
-        "/data/campaign_gate_probe.json",
-        "/data/transfer_replay_packet.json",
-        "/data/lab_packet.json",
-    ]:
+    for artifact in PUBLIC_ARTIFACTS:
         assert artifact in text
 
     assert "Five findings" in findings

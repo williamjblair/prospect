@@ -1,7 +1,12 @@
 """Submission text must point judges at current artifacts."""
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from cli.submit_pack import PUBLIC_ARTIFACTS
+
 SUBMISSION = ROOT / "docs" / "SUBMISSION.md"
 
 
@@ -32,23 +37,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
 def test_submission_points_to_current_public_artifacts():
     text = SUBMISSION.read_text()
 
-    for artifact in [
-        "/data/frontier.json",
-        "/data/judge_packet.json",
-        "/data/finding_index.json",
-        "/data/receipt_bridge/receipt_contract.json",
-        "/data/receipt_bridge/receipt_manifest.json",
-        "/data/receipt_bridge/receipt_bundle.json",
-        "/data/pggt1b_deep_dive.json",
-        "/data/pggt1b_matrix_slice.json",
-        "/data/agent_campaign.json",
-        "/data/agent_campaign_review.json",
-        "/data/campaign_agent_probe.json",
-        "/data/campaign_triage.json",
-        "/data/campaign_gate_probe.json",
-        "/data/transfer_replay_packet.json",
-        "/data/lab_packet.json",
-    ]:
+    for artifact in PUBLIC_ARTIFACTS:
         assert artifact in text
 
     assert "GLADSTONE_ASSAY_HANDOFF.md" in text

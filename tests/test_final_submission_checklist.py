@@ -1,7 +1,12 @@
 """Final submitter checklist must point at the current submission surface."""
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from cli.submit_pack import PUBLIC_ARTIFACTS
+
 DOC = ROOT / "docs" / "FINAL_SUBMISSION_CHECKLIST.md"
 RUNBOOK = ROOT / "docs" / "DEMO_RECORDING_RUNBOOK.md"
 FORM = ROOT / "docs" / "SUBMISSION_FORM_PACKET.md"
@@ -96,6 +101,9 @@ def test_submission_form_packet_has_copy_paste_fields():
         "Do not claim wet-lab or clinical truth",
     ]:
         assert phrase in text
+
+    for artifact in PUBLIC_ARTIFACTS:
+        assert artifact in text
 
 
 if __name__ == "__main__":
