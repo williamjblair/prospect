@@ -15,6 +15,7 @@ PREREG_JSON = DATA / "defended_discovery_preregistration.json"
 DISCOVERY_JSON = DATA / "discovery_campaign.json"
 PGGT1B_JSON = DATA / "pggt1b_defended_evidence.json"
 RCC1L_JSON = DATA / "rcc1l_defended_evidence.json"
+MCAT_JSON = DATA / "mcat_defended_evidence.json"
 OUT_JSON = DATA / "defended_candidate_decisions.json"
 OUT_DOC = ROOT / "docs" / "DEFENDED_CANDIDATE_DECISIONS.md"
 
@@ -102,6 +103,20 @@ def build_defended_candidate_decisions() -> dict[str, Any]:
                 ),
                 why_not_contradicted=(
                     "the frozen comparators do not refute RCC1L; they show the candidate lacks required independent support and hook"
+                ),
+            )
+        )
+    if MCAT_JSON.exists():
+        mcat = _load(MCAT_JSON)
+        decisions.append(
+            _decision_from_packet(
+                packet=mcat,
+                evidence_path="examples/data/mcat_defended_evidence.json",
+                missing_required_rung=(
+                    "independent primary T-cell support, real-world hook, and specific activation mechanism"
+                ),
+                why_not_contradicted=(
+                    "the frozen comparators do not refute MCAT; they show the candidate lacks required independent support and hook"
                 ),
             )
         )

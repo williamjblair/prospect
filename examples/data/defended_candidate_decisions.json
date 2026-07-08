@@ -40,23 +40,42 @@
       "scored_public_dataset_count": 0,
       "typed_status": "evidence_attached",
       "why_not_contradicted": "the frozen comparators do not refute RCC1L; they show the candidate lacks required independent support and hook"
+    },
+    {
+      "decision": "not_cleared_full_bar",
+      "decision_rule": "advance when a candidate does not clear every pre-registered rung; do not rewrite the bar",
+      "disposition": "demote_and_advance",
+      "evidence_packet": "examples/data/mcat_defended_evidence.json",
+      "evidence_packet_id": "mcat_defended_0758073ad35881b2",
+      "gene": "MCAT",
+      "kill_results": {
+        "alternative_mechanism": "not_cleared",
+        "batch_or_dataset_specificity": "not_cleared",
+        "essentiality_or_proliferation_artifact": "survives_current_frozen_evidence",
+        "technical_confound": "survives_current_frozen_evidence"
+      },
+      "missing_required_rung": "independent primary T-cell support, real-world hook, and specific activation mechanism",
+      "rank": 3,
+      "scored_public_dataset_count": 0,
+      "typed_status": "evidence_attached",
+      "why_not_contradicted": "the frozen comparators do not refute MCAT; they show the candidate lacks required independent support and hook"
     }
   ],
   "candidate_set_id": "discovery_35a9129da0c18f80",
   "completion_status": "not_complete",
-  "decided_count": 2,
+  "decided_count": 3,
   "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
   "next_candidate": {
-    "gene": "MCAT",
-    "rank": 3,
-    "required_next_packet": "rank_3_mcat_defended_evidence",
+    "gene": "RWDD2B",
+    "rank": 4,
+    "required_next_packet": "rank_4_rwdd2b_defended_evidence",
     "status": "pending_deep_dive"
   },
   "next_step": "build the next ranked defended evidence packet, starting from the same frozen bar and kill rules",
-  "packet_id": "defended_decisions_10b871570ad063a8",
+  "packet_id": "defended_decisions_9866b31a8ca9b06a",
   "phase": "defended_candidate_decision_ledger",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
-  "remaining_candidate_count": 16,
+  "remaining_candidate_count": 15,
   "reproduce_command": "./prospect defended-candidate-decisions",
   "status": "evidence_attached",
   "title": "Defended candidate decision ledger",
