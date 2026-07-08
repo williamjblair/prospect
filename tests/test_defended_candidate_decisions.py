@@ -46,17 +46,17 @@ def test_decision_ledger_demotes_pggt1b_without_overclaiming():
     )
 
 
-def test_decision_ledger_advances_to_rank_4_candidate():
+def test_decision_ledger_advances_to_rank_5_candidate():
     packet = build_defended_candidate_decisions()
     next_candidate = packet["next_candidate"]
 
-    assert packet["decided_count"] == 3
-    assert packet["remaining_candidate_count"] == 15
+    assert packet["decided_count"] == 4
+    assert packet["remaining_candidate_count"] == 14
     assert next_candidate == {
-        "rank": 4,
-        "gene": "RWDD2B",
+        "rank": 5,
+        "gene": "CCDC22",
         "status": "pending_deep_dive",
-        "required_next_packet": "rank_4_rwdd2b_defended_evidence",
+        "required_next_packet": "rank_5_ccdc22_defended_evidence",
     }
     assert packet["campaign_state"] == "continue_ranked_list"
     assert packet["completion_status"] == "not_complete"
@@ -102,6 +102,23 @@ def test_decision_ledger_links_frozen_evidence_and_kill_state():
         "batch_or_dataset_specificity": "not_cleared",
         "alternative_mechanism": "not_cleared",
     }
+    fourth = packet["candidate_decisions"][3]
+    assert fourth["gene"] == "RWDD2B"
+    assert fourth["rank"] == 4
+    assert fourth["evidence_packet"] == "examples/data/rwdd2b_defended_evidence.json"
+    assert fourth["evidence_packet_id"] == "rwdd2b_defended_25462753f98f662f"
+    assert fourth["missing_required_rung"] == (
+        "independent primary T-cell support, real-world hook, specific activation mechanism, and non-activation artifact kill"
+    )
+    assert fourth["why_not_contradicted"] == (
+        "the frozen comparators do not refute RWDD2B; they show the candidate lacks required independent support and mechanism"
+    )
+    assert fourth["kill_results"] == {
+        "technical_confound": "survives_current_frozen_evidence",
+        "essentiality_or_proliferation_artifact": "not_cleared",
+        "batch_or_dataset_specificity": "not_cleared",
+        "alternative_mechanism": "not_cleared",
+    }
 
 
 def test_decision_ledger_writes_clean_json_and_markdown(tmp_path):
@@ -117,6 +134,7 @@ def test_decision_ledger_writes_clean_json_and_markdown(tmp_path):
     assert "RCC1L" in doc
     assert "MCAT" in doc
     assert "RWDD2B" in doc
+    assert "CCDC22" in doc
     assert "not cleared full bar" in doc
     assert "demote and advance" in doc
     assert "\u2014" not in doc

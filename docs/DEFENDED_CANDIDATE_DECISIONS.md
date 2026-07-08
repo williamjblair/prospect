@@ -13,12 +13,13 @@ Completion status: `not_complete`.
 | 1 | PGGT1B | not cleared full bar | demote and advance | comparable activation-transcriptome or activation-marker primary T-cell screen |
 | 2 | RCC1L | not cleared full bar | demote and advance | independent primary T-cell support, real-world hook, and specific activation mechanism |
 | 3 | MCAT | not cleared full bar | demote and advance | independent primary T-cell support, real-world hook, and specific activation mechanism |
+| 4 | RWDD2B | not cleared full bar | demote and advance | independent primary T-cell support, real-world hook, specific activation mechanism, and non-activation artifact kill |
 
 These candidates are not contradicted by this ledger. They are below the full defended-discovery bar because the frozen evidence does not supply every required rung.
 
 ## Next candidate
 
-Rank 4: RWDD2B with required packet `rank_4_rwdd2b_defended_evidence`.
+Rank 5: CCDC22 with required packet `rank_5_ccdc22_defended_evidence`.
 
 Rebuild:
 
