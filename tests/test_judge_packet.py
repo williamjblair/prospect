@@ -33,6 +33,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["campaign_gate_probe_rows"] == 4
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
+    assert packet["artifact_counts"]["transfer_replay_rows"] == 377
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
     assert packet["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert packet["typed_statuses"] == ["computationally_reproduced", "evidence_attached", "contradicted"]
@@ -44,6 +45,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert "/data/campaign_agent_probe.json" in packet["public_data"]
     assert "/data/campaign_triage.json" in packet["public_data"]
     assert "/data/campaign_gate_probe.json" in packet["public_data"]
+    assert "/data/transfer_replay_packet.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_contract.json" in packet["public_data"]
     assert "/data/receipt_bridge/receipt_manifest.json" in packet["public_data"]
     assert "true" not in json.dumps(packet).lower()
@@ -63,6 +65,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_probe_rows"] == 8
     assert data["artifact_counts"]["campaign_triage_rows"] == 4
     assert data["artifact_counts"]["campaign_gate_probe_rows"] == 4
+    assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
@@ -70,6 +73,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "No model in the trust path" in doc
     assert "PGGT1B evidence capsule" in doc
     assert "Campaign gate probe" in doc
+    assert "Transfer replay packet" in doc
     assert "matrix-slice transcripts" in doc
     assert "./prospect verify" in doc
     assert "python examples/receipt_bridge_client.py" in doc

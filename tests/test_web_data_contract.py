@@ -42,8 +42,21 @@ def test_frontier_json_embeds_pggt1b_matrix_slice():
     assert matrix_slice["top_down"][0]["gene"] == "IL5"
 
 
+def test_frontier_json_embeds_transfer_replay_packet():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["transfer_replay_packet"]
+
+    assert packet["status"] == "computationally_reproduced"
+    assert packet["accepted_state_mutation"] == "none"
+    assert packet["counts"]["t_cell_regulators_compared"] == 377
+    assert packet["rates"]["activation_specificity"]["rate"] == 0.8024
+    assert "verified" not in json.dumps(packet).lower()
+    assert "true" not in json.dumps(packet).lower()
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_pggt1b_matrix_slice()
+    test_frontier_json_embeds_transfer_replay_packet()
     print("PASS: web data contract")

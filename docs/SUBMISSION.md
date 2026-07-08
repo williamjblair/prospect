@@ -63,6 +63,9 @@ the graph on its own word. On top of it:
   rows into assay gates, preserving the deterministic review decision and the proposal-only boundary.
 - **Campaign gate probe**: `prospect campaign-gate-probe` pressure-tests those assay gates with
   closed recommendations, `gate_sufficient`, `add_control`, or `lower_priority`.
+- **Transfer replay packet**: `prospect transfer-replay` emits the compact replay object behind the
+  signed cross-cell-type finding, using Marson and Replogle checkers without changing accepted state.
+  The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
 
 ## How it uses Claude
 
@@ -106,6 +109,8 @@ the graph on its own word. On top of it:
   queues with orthogonal knockdown and transfer gates.
 - The gate probe asks whether those gates are sufficient, need another control, or should be lower
   priority. It is visible, proposal only, and does not move state.
+- The transfer replay packet compares 377 T-cell regulators against the Replogle K562/RPE1 frozen
+  tables and keeps the result at `computationally_reproduced`, with no accepted-state mutation.
 - The receipt bridge is executable over MCP stdio: external activity can cross into a receipt
   proposal, but accepted state still requires the human signing path. The external client demo is
   `python examples/receipt_bridge_client.py`.
@@ -125,6 +130,7 @@ the graph on its own word. On top of it:
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
+- `/data/transfer_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Verify it yourself
@@ -141,6 +147,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
+./prospect transfer-replay        # write the transfer replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect findings-index         # build the scannable finding index

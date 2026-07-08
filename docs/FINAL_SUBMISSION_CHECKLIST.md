@@ -35,6 +35,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app
 - https://prospect-sepia-six.vercel.app/data/judge_packet.json
 - https://prospect-sepia-six.vercel.app/data/campaign_gate_probe.json
+- https://prospect-sepia-six.vercel.app/data/transfer_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/receipt_bridge/receipt_manifest.json
 
@@ -43,6 +44,7 @@ Confirm:
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
 - `/data/judge_packet.json` lists `./prospect final-check`.
 - `/data/campaign_gate_probe.json` has four rows and stays proposal only.
+- `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - The receipt bridge demo returns `accepted=false`.
 
 ## Record The Demo Video
@@ -57,6 +59,7 @@ Close on:
 - PGGT1B deep dive: `evidence_attached`, missing wet-lab evidence named
 - lab packet and Gladstone assay handoff: five assay-ready rows
 - campaign gate probe: Claude pressure-tests gates with `gate_sufficient`, `add_control`, or `lower_priority`
+- transfer replay packet: second and third frozen Perturb-seq tables exercise the same checker interface
 
 ## Submit The Project
 

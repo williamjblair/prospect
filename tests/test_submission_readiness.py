@@ -17,6 +17,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect campaign-probe",
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
+        "./prospect transfer-replay",
         "./prospect lab-pack",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
@@ -36,11 +37,13 @@ def test_submission_points_to_current_public_artifacts():
         "/data/campaign_agent_probe.json",
         "/data/campaign_triage.json",
         "/data/campaign_gate_probe.json",
+        "/data/transfer_replay_packet.json",
         "/data/lab_packet.json",
     ]:
         assert artifact in text
 
     assert "GLADSTONE_ASSAY_HANDOFF.md" in text
+    assert "TRANSFER_REPLAY_PACKET.md" in text
     assert "FINAL_SUBMISSION_CHECKLIST.md" in text
 
 

@@ -43,6 +43,7 @@ def build_packet() -> dict[str, Any]:
     campaign_triage = frontier.get("campaign_triage") or {}
     campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
     lab_packet = frontier.get("lab_packet") or {}
+    transfer_replay = frontier.get("transfer_replay_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
     validation = frontier.get("validation") or []
 
@@ -102,6 +103,7 @@ def build_packet() -> dict[str, Any]:
             "/data/campaign_agent_probe.json",
             "/data/campaign_triage.json",
             "/data/campaign_gate_probe.json",
+            "/data/transfer_replay_packet.json",
             "/data/lab_packet.json",
         ],
         "artifact_counts": {
@@ -115,6 +117,7 @@ def build_packet() -> dict[str, Any]:
             "campaign_probe_rows": len(campaign_probe.get("rows", [])),
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "campaign_gate_probe_rows": len(campaign_gate_probe.get("rows", [])),
+            "transfer_replay_rows": transfer_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
@@ -163,6 +166,13 @@ def build_packet() -> dict[str, Any]:
                 "candidate_count": len(campaign_gate_probe.get("rows", [])),
                 "summary": campaign_gate_probe.get("summary", {}),
             },
+            "transfer_replay": {
+                "status": transfer_replay.get("status"),
+                "trust_boundary": transfer_replay.get("trust_boundary"),
+                "accepted_state_mutation": transfer_replay.get("accepted_state_mutation"),
+                "t_cell_regulators_compared": transfer_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
+                "activation_specificity_rate": transfer_replay.get("rates", {}).get("activation_specificity", {}).get("rate"),
+            },
             "lab_packet": {
                 "status": lab_packet.get("status"),
                 "trust_boundary": lab_packet.get("trust_boundary"),
@@ -206,6 +216,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign probe rows: {counts['campaign_probe_rows']}",
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Campaign gate probe rows: {counts['campaign_gate_probe_rows']}",
+        f"- Transfer replay rows: {counts['transfer_replay_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
@@ -218,6 +229,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Campaign gate probe",
         "",
         "The gate probe pressure-tests the disagreement triage rows with closed recommendations: `gate_sufficient`, `add_control`, or `lower_priority`. It stays proposal only.",
+        "",
+        "## Transfer replay packet",
+        "",
+        "The transfer packet replays the signed cross-cell-type finding through the Marson and Replogle checkers, without changing accepted state.",
         "",
         "## Receipt bridge demo",
         "",

@@ -88,6 +88,10 @@ have to pass before a conservative reviewer spends primary assay capacity.
 `prospect campaign-gate-probe` pressure-tests those assay gates with closed recommendations:
 `gate_sufficient`, `add_control`, or `lower_priority`. It remains proposal only.
 
+`prospect transfer-replay` emits a compact replay packet for the signed cross-cell-type finding:
+the same major-regulator claim through the Marson CD4+ T-cell checker and the Replogle K562/RPE1
+checkers. It is `computationally_reproduced` and changes no accepted state.
+
 Current public artifacts:
 
 - `/data/frontier.json`
@@ -98,6 +102,7 @@ Current public artifacts:
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
+- `/data/transfer_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Run it
@@ -116,6 +121,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
+./prospect transfer-replay        # build the transfer replay packet
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect judge-pack             # build the judge packet manifest
@@ -138,6 +144,8 @@ The web app reads a single signed `frontier.json`; it runs credential-free and o
   copies cannot drift.
 - The MCP bridge can validate and submit receipts only as proposals. A human key remains the only
   path into accepted state.
+- The transfer replay packet is a public audit object, not a new accepted-state mutation. See
+  [docs/TRANSFER_REPLAY_PACKET.md](docs/TRANSFER_REPLAY_PACKET.md).
 
 ## Data
 

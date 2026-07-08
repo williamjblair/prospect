@@ -16,6 +16,7 @@ COMMANDS = [
     "python tests/test_repo_hygiene.py",
     "git diff --check",
     "python examples/receipt_bridge_client.py --json",
+    "./prospect transfer-replay",
 ]
 
 

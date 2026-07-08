@@ -58,6 +58,7 @@
     "/data/campaign_agent_probe.json",
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
+    "/data/transfer_replay_packet.json",
     "/data/lab_packet.json"
   ],
   "artifact_counts": {
@@ -71,6 +72,7 @@
     "campaign_probe_rows": 8,
     "campaign_triage_rows": 4,
     "campaign_gate_probe_rows": 4,
+    "transfer_replay_rows": 377,
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "pggt1b_evidence_ladder_steps": 5,
@@ -659,6 +661,13 @@
         "gate_sufficient": 2,
         "lower_priority": 1
       }
+    },
+    "transfer_replay": {
+      "status": "computationally_reproduced",
+      "trust_boundary": "frozen_checkers_over_frozen_tables",
+      "accepted_state_mutation": "none",
+      "t_cell_regulators_compared": 377,
+      "activation_specificity_rate": 0.8024
     },
     "lab_packet": {
       "status": "evidence_attached",

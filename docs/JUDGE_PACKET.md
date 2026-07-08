@@ -31,6 +31,7 @@ cd web && npm run build
 - Campaign probe rows: 8
 - Campaign triage rows: 4
 - Campaign gate probe rows: 4
+- Transfer replay rows: 377
 - Validation candidates: 5
 - Lab packet candidates: 5
 - PGGT1B evidence ladder steps: 5
@@ -43,6 +44,10 @@ The top agent hypothesis has an evidence capsule with exact ratios, a released-m
 ## Campaign gate probe
 
 The gate probe pressure-tests the disagreement triage rows with closed recommendations: `gate_sufficient`, `add_control`, or `lower_priority`. It stays proposal only.
+
+## Transfer replay packet
+
+The transfer packet replays the signed cross-cell-type finding through the Marson and Replogle checkers, without changing accepted state.
 
 ## Receipt bridge demo
 
@@ -68,6 +73,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
+- `/data/transfer_replay_packet.json`
 - `/data/lab_packet.json`
 
 ## Demo path

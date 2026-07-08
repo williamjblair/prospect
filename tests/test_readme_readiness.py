@@ -18,6 +18,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect campaign-probe",
         "./prospect campaign-triage",
         "./prospect campaign-gate-probe",
+        "./prospect transfer-replay",
         "./prospect lab-pack",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
@@ -32,6 +33,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "/data/campaign_agent_probe.json",
         "/data/campaign_triage.json",
         "/data/campaign_gate_probe.json",
+        "/data/transfer_replay_packet.json",
         "/data/lab_packet.json",
     ]:
         assert artifact in text
@@ -39,6 +41,7 @@ def test_readme_lists_current_commands_and_artifacts():
     assert "Five findings" in findings
     assert "Three findings" not in findings
     assert "docs/GLADSTONE_ASSAY_HANDOFF.md" in text
+    assert "docs/TRANSFER_REPLAY_PACKET.md" in text
     assert "docs/FINAL_SUBMISSION_CHECKLIST.md" in text
 
 

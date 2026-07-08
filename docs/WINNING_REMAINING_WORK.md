@@ -5,7 +5,8 @@ Audit date: July 8, 2026
 Live project: https://prospect-sepia-six.vercel.app
 
 Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
-the receipt bridge client, final-check gate, Gladstone assay handoff, and campaign gate probe shipped.
+the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, and
+transfer replay packet shipped.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -20,10 +21,7 @@ The highest-leverage remaining work is mostly packaging and judge persuasion:
 
 1. Record the demo video from `docs/DEMO.md`.
 2. Submit the live URL, GitHub URL, and `docs/SUBMISSION.md` text.
-3. If there is time, add one more proof that Prospect is a protocol, not only an app: a tiny external
-   MCP receipt-client demo or judge-facing "receipt bridge walkthrough."
-4. If there is more time, add one more agent pass against the disagreement gates, still proposal-only.
-5. Treat a second frontier as an ambitious stretch only. It is valuable, but it is the easiest place
+3. Treat a full second signed frontier as an ambitious stretch only. It is valuable, but it is the easiest place
    to dilute the story or create deadline risk.
 
 ## Event frame
@@ -56,6 +54,7 @@ This audit used the current worktree and live production data as the source of r
   - `/data/judge_packet.json`: root `root_a8b0dcdd4024e12f`, 8 campaign probe rows, 4 campaign triage rows, 4 campaign gate probe rows.
   - `/data/campaign_agent_probe.json`: 8 rows, 3 aligned, 4 more-aggressive, 1 more-cautious.
   - `/data/campaign_gate_probe.json`: 4 rows, 2 gate-sufficient, 1 add-control, 1 lower-priority.
+  - `/data/transfer_replay_packet.json`: 377 compared T-cell regulators, no accepted-state mutation.
   - `/data/pggt1b_matrix_slice.json`: 671 moved transcripts, top increased `KLF2`, top decreased `IL5`.
 
 ### Gate state
@@ -95,6 +94,7 @@ Public bundle counts in `web/public/data/frontier.json` and live judge packet:
 - 8 campaign probe rows.
 - 4 disagreement triage rows.
 - 4 campaign gate probe rows.
+- 377 transfer replay rows.
 - 5 validation candidates.
 - 5 wet-lab assay packet candidates.
 - 5 PGGT1B evidence ladder steps.
@@ -179,7 +179,23 @@ These could improve the chance of winning without changing the core scientific s
    - Recommendation:
      - Useful if the demo needs a single terminal moment.
 
-3. **Add a judge-facing receipt bridge card or walkthrough link in the UI.**
+3. **Add a transfer replay packet.**
+   - Current state: shipped as `./prospect transfer-replay`, [TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md), and `/data/transfer_replay_packet.json`.
+   - Why it matters: it proves the same checker interface replays across Marson CD4+ T cells and Replogle K562/RPE1 without creating a new accepted-state mutation.
+   - Shape:
+     - Compact JSON and Markdown packet.
+     - Status: `computationally_reproduced`.
+     - Trust boundary: frozen checkers over frozen tables.
+     - Counts: 377 T-cell regulators compared, 70 of 129 essentiality-artifact genes reproduced in K562, 199 of 248 activation-or-effector genes cell-type-specific.
+   - Gate:
+     - `python tests/test_transfer_replay_packet.py`.
+     - Included in `./prospect final-check`.
+   - Risk:
+     - Low. It summarizes the already signed transfer finding and does not alter the root.
+   - Recommendation:
+     - Show it in the final demo only if there is time after the receipt bridge and lab handoff.
+
+4. **Add a judge-facing receipt bridge card or walkthrough link in the UI.**
    - Why it matters: the current Frontier tab links bridge artifacts, but the proof that a submitted
      receipt stays proposal-only may be more legible as a short UI beat.
    - Shape:
@@ -192,7 +208,7 @@ These could improve the chance of winning without changing the core scientific s
    - Risk:
      - Low to medium. Avoid adding cards inside cards or explanatory clutter.
 
-4. **Run an agent pass against disagreement gates.**
+5. **Run an agent pass against disagreement gates.**
    - Current state: shipped as `./prospect campaign-gate-probe`.
    - Why it matters: the campaign probe currently asks Claude to inspect top campaign candidates.
      A second pass could ask whether the deterministic assay gates are sufficient, too strict, or
@@ -213,7 +229,7 @@ These could improve the chance of winning without changing the core scientific s
    - Recommendation:
      - Good if the project needs a stronger "Claude as scientific co-worker" signal.
 
-5. **Add a Gladstone assay handoff one-pager.**
+6. **Add a Gladstone assay handoff one-pager.**
    - Current state: shipped as `docs/GLADSTONE_ASSAY_HANDOFF.md`.
    - Why it matters: the lab packet is already strong, but a single page named for a wet-lab handoff
      would make the practical value easier to judge.
@@ -230,8 +246,10 @@ These could improve the chance of winning without changing the core scientific s
 
 ### P2, high ceiling but higher risk
 
-1. **Second frontier on another dataset.**
+1. **Full second signed frontier on another dataset.**
    - Why it matters: it would prove Prospect generalizes beyond the Marson CD4+ screen.
+   - Current safer substitute:
+     - Shipped: `./prospect transfer-replay` as a compact, no-state-mutation replay packet over Replogle K562/RPE1.
    - Best conservative target:
      - Replogle K562/RPE1 is already partially integrated through the checker interface.
      - A small second-frontier demo could focus on replaying major-regulator claims in non-immune
