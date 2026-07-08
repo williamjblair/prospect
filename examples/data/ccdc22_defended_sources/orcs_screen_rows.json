@@ -1,0 +1,60 @@
+{
+  "gene": "CCDC22",
+  "payload": {
+    "schmidt_2022_2427": {
+      "hit_status": "non_hit",
+      "rank": 12110,
+      "records_filtered": 1,
+      "score_names": [
+        "mageck_pos_score",
+        "pos_fdr",
+        "mageck_neg_score",
+        "neg_fdr",
+        "log2fc"
+      ],
+      "scores": {
+        "log2fc": -0.25537,
+        "mageck_neg_score": 0.081025,
+        "mageck_pos_score": 0.41246,
+        "neg_fdr": 0.647732,
+        "pos_fdr": 1.0
+      },
+      "screen_id": "2427",
+      "source": "BioGRID ORCS"
+    },
+    "shifrut_2018_1107": {
+      "hit_status": "hit",
+      "rank": 515,
+      "records_filtered": 1,
+      "score_names": [
+        "mageck_pos_score",
+        "pos_p_value",
+        "mageck_neg_score",
+        "neg_p_value",
+        "log2fc"
+      ],
+      "scores": {
+        "log2fc": -0.21321,
+        "mageck_neg_score": 0.89536,
+        "mageck_pos_score": 0.0043448,
+        "neg_p_value": 1.0,
+        "pos_p_value": 0.00029324
+      },
+      "screen_id": "1107",
+      "source": "BioGRID ORCS"
+    },
+    "shifrut_2018_1109": {
+      "hit_status": "not_in_table",
+      "score_names": [
+        "mageck_score",
+        "p_value",
+        "fdr",
+        "log2fc"
+      ],
+      "screen_id": "1109",
+      "source": "BioGRID ORCS"
+    }
+  },
+  "source": "orcs_screen_rows",
+  "url": "https://orcs.thebiogrid.org/Dataset/230"
+}

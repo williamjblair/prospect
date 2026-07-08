@@ -1,0 +1,18 @@
+{
+  "gene": "CCDC22",
+  "payload": {
+    "activated_cd4_ensembl_id": "ENSG00000101997.12",
+    "activated_cd4_max_tpm": 54.288,
+    "activated_cd4_mean_tpm": 30.218,
+    "activated_cd4_min_tpm": 8.342,
+    "activated_cd4_replicates": 88,
+    "annotation": "CCDC22;protein_coding",
+    "max_cd4_cell_type": "T cell, CD4, TFH",
+    "max_cd4_tpm": 39.287,
+    "max_non_cd4_cell_type": "T cell, CD8, naive",
+    "max_non_cd4_tpm": 24.129,
+    "mean_file_ensembl_id": "ENSG00000101997"
+  },
+  "source": "dice_expression",
+  "url": "https://dice-database.org/download/CD4_STIM_TPM.csv"
+}

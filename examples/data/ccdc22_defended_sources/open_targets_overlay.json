@@ -1,0 +1,36 @@
+{
+  "gene": "CCDC22",
+  "payload": {
+    "overlay_class": "immune_or_hematologic_genetic_context",
+    "selected_associations": [
+      {
+        "association_score": 0.1183,
+        "datatype_scores": [
+          {
+            "id": "genetic_association",
+            "score": 0.1945
+          }
+        ],
+        "disease_id": "MONDO_0010580",
+        "disease_or_trait": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome",
+        "evidence_type": "genetic_association",
+        "has_genetic_association": "yes"
+      }
+    ],
+    "top_context": {
+      "association_score": 0.1183,
+      "datatype_scores": [
+        {
+          "id": "genetic_association",
+          "score": 0.1945
+        }
+      ],
+      "disease_id": "MONDO_0010580",
+      "disease_or_trait": "immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome",
+      "evidence_type": "genetic_association",
+      "has_genetic_association": "yes"
+    }
+  },
+  "source": "open_targets_overlay",
+  "url": "examples/data/disease_genetics_overlay.json"
+}

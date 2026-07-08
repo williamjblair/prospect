@@ -1,0 +1,4625 @@
+{
+  "article_api_url": "https://api.figshare.com/v2/articles/25880521",
+  "article_url": "https://plus.figshare.com/articles/dataset/DepMap_24Q2_Public/25880521",
+  "column": "CCDC22 (28952)",
+  "file": {
+    "computed_md5": "d10d73692672380b3792231549e97d5a",
+    "id": 46489063,
+    "name": "CRISPRGeneEffect.csv",
+    "size": 419330454
+  },
+  "gene": "CCDC22",
+  "source": "depmap_24q2_crispr_gene_effect",
+  "summary": {
+    "cell_line_count": 1150,
+    "lines_below_minus_0_5": 98,
+    "lines_below_minus_1": 6,
+    "max_gene_effect": 0.380528,
+    "mean_gene_effect": -0.2268,
+    "median_gene_effect": -0.202,
+    "min_gene_effect": -1.546628
+  },
+  "url": "https://ndownloader.figshare.com/files/46489063",
+  "values": [
+    {
+      "gene_effect": 0.11735471191633437,
+      "model_id": "ACH-000001"
+    },
+    {
+      "gene_effect": -0.11499504302593348,
+      "model_id": "ACH-000004"
+    },
+    {
+      "gene_effect": -0.37045749248105486,
+      "model_id": "ACH-000005"
+    },
+    {
+      "gene_effect": -0.4863686012314049,
+      "model_id": "ACH-000007"
+    },
+    {
+      "gene_effect": 0.15459464308421164,
+      "model_id": "ACH-000009"
+    },
+    {
+      "gene_effect": -0.5429251949867099,
+      "model_id": "ACH-000011"
+    },
+    {
+      "gene_effect": -0.08089976385845377,
+      "model_id": "ACH-000012"
+    },
+    {
+      "gene_effect": -0.09288308239395987,
+      "model_id": "ACH-000013"
+    },
+    {
+      "gene_effect": -0.23717353293740112,
+      "model_id": "ACH-000014"
+    },
+    {
+      "gene_effect": -0.3818176892234102,
+      "model_id": "ACH-000015"
+    },
+    {
+      "gene_effect": 0.10025640318832094,
+      "model_id": "ACH-000017"
+    },
+    {
+      "gene_effect": -0.3199960968959948,
+      "model_id": "ACH-000018"
+    },
+    {
+      "gene_effect": -0.12713648993204835,
+      "model_id": "ACH-000019"
+    },
+    {
+      "gene_effect": -0.27971761634801967,
+      "model_id": "ACH-000021"
+    },
+    {
+      "gene_effect": -0.242070384129788,
+      "model_id": "ACH-000022"
+    },
+    {
+      "gene_effect": -0.10403505503964282,
+      "model_id": "ACH-000023"
+    },
+    {
+      "gene_effect": -0.6590353851617782,
+      "model_id": "ACH-000024"
+    },
+    {
+      "gene_effect": -0.0546479826080766,
+      "model_id": "ACH-000025"
+    },
+    {
+      "gene_effect": -0.41103808101831796,
+      "model_id": "ACH-000026"
+    },
+    {
+      "gene_effect": -0.13648678952975704,
+      "model_id": "ACH-000028"
+    },
+    {
+      "gene_effect": -0.5894011139535326,
+      "model_id": "ACH-000029"
+    },
+    {
+      "gene_effect": -0.4359845987943466,
+      "model_id": "ACH-000030"
+    },
+    {
+      "gene_effect": -0.16863688546066535,
+      "model_id": "ACH-000035"
+    },
+    {
+      "gene_effect": -0.3384950032240992,
+      "model_id": "ACH-000036"
+    },
+    {
+      "gene_effect": -0.07691937118128017,
+      "model_id": "ACH-000037"
+    },
+    {
+      "gene_effect": -0.11685241118194661,
+      "model_id": "ACH-000039"
+    },
+    {
+      "gene_effect": -0.18926006976970872,
+      "model_id": "ACH-000040"
+    },
+    {
+      "gene_effect": -0.2315783924061422,
+      "model_id": "ACH-000041"
+    },
+    {
+      "gene_effect": -0.43073075610719447,
+      "model_id": "ACH-000042"
+    },
+    {
+      "gene_effect": -0.09573246367752139,
+      "model_id": "ACH-000045"
+    },
+    {
+      "gene_effect": -0.3892328539515675,
+      "model_id": "ACH-000047"
+    },
+    {
+      "gene_effect": -0.37661196888985815,
+      "model_id": "ACH-000048"
+    },
+    {
+      "gene_effect": -0.1761434261181532,
+      "model_id": "ACH-000052"
+    },
+    {
+      "gene_effect": -0.31191721445958,
+      "model_id": "ACH-000053"
+    },
+    {
+      "gene_effect": -0.199797230194784,
+      "model_id": "ACH-000054"
+    },
+    {
+      "gene_effect": -0.12258805591009068,
+      "model_id": "ACH-000055"
+    },
+    {
+      "gene_effect": -0.08956137927606461,
+      "model_id": "ACH-000060"
+    },
+    {
+      "gene_effect": -0.1401844183145513,
+      "model_id": "ACH-000067"
+    },
+    {
+      "gene_effect": -0.1564736648617135,
+      "model_id": "ACH-000070"
+    },
+    {
+      "gene_effect": -0.24414722229073102,
+      "model_id": "ACH-000074"
+    },
+    {
+      "gene_effect": -0.11114320805148617,
+      "model_id": "ACH-000075"
+    },
+    {
+      "gene_effect": -0.3013975205066534,
+      "model_id": "ACH-000076"
+    },
+    {
+      "gene_effect": -0.6860746322358074,
+      "model_id": "ACH-000077"
+    },
+    {
+      "gene_effect": -0.18146742517639353,
+      "model_id": "ACH-000078"
+    },
+    {
+      "gene_effect": -0.06028702763694915,
+      "model_id": "ACH-000082"
+    },
+    {
+      "gene_effect": -0.006408695013280702,
+      "model_id": "ACH-000085"
+    },
+    {
+      "gene_effect": -0.3141398021501311,
+      "model_id": "ACH-000086"
+    },
+    {
+      "gene_effect": -0.30545568126905726,
+      "model_id": "ACH-000087"
+    },
+    {
+      "gene_effect": -0.004576672228772255,
+      "model_id": "ACH-000090"
+    },
+    {
+      "gene_effect": -0.2174545414128521,
+      "model_id": "ACH-000092"
+    },
+    {
+      "gene_effect": 0.03460058999996654,
+      "model_id": "ACH-000093"
+    },
+    {
+      "gene_effect": -0.11952039112303549,
+      "model_id": "ACH-000094"
+    },
+    {
+      "gene_effect": -0.206569134877571,
+      "model_id": "ACH-000095"
+    },
+    {
+      "gene_effect": -0.42198664663023566,
+      "model_id": "ACH-000096"
+    },
+    {
+      "gene_effect": -0.18849437301274968,
+      "model_id": "ACH-000097"
+    },
+    {
+      "gene_effect": 0.010735914003120989,
+      "model_id": "ACH-000098"
+    },
+    {
+      "gene_effect": -0.37091073114314477,
+      "model_id": "ACH-000099"
+    },
+    {
+      "gene_effect": 0.07718582820416944,
+      "model_id": "ACH-000100"
+    },
+    {
+      "gene_effect": -0.16711928604690326,
+      "model_id": "ACH-000101"
+    },
+    {
+      "gene_effect": -0.2541835363259774,
+      "model_id": "ACH-000103"
+    },
+    {
+      "gene_effect": -0.21400102099695584,
+      "model_id": "ACH-000106"
+    },
+    {
+      "gene_effect": -0.206178573991561,
+      "model_id": "ACH-000108"
+    },
+    {
+      "gene_effect": -0.2744282810301117,
+      "model_id": "ACH-000111"
+    },
+    {
+      "gene_effect": -0.1981516721646664,
+      "model_id": "ACH-000113"
+    },
+    {
+      "gene_effect": -0.2635962511922575,
+      "model_id": "ACH-000114"
+    },
+    {
+      "gene_effect": -0.17551038094344382,
+      "model_id": "ACH-000115"
+    },
+    {
+      "gene_effect": -0.41185190125065957,
+      "model_id": "ACH-000116"
+    },
+    {
+      "gene_effect": -0.1735641010348663,
+      "model_id": "ACH-000118"
+    },
+    {
+      "gene_effect": -0.11846510853404386,
+      "model_id": "ACH-000120"
+    },
+    {
+      "gene_effect": -0.08575390885937662,
+      "model_id": "ACH-000123"
+    },
+    {
+      "gene_effect": -0.37828935018116316,
+      "model_id": "ACH-000124"
+    },
+    {
+      "gene_effect": -0.2367101203387274,
+      "model_id": "ACH-000127"
+    },
+    {
+      "gene_effect": -0.15199955870302595,
+      "model_id": "ACH-000128"
+    },
+    {
+      "gene_effect": -0.3842158761368519,
+      "model_id": "ACH-000132"
+    },
+    {
+      "gene_effect": -0.6842497364973616,
+      "model_id": "ACH-000133"
+    },
+    {
+      "gene_effect": -0.13577200085378388,
+      "model_id": "ACH-000137"
+    },
+    {
+      "gene_effect": -0.11582349999269091,
+      "model_id": "ACH-000138"
+    },
+    {
+      "gene_effect": -0.26110135238590887,
+      "model_id": "ACH-000139"
+    },
+    {
+      "gene_effect": -0.5022294319657993,
+      "model_id": "ACH-000141"
+    },
+    {
+      "gene_effect": -1.1606428368216608,
+      "model_id": "ACH-000142"
+    },
+    {
+      "gene_effect": -0.30865035157462195,
+      "model_id": "ACH-000143"
+    },
+    {
+      "gene_effect": -0.23133903054072796,
+      "model_id": "ACH-000144"
+    },
+    {
+      "gene_effect": 0.07170858053747356,
+      "model_id": "ACH-000145"
+    },
+    {
+      "gene_effect": -0.5898541353510767,
+      "model_id": "ACH-000146"
+    },
+    {
+      "gene_effect": -0.09448294646307903,
+      "model_id": "ACH-000147"
+    },
+    {
+      "gene_effect": -0.07806768999474933,
+      "model_id": "ACH-000148"
+    },
+    {
+      "gene_effect": -0.36469010879696406,
+      "model_id": "ACH-000149"
+    },
+    {
+      "gene_effect": -0.25221400705550256,
+      "model_id": "ACH-000151"
+    },
+    {
+      "gene_effect": -0.07851460534381266,
+      "model_id": "ACH-000152"
+    },
+    {
+      "gene_effect": 0.009324136557913226,
+      "model_id": "ACH-000153"
+    },
+    {
+      "gene_effect": -0.3391555633885719,
+      "model_id": "ACH-000155"
+    },
+    {
+      "gene_effect": -0.3337825543176591,
+      "model_id": "ACH-000159"
+    },
+    {
+      "gene_effect": -0.6778632789424816,
+      "model_id": "ACH-000160"
+    },
+    {
+      "gene_effect": -0.05566538334533311,
+      "model_id": "ACH-000161"
+    },
+    {
+      "gene_effect": -0.19015774313803951,
+      "model_id": "ACH-000163"
+    },
+    {
+      "gene_effect": 0.06112090932788847,
+      "model_id": "ACH-000164"
+    },
+    {
+      "gene_effect": -0.07104072002669753,
+      "model_id": "ACH-000167"
+    },
+    {
+      "gene_effect": -0.43069215714160164,
+      "model_id": "ACH-000168"
+    },
+    {
+      "gene_effect": -0.08777434662536243,
+      "model_id": "ACH-000169"
+    },
+    {
+      "gene_effect": 0.02540302446983625,
+      "model_id": "ACH-000172"
+    },
+    {
+      "gene_effect": -0.27749466388838007,
+      "model_id": "ACH-000174"
+    },
+    {
+      "gene_effect": -0.19727206807489162,
+      "model_id": "ACH-000176"
+    },
+    {
+      "gene_effect": -0.02292709933358661,
+      "model_id": "ACH-000178"
+    },
+    {
+      "gene_effect": -0.22385173144169998,
+      "model_id": "ACH-000181"
+    },
+    {
+      "gene_effect": -0.3356333471394416,
+      "model_id": "ACH-000182"
+    },
+    {
+      "gene_effect": -0.2485711037283201,
+      "model_id": "ACH-000183"
+    },
+    {
+      "gene_effect": -0.10947796616034636,
+      "model_id": "ACH-000187"
+    },
+    {
+      "gene_effect": -0.1485023649510977,
+      "model_id": "ACH-000188"
+    },
+    {
+      "gene_effect": -0.16909294279410614,
+      "model_id": "ACH-000189"
+    },
+    {
+      "gene_effect": -0.2622080901843676,
+      "model_id": "ACH-000190"
+    },
+    {
+      "gene_effect": -0.6554985959244587,
+      "model_id": "ACH-000191"
+    },
+    {
+      "gene_effect": 0.03309021808692944,
+      "model_id": "ACH-000192"
+    },
+    {
+      "gene_effect": -0.20073841070454607,
+      "model_id": "ACH-000195"
+    },
+    {
+      "gene_effect": -0.2675868474019182,
+      "model_id": "ACH-000198"
+    },
+    {
+      "gene_effect": -0.22019405508791906,
+      "model_id": "ACH-000200"
+    },
+    {
+      "gene_effect": 0.09155399117859755,
+      "model_id": "ACH-000202"
+    },
+    {
+      "gene_effect": -0.21585729836955786,
+      "model_id": "ACH-000203"
+    },
+    {
+      "gene_effect": -0.2547079140607258,
+      "model_id": "ACH-000204"
+    },
+    {
+      "gene_effect": -0.46612824298222943,
+      "model_id": "ACH-000206"
+    },
+    {
+      "gene_effect": -0.06166266309363197,
+      "model_id": "ACH-000207"
+    },
+    {
+      "gene_effect": -0.2563096861269258,
+      "model_id": "ACH-000208"
+    },
+    {
+      "gene_effect": 0.056801319101072195,
+      "model_id": "ACH-000209"
+    },
+    {
+      "gene_effect": 0.1598011518635735,
+      "model_id": "ACH-000210"
+    },
+    {
+      "gene_effect": -0.46464160136018534,
+      "model_id": "ACH-000211"
+    },
+    {
+      "gene_effect": -0.30952163695307766,
+      "model_id": "ACH-000212"
+    },
+    {
+      "gene_effect": -0.5141455787727952,
+      "model_id": "ACH-000213"
+    },
+    {
+      "gene_effect": -0.383956666293951,
+      "model_id": "ACH-000215"
+    },
+    {
+      "gene_effect": -0.5108581381303406,
+      "model_id": "ACH-000216"
+    },
+    {
+      "gene_effect": -0.15055149172981813,
+      "model_id": "ACH-000217"
+    },
+    {
+      "gene_effect": -0.2694598832244517,
+      "model_id": "ACH-000219"
+    },
+    {
+      "gene_effect": -0.23975073529348734,
+      "model_id": "ACH-000221"
+    },
+    {
+      "gene_effect": -0.01979945025763205,
+      "model_id": "ACH-000222"
+    },
+    {
+      "gene_effect": -0.3246298124865892,
+      "model_id": "ACH-000223"
+    },
+    {
+      "gene_effect": -0.11825170619934934,
+      "model_id": "ACH-000226"
+    },
+    {
+      "gene_effect": -0.17443887164361338,
+      "model_id": "ACH-000227"
+    },
+    {
+      "gene_effect": -0.2736502431894192,
+      "model_id": "ACH-000228"
+    },
+    {
+      "gene_effect": -0.08806817088233615,
+      "model_id": "ACH-000231"
+    },
+    {
+      "gene_effect": -0.24960231043509548,
+      "model_id": "ACH-000232"
+    },
+    {
+      "gene_effect": -0.3411551333234862,
+      "model_id": "ACH-000233"
+    },
+    {
+      "gene_effect": -0.4139299438104738,
+      "model_id": "ACH-000234"
+    },
+    {
+      "gene_effect": -0.14609289532783154,
+      "model_id": "ACH-000235"
+    },
+    {
+      "gene_effect": -0.4912194726609551,
+      "model_id": "ACH-000237"
+    },
+    {
+      "gene_effect": -0.5849953569091667,
+      "model_id": "ACH-000238"
+    },
+    {
+      "gene_effect": -0.0391057570725534,
+      "model_id": "ACH-000239"
+    },
+    {
+      "gene_effect": -0.20741140661065918,
+      "model_id": "ACH-000242"
+    },
+    {
+      "gene_effect": -0.3137954872698495,
+      "model_id": "ACH-000243"
+    },
+    {
+      "gene_effect": -0.012525969309540669,
+      "model_id": "ACH-000244"
+    },
+    {
+      "gene_effect": -0.35849160371319844,
+      "model_id": "ACH-000246"
+    },
+    {
+      "gene_effect": -0.06149747304982495,
+      "model_id": "ACH-000247"
+    },
+    {
+      "gene_effect": 0.0930716705956989,
+      "model_id": "ACH-000248"
+    },
+    {
+      "gene_effect": -0.22822752979192365,
+      "model_id": "ACH-000249"
+    },
+    {
+      "gene_effect": -0.08380277577657541,
+      "model_id": "ACH-000250"
+    },
+    {
+      "gene_effect": -0.11575407974916427,
+      "model_id": "ACH-000251"
+    },
+    {
+      "gene_effect": -0.12715958777925862,
+      "model_id": "ACH-000252"
+    },
+    {
+      "gene_effect": -0.18936709977587918,
+      "model_id": "ACH-000253"
+    },
+    {
+      "gene_effect": -0.018340182411658024,
+      "model_id": "ACH-000255"
+    },
+    {
+      "gene_effect": -0.3746121336508178,
+      "model_id": "ACH-000256"
+    },
+    {
+      "gene_effect": -0.2264301325668071,
+      "model_id": "ACH-000257"
+    },
+    {
+      "gene_effect": -0.20581212094181203,
+      "model_id": "ACH-000258"
+    },
+    {
+      "gene_effect": -0.3650337943310449,
+      "model_id": "ACH-000259"
+    },
+    {
+      "gene_effect": -0.19811693478654063,
+      "model_id": "ACH-000260"
+    },
+    {
+      "gene_effect": -0.19120692050955848,
+      "model_id": "ACH-000261"
+    },
+    {
+      "gene_effect": -0.4525591312551107,
+      "model_id": "ACH-000262"
+    },
+    {
+      "gene_effect": 0.1764230178000701,
+      "model_id": "ACH-000263"
+    },
+    {
+      "gene_effect": -0.19721942634782016,
+      "model_id": "ACH-000264"
+    },
+    {
+      "gene_effect": -0.13921561074806804,
+      "model_id": "ACH-000265"
+    },
+    {
+      "gene_effect": -0.44853111811813895,
+      "model_id": "ACH-000266"
+    },
+    {
+      "gene_effect": 0.09772679820586802,
+      "model_id": "ACH-000268"
+    },
+    {
+      "gene_effect": -0.015272301691303308,
+      "model_id": "ACH-000269"
+    },
+    {
+      "gene_effect": -0.5851539048859276,
+      "model_id": "ACH-000271"
+    },
+    {
+      "gene_effect": -0.4555331016509404,
+      "model_id": "ACH-000272"
+    },
+    {
+      "gene_effect": -0.5438932996826937,
+      "model_id": "ACH-000273"
+    },
+    {
+      "gene_effect": -0.1771753074122312,
+      "model_id": "ACH-000274"
+    },
+    {
+      "gene_effect": -0.2452624840884111,
+      "model_id": "ACH-000276"
+    },
+    {
+      "gene_effect": -0.028766950582766626,
+      "model_id": "ACH-000277"
+    },
+    {
+      "gene_effect": -0.40902906826884533,
+      "model_id": "ACH-000278"
+    },
+    {
+      "gene_effect": -0.011473970404991374,
+      "model_id": "ACH-000279"
+    },
+    {
+      "gene_effect": -0.5313676066120203,
+      "model_id": "ACH-000280"
+    },
+    {
+      "gene_effect": -0.3725187037891733,
+      "model_id": "ACH-000281"
+    },
+    {
+      "gene_effect": -0.10908974841087014,
+      "model_id": "ACH-000286"
+    },
+    {
+      "gene_effect": -0.16047136210903556,
+      "model_id": "ACH-000288"
+    },
+    {
+      "gene_effect": -0.1253528934418216,
+      "model_id": "ACH-000290"
+    },
+    {
+      "gene_effect": -0.1368507558961547,
+      "model_id": "ACH-000291"
+    },
+    {
+      "gene_effect": -0.026555624208701084,
+      "model_id": "ACH-000292"
+    },
+    {
+      "gene_effect": -0.2687060623798839,
+      "model_id": "ACH-000293"
+    },
+    {
+      "gene_effect": -1.2228274028182884,
+      "model_id": "ACH-000294"
+    },
+    {
+      "gene_effect": -0.1023318366324367,
+      "model_id": "ACH-000295"
+    },
+    {
+      "gene_effect": -0.5127842985977832,
+      "model_id": "ACH-000296"
+    },
+    {
+      "gene_effect": -0.1377464226534052,
+      "model_id": "ACH-000302"
+    },
+    {
+      "gene_effect": -0.18594435231641754,
+      "model_id": "ACH-000303"
+    },
+    {
+      "gene_effect": -0.10742600675712295,
+      "model_id": "ACH-000304"
+    },
+    {
+      "gene_effect": -0.39292166471382767,
+      "model_id": "ACH-000305"
+    },
+    {
+      "gene_effect": -0.5793168130304435,
+      "model_id": "ACH-000307"
+    },
+    {
+      "gene_effect": -0.5000922303002227,
+      "model_id": "ACH-000308"
+    },
+    {
+      "gene_effect": 0.04110445512366903,
+      "model_id": "ACH-000310"
+    },
+    {
+      "gene_effect": -0.07166273944566928,
+      "model_id": "ACH-000311"
+    },
+    {
+      "gene_effect": -0.1284059440997972,
+      "model_id": "ACH-000312"
+    },
+    {
+      "gene_effect": -0.4877039206941123,
+      "model_id": "ACH-000313"
+    },
+    {
+      "gene_effect": -0.18471409837440633,
+      "model_id": "ACH-000315"
+    },
+    {
+      "gene_effect": -0.7695937745105499,
+      "model_id": "ACH-000316"
+    },
+    {
+      "gene_effect": -0.19833155965798188,
+      "model_id": "ACH-000317"
+    },
+    {
+      "gene_effect": -0.19190642172073458,
+      "model_id": "ACH-000318"
+    },
+    {
+      "gene_effect": -0.08671725455967114,
+      "model_id": "ACH-000319"
+    },
+    {
+      "gene_effect": -0.22641500595852687,
+      "model_id": "ACH-000320"
+    },
+    {
+      "gene_effect": 0.015484246602745583,
+      "model_id": "ACH-000322"
+    },
+    {
+      "gene_effect": -0.45111280761259853,
+      "model_id": "ACH-000323"
+    },
+    {
+      "gene_effect": -0.617124278950238,
+      "model_id": "ACH-000324"
+    },
+    {
+      "gene_effect": 0.006961161289870094,
+      "model_id": "ACH-000325"
+    },
+    {
+      "gene_effect": -0.3739077223708645,
+      "model_id": "ACH-000326"
+    },
+    {
+      "gene_effect": -0.121182345018591,
+      "model_id": "ACH-000329"
+    },
+    {
+      "gene_effect": -0.35559106707871835,
+      "model_id": "ACH-000330"
+    },
+    {
+      "gene_effect": -0.8493564929638681,
+      "model_id": "ACH-000331"
+    },
+    {
+      "gene_effect": -0.2612581816245616,
+      "model_id": "ACH-000332"
+    },
+    {
+      "gene_effect": 0.0452291307437839,
+      "model_id": "ACH-000334"
+    },
+    {
+      "gene_effect": 0.008704961879840933,
+      "model_id": "ACH-000335"
+    },
+    {
+      "gene_effect": -0.1384247268238507,
+      "model_id": "ACH-000336"
+    },
+    {
+      "gene_effect": -0.30758228599575754,
+      "model_id": "ACH-000337"
+    },
+    {
+      "gene_effect": -0.31978376904851596,
+      "model_id": "ACH-000338"
+    },
+    {
+      "gene_effect": 0.007217169846945093,
+      "model_id": "ACH-000339"
+    },
+    {
+      "gene_effect": -0.2678714417289957,
+      "model_id": "ACH-000341"
+    },
+    {
+      "gene_effect": -0.016622679768333704,
+      "model_id": "ACH-000343"
+    },
+    {
+      "gene_effect": 0.38052816172928583,
+      "model_id": "ACH-000344"
+    },
+    {
+      "gene_effect": -0.2513310172276645,
+      "model_id": "ACH-000346"
+    },
+    {
+      "gene_effect": -0.3053731323942138,
+      "model_id": "ACH-000348"
+    },
+    {
+      "gene_effect": 0.02957330110051623,
+      "model_id": "ACH-000350"
+    },
+    {
+      "gene_effect": -0.06615562599623132,
+      "model_id": "ACH-000352"
+    },
+    {
+      "gene_effect": -0.4375778597136605,
+      "model_id": "ACH-000354"
+    },
+    {
+      "gene_effect": -0.2211456586778439,
+      "model_id": "ACH-000355"
+    },
+    {
+      "gene_effect": -0.18289741185059377,
+      "model_id": "ACH-000356"
+    },
+    {
+      "gene_effect": -0.16783609296929844,
+      "model_id": "ACH-000359"
+    },
+    {
+      "gene_effect": -0.2617155872331271,
+      "model_id": "ACH-000361"
+    },
+    {
+      "gene_effect": -0.4501339625623736,
+      "model_id": "ACH-000362"
+    },
+    {
+      "gene_effect": -0.3451147023966929,
+      "model_id": "ACH-000363"
+    },
+    {
+      "gene_effect": -0.36256218635489523,
+      "model_id": "ACH-000364"
+    },
+    {
+      "gene_effect": -0.19132913054087436,
+      "model_id": "ACH-000365"
+    },
+    {
+      "gene_effect": -0.2372239902366028,
+      "model_id": "ACH-000366"
+    },
+    {
+      "gene_effect": -0.0591164824061256,
+      "model_id": "ACH-000367"
+    },
+    {
+      "gene_effect": -0.23135511280344317,
+      "model_id": "ACH-000368"
+    },
+    {
+      "gene_effect": -0.43800673942457,
+      "model_id": "ACH-000370"
+    },
+    {
+      "gene_effect": -0.404032832393902,
+      "model_id": "ACH-000371"
+    },
+    {
+      "gene_effect": -0.2762860024124025,
+      "model_id": "ACH-000374"
+    },
+    {
+      "gene_effect": -0.14516160525692945,
+      "model_id": "ACH-000375"
+    },
+    {
+      "gene_effect": -0.19164434942371497,
+      "model_id": "ACH-000376"
+    },
+    {
+      "gene_effect": -0.35490504650871113,
+      "model_id": "ACH-000377"
+    },
+    {
+      "gene_effect": -0.04832951684085912,
+      "model_id": "ACH-000378"
+    },
+    {
+      "gene_effect": 0.14092081252375596,
+      "model_id": "ACH-000381"
+    },
+    {
+      "gene_effect": -0.052369524816073376,
+      "model_id": "ACH-000383"
+    },
+    {
+      "gene_effect": -0.2422348263033319,
+      "model_id": "ACH-000385"
+    },
+    {
+      "gene_effect": -0.25956347955083237,
+      "model_id": "ACH-000387"
+    },
+    {
+      "gene_effect": -0.23935061134864422,
+      "model_id": "ACH-000389"
+    },
+    {
+      "gene_effect": -0.1866514315019342,
+      "model_id": "ACH-000390"
+    },
+    {
+      "gene_effect": -0.19134148803716106,
+      "model_id": "ACH-000391"
+    },
+    {
+      "gene_effect": -0.1351345201246529,
+      "model_id": "ACH-000393"
+    },
+    {
+      "gene_effect": -0.43198439587928417,
+      "model_id": "ACH-000395"
+    },
+    {
+      "gene_effect": -0.5696088649209131,
+      "model_id": "ACH-000396"
+    },
+    {
+      "gene_effect": -0.2686532386204143,
+      "model_id": "ACH-000397"
+    },
+    {
+      "gene_effect": -1.088240636156621,
+      "model_id": "ACH-000398"
+    },
+    {
+      "gene_effect": -0.2632320978715057,
+      "model_id": "ACH-000401"
+    },
+    {
+      "gene_effect": -0.14210898561002874,
+      "model_id": "ACH-000402"
+    },
+    {
+      "gene_effect": -0.1335657158602212,
+      "model_id": "ACH-000403"
+    },
+    {
+      "gene_effect": -0.35526681523287407,
+      "model_id": "ACH-000404"
+    },
+    {
+      "gene_effect": -0.8034277350815552,
+      "model_id": "ACH-000405"
+    },
+    {
+      "gene_effect": -0.29687974731086375,
+      "model_id": "ACH-000406"
+    },
+    {
+      "gene_effect": -0.3147364165655797,
+      "model_id": "ACH-000407"
+    },
+    {
+      "gene_effect": -0.1446831691291251,
+      "model_id": "ACH-000408"
+    },
+    {
+      "gene_effect": -0.1619726980872869,
+      "model_id": "ACH-000410"
+    },
+    {
+      "gene_effect": -0.2674402748057171,
+      "model_id": "ACH-000411"
+    },
+    {
+      "gene_effect": -0.8191428557165408,
+      "model_id": "ACH-000414"
+    },
+    {
+      "gene_effect": -0.3556866148966302,
+      "model_id": "ACH-000415"
+    },
+    {
+      "gene_effect": -0.2748047830261073,
+      "model_id": "ACH-000416"
+    },
+    {
+      "gene_effect": 0.015354152332165416,
+      "model_id": "ACH-000417"
+    },
+    {
+      "gene_effect": -0.047964613508405834,
+      "model_id": "ACH-000420"
+    },
+    {
+      "gene_effect": -0.23122496327419992,
+      "model_id": "ACH-000421"
+    },
+    {
+      "gene_effect": -0.24456653080633636,
+      "model_id": "ACH-000422"
+    },
+    {
+      "gene_effect": -0.5009688046175221,
+      "model_id": "ACH-000424"
+    },
+    {
+      "gene_effect": -0.45686994712431783,
+      "model_id": "ACH-000425"
+    },
+    {
+      "gene_effect": -0.11887253097192375,
+      "model_id": "ACH-000426"
+    },
+    {
+      "gene_effect": 0.12269110169538675,
+      "model_id": "ACH-000427"
+    },
+    {
+      "gene_effect": -0.4827128509664649,
+      "model_id": "ACH-000430"
+    },
+    {
+      "gene_effect": 0.11257280266453937,
+      "model_id": "ACH-000431"
+    },
+    {
+      "gene_effect": -0.41834179988141434,
+      "model_id": "ACH-000433"
+    },
+    {
+      "gene_effect": -0.15933292606156446,
+      "model_id": "ACH-000434"
+    },
+    {
+      "gene_effect": -0.24169575344468205,
+      "model_id": "ACH-000435"
+    },
+    {
+      "gene_effect": -0.34750682558155827,
+      "model_id": "ACH-000436"
+    },
+    {
+      "gene_effect": -0.1865258590188406,
+      "model_id": "ACH-000437"
+    },
+    {
+      "gene_effect": -0.03688146963614666,
+      "model_id": "ACH-000438"
+    },
+    {
+      "gene_effect": -0.5117453708974622,
+      "model_id": "ACH-000441"
+    },
+    {
+      "gene_effect": -0.39727966432692396,
+      "model_id": "ACH-000442"
+    },
+    {
+      "gene_effect": -0.0984954531369896,
+      "model_id": "ACH-000444"
+    },
+    {
+      "gene_effect": -0.5197124017573874,
+      "model_id": "ACH-000445"
+    },
+    {
+      "gene_effect": -0.2352876484628469,
+      "model_id": "ACH-000448"
+    },
+    {
+      "gene_effect": -1.1086994897657425,
+      "model_id": "ACH-000450"
+    },
+    {
+      "gene_effect": -0.36996912361923534,
+      "model_id": "ACH-000452"
+    },
+    {
+      "gene_effect": -0.22648660892149197,
+      "model_id": "ACH-000454"
+    },
+    {
+      "gene_effect": -0.1216608699749561,
+      "model_id": "ACH-000455"
+    },
+    {
+      "gene_effect": -0.5240903889648912,
+      "model_id": "ACH-000456"
+    },
+    {
+      "gene_effect": -0.2274166727022616,
+      "model_id": "ACH-000458"
+    },
+    {
+      "gene_effect": -0.24828152131168119,
+      "model_id": "ACH-000459"
+    },
+    {
+      "gene_effect": -0.5749970843023436,
+      "model_id": "ACH-000460"
+    },
+    {
+      "gene_effect": -0.1978757591285149,
+      "model_id": "ACH-000461"
+    },
+    {
+      "gene_effect": -0.1713825643244165,
+      "model_id": "ACH-000463"
+    },
+    {
+      "gene_effect": -0.41532391569933313,
+      "model_id": "ACH-000464"
+    },
+    {
+      "gene_effect": -0.025758859043472665,
+      "model_id": "ACH-000466"
+    },
+    {
+      "gene_effect": -0.3565286529468544,
+      "model_id": "ACH-000467"
+    },
+    {
+      "gene_effect": -0.0244625973461019,
+      "model_id": "ACH-000468"
+    },
+    {
+      "gene_effect": -0.481144234004521,
+      "model_id": "ACH-000469"
+    },
+    {
+      "gene_effect": -0.10092147474491628,
+      "model_id": "ACH-000470"
+    },
+    {
+      "gene_effect": -0.05771054362544567,
+      "model_id": "ACH-000471"
+    },
+    {
+      "gene_effect": -0.15578732789694894,
+      "model_id": "ACH-000472"
+    },
+    {
+      "gene_effect": -0.6615358733180217,
+      "model_id": "ACH-000473"
+    },
+    {
+      "gene_effect": -0.16170980564178233,
+      "model_id": "ACH-000475"
+    },
+    {
+      "gene_effect": -0.3637949551980204,
+      "model_id": "ACH-000476"
+    },
+    {
+      "gene_effect": -0.9126955047213449,
+      "model_id": "ACH-000477"
+    },
+    {
+      "gene_effect": -0.0726460732549809,
+      "model_id": "ACH-000478"
+    },
+    {
+      "gene_effect": -0.0066647837655041675,
+      "model_id": "ACH-000479"
+    },
+    {
+      "gene_effect": -0.11882893933845438,
+      "model_id": "ACH-000480"
+    },
+    {
+      "gene_effect": -0.24690494132033802,
+      "model_id": "ACH-000481"
+    },
+    {
+      "gene_effect": -0.28856120185122736,
+      "model_id": "ACH-000483"
+    },
+    {
+      "gene_effect": -0.36996528036368953,
+      "model_id": "ACH-000484"
+    },
+    {
+      "gene_effect": 0.03648890114242895,
+      "model_id": "ACH-000485"
+    },
+    {
+      "gene_effect": -0.17018922679322648,
+      "model_id": "ACH-000486"
+    },
+    {
+      "gene_effect": -0.3043351711402126,
+      "model_id": "ACH-000487"
+    },
+    {
+      "gene_effect": -0.0758914901942343,
+      "model_id": "ACH-000488"
+    },
+    {
+      "gene_effect": -0.11409988302370176,
+      "model_id": "ACH-000489"
+    },
+    {
+      "gene_effect": -0.33631732517585666,
+      "model_id": "ACH-000490"
+    },
+    {
+      "gene_effect": -0.24983827274501424,
+      "model_id": "ACH-000491"
+    },
+    {
+      "gene_effect": -0.010721570770480748,
+      "model_id": "ACH-000493"
+    },
+    {
+      "gene_effect": -0.20043898726459092,
+      "model_id": "ACH-000495"
+    },
+    {
+      "gene_effect": -0.6393436669486611,
+      "model_id": "ACH-000496"
+    },
+    {
+      "gene_effect": -0.31291382004912777,
+      "model_id": "ACH-000498"
+    },
+    {
+      "gene_effect": 0.17656494949028692,
+      "model_id": "ACH-000499"
+    },
+    {
+      "gene_effect": -0.19150723502943667,
+      "model_id": "ACH-000500"
+    },
+    {
+      "gene_effect": -0.25603733803165707,
+      "model_id": "ACH-000501"
+    },
+    {
+      "gene_effect": -0.06639025039922647,
+      "model_id": "ACH-000502"
+    },
+    {
+      "gene_effect": 0.004248040408109499,
+      "model_id": "ACH-000503"
+    },
+    {
+      "gene_effect": -0.2096133558759794,
+      "model_id": "ACH-000504"
+    },
+    {
+      "gene_effect": -0.09117534057016419,
+      "model_id": "ACH-000505"
+    },
+    {
+      "gene_effect": 0.04055800219473807,
+      "model_id": "ACH-000507"
+    },
+    {
+      "gene_effect": -0.09230525918562812,
+      "model_id": "ACH-000510"
+    },
+    {
+      "gene_effect": -0.09797573391662873,
+      "model_id": "ACH-000511"
+    },
+    {
+      "gene_effect": 0.26238917743670154,
+      "model_id": "ACH-000512"
+    },
+    {
+      "gene_effect": -0.14629193071107155,
+      "model_id": "ACH-000514"
+    },
+    {
+      "gene_effect": -0.2411401426558115,
+      "model_id": "ACH-000515"
+    },
+    {
+      "gene_effect": -0.37001178449546546,
+      "model_id": "ACH-000516"
+    },
+    {
+      "gene_effect": -0.14345801665421998,
+      "model_id": "ACH-000517"
+    },
+    {
+      "gene_effect": -0.2706313262799849,
+      "model_id": "ACH-000518"
+    },
+    {
+      "gene_effect": -0.2503933361947354,
+      "model_id": "ACH-000520"
+    },
+    {
+      "gene_effect": -0.5302692325501225,
+      "model_id": "ACH-000521"
+    },
+    {
+      "gene_effect": -0.0830640328333557,
+      "model_id": "ACH-000522"
+    },
+    {
+      "gene_effect": -0.20787263884147006,
+      "model_id": "ACH-000524"
+    },
+    {
+      "gene_effect": 0.07125774203626958,
+      "model_id": "ACH-000525"
+    },
+    {
+      "gene_effect": -0.24123701073967746,
+      "model_id": "ACH-000527"
+    },
+    {
+      "gene_effect": -0.30046898738866856,
+      "model_id": "ACH-000528"
+    },
+    {
+      "gene_effect": -0.12565297214746346,
+      "model_id": "ACH-000532"
+    },
+    {
+      "gene_effect": -0.15598451548019332,
+      "model_id": "ACH-000533"
+    },
+    {
+      "gene_effect": -0.3424103239576047,
+      "model_id": "ACH-000535"
+    },
+    {
+      "gene_effect": -0.6183448494389009,
+      "model_id": "ACH-000537"
+    },
+    {
+      "gene_effect": -0.16736052064011686,
+      "model_id": "ACH-000541"
+    },
+    {
+      "gene_effect": -0.04667831475096362,
+      "model_id": "ACH-000542"
+    },
+    {
+      "gene_effect": -0.3945272733614287,
+      "model_id": "ACH-000544"
+    },
+    {
+      "gene_effect": -0.33362382413778197,
+      "model_id": "ACH-000545"
+    },
+    {
+      "gene_effect": -0.2490212201172689,
+      "model_id": "ACH-000546"
+    },
+    {
+      "gene_effect": -0.28440050374219306,
+      "model_id": "ACH-000547"
+    },
+    {
+      "gene_effect": -0.14528069982493308,
+      "model_id": "ACH-000548"
+    },
+    {
+      "gene_effect": -0.28416858696069625,
+      "model_id": "ACH-000549"
+    },
+    {
+      "gene_effect": -0.38290971087430026,
+      "model_id": "ACH-000550"
+    },
+    {
+      "gene_effect": -0.4325112988815746,
+      "model_id": "ACH-000551"
+    },
+    {
+      "gene_effect": -0.004410279930800176,
+      "model_id": "ACH-000552"
+    },
+    {
+      "gene_effect": 0.06993551229701087,
+      "model_id": "ACH-000554"
+    },
+    {
+      "gene_effect": -0.20206858422901683,
+      "model_id": "ACH-000556"
+    },
+    {
+      "gene_effect": -0.1253142553043322,
+      "model_id": "ACH-000557"
+    },
+    {
+      "gene_effect": 0.10316413317997544,
+      "model_id": "ACH-000558"
+    },
+    {
+      "gene_effect": -0.09685358060651844,
+      "model_id": "ACH-000559"
+    },
+    {
+      "gene_effect": -0.10203124490695346,
+      "model_id": "ACH-000561"
+    },
+    {
+      "gene_effect": -0.3268223728582956,
+      "model_id": "ACH-000562"
+    },
+    {
+      "gene_effect": -0.5876075627068489,
+      "model_id": "ACH-000563"
+    },
+    {
+      "gene_effect": -0.12707273416691972,
+      "model_id": "ACH-000565"
+    },
+    {
+      "gene_effect": -0.5433778107984639,
+      "model_id": "ACH-000567"
+    },
+    {
+      "gene_effect": -0.6321902319430432,
+      "model_id": "ACH-000569"
+    },
+    {
+      "gene_effect": 0.17417377081329963,
+      "model_id": "ACH-000570"
+    },
+    {
+      "gene_effect": -0.3746518092926086,
+      "model_id": "ACH-000571"
+    },
+    {
+      "gene_effect": -0.36806045694331035,
+      "model_id": "ACH-000573"
+    },
+    {
+      "gene_effect": -0.20241012387997326,
+      "model_id": "ACH-000576"
+    },
+    {
+      "gene_effect": -0.24940117655093572,
+      "model_id": "ACH-000577"
+    },
+    {
+      "gene_effect": -0.4183841965257936,
+      "model_id": "ACH-000579"
+    },
+    {
+      "gene_effect": -0.1667754587069111,
+      "model_id": "ACH-000580"
+    },
+    {
+      "gene_effect": -0.06997900868270215,
+      "model_id": "ACH-000581"
+    },
+    {
+      "gene_effect": -0.4368712633993973,
+      "model_id": "ACH-000583"
+    },
+    {
+      "gene_effect": -0.3293625018189519,
+      "model_id": "ACH-000584"
+    },
+    {
+      "gene_effect": -0.2701926652595154,
+      "model_id": "ACH-000585"
+    },
+    {
+      "gene_effect": -0.42869687336649287,
+      "model_id": "ACH-000587"
+    },
+    {
+      "gene_effect": -0.3613503321880016,
+      "model_id": "ACH-000588"
+    },
+    {
+      "gene_effect": -0.20907652054039316,
+      "model_id": "ACH-000589"
+    },
+    {
+      "gene_effect": -0.4535344336827576,
+      "model_id": "ACH-000591"
+    },
+    {
+      "gene_effect": -0.18162234896916912,
+      "model_id": "ACH-000592"
+    },
+    {
+      "gene_effect": -0.4412236751054105,
+      "model_id": "ACH-000593"
+    },
+    {
+      "gene_effect": -0.2659447708567619,
+      "model_id": "ACH-000595"
+    },
+    {
+      "gene_effect": -0.526781741245016,
+      "model_id": "ACH-000596"
+    },
+    {
+      "gene_effect": -0.42742568018248733,
+      "model_id": "ACH-000597"
+    },
+    {
+      "gene_effect": -0.057620857668479936,
+      "model_id": "ACH-000599"
+    },
+    {
+      "gene_effect": -0.08644955031476292,
+      "model_id": "ACH-000601"
+    },
+    {
+      "gene_effect": -0.35867318784781826,
+      "model_id": "ACH-000602"
+    },
+    {
+      "gene_effect": 0.24996025781037048,
+      "model_id": "ACH-000604"
+    },
+    {
+      "gene_effect": -0.3271770527938538,
+      "model_id": "ACH-000605"
+    },
+    {
+      "gene_effect": -0.14642999415736138,
+      "model_id": "ACH-000606"
+    },
+    {
+      "gene_effect": -0.3560824538360091,
+      "model_id": "ACH-000607"
+    },
+    {
+      "gene_effect": -0.37011559932763227,
+      "model_id": "ACH-000608"
+    },
+    {
+      "gene_effect": -0.16008746807497323,
+      "model_id": "ACH-000609"
+    },
+    {
+      "gene_effect": -0.43339858674609943,
+      "model_id": "ACH-000614"
+    },
+    {
+      "gene_effect": -0.35932572281135716,
+      "model_id": "ACH-000616"
+    },
+    {
+      "gene_effect": -0.22822830286265278,
+      "model_id": "ACH-000618"
+    },
+    {
+      "gene_effect": -0.48176533713073666,
+      "model_id": "ACH-000619"
+    },
+    {
+      "gene_effect": -0.250961388834153,
+      "model_id": "ACH-000620"
+    },
+    {
+      "gene_effect": -0.4281282850081505,
+      "model_id": "ACH-000621"
+    },
+    {
+      "gene_effect": -0.0021130312559200226,
+      "model_id": "ACH-000622"
+    },
+    {
+      "gene_effect": 0.09500431649315069,
+      "model_id": "ACH-000623"
+    },
+    {
+      "gene_effect": -0.1873840798526319,
+      "model_id": "ACH-000624"
+    },
+    {
+      "gene_effect": -0.09707123582279209,
+      "model_id": "ACH-000627"
+    },
+    {
+      "gene_effect": -0.23888429914040235,
+      "model_id": "ACH-000630"
+    },
+    {
+      "gene_effect": -0.425159795065148,
+      "model_id": "ACH-000631"
+    },
+    {
+      "gene_effect": -0.44477848562288563,
+      "model_id": "ACH-000632"
+    },
+    {
+      "gene_effect": 0.020726887006242256,
+      "model_id": "ACH-000633"
+    },
+    {
+      "gene_effect": 0.11493392054508825,
+      "model_id": "ACH-000634"
+    },
+    {
+      "gene_effect": -0.08388936609900788,
+      "model_id": "ACH-000637"
+    },
+    {
+      "gene_effect": -0.24059790814197143,
+      "model_id": "ACH-000638"
+    },
+    {
+      "gene_effect": -1.5466277902531689,
+      "model_id": "ACH-000639"
+    },
+    {
+      "gene_effect": -0.1866428202418293,
+      "model_id": "ACH-000645"
+    },
+    {
+      "gene_effect": -0.05293823053489333,
+      "model_id": "ACH-000646"
+    },
+    {
+      "gene_effect": -0.22885571927890136,
+      "model_id": "ACH-000647"
+    },
+    {
+      "gene_effect": -0.43401605140754407,
+      "model_id": "ACH-000648"
+    },
+    {
+      "gene_effect": -0.3321913431859567,
+      "model_id": "ACH-000649"
+    },
+    {
+      "gene_effect": -0.08615944076556833,
+      "model_id": "ACH-000651"
+    },
+    {
+      "gene_effect": -0.15020349545748835,
+      "model_id": "ACH-000652"
+    },
+    {
+      "gene_effect": -0.3486782803709657,
+      "model_id": "ACH-000653"
+    },
+    {
+      "gene_effect": -0.2823604313164154,
+      "model_id": "ACH-000654"
+    },
+    {
+      "gene_effect": -0.05750081951851849,
+      "model_id": "ACH-000655"
+    },
+    {
+      "gene_effect": -0.5266276539152861,
+      "model_id": "ACH-000656"
+    },
+    {
+      "gene_effect": -0.27949565431739287,
+      "model_id": "ACH-000657"
+    },
+    {
+      "gene_effect": -0.8273595140943942,
+      "model_id": "ACH-000660"
+    },
+    {
+      "gene_effect": -0.4243332486965139,
+      "model_id": "ACH-000661"
+    },
+    {
+      "gene_effect": -0.3932129626809471,
+      "model_id": "ACH-000662"
+    },
+    {
+      "gene_effect": -0.4730026271934854,
+      "model_id": "ACH-000663"
+    },
+    {
+      "gene_effect": -0.34940439568008574,
+      "model_id": "ACH-000664"
+    },
+    {
+      "gene_effect": -0.18891782549254318,
+      "model_id": "ACH-000665"
+    },
+    {
+      "gene_effect": -0.41546160633898244,
+      "model_id": "ACH-000666"
+    },
+    {
+      "gene_effect": -0.27727188317016876,
+      "model_id": "ACH-000667"
+    },
+    {
+      "gene_effect": -0.9194600652204516,
+      "model_id": "ACH-000668"
+    },
+    {
+      "gene_effect": 0.07646835805089416,
+      "model_id": "ACH-000671"
+    },
+    {
+      "gene_effect": -0.11400285894512413,
+      "model_id": "ACH-000672"
+    },
+    {
+      "gene_effect": -0.162194598277497,
+      "model_id": "ACH-000673"
+    },
+    {
+      "gene_effect": -0.16719183960502265,
+      "model_id": "ACH-000676"
+    },
+    {
+      "gene_effect": 0.0708963997595086,
+      "model_id": "ACH-000677"
+    },
+    {
+      "gene_effect": -0.469400994398948,
+      "model_id": "ACH-000681"
+    },
+    {
+      "gene_effect": -0.2858030186122874,
+      "model_id": "ACH-000682"
+    },
+    {
+      "gene_effect": -0.12299087124406985,
+      "model_id": "ACH-000683"
+    },
+    {
+      "gene_effect": -0.08481942599340514,
+      "model_id": "ACH-000684"
+    },
+    {
+      "gene_effect": -0.06898043157348674,
+      "model_id": "ACH-000685"
+    },
+    {
+      "gene_effect": -0.41552447711748713,
+      "model_id": "ACH-000688"
+    },
+    {
+      "gene_effect": -0.064450313921916,
+      "model_id": "ACH-000693"
+    },
+    {
+      "gene_effect": -0.08872321676080716,
+      "model_id": "ACH-000694"
+    },
+    {
+      "gene_effect": -0.036058433766659015,
+      "model_id": "ACH-000695"
+    },
+    {
+      "gene_effect": -0.03885256750950114,
+      "model_id": "ACH-000696"
+    },
+    {
+      "gene_effect": -0.24841422576170838,
+      "model_id": "ACH-000697"
+    },
+    {
+      "gene_effect": -0.3976721156776441,
+      "model_id": "ACH-000698"
+    },
+    {
+      "gene_effect": 0.05974320790117185,
+      "model_id": "ACH-000699"
+    },
+    {
+      "gene_effect": -0.13455511398470688,
+      "model_id": "ACH-000700"
+    },
+    {
+      "gene_effect": -0.12216124763950051,
+      "model_id": "ACH-000701"
+    },
+    {
+      "gene_effect": -0.34353097136746247,
+      "model_id": "ACH-000702"
+    },
+    {
+      "gene_effect": 0.11449681131539999,
+      "model_id": "ACH-000704"
+    },
+    {
+      "gene_effect": -0.4397157950909515,
+      "model_id": "ACH-000706"
+    },
+    {
+      "gene_effect": -0.43129367352778547,
+      "model_id": "ACH-000709"
+    },
+    {
+      "gene_effect": -0.2768994344219785,
+      "model_id": "ACH-000711"
+    },
+    {
+      "gene_effect": -0.02104978445918307,
+      "model_id": "ACH-000713"
+    },
+    {
+      "gene_effect": -0.07365738884461553,
+      "model_id": "ACH-000714"
+    },
+    {
+      "gene_effect": -0.06746105522736495,
+      "model_id": "ACH-000716"
+    },
+    {
+      "gene_effect": -0.1870682592070277,
+      "model_id": "ACH-000717"
+    },
+    {
+      "gene_effect": -0.4211526952950043,
+      "model_id": "ACH-000718"
+    },
+    {
+      "gene_effect": -0.624998179827156,
+      "model_id": "ACH-000719"
+    },
+    {
+      "gene_effect": -0.34474300145880454,
+      "model_id": "ACH-000720"
+    },
+    {
+      "gene_effect": -0.15958070415740894,
+      "model_id": "ACH-000721"
+    },
+    {
+      "gene_effect": -0.12450883215053068,
+      "model_id": "ACH-000722"
+    },
+    {
+      "gene_effect": -0.42346209718233374,
+      "model_id": "ACH-000724"
+    },
+    {
+      "gene_effect": -0.15147321821770288,
+      "model_id": "ACH-000725"
+    },
+    {
+      "gene_effect": 0.021076111478127046,
+      "model_id": "ACH-000732"
+    },
+    {
+      "gene_effect": -0.1713310622797647,
+      "model_id": "ACH-000734"
+    },
+    {
+      "gene_effect": -0.5403689475527246,
+      "model_id": "ACH-000735"
+    },
+    {
+      "gene_effect": -0.6099652718856045,
+      "model_id": "ACH-000736"
+    },
+    {
+      "gene_effect": -0.011652621742957364,
+      "model_id": "ACH-000738"
+    },
+    {
+      "gene_effect": -0.10930809144854811,
+      "model_id": "ACH-000739"
+    },
+    {
+      "gene_effect": -0.012333604938109699,
+      "model_id": "ACH-000740"
+    },
+    {
+      "gene_effect": -0.2928536127119491,
+      "model_id": "ACH-000741"
+    },
+    {
+      "gene_effect": 0.14010478874151258,
+      "model_id": "ACH-000746"
+    },
+    {
+      "gene_effect": 0.07117048105272025,
+      "model_id": "ACH-000747"
+    },
+    {
+      "gene_effect": -0.15143133483039933,
+      "model_id": "ACH-000748"
+    },
+    {
+      "gene_effect": -0.053447251461079454,
+      "model_id": "ACH-000749"
+    },
+    {
+      "gene_effect": -0.19925122863330388,
+      "model_id": "ACH-000753"
+    },
+    {
+      "gene_effect": -0.043253682823121004,
+      "model_id": "ACH-000754"
+    },
+    {
+      "gene_effect": -0.006478690497258965,
+      "model_id": "ACH-000756"
+    },
+    {
+      "gene_effect": -0.28656997062956463,
+      "model_id": "ACH-000757"
+    },
+    {
+      "gene_effect": -0.25487662399554073,
+      "model_id": "ACH-000758"
+    },
+    {
+      "gene_effect": -0.046630260593131606,
+      "model_id": "ACH-000760"
+    },
+    {
+      "gene_effect": -0.3873608797010246,
+      "model_id": "ACH-000762"
+    },
+    {
+      "gene_effect": -0.12337701889709367,
+      "model_id": "ACH-000763"
+    },
+    {
+      "gene_effect": -0.28647990339752694,
+      "model_id": "ACH-000764"
+    },
+    {
+      "gene_effect": -0.37692163951219965,
+      "model_id": "ACH-000765"
+    },
+    {
+      "gene_effect": -0.015134913133570793,
+      "model_id": "ACH-000766"
+    },
+    {
+      "gene_effect": -0.056355470453873374,
+      "model_id": "ACH-000767"
+    },
+    {
+      "gene_effect": -0.19465258574029787,
+      "model_id": "ACH-000768"
+    },
+    {
+      "gene_effect": -0.05424565492552233,
+      "model_id": "ACH-000769"
+    },
+    {
+      "gene_effect": -0.26263090059595334,
+      "model_id": "ACH-000770"
+    },
+    {
+      "gene_effect": -0.511694572263394,
+      "model_id": "ACH-000771"
+    },
+    {
+      "gene_effect": -0.33821182567773994,
+      "model_id": "ACH-000773"
+    },
+    {
+      "gene_effect": -0.14804062610545432,
+      "model_id": "ACH-000774"
+    },
+    {
+      "gene_effect": -0.1829451324546064,
+      "model_id": "ACH-000775"
+    },
+    {
+      "gene_effect": 0.1946200738631567,
+      "model_id": "ACH-000776"
+    },
+    {
+      "gene_effect": -0.7285295007433118,
+      "model_id": "ACH-000777"
+    },
+    {
+      "gene_effect": -0.281156811159988,
+      "model_id": "ACH-000778"
+    },
+    {
+      "gene_effect": -0.2413758970176924,
+      "model_id": "ACH-000781"
+    },
+    {
+      "gene_effect": -0.11217598666469206,
+      "model_id": "ACH-000782"
+    },
+    {
+      "gene_effect": -0.10425192549901201,
+      "model_id": "ACH-000783"
+    },
+    {
+      "gene_effect": -0.024705902556324044,
+      "model_id": "ACH-000784"
+    },
+    {
+      "gene_effect": -0.04548178010973461,
+      "model_id": "ACH-000785"
+    },
+    {
+      "gene_effect": -0.3091671017552633,
+      "model_id": "ACH-000787"
+    },
+    {
+      "gene_effect": -0.6253440669052515,
+      "model_id": "ACH-000788"
+    },
+    {
+      "gene_effect": 0.21597907605482078,
+      "model_id": "ACH-000790"
+    },
+    {
+      "gene_effect": -0.2015091146269267,
+      "model_id": "ACH-000791"
+    },
+    {
+      "gene_effect": -0.3726690405466496,
+      "model_id": "ACH-000792"
+    },
+    {
+      "gene_effect": -0.0316314574203328,
+      "model_id": "ACH-000793"
+    },
+    {
+      "gene_effect": -0.012136937576283507,
+      "model_id": "ACH-000794"
+    },
+    {
+      "gene_effect": -0.15610403349790014,
+      "model_id": "ACH-000796"
+    },
+    {
+      "gene_effect": -0.33450465203688456,
+      "model_id": "ACH-000798"
+    },
+    {
+      "gene_effect": -0.3064085288721342,
+      "model_id": "ACH-000799"
+    },
+    {
+      "gene_effect": -0.08886588911976182,
+      "model_id": "ACH-000800"
+    },
+    {
+      "gene_effect": -0.36853321839843667,
+      "model_id": "ACH-000801"
+    },
+    {
+      "gene_effect": -0.6461762894397605,
+      "model_id": "ACH-000802"
+    },
+    {
+      "gene_effect": -0.302288897386193,
+      "model_id": "ACH-000804"
+    },
+    {
+      "gene_effect": -0.3742205830642491,
+      "model_id": "ACH-000805"
+    },
+    {
+      "gene_effect": -0.1884818527024652,
+      "model_id": "ACH-000807"
+    },
+    {
+      "gene_effect": -0.12425558161402986,
+      "model_id": "ACH-000809"
+    },
+    {
+      "gene_effect": -0.14626184206765025,
+      "model_id": "ACH-000810"
+    },
+    {
+      "gene_effect": -0.1269658811416044,
+      "model_id": "ACH-000811"
+    },
+    {
+      "gene_effect": -0.2248966515660804,
+      "model_id": "ACH-000817"
+    },
+    {
+      "gene_effect": -0.18780941897137368,
+      "model_id": "ACH-000819"
+    },
+    {
+      "gene_effect": -0.44031624937333413,
+      "model_id": "ACH-000820"
+    },
+    {
+      "gene_effect": -0.06083717413902126,
+      "model_id": "ACH-000821"
+    },
+    {
+      "gene_effect": -0.22518731659450572,
+      "model_id": "ACH-000822"
+    },
+    {
+      "gene_effect": -0.3135227311102672,
+      "model_id": "ACH-000823"
+    },
+    {
+      "gene_effect": -0.29478646878084286,
+      "model_id": "ACH-000824"
+    },
+    {
+      "gene_effect": -0.7620993727003935,
+      "model_id": "ACH-000826"
+    },
+    {
+      "gene_effect": -0.13571123675938418,
+      "model_id": "ACH-000827"
+    },
+    {
+      "gene_effect": -0.6654223268286743,
+      "model_id": "ACH-000829"
+    },
+    {
+      "gene_effect": -0.048566955393851224,
+      "model_id": "ACH-000831"
+    },
+    {
+      "gene_effect": -0.15298506005977858,
+      "model_id": "ACH-000832"
+    },
+    {
+      "gene_effect": -0.3839692705758227,
+      "model_id": "ACH-000833"
+    },
+    {
+      "gene_effect": -0.9174972878066133,
+      "model_id": "ACH-000834"
+    },
+    {
+      "gene_effect": -0.08797926188148786,
+      "model_id": "ACH-000835"
+    },
+    {
+      "gene_effect": -0.47028578683545696,
+      "model_id": "ACH-000836"
+    },
+    {
+      "gene_effect": -0.2645361442036398,
+      "model_id": "ACH-000837"
+    },
+    {
+      "gene_effect": -0.37399932166953265,
+      "model_id": "ACH-000838"
+    },
+    {
+      "gene_effect": -0.15634280012672236,
+      "model_id": "ACH-000839"
+    },
+    {
+      "gene_effect": -0.3331409837795315,
+      "model_id": "ACH-000840"
+    },
+    {
+      "gene_effect": -0.1530473157146715,
+      "model_id": "ACH-000841"
+    },
+    {
+      "gene_effect": -0.4026774681886204,
+      "model_id": "ACH-000843"
+    },
+    {
+      "gene_effect": -0.2186915075133809,
+      "model_id": "ACH-000845"
+    },
+    {
+      "gene_effect": -0.0498961470021137,
+      "model_id": "ACH-000846"
+    },
+    {
+      "gene_effect": -0.2104460156858195,
+      "model_id": "ACH-000847"
+    },
+    {
+      "gene_effect": -0.005639466731954784,
+      "model_id": "ACH-000848"
+    },
+    {
+      "gene_effect": -0.20272505231913593,
+      "model_id": "ACH-000849"
+    },
+    {
+      "gene_effect": -0.22165080756112723,
+      "model_id": "ACH-000851"
+    },
+    {
+      "gene_effect": -0.12018617691971924,
+      "model_id": "ACH-000853"
+    },
+    {
+      "gene_effect": -0.2881819962384192,
+      "model_id": "ACH-000855"
+    },
+    {
+      "gene_effect": -0.45357890789232536,
+      "model_id": "ACH-000856"
+    },
+    {
+      "gene_effect": 0.057984889875982853,
+      "model_id": "ACH-000858"
+    },
+    {
+      "gene_effect": -0.18078888772950255,
+      "model_id": "ACH-000859"
+    },
+    {
+      "gene_effect": -0.1391246868571849,
+      "model_id": "ACH-000860"
+    },
+    {
+      "gene_effect": -0.213955145745839,
+      "model_id": "ACH-000861"
+    },
+    {
+      "gene_effect": -0.05973151670333593,
+      "model_id": "ACH-000862"
+    },
+    {
+      "gene_effect": -0.05430299798054358,
+      "model_id": "ACH-000863"
+    },
+    {
+      "gene_effect": -0.03130554067988056,
+      "model_id": "ACH-000864"
+    },
+    {
+      "gene_effect": -0.33146359635117806,
+      "model_id": "ACH-000865"
+    },
+    {
+      "gene_effect": -0.10921375883217974,
+      "model_id": "ACH-000866"
+    },
+    {
+      "gene_effect": -0.05083739194539941,
+      "model_id": "ACH-000867"
+    },
+    {
+      "gene_effect": -0.17644651563024874,
+      "model_id": "ACH-000869"
+    },
+    {
+      "gene_effect": -0.35258913013187815,
+      "model_id": "ACH-000871"
+    },
+    {
+      "gene_effect": -0.4043955175069319,
+      "model_id": "ACH-000872"
+    },
+    {
+      "gene_effect": -0.36248736225314526,
+      "model_id": "ACH-000873"
+    },
+    {
+      "gene_effect": -0.150147741596791,
+      "model_id": "ACH-000876"
+    },
+    {
+      "gene_effect": -0.18966499049433816,
+      "model_id": "ACH-000878"
+    },
+    {
+      "gene_effect": -0.17415220664934328,
+      "model_id": "ACH-000879"
+    },
+    {
+      "gene_effect": -0.12009183213714202,
+      "model_id": "ACH-000880"
+    },
+    {
+      "gene_effect": -0.2757068730906364,
+      "model_id": "ACH-000881"
+    },
+    {
+      "gene_effect": -0.3728349478007672,
+      "model_id": "ACH-000882"
+    },
+    {
+      "gene_effect": -0.3209818207600649,
+      "model_id": "ACH-000884"
+    },
+    {
+      "gene_effect": -0.6072800237081896,
+      "model_id": "ACH-000885"
+    },
+    {
+      "gene_effect": -0.07033466497424284,
+      "model_id": "ACH-000886"
+    },
+    {
+      "gene_effect": 0.0023253436213196976,
+      "model_id": "ACH-000887"
+    },
+    {
+      "gene_effect": -0.21236642473218928,
+      "model_id": "ACH-000888"
+    },
+    {
+      "gene_effect": -0.7263514447751985,
+      "model_id": "ACH-000889"
+    },
+    {
+      "gene_effect": -0.26409117732620924,
+      "model_id": "ACH-000890"
+    },
+    {
+      "gene_effect": -0.22860135651864574,
+      "model_id": "ACH-000894"
+    },
+    {
+      "gene_effect": -0.5886112968787102,
+      "model_id": "ACH-000896"
+    },
+    {
+      "gene_effect": -0.26777243782554777,
+      "model_id": "ACH-000898"
+    },
+    {
+      "gene_effect": -0.41821513972321966,
+      "model_id": "ACH-000899"
+    },
+    {
+      "gene_effect": -0.26531855335772914,
+      "model_id": "ACH-000900"
+    },
+    {
+      "gene_effect": -0.13527398563078463,
+      "model_id": "ACH-000901"
+    },
+    {
+      "gene_effect": -0.13679636823705787,
+      "model_id": "ACH-000903"
+    },
+    {
+      "gene_effect": -0.2840076999441966,
+      "model_id": "ACH-000905"
+    },
+    {
+      "gene_effect": -0.2010319810597965,
+      "model_id": "ACH-000906"
+    },
+    {
+      "gene_effect": -0.3272536872089362,
+      "model_id": "ACH-000907"
+    },
+    {
+      "gene_effect": -0.0966930981579508,
+      "model_id": "ACH-000910"
+    },
+    {
+      "gene_effect": -0.06637870705313306,
+      "model_id": "ACH-000911"
+    },
+    {
+      "gene_effect": 0.29380235287916423,
+      "model_id": "ACH-000912"
+    },
+    {
+      "gene_effect": -0.09948618733319181,
+      "model_id": "ACH-000913"
+    },
+    {
+      "gene_effect": -0.5636890643565358,
+      "model_id": "ACH-000914"
+    },
+    {
+      "gene_effect": -0.47526466292033387,
+      "model_id": "ACH-000915"
+    },
+    {
+      "gene_effect": -0.4232983819402151,
+      "model_id": "ACH-000916"
+    },
+    {
+      "gene_effect": -0.09340650489862129,
+      "model_id": "ACH-000917"
+    },
+    {
+      "gene_effect": -0.2637986410413305,
+      "model_id": "ACH-000919"
+    },
+    {
+      "gene_effect": -0.23829472375726157,
+      "model_id": "ACH-000920"
+    },
+    {
+      "gene_effect": -0.06809040960994153,
+      "model_id": "ACH-000921"
+    },
+    {
+      "gene_effect": -0.31186469730018085,
+      "model_id": "ACH-000922"
+    },
+    {
+      "gene_effect": -0.16088861807215926,
+      "model_id": "ACH-000924"
+    },
+    {
+      "gene_effect": 0.08408217454663278,
+      "model_id": "ACH-000926"
+    },
+    {
+      "gene_effect": -0.17384910598972908,
+      "model_id": "ACH-000928"
+    },
+    {
+      "gene_effect": -0.31763783023437914,
+      "model_id": "ACH-000929"
+    },
+    {
+      "gene_effect": 0.09856989920129447,
+      "model_id": "ACH-000932"
+    },
+    {
+      "gene_effect": 0.08904511719555666,
+      "model_id": "ACH-000934"
+    },
+    {
+      "gene_effect": 0.03247736067570625,
+      "model_id": "ACH-000935"
+    },
+    {
+      "gene_effect": -0.4075897556357996,
+      "model_id": "ACH-000936"
+    },
+    {
+      "gene_effect": -0.6894973488779721,
+      "model_id": "ACH-000937"
+    },
+    {
+      "gene_effect": -0.27057023754706233,
+      "model_id": "ACH-000938"
+    },
+    {
+      "gene_effect": -0.3342577358555907,
+      "model_id": "ACH-000939"
+    },
+    {
+      "gene_effect": -0.17827693654341115,
+      "model_id": "ACH-000941"
+    },
+    {
+      "gene_effect": -0.05213849042007604,
+      "model_id": "ACH-000943"
+    },
+    {
+      "gene_effect": -0.057211850459872954,
+      "model_id": "ACH-000944"
+    },
+    {
+      "gene_effect": -0.13857487880511032,
+      "model_id": "ACH-000945"
+    },
+    {
+      "gene_effect": -0.31931275210831656,
+      "model_id": "ACH-000946"
+    },
+    {
+      "gene_effect": -0.15989136983061086,
+      "model_id": "ACH-000947"
+    },
+    {
+      "gene_effect": -0.14780265806817128,
+      "model_id": "ACH-000948"
+    },
+    {
+      "gene_effect": -0.4323577519226499,
+      "model_id": "ACH-000950"
+    },
+    {
+      "gene_effect": -0.16866474342199225,
+      "model_id": "ACH-000953"
+    },
+    {
+      "gene_effect": 0.13168074032511992,
+      "model_id": "ACH-000956"
+    },
+    {
+      "gene_effect": -0.5860787818058989,
+      "model_id": "ACH-000957"
+    },
+    {
+      "gene_effect": -0.15242660984629852,
+      "model_id": "ACH-000958"
+    },
+    {
+      "gene_effect": -0.23406242123054408,
+      "model_id": "ACH-000959"
+    },
+    {
+      "gene_effect": -0.5859623276477304,
+      "model_id": "ACH-000960"
+    },
+    {
+      "gene_effect": -0.1441573319801083,
+      "model_id": "ACH-000961"
+    },
+    {
+      "gene_effect": -0.4214409739839943,
+      "model_id": "ACH-000962"
+    },
+    {
+      "gene_effect": -0.19538682737306098,
+      "model_id": "ACH-000963"
+    },
+    {
+      "gene_effect": -0.16733941060443214,
+      "model_id": "ACH-000965"
+    },
+    {
+      "gene_effect": -0.237025181231667,
+      "model_id": "ACH-000966"
+    },
+    {
+      "gene_effect": -0.7323886718562052,
+      "model_id": "ACH-000968"
+    },
+    {
+      "gene_effect": 0.13431405204486993,
+      "model_id": "ACH-000969"
+    },
+    {
+      "gene_effect": 0.09216674980139869,
+      "model_id": "ACH-000970"
+    },
+    {
+      "gene_effect": -0.32750163757947826,
+      "model_id": "ACH-000971"
+    },
+    {
+      "gene_effect": 0.06889559110259422,
+      "model_id": "ACH-000972"
+    },
+    {
+      "gene_effect": -0.058775842832858166,
+      "model_id": "ACH-000973"
+    },
+    {
+      "gene_effect": -0.3549399134229143,
+      "model_id": "ACH-000974"
+    },
+    {
+      "gene_effect": -0.0952608378140036,
+      "model_id": "ACH-000975"
+    },
+    {
+      "gene_effect": -0.24351574424904898,
+      "model_id": "ACH-000976"
+    },
+    {
+      "gene_effect": -0.12799169134027893,
+      "model_id": "ACH-000977"
+    },
+    {
+      "gene_effect": -0.052705144266555426,
+      "model_id": "ACH-000978"
+    },
+    {
+      "gene_effect": -0.13725864980879882,
+      "model_id": "ACH-000979"
+    },
+    {
+      "gene_effect": -0.0886019479134329,
+      "model_id": "ACH-000980"
+    },
+    {
+      "gene_effect": -0.5466367331035469,
+      "model_id": "ACH-000983"
+    },
+    {
+      "gene_effect": -0.15209866075933542,
+      "model_id": "ACH-000984"
+    },
+    {
+      "gene_effect": -0.08077042022870023,
+      "model_id": "ACH-000985"
+    },
+    {
+      "gene_effect": -0.24599614587530522,
+      "model_id": "ACH-000986"
+    },
+    {
+      "gene_effect": -0.2707559385137245,
+      "model_id": "ACH-000988"
+    },
+    {
+      "gene_effect": -0.2188421773529006,
+      "model_id": "ACH-000991"
+    },
+    {
+      "gene_effect": -0.19670343825414002,
+      "model_id": "ACH-000993"
+    },
+    {
+      "gene_effect": -0.14980965310836591,
+      "model_id": "ACH-000994"
+    },
+    {
+      "gene_effect": -0.5579496529596659,
+      "model_id": "ACH-000995"
+    },
+    {
+      "gene_effect": -0.3569542186799984,
+      "model_id": "ACH-000996"
+    },
+    {
+      "gene_effect": 0.02341800376374939,
+      "model_id": "ACH-000997"
+    },
+    {
+      "gene_effect": 0.00014038465133947575,
+      "model_id": "ACH-001001"
+    },
+    {
+      "gene_effect": -0.18101704247480305,
+      "model_id": "ACH-001016"
+    },
+    {
+      "gene_effect": -0.3351641318720331,
+      "model_id": "ACH-001020"
+    },
+    {
+      "gene_effect": -0.2123553189037995,
+      "model_id": "ACH-001028"
+    },
+    {
+      "gene_effect": -0.23729988190414933,
+      "model_id": "ACH-001029"
+    },
+    {
+      "gene_effect": -0.06830901119413471,
+      "model_id": "ACH-001031"
+    },
+    {
+      "gene_effect": -0.5187165594167823,
+      "model_id": "ACH-001033"
+    },
+    {
+      "gene_effect": -0.38651261726094355,
+      "model_id": "ACH-001036"
+    },
+    {
+      "gene_effect": -0.017189203736540343,
+      "model_id": "ACH-001038"
+    },
+    {
+      "gene_effect": -0.34901284525647475,
+      "model_id": "ACH-001039"
+    },
+    {
+      "gene_effect": -0.29338244794025614,
+      "model_id": "ACH-001041"
+    },
+    {
+      "gene_effect": -0.3919775369874859,
+      "model_id": "ACH-001048"
+    },
+    {
+      "gene_effect": -0.5723131141303595,
+      "model_id": "ACH-001050"
+    },
+    {
+      "gene_effect": -0.16228037807158863,
+      "model_id": "ACH-001053"
+    },
+    {
+      "gene_effect": -0.1816123844506353,
+      "model_id": "ACH-001054"
+    },
+    {
+      "gene_effect": -0.22044367616905172,
+      "model_id": "ACH-001061"
+    },
+    {
+      "gene_effect": -0.23828772778431506,
+      "model_id": "ACH-001063"
+    },
+    {
+      "gene_effect": -0.045528819401918136,
+      "model_id": "ACH-001065"
+    },
+    {
+      "gene_effect": -0.24302242470171515,
+      "model_id": "ACH-001067"
+    },
+    {
+      "gene_effect": -0.3512779273120912,
+      "model_id": "ACH-001075"
+    },
+    {
+      "gene_effect": -0.22636772387842413,
+      "model_id": "ACH-001081"
+    },
+    {
+      "gene_effect": -0.2538873937479769,
+      "model_id": "ACH-001096"
+    },
+    {
+      "gene_effect": -0.12469204511010512,
+      "model_id": "ACH-001098"
+    },
+    {
+      "gene_effect": -0.11727695459734569,
+      "model_id": "ACH-001099"
+    },
+    {
+      "gene_effect": -0.20641223561219846,
+      "model_id": "ACH-001107"
+    },
+    {
+      "gene_effect": -0.25576477570301037,
+      "model_id": "ACH-001111"
+    },
+    {
+      "gene_effect": -0.22651190921141917,
+      "model_id": "ACH-001119"
+    },
+    {
+      "gene_effect": -0.2063671534650064,
+      "model_id": "ACH-001126"
+    },
+    {
+      "gene_effect": -0.11503612835232958,
+      "model_id": "ACH-001128"
+    },
+    {
+      "gene_effect": -0.37122052398396566,
+      "model_id": "ACH-001129"
+    },
+    {
+      "gene_effect": -0.011577944061165607,
+      "model_id": "ACH-001134"
+    },
+    {
+      "gene_effect": -0.19968860239561184,
+      "model_id": "ACH-001137"
+    },
+    {
+      "gene_effect": -0.5792856957937041,
+      "model_id": "ACH-001145"
+    },
+    {
+      "gene_effect": -0.22125871228227412,
+      "model_id": "ACH-001151"
+    },
+    {
+      "gene_effect": -0.26039969692922665,
+      "model_id": "ACH-001163"
+    },
+    {
+      "gene_effect": -0.2714001215302916,
+      "model_id": "ACH-001164"
+    },
+    {
+      "gene_effect": -0.1609729850397542,
+      "model_id": "ACH-001172"
+    },
+    {
+      "gene_effect": -0.31843865189191745,
+      "model_id": "ACH-001183"
+    },
+    {
+      "gene_effect": -0.061148498418182484,
+      "model_id": "ACH-001184"
+    },
+    {
+      "gene_effect": -0.347481297186892,
+      "model_id": "ACH-001188"
+    },
+    {
+      "gene_effect": -0.37145661810672964,
+      "model_id": "ACH-001190"
+    },
+    {
+      "gene_effect": -0.14931374738137332,
+      "model_id": "ACH-001192"
+    },
+    {
+      "gene_effect": -0.15460581222389652,
+      "model_id": "ACH-001193"
+    },
+    {
+      "gene_effect": -0.06068637816427819,
+      "model_id": "ACH-001194"
+    },
+    {
+      "gene_effect": -0.3139167533022894,
+      "model_id": "ACH-001196"
+    },
+    {
+      "gene_effect": -0.36810204119270934,
+      "model_id": "ACH-001197"
+    },
+    {
+      "gene_effect": -0.13973245793370115,
+      "model_id": "ACH-001205"
+    },
+    {
+      "gene_effect": -0.4201880191057461,
+      "model_id": "ACH-001211"
+    },
+    {
+      "gene_effect": -0.4532607240747579,
+      "model_id": "ACH-001212"
+    },
+    {
+      "gene_effect": 0.03958606142911866,
+      "model_id": "ACH-001228"
+    },
+    {
+      "gene_effect": -0.20855296957714187,
+      "model_id": "ACH-001229"
+    },
+    {
+      "gene_effect": -0.4970420449570738,
+      "model_id": "ACH-001232"
+    },
+    {
+      "gene_effect": -0.30339506225606294,
+      "model_id": "ACH-001233"
+    },
+    {
+      "gene_effect": -0.37687544080189994,
+      "model_id": "ACH-001239"
+    },
+    {
+      "gene_effect": 0.015255872686453759,
+      "model_id": "ACH-001270"
+    },
+    {
+      "gene_effect": -0.1783275729349556,
+      "model_id": "ACH-001274"
+    },
+    {
+      "gene_effect": 0.06029701142063723,
+      "model_id": "ACH-001275"
+    },
+    {
+      "gene_effect": -0.2430886175402561,
+      "model_id": "ACH-001277"
+    },
+    {
+      "gene_effect": -0.2363324351720253,
+      "model_id": "ACH-001278"
+    },
+    {
+      "gene_effect": -0.965996988580545,
+      "model_id": "ACH-001279"
+    },
+    {
+      "gene_effect": 0.11927611741924274,
+      "model_id": "ACH-001280"
+    },
+    {
+      "gene_effect": -0.011477508969295863,
+      "model_id": "ACH-001283"
+    },
+    {
+      "gene_effect": -0.051177427843650786,
+      "model_id": "ACH-001289"
+    },
+    {
+      "gene_effect": -0.019119662925549036,
+      "model_id": "ACH-001295"
+    },
+    {
+      "gene_effect": -0.16087896265610158,
+      "model_id": "ACH-001300"
+    },
+    {
+      "gene_effect": 0.021909040744566177,
+      "model_id": "ACH-001301"
+    },
+    {
+      "gene_effect": -0.5414875804940673,
+      "model_id": "ACH-001302"
+    },
+    {
+      "gene_effect": -0.08671384443751318,
+      "model_id": "ACH-001303"
+    },
+    {
+      "gene_effect": -0.2609664337742621,
+      "model_id": "ACH-001306"
+    },
+    {
+      "gene_effect": -0.11293614949556734,
+      "model_id": "ACH-001307"
+    },
+    {
+      "gene_effect": -0.35568002142301003,
+      "model_id": "ACH-001310"
+    },
+    {
+      "gene_effect": -0.08787866546248332,
+      "model_id": "ACH-001318"
+    },
+    {
+      "gene_effect": -0.2884142493227284,
+      "model_id": "ACH-001322"
+    },
+    {
+      "gene_effect": -0.46177849540537247,
+      "model_id": "ACH-001328"
+    },
+    {
+      "gene_effect": -0.260221972460727,
+      "model_id": "ACH-001329"
+    },
+    {
+      "gene_effect": -0.10445230862697828,
+      "model_id": "ACH-001331"
+    },
+    {
+      "gene_effect": -0.02954600086895462,
+      "model_id": "ACH-001332"
+    },
+    {
+      "gene_effect": -0.08523541064969886,
+      "model_id": "ACH-001333"
+    },
+    {
+      "gene_effect": -0.18067179714218995,
+      "model_id": "ACH-001334"
+    },
+    {
+      "gene_effect": -0.2341077393024253,
+      "model_id": "ACH-001335"
+    },
+    {
+      "gene_effect": -0.04328003391049248,
+      "model_id": "ACH-001336"
+    },
+    {
+      "gene_effect": -0.5335015255316524,
+      "model_id": "ACH-001338"
+    },
+    {
+      "gene_effect": -0.17004909830583373,
+      "model_id": "ACH-001340"
+    },
+    {
+      "gene_effect": -0.5149615819247497,
+      "model_id": "ACH-001341"
+    },
+    {
+      "gene_effect": 0.019587042275791278,
+      "model_id": "ACH-001344"
+    },
+    {
+      "gene_effect": -0.08367226099583869,
+      "model_id": "ACH-001345"
+    },
+    {
+      "gene_effect": -0.27202506087821965,
+      "model_id": "ACH-001346"
+    },
+    {
+      "gene_effect": 0.009540334812895623,
+      "model_id": "ACH-001347"
+    },
+    {
+      "gene_effect": -0.30630073132227675,
+      "model_id": "ACH-001353"
+    },
+    {
+      "gene_effect": -0.15772688554195824,
+      "model_id": "ACH-001354"
+    },
+    {
+      "gene_effect": -0.09938576908233909,
+      "model_id": "ACH-001356"
+    },
+    {
+      "gene_effect": -0.10397779422984348,
+      "model_id": "ACH-001360"
+    },
+    {
+      "gene_effect": 0.08614705516909607,
+      "model_id": "ACH-001366"
+    },
+    {
+      "gene_effect": -0.31905919016936474,
+      "model_id": "ACH-001367"
+    },
+    {
+      "gene_effect": -0.07802795521707526,
+      "model_id": "ACH-001368"
+    },
+    {
+      "gene_effect": -0.18122954745621556,
+      "model_id": "ACH-001370"
+    },
+    {
+      "gene_effect": -0.3956708390789351,
+      "model_id": "ACH-001374"
+    },
+    {
+      "gene_effect": -0.44959621022862467,
+      "model_id": "ACH-001375"
+    },
+    {
+      "gene_effect": -0.016089208313823322,
+      "model_id": "ACH-001377"
+    },
+    {
+      "gene_effect": -0.3440685726323575,
+      "model_id": "ACH-001379"
+    },
+    {
+      "gene_effect": -0.16241983232625345,
+      "model_id": "ACH-001380"
+    },
+    {
+      "gene_effect": -0.06881297076276574,
+      "model_id": "ACH-001382"
+    },
+    {
+      "gene_effect": -0.2400663355938988,
+      "model_id": "ACH-001385"
+    },
+    {
+      "gene_effect": -0.05320146880760107,
+      "model_id": "ACH-001386"
+    },
+    {
+      "gene_effect": -0.03688147377312187,
+      "model_id": "ACH-001388"
+    },
+    {
+      "gene_effect": -0.016727525446003477,
+      "model_id": "ACH-001389"
+    },
+    {
+      "gene_effect": -0.3500136427872176,
+      "model_id": "ACH-001390"
+    },
+    {
+      "gene_effect": -0.14394982507566012,
+      "model_id": "ACH-001391"
+    },
+    {
+      "gene_effect": -0.11209080714979776,
+      "model_id": "ACH-001392"
+    },
+    {
+      "gene_effect": -0.12807729672146118,
+      "model_id": "ACH-001393"
+    },
+    {
+      "gene_effect": -0.17841060830212135,
+      "model_id": "ACH-001394"
+    },
+    {
+      "gene_effect": -0.06675837126607362,
+      "model_id": "ACH-001396"
+    },
+    {
+      "gene_effect": 0.09491630545533361,
+      "model_id": "ACH-001398"
+    },
+    {
+      "gene_effect": -0.09521284792876702,
+      "model_id": "ACH-001399"
+    },
+    {
+      "gene_effect": -0.11497523027674013,
+      "model_id": "ACH-001400"
+    },
+    {
+      "gene_effect": -0.04049763748348592,
+      "model_id": "ACH-001401"
+    },
+    {
+      "gene_effect": -0.2492074334934001,
+      "model_id": "ACH-001402"
+    },
+    {
+      "gene_effect": -0.29983866872719345,
+      "model_id": "ACH-001403"
+    },
+    {
+      "gene_effect": -0.3797868233970835,
+      "model_id": "ACH-001407"
+    },
+    {
+      "gene_effect": -0.45241760588590996,
+      "model_id": "ACH-001408"
+    },
+    {
+      "gene_effect": -0.0721646806121429,
+      "model_id": "ACH-001409"
+    },
+    {
+      "gene_effect": -0.27847231431887054,
+      "model_id": "ACH-001411"
+    },
+    {
+      "gene_effect": -0.2786940674859881,
+      "model_id": "ACH-001412"
+    },
+    {
+      "gene_effect": -0.22167461294974788,
+      "model_id": "ACH-001413"
+    },
+    {
+      "gene_effect": -0.9286886657706045,
+      "model_id": "ACH-001414"
+    },
+    {
+      "gene_effect": -0.08356436470320736,
+      "model_id": "ACH-001415"
+    },
+    {
+      "gene_effect": -0.11367158788569125,
+      "model_id": "ACH-001416"
+    },
+    {
+      "gene_effect": -0.4941800883037447,
+      "model_id": "ACH-001418"
+    },
+    {
+      "gene_effect": -0.17022830129043862,
+      "model_id": "ACH-001419"
+    },
+    {
+      "gene_effect": -0.0014417634487486342,
+      "model_id": "ACH-001421"
+    },
+    {
+      "gene_effect": -0.24747085979000333,
+      "model_id": "ACH-001422"
+    },
+    {
+      "gene_effect": -0.04159583699455732,
+      "model_id": "ACH-001430"
+    },
+    {
+      "gene_effect": -0.292064968443153,
+      "model_id": "ACH-001431"
+    },
+    {
+      "gene_effect": -0.18012399130974524,
+      "model_id": "ACH-001433"
+    },
+    {
+      "gene_effect": -0.02072250992404831,
+      "model_id": "ACH-001442"
+    },
+    {
+      "gene_effect": 0.0645089376669575,
+      "model_id": "ACH-001443"
+    },
+    {
+      "gene_effect": -0.08383106334994755,
+      "model_id": "ACH-001450"
+    },
+    {
+      "gene_effect": -0.1813179897160555,
+      "model_id": "ACH-001451"
+    },
+    {
+      "gene_effect": -0.30325591347089176,
+      "model_id": "ACH-001453"
+    },
+    {
+      "gene_effect": -0.390933446367769,
+      "model_id": "ACH-001454"
+    },
+    {
+      "gene_effect": -0.6079446558340136,
+      "model_id": "ACH-001458"
+    },
+    {
+      "gene_effect": -0.06318065441846865,
+      "model_id": "ACH-001459"
+    },
+    {
+      "gene_effect": -0.167022469761854,
+      "model_id": "ACH-001460"
+    },
+    {
+      "gene_effect": 0.11907958845544805,
+      "model_id": "ACH-001461"
+    },
+    {
+      "gene_effect": 0.0009303402724359922,
+      "model_id": "ACH-001481"
+    },
+    {
+      "gene_effect": -0.13023281358336822,
+      "model_id": "ACH-001484"
+    },
+    {
+      "gene_effect": -0.03221216349266651,
+      "model_id": "ACH-001494"
+    },
+    {
+      "gene_effect": -0.3199610868058085,
+      "model_id": "ACH-001495"
+    },
+    {
+      "gene_effect": -0.12877277473562898,
+      "model_id": "ACH-001496"
+    },
+    {
+      "gene_effect": 0.16838828726496788,
+      "model_id": "ACH-001497"
+    },
+    {
+      "gene_effect": -0.3275509658748434,
+      "model_id": "ACH-001498"
+    },
+    {
+      "gene_effect": -0.32017384059068127,
+      "model_id": "ACH-001500"
+    },
+    {
+      "gene_effect": 0.1963485143405185,
+      "model_id": "ACH-001502"
+    },
+    {
+      "gene_effect": -0.5197525798668509,
+      "model_id": "ACH-001509"
+    },
+    {
+      "gene_effect": -0.4139605225191735,
+      "model_id": "ACH-001510"
+    },
+    {
+      "gene_effect": -0.2700597748911852,
+      "model_id": "ACH-001511"
+    },
+    {
+      "gene_effect": -0.00808766729021182,
+      "model_id": "ACH-001513"
+    },
+    {
+      "gene_effect": -0.2549044651503345,
+      "model_id": "ACH-001515"
+    },
+    {
+      "gene_effect": -0.07659382263854475,
+      "model_id": "ACH-001517"
+    },
+    {
+      "gene_effect": -0.3248934936404134,
+      "model_id": "ACH-001518"
+    },
+    {
+      "gene_effect": -0.2921922932832463,
+      "model_id": "ACH-001520"
+    },
+    {
+      "gene_effect": -0.47570461037963385,
+      "model_id": "ACH-001521"
+    },
+    {
+      "gene_effect": -0.21080071652429822,
+      "model_id": "ACH-001522"
+    },
+    {
+      "gene_effect": 0.03233618404498581,
+      "model_id": "ACH-001523"
+    },
+    {
+      "gene_effect": -0.2802662323392665,
+      "model_id": "ACH-001524"
+    },
+    {
+      "gene_effect": 0.07600211589122105,
+      "model_id": "ACH-001525"
+    },
+    {
+      "gene_effect": 0.036551938939660494,
+      "model_id": "ACH-001526"
+    },
+    {
+      "gene_effect": -0.1477640915475532,
+      "model_id": "ACH-001528"
+    },
+    {
+      "gene_effect": -0.30522849428672494,
+      "model_id": "ACH-001529"
+    },
+    {
+      "gene_effect": -0.223952834312267,
+      "model_id": "ACH-001530"
+    },
+    {
+      "gene_effect": -0.3325246321562815,
+      "model_id": "ACH-001532"
+    },
+    {
+      "gene_effect": -0.10950739436753833,
+      "model_id": "ACH-001533"
+    },
+    {
+      "gene_effect": -0.2534935458792679,
+      "model_id": "ACH-001536"
+    },
+    {
+      "gene_effect": -0.04200651416405776,
+      "model_id": "ACH-001538"
+    },
+    {
+      "gene_effect": 0.00237656478697279,
+      "model_id": "ACH-001539"
+    },
+    {
+      "gene_effect": 0.018653398350994443,
+      "model_id": "ACH-001542"
+    },
+    {
+      "gene_effect": -0.17536292138207357,
+      "model_id": "ACH-001543"
+    },
+    {
+      "gene_effect": 0.08221858833866205,
+      "model_id": "ACH-001544"
+    },
+    {
+      "gene_effect": -0.2102977158422302,
+      "model_id": "ACH-001547"
+    },
+    {
+      "gene_effect": -0.2836960917802542,
+      "model_id": "ACH-001548"
+    },
+    {
+      "gene_effect": -0.07191597257280294,
+      "model_id": "ACH-001549"
+    },
+    {
+      "gene_effect": -0.07390748905412364,
+      "model_id": "ACH-001550"
+    },
+    {
+      "gene_effect": -0.274425700105378,
+      "model_id": "ACH-001551"
+    },
+    {
+      "gene_effect": -0.2112414346701888,
+      "model_id": "ACH-001552"
+    },
+    {
+      "gene_effect": -0.43171370449015833,
+      "model_id": "ACH-001554"
+    },
+    {
+      "gene_effect": 0.006602467431861048,
+      "model_id": "ACH-001555"
+    },
+    {
+      "gene_effect": -0.4663329595056258,
+      "model_id": "ACH-001556"
+    },
+    {
+      "gene_effect": -0.16544985388878833,
+      "model_id": "ACH-001557"
+    },
+    {
+      "gene_effect": -0.055518132217418165,
+      "model_id": "ACH-001558"
+    },
+    {
+      "gene_effect": -0.008383643032345067,
+      "model_id": "ACH-001559"
+    },
+    {
+      "gene_effect": -0.12649018981762916,
+      "model_id": "ACH-001560"
+    },
+    {
+      "gene_effect": -0.31937556125078514,
+      "model_id": "ACH-001562"
+    },
+    {
+      "gene_effect": -0.557533073571044,
+      "model_id": "ACH-001563"
+    },
+    {
+      "gene_effect": -0.8766416828092933,
+      "model_id": "ACH-001566"
+    },
+    {
+      "gene_effect": -0.27979241448054526,
+      "model_id": "ACH-001567"
+    },
+    {
+      "gene_effect": -0.25702554248179355,
+      "model_id": "ACH-001568"
+    },
+    {
+      "gene_effect": -0.5104795676278935,
+      "model_id": "ACH-001570"
+    },
+    {
+      "gene_effect": -0.18424282323526744,
+      "model_id": "ACH-001574"
+    },
+    {
+      "gene_effect": 0.22686547147086653,
+      "model_id": "ACH-001577"
+    },
+    {
+      "gene_effect": -0.22388636751469274,
+      "model_id": "ACH-001578"
+    },
+    {
+      "gene_effect": -0.18720513808644262,
+      "model_id": "ACH-001603"
+    },
+    {
+      "gene_effect": -0.08826376893369736,
+      "model_id": "ACH-001605"
+    },
+    {
+      "gene_effect": -0.05943590047642916,
+      "model_id": "ACH-001606"
+    },
+    {
+      "gene_effect": -0.05644752177302981,
+      "model_id": "ACH-001607"
+    },
+    {
+      "gene_effect": -0.1690098037782463,
+      "model_id": "ACH-001608"
+    },
+    {
+      "gene_effect": -0.08570754544188278,
+      "model_id": "ACH-001609"
+    },
+    {
+      "gene_effect": -0.21180626495045007,
+      "model_id": "ACH-001610"
+    },
+    {
+      "gene_effect": 0.01343021998716648,
+      "model_id": "ACH-001611"
+    },
+    {
+      "gene_effect": -0.15760303742731682,
+      "model_id": "ACH-001613"
+    },
+    {
+      "gene_effect": -0.5722241382116924,
+      "model_id": "ACH-001616"
+    },
+    {
+      "gene_effect": 0.10755093822250769,
+      "model_id": "ACH-001618"
+    },
+    {
+      "gene_effect": -0.4192673566048226,
+      "model_id": "ACH-001619"
+    },
+    {
+      "gene_effect": -0.2839426581298719,
+      "model_id": "ACH-001622"
+    },
+    {
+      "gene_effect": 0.09231797003986295,
+      "model_id": "ACH-001623"
+    },
+    {
+      "gene_effect": -0.3777428739535574,
+      "model_id": "ACH-001624"
+    },
+    {
+      "gene_effect": -0.2904366007928605,
+      "model_id": "ACH-001625"
+    },
+    {
+      "gene_effect": 0.08139918034081209,
+      "model_id": "ACH-001626"
+    },
+    {
+      "gene_effect": -0.12042817683801502,
+      "model_id": "ACH-001627"
+    },
+    {
+      "gene_effect": -0.5532791013585999,
+      "model_id": "ACH-001628"
+    },
+    {
+      "gene_effect": -0.15382746583161988,
+      "model_id": "ACH-001630"
+    },
+    {
+      "gene_effect": -0.04411377598896005,
+      "model_id": "ACH-001632"
+    },
+    {
+      "gene_effect": -0.20189996606304855,
+      "model_id": "ACH-001634"
+    },
+    {
+      "gene_effect": -0.39984690630137665,
+      "model_id": "ACH-001639"
+    },
+    {
+      "gene_effect": -0.179577261023141,
+      "model_id": "ACH-001641"
+    },
+    {
+      "gene_effect": -0.08083446656130824,
+      "model_id": "ACH-001642"
+    },
+    {
+      "gene_effect": 0.06476538516731004,
+      "model_id": "ACH-001645"
+    },
+    {
+      "gene_effect": -0.2005592041309279,
+      "model_id": "ACH-001647"
+    },
+    {
+      "gene_effect": -0.5652646360722239,
+      "model_id": "ACH-001648"
+    },
+    {
+      "gene_effect": -0.36431570838782124,
+      "model_id": "ACH-001649"
+    },
+    {
+      "gene_effect": -0.33369175042014654,
+      "model_id": "ACH-001650"
+    },
+    {
+      "gene_effect": -0.25228713186088947,
+      "model_id": "ACH-001651"
+    },
+    {
+      "gene_effect": -0.2881071697296698,
+      "model_id": "ACH-001652"
+    },
+    {
+      "gene_effect": -0.12091287078402956,
+      "model_id": "ACH-001653"
+    },
+    {
+      "gene_effect": -0.2640064628858129,
+      "model_id": "ACH-001654"
+    },
+    {
+      "gene_effect": -0.16724741673751475,
+      "model_id": "ACH-001655"
+    },
+    {
+      "gene_effect": 0.019760473051001953,
+      "model_id": "ACH-001656"
+    },
+    {
+      "gene_effect": 0.01958921125255139,
+      "model_id": "ACH-001662"
+    },
+    {
+      "gene_effect": -0.1393710266922768,
+      "model_id": "ACH-001664"
+    },
+    {
+      "gene_effect": -0.360699393632058,
+      "model_id": "ACH-001668"
+    },
+    {
+      "gene_effect": 0.006140398805183578,
+      "model_id": "ACH-001669"
+    },
+    {
+      "gene_effect": -0.15071073895562154,
+      "model_id": "ACH-001670"
+    },
+    {
+      "gene_effect": -0.3168830169756874,
+      "model_id": "ACH-001673"
+    },
+    {
+      "gene_effect": -0.46469078460954905,
+      "model_id": "ACH-001674"
+    },
+    {
+      "gene_effect": -0.2956978405141276,
+      "model_id": "ACH-001675"
+    },
+    {
+      "gene_effect": -0.41598831757367555,
+      "model_id": "ACH-001677"
+    },
+    {
+      "gene_effect": 0.17820006375862404,
+      "model_id": "ACH-001683"
+    },
+    {
+      "gene_effect": -0.1635819172056422,
+      "model_id": "ACH-001685"
+    },
+    {
+      "gene_effect": -0.13155098894379774,
+      "model_id": "ACH-001687"
+    },
+    {
+      "gene_effect": -0.16059407094388162,
+      "model_id": "ACH-001688"
+    },
+    {
+      "gene_effect": -0.20661622044242897,
+      "model_id": "ACH-001690"
+    },
+    {
+      "gene_effect": -0.19429320778008313,
+      "model_id": "ACH-001691"
+    },
+    {
+      "gene_effect": -0.13313390110206763,
+      "model_id": "ACH-001692"
+    },
+    {
+      "gene_effect": -0.3282551022441381,
+      "model_id": "ACH-001694"
+    },
+    {
+      "gene_effect": -0.10109752677237033,
+      "model_id": "ACH-001695"
+    },
+    {
+      "gene_effect": -0.3783249839035659,
+      "model_id": "ACH-001696"
+    },
+    {
+      "gene_effect": -0.6818356151201951,
+      "model_id": "ACH-001698"
+    },
+    {
+      "gene_effect": -0.13539673574326624,
+      "model_id": "ACH-001699"
+    },
+    {
+      "gene_effect": -0.43813201166243787,
+      "model_id": "ACH-001701"
+    },
+    {
+      "gene_effect": -0.015319222142930078,
+      "model_id": "ACH-001702"
+    },
+    {
+      "gene_effect": -0.13108080660155072,
+      "model_id": "ACH-001707"
+    },
+    {
+      "gene_effect": -0.3266657651965099,
+      "model_id": "ACH-001709"
+    },
+    {
+      "gene_effect": -0.249590385642452,
+      "model_id": "ACH-001711"
+    },
+    {
+      "gene_effect": -0.3049513881277811,
+      "model_id": "ACH-001715"
+    },
+    {
+      "gene_effect": -0.17436238409944052,
+      "model_id": "ACH-001719"
+    },
+    {
+      "gene_effect": -0.011110856886611231,
+      "model_id": "ACH-001735"
+    },
+    {
+      "gene_effect": -0.13587261660355573,
+      "model_id": "ACH-001736"
+    },
+    {
+      "gene_effect": -0.2845996025031582,
+      "model_id": "ACH-001737"
+    },
+    {
+      "gene_effect": -0.33144574710605884,
+      "model_id": "ACH-001740"
+    },
+    {
+      "gene_effect": -0.3037279149591784,
+      "model_id": "ACH-001745"
+    },
+    {
+      "gene_effect": -0.25270892789442495,
+      "model_id": "ACH-001750"
+    },
+    {
+      "gene_effect": -0.14835224739431596,
+      "model_id": "ACH-001765"
+    },
+    {
+      "gene_effect": 0.07052614138191524,
+      "model_id": "ACH-001786"
+    },
+    {
+      "gene_effect": -0.28472750741786446,
+      "model_id": "ACH-001791"
+    },
+    {
+      "gene_effect": -0.01641602617203683,
+      "model_id": "ACH-001793"
+    },
+    {
+      "gene_effect": -0.10294594481676898,
+      "model_id": "ACH-001794"
+    },
+    {
+      "gene_effect": -0.4035458173349754,
+      "model_id": "ACH-001795"
+    },
+    {
+      "gene_effect": -0.3851959306439979,
+      "model_id": "ACH-001796"
+    },
+    {
+      "gene_effect": -0.04793890956484553,
+      "model_id": "ACH-001799"
+    },
+    {
+      "gene_effect": -0.2121615144297688,
+      "model_id": "ACH-001802"
+    },
+    {
+      "gene_effect": -0.6046151273683743,
+      "model_id": "ACH-001804"
+    },
+    {
+      "gene_effect": -0.05047350783607468,
+      "model_id": "ACH-001814"
+    },
+    {
+      "gene_effect": -0.0544808825131394,
+      "model_id": "ACH-001819"
+    },
+    {
+      "gene_effect": -0.18460732344311298,
+      "model_id": "ACH-001820"
+    },
+    {
+      "gene_effect": 0.1705975783517862,
+      "model_id": "ACH-001834"
+    },
+    {
+      "gene_effect": -0.12254940836451444,
+      "model_id": "ACH-001835"
+    },
+    {
+      "gene_effect": -0.3316806977171711,
+      "model_id": "ACH-001836"
+    },
+    {
+      "gene_effect": -0.4403471845006941,
+      "model_id": "ACH-001838"
+    },
+    {
+      "gene_effect": -0.10056489200210478,
+      "model_id": "ACH-001839"
+    },
+    {
+      "gene_effect": 0.04833928663641343,
+      "model_id": "ACH-001841"
+    },
+    {
+      "gene_effect": -0.2751806535030657,
+      "model_id": "ACH-001842"
+    },
+    {
+      "gene_effect": -0.24154593790108964,
+      "model_id": "ACH-001843"
+    },
+    {
+      "gene_effect": -0.4538401618127227,
+      "model_id": "ACH-001844"
+    },
+    {
+      "gene_effect": -0.3701949310751719,
+      "model_id": "ACH-001848"
+    },
+    {
+      "gene_effect": -0.2756177060188678,
+      "model_id": "ACH-001849"
+    },
+    {
+      "gene_effect": -0.37724927922059304,
+      "model_id": "ACH-001850"
+    },
+    {
+      "gene_effect": -0.11415870930715304,
+      "model_id": "ACH-001852"
+    },
+    {
+      "gene_effect": -0.19475235673326752,
+      "model_id": "ACH-001853"
+    },
+    {
+      "gene_effect": -0.0683597158334712,
+      "model_id": "ACH-001856"
+    },
+    {
+      "gene_effect": -0.21484086508216188,
+      "model_id": "ACH-001857"
+    },
+    {
+      "gene_effect": -0.07186241187608416,
+      "model_id": "ACH-001858"
+    },
+    {
+      "gene_effect": -0.17717637486670076,
+      "model_id": "ACH-001861"
+    },
+    {
+      "gene_effect": -0.16648773888393,
+      "model_id": "ACH-001862"
+    },
+    {
+      "gene_effect": -0.31032428918383625,
+      "model_id": "ACH-001863"
+    },
+    {
+      "gene_effect": -0.4506278731153119,
+      "model_id": "ACH-001864"
+    },
+    {
+      "gene_effect": -0.2800879869607207,
+      "model_id": "ACH-001959"
+    },
+    {
+      "gene_effect": -0.49048497234414945,
+      "model_id": "ACH-001960"
+    },
+    {
+      "gene_effect": -0.29458914507178724,
+      "model_id": "ACH-001961"
+    },
+    {
+      "gene_effect": -0.7491267615162713,
+      "model_id": "ACH-001970"
+    },
+    {
+      "gene_effect": -0.9519364680509103,
+      "model_id": "ACH-001972"
+    },
+    {
+      "gene_effect": -0.4340328187180121,
+      "model_id": "ACH-001973"
+    },
+    {
+      "gene_effect": -0.3539216717881651,
+      "model_id": "ACH-001975"
+    },
+    {
+      "gene_effect": -0.10097042581981788,
+      "model_id": "ACH-001977"
+    },
+    {
+      "gene_effect": -0.30834509074686384,
+      "model_id": "ACH-001982"
+    },
+    {
+      "gene_effect": -0.16967871084678465,
+      "model_id": "ACH-001986"
+    },
+    {
+      "gene_effect": -0.4563333256722121,
+      "model_id": "ACH-001990"
+    },
+    {
+      "gene_effect": 0.1777533735719399,
+      "model_id": "ACH-001991"
+    },
+    {
+      "gene_effect": -0.01398738821906731,
+      "model_id": "ACH-001992"
+    },
+    {
+      "gene_effect": -0.39032975403626746,
+      "model_id": "ACH-001993"
+    },
+    {
+      "gene_effect": -0.2387748506727415,
+      "model_id": "ACH-001997"
+    },
+    {
+      "gene_effect": -0.12787593265717767,
+      "model_id": "ACH-001999"
+    },
+    {
+      "gene_effect": 0.034177172620334845,
+      "model_id": "ACH-002001"
+    },
+    {
+      "gene_effect": -0.05546392009956147,
+      "model_id": "ACH-002002"
+    },
+    {
+      "gene_effect": -0.008578160439600635,
+      "model_id": "ACH-002003"
+    },
+    {
+      "gene_effect": -0.04125266109034212,
+      "model_id": "ACH-002004"
+    },
+    {
+      "gene_effect": -0.2585365388222953,
+      "model_id": "ACH-002005"
+    },
+    {
+      "gene_effect": -0.3562812265757218,
+      "model_id": "ACH-002014"
+    },
+    {
+      "gene_effect": -0.46425992879463773,
+      "model_id": "ACH-002015"
+    },
+    {
+      "gene_effect": -0.3314447509266053,
+      "model_id": "ACH-002016"
+    },
+    {
+      "gene_effect": -0.25813020792384594,
+      "model_id": "ACH-002018"
+    },
+    {
+      "gene_effect": -0.2171277162634478,
+      "model_id": "ACH-002019"
+    },
+    {
+      "gene_effect": -0.12589146552978053,
+      "model_id": "ACH-002020"
+    },
+    {
+      "gene_effect": -0.4749630693745446,
+      "model_id": "ACH-002021"
+    },
+    {
+      "gene_effect": -0.1480554424463585,
+      "model_id": "ACH-002023"
+    },
+    {
+      "gene_effect": -0.15618287530045433,
+      "model_id": "ACH-002024"
+    },
+    {
+      "gene_effect": -0.06615486443790339,
+      "model_id": "ACH-002025"
+    },
+    {
+      "gene_effect": -0.4130929128339421,
+      "model_id": "ACH-002026"
+    },
+    {
+      "gene_effect": -0.14440584681283652,
+      "model_id": "ACH-002027"
+    },
+    {
+      "gene_effect": -0.29111720240743766,
+      "model_id": "ACH-002029"
+    },
+    {
+      "gene_effect": -0.7605126078853314,
+      "model_id": "ACH-002030"
+    },
+    {
+      "gene_effect": -0.4821102120073659,
+      "model_id": "ACH-002033"
+    },
+    {
+      "gene_effect": -0.47136652400020984,
+      "model_id": "ACH-002035"
+    },
+    {
+      "gene_effect": -0.37514464210360776,
+      "model_id": "ACH-002039"
+    },
+    {
+      "gene_effect": -0.02322138010912206,
+      "model_id": "ACH-002040"
+    },
+    {
+      "gene_effect": -0.22769507828353452,
+      "model_id": "ACH-002041"
+    },
+    {
+      "gene_effect": 0.055617377579033095,
+      "model_id": "ACH-002042"
+    },
+    {
+      "gene_effect": -0.17741974434162872,
+      "model_id": "ACH-002043"
+    },
+    {
+      "gene_effect": -0.4208112635550764,
+      "model_id": "ACH-002044"
+    },
+    {
+      "gene_effect": -0.09907262384598553,
+      "model_id": "ACH-002045"
+    },
+    {
+      "gene_effect": -0.05264761442665425,
+      "model_id": "ACH-002046"
+    },
+    {
+      "gene_effect": -0.05079758201288104,
+      "model_id": "ACH-002048"
+    },
+    {
+      "gene_effect": 0.04376444344053873,
+      "model_id": "ACH-002051"
+    },
+    {
+      "gene_effect": -0.41999286868230545,
+      "model_id": "ACH-002052"
+    },
+    {
+      "gene_effect": -0.1261437901739917,
+      "model_id": "ACH-002055"
+    },
+    {
+      "gene_effect": -0.4627041750486692,
+      "model_id": "ACH-002059"
+    },
+    {
+      "gene_effect": -0.3594242340072546,
+      "model_id": "ACH-002061"
+    },
+    {
+      "gene_effect": -0.09901837079424258,
+      "model_id": "ACH-002062"
+    },
+    {
+      "gene_effect": -0.260390497062501,
+      "model_id": "ACH-002066"
+    },
+    {
+      "gene_effect": -0.20994403139757056,
+      "model_id": "ACH-002067"
+    },
+    {
+      "gene_effect": -0.3387828842058578,
+      "model_id": "ACH-002069"
+    },
+    {
+      "gene_effect": -0.06100411676956108,
+      "model_id": "ACH-002070"
+    },
+    {
+      "gene_effect": -0.09286978635030099,
+      "model_id": "ACH-002077"
+    },
+    {
+      "gene_effect": 0.002963313915847726,
+      "model_id": "ACH-002080"
+    },
+    {
+      "gene_effect": -0.24550660487967332,
+      "model_id": "ACH-002083"
+    },
+    {
+      "gene_effect": -0.33379223127450836,
+      "model_id": "ACH-002084"
+    },
+    {
+      "gene_effect": -0.25956278213539113,
+      "model_id": "ACH-002105"
+    },
+    {
+      "gene_effect": -0.26492707332753046,
+      "model_id": "ACH-002106"
+    },
+    {
+      "gene_effect": -0.07471122424335386,
+      "model_id": "ACH-002109"
+    },
+    {
+      "gene_effect": -0.2230337121148005,
+      "model_id": "ACH-002110"
+    },
+    {
+      "gene_effect": -0.2695632536392982,
+      "model_id": "ACH-002114"
+    },
+    {
+      "gene_effect": -0.2199938719167612,
+      "model_id": "ACH-002116"
+    },
+    {
+      "gene_effect": 0.07815475322070922,
+      "model_id": "ACH-002119"
+    },
+    {
+      "gene_effect": -0.007813355907178798,
+      "model_id": "ACH-002140"
+    },
+    {
+      "gene_effect": 0.10432218589201428,
+      "model_id": "ACH-002141"
+    },
+    {
+      "gene_effect": -0.14439280180909975,
+      "model_id": "ACH-002143"
+    },
+    {
+      "gene_effect": -0.36903886210555903,
+      "model_id": "ACH-002150"
+    },
+    {
+      "gene_effect": -0.37475536123391706,
+      "model_id": "ACH-002156"
+    },
+    {
+      "gene_effect": -0.49831604709268806,
+      "model_id": "ACH-002160"
+    },
+    {
+      "gene_effect": -0.1346681804724712,
+      "model_id": "ACH-002161"
+    },
+    {
+      "gene_effect": -0.061165029943614474,
+      "model_id": "ACH-002179"
+    },
+    {
+      "gene_effect": -0.6493922547815668,
+      "model_id": "ACH-002181"
+    },
+    {
+      "gene_effect": -0.4125382665228169,
+      "model_id": "ACH-002183"
+    },
+    {
+      "gene_effect": -0.17799214685916676,
+      "model_id": "ACH-002186"
+    },
+    {
+      "gene_effect": -0.4047455351013124,
+      "model_id": "ACH-002189"
+    },
+    {
+      "gene_effect": -0.22073755548979337,
+      "model_id": "ACH-002198"
+    },
+    {
+      "gene_effect": 0.004740517924134158,
+      "model_id": "ACH-002202"
+    },
+    {
+      "gene_effect": 0.07022578789922976,
+      "model_id": "ACH-002204"
+    },
+    {
+      "gene_effect": -0.42266362266739915,
+      "model_id": "ACH-002210"
+    },
+    {
+      "gene_effect": 0.016180969803030798,
+      "model_id": "ACH-002212"
+    },
+    {
+      "gene_effect": -0.24189949489688328,
+      "model_id": "ACH-002214"
+    },
+    {
+      "gene_effect": -0.32940046889936836,
+      "model_id": "ACH-002215"
+    },
+    {
+      "gene_effect": -0.07805126541863061,
+      "model_id": "ACH-002228"
+    },
+    {
+      "gene_effect": 0.0054622026664742085,
+      "model_id": "ACH-002229"
+    },
+    {
+      "gene_effect": 0.0267033319193494,
+      "model_id": "ACH-002230"
+    },
+    {
+      "gene_effect": -0.05214844893617071,
+      "model_id": "ACH-002233"
+    },
+    {
+      "gene_effect": -0.14107409048404262,
+      "model_id": "ACH-002234"
+    },
+    {
+      "gene_effect": -0.48118995495911343,
+      "model_id": "ACH-002239"
+    },
+    {
+      "gene_effect": 0.02647342653041837,
+      "model_id": "ACH-002243"
+    },
+    {
+      "gene_effect": -0.17432790827003922,
+      "model_id": "ACH-002247"
+    },
+    {
+      "gene_effect": -0.08605165573262177,
+      "model_id": "ACH-002249"
+    },
+    {
+      "gene_effect": 0.03135203644213955,
+      "model_id": "ACH-002250"
+    },
+    {
+      "gene_effect": 0.0511836284437128,
+      "model_id": "ACH-002251"
+    },
+    {
+      "gene_effect": -0.041921640145821754,
+      "model_id": "ACH-002257"
+    },
+    {
+      "gene_effect": -0.08502767293708052,
+      "model_id": "ACH-002261"
+    },
+    {
+      "gene_effect": -0.0033287206197709363,
+      "model_id": "ACH-002263"
+    },
+    {
+      "gene_effect": -0.7044531697473231,
+      "model_id": "ACH-002265"
+    },
+    {
+      "gene_effect": 0.023721417409157147,
+      "model_id": "ACH-002269"
+    },
+    {
+      "gene_effect": -0.2030040788140934,
+      "model_id": "ACH-002278"
+    },
+    {
+      "gene_effect": -0.06112242830478892,
+      "model_id": "ACH-002280"
+    },
+    {
+      "gene_effect": -0.1970954169107582,
+      "model_id": "ACH-002282"
+    },
+    {
+      "gene_effect": -0.2344788176678416,
+      "model_id": "ACH-002283"
+    },
+    {
+      "gene_effect": -0.2675345820829971,
+      "model_id": "ACH-002284"
+    },
+    {
+      "gene_effect": -0.531350750553841,
+      "model_id": "ACH-002285"
+    },
+    {
+      "gene_effect": 0.04908267058931379,
+      "model_id": "ACH-002291"
+    },
+    {
+      "gene_effect": 0.07799160710162936,
+      "model_id": "ACH-002294"
+    },
+    {
+      "gene_effect": 0.05357099989978528,
+      "model_id": "ACH-002295"
+    },
+    {
+      "gene_effect": -0.4438440594986535,
+      "model_id": "ACH-002296"
+    },
+    {
+      "gene_effect": 0.06328804383012646,
+      "model_id": "ACH-002297"
+    },
+    {
+      "gene_effect": -0.22606561386329738,
+      "model_id": "ACH-002298"
+    },
+    {
+      "gene_effect": -0.08178986233354052,
+      "model_id": "ACH-002304"
+    },
+    {
+      "gene_effect": -0.12686998961339235,
+      "model_id": "ACH-002305"
+    },
+    {
+      "gene_effect": -0.08106892480212641,
+      "model_id": "ACH-002399"
+    },
+    {
+      "gene_effect": -0.2214222217612925,
+      "model_id": "ACH-002401"
+    },
+    {
+      "gene_effect": 0.08071801498520528,
+      "model_id": "ACH-002446"
+    },
+    {
+      "gene_effect": 0.083077870720869,
+      "model_id": "ACH-002458"
+    },
+    {
+      "gene_effect": -0.06907016303375596,
+      "model_id": "ACH-002460"
+    },
+    {
+      "gene_effect": -0.35591761457702853,
+      "model_id": "ACH-002461"
+    },
+    {
+      "gene_effect": -0.35628992430836803,
+      "model_id": "ACH-002462"
+    },
+    {
+      "gene_effect": -0.5611319824118561,
+      "model_id": "ACH-002463"
+    },
+    {
+      "gene_effect": -0.35422333347673934,
+      "model_id": "ACH-002464"
+    },
+    {
+      "gene_effect": -0.3189693821751972,
+      "model_id": "ACH-002465"
+    },
+    {
+      "gene_effect": -0.7252125182800018,
+      "model_id": "ACH-002467"
+    },
+    {
+      "gene_effect": -0.03679004546007317,
+      "model_id": "ACH-002471"
+    },
+    {
+      "gene_effect": -0.1650543023642583,
+      "model_id": "ACH-002478"
+    },
+    {
+      "gene_effect": -1.0740536891169865,
+      "model_id": "ACH-002485"
+    },
+    {
+      "gene_effect": -0.3934927073564651,
+      "model_id": "ACH-002486"
+    },
+    {
+      "gene_effect": -0.19741525831914158,
+      "model_id": "ACH-002500"
+    },
+    {
+      "gene_effect": -0.1306932507498072,
+      "model_id": "ACH-002508"
+    },
+    {
+      "gene_effect": -0.35239237740982865,
+      "model_id": "ACH-002510"
+    },
+    {
+      "gene_effect": -0.2651739912531437,
+      "model_id": "ACH-002511"
+    },
+    {
+      "gene_effect": -0.2712098329129857,
+      "model_id": "ACH-002512"
+    },
+    {
+      "gene_effect": -0.22235126577288575,
+      "model_id": "ACH-002522"
+    },
+    {
+      "gene_effect": -0.3910142420576257,
+      "model_id": "ACH-002523"
+    },
+    {
+      "gene_effect": -0.12897232717373744,
+      "model_id": "ACH-002524"
+    },
+    {
+      "gene_effect": -0.029514660596145187,
+      "model_id": "ACH-002526"
+    },
+    {
+      "gene_effect": -0.05699081536959197,
+      "model_id": "ACH-002531"
+    },
+    {
+      "gene_effect": -0.28498778079910053,
+      "model_id": "ACH-002533"
+    },
+    {
+      "gene_effect": -0.3517612003399523,
+      "model_id": "ACH-002535"
+    },
+    {
+      "gene_effect": -0.2170644134856469,
+      "model_id": "ACH-002647"
+    },
+    {
+      "gene_effect": -0.7306006126706299,
+      "model_id": "ACH-002650"
+    },
+    {
+      "gene_effect": -0.05237595964449426,
+      "model_id": "ACH-002654"
+    },
+    {
+      "gene_effect": -0.2938375493804344,
+      "model_id": "ACH-002659"
+    },
+    {
+      "gene_effect": 0.007804974287404565,
+      "model_id": "ACH-002660"
+    },
+    {
+      "gene_effect": -0.180783659619911,
+      "model_id": "ACH-002662"
+    },
+    {
+      "gene_effect": -0.011721834770562378,
+      "model_id": "ACH-002664"
+    },
+    {
+      "gene_effect": -0.08655541885932214,
+      "model_id": "ACH-002669"
+    },
+    {
+      "gene_effect": -0.4927653028637826,
+      "model_id": "ACH-002672"
+    },
+    {
+      "gene_effect": -0.5725396215017619,
+      "model_id": "ACH-002677"
+    },
+    {
+      "gene_effect": -0.18195618651480247,
+      "model_id": "ACH-002678"
+    },
+    {
+      "gene_effect": 0.22853213955449583,
+      "model_id": "ACH-002680"
+    },
+    {
+      "gene_effect": -0.5218486544107236,
+      "model_id": "ACH-002687"
+    },
+    {
+      "gene_effect": -0.28876434217355623,
+      "model_id": "ACH-002693"
+    },
+    {
+      "gene_effect": -0.11403059682680017,
+      "model_id": "ACH-002705"
+    },
+    {
+      "gene_effect": -0.12710354901172044,
+      "model_id": "ACH-002706"
+    },
+    {
+      "gene_effect": -0.6237953954709844,
+      "model_id": "ACH-002710"
+    },
+    {
+      "gene_effect": -0.45379242593808095,
+      "model_id": "ACH-002711"
+    },
+    {
+      "gene_effect": -0.07062575466695908,
+      "model_id": "ACH-002785"
+    },
+    {
+      "gene_effect": -0.16773766889909336,
+      "model_id": "ACH-002799"
+    },
+    {
+      "gene_effect": -0.07507100500522368,
+      "model_id": "ACH-002800"
+    },
+    {
+      "gene_effect": -0.20041156144833605,
+      "model_id": "ACH-002834"
+    },
+    {
+      "gene_effect": -0.1847210700991422,
+      "model_id": "ACH-002847"
+    },
+    {
+      "gene_effect": -0.17941421824467776,
+      "model_id": "ACH-002922"
+    },
+    {
+      "gene_effect": -0.15369224977351742,
+      "model_id": "ACH-002925"
+    },
+    {
+      "gene_effect": -0.8725917450505223,
+      "model_id": "ACH-002926"
+    },
+    {
+      "gene_effect": -0.17014491171324603,
+      "model_id": "ACH-002928"
+    },
+    {
+      "gene_effect": -0.4456672207279061,
+      "model_id": "ACH-003012"
+    }
+  ]
+}

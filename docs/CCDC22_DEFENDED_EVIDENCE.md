@@ -2,8 +2,8 @@
 
 Status: `evidence_attached`. Trust boundary: proposal only.
 
-Plain-language status: needs external freeze.
-Defended-discovery status: `needs_external_freeze`.
+Plain-language status: computational bar cleared, pending human key.
+Defended-discovery status: `computational_bar_cleared_pending_human_key`.
 Honest ceiling: computation over released data, not wet-lab or clinical truth.
 
 ## Frozen evidence
@@ -17,12 +17,15 @@ Honest ceiling: computation over released data, not wet-lab or clinical truth.
 | `string_network` | `evidence_attached` | top partners: CCDC93, VPS35L, COMMD1, COMMD8, COMMD2 |
 | `dice_expression` | `evidence_attached` | activated CD4 mean TPM 30.218 |
 | `open_targets_overlay` | `evidence_attached` | immune dysregulation-polyendocrinopathy-enteropathy-X-linked syndrome, genetic association score 0.1945 |
+| `chembl_target_and_activity` | `evidence_attached` | CHEMBL6066516 with 4 activity rows for coiled-coil domain-containing protein 22 |
+| `ensembl_homology` | `evidence_attached` | 195 orthology rows from Ensembl homology |
+| `gwas_catalog_gene_lookup` | `evidence_attached` | GWAS Catalog gene endpoint returned no CCDC22 object |
+| `depmap_24q2_crispr_gene_effect` | `evidence_attached` | 1150 cancer cell lines, median gene effect -0.2020, 6 lines below -1 |
 
 ## Open gates
 
 | gate | reason |
 |---|---|
-| `expanded_external_freeze` | the expanded hackathon bar still needs new frozen GWAS Catalog, DepMap, conservation, or additional primary-T-cell comparator evidence |
 | `shifrut_replication_depth` | one Shifrut row supports CCDC22, while the second Shifrut row is missing from the frozen packet |
 | `human_acceptance` | no human key has accepted a CCDC22 state transition |
 
@@ -43,4 +46,10 @@ Rebuild:
 
 ```bash
 ./prospect ccdc22-defended-evidence
+```
+
+Refresh public snapshots before a new scoring pass:
+
+```bash
+./prospect ccdc22-defended-evidence --fetch
 ```

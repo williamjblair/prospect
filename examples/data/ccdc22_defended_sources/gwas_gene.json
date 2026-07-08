@@ -1,0 +1,10 @@
+{
+  "gene": "CCDC22",
+  "payload": {
+    "http_status": 404,
+    "status": "not_found",
+    "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/genes/CCDC22"
+  },
+  "source": "gwas_gene",
+  "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/genes/CCDC22"
+}
