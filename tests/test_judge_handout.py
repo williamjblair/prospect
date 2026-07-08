@@ -28,6 +28,10 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["disease_overlay_rows"] == 20
     assert handout["counts"]["disease_overlay_context_rows"] == 10
     assert handout["counts"]["lab_packet_rows"] == 5
+    assert handout["counts"]["claude_science_not_assayed"] == 15
+    assert handout["counts"]["substrate_after_not_assayed"] == 5
+    assert handout["counts"]["pggt1b_novelty_downgraded"] is True
+    assert handout["counts"]["pggt1b_wet_lab_minimum_donors"] >= 3
     assert handout["counts"]["endgame_candidates"] == 18
     assert handout["counts"]["endgame_cleared"] == 1
     assert handout["counts"]["endgame_lead"] == "PGGT1B"
@@ -52,8 +56,14 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect verify" in doc
     assert "/data/disease_genetics_overlay.json" in doc
     assert "/data/lab_packet.json" in doc
+    assert "/data/substrate_coverage_report.json" in doc
+    assert "/data/pggt1b_defended_evidence.json" in doc
     assert "/data/defended_discovery_endgame_result.json" in doc
+    assert "./prospect substrate-coverage" in doc
+    assert "./prospect pggt1b-defended-evidence" in doc
     assert "./prospect defended-discovery-endgame-result" in doc
+    assert "Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
+    assert "PGGT1B novelty downgraded against prior art" in doc
     assert "18 locked candidates" in doc
     assert "1 fixed-bar lead (PGGT1B)" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc

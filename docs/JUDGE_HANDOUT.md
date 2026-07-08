@@ -21,8 +21,10 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
-- 15 public data artifacts
+- 17 public data artifacts
 - 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
+- Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
+- PGGT1B novelty downgraded against prior art: true, wet-lab protocol minimum donors 3
 - Defended-discovery fixed bar: 18 locked candidates, 1 fixed-bar lead (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
 
 ## Trust boundary
@@ -34,14 +36,14 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Five-minute judge path
 
-1. Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.
-2. Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.
-3. Overview: the defended-discovery fixed-bar result, PGGT1B clears as a proposal and remains accepted=false.
-4. Overview: the A1BG refusal and the overclaiming number.
-5. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
-6. Findings: the scannable finding index.
+1. Overview: acceptance layer first, the real Claude Science export enters Prospect and receives typed causal verdicts.
+2. Overview: substrate coverage, frozen ORCS primary T-cell context shrinks uncovered genes while staying proposal-only.
+3. Overview: PGGT1B is the caveated hypothesis worth testing, with prior-art novelty downgraded.
+4. Overview: paste any signature, DE table, ranked marker list, or gene list into the submitter and share the state page.
+5. Overview: the overclaiming counter, 48% overall and 64% on canonical effectors.
+6. Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.
 7. Agent: the campaign leaderboard, every row a proposal, none accepted state.
-8. Agent: the PGGT1B evidence packet and the disease-genetics overlay.
+8. Agent: the PGGT1B evidence packet, ChEMBL hook, disease context, and wet-lab protocol.
 9. Agent: the wet-lab assay packet, proposal-only, ready for a lab.
 10. Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.
 
@@ -53,7 +55,9 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/claude_science_acceptance_demo.json`
+- `/data/substrate_coverage_report.json`
 - `/data/defended_discovery_endgame_preregistration.json`
+- `/data/pggt1b_defended_evidence.json`
 - `/data/pggt1b_endgame_decision.json`
 - `/data/defended_discovery_endgame_result.json`
 - `/data/pggt1b_deep_dive.json`
@@ -71,7 +75,9 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect defended-discovery-endgame-preregister`
 - `./prospect pggt1b-endgame-decision`
 - `./prospect defended-discovery-endgame-result`
-- `./prospect serve-acceptance --port 8130`
+- `./prospect substrate-coverage`
+- `./prospect pggt1b-defended-evidence`
+- `./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service`
 - `python benchmark/mutation_pack.py`
 - `python examples/receipt_bridge_client.py --json`
 - `python examples/claude_science_connector_client.py --json`

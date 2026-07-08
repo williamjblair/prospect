@@ -187,6 +187,36 @@ type DefendedEvidencePacket = {
   open_gates: { gate: string; reason: string }[];
   kill_attempts: { kill_id: string; result: string; basis: string }[];
   mechanism: string;
+  novelty_assessment?: {
+    status: string;
+    downgraded_novelty: boolean;
+    plain_language: string;
+    kept_claim: string;
+    citations: { pmid: string; role: string; title: string }[];
+  };
+  mechanism_dossier?: {
+    data_shows: string[];
+    inference: string[];
+    partners: string[];
+  };
+  druggability?: {
+    target_chembl_id: string;
+    caveat: string;
+    example_compounds: { molecule_chembl_id: string; standard_type: string; standard_value: string; standard_units: string }[];
+  };
+  sade_feldman_signature_summary?: {
+    genes: number;
+    typed_status_counts: Record<string, number>;
+    coverage_report?: { after?: { not_assayed: number } };
+  };
+  wet_lab_protocol?: {
+    system: string;
+    minimum_donors: number;
+    timepoints: string[];
+    arms: { id: string; intervention: string }[];
+    readouts: string[];
+    decision_gates: { support: string; refute: string };
+  };
   real_world_hook: string;
   falsifiable_experiment: {
     system: string;
@@ -429,6 +459,11 @@ type ClaudeScienceAcceptanceDemo = {
     };
     receipt_id: string;
     proposal_id: string;
+    coverage_report?: {
+      before: { not_assayed: number; genes: number };
+      after: { not_assayed: number; genes: number };
+      substrates?: Record<string, any>;
+    };
     ceiling: string;
   };
   verdicts: {
@@ -487,6 +522,7 @@ type Data = {
   flagship_module?: FlagshipModulePacket | null;
   overclaim_counter?: OverclaimCounterPacket | null;
   claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
+  pggt1b_defended_evidence?: DefendedEvidencePacket | null;
   ccdc22_defended_evidence?: DefendedEvidencePacket | null;
   defended_candidate_decisions?: DefendedCandidateDecisions | null;
   defended_discovery_endgame_result?: EndgameResult | null;
@@ -867,10 +903,11 @@ export default function Page() {
 }
 
 const DEMO_PATH: { label: string; tab?: string }[] = [
-  { label: "Overview: the A1BG refusal and the overclaiming number." },
+  { label: "Overview: acceptance layer, real Claude Science artifact, typed causal verdicts." },
+  { label: "Overview: run your own signature, DE table, ranked markers, or gene list." },
+  { label: "Agent: PGGT1B dossier, novelty downgrade, mechanism, ChEMBL hook, and wet-lab protocol.", tab: "agent" },
   { label: "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.", tab: "findings" },
-  { label: "Frontier: the receipt boundary and the MCP bridge, a proposal, never accepted state.", tab: "frontier" },
-  { label: "Agent: the campaign leaderboard, PGGT1B, the disease-genetics overlay, and the wet-lab packet.", tab: "agent" },
+  { label: "Frontier: receipt boundary and MCP bridge, a proposal, never accepted state.", tab: "frontier" },
 ];
 
 function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => void; onGene: (g: string) => void }) {
@@ -884,14 +921,16 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
   return (
     <div style={{ display: "grid", gap: 26 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
-        <div className="t-label" style={{ marginBottom: 8 }}>Computationally reproduced regulatory frontier · CD4⁺ T cells</div>
-        <h1 className="t-display" style={{ maxWidth: "18ch" }}>What actually regulates a human T cell.</h1>
+        <div className="t-label" style={{ marginBottom: 8 }}>Acceptance layer for AI-generated biology · CD4⁺ T cells</div>
+        <h1 className="t-display" style={{ maxWidth: "20ch" }}>Reproducible is not accepted state.</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
-          A linked, human-signed graph of gene regulation. Every node and edge is re-derived from the released
-          CRISPRi Perturb-seq data, never from a model. AI can assert a claim about any gene in seconds. Here
-          you see only what the data holds.
+          Prospect takes claims from AI science tools, replays them against frozen released biology, and returns typed
+          driver, passenger, contradicted, or not_assayed verdicts. Every submission stays `accepted=false` until
+          a frozen replay and a human key accept state.
         </p>
       </header>
+
+      <WinningArcPanel d={d} setTab={setTab} />
 
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
@@ -1012,15 +1051,15 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
           paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
           <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
           <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[1].label} onClick={() => setTab("findings")}>
+            title={DEMO_PATH[3].label} onClick={() => setTab("findings")}>
             Findings
           </button>
           <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[2].label} onClick={() => setTab("frontier")}>
+            title={DEMO_PATH[4].label} onClick={() => setTab("frontier")}>
             Frontier
           </button>
           <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[3].label} onClick={() => setTab("agent")}>
+            title={DEMO_PATH[2].label} onClick={() => setTab("agent")}>
             Agent
           </button>
         </div>
@@ -1095,6 +1134,98 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
         </section>
       )}
     </div>
+  );
+}
+
+function WinningArcPanel({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
+  const demo = d.claude_science_acceptance_demo;
+  const pggt = d.pggt1b_defended_evidence;
+  const overclaim = d.phantom?.checkable ? Math.round((d.phantom.refuted / d.phantom.checkable) * 100) : 48;
+  const effector = d.phantom?.effector_overclaim_rate ? Math.round(d.phantom.effector_overclaim_rate * 100) : 64;
+  const counts = demo?.prospect.typed_status_counts;
+  const pggtCounts = pggt?.sade_feldman_signature_summary?.typed_status_counts;
+  const steps = [
+    {
+      label: "Overclaim floor",
+      value: `${overclaim}-${effector}%`,
+      body: "AI biology claims fail often enough that a replayable acceptance layer is infrastructure, not decoration.",
+      action: () => setTab("overview"),
+    },
+    {
+      label: "Real artifact",
+      value: counts ? `${counts.genes} genes` : "52 genes",
+      body: "A real Claude Science signature enters Prospect and is split into drivers, passengers, contradicted driver claims, and not_assayed genes.",
+      action: () => setTab("overview"),
+    },
+    {
+      label: "Typed verdicts",
+      value: counts ? `${counts.evidence_attached}/${counts.associative_only}/${counts.contradicted}/${counts.not_assayed}` : "12/22/3/15",
+      body: "The compact count order is evidence_attached, associative_only, contradicted, not_assayed. No model moves accepted state.",
+      action: () => setTab("frontier"),
+    },
+    {
+      label: "PGGT1B payload",
+      value: pggt?.gene || "PGGT1B",
+      body: pggt?.novelty_assessment?.downgraded_novelty
+        ? "Prior art already links PGGT1B to T-cell biology, so the kept claim is a narrower hypothesis worth testing."
+        : "The lead remains a proposal worth testing, not settled biology.",
+      action: () => setTab("agent"),
+    },
+    {
+      label: "Run your own",
+      value: "paste or MCP",
+      body: "External teams can submit a gene list, signature JSON, ranked markers, or a DE table and get a receipt plus shareable state page.",
+      action: () => setTab("overview"),
+    },
+  ];
+  return (
+    <section style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "end", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Five-minute judge arc</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>Acceptance layer first, PGGT1B as the payload.</h2>
+        </div>
+        {pggtCounts && (
+          <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+            Sade-Feldman: {pggtCounts.evidence_attached} drivers, {pggtCounts.associative_only} passengers
+          </span>
+        )}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10 }}>
+        {steps.map((step) => (
+          <button
+            key={step.label}
+            type="button"
+            onClick={step.action}
+            style={{
+              textAlign: "left",
+              border: "1px solid var(--rule)",
+              borderRadius: "var(--radius-md)",
+              background: "var(--paper-raised)",
+              padding: "12px 13px",
+              display: "grid",
+              gap: 7,
+              cursor: "pointer",
+              minHeight: 156,
+            }}
+          >
+            <span className="t-label">{step.label}</span>
+            <span className="stat-figure" style={{ fontSize: "1.35rem", lineHeight: 1.05, color: "var(--ink)" }}>{step.value}</span>
+            <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{step.body}</span>
+          </button>
+        ))}
+      </div>
+      {pggt?.mechanism_dossier && (
+        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 10, display: "grid", gap: 6 }}>
+          <div className="t-label">PGGT1B caveat and mechanism</div>
+          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)", maxWidth: "82ch" }}>
+            Data: {pggt.mechanism_dossier.data_shows[0]}. Inference: {pggt.mechanism_dossier.inference[0]}
+            {" "}ChEMBL target {pggt.druggability?.target_chembl_id}; wet-lab test in {pggt.wet_lab_protocol?.system}
+            {" "}with {pggt.wet_lab_protocol?.minimum_donors} or more donors.
+          </p>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -1247,6 +1378,12 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
           <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
             next={demo.prospect.next}. {demo.prospect.ceiling}
           </p>
+          {demo.prospect.coverage_report && (
+            <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
+              ORCS primary T-cell context shrinks uncovered genes from {demo.prospect.coverage_report.before.not_assayed}
+              {" "}to {demo.prospect.coverage_report.after.not_assayed}, while staying proposal-only.
+            </p>
+          )}
         </div>
       </div>
 

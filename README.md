@@ -1,16 +1,16 @@
 # Prospect
 
-A computationally reproduced regulatory frontier of human CD4+ T-cell biology.
+The acceptance layer for AI-generated biology.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 One-page judge handout: [docs/JUDGE_HANDOUT.md](docs/JUDGE_HANDOUT.md). Demo script: [docs/DEMO.md](docs/DEMO.md).
 
-An AI can assert a claim about any gene in a second. Confirming it against the data takes
-longer than most people spend, so overstated biology walks into slides, grants, and papers.
-Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is
-re-derived from released CRISPRi Perturb-seq data and signed by a human. Nothing a model says
-enters the graph on the model's word. You see what the data holds.
+An AI science tool can produce a reproducible signature, gene list, or differential-expression
+table in a second. Reproducible is not accepted state. Prospect turns that activity into a receipt,
+replays the claim against frozen released biology, returns typed driver, passenger, contradicted,
+or not_assayed verdicts, and keeps `accepted=false` until a human key accepts state. The signed
+CD4+ T-cell frontier is the payload that makes the boundary concrete.
 
 The dataset is the Marson lab's genome-scale CRISPRi Perturb-seq screen in primary human CD4+ T
 cells: 11,526 genes classified, 37,106 gene-to-gene regulatory edges sliced from the released

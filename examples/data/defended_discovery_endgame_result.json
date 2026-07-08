@@ -1434,7 +1434,7 @@
     {
       "path": "examples/data/pggt1b_endgame_decision.json",
       "role": "rank-1 fixed-bar decision",
-      "sha256": "7b0c480af48e529379610a8c4da328ca0df8690d209311a60f41b3a637780ecf"
+      "sha256": "5df19df9a085e96e95ef589432a34f69164247dba2fce88f9d2e2ded291e274f"
     }
   ],
   "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
@@ -1502,7 +1502,7 @@
     "strongest_condition": "Stim8hr",
     "typed_status": "evidence_attached"
   },
-  "ledger_id": "endgame_result_4bacafde67629387",
+  "ledger_id": "endgame_result_9388f8ecd81cca1c",
   "next_step": "keep PGGT1B proposal-only until human review, human-key acceptance, and later wet-lab evidence",
   "non_blocking_not_assayed": [
     {

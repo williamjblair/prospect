@@ -3,9 +3,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Prospect, a computationally reproduced regulatory frontier of T-cell biology",
+  title: "Prospect, the acceptance layer for AI-generated biology",
   description:
-    "A linked, human-signed graph of what regulates human CD4+ T cells, re-derivable from released ground truth. No model in the trust path.",
+    "Prospect turns AI-generated biology claims into receipts, frozen replays, typed verdicts, and human-signed state. No model in the trust path.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

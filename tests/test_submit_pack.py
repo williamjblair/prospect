@@ -28,6 +28,9 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python examples/claude_science_connector_client.py --json",
         "python examples/prospect_connector_client.py --case openresearch --json",
         "python examples/openresearch_receipt_client.py --json",
+        "./prospect substrate-coverage",
+        "./prospect pggt1b-defended-evidence",
+        "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
         "./prospect writeback --check",
     ]:
         assert command in packet["verification_commands"]
@@ -40,6 +43,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/PROTOCOL.md",
         "docs/RECEIPT_BRIDGE.md",
         "docs/RECEIPT_SCHEMA.md",
+        "docs/SUBSTRATE_COVERAGE.md",
+        "docs/PGGT1B_DEFENDED_EVIDENCE.md",
         "docs/LAB_WRITEBACK_RECEIPT.md",
         "docs/JUDGE_HANDOUT.md",
     ]:
@@ -55,7 +60,9 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/receipt_bridge/receipt_manifest.json",
         "/data/receipt_bridge/receipt_bundle.json",
         "/data/claude_science_acceptance_demo.json",
+        "/data/substrate_coverage_report.json",
         "/data/defended_discovery_endgame_preregistration.json",
+        "/data/pggt1b_defended_evidence.json",
         "/data/pggt1b_endgame_decision.json",
         "/data/defended_discovery_endgame_result.json",
         "/data/pggt1b_deep_dive.json",

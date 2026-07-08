@@ -20,6 +20,8 @@ SOURCE_DOCS = [
     "docs/PROTOCOL.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RECEIPT_SCHEMA.md",
+    "docs/SUBSTRATE_COVERAGE.md",
+    "docs/PGGT1B_DEFENDED_EVIDENCE.md",
     "docs/LAB_WRITEBACK_RECEIPT.md",
     "docs/JUDGE_HANDOUT.md",
 ]
@@ -33,6 +35,9 @@ VERIFICATION_COMMANDS = [
     "python examples/claude_science_connector_client.py --json",
     "python examples/prospect_connector_client.py --case openresearch --json",
     "python examples/openresearch_receipt_client.py --json",
+    "./prospect substrate-coverage",
+    "./prospect pggt1b-defended-evidence",
+    "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
     "./prospect writeback --check",
 ]
 
@@ -43,7 +48,9 @@ PUBLIC_ARTIFACTS = [
     "/data/receipt_bridge/receipt_manifest.json",
     "/data/receipt_bridge/receipt_bundle.json",
     "/data/claude_science_acceptance_demo.json",
+    "/data/substrate_coverage_report.json",
     "/data/defended_discovery_endgame_preregistration.json",
+    "/data/pggt1b_defended_evidence.json",
     "/data/pggt1b_endgame_decision.json",
     "/data/defended_discovery_endgame_result.json",
     "/data/pggt1b_deep_dive.json",
@@ -71,9 +78,9 @@ def build_packet() -> dict[str, object]:
         "source_docs": SOURCE_DOCS,
         "verification_commands": VERIFICATION_COMMANDS,
         "public_artifacts": PUBLIC_ARTIFACTS,
-        "demo_opening": "Start on the real Claude Science export entering Prospect, then the A1BG refusal.",
+        "demo_opening": "Start on the real Claude Science export entering Prospect, then the PGGT1B caveated hypothesis.",
         "demo_close": (
-            "Receipt bridge, defended-discovery fixed-bar result, PGGT1B evidence_attached packet, signed state."
+            "Run your own claim, receipt bridge, PGGT1B protocol, and the human-only acceptance step."
         ),
         "limitations": (
             "Prospect proves computation over released data, not wet-lab or clinical truth. "

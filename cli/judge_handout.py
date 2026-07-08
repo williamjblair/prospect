@@ -40,6 +40,8 @@ def build_handout() -> dict[str, Any]:
     disease = _json(DATA / "disease_genetics_overlay.json")
     lab = _json(DATA / "lab_packet.json")
     claude_science = _json(DATA / "claude_science_acceptance_demo.json")
+    substrate = _json(DATA / "substrate_coverage_report.json")
+    pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
     endgame = _json(DATA / "defended_discovery_endgame_result.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
@@ -68,6 +70,9 @@ def build_handout() -> dict[str, Any]:
             "claude_science_passengers": claude_science["prospect"]["typed_status_counts"]["passengers"],
             "claude_science_contradicted": claude_science["prospect"]["typed_status_counts"]["contradicted"],
             "claude_science_not_assayed": claude_science["prospect"]["typed_status_counts"]["not_assayed"],
+            "substrate_after_not_assayed": substrate["coverage"]["sade_feldman_signature"]["after"]["not_assayed"],
+            "pggt1b_novelty_downgraded": pggt1b["novelty_assessment"]["downgraded_novelty"],
+            "pggt1b_wet_lab_minimum_donors": pggt1b["wet_lab_protocol"]["minimum_donors"],
             "endgame_candidates": endgame["candidate_count"],
             "endgame_cleared": endgame["cleared_count"],
             "endgame_lead": (endgame.get("lead_candidate") or {}).get("gene", "none"),
@@ -84,14 +89,14 @@ def build_handout() -> dict[str, Any]:
             "model_accepted_state_mutations": 0,
         },
         "five_minute_path": [
-            "Overview: the real Claude Science export enters through Prospect and returns typed causal verdicts.",
-            "Overview: paste any signature, DE table, ranked marker list, or gene list into the Prospect submitter and share the state page.",
-            "Overview: the defended-discovery fixed-bar result, PGGT1B clears as a proposal and remains accepted=false.",
-            "Overview: the A1BG refusal and the overclaiming number.",
+            "Overview: acceptance layer first, the real Claude Science export enters Prospect and receives typed causal verdicts.",
+            "Overview: substrate coverage, frozen ORCS primary T-cell context shrinks uncovered genes while staying proposal-only.",
+            "Overview: PGGT1B is the caveated hypothesis worth testing, with prior-art novelty downgraded.",
+            "Overview: paste any signature, DE table, ranked marker list, or gene list into the submitter and share the state page.",
+            "Overview: the overclaiming counter, 48% overall and 64% on canonical effectors.",
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
-            "Findings: the scannable finding index.",
             "Agent: the campaign leaderboard, every row a proposal, none accepted state.",
-            "Agent: the PGGT1B evidence packet and the disease-genetics overlay.",
+            "Agent: the PGGT1B evidence packet, ChEMBL hook, disease context, and wet-lab protocol.",
             "Agent: the wet-lab assay packet, proposal-only, ready for a lab.",
             "Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.",
         ],
@@ -103,7 +108,9 @@ def build_handout() -> dict[str, Any]:
             "./prospect defended-discovery-endgame-preregister",
             "./prospect pggt1b-endgame-decision",
             "./prospect defended-discovery-endgame-result",
-            "./prospect serve-acceptance --port 8130",
+            "./prospect substrate-coverage",
+            "./prospect pggt1b-defended-evidence",
+            "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
             "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
             "python examples/claude_science_connector_client.py --json",
@@ -146,6 +153,11 @@ def _markdown(handout: dict[str, Any]) -> str:
             f"{counts['claude_science_drivers']} drivers, {counts['claude_science_passengers']} passengers, "
             f"{counts['claude_science_contradicted']} contradicted driver claims, "
             f"{counts['claude_science_not_assayed']} not assayed"
+        ),
+        f"- Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
+        (
+            f"- PGGT1B novelty downgraded against prior art: {str(counts['pggt1b_novelty_downgraded']).lower()}, "
+            f"wet-lab protocol minimum donors {counts['pggt1b_wet_lab_minimum_donors']}"
         ),
         (
             f"- Defended-discovery fixed bar: {counts['endgame_candidates']} locked candidates, "
