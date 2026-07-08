@@ -70,9 +70,9 @@ state.
 Show: Agent tab, campaign pressure summary.
 
 Say: Claude proposed fifteen transcription factors, then pressure-tested the campaign rows. Claude
-pressure became review work: eight probed rows, four more-aggressive calls converted to assay gates,
-and zero accepted-state mutations. Claude proposes, frozen code decides, and a human key accepts
-state.
+pressure became review work: twenty probed rows, eleven more-aggressive calls converted to assay
+gates, and five of eleven gate probes returned as proposal-only review evidence. Zero accepted-state
+mutations. Claude proposes, frozen code decides, and a human key accepts state.
 
 ### 1:50, Close
 

@@ -23,7 +23,10 @@ def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
     assert handout["trust_boundary"]["model_in_trust_path"] == "no"
     assert handout["trust_boundary"]["accepted_state"] == "human_signed_replayable_root"
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
-    assert handout["counts"]["claude_probe_rows"] == 8
+    assert handout["counts"]["claude_probe_rows"] == 20
+    assert handout["counts"]["gate_probe_returned"] == 5
+    assert handout["counts"]["gate_probe_requested"] == 11
+    assert handout["counts"]["gate_probe_coverage_status"] == "partial"
     assert handout["counts"]["assay_operations_candidates"] == 5
     assert handout["counts"]["pilot_design_culture_arms"] == 90
     assert handout["counts"]["substrate_replay_rows"] == 377

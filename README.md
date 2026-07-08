@@ -110,8 +110,8 @@ have to pass before a conservative reviewer spends primary assay capacity.
 became assay gates, what needed controls, and what stayed out of accepted state.
 
 `prospect campaign-probe-audit` replays a campaign probe artifact through frozen checks before it
-can be promoted into the public chain. The committed eight-row probe has zero audit issues; larger
-temporary probes must pass the same rationale and coverage audit first.
+can be promoted into the public chain. The committed 20-row probe has zero audit issues; every
+larger or follow-up probe must pass the same rationale and coverage audit first.
 
 `prospect transfer-replay` emits a compact replay packet for the signed cross-cell-type finding:
 the same major-regulator claim through the Marson CD4+ T-cell checker and the Replogle K562/RPE1

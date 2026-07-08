@@ -31,10 +31,10 @@ non-immune cell too (MED19 moves 3,716 genes in K562); the immune program stays 
 cells, Replogle K562, and Replogle RPE1, with no accepted-state mutation.
 
 **1:30 · The loop.** Agent tab, campaign pressure summary. Claude proposed fifteen transcription
-factors, then pressure-tested the campaign rows. The eight probed rows became review work: three aligned
-with deterministic review, four more-aggressive recommendations became assay gates, one was more
-cautious, and zero accepted-state mutations occurred. Claude proposes; frozen code decides; a human
-key accepts state.
+factors, then pressure-tested the campaign rows. The twenty probed rows became review work: six
+aligned with deterministic review, eleven more-aggressive recommendations became assay gates, three
+were more cautious, and five of eleven gate probes returned as proposal-only review evidence. Zero
+accepted-state mutations occurred. Claude proposes; frozen code decides; a human key accepts state.
 
 **1:50 · Close.** Frontier tab, executable bridge path. This is not a trace viewer. `./prospect mcp`
 lets another workbench discover the receipt schema, validate a receipt, and submit it only as a

@@ -189,28 +189,33 @@ Goal: make the "Built with Claude" story deeper than one agent run while preserv
 Status: shipped as `./prospect campaign-pressure`,
 `examples/data/campaign_pressure_summary.json`, [CAMPAIGN_PRESSURE_SUMMARY.md](CAMPAIGN_PRESSURE_SUMMARY.md),
 `/data/campaign_pressure_summary.json`, the judge packet, final-check, submit-smoke, and an Agent tab
-card. It accounts for 20 campaign rows, 20 deterministic review rows, 8 Claude probe rows, 4
-more-aggressive rows converted to assay gates, gate-probe recommendations, and 0 accepted-state
-mutations. The campaign probe now records requested versus returned coverage, so a larger model pass
-cannot be mistaken for complete coverage if Claude returns fewer decisions than requested. The probe
-runner also supports bounded chunked live passes into temporary files, which is the right path for
-all-20 expansion experiments. `./prospect campaign-probe-audit` is now the promotion gate for probe
-artifacts: it replays coverage, deterministic decision parity, closed recommendation enums, and
-rationale claims against frozen facts before a probe enters the public chain.
+card. It now accounts for 20 campaign rows, 20 deterministic review rows, 20 Claude probe rows, 6
+aligned recommendations, 11 more-aggressive recommendations converted to assay gates, 3
+more-cautious recommendations, 5 returned gate-probe decisions, 6 explicitly missing gate-probe
+decisions, and 0 accepted-state mutations. The promoted all-20 probe passed
+`./prospect campaign-probe-audit --strict` with complete coverage and zero rationale issues. The
+gate probe is intentionally visible as partial coverage: 5 of 11 disagreement gates returned
+closed recommendations, and the missing genes remain named in the artifact. That is a strength, not
+a gap to hide.
+
+`./prospect campaign-probe-audit` is the promotion gate for probe artifacts: it replays coverage,
+deterministic decision parity, closed recommendation enums, and rationale claims against frozen
+facts before a probe enters the public chain. The campaign probe and gate probe both record requested
+versus returned coverage, so a model return cannot be mistaken for complete coverage if Claude
+returns fewer decisions than requested.
 
 Recommended shape:
 
-- Extend the existing campaign probe beyond the top eight rows, or run a second pass focused on all
-  disagreement gates.
-- Prefer a controlled pass over all 20 campaign candidates only if it returns closed recommendations
-  and bounded evidence.
-- If a larger pass returns fewer decisions than requested, keep it as a partial pressure artifact or
-  rerun it. Do not let it replace the committed eight-row chain unless the coverage and downstream
-  triage artifacts are regenerated together.
-- If a larger pass returns complete coverage but any rationale contradicts frozen lookup facts, keep
+- Treat the all-20 campaign probe as the current promoted baseline.
+- A remaining optional improvement is a second gate-focused pass over the 6 missing gate genes:
+  `CCDC136`, `MITD1`, `GZMB`, `FANCL`, `BCKDHA`, and `ZC3H12A`.
+- If that pass returns fewer decisions than requested, keep it as a partial pressure artifact or
+  rerun it. Do not launder missing coverage into a complete gate probe.
+- If a follow-up pass returns complete coverage but any rationale contradicts frozen lookup facts, keep
   it out of the public chain or turn the contradiction into explicit review work before promotion.
 - Run `./prospect campaign-probe-audit --input <probe.json> --out-json /tmp/audit.json --out-doc /tmp/audit.md --strict`
-  before considering any larger probe for promotion.
+  before considering any campaign probe for promotion. For gate probes, inspect coverage and closed
+  recommendation enums before promotion.
 - Keep outputs proposal-only and deterministic where possible.
 - Preserve existing enums such as `gate_sufficient`, `add_control`, and `lower_priority`.
 - Add a summary layer that tells judges what Claude changed, what Prospect refused to change, and

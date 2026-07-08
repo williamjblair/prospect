@@ -32,11 +32,11 @@ cd web && npm run build
 - Receipts: 6
 - Campaign candidates: 20
 - Campaign review rows: 20
-- Campaign probe rows: 8
+- Campaign probe rows: 20
 - Campaign probe audit issues: 0
-- Campaign triage rows: 4
-- Campaign gate probe rows: 4
-- Campaign pressure rows: 8
+- Campaign triage rows: 11
+- Campaign gate probe rows: 5
+- Campaign pressure rows: 20
 - Transfer replay rows: 377
 - Substrate replay rows: 377
 - Validation candidates: 5

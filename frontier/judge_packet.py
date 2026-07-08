@@ -177,6 +177,7 @@ def build_packet() -> dict[str, Any]:
                 "status": campaign_gate_probe.get("status"),
                 "trust_boundary": campaign_gate_probe.get("trust_boundary"),
                 "candidate_count": len(campaign_gate_probe.get("rows", [])),
+                "coverage": campaign_gate_probe.get("coverage", {}),
                 "summary": campaign_gate_probe.get("summary", {}),
             },
             "campaign_pressure_summary": {
@@ -186,6 +187,7 @@ def build_packet() -> dict[str, Any]:
                 "claude_probe_rows": campaign_pressure.get("counts", {}).get("claude_probe_rows", 0),
                 "triage_rows": campaign_pressure.get("counts", {}).get("triage_rows", 0),
                 "gate_recommendations": campaign_pressure.get("gate_recommendations", {}),
+                "gate_probe_coverage": campaign_pressure.get("gate_probe_coverage", {}),
             },
             "transfer_replay": {
                 "status": transfer_replay.get("status"),

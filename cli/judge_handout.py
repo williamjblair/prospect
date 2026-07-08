@@ -42,6 +42,9 @@ def build_handout() -> dict[str, Any]:
             "findings": judge["artifact_counts"]["findings"],
             "receipts": judge["artifact_counts"]["receipts"],
             "claude_probe_rows": campaign["counts"]["claude_probe_rows"],
+            "gate_probe_returned": campaign["gate_probe_coverage"]["returned_decisions"],
+            "gate_probe_requested": campaign["gate_probe_coverage"]["requested_limit"],
+            "gate_probe_coverage_status": campaign["gate_probe_coverage"]["coverage_status"],
             "assay_operations_candidates": len(assay["candidates"]),
             "pilot_design_culture_arms": pilot["sample_plan"]["culture_arms"],
             "substrate_replay_rows": substrate["counts"]["t_cell_regulators_compared"],
@@ -105,6 +108,10 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['public_artifacts']} public data artifacts",
         f"- {counts['substrate_replay_rows']} replayed T-cell regulators across three frozen substrates",
         f"- {counts['claude_probe_rows']} Claude probe rows in the pressure loop",
+        (
+            f"- {counts['gate_probe_returned']} of {counts['gate_probe_requested']} gate-probe decisions returned, "
+            f"coverage `{counts['gate_probe_coverage_status']}`"
+        ),
         f"- {counts['assay_operations_candidates']} proposal-only assay operations rows",
         f"- {counts['pilot_design_culture_arms']} proposal-only pilot culture arms",
         "",

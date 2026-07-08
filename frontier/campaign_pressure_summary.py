@@ -74,6 +74,7 @@ def build_summary() -> dict[str, Any]:
     alignment_counts = Counter(row["alignment"] for row in probe_rows)
     gate_counts = Counter(row["gate_recommendation"] for row in gate_rows)
     pressure_rows = _pressure_accounting(probe_rows, triage_rows, gate_rows)
+    gate_coverage = gate_probe.get("coverage", {})
 
     return {
         "title": "Campaign pressure summary",
@@ -103,11 +104,13 @@ def build_summary() -> dict[str, Any]:
             "gate_probe_rows": len(gate_rows),
         },
         "gate_recommendations": {key: gate_counts.get(key, 0) for key in CLOSED_RECOMMENDATIONS},
+        "gate_probe_coverage": gate_coverage,
         "closed_recommendations": CLOSED_RECOMMENDATIONS,
         "pressure_accounting": pressure_rows,
         "boundary_statement": (
             "Claude pressure became review work: aligned rows stayed aligned, more-aggressive rows "
-            "became assay gates, gate probes added controls or lowered priority, and no accepted state changed."
+            "became assay gates, gate probes added controls or lowered priority, gate coverage stayed explicit, "
+            "and no accepted state changed."
         ),
     }
 
@@ -136,6 +139,13 @@ def _markdown(summary: dict[str, Any]) -> str:
         f"- More-aggressive rows converted to assay gates: {counts['more_aggressive_rows']}",
         f"- More-cautious rows: {counts['more_cautious_rows']}",
         f"- Gate probe rows: {counts['gate_probe_rows']}",
+        "",
+        "## Gate coverage",
+        "",
+        f"- Requested gates: {summary['gate_probe_coverage'].get('requested_limit', 0)}",
+        f"- Returned gate decisions: {summary['gate_probe_coverage'].get('returned_decisions', 0)}",
+        f"- Coverage status: `{summary['gate_probe_coverage'].get('coverage_status', 'unknown')}`",
+        f"- Missing decisions: {summary['gate_probe_coverage'].get('missing_decisions', 0)}",
         "",
         "## Gate recommendations",
         "",

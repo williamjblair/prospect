@@ -36,14 +36,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5701047,
-      "sha256": "3c35db289cdadf5193f7588c2e6590910fc7ba06b086c30f877046ae4b6ef96f"
+      "bytes": 5807378,
+      "sha256": "2ae388f29681682d6fc73ba08dc083b10edebb085333e82a2b957becaa15d80d"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 17625,
-      "sha256": "36530260119607a04c2d9384d3959de6105fabc36856c4de4879a16aaa71a7c0"
+      "bytes": 18639,
+      "sha256": "aaeea2d1429f03b5b77bc243c70e5e14c817558a6595c0a22fa81115cfbd7f3b"
     },
     {
       "path": "/data/finding_index.json",
@@ -96,32 +96,32 @@
     {
       "path": "/data/campaign_agent_probe.json",
       "source_path": "web/public/data/campaign_agent_probe.json",
-      "bytes": 19306,
-      "sha256": "bbcb8837d47fc921e7c824dab2fc7ea9e0b4b8faa47ccdf445e0024f4cb6cc64"
+      "bytes": 54286,
+      "sha256": "0df468c2ab5599dd5499bb8ae94703877efb8268067761e4a3d423c143c97886"
     },
     {
       "path": "/data/campaign_probe_audit.json",
       "source_path": "web/public/data/campaign_probe_audit.json",
-      "bytes": 1145,
-      "sha256": "bee3662b2ba80832e4dac7199820477b8494af2e4f4818a8b61471be5d166fac"
+      "bytes": 1366,
+      "sha256": "4d51685b7fe9d1588bf1c137cc6a8f3431d81707004c02d55e29bc74d850a10a"
     },
     {
       "path": "/data/campaign_triage.json",
       "source_path": "web/public/data/campaign_triage.json",
-      "bytes": 4268,
-      "sha256": "677446a7344ee41e96638569bfc0cccceeafcee1e451acd9e78df55efa462121"
+      "bytes": 11777,
+      "sha256": "39e4fce014fb0a84ce857ea3d3b2c878cee2bc451b9e41111513aec71885fd43"
     },
     {
       "path": "/data/campaign_gate_probe.json",
       "source_path": "web/public/data/campaign_gate_probe.json",
-      "bytes": 15377,
-      "sha256": "d87a941d138db73e7bbb833567a8f041854848a8ebd512f455d44ec994f1c62b"
+      "bytes": 70293,
+      "sha256": "ea171fb7c809a67095f7ee55acc4a3e3720a5d5741aa8360bbfa35242281342d"
     },
     {
       "path": "/data/campaign_pressure_summary.json",
       "source_path": "web/public/data/campaign_pressure_summary.json",
-      "bytes": 5788,
-      "sha256": "70a1564915ec71d9b3646f23443fb66a3811b4dab8a89e523c0bea5c32fddac4"
+      "bytes": 13479,
+      "sha256": "727c1d97123c1483b49e9d0b4436e9810613a273d6d6ef40ab3b582078266d15"
     },
     {
       "path": "/data/transfer_replay_packet.json",

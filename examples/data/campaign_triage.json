@@ -4,12 +4,12 @@
   "trust_boundary": "proposal_only",
   "acceptance": false,
   "source": "examples/data/campaign_agent_probe.json",
-  "source_probe_id": "campaign_probe_0890c20aed2180b0",
+  "source_probe_id": "campaign_probe_0c252cc895887e61",
   "campaign_id": "campaign_07a2bdd5697274c9",
   "summary": {
-    "more_aggressive": 4,
-    "secondary_assay_queue": 1,
-    "capacity_assay_queue": 3
+    "more_aggressive": 11,
+    "secondary_assay_queue": 5,
+    "capacity_assay_queue": 6
   },
   "rows": [
     {
@@ -29,26 +29,7 @@
         "failed on-target knockdown in the stimulated condition",
         "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
       ],
-      "agent_rationale": "Strong Stim48hr footprint (1167 DE) with on-target KD, low Rest DE (58), and cell-type-specific (K562 inert)."
-    },
-    {
-      "rank": 3,
-      "gene": "MCAT",
-      "status": "evidence_attached",
-      "trust_boundary": "proposal_only",
-      "alignment": "more_aggressive",
-      "deterministic_decision": "hold_as_ranked_backup",
-      "agent_recommendation": "advance_if_capacity_allows",
-      "triage_decision": "capacity_assay_queue",
-      "stimulated_signal": "780 DE at Stim48hr",
-      "specificity": "Rest 113 DE, K562 20 DE, RPE1 not measured",
-      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
-      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps MCAT at hold as ranked backup until the assay gate passes",
-      "stop_rules": [
-        "failed on-target knockdown in the stimulated condition",
-        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
-      ],
-      "agent_rationale": "On-target 780-DE Stim48hr footprint but the Rest condition carries a 'putative off-target' KD flag, warranting capacity gating."
+      "agent_rationale": "On-target KD drives 1167 DE at Stim48hr against only 58 at Rest and 5 in K562, a clean cell-type-specific stimulated footprint."
     },
     {
       "rank": 4,
@@ -67,7 +48,7 @@
         "failed on-target knockdown in the stimulated condition",
         "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
       ],
-      "agent_rationale": "On-target 720-DE Stim8hr footprint and cell-type-specific, but elevated Rest DE (190) makes it a capacity-gated candidate."
+      "agent_rationale": "On-target KD with 720 Stim8hr DE and inert K562 (1 DE), but the lowest score and relatively high Rest activity (190 DE) make it a lower-priority advance."
     },
     {
       "rank": 5,
@@ -76,17 +57,172 @@
       "trust_boundary": "proposal_only",
       "alignment": "more_aggressive",
       "deterministic_decision": "hold_as_ranked_backup",
-      "agent_recommendation": "advance_if_capacity_allows",
-      "triage_decision": "capacity_assay_queue",
+      "agent_recommendation": "advance_to_assay_design",
+      "triage_decision": "secondary_assay_queue",
       "stimulated_signal": "619 DE at Stim48hr",
       "specificity": "Rest 116 DE, K562 13 DE, RPE1 not measured",
-      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
       "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CCDC22 at hold as ranked backup until the assay gate passes",
       "stop_rules": [
         "failed on-target knockdown in the stimulated condition",
         "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
       ],
-      "agent_rationale": "Clean on-target 619-DE Stim48hr footprint that is K562-inert but mid-tier in magnitude, fitting capacity-dependent advancement."
+      "agent_rationale": "Top-scoring candidate (1053, rank 5) with the largest stimulated footprint (619 DE at Stim48hr under on-target KD) that is cell-type-specific (inert in K562), making it the strongest proposal-only lead to advance."
+    },
+    {
+      "rank": 8,
+      "gene": "CYB5RL",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "triage_decision": "capacity_assay_queue",
+      "stimulated_signal": "389 DE at Stim48hr",
+      "specificity": "Rest 11 DE, K562 13 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CYB5RL at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "Cleanest stim-specific signal (389 DE at Stim48hr on-target KD versus only 11 at Rest, inert in K562) but lowest score/rank (928, rank 8), so advance only if capacity permits."
+    },
+    {
+      "rank": 11,
+      "gene": "SCO2",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "triage_decision": "capacity_assay_queue",
+      "stimulated_signal": "369 DE at Stim8hr",
+      "specificity": "Rest 53 DE, K562 0 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps SCO2 at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "K562-inert cell-type specificity is confirmed and strongest Stim8hr is on-target, but the Stim48hr putative-off-target flag and elevated Rest DE (53) warrant caution before assay design."
+    },
+    {
+      "rank": 12,
+      "gene": "CCDC136",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "advance_if_capacity_allows",
+      "agent_recommendation": "advance_to_assay_design",
+      "triage_decision": "secondary_assay_queue",
+      "stimulated_signal": "263 DE at Stim48hr",
+      "specificity": "Rest 17 DE, K562 0 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps CCDC136 at advance if capacity allows until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "On-target KD at the strongest condition (Stim48hr, 263 DE) with low Rest DE and confirmed K562-inert cell-type specificity leaves only the standard orthogonal-reproduction risk."
+    },
+    {
+      "rank": 13,
+      "gene": "MITD1",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "advance_if_capacity_allows",
+      "agent_recommendation": "advance_to_assay_design",
+      "triage_decision": "secondary_assay_queue",
+      "stimulated_signal": "250 DE at Stim48hr",
+      "specificity": "Rest 11 DE, K562 1 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps MITD1 at advance if capacity allows until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "Strongest-condition footprint (Stim48hr, 250 DE) is under confirmed on-target KD with low Rest (11 DE) and K562-inert cell-type-specific behavior."
+    },
+    {
+      "rank": 14,
+      "gene": "GZMB",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "triage_decision": "capacity_assay_queue",
+      "stimulated_signal": "496 DE at Stim8hr",
+      "specificity": "Rest 261 DE, K562 not measured, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps GZMB at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "A broad non-immune effect in a follow-up transfer assay would lower priority.",
+        "Rest effect grows on replicate",
+        "broad non-immune effect appears in a transfer assay"
+      ],
+      "agent_rationale": "On-target Stim8hr signal (496 DE) is strong but the high Rest DE (261) derives from a no-on-target-KD condition and cross-cell transfer is not tested."
+    },
+    {
+      "rank": 15,
+      "gene": "FANCL",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "triage_decision": "capacity_assay_queue",
+      "stimulated_signal": "329 DE at Stim48hr",
+      "specificity": "Rest 110 DE, K562 0 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps FANCL at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "On-target KD footprint reproduces across two stim conditions (329 and 181 DE) with K562-inert specificity, though Rest DE (110) sits under a non-KD condition."
+    },
+    {
+      "rank": 17,
+      "gene": "BCKDHA",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_to_assay_design",
+      "triage_decision": "secondary_assay_queue",
+      "stimulated_signal": "374 DE at Stim8hr",
+      "specificity": "Rest 291 DE, K562 1 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown plus matched Rest, Stim8hr, and Stim48hr targeted RNA-seq before assay-design promotion",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps BCKDHA at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "A larger Rest effect on replicate would make this look less activation-specific.",
+        "Rest effect grows on replicate"
+      ],
+      "agent_rationale": "On-target KD drives a 374-DE Stim8hr footprint that is inert in K562 (1 DE, cell-type-specific), and its 291-DE Rest signal has no on-target KD so the activation-specific case holds."
+    },
+    {
+      "rank": 18,
+      "gene": "ZC3H12A",
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "alignment": "more_aggressive",
+      "deterministic_decision": "hold_as_ranked_backup",
+      "agent_recommendation": "advance_if_capacity_allows",
+      "triage_decision": "capacity_assay_queue",
+      "stimulated_signal": "261 DE at Stim8hr",
+      "specificity": "Rest 181 DE, K562 5 DE, RPE1 not measured",
+      "assay_gate": "orthogonal knockdown and non-immune transfer check before spending primary assay capacity",
+      "reason_to_hold": "model disagreement is evidence for review priority, not acceptance; deterministic review keeps ZC3H12A at hold as ranked backup until the assay gate passes",
+      "stop_rules": [
+        "failed on-target knockdown in the stimulated condition",
+        "Loss of the stimulated DE footprint after orthogonal knockdown would lower priority."
+      ],
+      "agent_rationale": "On-target KD confirms only a modest stim window (261 vs 181 Rest DE) while the large 796-DE Stim48hr footprint lacks on-target KD, and its flagged risk is needing orthogonal reproduction."
     }
   ]
 }

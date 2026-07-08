@@ -21,8 +21,8 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5701047 | `3c35db289cdadf5193f7588c2e6590910fc7ba06b086c30f877046ae4b6ef96f` |
-| `/data/judge_packet.json` | 17625 | `36530260119607a04c2d9384d3959de6105fabc36856c4de4879a16aaa71a7c0` |
+| `/data/frontier.json` | 5807378 | `2ae388f29681682d6fc73ba08dc083b10edebb085333e82a2b957becaa15d80d` |
+| `/data/judge_packet.json` | 18639 | `aaeea2d1429f03b5b77bc243c70e5e14c817558a6595c0a22fa81115cfbd7f3b` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -31,11 +31,11 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/pggt1b_matrix_slice.json` | 2445 | `3fa2af8c47f4edaebbb21dea8c4fb3e1ecefdb8126f672f2412f1a5dcb84a281` |
 | `/data/agent_campaign.json` | 30164 | `9b1581e2d357f733ab1e6b9400922de292b2963a226b94330f09e156de9664e6` |
 | `/data/agent_campaign_review.json` | 14555 | `ac5cb2bb8522a1ae38049db139c537b6f3d732487546dd251df613c734253223` |
-| `/data/campaign_agent_probe.json` | 19306 | `bbcb8837d47fc921e7c824dab2fc7ea9e0b4b8faa47ccdf445e0024f4cb6cc64` |
-| `/data/campaign_probe_audit.json` | 1145 | `bee3662b2ba80832e4dac7199820477b8494af2e4f4818a8b61471be5d166fac` |
-| `/data/campaign_triage.json` | 4268 | `677446a7344ee41e96638569bfc0cccceeafcee1e451acd9e78df55efa462121` |
-| `/data/campaign_gate_probe.json` | 15377 | `d87a941d138db73e7bbb833567a8f041854848a8ebd512f455d44ec994f1c62b` |
-| `/data/campaign_pressure_summary.json` | 5788 | `70a1564915ec71d9b3646f23443fb66a3811b4dab8a89e523c0bea5c32fddac4` |
+| `/data/campaign_agent_probe.json` | 54286 | `0df468c2ab5599dd5499bb8ae94703877efb8268067761e4a3d423c143c97886` |
+| `/data/campaign_probe_audit.json` | 1366 | `4d51685b7fe9d1588bf1c137cc6a8f3431d81707004c02d55e29bc74d850a10a` |
+| `/data/campaign_triage.json` | 11777 | `39e4fce014fb0a84ce857ea3d3b2c878cee2bc451b9e41111513aec71885fd43` |
+| `/data/campaign_gate_probe.json` | 70293 | `ea171fb7c809a67095f7ee55acc4a3e3720a5d5741aa8360bbfa35242281342d` |
+| `/data/campaign_pressure_summary.json` | 13479 | `727c1d97123c1483b49e9d0b4436e9810613a273d6d6ef40ab3b582078266d15` |
 | `/data/transfer_replay_packet.json` | 1480 | `3bb41d0e0eb3bb4da6579efee02899244a4b0c52bfbb22eb34562d224c825651` |
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |

@@ -98,19 +98,19 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   without upgrading any row beyond `evidence_attached`.
 - **Campaign agent probes** (`loop/campaign_probe.py`, `./prospect campaign-probe`): Claude
   cross-examines the top campaign rows with frozen lookup tools, then Prospect compares the model's
-  recommendations to deterministic review lanes. Current run: 8 rows, 25 tool calls, 3 aligned
-  recommendations, 4 more-aggressive recommendations, and 1 more-cautious recommendation. Exported to
+  recommendations to deterministic review lanes. Current run: 20 rows, 80 tool calls, 6 aligned
+  recommendations, 11 more-aggressive recommendations, and 3 more-cautious recommendations. Exported to
   `examples/data/campaign_agent_probe.json` and [CAMPAIGN_AGENT_PROBE.md](CAMPAIGN_AGENT_PROBE.md).
   The artifact records exact requested, returned, and missing genes, remains proposal-only, and does
   not move accepted state. For larger experiments, run chunked probes to `/tmp` first:
   `./prospect campaign-probe --limit 20 --chunk-size 4 --out-json /tmp/probe.json --out-doc /tmp/probe.md`.
 - **Campaign probe audit** (`loop/campaign_probe_audit.py`, `./prospect campaign-probe-audit`):
   frozen audit over probe coverage and rationales before a Claude pass can be promoted. The committed
-  eight-row probe has zero issues, no accepted-state mutation, and is exported to
+  20-row probe has zero issues, no accepted-state mutation, and is exported to
   `examples/data/campaign_probe_audit.json` and [CAMPAIGN_PROBE_AUDIT.md](CAMPAIGN_PROBE_AUDIT.md).
 - **Campaign disagreement triage** (`frontier/campaign_triage.py`, `./prospect campaign-triage`):
-  deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: RCC1L,
-  MCAT, RWDD2B, and CCDC22 get secondary or capacity assay gates, exported to
+  deterministic lab-facing response to the more-aggressive Claude probe rows. Current run: 11 rows
+  get secondary or capacity assay gates, exported to
   `examples/data/campaign_triage.*` and [CAMPAIGN_TRIAGE.md](CAMPAIGN_TRIAGE.md). It converts model
   pressure into review work, not accepted state.
 - **Campaign gate probe** (`loop/campaign_gate_probe.py`, `./prospect campaign-gate-probe`):
@@ -273,11 +273,10 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Final submission gate**: shipped as `./prospect final-check`.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
-- **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
+- **Agent campaign next pass**: shipped for all 20 campaign rows as `./prospect campaign-probe`.
   The committed probe now has a frozen audit artifact at `./prospect campaign-probe-audit`.
-  Disagreement triage is now shipped as `./prospect campaign-triage`. Larger model passes are useful
-  only if their requested versus returned coverage is explicit, rationales survive frozen-fact review,
-  and downstream triage artifacts are regenerated together.
+  Disagreement triage is shipped as `./prospect campaign-triage`. The gate probe currently returned
+  5 of 11 gate decisions and records the 6 missing decisions; keep that partial coverage visible.
 - **A second frontier**: a different organism or disease dataset behind the same checker interface, to
   prove the substrate generalizes beyond T cells.
 - **PGGT1B matrix slice**: shipped. The deep dive now includes a bounded released-matrix slice around

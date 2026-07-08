@@ -124,8 +124,9 @@ def test_long_demo_doc_closes_on_current_artifact_surface():
         "reject",
         "campaign pressure summary",
         "Agent tab, campaign pressure summary",
-        "eight probed rows",
-        "four more-aggressive",
+        "twenty probed rows",
+        "eleven more-aggressive",
+        "five of eleven gate probes",
         "substrate replay packet",
         "pilot design",
     ]:

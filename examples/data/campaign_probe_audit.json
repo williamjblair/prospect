@@ -5,12 +5,12 @@
   "model_in_trust_path": "no",
   "accepted_state_mutations": 0,
   "source": "examples/data/campaign_agent_probe.json",
-  "source_probe_id": "campaign_probe_0890c20aed2180b0",
+  "source_probe_id": "campaign_probe_0c252cc895887e61",
   "campaign_id": "campaign_07a2bdd5697274c9",
-  "candidate_count": 8,
+  "candidate_count": 20,
   "coverage": {
-    "requested_limit": 8,
-    "returned_decisions": 8,
+    "requested_limit": 20,
+    "returned_decisions": 20,
     "coverage_status": "complete",
     "missing_decisions": 0,
     "requested_genes": [
@@ -21,7 +21,19 @@
       "CCDC22",
       "GAS2L1",
       "SNAP29",
-      "CYB5RL"
+      "CYB5RL",
+      "LETM2",
+      "DAPK2",
+      "SCO2",
+      "CCDC136",
+      "MITD1",
+      "GZMB",
+      "FANCL",
+      "TNNC1",
+      "BCKDHA",
+      "ZC3H12A",
+      "IRF4",
+      "RXRB"
     ],
     "returned_genes": [
       "PGGT1B",
@@ -31,7 +43,19 @@
       "CCDC22",
       "GAS2L1",
       "SNAP29",
-      "CYB5RL"
+      "CYB5RL",
+      "LETM2",
+      "DAPK2",
+      "SCO2",
+      "CCDC136",
+      "MITD1",
+      "GZMB",
+      "FANCL",
+      "TNNC1",
+      "BCKDHA",
+      "ZC3H12A",
+      "IRF4",
+      "RXRB"
     ],
     "missing_genes": []
   },

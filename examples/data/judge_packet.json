@@ -83,11 +83,11 @@
     "receipts": 6,
     "agent_campaign_candidates": 20,
     "campaign_review_rows": 20,
-    "campaign_probe_rows": 8,
+    "campaign_probe_rows": 20,
     "campaign_probe_audit_issues": 0,
-    "campaign_triage_rows": 4,
-    "campaign_gate_probe_rows": 4,
-    "campaign_pressure_rows": 8,
+    "campaign_triage_rows": 11,
+    "campaign_gate_probe_rows": 5,
+    "campaign_pressure_rows": 20,
     "transfer_replay_rows": 377,
     "substrate_replay_rows": 377,
     "validation_candidates": 5,
@@ -650,16 +650,16 @@
       "top_gene": "PGGT1B",
       "candidate_count": 20,
       "review_rows": 20,
-      "probe_rows": 8,
-      "triage_rows": 4
+      "probe_rows": 20,
+      "triage_rows": 11
     },
     "campaign_probe": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 8,
+      "candidate_count": 20,
       "coverage": {
-        "requested_limit": 8,
-        "returned_decisions": 8,
+        "requested_limit": 20,
+        "returned_decisions": 20,
         "coverage_status": "complete",
         "missing_decisions": 0,
         "requested_genes": [
@@ -670,7 +670,19 @@
           "CCDC22",
           "GAS2L1",
           "SNAP29",
-          "CYB5RL"
+          "CYB5RL",
+          "LETM2",
+          "DAPK2",
+          "SCO2",
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "TNNC1",
+          "BCKDHA",
+          "ZC3H12A",
+          "IRF4",
+          "RXRB"
         ],
         "returned_genes": [
           "PGGT1B",
@@ -680,14 +692,26 @@
           "CCDC22",
           "GAS2L1",
           "SNAP29",
-          "CYB5RL"
+          "CYB5RL",
+          "LETM2",
+          "DAPK2",
+          "SCO2",
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "TNNC1",
+          "BCKDHA",
+          "ZC3H12A",
+          "IRF4",
+          "RXRB"
         ],
         "missing_genes": []
       },
       "summary": {
-        "aligned": 3,
-        "more_aggressive": 4,
-        "more_cautious": 1
+        "aligned": 6,
+        "more_aggressive": 11,
+        "more_cautious": 3
       }
     },
     "campaign_probe_audit": {
@@ -700,20 +724,54 @@
     "campaign_triage": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 4,
+      "candidate_count": 11,
       "summary": {
-        "more_aggressive": 4,
-        "secondary_assay_queue": 1,
-        "capacity_assay_queue": 3
+        "more_aggressive": 11,
+        "secondary_assay_queue": 5,
+        "capacity_assay_queue": 6
       }
     },
     "campaign_gate_probe": {
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
-      "candidate_count": 4,
+      "candidate_count": 5,
+      "coverage": {
+        "requested_limit": 11,
+        "returned_decisions": 5,
+        "coverage_status": "partial",
+        "missing_decisions": 6,
+        "requested_genes": [
+          "RCC1L",
+          "RWDD2B",
+          "CCDC22",
+          "CYB5RL",
+          "SCO2",
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "BCKDHA",
+          "ZC3H12A"
+        ],
+        "returned_genes": [
+          "RCC1L",
+          "RWDD2B",
+          "CCDC22",
+          "CYB5RL",
+          "SCO2"
+        ],
+        "missing_genes": [
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "BCKDHA",
+          "ZC3H12A"
+        ]
+      },
       "summary": {
         "add_control": 1,
-        "gate_sufficient": 2,
+        "gate_sufficient": 3,
         "lower_priority": 1
       }
     },
@@ -721,12 +779,46 @@
       "status": "evidence_attached",
       "trust_boundary": "proposal_only",
       "accepted_state_mutations": 0,
-      "claude_probe_rows": 8,
-      "triage_rows": 4,
+      "claude_probe_rows": 20,
+      "triage_rows": 11,
       "gate_recommendations": {
         "add_control": 1,
-        "gate_sufficient": 2,
+        "gate_sufficient": 3,
         "lower_priority": 1
+      },
+      "gate_probe_coverage": {
+        "requested_limit": 11,
+        "returned_decisions": 5,
+        "coverage_status": "partial",
+        "missing_decisions": 6,
+        "requested_genes": [
+          "RCC1L",
+          "RWDD2B",
+          "CCDC22",
+          "CYB5RL",
+          "SCO2",
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "BCKDHA",
+          "ZC3H12A"
+        ],
+        "returned_genes": [
+          "RCC1L",
+          "RWDD2B",
+          "CCDC22",
+          "CYB5RL",
+          "SCO2"
+        ],
+        "missing_genes": [
+          "CCDC136",
+          "MITD1",
+          "GZMB",
+          "FANCL",
+          "BCKDHA",
+          "ZC3H12A"
+        ]
       }
     },
     "transfer_replay": {

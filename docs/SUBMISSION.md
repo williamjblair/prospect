@@ -129,13 +129,14 @@ the trust floor after the event window without private credentials for the stati
 - The campaign review appendix turns that leaderboard into an auditable assay queue: one top
   assay-design row, six clean-specificity rows, six late-activation follow-ups, five ranked backups,
   and two regulon anchors, each with stop rules.
-- The campaign agent probe ran 25 frozen-tool calls over the top eight rows. Claude aligned on
-  PGGT1B, GAS2L1, and CYB5RL, pushed more aggressively on RCC1L, MCAT, RWDD2B, and CCDC22,
-  and was more cautious on SNAP29. The comparison is visible, but state does not move.
-- The disagreement triage turns those four more-aggressive rows into secondary or capacity assay
+- The campaign agent probe ran 80 frozen-tool calls over all 20 campaign rows. Claude aligned on 6
+  rows, pushed more aggressively on 11 rows, and was more cautious on 3 rows. The comparison is
+  visible, but state does not move.
+- The disagreement triage turns those 11 more-aggressive rows into secondary or capacity assay
   queues with orthogonal knockdown and transfer gates.
 - The gate probe asks whether those gates are sufficient, need another control, or should be lower
-  priority. It is visible, proposal only, and does not move state.
+  priority. It returned 5 of 11 gate decisions, records the 6 missing decisions, stays proposal only,
+  and does not move state.
 - The campaign probe audit is a frozen check over the committed Claude probe. It reports complete
   coverage, zero rationale issues, and no accepted-state mutation.
 - The transfer replay packet compares 377 T-cell regulators against the Replogle K562/RPE1 frozen

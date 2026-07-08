@@ -22,17 +22,21 @@ def test_campaign_pressure_summary_accounts_for_model_pressure_without_acceptanc
     assert summary["model_in_trust_path"] == "no"
     assert summary["counts"]["campaign_candidates"] == 20
     assert summary["counts"]["deterministic_review_rows"] == 20
-    assert summary["counts"]["claude_probe_rows"] == 8
-    assert summary["counts"]["aligned_rows"] == 3
-    assert summary["counts"]["more_aggressive_rows"] == 4
-    assert summary["counts"]["more_cautious_rows"] == 1
-    assert summary["counts"]["triage_rows"] == 4
-    assert summary["counts"]["gate_probe_rows"] == 4
+    assert summary["counts"]["claude_probe_rows"] == 20
+    assert summary["counts"]["aligned_rows"] == 6
+    assert summary["counts"]["more_aggressive_rows"] == 11
+    assert summary["counts"]["more_cautious_rows"] == 3
+    assert summary["counts"]["triage_rows"] == 11
+    assert summary["counts"]["gate_probe_rows"] == 5
     assert summary["gate_recommendations"] == {
         "add_control": 1,
-        "gate_sufficient": 2,
+        "gate_sufficient": 3,
         "lower_priority": 1,
     }
+    assert summary["gate_probe_coverage"]["coverage_status"] == "partial"
+    assert summary["gate_probe_coverage"]["returned_decisions"] == 5
+    assert summary["gate_probe_coverage"]["requested_limit"] == 11
+    assert summary["gate_probe_coverage"]["missing_decisions"] == 6
     assert summary["closed_recommendations"] == ["add_control", "gate_sufficient", "lower_priority"]
     assert summary["pressure_accounting"][0]["gene"] == "PGGT1B"
     assert summary["pressure_accounting"][0]["pressure_result"] == "aligned_with_deterministic_review"
@@ -55,10 +59,12 @@ def test_campaign_pressure_summary_writes_json_and_markdown(tmp_path):
     data = json.loads(out_json.read_text())
     doc = out_doc.read_text()
     assert data["status"] == "evidence_attached"
-    assert data["counts"]["claude_probe_rows"] == 8
-    assert data["gate_recommendations"]["gate_sufficient"] == 2
+    assert data["counts"]["claude_probe_rows"] == 20
+    assert data["gate_recommendations"]["gate_sufficient"] == 3
+    assert data["gate_probe_coverage"]["coverage_status"] == "partial"
     assert "Campaign pressure summary" in doc
     assert "proposal only" in doc
+    assert "Coverage status: `partial`" in doc
     assert "accepted state" in doc
     assert "./prospect campaign-pressure" in doc
 

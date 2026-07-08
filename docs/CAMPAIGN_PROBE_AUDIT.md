@@ -4,7 +4,7 @@ Status: `computationally_reproduced`. Trust boundary: frozen audit over proposal
 
 No accepted state changes.
 
-Source probe: `campaign_probe_0890c20aed2180b0`.
+Source probe: `campaign_probe_0c252cc895887e61`.
 Passed: `yes`. Issues: 0.
 
 ## Checks

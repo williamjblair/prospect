@@ -18,7 +18,8 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 6 portable receipts
 - 23 public data artifacts
 - 377 replayed T-cell regulators across three frozen substrates
-- 8 Claude probe rows in the pressure loop
+- 20 Claude probe rows in the pressure loop
+- 5 of 11 gate-probe decisions returned, coverage `partial`
 - 5 proposal-only assay operations rows
 - 90 proposal-only pilot culture arms
 

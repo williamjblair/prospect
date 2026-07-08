@@ -81,9 +81,9 @@ Confirm:
 
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
 - `/data/judge_packet.json` lists `./prospect final-check`.
-- `/data/campaign_gate_probe.json` has four rows and stays proposal only.
+- `/data/campaign_gate_probe.json` has five rows, records partial 5-of-11 coverage, and stays proposal only.
 - `/data/campaign_probe_audit.json` reports zero issues for the committed probe artifact.
-- `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
+- `/data/campaign_pressure_summary.json` accounts for 20 Claude probe rows, explicit gate coverage, and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 - `/data/gladstone_pilot_design.json` reports 90 culture arms and stays proposal only.
