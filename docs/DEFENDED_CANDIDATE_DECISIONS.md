@@ -11,12 +11,13 @@ Completion status: `not_complete`.
 | rank | gene | decision | disposition | missing required rung |
 |---:|---|---|---|---|
 | 1 | PGGT1B | not cleared full bar | demote and advance | comparable activation-transcriptome or activation-marker primary T-cell screen |
+| 2 | RCC1L | not cleared full bar | demote and advance | independent primary T-cell support, real-world hook, and specific activation mechanism |
 
-PGGT1B is not contradicted by this ledger. It is below the full defended-discovery bar because the frozen comparators do not supply the required comparable replication rung.
+These candidates are not contradicted by this ledger. They are below the full defended-discovery bar because the frozen evidence does not supply every required rung.
 
 ## Next candidate
 
-Rank 2: RCC1L with required packet `rank_2_rcc1l_defended_evidence`.
+Rank 3: MCAT with required packet `rank_3_mcat_defended_evidence`.
 
 Rebuild:
 

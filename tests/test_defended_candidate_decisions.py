@@ -50,13 +50,13 @@ def test_decision_ledger_advances_to_rank_2_candidate():
     packet = build_defended_candidate_decisions()
     next_candidate = packet["next_candidate"]
 
-    assert packet["decided_count"] == 1
-    assert packet["remaining_candidate_count"] == 17
+    assert packet["decided_count"] == 2
+    assert packet["remaining_candidate_count"] == 16
     assert next_candidate == {
-        "rank": 2,
-        "gene": "RCC1L",
+        "rank": 3,
+        "gene": "MCAT",
         "status": "pending_deep_dive",
-        "required_next_packet": "rank_2_rcc1l_defended_evidence",
+        "required_next_packet": "rank_3_mcat_defended_evidence",
     }
     assert packet["campaign_state"] == "continue_ranked_list"
     assert packet["completion_status"] == "not_complete"
@@ -78,6 +78,13 @@ def test_decision_ledger_links_frozen_evidence_and_kill_state():
     assert first["decision_rule"] == (
         "advance when a candidate does not clear every pre-registered rung; do not rewrite the bar"
     )
+    second = packet["candidate_decisions"][1]
+    assert second["gene"] == "RCC1L"
+    assert second["rank"] == 2
+    assert second["evidence_packet_id"] == "rcc1l_defended_b83b31c038fb08ab"
+    assert second["missing_required_rung"] == (
+        "independent primary T-cell support, real-world hook, and specific activation mechanism"
+    )
 
 
 def test_decision_ledger_writes_clean_json_and_markdown(tmp_path):
@@ -91,6 +98,7 @@ def test_decision_ledger_writes_clean_json_and_markdown(tmp_path):
     assert packet["packet_id"].startswith("defended_decisions_")
     assert "PGGT1B" in doc
     assert "RCC1L" in doc
+    assert "MCAT" in doc
     assert "not cleared full bar" in doc
     assert "demote and advance" in doc
     assert "\u2014" not in doc

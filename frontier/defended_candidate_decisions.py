@@ -14,6 +14,7 @@ DATA = ROOT / "examples" / "data"
 PREREG_JSON = DATA / "defended_discovery_preregistration.json"
 DISCOVERY_JSON = DATA / "discovery_campaign.json"
 PGGT1B_JSON = DATA / "pggt1b_defended_evidence.json"
+RCC1L_JSON = DATA / "rcc1l_defended_evidence.json"
 OUT_JSON = DATA / "defended_candidate_decisions.json"
 OUT_DOC = ROOT / "docs" / "DEFENDED_CANDIDATE_DECISIONS.md"
 
@@ -49,31 +50,62 @@ def _next_candidate(discovery: dict[str, Any], decided_ranks: set[int]) -> dict[
     return None
 
 
-def build_defended_candidate_decisions() -> dict[str, Any]:
-    prereg = _load(PREREG_JSON)
-    discovery = _load(DISCOVERY_JSON)
-    pggt1b = _load(PGGT1B_JSON)
-    pggt1b_decision = {
-        "rank": pggt1b["candidate_rank"],
-        "gene": pggt1b["gene"],
+def _decision_from_packet(
+    *,
+    packet: dict[str, Any],
+    evidence_path: str,
+    missing_required_rung: str,
+    why_not_contradicted: str,
+) -> dict[str, Any]:
+    return {
+        "rank": packet["candidate_rank"],
+        "gene": packet["gene"],
         "typed_status": "evidence_attached",
         "decision": "not_cleared_full_bar",
         "disposition": "demote_and_advance",
-        "evidence_packet": "examples/data/pggt1b_defended_evidence.json",
-        "evidence_packet_id": pggt1b["packet_id"],
-        "scored_public_dataset_count": pggt1b["orthogonal_public_dataset_count"],
-        "missing_required_rung": (
-            "comparable activation-transcriptome or activation-marker primary T-cell screen"
-        ),
-        "why_not_contradicted": (
-            "the frozen comparators do not refute PGGT1B; they fail to supply the required comparable replication rung"
-        ),
-        "kill_results": _kill_results(pggt1b),
+        "evidence_packet": evidence_path,
+        "evidence_packet_id": packet["packet_id"],
+        "scored_public_dataset_count": packet.get("orthogonal_public_dataset_count", 0),
+        "missing_required_rung": missing_required_rung,
+        "why_not_contradicted": why_not_contradicted,
+        "kill_results": _kill_results(packet),
         "decision_rule": (
             "advance when a candidate does not clear every pre-registered rung; do not rewrite the bar"
         ),
     }
-    decided_ranks = {pggt1b_decision["rank"]}
+
+
+def build_defended_candidate_decisions() -> dict[str, Any]:
+    prereg = _load(PREREG_JSON)
+    discovery = _load(DISCOVERY_JSON)
+    pggt1b = _load(PGGT1B_JSON)
+    decisions = [
+        _decision_from_packet(
+            packet=pggt1b,
+            evidence_path="examples/data/pggt1b_defended_evidence.json",
+            missing_required_rung=(
+                "comparable activation-transcriptome or activation-marker primary T-cell screen"
+            ),
+            why_not_contradicted=(
+                "the frozen comparators do not refute PGGT1B; they fail to supply the required comparable replication rung"
+            ),
+        )
+    ]
+    if RCC1L_JSON.exists():
+        rcc1l = _load(RCC1L_JSON)
+        decisions.append(
+            _decision_from_packet(
+                packet=rcc1l,
+                evidence_path="examples/data/rcc1l_defended_evidence.json",
+                missing_required_rung=(
+                    "independent primary T-cell support, real-world hook, and specific activation mechanism"
+                ),
+                why_not_contradicted=(
+                    "the frozen comparators do not refute RCC1L; they show the candidate lacks required independent support and hook"
+                ),
+            )
+        )
+    decided_ranks = {row["rank"] for row in decisions}
     next_candidate = _next_candidate(discovery, decided_ranks)
     packet = {
         "phase": "defended_candidate_decision_ledger",
@@ -89,11 +121,11 @@ def build_defended_candidate_decisions() -> dict[str, Any]:
         "completion_status": "not_complete",
         "decided_count": len(decided_ranks),
         "remaining_candidate_count": discovery["candidate_count"] - len(decided_ranks),
-        "candidate_decisions": [pggt1b_decision],
+        "candidate_decisions": decisions,
         "next_candidate": next_candidate,
         "reproduce_command": "./prospect defended-candidate-decisions",
         "next_step": (
-            "build the rank-2 defended evidence packet, starting from the same frozen bar and kill rules"
+            "build the next ranked defended evidence packet, starting from the same frozen bar and kill rules"
         ),
     }
     packet["packet_id"] = _hash_obj("defended_decisions", packet)
@@ -122,7 +154,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         )
     lines += [
         "",
-        "PGGT1B is not contradicted by this ledger. It is below the full defended-discovery bar because the frozen comparators do not supply the required comparable replication rung.",
+        "These candidates are not contradicted by this ledger. They are below the full defended-discovery bar because the frozen evidence does not supply every required rung.",
         "",
         "## Next candidate",
         "",
