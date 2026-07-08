@@ -14,6 +14,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GraphView } from "@/components/graph-view";
 
 const LIVE_CLAIM_RAIL_TITLE = "Follow one claim";
+const CROSS_DOMAIN_BENCHMARK_TITLE = "Two domains, one trust boundary";
+const CROSS_DOMAIN_BENCHMARK_RANGE = "48-79%";
+const OPENRESEARCH_AUDIT_NAME = "Adversarial falsification audit: 19 of 24 verification claims fail";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -154,6 +157,33 @@ type LiveClaimRail = {
   next_task: string;
   stages: { stage: string; text: string }[];
 };
+type CrossDomainBenchmark = {
+  title: string;
+  status: string;
+  accepted_state_mutation: string;
+  range: string;
+  biology: {
+    domain: string;
+    source_name: string;
+    overclaim_rate: number;
+    effector_overclaim_rate: number;
+    claims_contradicted: number;
+    claims_checked: number;
+  };
+  math: {
+    domain: string;
+    source_name: string;
+    platform: string;
+    platform_url: string;
+    claims_false: number;
+    claims_total: number;
+    false_claim_rate: number;
+    audit_method: string;
+  };
+  boundary: string;
+  claim: string;
+  why_it_matters: string;
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
@@ -183,6 +213,7 @@ type Data = {
   lab_packet?: LabPacket | null;
   disease_genetics_overlay?: DiseaseGeneticsOverlay | null;
   live_claim_rail?: LiveClaimRail | null;
+  cross_domain_benchmark?: CrossDomainBenchmark | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -385,6 +416,8 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </div>
       )}
 
+      {d.cross_domain_benchmark && <CrossDomainBenchmarkPanel cross={d.cross_domain_benchmark} />}
+
       <div style={{ display: "flex", gap: 44, flexWrap: "wrap", padding: "18px 2px",
         borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
         {([
@@ -547,6 +580,49 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </section>
       )}
     </div>
+  );
+}
+
+function CrossDomainBenchmarkPanel({ cross }: { cross: CrossDomainBenchmark }) {
+  const sourceName = cross.math.source_name || OPENRESEARCH_AUDIT_NAME;
+  return (
+    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>{cross.title || CROSS_DOMAIN_BENCHMARK_TITLE}</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>{cross.range || CROSS_DOMAIN_BENCHMARK_RANGE} overclaiming across biology and math</h2>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{cross.status.replace(/_/g, " ")}</span>
+      </div>
+      <p className="t-body-sm" style={{ margin: 0, maxWidth: "74ch", color: "var(--ink-3)" }}>
+        {cross.claim} Prospect measures biology at {Math.round(cross.biology.overclaim_rate * 100)}%,
+        and {Math.round(cross.biology.effector_overclaim_rate * 100)}% on canonical effectors. The external
+        math report, <a href={cross.math.platform_url} target="_blank" rel="noreferrer"
+          style={{ color: "var(--field-blue)", fontWeight: 650 }}>{sourceName}</a>, found{" "}
+        {cross.math.claims_false} of {cross.math.claims_total} claims false under {cross.math.audit_method}.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
+        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
+          <div className="t-label">biology</div>
+          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+            {cross.biology.claims_contradicted}/{cross.biology.claims_checked} checkable claims contradicted.
+          </p>
+        </div>
+        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
+          <div className="t-label">math</div>
+          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+            {cross.math.claims_false}/{cross.math.claims_total} claims false in an independent audit.
+          </p>
+        </div>
+        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
+          <div className="t-label">boundary</div>
+          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+            frozen re-derivation plus a human key. accepted_state_mutation={cross.accepted_state_mutation}.
+          </p>
+        </div>
+      </div>
+      <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{cross.why_it_matters}</p>
+    </section>
   );
 }
 

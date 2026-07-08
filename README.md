@@ -56,6 +56,12 @@ contradicted** by the data. On the genes the field targets most, the overclaim r
 models overstate the famous checkpoints and cytokines more often than random genes. Generation
 is cheap. The scarce thing is knowing which claims survive the data.
 
+The same failure mode appears outside biology. OpenResearch, an alphaXiv project, has a public
+report titled **"Adversarial falsification audit: 19 of 24 verification claims fail"**. It found
+19 of 24 math verification claims false under exact-arithmetic re-derivation. Prospect does not
+import that result into its biology frontier. It uses it as external context for the same boundary:
+activity is not state, and accepted state needs frozen re-derivation plus a human key.
+
 ## The loop
 
 `prospect propose` closes it. Claude proposes candidate regulators, the frozen verifier decides,

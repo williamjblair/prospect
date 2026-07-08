@@ -120,6 +120,40 @@ demo = [{"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason
         for v in (ck.check(Claim(**c)) for c in json.load(open(os.path.join(ROOT, "examples", "claims_demo.json"))))]
 phantom = load("phantom_summary.json") or {}
 models = load("model_comparison.json") or []
+cross_domain_benchmark = None
+if phantom:
+    biology_rate = round(float(phantom.get("refuted_rate", 0)), 2)
+    effector_rate = round(float(phantom.get("effector_overclaim_rate", 0)), 2)
+    math_false = 19
+    math_total = 24
+    math_rate = round(math_false / math_total, 2)
+    cross_domain_benchmark = {
+        "title": "Two domains, one trust boundary",
+        "status": "evidence_attached",
+        "accepted_state_mutation": "none",
+        "range": f"{round(biology_rate * 100)}-{round(math_rate * 100)}%",
+        "biology": {
+            "domain": "biology",
+            "source_name": "Prospect Marson CD4+ T-cell overclaiming benchmark",
+            "overclaim_rate": biology_rate,
+            "effector_overclaim_rate": effector_rate,
+            "claims_contradicted": phantom.get("refuted"),
+            "claims_checked": phantom.get("checkable"),
+        },
+        "math": {
+            "domain": "math",
+            "source_name": "Adversarial falsification audit: 19 of 24 verification claims fail",
+            "platform": "OpenResearch, an alphaXiv project",
+            "platform_url": "https://openresearch.sh/",
+            "claims_false": math_false,
+            "claims_total": math_total,
+            "false_claim_rate": math_rate,
+            "audit_method": "exact-arithmetic re-derivation",
+        },
+        "boundary": "frozen_rederivation_plus_human_key",
+        "claim": "AI-generated scientific claims fail at similar rates when an independent re-derivation checks them.",
+        "why_it_matters": "The producer can create activity, but a separate frozen checker and human key decide whether a state transition is accepted.",
+    }
 
 data = {
     "stats": {"n_genes": len(nodes), "n_perturbations": sum(len(n["conditions"]) for n in nodes),
@@ -142,6 +176,7 @@ data = {
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge,
     "external_run_receipt_demo": external_run_receipt_demo,
     "live_claim_rail": live_claim_rail,
+    "cross_domain_benchmark": cross_domain_benchmark,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "lab_packet": lab_packet, "disease_genetics_overlay": disease_genetics_overlay,
     "demo": demo, "phantom": phantom, "models": models,

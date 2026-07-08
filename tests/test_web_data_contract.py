@@ -18,6 +18,7 @@ KEPT_PACKET_KEYS = [
     "receipt_bridge",
     "external_run_receipt_demo",
     "live_claim_rail",
+    "cross_domain_benchmark",
 ]
 
 CUT_PACKET_KEYS = [
