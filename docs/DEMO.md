@@ -40,11 +40,13 @@ proposal. Agent tab, PGGT1B deep dive. The packet shows 3,014 Stim8hr DE genes, 
 1 K562 DE gene, 0 CollecTRI targets, a 17.22x stimulation ratio, a 3014x transfer check, two
 literature hooks, a released-matrix slice of 671 moved transcripts, missing evidence before acceptance,
 and a stimulated CD4+ assay readout.
-Then scroll to the lab assay packet and campaign leaderboard: five assay-ready rows and 20
-proposal-only follow-ups ranked by the same frozen facts, plus the review appendix with lane counts,
-audit questions, per-row decisions, and stop rules. The campaign agent probes show Claude pushing
-harder on some rows, while Prospect keeps the comparison proposal-only. The disagreement triage turns
-that pressure into assay gates, not accepted state. The campaign gate probe asks whether those gates
-are sufficient, need another control, or should be lower priority. The whole frontier re-derives from
-frozen data with zero drift and carries one human signature. Generation is cheap. Accepted state is
-the scarce thing, and it compounds.
+Then scroll to the lab assay packet and assay operations bundle. It gives five assay-ready rows with
+expected positive results, weakening results, rejection results, and missing evidence before any
+status change. The campaign leaderboard keeps 20 proposal-only follow-ups ranked by the same frozen facts,
+plus the review appendix with lane counts, audit questions, per-row decisions, and stop rules. The
+campaign pressure summary shows Claude aligned on some rows, pushed harder on others, and still
+caused zero accepted-state mutations. The disagreement triage turns that pressure into assay gates,
+not accepted state. The campaign gate probe asks whether those gates are sufficient, need another
+control, or should be lower priority. The whole frontier re-derives from frozen data with zero drift
+and carries one human signature. Generation is cheap. Accepted state is the scarce thing, and it
+compounds.

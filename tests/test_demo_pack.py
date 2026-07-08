@@ -11,6 +11,7 @@ sys.path.insert(0, ROOT)
 from cli.demo_pack import build_packet
 
 DOC = Path(ROOT) / "docs" / "DEMO_TELEPROMPTER.md"
+LONG_DOC = Path(ROOT) / "docs" / "DEMO.md"
 
 
 def test_demo_pack_has_timed_recording_beats():
@@ -99,9 +100,23 @@ def test_demo_teleprompter_doc_tracks_packet():
         assert command in preflight
 
 
+def test_long_demo_doc_closes_on_current_artifact_surface():
+    text = LONG_DOC.read_text()
+
+    for phrase in [
+        "assay operations bundle",
+        "expected positive",
+        "weakening",
+        "reject",
+        "campaign pressure summary",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_demo_pack_has_timed_recording_beats()
     test_demo_pack_bans_overclaim_language()
     test_demo_pack_cli_prints_and_emits_json()
     test_demo_teleprompter_doc_tracks_packet()
+    test_long_demo_doc_closes_on_current_artifact_surface()
     print("PASS: demo pack")
