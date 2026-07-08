@@ -5,8 +5,8 @@
   "signed_root": "root_a8b0dcdd4024e12f",
   "hash_algorithm": "sha256",
   "manifest_self_hash": "excluded",
-  "public_artifact_count": 22,
-  "hashed_artifact_count": 21,
+  "public_artifact_count": 23,
+  "hashed_artifact_count": 22,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -27,6 +27,7 @@
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
+    "/data/gladstone_pilot_design.json",
     "/data/final_submission_audit.json",
     "/data/release_manifest.json",
     "/data/rendered_qa_packet.json"
@@ -35,14 +36,14 @@
     {
       "path": "/data/frontier.json",
       "source_path": "web/public/data/frontier.json",
-      "bytes": 5690341,
-      "sha256": "d05b6adabbdc0b115e190df8f3b8e95267046b3d4e56daf82b7855f572cf0d35"
+      "bytes": 5700949,
+      "sha256": "bd4a768c45dcb9cfc9bbfd6b4cad6fc15fcf1949ab356df9dcf52d501caec26f"
     },
     {
       "path": "/data/judge_packet.json",
       "source_path": "web/public/data/judge_packet.json",
-      "bytes": 17345,
-      "sha256": "3639a7541cca46bf5ec07d241f9ae8cfe66a3447d72de02611e9a1d79ef3209c"
+      "bytes": 17625,
+      "sha256": "36530260119607a04c2d9384d3959de6105fabc36856c4de4879a16aaa71a7c0"
     },
     {
       "path": "/data/finding_index.json",
@@ -147,16 +148,22 @@
       "sha256": "0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb"
     },
     {
+      "path": "/data/gladstone_pilot_design.json",
+      "source_path": "web/public/data/gladstone_pilot_design.json",
+      "bytes": 10075,
+      "sha256": "804ede72ae41cd4dbbf10ca9245ce0834700768d3e2d9efdeeaaa480b7b64e95"
+    },
+    {
       "path": "/data/final_submission_audit.json",
       "source_path": "web/public/data/final_submission_audit.json",
-      "bytes": 5451,
-      "sha256": "646c5f5a2a41f7b418ab3b14d19c75775748a9765ed6dd60f413354177eb4e40"
+      "bytes": 5676,
+      "sha256": "04fae2fb716a5dda13f526e98c89b11ed828047ac3f92e987ee38983dc719708"
     },
     {
       "path": "/data/rendered_qa_packet.json",
       "source_path": "web/public/data/rendered_qa_packet.json",
-      "bytes": 1819,
-      "sha256": "466e06490a213085945933cc9314f1bcaf4ea4fb35473acfe9d76f62e1df31c8"
+      "bytes": 1876,
+      "sha256": "b8eadc8ccc8973aab65bddc33e2ffd9f63b2ff7a77d77da1d08c45c466e4d3c9"
     }
   ],
   "trust_boundary": {

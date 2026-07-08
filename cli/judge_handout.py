@@ -24,6 +24,7 @@ def build_handout() -> dict[str, Any]:
     judge = _json(DATA / "judge_packet.json")
     campaign = _json(DATA / "campaign_pressure_summary.json")
     assay = _json(DATA / "assay_operations_bundle.json")
+    pilot = _json(DATA / "gladstone_pilot_design.json")
     substrate = _json(DATA / "substrate_replay_packet.json")
 
     return {
@@ -42,6 +43,7 @@ def build_handout() -> dict[str, Any]:
             "receipts": judge["artifact_counts"]["receipts"],
             "claude_probe_rows": campaign["counts"]["claude_probe_rows"],
             "assay_operations_candidates": len(assay["candidates"]),
+            "pilot_design_culture_arms": pilot["sample_plan"]["culture_arms"],
             "substrate_replay_rows": substrate["counts"]["t_cell_regulators_compared"],
         },
         "trust_boundary": {
@@ -55,13 +57,14 @@ def build_handout() -> dict[str, Any]:
             "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
             "Findings: substrate replay across Marson CD4+ T cells, Replogle K562, and Replogle RPE1.",
             "Frontier: receipt bridge returns proposal-only submission, not accepted state.",
-            "Agent: Claude pressure becomes assay gates, then PGGT1B and assay operations show the lab handoff.",
+            "Agent: Claude pressure becomes assay gates, then PGGT1B, assay operations, and pilot design show the lab handoff.",
         ],
         "public_artifacts_to_open": [
             "/data/judge_packet.json",
             "/data/campaign_pressure_summary.json",
             "/data/substrate_replay_packet.json",
             "/data/assay_operations_bundle.json",
+            "/data/gladstone_pilot_design.json",
             "/data/final_submission_audit.json",
             "/data/release_manifest.json",
             "/data/rendered_qa_packet.json",
@@ -103,6 +106,7 @@ def _markdown(handout: dict[str, Any]) -> str:
         f"- {counts['substrate_replay_rows']} replayed T-cell regulators across three frozen substrates",
         f"- {counts['claude_probe_rows']} Claude probe rows in the pressure loop",
         f"- {counts['assay_operations_candidates']} proposal-only assay operations rows",
+        f"- {counts['pilot_design_culture_arms']} proposal-only pilot culture arms",
         "",
         "## Trust boundary",
         "",

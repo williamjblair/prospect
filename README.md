@@ -88,6 +88,10 @@ public replay links. Every row remains proposal only. The condensed wet-lab hand
 expected positive result, weakening result, rejection result, missing evidence before acceptance, and
 public replay links.
 
+`prospect pilot-design` turns the operations bundle into a proposal-only pilot plan: three donor
+replicates, matched Rest/Stim8hr/Stim48hr conditions, controls, 90 culture arms, and per-row
+promotion, weakening, and rejection gates.
+
 `prospect campaign-review` adds the audit appendix for the 20-row campaign: lane counts, audit
 questions, per-row decisions, and stop rules. It helps a judge inspect the leaderboard without
 moving any row beyond proposal-only state.
@@ -143,6 +147,7 @@ Current public artifacts:
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
 - `/data/rendered_qa_packet.json`
@@ -177,6 +182,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect pggt1b                 # build the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle
+./prospect pilot-design           # build the Gladstone pilot design packet
 ./prospect judge-pack             # build the judge packet manifest
 ./prospect sign                   # the human ceremony: accept the frontier root
 python benchmark/mutation_pack.py # the floor: zero tampered claim is ever admitted

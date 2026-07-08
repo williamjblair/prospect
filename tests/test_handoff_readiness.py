@@ -20,6 +20,7 @@ def test_agents_lists_current_cli_surface():
         "./prospect pggt1b",
         "./prospect lab-pack",
         "./prospect assay-ops",
+        "./prospect pilot-design",
         "./prospect judge-pack",
         "./prospect submit-pack",
         "./prospect demo-pack",
@@ -35,6 +36,7 @@ def test_agents_lists_current_cli_surface():
         "transfer-replay",
         "lab-pack",
         "assay-ops",
+        "pilot-design",
         "final-check",
         "submit-smoke",
         "submit-pack",
@@ -59,6 +61,7 @@ def test_handoff_describes_current_production_smoke_gate():
         "transfer replay packet",
         "lab packet",
         "receipt bridge manifest",
+        "pilot design",
         "release manifest hashes",
         "rendered QA packet",
     ]:

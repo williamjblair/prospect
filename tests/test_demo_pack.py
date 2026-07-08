@@ -37,6 +37,7 @@ def test_demo_pack_has_timed_recording_beats():
         "accepted=false",
         "PGGT1B remains evidence_attached",
         "operations bundle says what would promote",
+        "90 proposal-only culture arms",
     ]:
         assert phrase in script
     assert "substrate replay packet" in show
@@ -95,6 +96,7 @@ def test_demo_teleprompter_doc_tracks_packet():
         "human_signature_required",
         "campaign pressure summary",
         "assay operations bundle",
+        "pilot design",
         "PGGT1B remains `evidence_attached`",
         "Do not claim wet-lab or clinical truth",
     ]:
@@ -118,6 +120,7 @@ def test_long_demo_doc_closes_on_current_artifact_surface():
         "eight probed rows",
         "four more-aggressive",
         "substrate replay packet",
+        "pilot design",
     ]:
         assert phrase in text
     assert "Back to Overview, the propose panel" not in text

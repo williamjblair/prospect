@@ -57,6 +57,8 @@ the graph on its own word. On top of it:
   control, readout, exclusion, and replay fields for a Gladstone-facing assay handoff.
 - **Gladstone assay operations bundle**: `prospect assay-ops` adds expected positive, weakening, and
   rejection evidence for the top five proposal-only assay rows.
+- **Gladstone pilot design**: `prospect pilot-design` converts the operations rows into donor,
+  condition, control, and culture-arm accounting for a proposal-only bench plan.
 - **Gladstone assay handoff**: [docs/GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md) condenses
   the top five rows into controls, readouts, stop rules, replay links, and a Monday-morning protocol.
 - **PGGT1B deep dive**: `prospect pggt1b` emits a lab-facing packet with exact frozen facts,
@@ -150,6 +152,8 @@ the trust floor after the event window without private credentials for the stati
 - The lab packet turns those five rows into assay-ready fields while keeping each row proposal only.
 - The assay operations bundle names what would promote, weaken, or reject each row before any status
   change.
+- The pilot design turns the top five rows into a 90-culture-arm plan across three donor replicates,
+  matched conditions, negative controls, and positive pathway controls. It remains proposal only.
 - The Gladstone assay handoff gives the same top five rows as a one-page wet-lab execution note.
 - The mutation-pack floor admits zero tampered claims; a parity test pins the Skill checker to the engine.
 
@@ -174,6 +178,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
 - `/data/rendered_qa_packet.json`
@@ -206,6 +211,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect pggt1b                 # write the PGGT1B evidence packet
 ./prospect lab-pack               # build the wet-lab assay packet
 ./prospect assay-ops              # build the Gladstone assay operations bundle
+./prospect pilot-design           # build the Gladstone pilot design packet
 ./prospect findings-index         # build the scannable finding index
 ./prospect judge-pack             # build the judge packet manifest
 python frontier/validation_sheet.py # write the wet-lab validation shortlist

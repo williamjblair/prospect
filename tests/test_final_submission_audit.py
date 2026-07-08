@@ -27,6 +27,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/campaign_probe_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
+    assert "/data/gladstone_pilot_design.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
@@ -36,7 +37,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert tabs["Overview"]["must_show"] == ["Opening claim checks", "48%", "Judge packet"]
     assert tabs["Findings"]["must_show"] == ["Scannable findings index", "Substrate replay packet", "MED19"]
     assert tabs["Frontier"]["must_show"] == ["Executable bridge path", "accepted=false", "human_signature_required"]
-    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"]
+    assert tabs["Agent"]["must_show"] == ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]
     requirements = {item["requirement"]: item for item in audit["completion_requirements"]}
     assert requirements["p0_floor_green"]["status"] == "satisfied"
     assert "./prospect final-check" in requirements["p0_floor_green"]["evidence"]
@@ -47,6 +48,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert "/data/campaign_probe_audit.json" in requirements["claude_campaign_pressure"]["evidence"]
     assert requirements["gladstone_assay_operations"]["status"] == "shipped"
     assert "/data/assay_operations_bundle.json" in requirements["gladstone_assay_operations"]["evidence"]
+    assert "/data/gladstone_pilot_design.json" in requirements["gladstone_assay_operations"]["evidence"]
     assert requirements["public_release_manifest"]["status"] == "shipped"
     assert "./prospect release-manifest" in requirements["public_release_manifest"]["evidence"]
     assert requirements["rendered_qa_packet"]["status"] == "shipped"
@@ -100,6 +102,7 @@ def test_final_submission_audit_writes_json_and_markdown(tmp_path):
     assert "./prospect final-check" in doc
     assert "./prospect release-manifest" in doc
     assert "/data/assay_operations_bundle.json" in doc
+    assert "/data/gladstone_pilot_design.json" in doc
     assert "/data/campaign_probe_audit.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc

@@ -8,7 +8,7 @@ Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjbla
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-Public artifacts: 22
+Public artifacts: 23
 
 ## Trust boundary
 
@@ -42,6 +42,7 @@ Public artifacts: 22
 - `docs/FINAL_SUBMISSION_CHECKLIST.md`
 - `docs/FINAL_SUBMISSION_AUDIT.md`
 - `docs/CAMPAIGN_PROBE_AUDIT.md`
+- `docs/GLADSTONE_PILOT_DESIGN.md`
 - `docs/JUDGE_PACKET.md`
 - `docs/RELEASE_MANIFEST.md`
 - `docs/RENDERED_QA_PACKET.md`
@@ -53,7 +54,7 @@ Public artifacts: 22
 | submission_floor | shipped | `./prospect final-check`, `./prospect submit-smoke`, `root_a8b0dcdd4024e12f` |
 | second_substrate_replay | shipped | `./prospect substrate-replay`, `/data/substrate_replay_packet.json` |
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
-| gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
+| gladstone_assay_operations | shipped | `./prospect assay-ops`, `./prospect pilot-design`, `/data/assay_operations_bundle.json`, `/data/gladstone_pilot_design.json` |
 | demo_and_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `docs/FINAL_SUBMISSION_CHECKLIST.md` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json` |
 | rendered_qa_packet | shipped | `./prospect rendered-qa`, `/data/rendered_qa_packet.json` |
@@ -69,7 +70,7 @@ Public artifacts: 22
 | Overview | `Opening claim checks`, `48%`, `Judge packet` |
 | Findings | `Scannable findings index`, `Substrate replay packet`, `MED19` |
 | Frontier | `Executable bridge path`, `accepted=false`, `human_signature_required` |
-| Agent | `Campaign pressure summary`, `Gladstone assay operations bundle`, `PGGT1B` |
+| Agent | `Campaign pressure summary`, `Gladstone assay operations bundle`, `Gladstone pilot design`, `PGGT1B` |
 
 ## Completion requirements
 
@@ -78,7 +79,7 @@ Public artifacts: 22
 | p0_floor_green | satisfied | `./prospect final-check`, `./prospect submit-smoke` |
 | protocol_generalization | shipped | `./prospect substrate-replay`, `/data/substrate_replay_packet.json` |
 | claude_campaign_pressure | shipped | `./prospect campaign-pressure`, `./prospect campaign-probe-audit`, `/data/campaign_pressure_summary.json`, `/data/campaign_probe_audit.json` |
-| gladstone_assay_operations | shipped | `./prospect assay-ops`, `/data/assay_operations_bundle.json` |
+| gladstone_assay_operations | shipped | `./prospect assay-ops`, `./prospect pilot-design`, `/data/assay_operations_bundle.json`, `/data/gladstone_pilot_design.json` |
 | demo_submission_packets | shipped | `./prospect demo-pack`, `./prospect submit-pack`, `./prospect judge-handout` |
 | public_release_manifest | shipped | `./prospect release-manifest`, `/data/release_manifest.json`, `./prospect submit-smoke` |
 | rendered_qa_packet | shipped | `./prospect rendered-qa`, `/data/rendered_qa_packet.json` |
@@ -107,6 +108,7 @@ Public artifacts: 22
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
 - `/data/rendered_qa_packet.json`

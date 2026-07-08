@@ -33,6 +33,7 @@ def test_readme_lists_current_commands_and_artifacts():
         "./prospect transfer-replay",
         "./prospect lab-pack",
         "./prospect assay-ops",
+        "./prospect pilot-design",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
         "python tests/test_skill_parity.py",

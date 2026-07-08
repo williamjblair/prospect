@@ -18,6 +18,7 @@
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
   prospect assay-ops        build the Gladstone assay operations bundle
+  prospect pilot-design     build the Gladstone pilot design packet
   prospect findings-index   build the scannable finding index for the demo
   prospect demo-pack        print the final recording teleprompter
   prospect judge-handout    build the one-page judge handout
@@ -77,6 +78,8 @@ def main():
         from frontier.lab_packet import main as lab_packet_main; lab_packet_main()
     elif cmd == "assay-ops":
         from frontier.assay_operations import main as assay_operations_main; assay_operations_main()
+    elif cmd == "pilot-design":
+        from frontier.gladstone_pilot_design import main as pilot_design_main; pilot_design_main()
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
     elif cmd == "demo-pack":

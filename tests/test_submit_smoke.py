@@ -102,6 +102,14 @@ def _current_payloads():
             "accepted_state_mutations": 0,
             "candidates": [{}, {}, {}, {}, {}],
         },
+        "/data/gladstone_pilot_design.json": {
+            "status": "evidence_attached",
+            "trust_boundary": "proposal_only",
+            "accepted_state_mutations": 0,
+            "model_in_trust_path": "no",
+            "sample_plan": {"culture_arms": 90},
+            "candidates": [{}, {}, {}, {}, {}],
+        },
         "/data/final_submission_audit.json": {
             "readiness": "submission_ready_for_human_upload",
             "signed_root": "root_a8b0dcdd4024e12f",
@@ -118,7 +126,7 @@ def _current_payloads():
                 {"tab": "Overview", "must_show": ["Opening claim checks", "48%", "Judge packet"]},
                 {"tab": "Findings", "must_show": ["Scannable findings index", "Substrate replay packet", "MED19"]},
                 {"tab": "Frontier", "must_show": ["Executable bridge path", "accepted=false", "human_signature_required"]},
-                {"tab": "Agent", "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"]},
+                {"tab": "Agent", "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"]},
             ],
         },
         "/data/receipt_bridge/receipt_manifest.json": {
@@ -153,9 +161,10 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 14
+    assert len(result.checks) == 15
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(check.name == "campaign probe audit" and check.ok for check in result.checks)
+    assert any(check.name == "Gladstone pilot design" and check.ok for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
         for check in result.checks

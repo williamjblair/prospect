@@ -210,6 +210,25 @@ type AssayOperationsBundle = {
     missing_evidence_before_acceptance: string[]; replay_links: string[];
   }[];
 };
+type GladstonePilotDesign = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  accepted_state_mutations: number;
+  model_in_trust_path: string;
+  sample_plan: {
+    sample: string; donor_replicates: number; conditions: string[]; candidate_count: number;
+    control_arms: number; culture_arms: number; batching: string; readouts: string[];
+  };
+  controls: { negative: string[]; positive: string[]; control_note: string };
+  decision_gates: string[];
+  candidates: {
+    rank: number; gene: string; status: string; trust_boundary: string; queue: string;
+    strongest_condition: string; primary_question: string; promote_if: string; weaken_if: string;
+    reject_if: string; missing_evidence_before_acceptance: string[]; acceptance_gate: string;
+    decision_record: string; replay_links: string[];
+  }[];
+};
 type SubstrateReplayPacket = {
   title: string;
   status: string;
@@ -293,6 +312,7 @@ type Data = {
   campaign_pressure_summary?: CampaignPressureSummary | null;
   lab_packet?: LabPacket | null;
   assay_operations_bundle?: AssayOperationsBundle | null;
+  gladstone_pilot_design?: GladstonePilotDesign | null;
   substrate_replay_packet?: SubstrateReplayPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
@@ -1261,6 +1281,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.assay_operations_bundle && <AssayOperationsBundleCard bundle={d.assay_operations_bundle} onGene={onGene} />}
 
+      {d.gladstone_pilot_design && <GladstonePilotDesignCard packet={d.gladstone_pilot_design} onGene={onGene} />}
+
       {d.validation && d.validation.length > 0 && (
         <ValidationShortlist rows={d.validation.slice(0, 8)} onGene={onGene} />
       )}
@@ -1751,6 +1773,68 @@ function AssayOperationsBundleCard({ bundle, onGene }: { bundle: AssayOperations
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Missing evidence before acceptance: {rows[0]?.missing_evidence_before_acceptance.join(", ")}. Trust boundary: {label(bundle.trust_boundary)}.
+      </p>
+    </div>
+  );
+}
+
+function GladstonePilotDesignCard({ packet, onGene }: { packet: GladstonePilotDesign; onGene: (g: string) => void }) {
+  const rows = packet.candidates.slice(0, 5);
+  const label = (value: string) => value.replace(/_/g, " ");
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Gladstone pilot design</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Proposal-only bench plan for the assay operations rows: 90 culture arms across three donor replicates,
+            matched Rest, Stim8hr, and Stim48hr conditions, controls, and explicit acceptance gates.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/gladstone_pilot_design.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [packet.sample_plan.culture_arms, "culture arms", "var(--ink)"],
+          [packet.sample_plan.donor_replicates, "donor replicates", "var(--brass)"],
+          [packet.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
+        ].map(([value, title, color]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
+        <table style={{ width: "100%", minWidth: 980, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "queue", "primary question", "reject if"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
+                </td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: r.queue === "primary_assay_queue" ? "var(--brass)" : "var(--field-blue)" }}>{label(r.queue)}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)", maxWidth: 330 }}>{r.primary_question}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 330 }}>{r.reject_if}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Controls: {packet.controls.negative.join(", ")}; positives: {packet.controls.positive.join(", ")}. Trust boundary: {label(packet.trust_boundary)}.
       </p>
     </div>
   );

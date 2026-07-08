@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 22,
+  "public_artifact_count": 23,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -25,6 +25,7 @@
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
+    "/data/gladstone_pilot_design.json",
     "/data/final_submission_audit.json",
     "/data/release_manifest.json",
     "/data/rendered_qa_packet.json"
@@ -39,6 +40,7 @@
     "docs/FINAL_SUBMISSION_CHECKLIST.md",
     "docs/FINAL_SUBMISSION_AUDIT.md",
     "docs/CAMPAIGN_PROBE_AUDIT.md",
+    "docs/GLADSTONE_PILOT_DESIGN.md",
     "docs/JUDGE_PACKET.md",
     "docs/RELEASE_MANIFEST.md",
     "docs/RENDERED_QA_PACKET.md"
@@ -89,7 +91,9 @@
       "state": "shipped",
       "evidence": [
         "./prospect assay-ops",
-        "/data/assay_operations_bundle.json"
+        "./prospect pilot-design",
+        "/data/assay_operations_bundle.json",
+        "/data/gladstone_pilot_design.json"
       ]
     },
     {
@@ -158,6 +162,7 @@
         "must_show": [
           "Campaign pressure summary",
           "Gladstone assay operations bundle",
+          "Gladstone pilot design",
           "PGGT1B"
         ]
       }
@@ -195,7 +200,9 @@
       "status": "shipped",
       "evidence": [
         "./prospect assay-ops",
-        "/data/assay_operations_bundle.json"
+        "./prospect pilot-design",
+        "/data/assay_operations_bundle.json",
+        "/data/gladstone_pilot_design.json"
       ]
     },
     {

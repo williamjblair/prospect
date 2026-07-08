@@ -212,6 +212,23 @@ def _check_assay_operations(base_url: str, opener: Callable[..., Any], timeout: 
         return Check("assay operations", False, f"fetch failed: {exc}")
 
 
+def _check_gladstone_pilot_design(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/gladstone_pilot_design.json", opener, timeout)
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("trust_boundary") == "proposal_only"
+            and data.get("accepted_state_mutations") == 0
+            and data.get("model_in_trust_path") == "no"
+            and data.get("sample_plan", {}).get("culture_arms") == 90
+            and len(data.get("candidates", [])) == 5
+        )
+        detail = "90 culture arms across 5 proposal-only rows" if ok else "pilot design shape drift"
+        return Check("Gladstone pilot design", ok, detail)
+    except Exception as exc:
+        return Check("Gladstone pilot design", False, f"fetch failed: {exc}")
+
+
 def _check_final_submission_audit(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/final_submission_audit.json", opener, timeout)
@@ -314,6 +331,7 @@ def run_checks(
         _check_substrate(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
+        _check_gladstone_pilot_design(base_url, opener, timeout),
         _check_final_submission_audit(base_url, opener, timeout),
         _check_rendered_qa_packet(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),

@@ -67,6 +67,7 @@ Then open:
 - https://prospect-sepia-six.vercel.app/data/substrate_replay_packet.json
 - https://prospect-sepia-six.vercel.app/data/lab_packet.json
 - https://prospect-sepia-six.vercel.app/data/assay_operations_bundle.json
+- https://prospect-sepia-six.vercel.app/data/gladstone_pilot_design.json
 - https://prospect-sepia-six.vercel.app/data/final_submission_audit.json
 - https://prospect-sepia-six.vercel.app/data/release_manifest.json
 - https://prospect-sepia-six.vercel.app/data/rendered_qa_packet.json
@@ -81,7 +82,8 @@ Confirm:
 - `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
-- `/data/final_submission_audit.json` reports 22 public artifacts and human-only actions.
+- `/data/gladstone_pilot_design.json` reports 90 culture arms and stays proposal only.
+- `/data/final_submission_audit.json` reports 23 public artifacts and human-only actions.
 - `/data/release_manifest.json` hashes the public data artifact surface.
 - `/data/rendered_qa_packet.json` names the manual browser checkpoints.
 - The receipt bridge demo returns `accepted=false`.
@@ -104,6 +106,7 @@ Close on:
 - PGGT1B deep dive: `evidence_attached`, missing wet-lab evidence named
 - lab packet, Gladstone assay handoff, and assay operations bundle: five assay-ready rows with
   promotion, weakening, and rejection evidence
+- Gladstone pilot design: 90 proposal-only culture arms across three donor replicates
 - campaign gate probe: Claude pressure-tests gates with `gate_sufficient`, `add_control`, or `lower_priority`
 - campaign probe audit: larger Claude passes must clear frozen rationale checks before promotion
 - transfer replay packet: second and third frozen Perturb-seq tables exercise the same checker interface

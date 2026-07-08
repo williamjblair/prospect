@@ -48,6 +48,7 @@ def build_packet() -> dict[str, Any]:
     campaign_pressure = frontier.get("campaign_pressure_summary") or {}
     lab_packet = frontier.get("lab_packet") or {}
     assay_operations = frontier.get("assay_operations_bundle") or {}
+    pilot_design = frontier.get("gladstone_pilot_design") or {}
     final_submission_audit = frontier.get("final_submission_audit") or {}
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
@@ -121,6 +122,8 @@ def build_packet() -> dict[str, Any]:
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
+            "pilot_design_candidates": len(pilot_design.get("candidates", [])),
+            "pilot_design_culture_arms": pilot_design.get("sample_plan", {}).get("culture_arms", 0),
             "final_submission_public_artifacts": len(PUBLIC_ARTIFACTS),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
             "pggt1b_matrix_slice_transcripts": pggt1b.get("matrix_slice", {}).get("n_thresholded_transcripts", 0),
@@ -210,6 +213,14 @@ def build_packet() -> dict[str, Any]:
                 "candidate_count": len(assay_operations.get("candidates", [])),
                 "top_gene": (assay_operations.get("candidates") or [{}])[0].get("gene"),
             },
+            "pilot_design": {
+                "status": pilot_design.get("status"),
+                "trust_boundary": pilot_design.get("trust_boundary"),
+                "accepted_state_mutations": pilot_design.get("accepted_state_mutations"),
+                "candidate_count": len(pilot_design.get("candidates", [])),
+                "culture_arms": pilot_design.get("sample_plan", {}).get("culture_arms"),
+                "donor_replicates": pilot_design.get("sample_plan", {}).get("donor_replicates"),
+            },
             "final_submission_audit": {
                 "readiness": final_submission_audit.get("readiness"),
                 "public_artifact_count": len(PUBLIC_ARTIFACTS),
@@ -260,6 +271,8 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- Assay operations candidates: {counts['assay_operations_candidates']}",
+        f"- Pilot design candidates: {counts['pilot_design_candidates']}",
+        f"- Pilot design culture arms: {counts['pilot_design_culture_arms']}",
         f"- Final submission public artifacts: {counts['final_submission_public_artifacts']}",
         f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
         f"- PGGT1B matrix-slice transcripts: {counts['pggt1b_matrix_slice_transcripts']}",
@@ -271,6 +284,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Gladstone assay operations bundle",
         "",
         "The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.",
+        "",
+        "## Gladstone pilot design",
+        "",
+        "The pilot design turns those rows into donor, condition, control, and culture-arm accounting for a proposal-only bench plan.",
         "",
         "## Final submission audit",
         "",

@@ -42,7 +42,9 @@ cd web && npm run build
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
-- Final submission public artifacts: 22
+- Pilot design candidates: 5
+- Pilot design culture arms: 90
+- Final submission public artifacts: 23
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -53,6 +55,10 @@ The top agent hypothesis has an evidence capsule with exact ratios, a released-m
 ## Gladstone assay operations bundle
 
 The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.
+
+## Gladstone pilot design
+
+The pilot design turns those rows into donor, condition, control, and culture-arm accounting for a proposal-only bench plan.
 
 ## Final submission audit
 
@@ -105,6 +111,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
 - `/data/rendered_qa_packet.json`

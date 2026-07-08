@@ -25,6 +25,7 @@ def test_judge_handout_summarizes_current_winning_path_without_overclaiming():
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert handout["counts"]["claude_probe_rows"] == 8
     assert handout["counts"]["assay_operations_candidates"] == 5
+    assert handout["counts"]["pilot_design_culture_arms"] == 90
     assert handout["counts"]["substrate_replay_rows"] == 377
     assert "record_demo_video" in handout["human_only_actions"]
     assert "submit_project_form" in handout["human_only_actions"]
@@ -45,6 +46,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "What remains human-only" in doc
     assert "./prospect final-check" in doc
     assert "/data/final_submission_audit.json" in doc
+    assert "/data/gladstone_pilot_design.json" in doc
     assert "/data/release_manifest.json" in doc
     assert "/data/rendered_qa_packet.json" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc

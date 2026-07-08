@@ -32,6 +32,7 @@ def test_submission_lists_current_replay_and_artifact_commands():
         "./prospect transfer-replay",
         "./prospect lab-pack",
         "./prospect assay-ops",
+        "./prospect pilot-design",
         "./prospect judge-pack",
         "python benchmark/mutation_pack.py",
         "python tests/test_skill_parity.py",

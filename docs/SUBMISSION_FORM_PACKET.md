@@ -115,6 +115,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/gladstone_pilot_design.json`
 - `/data/final_submission_audit.json`
 - `/data/release_manifest.json`
 - `/data/rendered_qa_packet.json`

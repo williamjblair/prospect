@@ -43,7 +43,7 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
+# one CLI for the whole loop (also: build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt|mcp)
 ./prospect final-check              # full local submission gate, including generated-artifact drift checks
 ./prospect submit-smoke             # production smoke, manifest parity, and all public artifact endpoints
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
@@ -59,6 +59,7 @@ python tests/test_skill_parity.py   # the Skill checker matches the engine (112 
 ./prospect pggt1b                   # builds the PGGT1B evidence packet
 ./prospect lab-pack                 # builds the wet-lab assay packet
 ./prospect assay-ops                # builds the Gladstone assay operations bundle
+./prospect pilot-design             # builds the Gladstone pilot design packet
 ./prospect judge-pack               # builds the judge-facing replay manifest
 ./prospect submit-pack              # prints copy-safe upload fields and public artifact links
 ./prospect demo-pack                # prints the two-minute recording teleprompter

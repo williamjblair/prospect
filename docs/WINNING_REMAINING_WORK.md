@@ -13,8 +13,9 @@ Current git state: use `git log -1 --oneline` as the source of truth.
 Complete all remaining high-ceiling work for Prospect to maximize its chance to win the Built with
 Claude: Life Sciences hackathon by July 13, 2026. Preserve the existing submission-ready floor,
 then build the strongest defensible extensions: a second-substrate replay surface, a deeper
-Claude-campaign pressure loop, a Gladstone-ready assay operations bundle, and final demo/submission
-production. Every slice must keep Prospect's trust rules intact and pass the gate before deployment.
+Claude-campaign pressure loop, a Gladstone-ready assay operations bundle, a bench-planning pilot
+packet, and final demo/submission production. Every slice must keep Prospect's trust rules intact
+and pass the gate before deployment.
 
 Submission-ready is the floor, not the finish line. The project is already live, replayable, and
 credible. The remaining work should raise the ceiling without weakening the story.
@@ -238,11 +239,16 @@ Gate:
 
 Goal: make the wet-lab handoff feel immediately usable by a domain expert while staying honest.
 
-Status: shipped as `./prospect assay-ops`, `examples/data/assay_operations_bundle.json`,
+Status: shipped as `./prospect assay-ops`, `./prospect pilot-design`,
+`examples/data/assay_operations_bundle.json`,
 `examples/data/assay_operations_bundle.csv`, [ASSAY_OPERATIONS_BUNDLE.md](ASSAY_OPERATIONS_BUNDLE.md),
 `/data/assay_operations_bundle.json`, the judge packet, final-check, submit-smoke, and an Agent tab
 card. It keeps all five rows `evidence_attached`, names expected positive, weakening, and rejection
-evidence, and reports 0 accepted-state mutations.
+evidence, and reports 0 accepted-state mutations. The pilot design adds
+`examples/data/gladstone_pilot_design.json`, `examples/data/gladstone_pilot_design.csv`,
+[GLADSTONE_PILOT_DESIGN.md](GLADSTONE_PILOT_DESIGN.md), and `/data/gladstone_pilot_design.json`:
+three donor replicates, matched Rest/Stim8hr/Stim48hr conditions, controls, and 90 proposal-only
+culture arms.
 
 Recommended shape:
 
@@ -352,7 +358,7 @@ Do not spend hackathon time here unless the core plan changes.
 | Rendered QA packet | Shipped | Keep `./prospect rendered-qa` in final-check and the final audit. |
 | Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
 | Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
-| Gladstone usefulness | Shipped stronger | Keep the assay operations bundle in the Agent tab, judge packet, final-check, and submit-smoke. |
+| Gladstone usefulness | Shipped stronger | Keep the assay operations bundle and pilot design in the judge packet, final-check, and submit-smoke. |
 | Submission packaging | Shipped, human upload remains | Keep `./prospect submission-audit`, demo, and submit packets aligned after any final polish. |
 
 ## Execution order
@@ -360,7 +366,7 @@ Do not spend hackathon time here unless the core plan changes.
 1. Protect the floor: run the full gate before starting and after every slice.
 2. Build second-substrate replay surface. Shipped.
 3. Build or extend Claude campaign pressure loop. Shipped as the pressure summary.
-4. Build Gladstone assay operations bundle. Shipped.
+4. Build Gladstone assay operations bundle and pilot design. Shipped.
 5. Refresh demo and submission surfaces. Shipped with `./prospect submission-audit`.
 6. Keep the public release manifest current. Shipped.
 7. Keep the rendered QA packet current. Shipped.
@@ -373,7 +379,7 @@ The active goal is complete only when:
 - P0 floor remains green.
 - Second-substrate replay surface is shipped or explicitly rejected with evidence.
 - Claude campaign pressure loop is shipped or explicitly bounded with evidence.
-- Gladstone assay operations bundle is shipped or explicitly bounded with evidence.
+- Gladstone assay operations bundle and pilot design are shipped or explicitly bounded with evidence.
 - Demo and submission packets reflect the final artifact surface.
 - Production is deployed and smoke-tested.
 - `./prospect final-check` passes.

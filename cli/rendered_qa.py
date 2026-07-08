@@ -33,8 +33,8 @@ TABS = [
     },
     {
         "tab": "Agent",
-        "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"],
-        "purpose": "Claude pressure, proposal-only assay gates, and lab handoff.",
+        "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
+        "purpose": "Claude pressure, proposal-only assay gates, pilot design, and lab handoff.",
     },
 ]
 
@@ -70,7 +70,7 @@ def build_packet() -> dict[str, Any]:
             "Overview opens on the refusal and overclaiming number, not decoration.",
             "Findings exposes the substrate replay path and MED19 contrast.",
             "Frontier shows receipt submission as proposal-only.",
-            "Agent shows Claude pressure becoming assay gates, not accepted state.",
+            "Agent shows Claude pressure becoming assay gates and pilot design, not accepted state.",
             "Text fits at desktop and mobile viewport sizes.",
         ],
         "limitation": "This packet is a manual browser checklist. It does not prove wet-lab or clinical truth.",

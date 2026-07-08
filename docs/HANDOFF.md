@@ -74,6 +74,10 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   deterministic operations layer over the lab packet. It names expected positive, weakening, and
   rejection evidence for each row, keeps all rows `evidence_attached`, and exports
   `examples/data/assay_operations_bundle.*` plus [ASSAY_OPERATIONS_BUNDLE.md](ASSAY_OPERATIONS_BUNDLE.md).
+- **Gladstone pilot design** (`frontier/gladstone_pilot_design.py`, `./prospect pilot-design`):
+  deterministic bench-planning layer over the operations bundle. It keeps status at
+  `evidence_attached`, reports 90 culture arms across three donor replicates, and exports
+  `examples/data/gladstone_pilot_design.*` plus [GLADSTONE_PILOT_DESIGN.md](GLADSTONE_PILOT_DESIGN.md).
 - **Gladstone assay handoff** ([GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md)): one-page
   wet-lab execution note for the top five assay rows, with controls, readouts, stop rules, and replay
   links. It stays proposal only.
@@ -188,7 +192,7 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-probe-audit|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|assay-ops|pilot-design|findings-index|demo-pack|judge-handout|submission-audit|release-manifest|rendered-qa|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
   `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, assay operations bundle, and static receipt-bridge files),
@@ -227,6 +231,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_probe_audit.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
 `campaign_gate_probe.json`, `campaign_pressure_summary.json`, `assay_operations_bundle.*`,
+`gladstone_pilot_design.*`,
 `transfer_replay_packet.json`, `substrate_replay_packet.json`, `rendered_qa_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
@@ -260,6 +265,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Receipt bridge client demo**: shipped as `python examples/receipt_bridge_client.py`.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
 - **Gladstone assay operations bundle**: shipped as `./prospect assay-ops`.
+- **Gladstone pilot design**: shipped as `./prospect pilot-design`.
 - **Final submission gate**: shipped as `./prospect final-check`.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
 - **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.

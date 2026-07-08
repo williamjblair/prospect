@@ -45,7 +45,7 @@ SHIPPED_WORKSTREAMS = [
     {
         "workstream": "gladstone_assay_operations",
         "state": "shipped",
-        "evidence": ["./prospect assay-ops", "/data/assay_operations_bundle.json"],
+        "evidence": ["./prospect assay-ops", "./prospect pilot-design", "/data/assay_operations_bundle.json", "/data/gladstone_pilot_design.json"],
     },
     {
         "workstream": "demo_and_submission_packets",
@@ -89,7 +89,7 @@ RENDERED_QA_CHECKLIST = {
         },
         {
             "tab": "Agent",
-            "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "PGGT1B"],
+            "must_show": ["Campaign pressure summary", "Gladstone assay operations bundle", "Gladstone pilot design", "PGGT1B"],
         },
     ],
 }
@@ -113,7 +113,7 @@ COMPLETION_REQUIREMENTS = [
     {
         "requirement": "gladstone_assay_operations",
         "status": "shipped",
-        "evidence": ["./prospect assay-ops", "/data/assay_operations_bundle.json"],
+        "evidence": ["./prospect assay-ops", "./prospect pilot-design", "/data/assay_operations_bundle.json", "/data/gladstone_pilot_design.json"],
     },
     {
         "requirement": "demo_submission_packets",

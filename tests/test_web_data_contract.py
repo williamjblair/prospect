@@ -115,6 +115,20 @@ def test_frontier_json_embeds_assay_operations_bundle():
     assert "true" not in json.dumps(bundle).lower()
 
 
+def test_frontier_json_embeds_gladstone_pilot_design():
+    data = json.loads(FRONTIER.read_text())
+    packet = data["gladstone_pilot_design"]
+
+    assert packet["status"] == "evidence_attached"
+    assert packet["trust_boundary"] == "proposal_only"
+    assert packet["accepted_state_mutations"] == 0
+    assert packet["sample_plan"]["culture_arms"] == 90
+    assert len(packet["candidates"]) == 5
+    assert packet["candidates"][0]["gene"] == "PGGT1B"
+    assert "verified" not in json.dumps(packet).lower()
+    assert "true" not in json.dumps(packet).lower()
+
+
 def test_frontier_json_embeds_final_submission_audit():
     data = json.loads(FRONTIER.read_text())
     audit = data["final_submission_audit"]
@@ -126,6 +140,7 @@ def test_frontier_json_embeds_final_submission_audit():
     assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert "/data/release_manifest.json" in audit["public_artifacts"]
     assert "/data/rendered_qa_packet.json" in audit["public_artifacts"]
+    assert "/data/gladstone_pilot_design.json" in audit["public_artifacts"]
     assert audit["rendered_qa_checklist"]["local_url"] == "http://localhost:8124"
     assert audit["rendered_qa_checklist"]["tabs"][0]["tab"] == "Overview"
     assert "Campaign pressure summary" in audit["rendered_qa_checklist"]["tabs"][-1]["must_show"]
@@ -147,5 +162,6 @@ if __name__ == "__main__":
     test_frontier_json_embeds_campaign_pressure_summary()
     test_frontier_json_embeds_campaign_probe_audit()
     test_frontier_json_embeds_assay_operations_bundle()
+    test_frontier_json_embeds_gladstone_pilot_design()
     test_frontier_json_embeds_final_submission_audit()
     print("PASS: web data contract")

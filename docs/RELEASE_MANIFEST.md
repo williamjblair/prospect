@@ -13,16 +13,16 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 ## Hash scope
 
 - Hash algorithm: `sha256`
-- Public artifacts: 22
-- Hashed artifacts: 21
+- Public artifacts: 23
+- Hashed artifacts: 22
 - Manifest self hash: `excluded`
 
 ## Public artifact hashes
 
 | path | bytes | sha256 |
 |---|---:|---|
-| `/data/frontier.json` | 5690341 | `d05b6adabbdc0b115e190df8f3b8e95267046b3d4e56daf82b7855f572cf0d35` |
-| `/data/judge_packet.json` | 17345 | `3639a7541cca46bf5ec07d241f9ae8cfe66a3447d72de02611e9a1d79ef3209c` |
+| `/data/frontier.json` | 5700949 | `bd4a768c45dcb9cfc9bbfd6b4cad6fc15fcf1949ab356df9dcf52d501caec26f` |
+| `/data/judge_packet.json` | 17625 | `36530260119607a04c2d9384d3959de6105fabc36856c4de4879a16aaa71a7c0` |
 | `/data/finding_index.json` | 2711 | `3d5928ef636b49fe92f430e384f720fb28c08ba59b49e8b8c0e982c22565e01a` |
 | `/data/receipt_bridge/receipt_contract.json` | 1803 | `eedc6262011cd5b4345e86c2f3ba362c8aff7fa1705fb1fa18b77fb8f6df731a` |
 | `/data/receipt_bridge/receipt_manifest.json` | 1136 | `2e542c206b7f1ed8347e73b6fa372f7e74e1e6c7f00efda98b0508e82cad445a` |
@@ -40,8 +40,9 @@ This manifest hashes the public data artifacts served by the app. It does not mo
 | `/data/substrate_replay_packet.json` | 3512 | `67b5a7ce085ae7d1777de640d03519208a4a7f2142338efc3851c795d6999895` |
 | `/data/lab_packet.json` | 8323 | `51f9791c309959831c1753d1f035dd465b7f9650cd74886facec395a2bbfa482` |
 | `/data/assay_operations_bundle.json` | 14350 | `0d0f83dff0b992069c9c85c7a5d8e097b3ad6af9f63a05044730ce4b96bbd8eb` |
-| `/data/final_submission_audit.json` | 5451 | `646c5f5a2a41f7b418ab3b14d19c75775748a9765ed6dd60f413354177eb4e40` |
-| `/data/rendered_qa_packet.json` | 1819 | `466e06490a213085945933cc9314f1bcaf4ea4fb35473acfe9d76f62e1df31c8` |
+| `/data/gladstone_pilot_design.json` | 10075 | `804ede72ae41cd4dbbf10ca9245ce0834700768d3e2d9efdeeaaa480b7b64e95` |
+| `/data/final_submission_audit.json` | 5676 | `04fae2fb716a5dda13f526e98c89b11ed828047ac3f92e987ee38983dc719708` |
+| `/data/rendered_qa_packet.json` | 1876 | `b8eadc8ccc8973aab65bddc33e2ffd9f63b2ff7a77d77da1d08c45c466e4d3c9` |
 | `/data/release_manifest.json` | n/a | `self_hash_excluded` |
 
 Hashes prove deployed byte identity, not wet-lab or clinical truth.

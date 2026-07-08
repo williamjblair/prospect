@@ -70,6 +70,7 @@
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
+    "/data/gladstone_pilot_design.json",
     "/data/final_submission_audit.json",
     "/data/release_manifest.json",
     "/data/rendered_qa_packet.json"
@@ -92,7 +93,9 @@
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "assay_operations_candidates": 5,
-    "final_submission_public_artifacts": 22,
+    "pilot_design_candidates": 5,
+    "pilot_design_culture_arms": 90,
+    "final_submission_public_artifacts": 23,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -752,9 +755,17 @@
       "candidate_count": 5,
       "top_gene": "PGGT1B"
     },
+    "pilot_design": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "accepted_state_mutations": 0,
+      "candidate_count": 5,
+      "culture_arms": 90,
+      "donor_replicates": 3
+    },
     "final_submission_audit": {
       "readiness": "submission_ready_for_human_upload",
-      "public_artifact_count": 22,
+      "public_artifact_count": 23,
       "human_only_actions": [
         "record_demo_video",
         "submit_project_form",
