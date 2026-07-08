@@ -172,6 +172,44 @@ type DiseaseGeneticsContext = {
   evidence_type: string;
   has_genetic_association: string;
 };
+type DefendedEvidencePacket = {
+  gene: string;
+  status: string;
+  accepted: boolean;
+  defended_discovery_status: string;
+  honest_ceiling: string;
+  packet_id: string;
+  orthogonal_public_dataset_count: number;
+  scored_evidence: { source: string; status: string; summary: string }[];
+  bar_clearance: { rung: string; status: string; basis: string; count?: number }[];
+  open_gates: { gate: string; reason: string }[];
+  kill_attempts: { kill_id: string; result: string; basis: string }[];
+  mechanism: string;
+  real_world_hook: string;
+  falsifiable_experiment: {
+    system: string;
+    perturbation: string;
+    controls: string[];
+    readout: string;
+    refutes_if: string;
+  };
+  reproduce_command: string;
+};
+type DefendedCandidateDecisions = {
+  campaign_state: string;
+  completion_status: string;
+  decided_count: number;
+  remaining_candidate_count: number;
+  held_candidate: {
+    rank: number;
+    gene: string;
+    typed_status: string;
+    defended_discovery_status: string;
+    evidence_packet_id: string;
+    disposition: string;
+    orthogonal_public_dataset_count: number;
+  } | null;
+};
 type LiveClaimRail = {
   title: string;
   gene: string;
@@ -353,6 +391,8 @@ type Data = {
   cross_validation?: CrossValidationPacket | null;
   flagship_module?: FlagshipModulePacket | null;
   overclaim_counter?: OverclaimCounterPacket | null;
+  ccdc22_defended_evidence?: DefendedEvidencePacket | null;
+  defended_candidate_decisions?: DefendedCandidateDecisions | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -530,6 +570,8 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
       </header>
 
       <DiscoveryCampaignSurface d={d} onGene={onGene} />
+
+      <CCDC22DefendedPanel d={d} onGene={onGene} />
 
       {rate != null && (
         <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
@@ -1472,6 +1514,93 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function CCDC22DefendedPanel({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
+  const packet = d.ccdc22_defended_evidence;
+  const ledger = d.defended_candidate_decisions;
+  if (!packet || !ledger?.held_candidate) return null;
+  const evidenceRows = packet.scored_evidence.filter((row) => row.source !== "marson_frontier");
+  return (
+    <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 16, borderColor: "var(--moss)" }}>
+      <div style={{ display: "flex", alignItems: "start", gap: 12, flexWrap: "wrap" }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="t-label" style={{ marginBottom: 5 }}>Defended discovery outcome</div>
+          <h3 className="h2-app" style={{ margin: 0 }}>CCDC22 defended proposal</h3>
+          <p className="t-body-sm" style={{ maxWidth: "78ch", margin: "8px 0 0" }}>
+            One candidate now clears the computational bar and stays proposal-only: rank 5 CCDC22.
+            The held state is computational bar cleared, pending human key. This is computation over released
+            data, not wet-lab or clinical truth.
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginLeft: "auto" }}>
+          <button type="button" onClick={() => onGene(packet.gene)} className="btn btn-secondary btn-sm">
+            {packet.gene}
+          </button>
+          <a className="btn btn-secondary btn-sm" href="/data/ccdc22_defended_evidence.json" target="_blank" rel="noreferrer">
+            packet <ExternalLink size={13} />
+          </a>
+          <a className="btn btn-secondary btn-sm" href="/data/defended_candidate_decisions.json" target="_blank" rel="noreferrer">
+            ledger <ExternalLink size={13} />
+          </a>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [ledger.decided_count, "candidates demoted", "var(--cinnabar)"],
+          [packet.orthogonal_public_dataset_count, "orthogonal public datasets", "var(--moss)"],
+          [packet.kill_attempts.length, "kill attempts survived", "var(--field-blue)"],
+          [packet.open_gates.length, "open gates", "var(--brass)"],
+        ].map(([value, label, color]) => (
+          <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ marginTop: 3, color: "var(--ink-3)" }}>{label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 14 }}>
+        <div style={{ display: "grid", gap: 8 }}>
+          <div className="t-label">Bar clearance</div>
+          {packet.bar_clearance.map((row) => (
+            <div key={row.rung} className="t-caption" style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
+              <span className="t-mono" style={{ color: "var(--ink-3)" }}>{row.rung}</span>
+              <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{row.status}</span>
+              <span>{row.basis}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "grid", gap: 10 }}>
+          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-label" style={{ marginBottom: 5 }}>External evidence</div>
+            <p className="t-caption" style={{ margin: 0 }}>
+              {evidenceRows.slice(0, 6).map((row) => `${row.source}: ${row.summary}`).join(" · ")}
+            </p>
+          </div>
+          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-label" style={{ marginBottom: 5 }}>Mechanism and hook</div>
+            <p className="t-caption" style={{ margin: 0 }}>{packet.mechanism}</p>
+            <p className="t-caption" style={{ margin: "6px 0 0" }}>{packet.real_world_hook}.</p>
+          </div>
+          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-label" style={{ marginBottom: 5 }}>Refutation experiment</div>
+            <p className="t-caption" style={{ margin: 0 }}>
+              {packet.falsifiable_experiment.perturbation}; {packet.falsifiable_experiment.readout}.
+              Refutes if {packet.falsifiable_experiment.refutes_if}.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", paddingTop: 2 }}>
+        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{packet.status}</span>
+        <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>{packet.defended_discovery_status}</span>
+        <span className="t-mono fz-xs" style={{ color: "var(--ink-3)" }}>{packet.packet_id}</span>
+        <span className="t-caption" style={{ color: "var(--ink-3)" }}>accepted state: {packet.accepted ? "yes" : "no"}</span>
+      </div>
+    </section>
   );
 }
 

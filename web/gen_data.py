@@ -86,6 +86,8 @@ lab_packet = load("lab_packet.json")
 lab_writeback_receipt = load("lab_writeback_receipt.json")
 finding_index = load("finding_index.json")
 disease_genetics_overlay = load("disease_genetics_overlay.json")
+ccdc22_defended_evidence = load("ccdc22_defended_evidence.json")
+defended_candidate_decisions = load("defended_candidate_decisions.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -189,6 +191,8 @@ data = {
     "overclaim_counter": overclaim_counter,
     "lab_packet": lab_packet, "lab_writeback_receipt": lab_writeback_receipt,
     "disease_genetics_overlay": disease_genetics_overlay,
+    "ccdc22_defended_evidence": ccdc22_defended_evidence,
+    "defended_candidate_decisions": defended_candidate_decisions,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -203,7 +207,9 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (overclaim_counter, "overclaim_counter.json"),
                   (lab_packet, "lab_packet.json"),
                   (lab_writeback_receipt, "lab_writeback_receipt.json"),
-                  (finding_index, "finding_index.json"), (disease_genetics_overlay, "disease_genetics_overlay.json")]:
+                  (finding_index, "finding_index.json"), (disease_genetics_overlay, "disease_genetics_overlay.json"),
+                  (ccdc22_defended_evidence, "ccdc22_defended_evidence.json"),
+                  (defended_candidate_decisions, "defended_candidate_decisions.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))
