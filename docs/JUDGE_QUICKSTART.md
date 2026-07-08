@@ -73,6 +73,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/final_submission_audit.json`
 
 ## Why this is a Build Track project
 

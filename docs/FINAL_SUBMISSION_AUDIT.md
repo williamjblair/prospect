@@ -8,7 +8,7 @@ Repo: [https://github.com/williamjblair/prospect](https://github.com/williamjbla
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-Public artifacts: 18
+Public artifacts: 19
 
 ## Trust boundary
 
@@ -58,6 +58,7 @@ Public artifacts: 18
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/final_submission_audit.json`
 
 ## Human-only actions
 

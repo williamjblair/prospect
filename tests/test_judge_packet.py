@@ -39,6 +39,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
     assert packet["artifact_counts"]["assay_operations_candidates"] == 5
+    assert packet["artifact_counts"]["final_submission_public_artifacts"] == 19
     assert packet["artifact_counts"]["transfer_replay_rows"] == 377
     assert packet["artifact_counts"]["substrate_replay_rows"] == 377
     assert packet["artifact_counts"]["pggt1b_evidence_ladder_steps"] == 5
@@ -66,6 +67,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["substrate_replay_rows"] == 377
     assert data["artifact_counts"]["assay_operations_candidates"] == 5
+    assert data["artifact_counts"]["final_submission_public_artifacts"] == 19
     assert data["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
     assert data["science_packet"]["pggt1b_deep_dive"]["evidence_capsule"]["decision"] == "advance_to_orthogonal_assay"
     assert data["science_packet"]["pggt1b"]["matrix_slice_transcripts"] == 671
@@ -77,6 +79,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "Transfer replay packet" in doc
     assert "Substrate replay packet" in doc
     assert "Gladstone assay operations bundle" in doc
+    assert "Final submission audit" in doc
     assert "`/data/judge_packet.json`" in doc
     assert "matrix-slice transcripts" in doc
     assert "./prospect verify" in doc

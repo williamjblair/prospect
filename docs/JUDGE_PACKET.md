@@ -40,6 +40,7 @@ cd web && npm run build
 - Validation candidates: 5
 - Lab packet candidates: 5
 - Assay operations candidates: 5
+- Final submission public artifacts: 19
 - PGGT1B evidence ladder steps: 5
 - PGGT1B matrix-slice transcripts: 671
 
@@ -50,6 +51,10 @@ The top agent hypothesis has an evidence capsule with exact ratios, a released-m
 ## Gladstone assay operations bundle
 
 The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.
+
+## Final submission audit
+
+The final audit names shipped workstreams, required gates, public artifacts, trust boundary, and the human-only upload actions.
 
 ## Campaign gate probe
 
@@ -97,6 +102,7 @@ It starts `./prospect mcp`, discovers the receipt tools, validates a receipt, an
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/final_submission_audit.json`
 
 ## Demo path
 

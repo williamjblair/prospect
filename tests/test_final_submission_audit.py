@@ -22,6 +22,7 @@ def test_final_submission_audit_states_current_readiness_without_overclaiming():
     assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
     assert audit["public_artifact_count"] == len(PUBLIC_ARTIFACTS)
     assert audit["public_artifacts"] == PUBLIC_ARTIFACTS
+    assert "/data/final_submission_audit.json" in audit["public_artifacts"]
     assert audit["trust_boundary"]["model_in_trust_path"] == "no"
     assert audit["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert "record_demo_video" in audit["human_only_actions"]

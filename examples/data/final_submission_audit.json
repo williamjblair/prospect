@@ -4,7 +4,7 @@
   "live_url": "https://prospect-sepia-six.vercel.app",
   "repo_url": "https://github.com/williamjblair/prospect",
   "signed_root": "root_a8b0dcdd4024e12f",
-  "public_artifact_count": 18,
+  "public_artifact_count": 19,
   "public_artifacts": [
     "/data/frontier.json",
     "/data/judge_packet.json",
@@ -23,7 +23,8 @@
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
-    "/data/assay_operations_bundle.json"
+    "/data/assay_operations_bundle.json",
+    "/data/final_submission_audit.json"
   ],
   "source_docs": [
     "docs/JUDGE_QUICKSTART.md",

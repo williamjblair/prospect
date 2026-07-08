@@ -161,6 +161,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
 - `/data/assay_operations_bundle.json`
+- `/data/final_submission_audit.json`
 
 ## Verify it yourself
 

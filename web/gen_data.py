@@ -23,6 +23,7 @@ CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)
 CAMPAIGN_PRESSURE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_pressure_summary.json")
 LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
 ASSAY_OPERATIONS_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "assay_operations_bundle.json")
+FINAL_SUBMISSION_AUDIT_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "final_submission_audit.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
 SUBSTRATE_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "substrate_replay_packet.json")
@@ -73,6 +74,8 @@ _lab_packet = os.path.join(DATA, "lab_packet.json")
 lab_packet = json.load(open(_lab_packet)) if os.path.exists(_lab_packet) else None
 _assay_operations = os.path.join(DATA, "assay_operations_bundle.json")
 assay_operations_bundle = json.load(open(_assay_operations)) if os.path.exists(_assay_operations) else None
+_final_submission_audit = os.path.join(DATA, "final_submission_audit.json")
+final_submission_audit = json.load(open(_final_submission_audit)) if os.path.exists(_final_submission_audit) else None
 _finding_index = os.path.join(DATA, "finding_index.json")
 finding_index = json.load(open(_finding_index)) if os.path.exists(_finding_index) else None
 _transfer_replay = os.path.join(DATA, "transfer_replay_packet.json")
@@ -145,6 +148,7 @@ data = {
     "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe,
     "campaign_pressure_summary": campaign_pressure_summary, "lab_packet": lab_packet,
     "assay_operations_bundle": assay_operations_bundle,
+    "final_submission_audit": final_submission_audit,
     "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
@@ -173,6 +177,8 @@ if lab_packet:
     json.dump(lab_packet, open(LAB_PACKET_OUT, "w"))
 if assay_operations_bundle:
     json.dump(assay_operations_bundle, open(ASSAY_OPERATIONS_OUT, "w"))
+if final_submission_audit:
+    json.dump(final_submission_audit, open(FINAL_SUBMISSION_AUDIT_OUT, "w"))
 if finding_index:
     json.dump(finding_index, open(FINDING_INDEX_OUT, "w"))
 if transfer_replay_packet:

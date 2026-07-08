@@ -67,7 +67,8 @@
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
-    "/data/assay_operations_bundle.json"
+    "/data/assay_operations_bundle.json",
+    "/data/final_submission_audit.json"
   ],
   "artifact_counts": {
     "genes": 11526,
@@ -86,6 +87,7 @@
     "validation_candidates": 5,
     "lab_packet_candidates": 5,
     "assay_operations_candidates": 5,
+    "final_submission_public_artifacts": 19,
     "pggt1b_evidence_ladder_steps": 5,
     "pggt1b_matrix_slice_transcripts": 671
   },
@@ -710,6 +712,15 @@
       "accepted_state_mutations": 0,
       "candidate_count": 5,
       "top_gene": "PGGT1B"
+    },
+    "final_submission_audit": {
+      "readiness": "submission_ready_for_human_upload",
+      "public_artifact_count": 19,
+      "human_only_actions": [
+        "record_demo_video",
+        "submit_project_form",
+        "wet_lab_execution"
+      ]
     }
   }
 }

@@ -190,6 +190,22 @@ def _check_assay_operations(base_url: str, opener: Callable[..., Any], timeout: 
         return Check("assay operations", False, f"fetch failed: {exc}")
 
 
+def _check_final_submission_audit(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/final_submission_audit.json", opener, timeout)
+        ok = (
+            data.get("readiness") == "submission_ready_for_human_upload"
+            and data.get("signed_root") == ROOT
+            and data.get("public_artifact_count") == len(PUBLIC_ARTIFACTS)
+            and "record_demo_video" in data.get("human_only_actions", [])
+            and "submit_project_form" in data.get("human_only_actions", [])
+        )
+        detail = f"{len(PUBLIC_ARTIFACTS)} artifacts and human-only actions" if ok else "final audit shape drift"
+        return Check("final submission audit", ok, detail)
+    except Exception as exc:
+        return Check("final submission audit", False, f"fetch failed: {exc}")
+
+
 def _check_receipt_manifest(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/receipt_bridge/receipt_manifest.json", opener, timeout)
@@ -218,6 +234,7 @@ def run_checks(
         _check_substrate(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),
         _check_assay_operations(base_url, opener, timeout),
+        _check_final_submission_audit(base_url, opener, timeout),
         _check_receipt_manifest(base_url, opener, timeout),
     ]
     return SmokeResult(base_url=base_url, checks=checks)

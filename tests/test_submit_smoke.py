@@ -85,6 +85,12 @@ def _current_payloads():
             "accepted_state_mutations": 0,
             "candidates": [{}, {}, {}, {}, {}],
         },
+        "/data/final_submission_audit.json": {
+            "readiness": "submission_ready_for_human_upload",
+            "signed_root": "root_a8b0dcdd4024e12f",
+            "public_artifact_count": len(PUBLIC_ARTIFACTS),
+            "human_only_actions": ["record_demo_video", "submit_project_form", "wet_lab_execution"],
+        },
         "/data/receipt_bridge/receipt_manifest.json": {
             "frontier_root": "root_a8b0dcdd4024e12f",
             "receipt_count": 6,
@@ -102,7 +108,7 @@ def test_submit_smoke_accepts_current_public_payload_shapes():
     result = run_checks("https://example.test", opener=_opener(payloads))
 
     assert result.ok is True
-    assert len(result.checks) == 10
+    assert len(result.checks) == 11
     assert any(check.name == "judge packet" for check in result.checks)
     assert any(
         check.name == "public artifacts" and check.detail == f"{len(PUBLIC_ARTIFACTS)} public artifacts reachable"
@@ -128,7 +134,7 @@ def test_submit_smoke_rejects_judge_public_data_drift():
     payloads = _current_payloads()
     payloads["/data/judge_packet.json"] = {
         **payloads["/data/judge_packet.json"],
-        "public_data": [path for path in PUBLIC_ARTIFACTS if path != "/data/lab_packet.json"],
+        "public_data": [path for path in PUBLIC_ARTIFACTS if path != "/data/final_submission_audit.json"],
     }
 
     result = run_checks("https://example.test", opener=_opener(payloads))

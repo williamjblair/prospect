@@ -96,6 +96,19 @@ def test_frontier_json_embeds_assay_operations_bundle():
     assert "true" not in json.dumps(bundle).lower()
 
 
+def test_frontier_json_embeds_final_submission_audit():
+    data = json.loads(FRONTIER.read_text())
+    audit = data["final_submission_audit"]
+
+    assert audit["readiness"] == "submission_ready_for_human_upload"
+    assert audit["signed_root"] == "root_a8b0dcdd4024e12f"
+    assert audit["public_artifact_count"] == 19
+    assert "/data/final_submission_audit.json" in audit["public_artifacts"]
+    assert "record_demo_video" in audit["human_only_actions"]
+    assert "verified" not in json.dumps(audit).lower()
+    assert "true" not in json.dumps(audit).lower()
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
@@ -104,4 +117,5 @@ if __name__ == "__main__":
     test_frontier_json_embeds_substrate_replay_packet()
     test_frontier_json_embeds_campaign_pressure_summary()
     test_frontier_json_embeds_assay_operations_bundle()
+    test_frontier_json_embeds_final_submission_audit()
     print("PASS: web data contract")

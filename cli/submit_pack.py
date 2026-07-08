@@ -53,6 +53,7 @@ PUBLIC_ARTIFACTS = [
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json",
     "/data/assay_operations_bundle.json",
+    "/data/final_submission_audit.json",
 ]
 
 

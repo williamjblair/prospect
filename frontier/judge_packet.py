@@ -45,6 +45,7 @@ def build_packet() -> dict[str, Any]:
     campaign_pressure = frontier.get("campaign_pressure_summary") or {}
     lab_packet = frontier.get("lab_packet") or {}
     assay_operations = frontier.get("assay_operations_bundle") or {}
+    final_submission_audit = frontier.get("final_submission_audit") or {}
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
     pggt1b = frontier["pggt1b_deep_dive"]
@@ -116,6 +117,7 @@ def build_packet() -> dict[str, Any]:
             "/data/substrate_replay_packet.json",
             "/data/lab_packet.json",
             "/data/assay_operations_bundle.json",
+            "/data/final_submission_audit.json",
         ],
         "artifact_counts": {
             "genes": frontier["stats"]["n_genes"],
@@ -134,6 +136,7 @@ def build_packet() -> dict[str, Any]:
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
             "lab_packet_candidates": len(lab_packet.get("candidates", [])),
             "assay_operations_candidates": len(assay_operations.get("candidates", [])),
+            "final_submission_public_artifacts": final_submission_audit.get("public_artifact_count", 0),
             "pggt1b_evidence_ladder_steps": len(pggt1b.get("evidence_capsule", {}).get("evidence_ladder", [])),
             "pggt1b_matrix_slice_transcripts": pggt1b.get("matrix_slice", {}).get("n_thresholded_transcripts", 0),
         },
@@ -214,6 +217,11 @@ def build_packet() -> dict[str, Any]:
                 "candidate_count": len(assay_operations.get("candidates", [])),
                 "top_gene": (assay_operations.get("candidates") or [{}])[0].get("gene"),
             },
+            "final_submission_audit": {
+                "readiness": final_submission_audit.get("readiness"),
+                "public_artifact_count": final_submission_audit.get("public_artifact_count"),
+                "human_only_actions": final_submission_audit.get("human_only_actions", []),
+            },
         },
     }
 
@@ -258,6 +266,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Validation candidates: {counts['validation_candidates']}",
         f"- Lab packet candidates: {counts['lab_packet_candidates']}",
         f"- Assay operations candidates: {counts['assay_operations_candidates']}",
+        f"- Final submission public artifacts: {counts['final_submission_public_artifacts']}",
         f"- PGGT1B evidence ladder steps: {counts['pggt1b_evidence_ladder_steps']}",
         f"- PGGT1B matrix-slice transcripts: {counts['pggt1b_matrix_slice_transcripts']}",
         "",
@@ -268,6 +277,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Gladstone assay operations bundle",
         "",
         "The operations bundle turns the top five proposal-only assay rows into explicit expected positive, weakening, and rejection evidence before any accepted state can move.",
+        "",
+        "## Final submission audit",
+        "",
+        "The final audit names shipped workstreams, required gates, public artifacts, trust boundary, and the human-only upload actions.",
         "",
         "## Campaign gate probe",
         "",
