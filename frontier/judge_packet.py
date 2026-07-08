@@ -42,6 +42,7 @@ def build_packet() -> dict[str, Any]:
     campaign_probe = frontier.get("campaign_agent_probe") or {}
     campaign_triage = frontier.get("campaign_triage") or {}
     campaign_gate_probe = frontier.get("campaign_gate_probe") or {}
+    campaign_pressure = frontier.get("campaign_pressure_summary") or {}
     lab_packet = frontier.get("lab_packet") or {}
     transfer_replay = frontier.get("transfer_replay_packet") or {}
     substrate_replay = frontier.get("substrate_replay_packet") or {}
@@ -108,6 +109,7 @@ def build_packet() -> dict[str, Any]:
             "/data/campaign_agent_probe.json",
             "/data/campaign_triage.json",
             "/data/campaign_gate_probe.json",
+            "/data/campaign_pressure_summary.json",
             "/data/transfer_replay_packet.json",
             "/data/substrate_replay_packet.json",
             "/data/lab_packet.json",
@@ -123,6 +125,7 @@ def build_packet() -> dict[str, Any]:
             "campaign_probe_rows": len(campaign_probe.get("rows", [])),
             "campaign_triage_rows": len(campaign_triage.get("rows", [])),
             "campaign_gate_probe_rows": len(campaign_gate_probe.get("rows", [])),
+            "campaign_pressure_rows": len(campaign_pressure.get("pressure_accounting", [])),
             "transfer_replay_rows": transfer_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "substrate_replay_rows": substrate_replay.get("counts", {}).get("t_cell_regulators_compared", 0),
             "validation_candidates": len(validation) or _csv_count(DATA / "validation_candidates.csv"),
@@ -172,6 +175,14 @@ def build_packet() -> dict[str, Any]:
                 "trust_boundary": campaign_gate_probe.get("trust_boundary"),
                 "candidate_count": len(campaign_gate_probe.get("rows", [])),
                 "summary": campaign_gate_probe.get("summary", {}),
+            },
+            "campaign_pressure_summary": {
+                "status": campaign_pressure.get("status"),
+                "trust_boundary": campaign_pressure.get("trust_boundary"),
+                "accepted_state_mutations": campaign_pressure.get("accepted_state_mutations"),
+                "claude_probe_rows": campaign_pressure.get("counts", {}).get("claude_probe_rows", 0),
+                "triage_rows": campaign_pressure.get("counts", {}).get("triage_rows", 0),
+                "gate_recommendations": campaign_pressure.get("gate_recommendations", {}),
             },
             "transfer_replay": {
                 "status": transfer_replay.get("status"),
@@ -230,6 +241,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         f"- Campaign probe rows: {counts['campaign_probe_rows']}",
         f"- Campaign triage rows: {counts['campaign_triage_rows']}",
         f"- Campaign gate probe rows: {counts['campaign_gate_probe_rows']}",
+        f"- Campaign pressure rows: {counts['campaign_pressure_rows']}",
         f"- Transfer replay rows: {counts['transfer_replay_rows']}",
         f"- Substrate replay rows: {counts['substrate_replay_rows']}",
         f"- Validation candidates: {counts['validation_candidates']}",
@@ -244,6 +256,10 @@ def _markdown(packet: dict[str, Any]) -> str:
         "## Campaign gate probe",
         "",
         "The gate probe pressure-tests the disagreement triage rows with closed recommendations: `gate_sufficient`, `add_control`, or `lower_priority`. It stays proposal only.",
+        "",
+        "## Campaign pressure summary",
+        "",
+        "The pressure summary accounts for what Claude changed, what Prospect refused to change, and which assay gates remain before any accepted state can move.",
         "",
         "## Transfer replay packet",
         "",

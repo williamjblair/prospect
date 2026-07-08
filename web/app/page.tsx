@@ -155,6 +155,26 @@ type CampaignGateProbe = {
     stimulated_signal: string; specificity: string; stop_rules: string[];
   }[];
 };
+type CampaignPressureSummary = {
+  title: string;
+  status: string;
+  trust_boundary: string;
+  acceptance: boolean;
+  accepted_state_mutations: number;
+  model_in_trust_path: string;
+  counts: {
+    campaign_candidates: number; deterministic_review_rows: number; claude_probe_rows: number;
+    aligned_rows: number; more_aggressive_rows: number; more_cautious_rows: number;
+    triage_rows: number; gate_probe_rows: number;
+  };
+  gate_recommendations: Record<string, number>;
+  boundary_statement: string;
+  pressure_accounting: {
+    rank: number; gene: string; status: string; trust_boundary: string; deterministic_decision: string;
+    claude_recommendation: string; alignment: string; pressure_result: string; triage_decision: string;
+    gate_recommendation: string; assay_gate: string; reason: string;
+  }[];
+};
 type LabPacket = {
   title: string;
   status: string;
@@ -251,6 +271,7 @@ type Data = {
   campaign_agent_probe?: CampaignAgentProbe | null;
   campaign_triage?: CampaignTriage | null;
   campaign_gate_probe?: CampaignGateProbe | null;
+  campaign_pressure_summary?: CampaignPressureSummary | null;
   lab_packet?: LabPacket | null;
   substrate_replay_packet?: SubstrateReplayPacket | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
@@ -1214,6 +1235,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.campaign_gate_probe && <CampaignGateProbe probe={d.campaign_gate_probe} onGene={onGene} />}
 
+      {d.campaign_pressure_summary && <CampaignPressureSummaryCard summary={d.campaign_pressure_summary} onGene={onGene} />}
+
       {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
 
       {d.validation && d.validation.length > 0 && (
@@ -1520,6 +1543,71 @@ function CampaignGateProbe({ probe, onGene }: { probe: CampaignGateProbe; onGene
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         Source triage <span className="t-mono">{probe.source_triage_id}</span>. Trust boundary: {probe.trust_boundary.replace(/_/g, " ")}.
+      </p>
+    </div>
+  );
+}
+
+function CampaignPressureSummaryCard({ summary, onGene }: { summary: CampaignPressureSummary; onGene: (g: string) => void }) {
+  const label = (value: string) => value.replace(/_/g, " ");
+  const tone = (value: string) => value === "aligned_with_deterministic_review" ? "var(--moss)" :
+    value === "converted_to_assay_gate" ? "var(--brass)" : value === "model_more_cautious" ? "var(--field-blue)" : "var(--stone)";
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Campaign pressure summary</div>
+          <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
+            Claude pressure became review work: aligned rows stayed aligned, more-aggressive rows became assay gates,
+            and no accepted state moved.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/campaign_pressure_summary.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
+          JSON <ExternalLink size={13} />
+        </a>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+        {[
+          [summary.counts.campaign_candidates, "campaign rows", "var(--ink)"],
+          [summary.counts.claude_probe_rows, "Claude probe rows", "var(--field-blue)"],
+          [summary.counts.more_aggressive_rows, "converted to gates", "var(--brass)"],
+          [summary.accepted_state_mutations, "accepted mutations", "var(--cinnabar)"],
+        ].map(([value, title, color]) => (
+          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
+        <table style={{ width: "100%", minWidth: 920, borderCollapse: "collapse" }}>
+          <thead>
+            <tr className="t-label">
+              {["rank", "gene", "Claude pressure", "Prospect result", "gate", "reason"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {summary.pressure_accounting.map((row) => (
+              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
+                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.claude_recommendation)}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  <span className="chip" style={{ ["--tone" as any]: tone(row.pressure_result) }}>{label(row.pressure_result)}</span>
+                </td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{label(row.gate_recommendation)}</td>
+                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)", maxWidth: 360 }}>{row.reason}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="t-caption" style={{ margin: 0 }}>
+        Trust boundary: {label(summary.trust_boundary)}. Model in trust path: {summary.model_in_trust_path}.
       </p>
     </div>
   );

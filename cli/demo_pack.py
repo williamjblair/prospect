@@ -51,17 +51,18 @@ BEATS = [
     {
         "time": "1:30",
         "title": "The Loop",
-        "show": "Overview propose panel.",
+        "show": "Agent tab, campaign pressure summary.",
         "say": (
-            "Claude proposed fifteen transcription factors. The frozen verifier admitted six and "
-            "rejected nine, including FOXP3 in this assay. Claude proposes, frozen code decides, "
-            "and a human key accepts state."
+            "Claude proposed fifteen transcription factors, then pressure-tested the campaign rows. "
+            "Claude pressure became review work: eight probed rows, four more-aggressive calls "
+            "converted to assay gates, and zero accepted-state mutations. Claude proposes, frozen "
+            "code decides, and a human key accepts state."
         ),
     },
     {
         "time": "1:50",
         "title": "Close",
-        "show": "Frontier receipt bridge, then Agent PGGT1B and lab packet.",
+        "show": "Frontier receipt bridge, then Agent PGGT1B, pressure summary, and lab packet.",
         "say": (
             "The receipt bridge shows the boundary: external work can submit a receipt, but the "
             "result is accepted=false and next=human_signature_required. PGGT1B remains "

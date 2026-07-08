@@ -121,6 +121,21 @@ def _check_campaign_gate(base_url: str, opener: Callable[..., Any], timeout: int
         return Check("campaign gate probe", False, f"fetch failed: {exc}")
 
 
+def _check_campaign_pressure(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
+    try:
+        data = _fetch_json(base_url, "/data/campaign_pressure_summary.json", opener, timeout)
+        ok = (
+            data.get("status") == "evidence_attached"
+            and data.get("trust_boundary") == "proposal_only"
+            and data.get("accepted_state_mutations") == 0
+            and data.get("counts", {}).get("claude_probe_rows") == 8
+            and data.get("counts", {}).get("triage_rows") == 4
+        )
+        return Check("campaign pressure", ok, "8 probe rows summarized without accepted state" if ok else "campaign pressure shape drift")
+    except Exception as exc:
+        return Check("campaign pressure", False, f"fetch failed: {exc}")
+
+
 def _check_transfer(base_url: str, opener: Callable[..., Any], timeout: int) -> Check:
     try:
         data = _fetch_json(base_url, "/data/transfer_replay_packet.json", opener, timeout)
@@ -184,6 +199,7 @@ def run_checks(
         _check_judge(base_url, opener, timeout),
         _check_public_artifacts(base_url, opener, timeout),
         _check_campaign_gate(base_url, opener, timeout),
+        _check_campaign_pressure(base_url, opener, timeout),
         _check_transfer(base_url, opener, timeout),
         _check_substrate(base_url, opener, timeout),
         _check_lab_packet(base_url, opener, timeout),

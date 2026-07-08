@@ -20,6 +20,7 @@ CAMPAIGN_REVIEW_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "
 CAMPAIGN_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_agent_probe.json")
 CAMPAIGN_TRIAGE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_triage.json")
 CAMPAIGN_GATE_PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_gate_probe.json")
+CAMPAIGN_PRESSURE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "campaign_pressure_summary.json")
 LAB_PACKET_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "lab_packet.json")
 FINDING_INDEX_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "finding_index.json")
 TRANSFER_REPLAY_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data", "transfer_replay_packet.json")
@@ -65,6 +66,8 @@ _campaign_triage = os.path.join(DATA, "campaign_triage.json")
 campaign_triage = json.load(open(_campaign_triage)) if os.path.exists(_campaign_triage) else None
 _campaign_gate_probe = os.path.join(DATA, "campaign_gate_probe.json")
 campaign_gate_probe = json.load(open(_campaign_gate_probe)) if os.path.exists(_campaign_gate_probe) else None
+_campaign_pressure = os.path.join(DATA, "campaign_pressure_summary.json")
+campaign_pressure_summary = json.load(open(_campaign_pressure)) if os.path.exists(_campaign_pressure) else None
 _lab_packet = os.path.join(DATA, "lab_packet.json")
 lab_packet = json.load(open(_lab_packet)) if os.path.exists(_lab_packet) else None
 _finding_index = os.path.join(DATA, "finding_index.json")
@@ -136,7 +139,8 @@ data = {
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge, "validation": validation,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "agent_campaign_review": agent_campaign_review, "campaign_agent_probe": campaign_agent_probe,
-    "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe, "lab_packet": lab_packet,
+    "campaign_triage": campaign_triage, "campaign_gate_probe": campaign_gate_probe,
+    "campaign_pressure_summary": campaign_pressure_summary, "lab_packet": lab_packet,
     "transfer_replay_packet": transfer_replay_packet, "substrate_replay_packet": substrate_replay_packet,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
@@ -159,6 +163,8 @@ if campaign_triage:
     json.dump(campaign_triage, open(CAMPAIGN_TRIAGE_OUT, "w"))
 if campaign_gate_probe:
     json.dump(campaign_gate_probe, open(CAMPAIGN_GATE_PROBE_OUT, "w"))
+if campaign_pressure_summary:
+    json.dump(campaign_pressure_summary, open(CAMPAIGN_PRESSURE_OUT, "w"))
 if lab_packet:
     json.dump(lab_packet, open(LAB_PACKET_OUT, "w"))
 if finding_index:

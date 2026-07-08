@@ -103,6 +103,11 @@ Every finding is a signed, content-addressed object that re-derives from frozen 
   proposal-only pressure test of the disagreement assay gates. It asks whether each gate is sufficient,
   needs another control, or should be lower priority, exported to `examples/data/campaign_gate_probe.json`
   and [CAMPAIGN_GATE_PROBE.md](CAMPAIGN_GATE_PROBE.md).
+- **Campaign pressure summary** (`frontier/campaign_pressure_summary.py`, `./prospect campaign-pressure`):
+  deterministic synthesis over the campaign, review, Claude probe, triage, and gate-probe artifacts.
+  It accounts for what aligned, what became assay gates, what needed controls, and the zero accepted-state
+  mutations, exported to `examples/data/campaign_pressure_summary.json` and
+  [CAMPAIGN_PRESSURE_SUMMARY.md](CAMPAIGN_PRESSURE_SUMMARY.md).
 - **Transfer replay packet** (`frontier/transfer_replay.py`, `./prospect transfer-replay`): compact
   replay object for the signed cross-cell-type finding. It summarizes the Marson + Replogle K562/RPE1
   checker replay as `computationally_reproduced`, reports 377 compared T-cell regulators, and changes
@@ -157,10 +162,10 @@ accepted state, not a document.
   (static contract/export), `mcp_server.py` (MCP stdio bridge). Output in `receipts/`.
 - **`examples/receipt_bridge_client.py`**: external MCP client demo that discovers the receipt
   contract, validates a committed receipt, and submits it as proposal-only state.
-- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|transfer-replay|substrate-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
+- **`cli/`**: `__main__.py` dispatches `build|verify|sign|check|propose|agent|campaign|campaign-review|campaign-probe|campaign-triage|campaign-gate-probe|campaign-pressure|transfer-replay|substrate-replay|pggt1b|lab-pack|findings-index|demo-pack|judge-pack|final-check|submit-smoke|submit-pack|receipt`. `./prospect` wraps it.
 - **`benchmark/mutation_pack.py`**, **`skill/`** (Agent Skill + stdlib checker), **`tests/`**.
 - **`web/`**: `app/page.tsx` (the entire app), `app/globals.css` (Observatory tokens),
-  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, transfer replay packet, substrate replay packet, lab assay packet, and static receipt-bridge files),
+  `gen_data.py` (assembles `public/data/frontier.json`, the judge packet, the finding index, the PGGT1B packet, the campaign leaderboard, review appendix, agent probes, disagreement triage, campaign pressure summary, transfer replay packet, substrate replay packet, lab assay packet, and static receipt-bridge files),
   `components/graph-view.tsx` (sigma.js).
 - **`docs/`**: FINDINGS, PROTOCOL, DEMO, DEMO_RECORDING_RUNBOOK, SUBMISSION, SUBMISSION_FORM_PACKET, HANDOFF, GLADSTONE_ASSAY_HANDOFF. Root: README,
   NEW_WORK, PRODUCT, DESIGN, AGENTS.
@@ -195,7 +200,7 @@ Committed derived data (the demo artifacts): `web/public/data/frontier.json`, `f
 `agent_run*.json`, `receipts/`, `pggt1b_deep_dive.json`, `agent_campaign.*`,
 `agent_campaign_review.*`, `campaign_agent_probe.json`, `campaign_triage.*`, `lab_packet.*`,
 `finding_index.json`, `judge_packet.json`, `pggt1b_matrix_slice.json`.
-`campaign_gate_probe.json`, `transfer_replay_packet.json`, `substrate_replay_packet.json`.
+`campaign_gate_probe.json`, `campaign_pressure_summary.json`, `transfer_replay_packet.json`, `substrate_replay_packet.json`.
 Gitignored (regenerable):
 `atlas_backbone.json`, `marson_de_full.csv`, `phantom_summary.json`, `.env`,
 `frontier/.prospect_signing_key`, `*.h5ad`.
@@ -229,6 +234,7 @@ uses restrained paint-only transitions in the 180-220ms band.
 - **Gladstone assay handoff**: shipped as [GLADSTONE_ASSAY_HANDOFF.md](GLADSTONE_ASSAY_HANDOFF.md).
 - **Final submission gate**: shipped as `./prospect final-check`.
 - **Campaign gate probe**: shipped as `./prospect campaign-gate-probe`.
+- **Campaign pressure summary**: shipped as `./prospect campaign-pressure`.
 - **Agent campaign next pass**: shipped for the top eight campaign rows as `./prospect campaign-probe`.
   Disagreement triage is now shipped as `./prospect campaign-triage`. A next increment would run an
   additional model pass against the disagreement gates.

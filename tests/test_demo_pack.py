@@ -28,6 +28,7 @@ def test_demo_pack_has_timed_recording_beats():
         "PD-1, TIM-3, CTLA-4, and IL-2 are outputs here",
         "The same claim runs through Marson and Replogle checkers",
         "Claude proposes, frozen code decides, and a human key accepts state",
+        "Claude pressure became review work",
         "accepted=false",
         "PGGT1B remains evidence_attached",
     ]:
@@ -85,6 +86,7 @@ def test_demo_teleprompter_doc_tracks_packet():
         "1:50, Close",
         "accepted=false",
         "human_signature_required",
+        "campaign pressure summary",
         "PGGT1B remains `evidence_attached`",
         "Do not claim wet-lab or clinical truth",
     ]:

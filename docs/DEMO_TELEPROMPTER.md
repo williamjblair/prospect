@@ -57,15 +57,16 @@ state.
 
 ### 1:30, The Loop
 
-Show: Overview propose panel.
+Show: Agent tab, campaign pressure summary.
 
-Say: Claude proposed fifteen transcription factors. The frozen verifier admitted six and rejected
-nine, including FOXP3 in this assay. Claude proposes, frozen code decides, and a human key accepts
+Say: Claude proposed fifteen transcription factors, then pressure-tested the campaign rows. Claude
+pressure became review work: eight probed rows, four more-aggressive calls converted to assay gates,
+and zero accepted-state mutations. Claude proposes, frozen code decides, and a human key accepts
 state.
 
 ### 1:50, Close
 
-Show: Frontier receipt bridge, then Agent PGGT1B and lab packet.
+Show: Frontier receipt bridge, then Agent PGGT1B, pressure summary, and lab packet.
 
 Say: The receipt bridge shows the boundary: external work can submit a receipt, but the result is
 `accepted=false` and `next=human_signature_required`. PGGT1B remains `evidence_attached`. The packet

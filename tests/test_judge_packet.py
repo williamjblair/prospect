@@ -35,6 +35,7 @@ def test_judge_packet_summarizes_live_replay_surface():
     assert packet["artifact_counts"]["campaign_probe_rows"] == 8
     assert packet["artifact_counts"]["campaign_triage_rows"] == 4
     assert packet["artifact_counts"]["campaign_gate_probe_rows"] == 4
+    assert packet["artifact_counts"]["campaign_pressure_rows"] == 8
     assert packet["artifact_counts"]["validation_candidates"] == 5
     assert packet["artifact_counts"]["lab_packet_candidates"] == 5
     assert packet["artifact_counts"]["transfer_replay_rows"] == 377
@@ -60,6 +61,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert data["artifact_counts"]["campaign_probe_rows"] == 8
     assert data["artifact_counts"]["campaign_triage_rows"] == 4
     assert data["artifact_counts"]["campaign_gate_probe_rows"] == 4
+    assert data["artifact_counts"]["campaign_pressure_rows"] == 8
     assert data["artifact_counts"]["transfer_replay_rows"] == 377
     assert data["artifact_counts"]["substrate_replay_rows"] == 377
     assert data["artifact_counts"]["pggt1b_matrix_slice_transcripts"] == 671
@@ -69,6 +71,7 @@ def test_judge_packet_writes_json_and_markdown(tmp_path):
     assert "No model in the trust path" in doc
     assert "PGGT1B evidence capsule" in doc
     assert "Campaign gate probe" in doc
+    assert "Campaign pressure summary" in doc
     assert "Transfer replay packet" in doc
     assert "Substrate replay packet" in doc
     assert "`/data/judge_packet.json`" in doc

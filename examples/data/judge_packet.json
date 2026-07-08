@@ -62,6 +62,7 @@
     "/data/campaign_agent_probe.json",
     "/data/campaign_triage.json",
     "/data/campaign_gate_probe.json",
+    "/data/campaign_pressure_summary.json",
     "/data/transfer_replay_packet.json",
     "/data/substrate_replay_packet.json",
     "/data/lab_packet.json"
@@ -77,6 +78,7 @@
     "campaign_probe_rows": 8,
     "campaign_triage_rows": 4,
     "campaign_gate_probe_rows": 4,
+    "campaign_pressure_rows": 8,
     "transfer_replay_rows": 377,
     "substrate_replay_rows": 377,
     "validation_candidates": 5,
@@ -663,6 +665,18 @@
       "trust_boundary": "proposal_only",
       "candidate_count": 4,
       "summary": {
+        "add_control": 1,
+        "gate_sufficient": 2,
+        "lower_priority": 1
+      }
+    },
+    "campaign_pressure_summary": {
+      "status": "evidence_attached",
+      "trust_boundary": "proposal_only",
+      "accepted_state_mutations": 0,
+      "claude_probe_rows": 8,
+      "triage_rows": 4,
+      "gate_recommendations": {
         "add_control": 1,
         "gate_sufficient": 2,
         "lower_priority": 1

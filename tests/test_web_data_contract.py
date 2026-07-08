@@ -67,10 +67,25 @@ def test_frontier_json_embeds_substrate_replay_packet():
     assert "true" not in json.dumps(packet).lower()
 
 
+def test_frontier_json_embeds_campaign_pressure_summary():
+    data = json.loads(FRONTIER.read_text())
+    summary = data["campaign_pressure_summary"]
+
+    assert summary["status"] == "evidence_attached"
+    assert summary["trust_boundary"] == "proposal_only"
+    assert summary["accepted_state_mutations"] == 0
+    assert summary["counts"]["claude_probe_rows"] == 8
+    assert summary["counts"]["triage_rows"] == 4
+    assert summary["gate_recommendations"]["gate_sufficient"] == 2
+    assert "verified" not in json.dumps(summary).lower()
+    assert "true" not in json.dumps(summary).lower()
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_pggt1b_matrix_slice()
     test_frontier_json_embeds_transfer_replay_packet()
     test_frontier_json_embeds_substrate_replay_packet()
+    test_frontier_json_embeds_campaign_pressure_summary()
     print("PASS: web data contract")

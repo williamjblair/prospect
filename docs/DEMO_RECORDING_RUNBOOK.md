@@ -35,6 +35,7 @@ Confirm:
 - The receipt bridge client returns `accepted=false`.
 - The receipt bridge client returns `next=human_signature_required`.
 - `/data/judge_packet.json` reports root `root_a8b0dcdd4024e12f`.
+- `/data/campaign_pressure_summary.json` accounts for eight Claude probe rows and zero accepted-state mutations.
 - `/data/transfer_replay_packet.json` reports 377 compared T-cell regulators and no accepted-state mutation.
 - `/data/substrate_replay_packet.json` reports 377 replayed rows across three frozen substrates.
 
@@ -81,12 +82,13 @@ genes in K562. BCL10 moves 2. The transfer replay packet keeps this at
 
 ### 1:30, The Loop
 
-Return to Overview.
+Open Agent.
 
-Show the propose panel.
+Show the campaign pressure summary.
 
-Say: Claude proposed fifteen transcription factors. The frozen verifier admitted six and rejected
-nine, including FOXP3 in this assay. Claude proposes; frozen code decides; a human key accepts.
+Say: Claude proposed fifteen transcription factors, then pressure-tested the campaign rows. Claude
+pressure became review work: eight probed rows, four more-aggressive calls converted to assay gates,
+and zero accepted-state mutations. Claude proposes; frozen code decides; a human key accepts.
 
 ### 1:50, Close
 

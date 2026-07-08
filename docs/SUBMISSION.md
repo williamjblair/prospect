@@ -67,6 +67,8 @@ the graph on its own word. On top of it:
   rows into assay gates, preserving the deterministic review decision and the proposal-only boundary.
 - **Campaign gate probe**: `prospect campaign-gate-probe` pressure-tests those assay gates with
   closed recommendations, `gate_sufficient`, `add_control`, or `lower_priority`.
+- **Campaign pressure summary**: `prospect campaign-pressure` summarizes what Claude changed, what
+  Prospect refused to change, and which assay gates remain before accepted state can move.
 - **Transfer replay packet**: `prospect transfer-replay` emits the compact replay object behind the
   signed cross-cell-type finding, using Marson and Replogle checkers without changing accepted state.
   The generated memo is [docs/TRANSFER_REPLAY_PACKET.md](TRANSFER_REPLAY_PACKET.md).
@@ -148,6 +150,7 @@ the trust floor after the event window without private credentials for the stati
 - `/data/campaign_agent_probe.json`
 - `/data/campaign_triage.json`
 - `/data/campaign_gate_probe.json`
+- `/data/campaign_pressure_summary.json`
 - `/data/transfer_replay_packet.json`
 - `/data/substrate_replay_packet.json`
 - `/data/lab_packet.json`
@@ -169,6 +172,7 @@ python examples/receipt_bridge_client.py # run the external receipt bridge clien
 ./prospect campaign-probe         # run Claude probes against campaign rows
 ./prospect campaign-triage        # turn probe disagreements into assay gates
 ./prospect campaign-gate-probe    # pressure-test disagreement assay gates
+./prospect campaign-pressure      # summarize model pressure and remaining gates
 ./prospect transfer-replay        # write the transfer replay packet
 ./prospect substrate-replay       # write the substrate replay packet
 ./prospect pggt1b                 # write the PGGT1B evidence packet

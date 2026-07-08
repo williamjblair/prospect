@@ -105,6 +105,12 @@ Risk:
 Goal: prove Prospect is a protocol, not a one-dataset viewer, without building a risky full second
 frontier.
 
+Status: shipped as `./prospect substrate-replay`, `examples/data/substrate_replay_packet.json`,
+[SUBSTRATE_REPLAY_PACKET.md](SUBSTRATE_REPLAY_PACKET.md), `/data/substrate_replay_packet.json`, the
+judge packet, final-check, submit-smoke, and a Findings tab card. It reports 377 replayed T-cell
+regulators across Marson CD4+ T cells, Replogle K562, and Replogle RPE1, with no accepted-state
+mutation.
+
 Recommended shape:
 
 - Add a compact `./prospect substrate-replay` or stronger `./prospect replogle-replay` command.
@@ -145,6 +151,13 @@ Gate:
 ### P1, complete the Claude campaign pressure loop
 
 Goal: make the "Built with Claude" story deeper than one agent run while preserving the boundary.
+
+Status: shipped as `./prospect campaign-pressure`,
+`examples/data/campaign_pressure_summary.json`, [CAMPAIGN_PRESSURE_SUMMARY.md](CAMPAIGN_PRESSURE_SUMMARY.md),
+`/data/campaign_pressure_summary.json`, the judge packet, final-check, submit-smoke, and an Agent tab
+card. It accounts for 20 campaign rows, 20 deterministic review rows, 8 Claude probe rows, 4
+more-aggressive rows converted to assay gates, gate-probe recommendations, and 0 accepted-state
+mutations.
 
 Recommended shape:
 
@@ -281,16 +294,16 @@ Do not spend hackathon time here unless the core plan changes.
 | Mutation floor | Satisfied | Keep `benchmark/mutation_pack.py` in the gate. |
 | Skill parity | Satisfied | Keep `python tests/test_skill_parity.py` in the gate. |
 | Live production | Satisfied | Redeploy after web changes and run `./prospect submit-smoke`. |
-| Protocol generalization | Partially satisfied by transfer replay | Build the second-substrate replay surface. |
-| Built with Claude story | Strong, can be stronger | Complete the campaign pressure loop. |
+| Protocol generalization | Shipped | Keep substrate replay in final-check, submit-smoke, and the live Findings tab. |
+| Built with Claude story | Shipped stronger | Keep campaign pressure summary in the Agent tab and demo script. |
 | Gladstone usefulness | Strong, can be stronger | Build the assay operations bundle. |
 | Submission packaging | Strong | Refresh demo/submission packets after P1 work. |
 
 ## Execution order
 
 1. Protect the floor: run the full gate before starting and after every slice.
-2. Build second-substrate replay surface.
-3. Build or extend Claude campaign pressure loop.
+2. Build second-substrate replay surface. Shipped.
+3. Build or extend Claude campaign pressure loop. Shipped as the pressure summary.
 4. Build Gladstone assay operations bundle.
 5. Refresh demo and submission surfaces.
 6. Record and submit.
@@ -313,5 +326,7 @@ The active goal is complete only when:
 
 Do not stop at submission-ready. Use the remaining hackathon window to raise the ceiling in ways
 that strengthen the same thesis: Claude makes activity cheap, Prospect decides what becomes
-replayable state. The best next build is the second-substrate replay surface because it turns the
-protocol claim from an argument into another executable artifact while keeping the Marson story clean.
+replayable state. The best next build is the Gladstone assay operations bundle because protocol
+generalization and campaign pressure accounting are now executable, and the remaining ceiling is to
+make the wet-lab handoff operational enough for a domain expert to act on without accepting weak
+evidence.

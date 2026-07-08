@@ -11,6 +11,7 @@
   prospect campaign-probe   run Claude probes against campaign rows
   prospect campaign-triage  build deterministic triage from probe disagreements
   prospect campaign-gate-probe run Claude probes against disagreement assay gates
+  prospect campaign-pressure build the campaign pressure summary packet
   prospect transfer-replay  build a compact transfer replay packet
   prospect substrate-replay build the protocol-generalization substrate replay packet
   prospect pggt1b           build the PGGT1B evidence packet
@@ -56,6 +57,8 @@ def main():
         from frontier.campaign_triage import main as campaign_triage_main; campaign_triage_main()
     elif cmd == "campaign-gate-probe":
         from loop.campaign_gate_probe import main as campaign_gate_probe_main; campaign_gate_probe_main(rest)
+    elif cmd == "campaign-pressure":
+        from frontier.campaign_pressure_summary import main as campaign_pressure_main; campaign_pressure_main()
     elif cmd == "transfer-replay":
         from frontier.transfer_replay import main as transfer_replay_main; transfer_replay_main()
     elif cmd == "substrate-replay":
