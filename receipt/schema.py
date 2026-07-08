@@ -79,6 +79,12 @@ class Receipt:
     verifier: Verifier
     status: Status
     replayability: Replayability
+    schema_version: str = "prospect.receipt.v0"
+    conditions: List[str] = field(default_factory=list)
+    verification_requirements: List[str] = field(default_factory=list)
+    state_diff: dict = field(default_factory=dict)
+    submitter_identity: dict = field(default_factory=dict)
+    replay_metadata: dict = field(default_factory=dict)
     scope: List[str] = field(default_factory=list)   # conditions, caveats
     acceptance: Optional[Acceptance] = None
     receipt_id: str = ""
@@ -96,4 +102,28 @@ class Receipt:
     def to_dict(self):
         d = asdict(self)
         d["accepted"] = self.acceptance is not None
+        if not d["conditions"]:
+            d["conditions"] = list(self.scope)
+        if not d["verification_requirements"]:
+            d["verification_requirements"] = [
+                self.verifier.method,
+                self.verifier.replay,
+                "human_signature_required",
+            ]
+        if not d["state_diff"]:
+            d["state_diff"] = {
+                "accepted": self.acceptance is not None,
+                "model_can_apply": False,
+                "delta_id": self.acceptance.delta_id if self.acceptance else "",
+                "effect": "accepted_state_exists" if self.acceptance else "proposal_only_no_state_mutation",
+            }
+        if not d["submitter_identity"]:
+            d["submitter_identity"] = dict(self.producer)
+        if not d["replay_metadata"]:
+            d["replay_metadata"] = {
+                "command": self.verifier.replay,
+                "verifier": self.verifier.name,
+                "replayability": self.replayability,
+                "frontier": self.frontier,
+            }
         return d

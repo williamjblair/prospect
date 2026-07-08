@@ -39,6 +39,41 @@ receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["r
 bridge = export_bridge(BRIDGE_OUT)["manifest"]
 external_run_receipt_demo = external_run_receipt_preview()
 
+pggt1b_receipt = next(
+    (r for r in _receipts_raw if r.get("kind") == "hypothesis" and "PGGT1B" in r.get("subject", [])),
+    None,
+)
+live_claim_rail = None
+if pggt1b_receipt:
+    live_claim_rail = {
+        "title": "Follow one claim",
+        "gene": "PGGT1B",
+        "claim": pggt1b_receipt["claim"],
+        "status": pggt1b_receipt["status"],
+        "receipt_id": pggt1b_receipt["receipt_id"],
+        "receipt_kind": pggt1b_receipt["kind"],
+        "reproduce_command": pggt1b_receipt["verifier"]["replay"],
+        "accepted_event": (pggt1b_receipt.get("acceptance") or {}).get("delta_id", ""),
+        "accepted_state": False,
+        "why_not_state": "The receipt binds replayable evidence, but the biological claim remains a proposal until orthogonal wet-lab evidence and a human state-signing step.",
+        "state_diff": {
+            "accepted": False,
+            "model_can_apply": False,
+            "effect": "proposal_only_no_state_mutation",
+            "target": "prospect_marson_cd4_perturbseq",
+        },
+        "open_obligation": "orthogonal wet-lab evidence before accepted biological state",
+        "next_task": "run stimulated primary CD4+ follow-up assay",
+        "stages": [
+            {"stage": "Claim", "text": pggt1b_receipt["claim"]},
+            {"stage": "Receipt", "text": pggt1b_receipt["receipt_id"]},
+            {"stage": "State diff", "text": "proposal_only_no_state_mutation"},
+            {"stage": "Replay", "text": pggt1b_receipt["verifier"]["replay"]},
+            {"stage": "Obligation", "text": "orthogonal wet-lab evidence"},
+            {"stage": "Next task", "text": "stimulated primary CD4+ follow-up assay"},
+        ],
+    }
+
 # Kept packets surfaced in the app.
 pggt1b_deep_dive = load("pggt1b_deep_dive.json")
 pggt1b_matrix_slice = load("pggt1b_matrix_slice.json")
@@ -106,6 +141,7 @@ data = {
                             for p in proposal["proposals"]]} if proposal else None),
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge,
     "external_run_receipt_demo": external_run_receipt_demo,
+    "live_claim_rail": live_claim_rail,
     "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
     "lab_packet": lab_packet, "disease_genetics_overlay": disease_genetics_overlay,
     "demo": demo, "phantom": phantom, "models": models,

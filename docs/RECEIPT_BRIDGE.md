@@ -5,6 +5,9 @@ An external workbench can discover the receipt contract, validate a receipt,
 and submit it as a proposal. Submission never moves accepted state. Accepted
 state still requires the frozen verifier and the human signing path.
 
+The written receipt shape is [RECEIPT_SCHEMA.md](RECEIPT_SCHEMA.md), backed by
+`receipt/receipt_schema_v0.json`.
+
 Run:
 
 ```bash
@@ -30,12 +33,17 @@ Judge demo client:
 ```bash
 python examples/receipt_bridge_client.py
 python examples/receipt_bridge_client.py --json
+python examples/openresearch_receipt_client.py --json
 ```
 
 The client starts `./prospect mcp`, discovers the three tools, validates the
 first committed receipt, and submits it across the bridge. The expected summary
 contains `accepted=false` and `next=human_signature_required`. It does not write
 the frontier signature or receipt bundle.
+
+The OpenResearch-style client constructs a biology-shaped external run bundle,
+replays the VAV1 claim against the Marson checker, and submits the resulting
+receipt as a proposal only.
 
 The static export lives at:
 

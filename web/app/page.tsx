@@ -13,6 +13,8 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle";
 import { GraphView } from "@/components/graph-view";
 
+const LIVE_CLAIM_RAIL_TITLE = "Follow one claim";
+
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
 type Edge = { t?: string; s?: string; d: string; e: number };
@@ -136,6 +138,22 @@ type DiseaseGeneticsContext = {
   evidence_type: string;
   has_genetic_association: string;
 };
+type LiveClaimRail = {
+  title: string;
+  gene: string;
+  claim: string;
+  status: string;
+  receipt_id: string;
+  receipt_kind: string;
+  reproduce_command: string;
+  accepted_event: string;
+  accepted_state: boolean;
+  why_not_state: string;
+  state_diff: { accepted: boolean; model_can_apply: boolean; effect: string; target: string };
+  open_obligation: string;
+  next_task: string;
+  stages: { stage: string; text: string }[];
+};
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
@@ -164,6 +182,7 @@ type Data = {
   agent_campaign?: AgentCampaign | null;
   lab_packet?: LabPacket | null;
   disease_genetics_overlay?: DiseaseGeneticsOverlay | null;
+  live_claim_rail?: LiveClaimRail | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -459,6 +478,8 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </div>
       </section>
 
+      {d.live_claim_rail && <LiveClaimRail rail={d.live_claim_rail} setTab={setTab} />}
+
       {d.proposal && (
         <section style={{ display: "grid", gap: 10 }}>
           <h2 className="h2-app">Claude proposes, the frozen verifier decides</h2>
@@ -526,6 +547,66 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </section>
       )}
     </div>
+  );
+}
+
+function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: string) => void }) {
+  return (
+    <section style={{ display: "grid", gap: 10 }}>
+      <div>
+        <div className="t-label" style={{ marginBottom: 5 }}>{rail.title || LIVE_CLAIM_RAIL_TITLE}</div>
+        <h2 className="h2-app" style={{ margin: 0 }}>{rail.gene}: receipt to proposed state</h2>
+        <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "72ch" }}>
+          One addressable claim crosses the boundary as a receipt. It has a typed status and a proposed
+          state diff, but the diff is proposal only until the open obligation is satisfied.
+        </p>
+      </div>
+      <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <span className="t-mono" style={{ fontWeight: 700 }}>{rail.gene}</span>
+          <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{rail.status.replace(/_/g, " ")}</span>
+          <span className="chip" style={{ ["--tone" as any]: rail.accepted_state ? "var(--moss)" : "var(--cinnabar)" }}>
+            accepted state={String(rail.accepted_state)}
+          </span>
+          <span className="t-mono fz-2xs" style={{ color: "var(--ink-3)" }}>{rail.receipt_id}</span>
+        </div>
+        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink)" }}>{rail.claim}</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
+          {rail.stages.map((step) => (
+            <div key={step.stage} style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)",
+              borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 4 }}>
+              <span className="t-label">{step.stage}</span>
+              <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{step.text}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
+          <div>
+            <div className="t-label">state_diff</div>
+            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
+              {rail.state_diff.effect}. model_can_apply={String(rail.state_diff.model_can_apply)}.
+            </p>
+          </div>
+          <div>
+            <div className="t-label">reproduce command</div>
+            <p className="t-mono fz-2xs" style={{ margin: "4px 0 0", color: "var(--field-blue)", fontWeight: 700 }}>
+              {rail.reproduce_command}
+            </p>
+          </div>
+          <div>
+            <div className="t-label">open_obligation</div>
+            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>{rail.open_obligation}</p>
+          </div>
+        </div>
+        <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+          {rail.why_not_state} Next task: {rail.next_task}.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipt</button>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open assay packet</button>
+        </div>
+      </div>
+    </section>
   );
 }
 

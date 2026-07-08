@@ -19,6 +19,7 @@ SOURCE_DOCS = [
     "docs/FINDINGS.md",
     "docs/PROTOCOL.md",
     "docs/RECEIPT_BRIDGE.md",
+    "docs/RECEIPT_SCHEMA.md",
     "docs/JUDGE_HANDOUT.md",
 ]
 
@@ -28,6 +29,7 @@ VERIFICATION_COMMANDS = [
     "python tests/test_skill_parity.py",
     "python tests/test_marson.py",
     "python examples/receipt_bridge_client.py --json",
+    "python examples/openresearch_receipt_client.py --json",
 ]
 
 PUBLIC_ARTIFACTS = [

@@ -25,6 +25,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python tests/test_skill_parity.py",
         "python tests/test_marson.py",
         "python examples/receipt_bridge_client.py --json",
+        "python examples/openresearch_receipt_client.py --json",
     ]:
         assert command in packet["verification_commands"]
 
@@ -35,6 +36,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/FINDINGS.md",
         "docs/PROTOCOL.md",
         "docs/RECEIPT_BRIDGE.md",
+        "docs/RECEIPT_SCHEMA.md",
         "docs/JUDGE_HANDOUT.md",
     ]:
         assert path in packet["source_docs"]

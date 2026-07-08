@@ -17,6 +17,7 @@ KEPT_PACKET_KEYS = [
     "receipts",
     "receipt_bridge",
     "external_run_receipt_demo",
+    "live_claim_rail",
 ]
 
 CUT_PACKET_KEYS = [
@@ -131,6 +132,17 @@ def test_frontier_json_embeds_external_run_receipt_demo():
     ]
 
 
+def test_frontier_json_embeds_live_claim_rail():
+    data = json.loads(FRONTIER.read_text())
+    rail = data["live_claim_rail"]
+
+    assert rail["gene"] == "PGGT1B"
+    assert rail["status"] == "evidence_attached"
+    assert rail["accepted_state"] is False
+    assert rail["state_diff"]["model_can_apply"] is False
+    assert rail["reproduce_command"] == "./prospect agent"
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_keeps_only_the_consolidated_packet_surface()
@@ -139,4 +151,5 @@ if __name__ == "__main__":
     test_frontier_json_embeds_disease_genetics_overlay_packet()
     test_frontier_json_embeds_agent_campaign_and_lab_packet()
     test_frontier_json_embeds_external_run_receipt_demo()
+    test_frontier_json_embeds_live_claim_rail()
     print("PASS: web data contract")

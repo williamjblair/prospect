@@ -110,16 +110,16 @@ def from_agent():
         scope=[h.get("why_novel", ""), "a hypothesis to test, not an established result"],
         acceptance=acc).freeze()
 
-def emit_all():
+def emit_all(outdir=OUTDIR):
     findings = [json.loads(l) for l in open(os.path.join(FR, "findings.jsonl"))] if os.path.exists(os.path.join(FR, "findings.jsonl")) else []
     receipts = [from_finding(f) for f in findings]
     a = from_agent()
     if a:
         receipts.append(a)
-    os.makedirs(OUTDIR, exist_ok=True)
+    os.makedirs(outdir, exist_ok=True)
     for r in receipts:
-        json.dump(r.to_dict(), open(os.path.join(OUTDIR, r.receipt_id + ".json"), "w"), indent=2)
-    with open(os.path.join(OUTDIR, "receipts.jsonl"), "w") as fh:
+        json.dump(r.to_dict(), open(os.path.join(outdir, r.receipt_id + ".json"), "w"), indent=2)
+    with open(os.path.join(outdir, "receipts.jsonl"), "w") as fh:
         for r in receipts:
             fh.write(json.dumps(r.to_dict()) + "\n")
     return receipts
@@ -128,11 +128,12 @@ def main(argv=None):
     import argparse
     from receipt.bridge import export_bridge, validate_receipt, DEFAULT_OUT
     ap = argparse.ArgumentParser(prog="prospect receipt")
+    ap.add_argument("--out-dir", default=OUTDIR, help="directory for emitted receipt JSON files")
     ap.add_argument("--no-bridge", action="store_true", help="skip bridge contract export")
     ap.add_argument("--bridge-out", default=str(DEFAULT_OUT), help="directory for bridge contract artifacts")
     args = ap.parse_args(argv)
-    receipts = emit_all()
-    print(f"emitted {len(receipts)} receipts -> {OUTDIR}/\n")
+    receipts = emit_all(args.out_dir)
+    print(f"emitted {len(receipts)} receipts -> {args.out_dir}/\n")
     for r in receipts:
         acc = f"signed by {r.acceptance.signer}" if r.acceptance else "unsigned"
         print(f"  {r.receipt_id}  {r.status:26s} {r.replayability:10s} {acc:22s} {r.kind}: {', '.join(r.subject[:3])}")
