@@ -12,6 +12,8 @@ Submission text: `docs/SUBMISSION.md`
 
 Demo script: `docs/DEMO.md`
 
+Recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
+
 Replay gate:
 
 ```bash
@@ -49,7 +51,7 @@ Confirm:
 
 ## Record The Demo Video
 
-Record the demo video from `docs/DEMO.md`.
+Record the demo video from `docs/DEMO.md` and `docs/DEMO_RECORDING_RUNBOOK.md`.
 
 Keep the first 20 seconds on the refusal and overclaiming number. Do not open on the graph.
 

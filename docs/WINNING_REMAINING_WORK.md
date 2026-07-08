@@ -7,7 +7,7 @@ Live project: https://prospect-sepia-six.vercel.app
 Current git state: use `git log -1 --oneline` as the source of truth. This memo was refreshed after
 the receipt bridge client, final-check gate, Gladstone assay handoff, campaign gate probe, and
 transfer replay packet shipped. The Frontier tab now also includes the judge-facing "Try the boundary"
-receipt bridge strip.
+receipt bridge strip. The demo recording runbook now packages the human recording path.
 
 Signed root audited: `root_a8b0dcdd4024e12f`
 
@@ -123,7 +123,7 @@ The core story is present and coherent across `README.md`, `docs/PROTOCOL.md`, `
 These are not repo blockers. They are human/process tasks.
 
 1. **Record the demo video.**
-   - Use `docs/DEMO.md`.
+   - Use `docs/DEMO.md` and `docs/DEMO_RECORDING_RUNBOOK.md`.
    - Keep the first 20 seconds on the refusal and overclaiming number.
    - Do not open on the graph.
    - End on the receipt boundary plus PGGT1B lab-facing packet.
@@ -327,13 +327,13 @@ These could improve the chance of winning without changing the core scientific s
 | Built with Claude story | Satisfied | Benchmark, propose loop, autonomous agent, campaign probe, docs | Optional gate-probe pass |
 | Gladstone/domain credibility | Strong | Marson screen facts, PubMed citations, PGGT1B matrix slice, wet-lab packet | Optional assay handoff one-pager |
 | Protocol claim | Strong | Receipts, MCP bridge, public contract, tests | Optional external client demo |
-| Submission packaging | Mostly human task | `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, live site | Record and submit |
+| Submission packaging | Mostly human task | `docs/SUBMISSION.md`, `docs/DEMO.md`, `docs/DEMO_RECORDING_RUNBOOK.md`, `docs/FINAL_SUBMISSION_CHECKLIST.md`, live site | Record and submit |
 
 ## Recommended next sequence
 
 If work continues, do it in this order:
 
-1. **Human submitter work:** record the two-minute demo and submit. This is the only P0 work.
+1. **Human submitter work:** record the two-minute demo from `docs/DEMO_RECORDING_RUNBOOK.md` and submit. This is the only P0 work.
 2. **Final checklist:** use `docs/FINAL_SUBMISSION_CHECKLIST.md`.
 3. **Second frontier:** only if the above are done and there is enough time to keep the current story
    clean.

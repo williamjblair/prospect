@@ -6,6 +6,8 @@ Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Final submitter checklist: `docs/FINAL_SUBMISSION_CHECKLIST.md`
 
+Demo recording runbook: `docs/DEMO_RECORDING_RUNBOOK.md`
+
 An AI can assert a claim about any gene in a second. Confirming it against the data takes
 longer than most people spend, so overstated biology walks into slides, grants, and papers.
 Prospect inverts that. It holds a linked graph of gene regulation where every node and edge is

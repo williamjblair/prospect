@@ -3,6 +3,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs" / "FINAL_SUBMISSION_CHECKLIST.md"
+RUNBOOK = ROOT / "docs" / "DEMO_RECORDING_RUNBOOK.md"
 
 
 def test_final_submission_checklist_contains_human_submitter_steps():
@@ -15,6 +16,7 @@ def test_final_submission_checklist_contains_human_submitter_steps():
         "https://prospect-sepia-six.vercel.app",
         "https://github.com/williamjblair/prospect",
         "docs/DEMO.md",
+        "docs/DEMO_RECORDING_RUNBOOK.md",
         "docs/SUBMISSION.md",
         "./prospect final-check",
         "/data/judge_packet.json",
@@ -37,7 +39,30 @@ def test_final_submission_checklist_keeps_trust_boundary_language():
         assert phrase in text
 
 
+def test_demo_recording_runbook_is_submission_ready():
+    text = RUNBOOK.read_text()
+
+    for phrase in [
+        "http://localhost:8124",
+        "https://prospect-sepia-six.vercel.app",
+        "./prospect final-check",
+        "python examples/receipt_bridge_client.py --json",
+        "0:00",
+        "0:20",
+        "0:40",
+        "1:05",
+        "1:30",
+        "1:50",
+        "accepted=false",
+        "human_signature_required",
+        "`evidence_attached`",
+        "Do not claim wet-lab or clinical truth",
+    ]:
+        assert phrase in text
+
+
 if __name__ == "__main__":
     test_final_submission_checklist_contains_human_submitter_steps()
     test_final_submission_checklist_keeps_trust_boundary_language()
+    test_demo_recording_runbook_is_submission_ready()
     print("PASS: final submission checklist")
