@@ -141,5 +141,5 @@ contract.
 - `not_assayed`: absent from the frozen Marson table, not human-mapped here, or
   lacking on-target knockdown.
 
-Prospect does not say an external signature is wrong. It separates drivers from
+Prospect does not reject an external signature. It separates drivers from
 passengers for the specific causal question this assay can test.

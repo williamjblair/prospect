@@ -117,7 +117,7 @@ genes are housekeeping, so they should move the transcriptome in a non-immune ce
 the activation module should not. Phase 3 (verifier transfer) tests it directly against the
 Replogle genome-scale Perturb-seq in K562, an unrelated cell type. A regulator that fires in
 both cells is housekeeping; one that fires only in stimulated CD4 T cells is immune-specific.
-The second dataset turns this finding from a caveat into an independently validated result.
+The second dataset turns this finding from a caveat into independently corroborated computation.
 
 ---
 
@@ -131,7 +131,7 @@ non-immune cell (Replogle K562), separates housekeeping from immune-specific reg
 
 Essentiality artifacts reshape the K562 transcriptome too (median 71 DE genes); the activation
 module stays inert (median 4). MED19 moves 3,716 genes in K562, BCL10 moves 2. The second dataset
-turns Finding 3 from a caveat into an independently validated result, and confirms Finding 1's
+turns Finding 3 from a caveat into independently corroborated computation, and supports Finding 1's
 module is T-cell-specific.
 
 ---

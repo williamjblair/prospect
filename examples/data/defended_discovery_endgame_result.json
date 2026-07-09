@@ -6,7 +6,7 @@
       "accepted": false,
       "blocking_rungs": [],
       "decision": "clears_fixed_bar_pending_human_key",
-      "decision_basis": "rank 1 PGGT1B clears the corrected fixed bar; accepted state still requires a human key and later wet-lab evidence",
+      "decision_basis": "rank 1 PGGT1B remains the proposal-only lead under the corrected bar; accepted state still requires a human key and later wet-lab evidence",
       "gene": "PGGT1B",
       "independent_primary_t_cell_support": [
         "shifrut_2018_1107"
@@ -319,7 +319,7 @@
       "accepted": false,
       "blocking_rungs": [],
       "decision": "not_selected_after_rank1_lead",
-      "decision_basis": "rank 1 PGGT1B cleared first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state",
+      "decision_basis": "rank 1 PGGT1B is retained first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state",
       "gene": "CCDC22",
       "independent_primary_t_cell_support": [
         "shifrut_2018_1107"
@@ -1442,7 +1442,7 @@
     "accepted": false,
     "blocking_rungs": [],
     "decision": "clears_fixed_bar_pending_human_key",
-    "decision_basis": "rank 1 PGGT1B clears the corrected fixed bar; accepted state still requires a human key and later wet-lab evidence",
+    "decision_basis": "rank 1 PGGT1B remains the proposal-only lead under the corrected bar; accepted state still requires a human key and later wet-lab evidence",
     "gene": "PGGT1B",
     "independent_primary_t_cell_support": [
       "shifrut_2018_1107"
@@ -1502,7 +1502,7 @@
     "strongest_condition": "Stim8hr",
     "typed_status": "evidence_attached"
   },
-  "ledger_id": "endgame_result_9388f8ecd81cca1c",
+  "ledger_id": "endgame_result_287a10dacf7c562a",
   "next_step": "keep PGGT1B proposal-only until human review, human-key acceptance, and later wet-lab evidence",
   "non_blocking_not_assayed": [
     {

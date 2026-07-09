@@ -968,7 +968,7 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
           </div>
           <p className="t-body-sm" style={{ color: "var(--stone)", marginTop: 10, maxWidth: "72ch" }}>
             {p.models ? `Across ${p.models} frontier models` : "Across frontier models"} on one frozen sample,
-            {" "}{p.refuted} of {fmt(p.checkable)} verifiable claims were wrong. Claims the screen couldn’t test
+            {" "}{p.refuted} of {fmt(p.checkable)} checkable claims were contradicted by the frozen table. Claims the screen couldn’t test
             (no knockdown) are excluded, not counted against the model.
           </p>
           {p.effector_total > 0 && (
@@ -1537,7 +1537,7 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
           <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "76ch", color: "var(--ink-3)" }}>
             A real Claude Science export from {demo.source_dataset} submits a responder signature. Claude Science
             preserved the artifact and internal review completed with {demo.claude_science.internal_review_findings} findings.
-            Prospect does not say the signature is wrong. It asks which signature genes behave as causal drivers,
+            Prospect does not reject the signature. It asks which signature genes behave as causal drivers,
             which stay associative passengers, and which explicit driver claims the perturbation data contradicts.
           </p>
         </div>
@@ -2444,11 +2444,11 @@ function EndgameResultPanel({ packet, onGene }: { packet: EndgameResult; onGene:
       <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
         <div>
           <div className="t-label" style={{ marginBottom: 5 }}>Defended discovery endgame</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>PGGT1B clears the fixed bar as a proposal.</h2>
+          <h2 className="h2-app" style={{ margin: 0 }}>PGGT1B is the proposal-only lead worth testing.</h2>
           <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "78ch", color: "var(--ink-3)" }}>
             The corrected bar rests cell-type specificity on genome-wide K562 and treats sparse RPE1 coverage
             as not_assayed context. Prospect re-scored all {packet.candidate_count} locked candidates:
-            {` ${packet.cleared_count}`} cleared the fixed bar, accepted=false, human_signature_required.
+            {` ${packet.cleared_count}`} proposal-only lead remains worth testing, accepted=false, human_signature_required.
           </p>
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
@@ -2469,7 +2469,7 @@ function EndgameResultPanel({ packet, onGene }: { packet: EndgameResult; onGene:
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8 }}>
         {[
           [packet.candidate_count, "candidates tested", "var(--ink)"],
-          [packet.cleared_count, "fixed-bar lead", "var(--moss)"],
+          [packet.cleared_count, "proposal lead", "var(--moss)"],
           [supportRows.length, "with T-cell support", "var(--brass)"],
           [rpe1?.affected_candidates || 0, "RPE1 context", "var(--field-blue)"],
         ].map(([value, label, color]) => (
@@ -2500,7 +2500,7 @@ function EndgameResultPanel({ packet, onGene }: { packet: EndgameResult; onGene:
           <div className="t-label">What the fixed bar changed</div>
           <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
             The prior run treated missing RPE1 rows as a blocking failure. This run keeps that as
-            not_assayed context. PGGT1B now clears on Marson effect, K562 specificity, Shifrut support,
+            not_assayed context. PGGT1B is retained on Marson effect, K562 specificity, Shifrut support,
             STRING, DICE, Open Targets, ChEMBL, DepMap, mechanism, and adversarial kills.
           </p>
           <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>

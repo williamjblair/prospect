@@ -78,7 +78,7 @@ def test_endgame_result_preserves_support_without_overclaiming():
     assert by_gene["CCDC22"]["real_world_hook"]["status"] == "evidence_attached"
     assert by_gene["RCC1L"]["real_world_hook"]["status"] == "not_cleared"
     assert by_gene["CCDC22"]["decision"] == "not_selected_after_rank1_lead"
-    assert "rank 1 PGGT1B cleared first" in by_gene["CCDC22"]["decision_basis"]
+    assert "rank 1 PGGT1B is retained first" in by_gene["CCDC22"]["decision_basis"]
 
 
 def test_endgame_result_records_real_kill_outcomes_for_each_candidate():
@@ -112,7 +112,8 @@ def test_endgame_result_writes_clean_outputs(tmp_path):
     text = "\n".join(_strings(packet)) + "\n" + doc
 
     assert packet["ledger_id"].startswith("endgame_result_")
-    assert "PGGT1B clears the fixed bar" in doc
+    assert "PGGT1B is retained as the rank-1 proposal-only lead worth testing" in doc
+    assert "PGGT1B clears the fixed bar" not in doc
     assert "RPE1 non-coverage is retained as not_assayed context" in doc
     assert "PGGT1B" in doc
     assert "ZC3H12A" in doc

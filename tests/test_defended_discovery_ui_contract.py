@@ -34,7 +34,8 @@ def test_overview_contains_endgame_result_panel():
     page = PAGE.read_text()
 
     assert "EndgameResultPanel" in page
-    assert "PGGT1B clears the fixed bar as a proposal." in page
+    assert "PGGT1B is the proposal-only lead worth testing." in page
+    assert "PGGT1B clears the fixed bar as a proposal." not in page
     assert "RPE1 context" in page
     assert "defended_discovery_endgame_exhaustion" not in page
     assert "CCDC22DefendedPanel" not in page

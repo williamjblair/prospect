@@ -87,7 +87,7 @@ ready for a wet lab to run and report back.
 
 `prospect defended-discovery-endgame-result` is the stricter outcome pass. The corrected
 pre-registration rests cell-type specificity on genome-wide K562 and treats sparse RPE1 coverage
-as not_assayed context. Eighteen candidates were re-scored. PGGT1B clears the fixed bar as an
+as not_assayed context. Eighteen candidates were re-scored. PGGT1B remains the rank-1
 `evidence_attached` proposal with `accepted=false`; it remains the hypothesis worth testing, not
 accepted biological state.
 
@@ -152,7 +152,7 @@ External teams can run their own signatures, DE tables, and gene lists through t
 ## Guarantees
 
 - Deterministic findings from frozen released data, never a live DE recompute.
-- Typed status only. The frontier never says "verified" or "true."
+- Typed status only. The frontier uses reproduced, evidence_attached, contradicted, and not_assayed.
 - Content-addressed and reproducible: `verify` re-derives 53k objects with zero drift.
 - Human Ed25519 signature over the root. No model in any trust path.
 - The mutation pack proves the floor: a tampered claim is never admitted as supported.

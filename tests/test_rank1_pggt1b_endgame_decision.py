@@ -78,7 +78,8 @@ def test_pggt1b_endgame_decision_freezes_source_hashes_and_writes_clean_outputs(
 
     assert packet["decision_id"].startswith("pggt1b_endgame_")
     assert all(row["sha256"] for row in packet["frozen_sources"])
-    assert "clears the fixed bar" in doc
+    assert "retained as the rank-1 proposal-only lead" in doc
+    assert "clears the fixed bar" not in doc
     assert "RPE1 is not_assayed context, not a failed rung" in doc
     assert "Shifrut" in doc
     assert "Next candidate: `none`" in doc

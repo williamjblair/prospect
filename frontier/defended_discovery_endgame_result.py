@@ -212,10 +212,10 @@ def _decision(row: dict[str, Any], cross_row: dict[str, Any], *, lead_cleared: b
     basis = "blocked by the fixed endgame bar"
     if row["gene"] == "PGGT1B":
         decision = "clears_fixed_bar_pending_human_key"
-        basis = "rank 1 PGGT1B clears the corrected fixed bar; accepted state still requires a human key and later wet-lab evidence"
+        basis = "rank 1 PGGT1B remains the proposal-only lead under the corrected bar; accepted state still requires a human key and later wet-lab evidence"
     elif row["gene"] == "CCDC22" and lead_cleared:
         decision = "not_selected_after_rank1_lead"
-        basis = "rank 1 PGGT1B cleared first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state"
+        basis = "rank 1 PGGT1B is retained first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state"
     return {
         "rank": row["rank"],
         "gene": row["gene"],
@@ -293,14 +293,14 @@ def _markdown(packet: dict[str, Any]) -> str:
     ]
     if lead:
         lines += [
-            f"PGGT1B clears the fixed bar as rank {lead['rank']}, pending human key.",
+            f"PGGT1B is retained as the rank-{lead['rank']} proposal-only lead worth testing, pending human key.",
             "",
             "RPE1 non-coverage is retained as not_assayed context, not a failed rung.",
             "",
         ]
     else:
         lines += [
-            "No candidate cleared the fixed bar.",
+            "No candidate remained above the corrected fixed bar.",
             "",
             "RPE1 non-coverage is retained as not_assayed context, not a failed rung.",
             "",

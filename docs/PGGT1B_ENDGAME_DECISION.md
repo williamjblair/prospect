@@ -4,7 +4,7 @@ Decision id: `pggt1b_endgame_7950a9837c2f7120`
 
 Pre-registration: `endgame_prereg_cc12f4edc74c23b1`
 
-PGGT1B clears the fixed bar under the endgame pre-registration.
+PGGT1B is retained as the rank-1 proposal-only lead under the endgame pre-registration.
 
 It remains an `evidence_attached` hypothesis. accepted=false. The ceiling is computation over released data, not wet-lab or clinical truth.
 

@@ -1,6 +1,6 @@
 # Defended discovery endgame result
 
-Ledger id: `endgame_result_9388f8ecd81cca1c`
+Ledger id: `endgame_result_287a10dacf7c562a`
 
 Pre-registration: `endgame_prereg_cc12f4edc74c23b1`
 
@@ -8,7 +8,7 @@ Outcome: `defended_lead`. accepted=false.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
-PGGT1B clears the fixed bar as rank 1, pending human key.
+PGGT1B is retained as the rank-1 proposal-only lead worth testing, pending human key.
 
 RPE1 non-coverage is retained as not_assayed context, not a failed rung.
 
@@ -16,11 +16,11 @@ RPE1 non-coverage is retained as not_assayed context, not a failed rung.
 
 | rank | gene | decision | blockers or reason | primary T-cell support |
 |---:|---|---|---|---|
-| 1 | PGGT1B | `clears_fixed_bar_pending_human_key` | rank 1 PGGT1B clears the corrected fixed bar; accepted state still requires a human key and later wet-lab evidence | shifrut_2018_1107 |
+| 1 | PGGT1B | `clears_fixed_bar_pending_human_key` | rank 1 PGGT1B remains the proposal-only lead under the corrected bar; accepted state still requires a human key and later wet-lab evidence | shifrut_2018_1107 |
 | 2 | RCC1L | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets, no_hook | none |
 | 3 | MCAT | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets, no_hook | none |
 | 4 | RWDD2B | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets, no_hook, no_specific_mechanism | none |
-| 5 | CCDC22 | `not_selected_after_rank1_lead` | rank 1 PGGT1B cleared first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state | shifrut_2018_1107 |
+| 5 | CCDC22 | `not_selected_after_rank1_lead` | rank 1 PGGT1B is retained first in the locked order; CCDC22 remains a supported alternative proposal, not accepted state | shifrut_2018_1107 |
 | 6 | GAS2L1 | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets, no_hook | none |
 | 7 | SNAP29 | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets | none |
 | 8 | CYB5RL | `not_cleared_full_bar` | no_supporting_primary_t_cell_hit, insufficient_covering_datasets, no_hook | none |

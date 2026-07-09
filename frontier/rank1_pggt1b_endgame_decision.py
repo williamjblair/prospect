@@ -179,7 +179,7 @@ def _markdown(packet: dict[str, Any]) -> str:
         "",
         f"Pre-registration: `{packet['pre_registration_id']}`",
         "",
-        "PGGT1B clears the fixed bar under the endgame pre-registration.",
+        "PGGT1B is retained as the rank-1 proposal-only lead under the endgame pre-registration.",
         "",
         "It remains an `evidence_attached` hypothesis. accepted=false. The ceiling is "
         f"{packet['honest_ceiling']}.",
