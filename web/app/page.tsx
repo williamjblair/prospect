@@ -289,6 +289,48 @@ type EndgameResult = {
     kill_attempts: { kill_id: string; result: string; basis: string }[];
   }[];
 };
+type SurvivorDiscovery = {
+  title: string;
+  status: string;
+  accepted: boolean;
+  next: string;
+  trust_boundary: string;
+  honest_ceiling: string;
+  claim: string;
+  what_is_new: string;
+  what_is_not_claimed: string[];
+  source_counts: {
+    atlas_genes: number;
+    literature_claims: number;
+    literature_contradicted: number;
+    leaderboard_candidates_scored: number;
+    survivors: number;
+  };
+  survivors: {
+    rank: number;
+    gene: string;
+    typed_status: string;
+    accepted: boolean;
+    axis: string;
+    mechanism: string;
+    why_it_matters: string;
+    strongest_condition: string;
+    strongest_de: number;
+    rest_de: number;
+    k562_de: number | null;
+    rpe1_de: number | null;
+    orthogonal_dataset_count: number;
+    shifrut_support: string[];
+    schmidt_status: string;
+    string_partners: string[];
+    dice_activated_cd4_mean_tpm: number | null;
+    disease_context: null | { overlay_class: string; top_context: DiseaseGeneticsContext | null };
+    kill_attempts: { kill_id: string; result: string; basis: string }[];
+    falsifiable_experiment: { system: string; intervention: string; condition: string; readouts: string[]; refutes_if: string };
+  }[];
+  survivor_discovery_id: string;
+  reproduce_command: string;
+};
 type LiveClaimRail = {
   title: string;
   gene: string;
@@ -531,6 +573,7 @@ type Data = {
   ccdc22_defended_evidence?: DefendedEvidencePacket | null;
   defended_candidate_decisions?: DefendedCandidateDecisions | null;
   defended_discovery_endgame_result?: EndgameResult | null;
+  survivor_discovery?: SurvivorDiscovery | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -944,6 +987,10 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
 
+      {d.survivor_discovery && (
+        <SurvivorDiscoveryPanel packet={d.survivor_discovery} onGene={onGene} />
+      )}
+
       {d.pggt1b_defended_evidence && d.defended_discovery_endgame_result && (
         <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} result={d.defended_discovery_endgame_result} setTab={setTab} />
       )}
@@ -1206,6 +1253,68 @@ function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) =
           </div>
         ))}
       </div>
+    </section>
+  );
+}
+
+function SurvivorDiscoveryPanel({ packet, onGene }: { packet: SurvivorDiscovery; onGene: (g: string) => void }) {
+  return (
+    <section className="card-paper" style={{ padding: "20px 22px", display: "grid", gap: 16, borderColor: "var(--moss)" }}>
+      <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>New compute discovery</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>A strict gate kept three noncanonical activation hypotheses.</h2>
+          <p className="t-body-sm" style={{ margin: "8px 0 0", maxWidth: "82ch", color: "var(--ink-3)" }}>
+            Prospect reduced {fmt(packet.source_counts.leaderboard_candidates_scored)} novel driver candidates to{" "}
+            {packet.source_counts.survivors} proposal-only survivors: PGGT1B, CCDC22, and LETM2. They are not a settled
+            module. They are mechanistically distinct hypotheses with frozen evidence, five adversarial kills, and specific
+            CRISPRi refutation tests.
+          </p>
+        </div>
+        <a className="btn btn-secondary btn-sm" href="/data/survivor_discovery.json" target="_blank" rel="noreferrer">
+          artifact <ExternalLink size={13} />
+        </a>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))", gap: 8 }}>
+        {[
+          [fmt(packet.source_counts.atlas_genes), "genes typed", "var(--ink)"],
+          [`${packet.source_counts.literature_contradicted}/${packet.source_counts.literature_claims}`, "claims contradicted", "var(--cinnabar)"],
+          [fmt(packet.source_counts.leaderboard_candidates_scored), "drivers challenged", "var(--field-blue)"],
+          [packet.source_counts.survivors, "survivors", "var(--moss)"],
+        ].map(([value, label, color]) => (
+          <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
+            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
+            <div className="t-label" style={{ marginTop: 3, color: "var(--ink-3)" }}>{label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))", gap: 10 }}>
+        {packet.survivors.map((row) => (
+          <div key={row.gene} style={{ padding: "12px 13px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
+              <button type="button" onClick={() => onGene(row.gene)} className="t-mono"
+                style={{ background: "transparent", color: "var(--ink)", fontWeight: 750, fontSize: 16 }}>
+                {row.gene}
+              </button>
+              <span className="t-caption" style={{ color: "var(--moss)" }}>{row.orthogonal_dataset_count} datasets</span>
+            </div>
+            <div className="t-label" style={{ color: "var(--brass)" }}>{row.axis}</div>
+            <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+              {fmt(row.strongest_de)} DE genes in {row.strongest_condition}. K562 {row.k562_de == null ? "not_assayed" : row.k562_de}.
+              {" "}Shifrut {row.shifrut_support.join(", ") || "not_assayed"}. Schmidt {row.schmidt_status}.
+            </p>
+            <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+              Refutes if: {row.falsifiable_experiment.refutes_if}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+        {packet.honest_ceiling}. accepted=false. id={packet.survivor_discovery_id}.
+      </p>
     </section>
   );
 }

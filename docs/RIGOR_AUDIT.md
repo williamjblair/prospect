@@ -16,6 +16,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `docs/PUBLIC_ROBUSTNESS.md`
 - `docs/OVERNIGHT_PREREGISTRATION.md`
 - `docs/OVERNIGHT_COMPUTE_REPORT.md`
+- `docs/SURVIVOR_DISCOVERY.md`
 - `docs/RECEIPT_BRIDGE.md`
 - `docs/RUN_YOUR_OWN_CLAIM.md`
 - `docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md`
@@ -38,6 +39,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - 11,526 to 18 honest funnel: artifact `/data/discovery_campaign.json`, command `./prospect discovery-campaign`
 - 118 public robustness fuzz cases with clean failure or honest typing: artifact `/data/public_robustness_fuzz.json`, command `./prospect robustness-fuzz`
 - overnight compute typed 11,526 genes and audited the literature corpus: artifact `/data/overnight_literature_audit.json`, command `./prospect overnight-compute`
+- three survivor hypotheses PGGT1B, CCDC22, and LETM2: artifact `/data/survivor_discovery.json`, command `./prospect survivor-discovery`
 
 ## Blocked phrase hits
 

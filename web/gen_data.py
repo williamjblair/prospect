@@ -102,6 +102,7 @@ overnight_genome_wide_atlas = load("overnight_genome_wide_atlas.json")
 overnight_literature_claims = load("overnight_literature_claims.json")
 overnight_literature_audit = load("overnight_literature_audit.json")
 overnight_defended_leaderboard = load("overnight_defended_leaderboard.json")
+survivor_discovery = load("survivor_discovery.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -246,6 +247,7 @@ data = {
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
     "substrate_coverage_report": substrate_coverage_report,
     "public_robustness_fuzz": public_robustness_fuzz,
+    "survivor_discovery": survivor_discovery,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -274,7 +276,8 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (overnight_genome_wide_atlas, "overnight_genome_wide_atlas.json"),
                   (overnight_literature_claims, "overnight_literature_claims.json"),
                   (overnight_literature_audit, "overnight_literature_audit.json"),
-                  (overnight_defended_leaderboard, "overnight_defended_leaderboard.json")]:
+                  (overnight_defended_leaderboard, "overnight_defended_leaderboard.json"),
+                  (survivor_discovery, "survivor_discovery.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))

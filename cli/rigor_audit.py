@@ -20,6 +20,7 @@ PUBLIC_SURFACES = [
     "docs/PUBLIC_ROBUSTNESS.md",
     "docs/OVERNIGHT_PREREGISTRATION.md",
     "docs/OVERNIGHT_COMPUTE_REPORT.md",
+    "docs/SURVIVOR_DISCOVERY.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RUN_YOUR_OWN_CLAIM.md",
     "docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md",
@@ -77,6 +78,12 @@ TRACEABLE_CLAIMS = [
         "artifact": "/data/overnight_literature_audit.json",
         "command": "./prospect overnight-compute",
         "surface": "docs/OVERNIGHT_COMPUTE_REPORT.md",
+    },
+    {
+        "claim": "three survivor hypotheses PGGT1B, CCDC22, and LETM2",
+        "artifact": "/data/survivor_discovery.json",
+        "command": "./prospect survivor-discovery",
+        "surface": "docs/SURVIVOR_DISCOVERY.md",
     },
 ]
 

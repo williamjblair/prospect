@@ -22,6 +22,7 @@ SOURCE_DOCS = [
     "docs/PUBLIC_ROBUSTNESS.md",
     "docs/OVERNIGHT_PREREGISTRATION.md",
     "docs/OVERNIGHT_COMPUTE_REPORT.md",
+    "docs/SURVIVOR_DISCOVERY.md",
     "docs/FINDINGS.md",
     "docs/PROTOCOL.md",
     "docs/JUDGE_TECHNICAL_NOTE.md",
@@ -49,6 +50,7 @@ VERIFICATION_COMMANDS = [
     "./prospect robustness-fuzz",
     "./prospect overnight-preregister",
     "./prospect overnight-compute",
+    "./prospect survivor-discovery",
     "./prospect substrate-coverage",
     "./prospect pggt1b-defended-evidence",
     "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
@@ -79,6 +81,7 @@ PUBLIC_ARTIFACTS = [
     "/data/overnight_literature_claims.json",
     "/data/overnight_literature_audit.json",
     "/data/overnight_defended_leaderboard.json",
+    "/data/survivor_discovery.json",
 ]
 
 
