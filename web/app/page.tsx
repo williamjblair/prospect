@@ -270,7 +270,7 @@ type AcceptanceResult = {
   verdicts: AcceptanceVerdict[];
   warnings: string[];
 };
-const PUBLIC_ACCEPTANCE_SERVICE_URL = (process.env.NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL || "").replace(/\/$/, "");
+const PUBLIC_ACCEPTANCE_SERVICE_URL = (process.env.NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL || "").trim().replace(/\/+$/, "");
 const ACCEPTANCE_EXAMPLE = `IL7R
 CCR7
 PD-1

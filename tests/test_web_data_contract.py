@@ -103,6 +103,11 @@ def test_public_receipt_projection_never_launders_legacy_root_attestations():
         assert phrase not in text
 
 
+def test_public_acceptance_service_url_is_sanitized_before_link_construction():
+    source = (ROOT / "web" / "app" / "page.tsx").read_text()
+    assert 'NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL || "").trim().replace(/\\/+$/, "")' in source
+
+
 def test_frontier_json_embeds_pggt1b_evidence_capsule():
     data = json.loads(FRONTIER.read_text())
     capsule = data["pggt1b_deep_dive"]["evidence_capsule"]
@@ -201,6 +206,7 @@ if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_keeps_only_the_consolidated_packet_surface()
     test_public_receipt_projection_never_launders_legacy_root_attestations()
+    test_public_acceptance_service_url_is_sanitized_before_link_construction()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_overclaim_counter_packet()
     test_frontier_json_embeds_external_run_receipt_demo()
