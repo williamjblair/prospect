@@ -43,6 +43,9 @@ def build_handout() -> dict[str, Any]:
     substrate = _json(DATA / "substrate_coverage_report.json")
     pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
     endgame = _json(DATA / "defended_discovery_endgame_result.json")
+    overnight_atlas = _json(DATA / "overnight_genome_wide_atlas.json")
+    overnight_literature = _json(DATA / "overnight_literature_audit.json")
+    overnight_leaderboard = _json(DATA / "overnight_defended_leaderboard.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
@@ -81,6 +84,11 @@ def build_handout() -> dict[str, Any]:
                 if row["independent_primary_t_cell_support"]
             ),
             "endgame_rpe1_not_assayed": endgame["non_blocking_not_assayed"][0]["affected_candidates"],
+            "overnight_atlas_genes": overnight_atlas["gene_count"],
+            "overnight_literature_claims": overnight_literature["claim_count"],
+            "overnight_literature_contradicted": overnight_literature["typed_status_counts"]["contradicted"],
+            "overnight_leaderboard_scored": overnight_leaderboard["candidate_count_scored"],
+            "overnight_leaderboard_cleared": overnight_leaderboard["cleared_compute_bar_count"],
         },
         "trust_boundary": {
             "model_role": "propose, search, pressure-test",
@@ -109,6 +117,7 @@ def build_handout() -> dict[str, Any]:
             "./prospect defended-discovery-endgame-preregister",
             "./prospect pggt1b-endgame-decision",
             "./prospect defended-discovery-endgame-result",
+            "./prospect overnight-compute",
             "./prospect substrate-coverage",
             "./prospect pggt1b-defended-evidence",
             "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
@@ -165,6 +174,11 @@ def _markdown(handout: dict[str, Any]) -> str:
             f"{counts['endgame_cleared']} proposal-only lead worth testing ({counts['endgame_lead']}), "
             f"{counts['endgame_with_t_cell_support']} retained independent primary T-cell support, "
             f"{counts['endgame_rpe1_not_assayed']} retain RPE1 as not_assayed context"
+        ),
+        (
+            f"- Overnight compute: {counts['overnight_atlas_genes']} genes typed, "
+            f"{counts['overnight_literature_contradicted']} of {counts['overnight_literature_claims']} literature claims contradicted, "
+            f"{counts['overnight_leaderboard_cleared']} of {counts['overnight_leaderboard_scored']} leaderboard rows cleared the compute bar"
         ),
         "",
         "## Trust boundary",

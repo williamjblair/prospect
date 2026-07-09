@@ -33,6 +33,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "./prospect deploy-checklist",
         "./prospect rigor-audit",
         "./prospect robustness-fuzz",
+        "./prospect overnight-preregister",
+        "./prospect overnight-compute",
         "./prospect substrate-coverage",
         "./prospect pggt1b-defended-evidence",
         "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
@@ -48,6 +50,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/DEPLOY_READINESS.md",
         "docs/RIGOR_AUDIT.md",
         "docs/PUBLIC_ROBUSTNESS.md",
+        "docs/OVERNIGHT_PREREGISTRATION.md",
+        "docs/OVERNIGHT_COMPUTE_REPORT.md",
         "docs/FINDINGS.md",
         "docs/PROTOCOL.md",
         "docs/JUDGE_TECHNICAL_NOTE.md",
@@ -82,6 +86,11 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/lab_packet.json",
         "/data/lab_writeback_receipt.json",
         "/data/public_robustness_fuzz.json",
+        "/data/overnight_preregistration.json",
+        "/data/overnight_genome_wide_atlas.json",
+        "/data/overnight_literature_claims.json",
+        "/data/overnight_literature_audit.json",
+        "/data/overnight_defended_leaderboard.json",
     ]
 
     assert packet["public_artifacts"] == expected

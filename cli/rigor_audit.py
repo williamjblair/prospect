@@ -18,6 +18,8 @@ PUBLIC_SURFACES = [
     "docs/JUDGE_TECHNICAL_NOTE.md",
     "docs/DEPLOY_READINESS.md",
     "docs/PUBLIC_ROBUSTNESS.md",
+    "docs/OVERNIGHT_PREREGISTRATION.md",
+    "docs/OVERNIGHT_COMPUTE_REPORT.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RUN_YOUR_OWN_CLAIM.md",
     "docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md",
@@ -69,6 +71,12 @@ TRACEABLE_CLAIMS = [
         "artifact": "/data/public_robustness_fuzz.json",
         "command": "./prospect robustness-fuzz",
         "surface": "docs/PUBLIC_ROBUSTNESS.md",
+    },
+    {
+        "claim": "overnight compute typed 11,526 genes and audited the literature corpus",
+        "artifact": "/data/overnight_literature_audit.json",
+        "command": "./prospect overnight-compute",
+        "surface": "docs/OVERNIGHT_COMPUTE_REPORT.md",
     },
 ]
 

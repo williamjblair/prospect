@@ -35,6 +35,7 @@
   prospect rigor-audit      scan public surfaces for overclaiming and traceability
   prospect robustness-fuzz  fuzz public submissions for clean failure or honest typing
   prospect overnight-preregister lock overnight scoring rules before scoring
+  prospect overnight-compute run the pre-registered overnight compute program
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
@@ -129,6 +130,8 @@ def main():
         from cli.robustness_fuzz import main as robustness_fuzz_main; sys.exit(robustness_fuzz_main(rest))
     elif cmd == "overnight-preregister":
         from frontier.overnight_preregistration import main as overnight_preregister_main; sys.exit(overnight_preregister_main(rest))
+    elif cmd == "overnight-compute":
+        from frontier.overnight_compute import main as overnight_compute_main; sys.exit(overnight_compute_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
     elif cmd == "submit-pack":

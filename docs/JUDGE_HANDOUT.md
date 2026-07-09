@@ -21,11 +21,12 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
-- 18 public data artifacts
+- 23 public data artifacts
 - 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
 - Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
 - Defended-discovery fixed bar: 18 locked candidates, 1 proposal-only lead worth testing (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
+- Overnight compute: 11526 genes typed, 51 of 229 literature claims contradicted, 1 of 100 leaderboard rows cleared the compute bar
 
 ## Trust boundary
 
@@ -67,6 +68,11 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/lab_packet.json`
 - `/data/lab_writeback_receipt.json`
 - `/data/public_robustness_fuzz.json`
+- `/data/overnight_preregistration.json`
+- `/data/overnight_genome_wide_atlas.json`
+- `/data/overnight_literature_claims.json`
+- `/data/overnight_literature_audit.json`
+- `/data/overnight_defended_leaderboard.json`
 
 ## Replay commands
 
@@ -77,6 +83,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect defended-discovery-endgame-preregister`
 - `./prospect pggt1b-endgame-decision`
 - `./prospect defended-discovery-endgame-result`
+- `./prospect overnight-compute`
 - `./prospect substrate-coverage`
 - `./prospect pggt1b-defended-evidence`
 - `./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service`

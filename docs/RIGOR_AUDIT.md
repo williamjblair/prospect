@@ -14,6 +14,8 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `docs/JUDGE_TECHNICAL_NOTE.md`
 - `docs/DEPLOY_READINESS.md`
 - `docs/PUBLIC_ROBUSTNESS.md`
+- `docs/OVERNIGHT_PREREGISTRATION.md`
+- `docs/OVERNIGHT_COMPUTE_REPORT.md`
 - `docs/RECEIPT_BRIDGE.md`
 - `docs/RUN_YOUR_OWN_CLAIM.md`
 - `docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md`
@@ -35,6 +37,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - PGGT1B proposal-only lead worth testing: artifact `/data/pggt1b_defended_evidence.json`, command `./prospect pggt1b-defended-evidence`
 - 11,526 to 18 honest funnel: artifact `/data/discovery_campaign.json`, command `./prospect discovery-campaign`
 - 118 public robustness fuzz cases with clean failure or honest typing: artifact `/data/public_robustness_fuzz.json`, command `./prospect robustness-fuzz`
+- overnight compute typed 11,526 genes and audited the literature corpus: artifact `/data/overnight_literature_audit.json`, command `./prospect overnight-compute`
 
 ## Blocked phrase hits
 
