@@ -1,6 +1,6 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import csv, json, os, sys
+import csv, json, os, shutil, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
@@ -103,6 +103,7 @@ overnight_literature_claims = load("overnight_literature_claims.json")
 overnight_literature_audit = load("overnight_literature_audit.json")
 overnight_defended_leaderboard = load("overnight_defended_leaderboard.json")
 exhaustive_compute_preregistration = load("exhaustive_compute_preregistration.json")
+exhaustive_literature_audit = load("exhaustive_literature_audit.json")
 survivor_discovery = load("survivor_discovery.json")
 
 citations = load("literature_citations.json")
@@ -249,6 +250,7 @@ data = {
     "substrate_coverage_report": substrate_coverage_report,
     "public_robustness_fuzz": public_robustness_fuzz,
     "exhaustive_compute_preregistration": exhaustive_compute_preregistration,
+    "exhaustive_literature_audit": exhaustive_literature_audit,
     "survivor_discovery": survivor_discovery,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
@@ -280,9 +282,18 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (overnight_literature_audit, "overnight_literature_audit.json"),
                   (overnight_defended_leaderboard, "overnight_defended_leaderboard.json"),
                   (exhaustive_compute_preregistration, "exhaustive_compute_preregistration.json"),
+                  (exhaustive_literature_audit, "exhaustive_literature_audit.json"),
                   (survivor_discovery, "survivor_discovery.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
+for name in [
+    "exhaustive_literature_claims.jsonl",
+    "exhaustive_literature_claims.csv",
+    "exhaustive_literature_documents.jsonl",
+]:
+    src = os.path.join(DATA, name)
+    if os.path.exists(src):
+        shutil.copyfile(src, os.path.join(PUB, name))
 json.dump(data, open(OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

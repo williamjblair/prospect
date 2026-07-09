@@ -1,7 +1,13 @@
 """Contracts for the multi-day exhaustive compute runner."""
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from frontier.exhaustive_compute import build_preregistration
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "examples" / "data"
 
 
 def test_exhaustive_preregistration_sets_scale_and_trust_boundary():
@@ -46,3 +52,33 @@ def test_exhaustive_preregistration_keeps_known_survivors_as_baseline():
     assert day3["known_survivor_baseline"] == ["PGGT1B", "CCDC22", "LETM2"]
     assert "without relabeling the known three as new" in day3["freshness_rule"]
     assert len(day3["kill_attempts"]) == 5
+
+
+def test_frozen_exhaustive_literature_audit_hits_real_scale():
+    audit = json.loads((DATA / "exhaustive_literature_audit.json").read_text())
+
+    assert audit["accepted"] is False
+    assert audit["next"] == "human_signature_required"
+    assert audit["document_count"] == 10000
+    assert audit["claim_count"] == 5975
+    assert audit["typed_status_counts"] == {
+        "contradicted": 1547,
+        "evidence_attached": 1787,
+        "not_assayed": 785,
+        "orthogonal_phenotype": 1856,
+    }
+    assert audit["contradiction_rate"] == 0.2589
+    assert audit["snapshot_id"] == "exhaustive_lit_snapshot_489229374d703ab1"
+    assert "not the full possible Europe PMC corpus" in audit["real_scale_assessment"]
+
+
+def test_frozen_exhaustive_literature_claims_include_every_pmid():
+    audit = json.loads((DATA / "exhaustive_literature_audit.json").read_text())
+    claim_lines = (DATA / "exhaustive_literature_claims.jsonl").read_text().splitlines()
+    doc_lines = (DATA / "exhaustive_literature_documents.jsonl").read_text().splitlines()
+
+    assert len(claim_lines) == audit["claim_count"]
+    assert len(doc_lines) == audit["document_count"]
+    first_claim = json.loads(claim_lines[0])
+    assert {"pmid", "gene", "typed_status", "readout_comparability", "claim_sentence"} <= set(first_claim)
+    assert all(json.loads(line)["accepted"] is False for line in claim_lines[:25])

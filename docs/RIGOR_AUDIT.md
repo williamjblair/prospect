@@ -17,6 +17,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `docs/OVERNIGHT_PREREGISTRATION.md`
 - `docs/OVERNIGHT_COMPUTE_REPORT.md`
 - `docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md`
+- `docs/EXHAUSTIVE_LITERATURE_AUDIT.md`
 - `docs/SURVIVOR_DISCOVERY.md`
 - `docs/RECEIPT_BRIDGE.md`
 - `docs/RUN_YOUR_OWN_CLAIM.md`
@@ -42,6 +43,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - overnight compute typed 11,526 genes and audited the literature corpus: artifact `/data/overnight_literature_audit.json`, command `./prospect overnight-compute`
 - three survivor hypotheses PGGT1B, CCDC22, and LETM2: artifact `/data/survivor_discovery.json`, command `./prospect survivor-discovery`
 - multi-day exhaustive compute is pre-registered before scoring: artifact `/data/exhaustive_compute_preregistration.json`, command `./prospect exhaustive-compute --phase preregister`
+- 10,000 Europe PMC records mined into 5,975 typed CD4+ regulatory claims: artifact `/data/exhaustive_literature_audit.json`, command `./prospect exhaustive-compute --phase freeze-literature`
 
 ## Blocked phrase hits
 

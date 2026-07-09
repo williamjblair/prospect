@@ -23,6 +23,7 @@ SOURCE_DOCS = [
     "docs/OVERNIGHT_PREREGISTRATION.md",
     "docs/OVERNIGHT_COMPUTE_REPORT.md",
     "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
+    "docs/EXHAUSTIVE_LITERATURE_AUDIT.md",
     "docs/SURVIVOR_DISCOVERY.md",
     "docs/FINDINGS.md",
     "docs/PROTOCOL.md",
@@ -52,6 +53,7 @@ VERIFICATION_COMMANDS = [
     "./prospect overnight-preregister",
     "./prospect overnight-compute",
     "./prospect exhaustive-compute --phase preregister",
+    "./prospect exhaustive-compute --phase freeze-literature",
     "./prospect exhaustive-compute --phase status",
     "./prospect survivor-discovery",
     "./prospect substrate-coverage",
@@ -85,6 +87,10 @@ PUBLIC_ARTIFACTS = [
     "/data/overnight_literature_audit.json",
     "/data/overnight_defended_leaderboard.json",
     "/data/exhaustive_compute_preregistration.json",
+    "/data/exhaustive_literature_audit.json",
+    "/data/exhaustive_literature_claims.jsonl",
+    "/data/exhaustive_literature_claims.csv",
+    "/data/exhaustive_literature_documents.jsonl",
     "/data/survivor_discovery.json",
 ]
 

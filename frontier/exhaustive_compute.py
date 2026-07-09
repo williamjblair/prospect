@@ -8,6 +8,7 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
 import time
 import urllib.parse
@@ -30,6 +31,11 @@ STATE_JSON = OUT / "literature_state.json"
 DOCS_JSONL = OUT / "literature_documents.jsonl"
 CLAIMS_JSONL = OUT / "literature_claims.jsonl"
 SNAPSHOT_JSON = OUT / "literature_audit_snapshot.json"
+FROZEN_DOCS_JSONL = DATA / "exhaustive_literature_documents.jsonl"
+FROZEN_CLAIMS_JSONL = DATA / "exhaustive_literature_claims.jsonl"
+FROZEN_AUDIT_JSON = DATA / "exhaustive_literature_audit.json"
+FROZEN_CLAIMS_CSV = DATA / "exhaustive_literature_claims.csv"
+FROZEN_AUDIT_DOC = ROOT / "docs" / "EXHAUSTIVE_LITERATURE_AUDIT.md"
 
 MARSON_FULL = DATA / "marson_de_full.csv"
 ATLAS_JSON = DATA / "overnight_genome_wide_atlas.json"
@@ -603,9 +609,133 @@ def reset_literature() -> None:
             path.unlink()
 
 
+def freeze_literature() -> dict[str, Any]:
+    if not SNAPSHOT_JSON.exists() or not DOCS_JSONL.exists() or not CLAIMS_JSONL.exists():
+        raise FileNotFoundError("missing completed literature checkpoint under output/exhaustive_compute")
+    snapshot = _load_json(SNAPSHOT_JSON)
+    if not snapshot.get("done"):
+        raise RuntimeError("literature checkpoint is not done; refusing to freeze a partial run")
+    shutil.copyfile(DOCS_JSONL, FROZEN_DOCS_JSONL)
+    shutil.copyfile(CLAIMS_JSONL, FROZEN_CLAIMS_JSONL)
+    claims = _iter_jsonl(FROZEN_CLAIMS_JSONL)
+    with FROZEN_CLAIMS_CSV.open("w", newline="") as fh:
+        fields = [
+            "pmid",
+            "gene",
+            "typed_status",
+            "readout_comparability",
+            "marson_strongest_de",
+            "marson_strongest_condition",
+            "pub_year",
+            "journal",
+            "title",
+            "claim_sentence",
+        ]
+        writer = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        for row in claims:
+            writer.writerow({field: row.get(field) for field in fields})
+    packet = {
+        "phase": "exhaustive_literature_contradiction_audit",
+        "status": "evidence_attached",
+        "accepted": False,
+        "next": "human_signature_required",
+        "trust_boundary": "proposal_only",
+        "honest_ceiling": HONEST_CEILING,
+        "pre_registration_id": snapshot["pre_registration_id"],
+        "snapshot_id": snapshot["snapshot_id"],
+        "document_count": snapshot["document_count"],
+        "claim_count": snapshot["claim_count"],
+        "typed_status_counts": snapshot["typed_status_counts"],
+        "contradiction_rate": snapshot["contradiction_rate"],
+        "source": "Europe PMC open API",
+        "query_index_reached": snapshot["state"]["query_index"],
+        "cursor_at_stop": snapshot["state"]["cursor"],
+        "configured_stop": snapshot["state"]["max_records"],
+        "real_scale_assessment": (
+            "hit configured 10,000-record stop on the first Europe PMC query cursor; "
+            "this is a real-scale audit, not the full possible Europe PMC corpus"
+        ),
+        "artifacts": {
+            "documents_jsonl": {
+                "path": "examples/data/exhaustive_literature_documents.jsonl",
+                "sha256": _sha256(FROZEN_DOCS_JSONL),
+            },
+            "claims_jsonl": {
+                "path": "examples/data/exhaustive_literature_claims.jsonl",
+                "sha256": _sha256(FROZEN_CLAIMS_JSONL),
+            },
+            "claims_csv": {
+                "path": "examples/data/exhaustive_literature_claims.csv",
+                "sha256": _sha256(FROZEN_CLAIMS_CSV),
+            },
+        },
+        "reproduce_command": "./prospect exhaustive-compute --phase literature --max-records 10000 --checkpoint-every 250 --rate-limit-seconds 0.35",
+        "freeze_command": "./prospect exhaustive-compute --phase freeze-literature",
+    }
+    packet["audit_id"] = _hash_obj("exhaustive_literature_audit", packet)
+    FROZEN_AUDIT_JSON.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n")
+    _write_literature_doc(packet)
+    return packet
+
+
+def _write_literature_doc(packet: dict[str, Any]) -> None:
+    counts = packet["typed_status_counts"]
+    lines = [
+        "# Exhaustive literature audit",
+        "",
+        f"ID: `{packet['audit_id']}`",
+        "",
+        "Status: `evidence_attached`. accepted=false. next=human_signature_required.",
+        "",
+        f"Ceiling: {packet['honest_ceiling']}",
+        "",
+        "## Headline Number",
+        "",
+        (
+            f"At the configured Day 1 stop, Prospect mined {packet['document_count']} Europe PMC records "
+            f"into {packet['claim_count']} typed CD4+ regulatory claims. "
+            f"{counts.get('contradicted', 0)} were typed `contradicted`, a rate of "
+            f"{packet['contradiction_rate']:.2%}."
+        ),
+        "",
+        "This is computation over released data. It is not wet-lab or clinical truth.",
+        "",
+        "## Typed Counts",
+        "",
+        f"- `contradicted`: {counts.get('contradicted', 0)}",
+        f"- `evidence_attached`: {counts.get('evidence_attached', 0)}",
+        f"- `orthogonal_phenotype`: {counts.get('orthogonal_phenotype', 0)}",
+        f"- `not_assayed`: {counts.get('not_assayed', 0)}",
+        "",
+        "## Scale Assessment",
+        "",
+        packet["real_scale_assessment"],
+        "",
+        "## Public Artifacts",
+        "",
+        "- `/data/exhaustive_literature_audit.json`",
+        "- `/data/exhaustive_literature_claims.jsonl`",
+        "- `/data/exhaustive_literature_claims.csv`",
+        "- `/data/exhaustive_literature_documents.jsonl`",
+        "",
+        "## Reproduce",
+        "",
+        "```bash",
+        packet["reproduce_command"],
+        packet["freeze_command"],
+        "```",
+    ]
+    FROZEN_AUDIT_DOC.write_text("\n".join(lines) + "\n")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospect exhaustive-compute")
-    parser.add_argument("--phase", choices=["preregister", "literature", "status", "reset-literature"], default="status")
+    parser.add_argument(
+        "--phase",
+        choices=["preregister", "literature", "freeze-literature", "status", "reset-literature"],
+        default="status",
+    )
     parser.add_argument("--max-records", type=int, default=DEFAULT_MAX_RECORDS)
     parser.add_argument("--page-size", type=int, default=DEFAULT_PAGE_SIZE)
     parser.add_argument("--checkpoint-every", type=int, default=250)
@@ -621,6 +751,13 @@ def main(argv: list[str] | None = None) -> int:
             print(f"pre_registration_id={result['pre_registration_id']}")
     elif args.phase == "literature":
         result = run_literature(args.max_records, args.page_size, args.checkpoint_every, args.rate_limit_seconds)
+    elif args.phase == "freeze-literature":
+        result = freeze_literature()
+        if not args.json:
+            print(f"wrote {FROZEN_AUDIT_JSON}")
+            print(f"wrote {FROZEN_CLAIMS_CSV}")
+            print(f"wrote {FROZEN_AUDIT_DOC}")
+            print(f"audit_id={result['audit_id']}")
     elif args.phase == "reset-literature":
         reset_literature()
         result = {"reset": True, "paths": [str(STATE_JSON), str(DOCS_JSONL), str(CLAIMS_JSONL), str(SNAPSHOT_JSON)]}
