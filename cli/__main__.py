@@ -30,6 +30,8 @@
   prospect findings-index   build the scannable finding index
   prospect demo-mode        run the deterministic judge demo beats and write a shareable demo state
   prospect demo-reset       clear local acceptance demo states
+  prospect deploy-checklist print deploy readiness gates and Will's deploy commands
+  prospect post-deploy-smoke submit a hosted acceptance-service smoke claim
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
@@ -114,6 +116,10 @@ def main():
         from cli.demo_mode import main as demo_mode_main; sys.exit(demo_mode_main(rest))
     elif cmd == "demo-reset":
         from cli.demo_mode import reset_main; sys.exit(reset_main(rest))
+    elif cmd == "deploy-checklist":
+        from cli.deploy_readiness import checklist_main; sys.exit(checklist_main(rest))
+    elif cmd == "post-deploy-smoke":
+        from cli.deploy_readiness import smoke_main; sys.exit(smoke_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
     elif cmd == "submit-pack":

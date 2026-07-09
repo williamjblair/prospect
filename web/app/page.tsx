@@ -583,6 +583,7 @@ type AcceptanceLookup = {
 };
 const ACCEPTANCE_CEILING = "Computation over released data, not wet-lab or clinical truth.";
 const ACCEPTANCE_HASH_PREFIX = `${String.fromCharCode(35)}prospect-state=`;
+const PUBLIC_ACCEPTANCE_SERVICE_URL = (process.env.NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL || "").replace(/\/$/, "");
 const ACCEPTANCE_EXAMPLE = `IL7R
 CCR7
 PD-1
@@ -1624,6 +1625,8 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
   const shareUrl = result && typeof window !== "undefined"
     ? `${window.location.origin}${window.location.pathname}${result.state_url}`
     : "";
+  const serviceGuideUrl = PUBLIC_ACCEPTANCE_SERVICE_URL ? `${PUBLIC_ACCEPTANCE_SERVICE_URL}/guide` : "";
+  const serviceLedgerUrl = PUBLIC_ACCEPTANCE_SERVICE_URL ? `${PUBLIC_ACCEPTANCE_SERVICE_URL}/ledger` : "";
 
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
@@ -1726,6 +1729,12 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
                 The same frozen rule is also exposed by <span className="t-mono">./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service</span>
                 {" "}and by the MCP tools <span className="t-mono">prospect.acceptance.submit_artifact</span> and <span className="t-mono">prospect.acceptance.get_verdict</span>.
               </p>
+              {PUBLIC_ACCEPTANCE_SERVICE_URL && (
+                <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+                  Hosted service: <a href={serviceGuideUrl} target="_blank" rel="noreferrer">guide</a>
+                  {" "}and <a href={serviceLedgerUrl} target="_blank" rel="noreferrer">public ledger</a>.
+                </p>
+              )}
             </div>
           )}
         </div>

@@ -266,7 +266,9 @@ def test_acceptance_service_container_files_are_present():
 
     assert dockerfile.exists()
     assert "PROSPECT_ACCEPTANCE_DATA_DIR" in dockerfile.read_text()
+    assert "PROSPECT_ACCEPTANCE_CORS_ORIGIN" in dockerfile.read_text()
     assert "/health" in dockerfile.read_text()
     assert fly_config.exists()
     assert "internal_port = 8130" in fly_config.read_text()
+    assert "PROSPECT_ACCEPTANCE_CORS_ORIGIN" in fly_config.read_text()
     assert "/health" in fly_config.read_text()

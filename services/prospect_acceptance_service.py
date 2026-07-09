@@ -152,6 +152,7 @@ def _json_response(handler: BaseHTTPRequestHandler, status: int, payload: dict[s
     handler.send_response(status)
     handler.send_header("content-type", "application/json")
     handler.send_header("content-length", str(len(body)))
+    _send_cors_headers(handler)
     handler.end_headers()
     handler.wfile.write(body)
 
@@ -161,8 +162,19 @@ def _html_response(handler: BaseHTTPRequestHandler, status: int, body: str) -> N
     handler.send_response(status)
     handler.send_header("content-type", "text/html; charset=utf-8")
     handler.send_header("content-length", str(len(data)))
+    _send_cors_headers(handler)
     handler.end_headers()
     handler.wfile.write(data)
+
+
+def _send_cors_headers(handler: BaseHTTPRequestHandler) -> None:
+    origin = getattr(handler.server, "cors_origin", "")  # type: ignore[attr-defined]
+    if not origin:
+        return
+    handler.send_header("access-control-allow-origin", str(origin))
+    handler.send_header("access-control-allow-methods", "GET, POST, OPTIONS")
+    handler.send_header("access-control-allow-headers", "content-type")
+    handler.send_header("vary", "Origin")
 
 
 def _store(handler: BaseHTTPRequestHandler) -> AcceptanceStore:
@@ -402,6 +414,11 @@ def _mcp_response(req: dict[str, Any], store: AcceptanceStore, rate_limiter: Rat
 
 
 class Handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self) -> None:
+        self.send_response(204)
+        _send_cors_headers(self)
+        self.end_headers()
+
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/health":
@@ -481,10 +498,12 @@ class AcceptanceHTTPServer(ThreadingHTTPServer):
         *,
         store: AcceptanceStore,
         rate_limiter: RateLimiter,
+        cors_origin: str,
     ):
         super().__init__(server_address, handler_class)
         self.store = store
         self.rate_limiter = rate_limiter
+        self.cors_origin = cors_origin
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -498,12 +517,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--rate-limit", type=int, default=int(os.environ.get("PROSPECT_ACCEPTANCE_RATE_LIMIT", "0")))
     parser.add_argument("--rate-window", type=float, default=float(os.environ.get("PROSPECT_ACCEPTANCE_RATE_WINDOW", "60")))
+    parser.add_argument("--cors-origin", default=os.environ.get("PROSPECT_ACCEPTANCE_CORS_ORIGIN", "*"))
     args = parser.parse_args(argv)
     server = AcceptanceHTTPServer(
         (args.host, args.port),
         Handler,
         store=AcceptanceStore(Path(args.data_dir)),
         rate_limiter=RateLimiter(args.rate_limit, args.rate_window),
+        cors_origin=args.cors_origin,
     )
     print(f"Prospect acceptance service listening on http://{args.host}:{args.port}")
     server.serve_forever()

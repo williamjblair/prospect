@@ -6,6 +6,7 @@ primary_region = "sjc"
 
 [env]
   PROSPECT_ACCEPTANCE_DATA_DIR = "/data"
+  PROSPECT_ACCEPTANCE_CORS_ORIGIN = "https://prospect-sepia-six.vercel.app"
   PROSPECT_ACCEPTANCE_RATE_LIMIT = "120"
   PROSPECT_ACCEPTANCE_RATE_WINDOW = "60"
 
