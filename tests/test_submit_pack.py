@@ -27,24 +27,13 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python examples/receipt_bridge_client.py --json",
         "python examples/claude_science_connector_client.py --json",
         "python examples/prospect_connector_client.py --case openresearch --json",
-        "python examples/openresearch_receipt_client.py --json",
         "./prospect demo-mode --reset",
         "./prospect demo-reset",
         "./prospect deploy-checklist",
         "./prospect rigor-audit",
-        "./prospect robustness-fuzz",
-        "./prospect overnight-preregister",
-        "./prospect overnight-compute",
-        "./prospect exhaustive-compute --phase preregister",
-        "./prospect exhaustive-compute --phase freeze-literature",
-        "./prospect exhaustive-compute --phase status",
-        "./prospect exhaustive-coverage --phase preregister",
-        "./prospect exhaustive-coverage --phase status",
-        "./prospect survivor-discovery",
         "./prospect substrate-coverage",
         "./prospect pggt1b-defended-evidence",
         "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
-        "./prospect writeback --check",
     ]:
         assert command in packet["verification_commands"]
 
@@ -55,13 +44,6 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/DEMO_RECORDING_RUNBOOK.md",
         "docs/DEPLOY_READINESS.md",
         "docs/RIGOR_AUDIT.md",
-        "docs/PUBLIC_ROBUSTNESS.md",
-        "docs/OVERNIGHT_PREREGISTRATION.md",
-        "docs/OVERNIGHT_COMPUTE_REPORT.md",
-        "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
-        "docs/EXHAUSTIVE_LITERATURE_AUDIT.md",
-        "docs/EXHAUSTIVE_COVERAGE_PREREGISTRATION.md",
-        "docs/SURVIVOR_DISCOVERY.md",
         "docs/FINDINGS.md",
         "docs/PROTOCOL.md",
         "docs/JUDGE_TECHNICAL_NOTE.md",
@@ -69,7 +51,6 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/RECEIPT_SCHEMA.md",
         "docs/SUBSTRATE_COVERAGE.md",
         "docs/PGGT1B_DEFENDED_EVIDENCE.md",
-        "docs/LAB_WRITEBACK_RECEIPT.md",
         "docs/JUDGE_HANDOUT.md",
     ]:
         assert path in packet["source_docs"]
@@ -85,34 +66,14 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/receipt_bridge/receipt_bundle.json",
         "/data/claude_science_acceptance_demo.json",
         "/data/substrate_coverage_report.json",
-        "/data/defended_discovery_endgame_preregistration.json",
         "/data/pggt1b_defended_evidence.json",
-        "/data/pggt1b_endgame_decision.json",
-        "/data/defended_discovery_endgame_result.json",
         "/data/pggt1b_deep_dive.json",
-        "/data/pggt1b_matrix_slice.json",
-        "/data/agent_campaign.json",
-        "/data/disease_genetics_overlay.json",
-        "/data/lab_packet.json",
-        "/data/lab_writeback_receipt.json",
-        "/data/public_robustness_fuzz.json",
-        "/data/overnight_preregistration.json",
-        "/data/overnight_genome_wide_atlas.json",
-        "/data/overnight_literature_claims.json",
-        "/data/overnight_literature_audit.json",
-        "/data/overnight_defended_leaderboard.json",
-        "/data/exhaustive_compute_preregistration.json",
-        "/data/exhaustive_literature_audit.json",
-        "/data/exhaustive_literature_claims.jsonl",
-        "/data/exhaustive_literature_claims.csv",
-        "/data/exhaustive_literature_documents.jsonl",
-        "/data/exhaustive_coverage_preregistration.json",
-        "/data/survivor_discovery.json",
+        "/data/overclaim_counter.json",
     ]
 
     assert packet["public_artifacts"] == expected
     # No cut packet artifacts leak back in.
-    for cut in ["judge_packet", "campaign_pressure", "substrate_replay", "release_manifest"]:
+    for cut in ["discovery_campaign", "agent_campaign", "lab_packet", "overnight", "exhaustive", "survivor"]:
         assert not any(cut in artifact for artifact in packet["public_artifacts"])
 
 

@@ -30,11 +30,13 @@ DEPLOY_COMMANDS = [
     "cd web && vercel --prod --yes --scope constellate-dc388081",
     "fly deploy --config fly.acceptance.toml",
 ]
+PREPARE_COMMAND = "./scripts/prepare_deploy.sh"
 
 
 def build_checklist() -> dict[str, Any]:
     return {
         "title": "Prospect deploy readiness checklist",
+        "prepare_command": PREPARE_COMMAND,
         "local_gate": LOCAL_GATE,
         "deploy_commands_for_will": DEPLOY_COMMANDS,
         "acceptance_service": {
@@ -77,6 +79,8 @@ def checklist_main(argv: list[str] | None = None) -> int:
         print(json.dumps(checklist, indent=2, sort_keys=True))
     else:
         print(checklist["title"])
+        print("")
+        print(f"Prepare locally: {checklist['prepare_command']}")
         print("")
         print("Local gate:")
         for command in checklist["local_gate"]:

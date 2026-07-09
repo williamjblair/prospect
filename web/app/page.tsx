@@ -17,8 +17,6 @@ const LIVE_CLAIM_RAIL_TITLE = "Follow one claim";
 const CROSS_DOMAIN_BENCHMARK_TITLE = "Two domains, one trust boundary";
 const CROSS_DOMAIN_BENCHMARK_RANGE = "48-79%";
 const OPENRESEARCH_AUDIT_NAME = "Adversarial falsification audit: 19 of 24 verification claims fail";
-const CONTRADICTION_AS_PROPOSAL_TITLE = "Contradiction as proposal";
-const CONTRADICTION_NEVER_OVERWRITE = "never_overwrite";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -80,98 +78,6 @@ type PGGT1BDeepDive = {
   literature_context: { journal: string; year: number; doi: string; url: string; why_it_matters: string }[];
   caveats: string[];
 };
-type AgentCampaign = {
-  campaign_id: string;
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  method: { min_stim_de: number; max_rest_de: number; filters: string[] };
-  candidates: {
-    rank: number; gene: string; status: string; trust_boundary: string; score: number;
-    stim_max_de: number; strongest_condition: string; rest_de: number; k562_de: number | null;
-    rpe1_de: number | null; known_regulon_targets: number; rationale: string; assay: string;
-    priority_lane: string; primary_readout: string; why_interesting: string; main_risk: string;
-    what_would_weaken: string; review_summary: string;
-  }[];
-};
-type LabPacket = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  method: {
-    negative_controls: string[]; positive_controls: string[]; exclusion_criteria: string[]; replay_links: string[];
-  };
-  candidates: {
-    rank: number; gene: string; status: string; trust_boundary: string; intervention: string; sample: string;
-    primary_readout: string; secondary_readout: string; decision_rule: string; negative_controls: string[];
-    positive_controls: string[]; exclusion_criteria: string[]; replay_links: string[]; stim_max_de: number;
-    strongest_condition: string; rest_de: number; k562_de: number | null; rpe1_de: number | null;
-    known_regulon_targets: number; score: number; evidence: string[];
-  }[];
-};
-type LabWritebackReceipt = {
-  title: string;
-  status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  receipt_kind: string;
-  return_shape_required: string[];
-  return_receipts: {
-    outcome: string;
-    typed_status: string;
-    accepted: boolean;
-    claim: string;
-    executed_protocol: { protocol: string; intervention: string; sample: string; conditions: string[] };
-    assay_readout: { summary: string; required_measurements: string[]; result_payload: string };
-    affected_claims: { receipt_id: string; gene: string; prior_status: string; prior_claim: string }[];
-    reviewer_signature: { required: boolean; present: boolean; signer_role: string; signature_field: string };
-    state_diff: { accepted: boolean; model_can_apply: boolean; delta_id: string; effect: string; target: string };
-    next: string;
-  }[];
-  contradiction_rule: {
-    title: string;
-    accepted_claim_mutation: string;
-    new_object: string;
-    required_status: string;
-    accepted: boolean;
-    next: string;
-    rule: string;
-  };
-};
-type DiseaseGeneticsOverlay = {
-  title: string;
-  status: string;
-  local_perturbation_status: string;
-  trust_boundary: string;
-  accepted_state_mutation: string;
-  counts: {
-    campaign_rows: number;
-    rows_with_external_context: number;
-    immune_or_hematologic_context: number;
-    immune_or_hematologic_genetic_context: number;
-    immune_or_hematologic_non_genetic_context: number;
-    no_immune_or_hematologic_context: number;
-  };
-  rows: DiseaseGeneticsOverlayRow[];
-};
-type DiseaseGeneticsOverlayRow = {
-  rank: number;
-  gene: string;
-  campaign_status: string;
-  strongest_condition: string;
-  overlay_class: string;
-  top_context: DiseaseGeneticsContext | null;
-  why_it_does_not_accept_state: string;
-};
-type DiseaseGeneticsContext = {
-  disease_id: string;
-  disease_or_trait: string;
-  association_score: number;
-  evidence_type: string;
-  has_genetic_association: string;
-};
 type DefendedEvidencePacket = {
   gene: string;
   status: string;
@@ -227,110 +133,6 @@ type DefendedEvidencePacket = {
   };
   reproduce_command: string;
 };
-type DefendedCandidateDecisions = {
-  campaign_state: string;
-  completion_status: string;
-  decided_count: number;
-  remaining_candidate_count: number;
-  held_candidate: {
-    rank: number;
-    gene: string;
-    typed_status: string;
-    defended_discovery_status: string;
-    evidence_packet_id: string;
-    disposition: string;
-    orthogonal_public_dataset_count: number;
-  } | null;
-};
-type EndgameResult = {
-  phase: string;
-  pre_registration_id: string;
-  frontier_root: string;
-  status: string;
-  accepted: boolean;
-  trust_boundary: string;
-  outcome: string;
-  candidate_count: number;
-  cleared_count: number;
-  ledger_id: string;
-  honest_ceiling: string;
-  lead_candidate: null | {
-    rank: number;
-    gene: string;
-    decision: string;
-    decision_basis: string;
-    orthogonal_public_dataset_count: number;
-    independent_primary_t_cell_support: string[];
-    marson_stim_max_de?: number;
-    strongest_condition?: string;
-    kill_attempts?: { kill_id: string; result: string; basis: string }[];
-    mechanism?: { status: string; basis: string };
-    real_world_hook?: { status: string; basis: string };
-  };
-  non_blocking_not_assayed: { rung: string; typed_detail: string; affected_candidates: number; basis: string }[];
-  candidate_decisions: {
-    rank: number;
-    gene: string;
-    decision: string;
-    decision_basis: string;
-    typed_status: string;
-    accepted: boolean;
-    marson_stim_max_de: number;
-    strongest_condition: string;
-    rest_de: number;
-    k562_de: number | null;
-    rpe1_de: number | null;
-    not_assayed_context: { rung: string; typed_detail: string; affected_candidates: number; basis: string }[];
-    orthogonal_public_dataset_count: number;
-    independent_primary_t_cell_support: string[];
-    blocking_rungs: { rung: string; status: string; typed_detail: string; basis: string }[];
-    real_world_hook: { status: string; basis: string };
-    mechanism: { status: string; basis: string };
-    kill_attempts: { kill_id: string; result: string; basis: string }[];
-  }[];
-};
-type SurvivorDiscovery = {
-  title: string;
-  status: string;
-  accepted: boolean;
-  next: string;
-  trust_boundary: string;
-  honest_ceiling: string;
-  claim: string;
-  what_is_new: string;
-  what_is_not_claimed: string[];
-  source_counts: {
-    atlas_genes: number;
-    literature_claims: number;
-    literature_contradicted: number;
-    leaderboard_candidates_scored: number;
-    survivors: number;
-  };
-  survivors: {
-    rank: number;
-    gene: string;
-    typed_status: string;
-    accepted: boolean;
-    axis: string;
-    mechanism: string;
-    why_it_matters: string;
-    strongest_condition: string;
-    strongest_de: number;
-    rest_de: number;
-    k562_de: number | null;
-    rpe1_de: number | null;
-    orthogonal_dataset_count: number;
-    shifrut_support: string[];
-    schmidt_status: string;
-    string_partners: string[];
-    dice_activated_cd4_mean_tpm: number | null;
-    disease_context: null | { overlay_class: string; top_context: DiseaseGeneticsContext | null };
-    kill_attempts: { kill_id: string; result: string; basis: string }[];
-    falsifiable_experiment: { system: string; intervention: string; condition: string; readouts: string[]; refutes_if: string };
-  }[];
-  survivor_discovery_id: string;
-  reproduce_command: string;
-};
 type LiveClaimRail = {
   title: string;
   gene: string;
@@ -373,89 +175,6 @@ type CrossDomainBenchmark = {
   boundary: string;
   claim: string;
   why_it_matters: string;
-};
-type DiscoveryCampaign = {
-  phase: string;
-  status: string;
-  trust_boundary: string;
-  acceptance: boolean;
-  honest_ceiling: string;
-  candidate_set_id: string;
-  reproduce_command: string;
-  filter_counts: {
-    frontier_genes: number;
-    cell_type_specific_replogle: number;
-  };
-  refusal_counts: {
-    standard_t_cell_annotation: number;
-    collectri_present: number;
-    non_immune_transfer_effect: number;
-  };
-  candidates: {
-    rank: number;
-    gene: string;
-    status: string;
-    stim_max_de: number;
-    rest_de: number;
-    k562_de: number | null;
-    score: number;
-  }[];
-};
-type CrossValidationPacket = {
-  phase: string;
-  status: string;
-  source_bundle_id: string;
-  reproduce_command: string;
-  counts: {
-    candidates_with_external_screen_hit: number;
-    candidates_with_schmidt_non_hit: number;
-    candidates_with_schmidt_orthogonal_phenotype: number;
-    candidates_with_comparable_external_contradiction: number;
-    candidates_with_string_network: number;
-    candidates_with_dice_cd4_expression: number;
-  };
-  candidates: {
-    gene: string;
-    rank: number;
-    tier: string;
-    marson_stim_max_de: number;
-    external_screen_summary: { supporting_hits: string[]; orthogonal_phenotypes: string[]; contradictions: string[]; non_hits: string[] };
-    dice_expression: { activated_cd4_mean_tpm: number };
-    string_network: { top_partners: string[] };
-    disease_context: string;
-    open_targets: { overlay_class: string };
-  }[];
-  readout_comparability: Record<string, { typed_status: string; marson_readout: string; schmidt_readout: string; interpretation: string }>;
-};
-type FlagshipModulePacket = {
-  phase: string;
-  status: string;
-  packet_id: string;
-  reproduce_command: string;
-  selection_rationale: string;
-  flagship_hypothesis: {
-    gene: string;
-    rank: number;
-    status: string;
-    support_level: string;
-    schmidt_status: string;
-    claim: string;
-    caveats: string[];
-    evidence_ladder: { rung: string; status: string; detail: string }[];
-    refutation_experiment: { system: string; perturbations: string[]; readout: string; refutes_if: string };
-    why_not_accepted: string;
-  };
-  supported_alternatives: {
-    gene: string;
-    rank: number;
-    tier: string;
-    marson_stim_max_de: number;
-    supporting_hits: string[];
-    schmidt_status: string;
-    string_partners: string[];
-    disease_context: string;
-    why_not_flagship: string;
-  }[];
 };
 type OverclaimCounterPacket = {
   phase: string;
@@ -558,22 +277,11 @@ type Data = {
     verifier_replay: string; human_acceptance_requires: string[];
   };
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
-  agent_campaign?: AgentCampaign | null;
-  lab_packet?: LabPacket | null;
-  lab_writeback_receipt?: LabWritebackReceipt | null;
-  disease_genetics_overlay?: DiseaseGeneticsOverlay | null;
   live_claim_rail?: LiveClaimRail | null;
   cross_domain_benchmark?: CrossDomainBenchmark | null;
-  discovery_campaign?: DiscoveryCampaign | null;
-  cross_validation?: CrossValidationPacket | null;
-  flagship_module?: FlagshipModulePacket | null;
   overclaim_counter?: OverclaimCounterPacket | null;
   claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
   pggt1b_defended_evidence?: DefendedEvidencePacket | null;
-  ccdc22_defended_evidence?: DefendedEvidencePacket | null;
-  defended_candidate_decisions?: DefendedCandidateDecisions | null;
-  defended_discovery_endgame_result?: EndgameResult | null;
-  survivor_discovery?: SurvivorDiscovery | null;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -952,8 +660,8 @@ export default function Page() {
 }
 
 const DEMO_PATH: { label: string; tab?: string }[] = [
-  { label: "Start on Overview: overclaiming makes acceptance infrastructure necessary." },
-  { label: "Stay on Overview: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
+  { label: "Start on Overview: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
+  { label: "Stay on Overview: paste any AI gene list and get the same typed acceptance result." },
   { label: "Open Agent: PGGT1B is the one caveated hypothesis worth testing, with mechanism and wet-lab gates.", tab: "agent" },
   { label: "Open Findings: signed CD4+ T-cell records show what the frozen frontier already holds.", tab: "findings" },
   { label: "Open Frontier: receipts cross as proposals, accepted=false until a human key accepts state.", tab: "frontier" },
@@ -970,40 +678,30 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
   return (
     <div style={{ display: "grid", gap: 26 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
-        <div className="t-label" style={{ marginBottom: 8 }}>Acceptance layer for AI-generated biology · CD4⁺ T cells</div>
-        <h1 className="t-display" style={{ maxWidth: "20ch" }}>Reproducible is not accepted state.</h1>
+        <div className="t-label" style={{ marginBottom: 8 }}>Check your AI biology claim · CD4+ T cells</div>
+        <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions are causal drivers?</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
-          Prospect takes claims from AI science tools, replays them against frozen released biology, and returns typed
-          driver, passenger, contradicted, or not_assayed verdicts. Every submission stays `accepted=false` until
-          a frozen replay and a human key accept state.
+          Every AI science tool can produce a gene list. Prospect tells a biologist which genes behave as
+          drivers, which look like passengers, and which driver claims the perturbation data contradicts.
+          Reproducible is not verified. accepted=false until a human key accepts state.
         </p>
       </header>
-
-      <TraceableHeadlineRail d={d} setTab={setTab} />
-
-      <WinningArcPanel d={d} setTab={setTab} />
 
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
 
-      {d.survivor_discovery && (
-        <SurvivorDiscoveryPanel packet={d.survivor_discovery} onGene={onGene} />
-      )}
-
-      {d.pggt1b_defended_evidence && d.defended_discovery_endgame_result && (
-        <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} result={d.defended_discovery_endgame_result} setTab={setTab} />
-      )}
-
       <ProspectAcceptanceWorkbench d={d} />
 
-      <JudgeTour setTab={setTab} />
+      <TraceableHeadlineRail d={d} setTab={setTab} />
 
-      {d.defended_discovery_endgame_result && (
-        <EndgameResultPanel packet={d.defended_discovery_endgame_result} onGene={onGene} />
+      <WinningArcPanel d={d} setTab={setTab} />
+
+      {d.pggt1b_defended_evidence && (
+        <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} setTab={setTab} />
       )}
 
-      <DiscoveryCampaignSurface d={d} onGene={onGene} />
+      <JudgeTour setTab={setTab} />
 
       {rate != null && (
         <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
@@ -1160,17 +858,12 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
 function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom;
   const demo = d.claude_science_acceptance_demo;
-  const endgame = d.defended_discovery_endgame_result;
-  const discovery = d.discovery_campaign;
   const cross = d.cross_domain_benchmark;
   const overclaim = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : 48;
   const effector = p?.effector_overclaim_rate ? Math.round(p.effector_overclaim_rate * 100) : 64;
   const mathFalse = cross?.math ? `${cross.math.claims_false}/${cross.math.claims_total}` : "19/24";
   const counts = demo?.prospect.typed_status_counts;
-  const lead = endgame?.lead_candidate;
-  const funnel = discovery?.filter_counts?.frontier_genes && discovery?.candidate_count
-    ? `${fmt(discovery.filter_counts.frontier_genes)} to ${discovery.candidate_count}`
-    : "11,526 to 18";
+  const lead = d.pggt1b_defended_evidence;
   const items = [
     {
       label: "overclaim pressure",
@@ -1185,7 +878,7 @@ function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) =
       value: mathFalse,
       body: "An independent math audit shows the same activity-to-state gap outside biology.",
       href: "/data/frontier.json",
-      command: "./prospect release-manifest",
+      command: "./prospect verify",
       action: () => setTab("overview"),
     },
     {
@@ -1204,21 +897,13 @@ function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) =
       command: "./prospect pggt1b-defended-evidence",
       action: () => setTab("agent"),
     },
-    {
-      label: "honest funnel",
-      value: funnel,
-      body: "The layer refuses most candidates before it elevates one proposal-only hypothesis.",
-      href: "/data/discovery_campaign.json",
-      command: "./prospect discovery-campaign",
-      action: () => setTab("overview"),
-    },
   ];
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 12, flexWrap: "wrap" }}>
         <div>
           <div className="t-label" style={{ marginBottom: 5 }}>Traceable headline rail</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>Every headline number has an artifact and a replay command.</h2>
+          <h2 className="h2-app" style={{ margin: 0 }}>Four claims, four artifacts, no packet pile.</h2>
         </div>
         <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>accepted=false until human key</span>
       </div>
@@ -1257,79 +942,14 @@ function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) =
   );
 }
 
-function SurvivorDiscoveryPanel({ packet, onGene }: { packet: SurvivorDiscovery; onGene: (g: string) => void }) {
-  return (
-    <section className="card-paper" style={{ padding: "20px 22px", display: "grid", gap: 16, borderColor: "var(--moss)" }}>
-      <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>New compute discovery</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>A strict gate kept three noncanonical activation hypotheses.</h2>
-          <p className="t-body-sm" style={{ margin: "8px 0 0", maxWidth: "82ch", color: "var(--ink-3)" }}>
-            Prospect reduced {fmt(packet.source_counts.leaderboard_candidates_scored)} novel driver candidates to{" "}
-            {packet.source_counts.survivors} proposal-only survivors: PGGT1B, CCDC22, and LETM2. They are not a settled
-            module. They are mechanistically distinct hypotheses with frozen evidence, five adversarial kills, and specific
-            CRISPRi refutation tests.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/survivor_discovery.json" target="_blank" rel="noreferrer">
-          artifact <ExternalLink size={13} />
-        </a>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))", gap: 8 }}>
-        {[
-          [fmt(packet.source_counts.atlas_genes), "genes typed", "var(--ink)"],
-          [`${packet.source_counts.literature_contradicted}/${packet.source_counts.literature_claims}`, "claims contradicted", "var(--cinnabar)"],
-          [fmt(packet.source_counts.leaderboard_candidates_scored), "drivers challenged", "var(--field-blue)"],
-          [packet.source_counts.survivors, "survivors", "var(--moss)"],
-        ].map(([value, label, color]) => (
-          <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ marginTop: 3, color: "var(--ink-3)" }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))", gap: 10 }}>
-        {packet.survivors.map((row) => (
-          <div key={row.gene} style={{ padding: "12px 13px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
-              <button type="button" onClick={() => onGene(row.gene)} className="t-mono"
-                style={{ background: "transparent", color: "var(--ink)", fontWeight: 750, fontSize: 16 }}>
-                {row.gene}
-              </button>
-              <span className="t-caption" style={{ color: "var(--moss)" }}>{row.orthogonal_dataset_count} datasets</span>
-            </div>
-            <div className="t-label" style={{ color: "var(--brass)" }}>{row.axis}</div>
-            <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-              {fmt(row.strongest_de)} DE genes in {row.strongest_condition}. K562 {row.k562_de == null ? "not_assayed" : row.k562_de}.
-              {" "}Shifrut {row.shifrut_support.join(", ") || "not_assayed"}. Schmidt {row.schmidt_status}.
-            </p>
-            <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-              Refutes if: {row.falsifiable_experiment.refutes_if}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-        {packet.honest_ceiling}. accepted=false. id={packet.survivor_discovery_id}.
-      </p>
-    </section>
-  );
-}
-
 function PGGT1BLeadPanel({
   evidence,
-  result,
   setTab,
 }: {
   evidence: DefendedEvidencePacket;
-  result: EndgameResult;
   setTab: (tab: string) => void;
 }) {
-  const lead = result.lead_candidate;
-  const kills = lead?.kill_attempts || evidence.kill_attempts || [];
+  const kills = evidence.kill_attempts || [];
   const survivedKills = kills.filter((kill) => kill.result === "survives_current_frozen_evidence").length;
   const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
   return (
@@ -1349,13 +969,13 @@ function PGGT1BLeadPanel({
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
         <TraceFact
           label="frozen effect"
-          value={lead?.marson_stim_max_de ? fmt(lead.marson_stim_max_de) : "3,014"}
-          body={`strongest condition ${lead?.strongest_condition || "Stim8hr"}`}
+          value="3,014"
+          body="strongest condition Stim8hr"
         />
         <TraceFact
           label="mechanism"
           value="FNTA/RABGGTA"
-          body={lead?.mechanism?.basis || evidence.mechanism_dossier?.inference?.[0] || "prenylation and small-GTPase traffic"}
+          body={evidence.mechanism_dossier?.inference?.[0] || "prenylation and small-GTPase traffic"}
         />
         <TraceFact
           label="kill attempts"
@@ -1396,7 +1016,7 @@ function JudgeTour({ setTab }: { setTab: (tab: string) => void }) {
     <section style={{ display: "grid", gap: 10 }}>
       <div>
         <div className="t-label" style={{ marginBottom: 5 }}>Guided judge tour</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>Five steps, one sentence each.</h2>
+        <h2 className="h2-app" style={{ margin: 0 }}>Five moves, no setup.</h2>
         <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "70ch", color: "var(--ink-3)" }}>
           The tour follows the live page order first, then opens the deeper tabs for the evidence record.
         </p>
@@ -2193,8 +1813,6 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <Receipts receipts={d.receipts} bridge={d.receipt_bridge} externalDemo={d.external_run_receipt_demo} />
       )}
 
-      {d.lab_writeback_receipt && <LabWritebackCard packet={d.lab_writeback_receipt} />}
-
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>Contradictions, where AI claims meet the data</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -2515,14 +2133,6 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
       {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
 
-      {d.agent_campaign && <AgentCampaignLeaderboard campaign={d.agent_campaign} onGene={onGene} />}
-
-      {d.disease_genetics_overlay && <DiseaseGeneticsOverlayCard packet={d.disease_genetics_overlay} onGene={onGene} />}
-
-      {d.lab_packet && <LabPacketCard packet={d.lab_packet} onGene={onGene} />}
-
-      {d.lab_writeback_receipt && <LabWritebackCard packet={d.lab_writeback_receipt} />}
-
       <div>
         <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
@@ -2537,492 +2147,6 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function EndgameResultPanel({ packet, onGene }: { packet: EndgameResult; onGene: (g: string) => void }) {
-  const topRows = packet.candidate_decisions.slice(0, 6);
-  const supportRows = packet.candidate_decisions.filter((row) => row.independent_primary_t_cell_support.length > 0);
-  const rpe1 = packet.non_blocking_not_assayed[0];
-  const lead = packet.lead_candidate;
-  return (
-    <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 14, borderColor: "var(--brass)" }}>
-      <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Defended discovery endgame</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>PGGT1B is the proposal-only lead worth testing.</h2>
-          <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "78ch", color: "var(--ink-3)" }}>
-            The corrected bar rests cell-type specificity on genome-wide K562 and treats sparse RPE1 coverage
-            as not_assayed context. Prospect re-scored all {packet.candidate_count} locked candidates:
-            {` ${packet.cleared_count}`} proposal-only lead remains worth testing, accepted=false, human_signature_required.
-          </p>
-        </div>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          {lead && (
-            <button type="button" onClick={() => onGene(lead.gene)} className="btn btn-secondary btn-sm">
-              {lead.gene}
-            </button>
-          )}
-          <a className="btn btn-secondary btn-sm" href="/data/defended_discovery_endgame_result.json" target="_blank" rel="noreferrer">
-            ledger <ExternalLink size={13} />
-          </a>
-          <a className="btn btn-secondary btn-sm" href="/data/defended_discovery_endgame_preregistration.json" target="_blank" rel="noreferrer">
-            pre-registration <ExternalLink size={13} />
-          </a>
-        </div>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8 }}>
-        {[
-          [packet.candidate_count, "candidates tested", "var(--ink)"],
-          [packet.cleared_count, "proposal lead", "var(--moss)"],
-          [supportRows.length, "with T-cell support", "var(--brass)"],
-          [rpe1?.affected_candidates || 0, "RPE1 context", "var(--field-blue)"],
-        ].map(([value, label, color]) => (
-          <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ marginTop: 3, color: "var(--ink-3)" }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 12 }}>
-        <div style={{ display: "grid", gap: 8 }}>
-          <div className="t-label">Locked order, first six decisions</div>
-          {topRows.map((row) => (
-            <div key={row.gene} style={{ display: "grid", gridTemplateColumns: "34px 72px 1fr", gap: 8, alignItems: "baseline" }}>
-              <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{row.rank}</span>
-              <button type="button" onClick={() => onGene(row.gene)} className="t-mono fz-sm"
-                style={{ background: "transparent", color: "var(--ink)", textAlign: "left", fontWeight: 700 }}>
-                {row.gene}
-              </button>
-              <span className="t-caption" style={{ color: "var(--ink-3)" }}>
-                {row.blocking_rungs.map((block) => block.typed_detail).join(", ") || row.decision}
-              </span>
-            </div>
-          ))}
-        </div>
-        <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 8 }}>
-          <div className="t-label">What the fixed bar changed</div>
-          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-            The prior run treated missing RPE1 rows as a blocking failure. This run keeps that as
-            not_assayed context. PGGT1B is retained on Marson effect, K562 specificity, Shifrut support,
-            STRING, DICE, Open Targets, ChEMBL, DepMap, mechanism, and adversarial kills.
-          </p>
-          <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-            {packet.honest_ceiling}. accepted=false. ledger={packet.ledger_id}.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DiscoveryCampaignSurface({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
-  const discovery = d.discovery_campaign;
-  const cross = d.cross_validation;
-  const flagship = d.flagship_module;
-  const counter = d.overclaim_counter;
-  if (!discovery || !cross || !flagship || !counter) return null;
-  const evidenceStatus = "evidence_attached";
-  const reproducedStatus = "computationally_reproduced";
-  const hypothesis = flagship.flagship_hypothesis;
-  const pg = cross.candidates.find((row) => row.gene === "PGGT1B");
-  const supportRows = cross.candidates.slice(0, 18);
-  const schmidt = cross.readout_comparability.schmidt_2022_2427;
-  const commands = [
-    ["Phase 1", discovery.reproduce_command || "./prospect discovery-campaign"],
-    ["Phase 2", cross.reproduce_command || "./prospect cross-validation"],
-    ["Phase 3", flagship.reproduce_command || "./prospect flagship-module"],
-    ["Phase 4", counter.reproduce_command || "./prospect overclaim-counter"],
-  ];
-  const jsonLinks = [
-    ["/data/discovery_campaign.json", "discovery"],
-    ["/data/cross_validation.json", "cross-validation"],
-    ["/data/flagship_module.json", "flagship"],
-    ["/data/overclaim_counter.json", "counter"],
-  ];
-  return (
-    <section className="card-paper" style={{ padding: "18px 20px", display: "grid", gap: 16, borderColor: "var(--gold-line)" }}>
-      <div style={{ display: "flex", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-        <div style={{ minWidth: 0 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Honest discovery campaign</div>
-          <h3 className="h2-app" style={{ margin: 0 }}>The discovery is the refusal</h3>
-          <p className="t-body-sm" style={{ maxWidth: "78ch", margin: "8px 0 0" }}>
-            Claim A: 11,526 genes entered the funnel, 18 survived the novelty and specificity filters,
-            and 4 had independent screen support. The system kept all of that proposal-only and refused the rest.
-            Claim B: PGGT1B is one caveated hypothesis, not a module.
-          </p>
-        </div>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginLeft: "auto" }}>
-          {jsonLinks.map(([href, label]) => (
-            <a key={href} className="btn btn-secondary btn-sm" href={href} target="_blank" rel="noreferrer">
-              {label} <ExternalLink size={13} />
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-        {[
-          [fmt(discovery.filter_counts.frontier_genes), "frontier genes scanned", "var(--ink)"],
-          [fmt(discovery.filter_counts.cell_type_specific_replogle), "novelty survivors", "var(--brass)"],
-          [fmt(cross.counts.candidates_with_external_screen_hit), "with independent support", "var(--moss)"],
-          [fmt(counter.counts.phase1_refused_total), "genes refused by filters", "var(--cinnabar)"],
-          [fmt(counter.counts.model_contradicted_claims), "model claims contradicted", "var(--cinnabar)"],
-        ].map(([value, label, color]) => (
-          <div key={label} style={{ padding: "10px 11px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 18, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ marginTop: 3, color: "var(--ink-3)" }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 14 }}>
-        <div style={{ display: "grid", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{evidenceStatus}</span>
-            <button onClick={() => onGene(hypothesis.gene)} className="t-mono fz-sm" style={{ color: "var(--ink)", background: "transparent", fontWeight: 700 }}>
-              {hypothesis.gene}
-            </button>
-            <span className="t-mono fz-sm" style={{ color: "var(--ink-3)" }}>{hypothesis.support_level}</span>
-          </div>
-          <p className="t-lede" style={{ fontSize: "1.02rem", margin: 0 }}>{hypothesis.claim}</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>rank 1</span>
-            <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>Shifrut support</span>
-            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>{hypothesis.schmidt_status.replace(/_/g, " ")}</span>
-            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>proposal only</span>
-          </div>
-          <div style={{ display: "grid", gap: 5 }}>
-            {hypothesis.evidence_ladder.map((step) => (
-              <div key={step.rung} className="t-caption" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "baseline" }}>
-                <span className="t-mono" style={{ color: "var(--ink-3)" }}>{step.rung}</span>
-                <span className="chip" style={{ ["--tone" as any]: step.status === "contradicted" ? "var(--cinnabar)" : step.status === reproducedStatus ? "var(--moss)" : step.status === "orthogonal_phenotype" ? "var(--field-blue)" : "var(--brass)" }}>
-                  {step.status}
-                </span>
-                <span>{step.detail}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "grid", gap: 10 }}>
-          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-label" style={{ marginBottom: 5 }}>Cross-dataset read</div>
-            <p className="t-caption" style={{ margin: 0 }}>
-              PGGT1B support: {pg?.external_screen_summary.supporting_hits.join(", ") || "none"}.
-              Schmidt status: {pg?.external_screen_summary.orthogonal_phenotypes.join(", ") || "none"}.
-              DICE activated CD4 mean TPM: {pg?.dice_expression.activated_cd4_mean_tpm ?? "n/a"}.
-            </p>
-            <p className="t-caption" style={{ margin: "6px 0 0" }}>
-              STRING partners: {pg?.string_network.top_partners.slice(0, 5).join(", ") || "none"}.
-            </p>
-          </div>
-          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-label" style={{ marginBottom: 5 }}>What the gate refused</div>
-            <p className="t-caption" style={{ margin: 0 }}>
-              {fmt(counter.counts.phase1_refused_total)} Phase 1 genes refused; {counter.counts.phase2_without_external_screen_hit} of {discovery.filter_counts.cell_type_specific_replogle}
-              {" "}survivors lacked independent screen support; {counter.counts.phase2_schmidt_orthogonal_phenotypes} Schmidt rows are orthogonal phenotype, not comparable contradiction.
-            </p>
-          </div>
-          <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-label" style={{ marginBottom: 5 }}>Refutation experiment</div>
-            <p className="t-caption" style={{ margin: 0 }}>
-              {hypothesis.refutation_experiment.readout}. Refutes if {hypothesis.refutation_experiment.refutes_if}.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ padding: "10px 12px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-        <div className="t-label" style={{ marginBottom: 5 }}>Schmidt comparator</div>
-        <p className="t-caption" style={{ margin: 0 }}>
-          {schmidt.schmidt_readout} The Marson replay measures {schmidt.marson_readout.toLowerCase()}.
-          Typed status: {schmidt.typed_status}.
-        </p>
-      </div>
-
-      <div style={{ display: "grid", gap: 8 }}>
-        <div className="t-label">Per-candidate support table</div>
-        <div style={{ overflowX: "auto", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)" }}>
-          <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
-            <thead>
-              <tr className="t-label">
-                {["gene", "rank", "Marson", "Shifrut", "Schmidt", "STRING", "DICE", "Open Targets"].map((h) => (
-                  <th key={h} style={{ textAlign: "left", padding: "8px 10px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="t-caption">
-              {supportRows.map((row) => {
-                const shifrut = row.external_screen_summary.supporting_hits.length ? "evidence_attached" : "missed";
-                const schmidtStatus = row.external_screen_summary.orthogonal_phenotypes.includes("schmidt_2022_2427")
-                  ? "orthogonal_phenotype" : row.external_screen_summary.contradictions.length ? "contradicted" : "not attached";
-                return (
-                  <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                    <td style={{ padding: "7px 10px" }}>
-                      <button onClick={() => onGene(row.gene)} className="t-mono" style={{ background: "transparent", color: "var(--ink)", fontWeight: 700 }}>{row.gene}</button>
-                    </td>
-                    <td style={{ padding: "7px 10px" }}>{row.rank}</td>
-                    <td style={{ padding: "7px 10px" }}>{row.marson_stim_max_de} DE</td>
-                    <td style={{ padding: "7px 10px" }}>{shifrut}</td>
-                    <td style={{ padding: "7px 10px" }}>{schmidtStatus}</td>
-                    <td style={{ padding: "7px 10px" }}>{row.string_network.top_partners.length ? "evidence_attached" : "missed"}</td>
-                    <td style={{ padding: "7px 10px" }}>{row.dice_expression.activated_cd4_mean_tpm ?? "n/a"}</td>
-                    <td style={{ padding: "7px 10px" }}>{row.open_targets.overlay_class}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 12, display: "grid", gap: 8 }}>
-        <div className="t-label">One-command reproduce path</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(245px, 1fr))", gap: 6 }}>
-          {commands.map(([label, command]) => (
-            <div key={command} style={{ display: "flex", gap: 8, alignItems: "baseline", minWidth: 0 }}>
-              <span className="t-label" style={{ minWidth: 54 }}>{label}</span>
-              <code className="t-mono fz-xs" style={{ color: "var(--gold-ink)", overflowWrap: "anywhere" }}>{command}</code>
-            </div>
-          ))}
-        </div>
-        <p className="t-caption" style={{ margin: 0 }}>
-          Boundary: {counter.flagship_boundary.accepted_state} accepted state for {counter.flagship_boundary.gene}. Next acceptance step: {counter.flagship_boundary.next_acceptance_step}.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function AgentCampaignLeaderboard({ campaign, onGene }: { campaign: AgentCampaign; onGene: (g: string) => void }) {
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Agent campaign leaderboard</div>
-          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
-            Twenty proposal-only hypotheses ranked by frozen Prospect facts. Filters: stimulated DE at or above{" "}
-            {fmt(campaign.method.min_stim_de)}, Rest DE at or below {fmt(campaign.method.max_rest_de)}, non-canonical,
-            not housekeeping, on-target under stimulation, and cell-type-specific where measured.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/agent_campaign.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 1120, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "lane", "status", "stim max", "Rest", "K562", "review", "risk"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {campaign.candidates.slice(0, 12).map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td style={{ padding: "8px 12px", maxWidth: 150 }}>
-                  <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>{r.priority_lane}</span>
-                </td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{r.status.replace(/_/g, " ")}</span>
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--moss)", fontWeight: 650 }}>
-                  {fmt(r.stim_max_de)} · {r.strongest_condition}
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{fmt(r.rest_de)}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{r.k562_de == null ? "·" : fmt(r.k562_de)}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", maxWidth: 270, color: "var(--ink-2)" }}>{r.why_interesting}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", maxWidth: 250, color: "var(--ink-3)" }}>{r.what_would_weaken}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Campaign <span className="t-mono">{campaign.campaign_id}</span> is {campaign.trust_boundary.replace(/_/g, " ")}.
-        It ranks follow-ups; accepted state still requires the frozen gate and human key.
-      </p>
-    </div>
-  );
-}
-
-function DiseaseGeneticsOverlayCard({ packet, onGene }: { packet: DiseaseGeneticsOverlay; onGene: (g: string) => void }) {
-  const label = (value: string) => value.replace(/_/g, " ");
-  const tone = (value: string) => {
-    if (value === "immune_or_hematologic_genetic_context") return "var(--moss)";
-    if (value === "immune_or_hematologic_non_genetic_context") return "var(--field-blue)";
-    return "var(--stone)";
-  };
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Disease-genetics overlay packet</div>
-          <p className="t-body-sm" style={{ maxWidth: "76ch", margin: 0 }}>
-            Frozen Open Targets rows attach immune or hematologic context to campaign candidates. No accepted state changes.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/disease_genetics_overlay.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 8 }}>
-        {[
-          [packet.counts.campaign_rows, "campaign rows", "var(--ink)"],
-          [packet.counts.immune_or_hematologic_context, "immune or hematologic context", "var(--field-blue)"],
-          [packet.counts.immune_or_hematologic_genetic_context, "genetic context", "var(--moss)"],
-          [packet.counts.no_immune_or_hematologic_context, "no selected context", "var(--stone)"],
-        ].map(([value, title, color]) => (
-          <div key={title} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)" }}>
-            <div className="t-mono" style={{ fontSize: 17, fontWeight: 700, color }}>{value}</div>
-            <div className="t-label" style={{ color: "var(--ink-3)", marginTop: 3 }}>{title}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: 0, overflowX: "auto", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)", background: "var(--paper-raised)" }}>
-        <table style={{ width: "100%", minWidth: 900, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "condition", "overlay", "top external context", "evidence"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {packet.rows.slice(0, 10).map((row) => (
-              <tr key={row.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{row.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(row.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{row.gene}</button>
-                </td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.strongest_condition}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone(row.overlay_class) }}>{label(row.overlay_class)}</span>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px" }}>{row.top_context?.disease_or_trait ?? "no selected context"}</td>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px" }}>{row.top_context?.evidence_type ?? "none"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Trust boundary: {label(packet.trust_boundary)}. Accepted-state mutation: {packet.accepted_state_mutation}.
-      </p>
-    </div>
-  );
-}
-
-function LabPacketCard({ packet, onGene }: { packet: LabPacket; onGene: (g: string) => void }) {
-  const rows = packet.candidates.slice(0, 5);
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Wet-lab assay packet</div>
-          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
-            Five proposal-only follow-ups translated into assay design: intervention, controls, readouts,
-            exclusion rules, and public replay links. Status remains {packet.status.replace(/_/g, " ")}.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/lab_packet.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div className="card-paper" style={{ padding: 0, overflowX: "auto" }}>
-        <table style={{ width: "100%", minWidth: 860, borderCollapse: "collapse" }}>
-          <thead>
-            <tr className="t-label">
-              {["rank", "gene", "intervention", "primary readout", "controls", "exclude if"].map((h) => (
-                <th key={h} style={{ textAlign: "left", padding: "9px 12px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.gene} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                <td className="t-mono fz-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.rank}</td>
-                <td style={{ padding: "8px 12px" }}>
-                  <button onClick={() => onGene(r.gene)} className="t-mono" style={{ fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{r.gene}</button>
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-2)" }}>{r.intervention}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>{r.primary_readout}</td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
-                  {r.positive_controls.join(", ")} / {r.negative_controls[0]}
-                </td>
-                <td className="t-body-sm" style={{ padding: "8px 12px", color: "var(--ink-3)" }}>
-                  {r.exclusion_criteria.slice(0, 2).join(", ")}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="t-caption" style={{ margin: 0 }}>
-        Replay: {packet.method.replay_links.map((link, i) => (
-          <span key={link}>
-            {i > 0 ? " · " : ""}
-            <span className="t-mono">{link}</span>
-          </span>
-        ))}. Trust boundary: {packet.trust_boundary.replace(/_/g, " ")}.
-      </p>
-    </div>
-  );
-}
-
-function LabWritebackCard({ packet }: { packet: LabWritebackReceipt }) {
-  const contradictionTitle = packet.contradiction_rule.title || CONTRADICTION_AS_PROPOSAL_TITLE;
-  const mutationRule = packet.contradiction_rule.accepted_claim_mutation || CONTRADICTION_NEVER_OVERWRITE;
-  return (
-    <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>{packet.title}</div>
-          <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
-            A bench result returns as the same receipt shape whether it confirms or refutes. It carries
-            executed_protocol, assay_readout, affected_claims, reviewer_signature, and state_diff, then
-            waits at accepted=false.
-          </p>
-        </div>
-        <a className="btn btn-secondary btn-sm" href="/data/lab_writeback_receipt.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
-          JSON <ExternalLink size={13} />
-        </a>
-      </div>
-      <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 10 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 8 }}>
-          {packet.return_receipts.map((receipt) => (
-            <div key={receipt.outcome} style={{ padding: "9px 10px", border: "1px solid var(--rule-faint)",
-              borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 5 }}>
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                <span className="t-label">{receipt.outcome}</span>
-                <span className="chip" style={{ ["--tone" as any]: receipt.typed_status === "contradicted" ? "var(--cinnabar)" : "var(--field-blue)" }}>
-                  {receipt.typed_status.replace(/_/g, " ")}
-                </span>
-              </div>
-              <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>{receipt.assay_readout.summary}</p>
-              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-                affected {receipt.affected_claims[0].receipt_id} · accepted={String(receipt.accepted)} · next={receipt.next}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
-          <div className="t-label">{contradictionTitle}</div>
-          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-            {mutationRule}: {packet.contradiction_rule.rule}
-          </p>
         </div>
       </div>
     </div>
@@ -3264,7 +2388,8 @@ function FindingsIndex({ index }: { index: FindingIndex }) {
         ))}
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
-        Source <span className="t-mono">{index.source}</span>. The index summarizes signed objects; evidence tables below carry the numbers.
+        Source <span className="t-mono">{index.source}</span>. Replay <span className="t-mono">./prospect findings-index</span>.
+        The index summarizes signed objects; evidence tables below carry the numbers.
       </p>
     </section>
   );

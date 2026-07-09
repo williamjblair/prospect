@@ -115,11 +115,18 @@ class AcceptanceStore:
             })
             recent.append(entry)
         recent.sort(key=lambda item: str(item.get("created_at") or ""))
+        typed_total = sum(status_counts.values())
+        passenger_or_contradicted = int(status_counts.get("associative_only", 0)) + int(status_counts.get("contradicted", 0))
         return {
             "submission_count": len(recent),
             "accepted": False,
             "next": "human_signature_required",
             "typed_status_counts": dict(status_counts),
+            "passenger_or_contradicted": {
+                "count": passenger_or_contradicted,
+                "denominator": typed_total,
+                "rate": round(passenger_or_contradicted / typed_total, 4) if typed_total else 0,
+            },
             "by_producer": dict(by_producer),
             "recent": recent[-50:],
         }
@@ -254,6 +261,8 @@ def _render_ledger_page(ledger: dict[str, Any]) -> str:
         for item in ledger["recent"]
     )
     counts = ledger["typed_status_counts"]
+    aggregate = ledger.get("passenger_or_contradicted") or {}
+    rate = round(float(aggregate.get("rate") or 0) * 100, 1)
     return f"""<!doctype html>
 <html>
 <head><meta charset="utf-8"><title>Prospect acceptance ledger</title>
@@ -268,6 +277,7 @@ th, td {{ border-top: 1px solid ButtonBorder; padding: 7px 8px; text-align: left
 <h1>Prospect acceptance ledger</h1>
 <p>accepted=false for submitted proposals until frozen replay passes and a human signature accepts state.</p>
 <p>{ledger['submission_count']} submissions. {counts.get('evidence_attached', 0)} evidence_attached, {counts.get('associative_only', 0)} associative_only, {counts.get('contradicted', 0)} contradicted, {counts.get('not_assayed', 0)} not_assayed.</p>
+<p>{rate}% of typed submitted genes are passenger or contradicted under the frozen causal replay.</p>
 <h2>Recent submissions</h2>
 <table><thead><tr><th>state</th><th>producer</th><th>input</th><th>genes</th><th>drivers</th><th>passengers</th><th>contradicted</th><th>not_assayed</th><th>warnings</th></tr></thead><tbody>{rows}</tbody></table>
 </body></html>"""

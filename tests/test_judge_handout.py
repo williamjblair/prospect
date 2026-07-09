@@ -24,23 +24,18 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["trust_boundary"]["model_accepted_state_mutations"] == 0
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert handout["counts"]["findings"] >= 3
-    assert handout["counts"]["campaign_rows"] == 20
-    assert handout["counts"]["disease_overlay_rows"] == 20
-    assert handout["counts"]["disease_overlay_context_rows"] == 10
-    assert handout["counts"]["lab_packet_rows"] == 5
+    assert handout["counts"]["claude_science_drivers"] == 12
+    assert handout["counts"]["claude_science_passengers"] == 22
+    assert handout["counts"]["claude_science_contradicted"] == 3
     assert handout["counts"]["claude_science_not_assayed"] == 15
     assert handout["counts"]["substrate_after_not_assayed"] == 5
     assert handout["counts"]["pggt1b_novelty_downgraded"] is True
     assert handout["counts"]["pggt1b_wet_lab_minimum_donors"] >= 3
-    assert handout["counts"]["endgame_candidates"] == 18
-    assert handout["counts"]["endgame_cleared"] == 1
-    assert handout["counts"]["endgame_lead"] == "PGGT1B"
-    assert handout["counts"]["endgame_with_t_cell_support"] == 4
-    assert handout["counts"]["endgame_rpe1_not_assayed"] == 18
+    assert handout["counts"]["pggt1b_orthogonal_public_datasets"] >= 5
     assert "sign the frontier root" in handout["human_only_actions"]
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
-    assert "verified" not in json.dumps(handout).lower()
+    assert "Reproducible is not verified." in handout["one_line"]
 
 
 def test_judge_handout_writes_print_friendly_markdown(tmp_path):
@@ -55,23 +50,19 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "What remains human-only" in doc
     assert "./prospect verify" in doc
     assert "./prospect demo-mode --reset" in doc
-    assert "/data/disease_genetics_overlay.json" in doc
-    assert "/data/lab_packet.json" in doc
     assert "/data/substrate_coverage_report.json" in doc
     assert "/data/pggt1b_defended_evidence.json" in doc
-    assert "/data/defended_discovery_endgame_result.json" in doc
     assert "./prospect substrate-coverage" in doc
     assert "./prospect pggt1b-defended-evidence" in doc
-    assert "./prospect defended-discovery-endgame-result" in doc
-    assert "Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
+    assert "ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
     assert "PGGT1B novelty downgraded against prior art" in doc
-    assert "18 locked candidates" in doc
-    assert "1 proposal-only lead worth testing (PGGT1B)" in doc
+    assert "Real Claude Science signature" in doc
+    assert "driver/passenger/contradicted" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     # No cut surface leaks back in.
-    for cut in ["final_submission_audit", "gladstone_pilot_design", "campaign_challenger", "release_manifest"]:
+    for cut in ["discovery_campaign", "lab_packet", "disease_genetics_overlay", "overnight", "exhaustive", "survivor"]:
         assert cut not in doc
-    assert "verified" not in json.dumps(handout).lower()
+    assert "verified biology" not in doc.lower()
 
 
 def test_judge_handout_runs_from_prospect_cli():

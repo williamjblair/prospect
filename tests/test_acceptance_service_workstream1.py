@@ -93,6 +93,11 @@ def test_acceptance_store_persists_states_and_public_ledger(tmp_path):
     assert ledger["typed_status_counts"]["evidence_attached"] == 1
     assert ledger["typed_status_counts"]["associative_only"] == 1
     assert ledger["typed_status_counts"]["contradicted"] == 1
+    assert ledger["passenger_or_contradicted"] == {
+        "count": 2,
+        "denominator": 3,
+        "rate": 0.6667,
+    }
     assert ledger["recent"][0]["producer"] == "external_team"
     assert ledger["recent"][0]["input_kind"] == "gene_list"
     assert ledger["recent"][0]["gene_count"] == 3
@@ -130,6 +135,9 @@ def test_http_state_survives_restart_and_ledger_is_shareable(tmp_path):
         ledger = json.loads(ledger_text)
         assert ledger["submission_count"] == 1
         assert ledger["typed_status_counts"]["not_assayed"] == 1
+        assert ledger["passenger_or_contradicted"]["count"] == 2
+        assert ledger["passenger_or_contradicted"]["denominator"] == 4
+        assert ledger["passenger_or_contradicted"]["rate"] == 0.5
         assert ledger["recent"][0]["state_url"] == state_url
         assert ledger["recent"][0]["producer"] == "external_team"
 
@@ -139,6 +147,7 @@ def test_http_state_survives_restart_and_ledger_is_shareable(tmp_path):
         assert "Recent submissions" in ledger_page
         assert "external_team" in ledger_page
         assert "not_assayed" in ledger_page
+        assert "50.0% of typed submitted genes are passenger or contradicted" in ledger_page
 
         status, guide_page = _get(port, "/guide")
         assert status == 200

@@ -10,7 +10,7 @@ def test_overview_exposes_judge_demo_path_tabs():
 
     assert "DEMO_PATH" in source
     assert "Guided judge tour" in source
-    assert "Five steps, one sentence each." in source
+    assert "Five moves, no setup." in source
     # The guided strip navigates to the three deep tabs.
     assert "setTab(step.tab" in source
     for tab in ['"findings"', '"frontier"', '"agent"']:
@@ -21,20 +21,20 @@ def test_overview_headline_numbers_are_traceable():
     source = PAGE.read_text()
 
     assert "TraceableHeadlineRail" in source
-    assert "Every headline number has an artifact and a replay command." in source
+    assert "Four claims, four artifacts, no packet pile." in source
     assert "data-trace-number" in source
     for artifact in [
         "/data/overclaim_counter.json",
         "/data/claude_science_acceptance_demo.json",
         "/data/pggt1b_defended_evidence.json",
-        "/data/discovery_campaign.json",
+        "/data/frontier.json",
     ]:
         assert artifact in source
     for command in [
         "./prospect overclaim-counter",
         "python examples/claude_science_connector_client.py --json",
         "./prospect pggt1b-defended-evidence",
-        "./prospect discovery-campaign",
+        "./prospect verify",
     ]:
         assert command in source
 

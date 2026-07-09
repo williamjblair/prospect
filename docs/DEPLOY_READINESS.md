@@ -5,10 +5,14 @@ This prepares deploys. It does not deploy from Codex.
 ## Local gate
 
 ```bash
-./prospect deploy-checklist --run
+./scripts/prepare_deploy.sh
 ```
 
-The command regenerates the local derived surfaces, runs the full local gate, builds the web app, then prints the deploy commands for Will.
+The script regenerates the local derived surfaces, runs the full local gate, builds the web app, then prints the deploy commands for Will. To inspect the same commands without running the gate:
+
+```bash
+./prospect deploy-checklist
+```
 
 ## Web deploy
 

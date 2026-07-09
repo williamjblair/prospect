@@ -1,6 +1,6 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import csv, json, os, shutil, sys
+import csv, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
@@ -78,34 +78,11 @@ if pggt1b_receipt:
 
 # Kept packets surfaced in the app.
 pggt1b_deep_dive = load("pggt1b_deep_dive.json")
-pggt1b_matrix_slice = load("pggt1b_matrix_slice.json")
-agent_campaign = load("agent_campaign.json")
-discovery_campaign = load("discovery_campaign.json")
-cross_validation = load("cross_validation.json")
-flagship_module = load("flagship_module.json")
 overclaim_counter = load("overclaim_counter.json")
-lab_packet = load("lab_packet.json")
-lab_writeback_receipt = load("lab_writeback_receipt.json")
 finding_index = load("finding_index.json")
-disease_genetics_overlay = load("disease_genetics_overlay.json")
-ccdc22_defended_evidence = load("ccdc22_defended_evidence.json")
-defended_candidate_decisions = load("defended_candidate_decisions.json")
-defended_discovery_endgame_preregistration = load("defended_discovery_endgame_preregistration.json")
 pggt1b_defended_evidence = load("pggt1b_defended_evidence.json")
-pggt1b_endgame_decision = load("pggt1b_endgame_decision.json")
-defended_discovery_endgame_result = load("defended_discovery_endgame_result.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
 substrate_coverage_report = load("substrate_coverage_report.json")
-public_robustness_fuzz = load("public_robustness_fuzz.json")
-overnight_preregistration = load("overnight_preregistration.json")
-overnight_genome_wide_atlas = load("overnight_genome_wide_atlas.json")
-overnight_literature_claims = load("overnight_literature_claims.json")
-overnight_literature_audit = load("overnight_literature_audit.json")
-overnight_defended_leaderboard = load("overnight_defended_leaderboard.json")
-exhaustive_compute_preregistration = load("exhaustive_compute_preregistration.json")
-exhaustive_literature_audit = load("exhaustive_literature_audit.json")
-exhaustive_coverage_preregistration = load("exhaustive_coverage_preregistration.json")
-survivor_discovery = load("survivor_discovery.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -234,26 +211,11 @@ data = {
     "external_run_receipt_demo": external_run_receipt_demo,
     "live_claim_rail": live_claim_rail,
     "cross_domain_benchmark": cross_domain_benchmark,
-    "pggt1b_deep_dive": pggt1b_deep_dive, "agent_campaign": agent_campaign,
-    "discovery_campaign": discovery_campaign,
-    "cross_validation": cross_validation,
-    "flagship_module": flagship_module,
+    "pggt1b_deep_dive": pggt1b_deep_dive,
     "overclaim_counter": overclaim_counter,
-    "lab_packet": lab_packet, "lab_writeback_receipt": lab_writeback_receipt,
-    "disease_genetics_overlay": disease_genetics_overlay,
-    "ccdc22_defended_evidence": ccdc22_defended_evidence,
-    "defended_candidate_decisions": defended_candidate_decisions,
-    "defended_discovery_endgame_preregistration": defended_discovery_endgame_preregistration,
     "pggt1b_defended_evidence": pggt1b_defended_evidence,
-    "pggt1b_endgame_decision": pggt1b_endgame_decision,
-    "defended_discovery_endgame_result": defended_discovery_endgame_result,
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
     "substrate_coverage_report": substrate_coverage_report,
-    "public_robustness_fuzz": public_robustness_fuzz,
-    "exhaustive_compute_preregistration": exhaustive_compute_preregistration,
-    "exhaustive_literature_audit": exhaustive_literature_audit,
-    "exhaustive_coverage_preregistration": exhaustive_coverage_preregistration,
-    "survivor_discovery": survivor_discovery,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -261,42 +223,14 @@ data = {
                  "n_findings": len(findings)},
 }
 os.makedirs(PUB, exist_ok=True)
-for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_slice, "pggt1b_matrix_slice.json"),
-                  (agent_campaign, "agent_campaign.json"), (discovery_campaign, "discovery_campaign.json"),
-                  (cross_validation, "cross_validation.json"),
-                  (flagship_module, "flagship_module.json"),
+for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"),
                   (overclaim_counter, "overclaim_counter.json"),
-                  (lab_packet, "lab_packet.json"),
-                  (lab_writeback_receipt, "lab_writeback_receipt.json"),
-                  (finding_index, "finding_index.json"), (disease_genetics_overlay, "disease_genetics_overlay.json"),
-                  (ccdc22_defended_evidence, "ccdc22_defended_evidence.json"),
-                  (defended_candidate_decisions, "defended_candidate_decisions.json"),
-                  (defended_discovery_endgame_preregistration, "defended_discovery_endgame_preregistration.json"),
+                  (finding_index, "finding_index.json"),
                   (pggt1b_defended_evidence, "pggt1b_defended_evidence.json"),
-                  (pggt1b_endgame_decision, "pggt1b_endgame_decision.json"),
-                  (defended_discovery_endgame_result, "defended_discovery_endgame_result.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),
-                  (substrate_coverage_report, "substrate_coverage_report.json"),
-                  (public_robustness_fuzz, "public_robustness_fuzz.json"),
-                  (overnight_preregistration, "overnight_preregistration.json"),
-                  (overnight_genome_wide_atlas, "overnight_genome_wide_atlas.json"),
-                  (overnight_literature_claims, "overnight_literature_claims.json"),
-                  (overnight_literature_audit, "overnight_literature_audit.json"),
-                  (overnight_defended_leaderboard, "overnight_defended_leaderboard.json"),
-                  (exhaustive_compute_preregistration, "exhaustive_compute_preregistration.json"),
-                  (exhaustive_literature_audit, "exhaustive_literature_audit.json"),
-                  (exhaustive_coverage_preregistration, "exhaustive_coverage_preregistration.json"),
-                  (survivor_discovery, "survivor_discovery.json")]:
+                  (substrate_coverage_report, "substrate_coverage_report.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
-for name in [
-    "exhaustive_literature_claims.jsonl",
-    "exhaustive_literature_claims.csv",
-    "exhaustive_literature_documents.jsonl",
-]:
-    src = os.path.join(DATA, name)
-    if os.path.exists(src):
-        shutil.copyfile(src, os.path.join(PUB, name))
 json.dump(data, open(OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")

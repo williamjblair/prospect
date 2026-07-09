@@ -6,52 +6,61 @@ Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prosp
 
 Signed root: `root_a8b0dcdd4024e12f`
 
-## One-paragraph positioning
+## One Sentence
 
-Prospect is the acceptance layer for AI-generated biology. A Claude Science session can make a reproducible signature or table, but reproducible activity is not accepted scientific state. Prospect turns that activity into a receipt, replays it against frozen released perturbation data, returns typed driver, passenger, contradicted, or not_assayed verdicts, and keeps every submission at `accepted=false` until a frozen replay and a human key accept state.
+Prospect tells biologists which genes in an AI-generated prediction list behave as causal drivers,
+which are passengers, and which driver claims the perturbation data contradicts.
 
-## What we built
+## Why It Matters
 
-- A signed, content-addressed CD4+ T-cell regulatory frontier from the released Marson CRISPRi Perturb-seq screen.
-- A production acceptance service: paste a gene list, signature JSON, ranked markers, or DE table, get a receipt, typed verdicts, a state page, and a public ledger.
-- An MCP-shaped connector with tools to discover the schema, submit an artifact, and fetch a verdict.
-- A real Claude Science artifact flow: the Sade-Feldman melanoma ICB scRNA-seq signature enters Prospect and receives causal driver/passenger verdicts.
-- A context-aware substrate router: T-cell claims route first to Marson CD4+, K562 claims to Replogle K562, RPE1 claims to Replogle RPE1, and frozen ORCS primary T-cell rows shrink uncovered Sade-Feldman genes from 15 to 5.
-- A defended PGGT1B dossier that is honest about prior art: PGGT1B is not novel as a T-cell biology axis, but remains a testable CD4 activation-transcriptome hypothesis in released data.
+Reproducible is not verified. Claude Science and similar tools can preserve an artifact, its code,
+environment, and review trail. That makes the activity reproducible. Prospect asks the next question:
+does the claim survive an independent frozen perturbation gate, and should it become accepted state?
+
+## What We Built
+
+- A paste-and-connector acceptance layer for gene lists, signatures, ranked markers, and DE tables.
+- A real Claude Science artifact flow using a Sade-Feldman melanoma ICB scRNA-seq signature.
+- A frozen causal gate over the released Marson primary human CD4+ CRISPRi Perturb-seq screen.
+- Typed driver, passenger, contradicted, and not_assayed verdicts, always `accepted=false`.
+- A signed CD4+ regulatory frontier and MCP receipt bridge.
+- One honest PGGT1B hypothesis worth testing, with mechanism, prior-art caveats, and a refutation experiment.
 
 ## Results
 
-- 11,526 genes, 37,106 regulatory edges, five signed findings, one signed root.
-- 48% of confident AI major-regulator claims contradicted by the measured data, 64% on famous checkpoints and cytokines.
-- Real Claude Science signature: 52 genes, 12 `evidence_attached`, 22 `associative_only`, 3 `contradicted`, 15 `not_assayed` in Marson; 5 remain uncovered after ORCS primary T-cell context.
-- PGGT1B packet: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS support, STRING partners including FNTA and RABGGTA, ChEMBL target `CHEMBL4135`, and a primary CD4+ CRISPRi protocol with at least 3 donors.
-- Novelty downgrade: PMIDs 31302143 and 33207246 already link PGGT1B, GGTase-I, or protein prenylation to T-cell biology. The kept claim is narrower and falsifiable.
+- Real Claude Science export: 52 genes typed by Prospect.
+- Driver/passenger split: 12 `evidence_attached`, 22 `associative_only`, 3 `contradicted`, 15 `not_assayed`.
+- Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data,
+  64% on famous checkpoints and cytokines.
+- PGGT1B: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS
+  support, STRING partners including FNTA and RABGGTA, ChEMBL target `CHEMBL4135`, and a primary
+  CD4+ CRISPRi protocol with at least 3 donors.
+- Signed frontier: 11,526 genes, 37,106 regulatory edges, five signed CD4+ findings, root
+  `root_a8b0dcdd4024e12f`.
 
-## Why Claude matters
+Ceiling: computation over released data, not wet-lab or clinical truth.
 
-Claude is valuable at proposing, searching, and producing reproducible activity. Prospect keeps Claude out of the trust path. The decision to type a claim comes from frozen code over frozen released data. The decision to accept state remains a human key-custody step.
+## Judge Path
 
-## Judge path
+1. Open Overview. The first screen is the real Claude Science artifact and Prospect's causal verdicts.
+2. Paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE` into the check-your-claim box.
+3. Inspect the shareable state link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
+4. Read the 48 and 64 percent overclaiming benchmark.
+5. Open Agent for the PGGT1B mechanism and CRISPRi refutation experiment.
+6. Open Frontier for the receipt boundary and MCP bridge.
 
-1. Open Overview. Read the first-screen arc: overclaiming, real Claude Science artifact, typed verdicts, PGGT1B payload, run your own claim.
-2. Scroll to the Claude Science panel. Compare the internal artifact lane with Prospect's causal lane.
-3. Paste a small claim into the run-your-own panel and copy the shareable state link.
-4. Open Agent. Inspect the PGGT1B dossier, novelty downgrade, ChEMBL hook, and wet-lab protocol.
-5. Open Frontier. Inspect the receipt bridge and MCP boundary.
+## Public Artifacts
 
-## Demo recording
-
-Start from a clean, deterministic state:
-
-```bash
-./prospect demo-mode --reset
-```
-
-This writes one shareable demo proposal to `var/acceptance_service`, prints the live beats, and keeps the fallback real Claude Science export clearly labeled as a fixture. The storyboard is in [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md).
-
-## Deep technical note
-
-For judges who inspect the trust boundary, use [JUDGE_TECHNICAL_NOTE.md](JUDGE_TECHNICAL_NOTE.md). It covers the typed ladder, the receipt shape, and why model review is not the acceptance step.
+- `/data/frontier.json`
+- `/data/claude_science_acceptance_demo.json`
+- `/data/substrate_coverage_report.json`
+- `/data/pggt1b_defended_evidence.json`
+- `/data/pggt1b_deep_dive.json`
+- `/data/finding_index.json`
+- `/data/overclaim_counter.json`
+- `/data/receipt_bridge/receipt_contract.json`
+- `/data/receipt_bridge/receipt_manifest.json`
+- `/data/receipt_bridge/receipt_bundle.json`
 
 ## Commands
 
@@ -67,24 +76,12 @@ cd web && npm run build
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
+python examples/receipt_bridge_client.py --json
+python examples/claude_science_connector_client.py --json
 ```
 
-## Public artifacts
+## Trust Boundary
 
-- `/data/frontier.json`
-- `/data/claude_science_acceptance_demo.json`
-- `/data/substrate_coverage_report.json`
-- `/data/pggt1b_defended_evidence.json`
-- `/data/defended_discovery_endgame_result.json`
-- `/data/receipt_bridge/receipt_contract.json`
-- `/data/receipt_bridge/receipt_manifest.json`
-- `/data/receipt_bridge/receipt_bundle.json`
-
-Acceptance-service public paths after launch:
-
-- `/guide`
-- `/ledger`
-- `/ledger.json`
-- `/state/<state_id>`
-
-Ceiling: computation over released data, not wet-lab or clinical truth.
+Claude proposes, searches, and produces reproducible activity. Prospect's acceptance layer is frozen
+code over frozen released data plus a human signing key. A model can submit a receipt; it cannot move
+accepted state.

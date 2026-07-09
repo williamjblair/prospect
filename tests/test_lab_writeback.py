@@ -8,7 +8,6 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "examples" / "data" / "lab_writeback_receipt.json"
 DOC = ROOT / "docs" / "LAB_WRITEBACK_RECEIPT.md"
 FRONTIER = ROOT / "web" / "public" / "data" / "frontier.json"
-PAGE = ROOT / "web" / "app" / "page.tsx"
 SCHEMA_DOC = ROOT / "docs" / "RECEIPT_SCHEMA.md"
 SCHEMA_JSON = ROOT / "receipt" / "receipt_schema_v0.json"
 
@@ -59,12 +58,11 @@ def test_later_contradiction_is_a_first_class_proposal_not_an_overwrite():
     assert rule["next"] == "human_signature_required"
 
 
-def test_lab_writeback_is_documented_and_exposed_to_web_data():
+def test_lab_writeback_is_documented_but_not_on_the_cut_public_surface():
     doc = DOC.read_text()
     schema_doc = SCHEMA_DOC.read_text()
     schema = json.loads(SCHEMA_JSON.read_text())
     data = json.loads(FRONTIER.read_text())
-    source = PAGE.read_text()
 
     for phrase in [
         "Lab writeback receipt",
@@ -80,10 +78,8 @@ def test_lab_writeback_is_documented_and_exposed_to_web_data():
         assert f"`{field}`" in schema_doc
         assert field in schema["properties"]
 
-    assert data["lab_writeback_receipt"]["receipt_kind"] == "lab_writeback"
-    assert "LabWritebackCard" in source
-    assert "Contradiction as proposal" in source
-    assert "never_overwrite" in source
+    assert _packet()["receipt_kind"] == "lab_writeback"
+    assert "lab_writeback_receipt" not in data
 
 
 def test_lab_writeback_cli_rebuilds_packet_without_accepting_state():
@@ -104,6 +100,6 @@ def test_lab_writeback_cli_rebuilds_packet_without_accepting_state():
 if __name__ == "__main__":
     test_lab_writeback_packet_specifies_same_shape_for_confirming_and_refuting_receipts()
     test_later_contradiction_is_a_first_class_proposal_not_an_overwrite()
-    test_lab_writeback_is_documented_and_exposed_to_web_data()
+    test_lab_writeback_is_documented_but_not_on_the_cut_public_surface()
     test_lab_writeback_cli_rebuilds_packet_without_accepting_state()
     print("PASS: lab writeback")

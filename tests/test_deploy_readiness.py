@@ -54,12 +54,19 @@ def _wait_ready(port: int) -> None:
 def test_deploy_checklist_lists_non_deploying_gate_and_will_commands():
     checklist = build_checklist()
 
+    assert checklist["prepare_command"] == "./scripts/prepare_deploy.sh"
     assert "./prospect verify" in checklist["local_gate"]
     assert "python -m pytest tests/ -q" in checklist["local_gate"]
     assert "cd web && npm run build" in checklist["local_gate"]
     assert "fly deploy --config fly.acceptance.toml" in checklist["deploy_commands_for_will"]
     assert checklist["web_env"]["NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL"]
     assert "vercel --prod" in " ".join(checklist["do_not_run_here"])
+    script = (ROOT / "scripts" / "prepare_deploy.sh").read_text()
+    assert "python frontier/build.py" in script
+    assert "python -m pytest tests/ -q" in script
+    assert "cd web && npm run build" in script
+    assert "NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL" in script
+    assert "fly deploy --config fly.acceptance.toml" in script
 
 
 def test_deploy_checklist_cli_emits_json():

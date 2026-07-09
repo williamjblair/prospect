@@ -1,4 +1,4 @@
-"""Build the one-page judge handout from the kept, signed surfaces."""
+"""Build the one-page judge handout from the cut public surface."""
 from __future__ import annotations
 
 import argparse
@@ -14,11 +14,10 @@ FRONTIER = ROOT / "frontier"
 RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 OUT_DOC = ROOT / "docs" / "JUDGE_HANDOUT.md"
 
-# The trust boundary: these stay a human key-custody decision, never a model's.
 HUMAN_ONLY_ACTIONS = [
     "sign the frontier root",
     "accept a submitted receipt",
-    "sign an agent or campaign hypothesis",
+    "accept a PGGT1B state change",
     "wet-lab execution",
 ]
 
@@ -36,19 +35,13 @@ def _jsonl(path: Path) -> list[Any]:
 
 
 def build_handout() -> dict[str, Any]:
-    campaign = _json(DATA / "agent_campaign.json")
-    disease = _json(DATA / "disease_genetics_overlay.json")
-    lab = _json(DATA / "lab_packet.json")
     claude_science = _json(DATA / "claude_science_acceptance_demo.json")
     substrate = _json(DATA / "substrate_coverage_report.json")
     pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
-    endgame = _json(DATA / "defended_discovery_endgame_result.json")
-    overnight_atlas = _json(DATA / "overnight_genome_wide_atlas.json")
-    overnight_literature = _json(DATA / "overnight_literature_audit.json")
-    overnight_leaderboard = _json(DATA / "overnight_defended_leaderboard.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
+    counts = claude_science["prospect"]["typed_status_counts"]
 
     return {
         "title": "Prospect one-page judge handout",
@@ -56,75 +49,53 @@ def build_handout() -> dict[str, Any]:
         "repo_url": REPO_URL,
         "signed_root": SIGNED_ROOT,
         "thesis": (
-            "Claude makes scientific activity cheap; Prospect decides what becomes replayable, "
-            "human-accepted state."
+            "Prospect tells a biologist which genes in an AI-generated prediction list behave as causal "
+            "drivers, which are passengers, and which driver claims the perturbation data contradicts. "
+            "The first-screen output is a driver/passenger/contradicted split."
         ),
+        "one_line": "Reproducible is not verified.",
         "counts": {
             "public_artifacts": len(PUBLIC_ARTIFACTS),
             "findings": len(findings),
             "receipts": len(receipts),
             "finding_index_rows": len(index.get("items", [])),
-            "campaign_rows": len(campaign.get("candidates", [])),
-            "disease_overlay_rows": disease["counts"]["campaign_rows"],
-            "disease_overlay_context_rows": disease["counts"]["immune_or_hematologic_context"],
-            "lab_packet_rows": len(lab.get("candidates", [])),
-            "claude_science_genes": claude_science["prospect"]["typed_status_counts"]["genes"],
-            "claude_science_drivers": claude_science["prospect"]["typed_status_counts"]["drivers"],
-            "claude_science_passengers": claude_science["prospect"]["typed_status_counts"]["passengers"],
-            "claude_science_contradicted": claude_science["prospect"]["typed_status_counts"]["contradicted"],
-            "claude_science_not_assayed": claude_science["prospect"]["typed_status_counts"]["not_assayed"],
+            "claude_science_genes": counts["genes"],
+            "claude_science_drivers": counts["drivers"],
+            "claude_science_passengers": counts["passengers"],
+            "claude_science_contradicted": counts["contradicted"],
+            "claude_science_not_assayed": counts["not_assayed"],
             "substrate_after_not_assayed": substrate["coverage"]["sade_feldman_signature"]["after"]["not_assayed"],
             "pggt1b_novelty_downgraded": pggt1b["novelty_assessment"]["downgraded_novelty"],
             "pggt1b_wet_lab_minimum_donors": pggt1b["wet_lab_protocol"]["minimum_donors"],
-            "endgame_candidates": endgame["candidate_count"],
-            "endgame_cleared": endgame["cleared_count"],
-            "endgame_lead": (endgame.get("lead_candidate") or {}).get("gene", "none"),
-            "endgame_with_t_cell_support": sum(
-                1 for row in endgame["candidate_decisions"]
-                if row["independent_primary_t_cell_support"]
-            ),
-            "endgame_rpe1_not_assayed": endgame["non_blocking_not_assayed"][0]["affected_candidates"],
-            "overnight_atlas_genes": overnight_atlas["gene_count"],
-            "overnight_literature_claims": overnight_literature["claim_count"],
-            "overnight_literature_contradicted": overnight_literature["typed_status_counts"]["contradicted"],
-            "overnight_leaderboard_scored": overnight_leaderboard["candidate_count_scored"],
-            "overnight_leaderboard_cleared": overnight_leaderboard["cleared_compute_bar_count"],
+            "pggt1b_orthogonal_public_datasets": pggt1b["orthogonal_public_dataset_count"],
         },
         "trust_boundary": {
-            "model_role": "propose, search, pressure-test",
+            "model_role": "propose, search, draft",
             "model_in_trust_path": "no",
             "accepted_state": "human_signed_replayable_root",
             "model_accepted_state_mutations": 0,
         },
-        "five_minute_path": [
-            "Overview: acceptance layer first, the real Claude Science export enters Prospect and receives typed causal verdicts.",
-            "Overview: substrate coverage, frozen ORCS primary T-cell context shrinks uncovered genes while staying proposal-only.",
-            "Overview: PGGT1B is the caveated hypothesis worth testing, with prior-art novelty downgraded.",
-            "Overview: paste any signature, DE table, ranked marker list, or gene list into the submitter and share the state page.",
-            "Overview: the overclaiming counter, 48% overall and 64% on canonical effectors.",
-            "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.",
-            "Agent: the campaign leaderboard, every row a proposal, none accepted state.",
-            "Agent: the PGGT1B evidence packet, ChEMBL hook, disease context, and wet-lab protocol.",
-            "Agent: the wet-lab assay packet, proposal-only, ready for a lab.",
-            "Frontier: the receipt boundary and the MCP bridge, which returns a proposal, never accepted state.",
+        "judge_path": [
+            "Overview: real Claude Science signature enters Prospect and receives typed causal verdicts.",
+            "Overview: paste a gene list, DE table, or signature and copy the shareable state link.",
+            "Overview: inspect the 48 and 64 percent overclaiming benchmark.",
+            "Agent: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
+            "Findings: signed CD4+ T-cell records show the frozen frontier.",
+            "Frontier: receipts and MCP bridge show accepted=false until a human key signs.",
         ],
         "public_artifacts_to_open": PUBLIC_ARTIFACTS,
         "commands": [
             "./prospect verify",
-            "./prospect submit-pack",
+            "python benchmark/mutation_pack.py",
+            "python tests/test_skill_parity.py",
+            "python tests/test_marson.py",
             "./prospect demo-mode --reset",
             "./prospect claude-science",
-            "./prospect defended-discovery-endgame-preregister",
-            "./prospect pggt1b-endgame-decision",
-            "./prospect defended-discovery-endgame-result",
-            "./prospect overnight-compute",
             "./prospect substrate-coverage",
             "./prospect pggt1b-defended-evidence",
             "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
-            "python benchmark/mutation_pack.py",
             "python examples/receipt_bridge_client.py --json",
             "python examples/claude_science_connector_client.py --json",
-            "python examples/prospect_connector_client.py --case openresearch --json",
         ],
         "human_only_actions": HUMAN_ONLY_ACTIONS,
         "limitation": "Prospect proves computation over released data, not wet-lab or clinical truth.",
@@ -146,79 +117,75 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
         handout["thesis"],
         "",
+        handout["one_line"],
+        "",
         handout["limitation"],
         "",
-        "## Numbers to inspect",
+        "## Numbers To Inspect",
         "",
-        f"- {counts['findings']} signed findings",
-        f"- {counts['receipts']} portable receipts",
-        f"- {counts['finding_index_rows']} rows in the scannable finding index",
-        f"- {counts['campaign_rows']} proposal-only campaign rows",
-        f"- {counts['disease_overlay_rows']} campaign rows overlaid with external disease context",
-        f"- {counts['disease_overlay_context_rows']} rows with selected immune or hematologic context",
-        f"- {counts['lab_packet_rows']} proposal-only wet-lab assay rows",
-        f"- {counts['public_artifacts']} public data artifacts",
         (
-            f"- {counts['claude_science_genes']} real Claude Science signature genes typed by Prospect: "
+            f"- Real Claude Science signature: {counts['claude_science_genes']} genes, "
             f"{counts['claude_science_drivers']} drivers, {counts['claude_science_passengers']} passengers, "
             f"{counts['claude_science_contradicted']} contradicted driver claims, "
             f"{counts['claude_science_not_assayed']} not assayed"
         ),
-        f"- Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
+        f"- ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
+        f"- PGGT1B carries {counts['pggt1b_orthogonal_public_datasets']} orthogonal public evidence sources",
         (
             f"- PGGT1B novelty downgraded against prior art: {'yes' if counts['pggt1b_novelty_downgraded'] else 'no'}, "
             f"wet-lab protocol minimum donors {counts['pggt1b_wet_lab_minimum_donors']}"
         ),
-        (
-            f"- Defended-discovery fixed bar: {counts['endgame_candidates']} locked candidates, "
-            f"{counts['endgame_cleared']} proposal-only lead worth testing ({counts['endgame_lead']}), "
-            f"{counts['endgame_with_t_cell_support']} retained independent primary T-cell support, "
-            f"{counts['endgame_rpe1_not_assayed']} retain RPE1 as not_assayed context"
-        ),
-        (
-            f"- Overnight compute: {counts['overnight_atlas_genes']} genes typed, "
-            f"{counts['overnight_literature_contradicted']} of {counts['overnight_literature_claims']} literature claims contradicted, "
-            f"{counts['overnight_leaderboard_cleared']} of {counts['overnight_leaderboard_scored']} leaderboard rows cleared the compute bar"
-        ),
-        "",
-        "## Trust boundary",
-        "",
-        f"- Model role: `{handout['trust_boundary']['model_role']}`",
-        f"- Model in trust path: `{handout['trust_boundary']['model_in_trust_path']}`",
-        f"- Accepted state: `{handout['trust_boundary']['accepted_state']}`",
-        f"- Model accepted-state mutations: {handout['trust_boundary']['model_accepted_state_mutations']}",
+        f"- {counts['findings']} signed CD4+ findings and {counts['receipts']} receipts",
+        f"- {counts['public_artifacts']} public data artifacts",
         "",
         "## Five-minute judge path",
         "",
     ]
-    lines += [f"{idx}. {step}" for idx, step in enumerate(handout["five_minute_path"], start=1)]
-    lines += ["", "## Public artifacts to open", ""]
+    lines += [f"{i}. {step}" for i, step in enumerate(handout["judge_path"], start=1)]
+    lines += [
+        "",
+        "## Trust Boundary",
+        "",
+        f"- Model role: {handout['trust_boundary']['model_role']}",
+        f"- Model in trust path: {handout['trust_boundary']['model_in_trust_path']}",
+        f"- Accepted state: {handout['trust_boundary']['accepted_state']}",
+        f"- Model accepted state mutations: {handout['trust_boundary']['model_accepted_state_mutations']}",
+        "",
+        "## Public Artifacts",
+        "",
+    ]
     lines += [f"- `{path}`" for path in handout["public_artifacts_to_open"]]
-    lines += ["", "## Replay commands", ""]
+    lines += [
+        "",
+        "## Commands",
+        "",
+    ]
     lines += [f"- `{command}`" for command in handout["commands"]]
-    lines += ["", "## What remains human-only", ""]
+    lines += [
+        "",
+        "## What remains human-only",
+        "",
+    ]
     lines += [f"- {action}" for action in handout["human_only_actions"]]
-    lines += ["", "Rebuild:", "", "```bash", "./prospect judge-handout", "```"]
-    return "\n".join(lines) + "\n"
+    lines.append("")
+    return "\n".join(lines)
 
 
 def write_handout(out_doc: Path = OUT_DOC) -> dict[str, Any]:
     handout = build_handout()
-    out_doc.parent.mkdir(parents=True, exist_ok=True)
     out_doc.write_text(_markdown(handout))
     return handout
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospect judge-handout")
-    parser.add_argument("--json", action="store_true", help="print the handout packet as JSON")
+    parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
-
     handout = write_handout()
     if args.json:
         print(json.dumps(handout, indent=2, sort_keys=True))
-        return 0
-    print(f"wrote {OUT_DOC}")
+    else:
+        print(f"wrote {OUT_DOC}")
     return 0
 
 
