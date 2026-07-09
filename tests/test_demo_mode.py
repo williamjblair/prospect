@@ -3,9 +3,13 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+
+from receipt.acceptance_service import build_submission_result
+from services.prospect_acceptance_service import AcceptanceStore
 
 
 def test_demo_mode_writes_shareable_state_and_live_script(tmp_path):
@@ -39,21 +43,22 @@ def test_demo_mode_writes_shareable_state_and_live_script(tmp_path):
         "honest_funnel",
     ]
     paste = packet["beats"][2]
-    assert paste["state_url"].startswith("http://demo.local/state/")
+    assert paste["proposal_url"].startswith("http://demo.local/proposal/")
     assert paste["counts"] == {
         "genes": 5,
         "drivers": 1,
-        "passengers": 1,
-        "contradicted": 1,
+        "passengers": 2,
+        "contradicted": 0,
         "not_assayed": 2,
     }
     assert packet["ledger"]["submission_count"] == 1
-    assert (tmp_path / "states").exists()
+    assert (tmp_path / "acceptance.sqlite3").exists()
 
 
-def test_demo_reset_clears_acceptance_states(tmp_path):
-    (tmp_path / "states").mkdir()
-    (tmp_path / "states" / "state_old.json").write_text("{}\n")
+def test_demo_reset_clears_acceptance_proposals(tmp_path):
+    store = AcceptanceStore(tmp_path)
+    store.store_result(build_submission_result("IL7R", source_name="reset_test"))
+    assert store.table_counts()["proposals"] == 1
 
     proc = subprocess.run(
         [
@@ -74,14 +79,13 @@ def test_demo_reset_clears_acceptance_states(tmp_path):
     result = json.loads(proc.stdout)
     assert result["accepted"] is False
     assert result["next"] == "human_signature_required"
-    assert result["removed_states"] == 1
-    assert list((tmp_path / "states").glob("*.json")) == []
+    assert result["removed_proposals"] == 1
+    assert not (tmp_path / "acceptance.sqlite3").exists()
 
 
 if __name__ == "__main__":
-    from pathlib import Path
     import tempfile
 
     test_demo_mode_writes_shareable_state_and_live_script(Path(tempfile.mkdtemp()))
-    test_demo_reset_clears_acceptance_states(Path(tempfile.mkdtemp()))
+    test_demo_reset_clears_acceptance_proposals(Path(tempfile.mkdtemp()))
     print("PASS: demo mode")

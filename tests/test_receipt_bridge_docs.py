@@ -21,9 +21,10 @@ def test_run_your_own_claim_guide_has_web_service_and_mcp_paths():
     text = RUN_DOC.read_text()
 
     assert "Run your own claim through Prospect" in text
-    assert "Path 1: no-setup web submit" in text
+    assert "## Web" in text
     assert "./prospect serve-acceptance --port 8130" in text
-    assert "prospect.receipt.submit_artifact" in text
+    assert "prospect.acceptance.submit_artifact" in text
+    assert "prospect.acceptance.get_proposal" in text
     assert "accepted=false" in text
     assert "human_signature_required" in text
 

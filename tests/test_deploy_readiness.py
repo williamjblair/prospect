@@ -30,9 +30,10 @@ def _get(port: int, path: str):
     return res.status, headers, text
 
 
-def _options(port: int, path: str):
+def _options(port: int, path: str, *, origin: str = ""):
     conn = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
-    conn.request("OPTIONS", path)
+    headers = {"Origin": origin} if origin else {}
+    conn.request("OPTIONS", path, headers=headers)
     res = conn.getresponse()
     text = res.read().decode()
     headers = dict(res.getheaders())
@@ -57,14 +58,22 @@ def test_deploy_checklist_lists_non_deploying_gate_and_will_commands():
     assert checklist["prepare_command"] == "./scripts/prepare_deploy.sh"
     assert "./prospect verify" in checklist["local_gate"]
     assert "python -m pytest tests/ -q" in checklist["local_gate"]
+    assert "cd web && npm run typecheck" in checklist["local_gate"]
     assert "cd web && npm run build" in checklist["local_gate"]
+    assert "docker build -f Dockerfile.acceptance -t prospect-acceptance:local ." in checklist["local_gate"]
     assert "fly deploy --config fly.acceptance.toml" in checklist["deploy_commands_for_will"]
     assert checklist["web_env"]["NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL"]
+    assert checklist["signed_frontier_policy"]["mutation_allowed"] is False
+    assert checklist["signed_frontier_policy"]["root"] == "root_a8b0dcdd4024e12f"
     assert "vercel --prod" in " ".join(checklist["do_not_run_here"])
     script = (ROOT / "scripts" / "prepare_deploy.sh").read_text()
-    assert "python frontier/build.py" in script
+    assert "python frontier/build.py" not in script
+    assert 'SIGNED_STATE_BEFORE="$(state_digest)"' in script
+    assert 'SIGNED_STATE_AFTER="$(state_digest)"' in script
     assert "python -m pytest tests/ -q" in script
+    assert "npm run typecheck" in script
     assert "cd web && npm run build" in script
+    assert "docker build -f Dockerfile.acceptance -t prospect-acceptance:local ." in script
     assert "NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL" in script
     assert "fly deploy --config fly.acceptance.toml" in script
 
@@ -105,7 +114,7 @@ def test_acceptance_service_cors_and_post_deploy_smoke(tmp_path):
     )
     try:
         _wait_ready(port)
-        status, headers, _ = _options(port, "/submit")
+        status, headers, _ = _options(port, "/submit", origin="https://prospect.example")
         assert status == 204
         assert headers["access-control-allow-origin"] == "https://prospect.example"
         assert "POST" in headers["access-control-allow-methods"]
@@ -128,8 +137,8 @@ def test_acceptance_service_cors_and_post_deploy_smoke(tmp_path):
         payload = json.loads(smoke.stdout)
         assert payload["accepted"] is False
         assert payload["next"] == "human_signature_required"
-        assert payload["state_status"] == 200
-        assert payload["second_state_status"] == 200
+        assert payload["proposal_status"] == 200
+        assert payload["second_proposal_status"] == 200
         assert payload["ledger_status"] == 200
         assert payload["typed_status_counts"]["drivers"] == 1
     finally:

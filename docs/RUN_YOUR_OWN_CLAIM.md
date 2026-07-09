@@ -1,145 +1,55 @@
 # Run your own claim through Prospect
 
-Prospect accepts common AI biology outputs and returns typed causal verdicts
-against the frozen Marson CD4+ CRISPRi Perturb-seq table. It does not accept
-state. Every submission returns `accepted=false` and
+Prospect accepts a gene list, signature JSON, ranked marker table, or DE CSV. It normalizes common
+symbols, aliases, and frozen Ensembl mappings, then returns typed per-gene verdicts from a frozen
+perturbation evaluator. Every result is a proposal with `accepted=false` and
 `next=human_signature_required`.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
-## What you can paste
+## Web
 
-- Plain gene list, one gene per line or separated by commas.
-- Signature JSON, including arrays such as `up`, `down`, `markers`, or
-  `signature_genes`.
-- DE or ranked marker CSV, with common columns such as `gene`, `symbol`,
-  `gene_symbol`, `marker`, `feature`, `target`, or `name`.
-- Mixed symbols, common aliases, and Ensembl IDs from the frozen Marson table.
+Open Check, choose the claim mode, paste the artifact, and submit. Associative signature is the
+default. Explicit causal claim requires a source, cell type, condition, and phenotype. Only a
+comparable explicit claim can earn `contradicted`.
 
-Unknown genes, non-human genes, and genes not assayed in the Marson table return
-`not_assayed`. Duplicates are ignored with a warning. Empty submissions and
-tables without a gene-like column fail with a clear message.
+The response links to a persistent proposal page containing the receipt, replay command, artifact
+hashes, typed verdicts, and human acceptance boundary. Producer identity is self-declared. Publish
+to the public ledger only when the submitter consents.
 
-## Path 1: no-setup web submit
-
-Open the Overview tab and use **Run your own claim through Prospect**. Paste a
-gene list or table and press **Submit to Prospect**. The result includes:
-
-- typed counts: `evidence_attached`, `associative_only`, `contradicted`,
-  `not_assayed`
-- a receipt id
-- `accepted=false`
-- `human_signature_required`
-- a shareable state link in the URL hash
-
-Example input:
-
-```text
-IL7R
-CCR7
-PD-1
-ENSG00000121410
-NOTGENE
-```
-
-Expected shape: IL7R is typed as a candidate driver, CCR7 as an associative
-passenger, PD-1 as a contradicted explicit driver claim in this assay, A1BG as
-not assayed due to no on-target knockdown, and NOTGENE as not found.
-
-## Path 2: one-command local service
-
-Run the service:
+## HTTP
 
 ```bash
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
-```
 
-Submit a claim:
-
-```bash
 curl -s http://127.0.0.1:8130/submit \
   -H 'content-type: application/json' \
-  -d '{"source_name":"external_team","filename":"signature.txt","text":"IL7R\nCCR7\nPD-1\nNOTGENE"}'
+  -d '{"producer":"external_team","filename":"signature.txt","input_text":"IL7R\nCCR7\nPD-1\nNOTGENE","claim_mode":"associative_signature","publish_to_ledger":false}'
 ```
 
-Open the returned `state_url`, for example:
+Open the returned `proposal_url`. The SQLite database stores immutable proposals, append-only
+submission events, and separate acceptance events. `/ledger` and `/ledger.json` expose only events
+submitted with `publish_to_ledger=true`.
 
-```text
-http://127.0.0.1:8130/state/state_<id>
-```
+## MCP
 
-The service writes each result to `var/acceptance_service/states`, so the state
-page survives a restart. The public ledger is:
+Hosted Streamable HTTP endpoint: `http://127.0.0.1:8130/mcp`.
 
-```bash
-curl -s http://127.0.0.1:8130/ledger.json
-```
+Tools:
 
-Health check:
+- `prospect.acceptance.discover_schema`
+- `prospect.acceptance.submit_artifact`
+- `prospect.acceptance.get_proposal`
 
-```bash
-curl -s http://127.0.0.1:8130/health
-```
+The service uses the official Python MCP SDK. Stdio compatibility remains available through
+`./prospect mcp`.
 
-## Path 3: MCP-style connector call
+## Typed Verdicts
 
-The same service exposes the submit tool over a JSON-RPC style HTTP endpoint:
+- `evidence_attached`: perturbing the gene moves the selected frozen program enough to attach causal-driver evidence.
+- `associative_only`: the gene is in the input, but does not meet the causal-driver rule in this assay.
+- `contradicted`: a comparable explicit causal-driver claim is refuted by the selected assay.
+- `not_assayed`: the frozen substrate cannot test the gene.
 
-```bash
-curl -s http://127.0.0.1:8130/mcp \
-  -H 'content-type: application/json' \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
-```
-
-Submit an artifact bundle:
-
-```bash
-curl -s http://127.0.0.1:8130/mcp \
-  -H 'content-type: application/json' \
-  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"prospect.acceptance.submit_artifact","arguments":{"source_name":"external_team","filename":"signature.txt","text":"IL7R\nCCR7\nPD-1\nNOTGENE"}}}'
-```
-
-Fetch the stored verdict:
-
-```bash
-curl -s http://127.0.0.1:8130/mcp \
-  -H 'content-type: application/json' \
-  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"prospect.acceptance.get_verdict","arguments":{"state_id":"state_<id>"}}}'
-```
-
-For stdio MCP, use:
-
-```bash
-./prospect mcp
-```
-
-The tool name is the same: `prospect.receipt.submit_artifact`.
-
-## Path 4: container service
-
-The production service image is defined in `Dockerfile.acceptance` and uses
-`PROSPECT_ACCEPTANCE_DATA_DIR` for durable state.
-
-```bash
-docker build -f Dockerfile.acceptance -t prospect-acceptance .
-docker run --rm -p 8130:8130 -v "$PWD/var/acceptance_service:/data" prospect-acceptance
-```
-
-`fly.acceptance.toml` is the matching hosted service template. It exposes port
-8130, checks `/health`, mounts `/data`, and keeps the same typed-status
-contract.
-
-## Typed verdicts
-
-- `evidence_attached`: the submitted gene behaves as a candidate causal driver
-  in the frozen Marson perturbation assay.
-- `associative_only`: the submitted gene may be associated with a phenotype,
-  but perturbation does not move the activation program enough to type it as a
-  driver.
-- `contradicted`: reserved for an explicit causal or driver claim refuted by
-  the perturbation assay.
-- `not_assayed`: absent from the frozen Marson table, not human-mapped here, or
-  lacking on-target knockdown.
-
-Prospect does not reject an external signature. It separates drivers from
-passengers for the specific causal question this assay can test.
+Unknown genes and sparse comparator coverage become `not_assayed`, never silent failures or
+contradictions.

@@ -7,8 +7,11 @@ primary_region = "sjc"
 [env]
   PROSPECT_ACCEPTANCE_DATA_DIR = "/data"
   PROSPECT_ACCEPTANCE_CORS_ORIGIN = "https://prospect-sepia-six.vercel.app"
+  PROSPECT_ACCEPTANCE_PUBLIC_URL = "https://prospect-acceptance.fly.dev"
   PROSPECT_ACCEPTANCE_RATE_LIMIT = "120"
   PROSPECT_ACCEPTANCE_RATE_WINDOW = "60"
+  PROSPECT_ACCEPTANCE_MAX_REQUEST_BYTES = "1000000"
+  PROSPECT_ACCEPTANCE_MAX_GENES = "5000"
 
 [[mounts]]
   source = "prospect_acceptance_data"
@@ -24,6 +27,6 @@ primary_region = "sjc"
   [[http_service.checks]]
     interval = "30s"
     timeout = "5s"
-    grace_period = "10s"
+    grace_period = "15s"
     method = "GET"
     path = "/health"

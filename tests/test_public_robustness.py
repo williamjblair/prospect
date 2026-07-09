@@ -165,9 +165,9 @@ def test_http_share_page_escapes_injection_like_gene_text(tmp_path):
         )
         assert status == 200, text
         result = json.loads(text)
-        state_path = "/" + result["state_url"].split("/", 3)[3]
+        proposal_path = "/" + result["proposal_url"].split("/", 3)[3]
 
-        status, page = _get(port, state_path)
+        status, page = _get(port, proposal_path)
         assert status == 200
         assert "<script>alert(1)</script>" not in page
         assert "&lt;SCRIPT&gt;ALERT(1)&lt;/SCRIPT&gt;" in page

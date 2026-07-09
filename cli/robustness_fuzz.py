@@ -23,13 +23,22 @@ def _safe_error(exc: Exception) -> dict[str, Any]:
     return payload
 
 
-def _case(case_id: str, class_name: str, text: str, *, filename: str = "submission.txt", context: str = "") -> dict[str, str]:
+def _case(
+    case_id: str,
+    class_name: str,
+    text: str,
+    *,
+    filename: str = "submission.txt",
+    context: str | dict[str, str] = "",
+    claim_mode: str = "associative_signature",
+) -> dict[str, Any]:
     return {
         "case_id": case_id,
         "class": class_name,
         "text": text,
         "filename": filename,
         "claim_context": context,
+        "claim_mode": claim_mode,
     }
 
 
@@ -41,6 +50,19 @@ def build_cases() -> list[dict[str, str]]:
         _case("nested_signature_json", "signature_json", json.dumps({"markers": [{"gene": "IL7R"}, {"symbol": "CCR7"}, {"target": "PD-1"}]}), filename="signature.json"),
         _case("de_csv", "de_table", "gene,logfc,padj\nIL7R,1.2,0.01\nCCR7,0.3,0.5\nPD-1,2,0.02\n", filename="de.csv"),
         _case("ranked_markers", "ranked_markers", "marker\trank\nIL7R\t1\nCCR7\t2\nPD-1\t3\n", filename="markers.tsv"),
+        _case(
+            "comparable_driver_claim",
+            "explicit_driver_claim",
+            "PD-1",
+            filename="driver.txt",
+            claim_mode="explicit_driver_claim",
+            context={
+                "cell_type": "primary human CD4 T cell",
+                "condition": "Stim48hr",
+                "phenotype": "activation_transcriptome",
+                "source": "PMID:28280247",
+            },
+        ),
         _case("k562_context", "context_routing", "MED19\nBCL10\nIL7R", filename="k562.txt", context="k562"),
         _case("empty", "clean_failure", "", filename="empty.txt"),
         _case("bad_json", "clean_failure", '{"genes": ["IL7R",}', filename="bad.json"),
@@ -69,13 +91,14 @@ def build_cases() -> list[dict[str, str]]:
     return cases
 
 
-def run_case(case: dict[str, str]) -> dict[str, Any]:
+def run_case(case: dict[str, Any]) -> dict[str, Any]:
     try:
         result = build_submission_result(
             case["text"],
             filename=case["filename"],
             source_name="public_robustness_fuzz",
             claim_context=case.get("claim_context", ""),
+            claim_mode=case.get("claim_mode", "associative_signature"),
         )
     except Exception as exc:
         error = _safe_error(exc)

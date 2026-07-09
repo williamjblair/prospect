@@ -1,10 +1,13 @@
-"""HTTP service contract for the Prospect acceptance layer."""
+"""HTTP contracts for the production Prospect acceptance service."""
+from __future__ import annotations
+
 import http.client
 import json
 import socket
 import subprocess
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -15,93 +18,234 @@ def _free_port() -> int:
         return int(sock.getsockname()[1])
 
 
-def _post(port: int, path: str, payload: dict):
-    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
-    body = json.dumps(payload)
-    conn.request("POST", path, body=body, headers={"content-type": "application/json"})
-    res = conn.getresponse()
-    text = res.read().decode()
-    conn.close()
-    return res.status, text
+def _request(
+    port: int,
+    method: str,
+    path: str,
+    payload: dict | None = None,
+    headers: dict[str, str] | None = None,
+) -> tuple[int, str, dict[str, str]]:
+    connection = http.client.HTTPConnection("127.0.0.1", port, timeout=10)
+    body = json.dumps(payload) if payload is not None else None
+    request_headers = dict(headers or {})
+    if payload is not None:
+        request_headers.setdefault("content-type", "application/json")
+    connection.request(method, path, body=body, headers=request_headers)
+    response = connection.getresponse()
+    text = response.read().decode()
+    response_headers = {key.lower(): value for key, value in response.getheaders()}
+    connection.close()
+    return response.status, text, response_headers
 
 
-def _get(port: int, path: str):
-    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
-    conn.request("GET", path)
-    res = conn.getresponse()
-    text = res.read().decode()
-    conn.close()
-    return res.status, text
-
-
-def test_http_submit_state_page_and_mcp_roundtrip():
-    port = _free_port()
-    proc = subprocess.Popen(
-        [str(ROOT / "prospect"), "serve-acceptance", "--port", str(port)],
+def _start_service(port: int, data_dir: Path, *extra: str) -> subprocess.Popen:
+    process = subprocess.Popen(
+        [
+            str(ROOT / "prospect"),
+            "serve-acceptance",
+            "--port",
+            str(port),
+            "--data-dir",
+            str(data_dir),
+            *extra,
+        ],
         cwd=ROOT,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
     )
-    try:
-        for _ in range(30):
-            try:
-                status, _ = _get(port, "/health")
-                if status == 200:
-                    break
-            except OSError:
-                time.sleep(0.1)
-        else:
-            raise AssertionError("service did not become ready")
+    for _ in range(60):
+        try:
+            status, _, _ = _request(port, "GET", "/health")
+            if status == 200:
+                return process
+        except OSError:
+            pass
+        time.sleep(0.1)
+    process.terminate()
+    stdout, stderr = process.communicate(timeout=5)
+    raise AssertionError(f"service did not become ready\nstdout={stdout}\nstderr={stderr}")
 
-        status, text = _post(port, "/submit", {
-            "text": "IL7R\nCCR7\nPD-1\nNOTGENE",
-            "filename": "genes.txt",
-            "source_name": "external_team",
-        })
+
+def _stop_service(process: subprocess.Popen) -> None:
+    process.terminate()
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.wait(timeout=5)
+
+
+def test_http_submit_returns_shareable_proposal(tmp_path):
+    port = _free_port()
+    process = _start_service(port, tmp_path)
+    try:
+        status, text, _ = _request(
+            port,
+            "POST",
+            "/submit",
+            {
+                "input_text": "IL7R\nCCR7\nPD-1\nNOTGENE",
+                "filename": "genes.txt",
+                "producer": "external_team",
+                "claim_mode": "associative_signature",
+                "publish_to_ledger": True,
+            },
+            {"x-forwarded-proto": "https"},
+        )
         assert status == 200, text
         result = json.loads(text)
         assert result["accepted"] is False
         assert result["next"] == "human_signature_required"
-        assert result["prospect"]["typed_status_counts"]["drivers"] == 1
-        assert result["prospect"]["typed_status_counts"]["passengers"] == 1
-        assert result["prospect"]["typed_status_counts"]["contradicted"] == 1
-        assert result["prospect"]["typed_status_counts"]["not_assayed"] == 1
+        assert result["proposal_id"].startswith("proposal_")
+        assert result["proposal_url"].startswith(f"https://127.0.0.1:{port}/proposal/")
+        assert "state_id" not in result
+        assert "state_url" not in result
+        assert result["producer_identity_status"] == "self_declared"
+        assert result["prospect"]["typed_status_counts"] == {
+            "genes": 4,
+            "drivers": 1,
+            "evidence_attached": 1,
+            "passengers": 2,
+            "associative_only": 2,
+            "contradicted": 0,
+            "not_assayed": 1,
+        }
 
-        status, page = _get(port, result["state_url"])
+        path = urlparse(result["proposal_url"]).path
+        status, page, _ = _request(port, "GET", path)
         assert status == 200
-        assert "Prospect acceptance result" in page
+        assert "Prospect proposal" in page
         assert "accepted=false" in page
         assert "human_signature_required" in page
-        assert "Computation over released data" in page
+        assert result["receipt"]["receipt_id"] in page
+        assert result["replay_command"] in page
+        assert "Bound artifacts" in page
 
-        status, mcp_text = _post(port, "/mcp", {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "tools/list",
-            "params": {},
-        })
+        status, _, _ = _request(port, "GET", f"/proposal/{result['proposal_id']}.json")
         assert status == 200
-        tools = json.loads(mcp_text)["result"]["tools"]
-        assert "prospect.receipt.submit_artifact" in [tool["name"] for tool in tools]
 
-        status, mcp_submit = _post(port, "/mcp", {
-            "jsonrpc": "2.0",
-            "id": 2,
-            "method": "tools/call",
-            "params": {
-                "name": "prospect.receipt.submit_artifact",
-                "arguments": {"bundle": {"text": "IL7R\nCCR7", "filename": "genes.txt"}},
-            },
-        })
+        status, ledger_text, _ = _request(port, "GET", "/ledger.json")
         assert status == 200
-        payload = json.loads(mcp_submit)["result"]["structuredContent"]
-        assert payload["accepted"] is False
-        assert payload["state_url"].startswith("/state/")
+        ledger = json.loads(ledger_text)
+        assert ledger["submission_count"] == 1
+        assert ledger["proposal_count"] == 1
+        assert ledger["recent"][0]["proposal_id"] == result["proposal_id"]
+        assert ledger["recent"][0]["producer"] == "external_team"
     finally:
-        proc.terminate()
-        try:
-            proc.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            proc.wait(timeout=5)
+        _stop_service(process)
+
+
+def test_http_explicit_driver_claim_can_earn_contradicted(tmp_path):
+    port = _free_port()
+    process = _start_service(port, tmp_path)
+    try:
+        status, text, _ = _request(
+            port,
+            "POST",
+            "/submit",
+            {
+                "input_text": "PD-1",
+                "filename": "driver.txt",
+                "producer": "review_team",
+                "claim_mode": "explicit_driver_claim",
+                "claim_context": {
+                    "cell_type": "primary human CD4+ T cells",
+                    "condition": "strongest",
+                    "phenotype": "activation_transcriptome",
+                    "source": "submitted causal claim",
+                },
+            },
+        )
+        assert status == 200, text
+        result = json.loads(text)
+        assert result["comparability"]["status"] == "comparable"
+        assert result["verdicts"][0]["typed_status"] == "contradicted"
+        assert result["accepted"] is False
+    finally:
+        _stop_service(process)
+
+
+def test_health_reports_frozen_hashes_and_writable_sqlite(tmp_path):
+    port = _free_port()
+    process = _start_service(port, tmp_path)
+    try:
+        status, text, _ = _request(port, "GET", "/health")
+        assert status == 200
+        health = json.loads(text)
+        assert health["ok"] is True
+        assert health["accepted"] is False
+        assert health["signed_root"] == "root_a8b0dcdd4024e12f"
+        assert health["storage"]["writable"] is True
+        assert health["tables"]["acceptance_events"] == 0
+        assert set(health["data_hashes"]) == {
+            "marson_cd4_activation",
+            "replogle_k562",
+            "replogle_rpe1",
+        }
+        assert all(len(item["sha256"]) == 64 for item in health["data_hashes"].values())
+    finally:
+        _stop_service(process)
+
+
+def test_request_gene_and_exact_origin_limits(tmp_path):
+    port = _free_port()
+    allowed = "https://prospect.example"
+    process = _start_service(
+        port,
+        tmp_path,
+        "--max-request-bytes",
+        "300",
+        "--max-genes",
+        "2",
+        "--cors-origin",
+        allowed,
+    )
+    try:
+        status, text, headers = _request(
+            port,
+            "POST",
+            "/submit",
+            {"input_text": "IL7R", "filename": "genes.txt"},
+            {"origin": allowed},
+        )
+        assert status == 200, text
+        assert headers["access-control-allow-origin"] == allowed
+
+        status, _, headers = _request(port, "GET", "/health")
+        assert status == 200
+        assert headers["access-control-allow-origin"] == allowed
+
+        status, _, headers = _request(port, "OPTIONS", "/submit")
+        assert status == 204
+        assert headers["access-control-allow-origin"] == allowed
+
+        status, text, _ = _request(
+            port,
+            "POST",
+            "/submit",
+            {"input_text": "IL7R"},
+            {"origin": "https://attacker.example"},
+        )
+        assert status == 403
+        assert json.loads(text)["error"] == "origin_not_allowed"
+
+        status, text, _ = _request(
+            port,
+            "POST",
+            "/submit",
+            {"input_text": "IL7R\nCCR7\nPD-1", "filename": "genes.txt"},
+        )
+        assert status == 413
+        assert "maximum is 2" in json.loads(text)["error"]
+
+        status, text, _ = _request(
+            port,
+            "POST",
+            "/submit",
+            {"input_text": "X" * 400, "filename": "genes.txt"},
+        )
+        assert status == 413
+        assert json.loads(text)["error"] == "request_too_large"
+    finally:
+        _stop_service(process)

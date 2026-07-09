@@ -3,9 +3,15 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PROSPECT_ACCEPTANCE_DATA_DIR=/data
-ENV PROSPECT_ACCEPTANCE_CORS_ORIGIN=*
+ENV PROSPECT_ACCEPTANCE_CORS_ORIGIN=https://prospect-sepia-six.vercel.app
+ENV PROSPECT_ACCEPTANCE_PUBLIC_URL=https://prospect-acceptance.fly.dev
+ENV PROSPECT_ACCEPTANCE_MAX_REQUEST_BYTES=1000000
+ENV PROSPECT_ACCEPTANCE_MAX_GENES=5000
 
 WORKDIR /app
+
+COPY requirements.acceptance.txt ./
+RUN pip install --no-cache-dir -r requirements.acceptance.txt
 
 COPY . .
 
@@ -14,4 +20,4 @@ EXPOSE 8130
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8130/health', timeout=3).read()"
 
-CMD ["python", "-m", "cli", "serve-acceptance", "--host", "0.0.0.0", "--port", "8130", "--data-dir", "/data", "--rate-limit", "120", "--rate-window", "60"]
+CMD ["python", "services/prospect_acceptance_service.py", "--host", "0.0.0.0", "--port", "8130", "--data-dir", "/data", "--rate-limit", "120", "--rate-window", "60"]
