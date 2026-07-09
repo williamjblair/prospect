@@ -1,0 +1,70 @@
+{
+  "accepted": false,
+  "frozen_projections": {
+    "activation_scores.csv": {
+      "bytes": 20411,
+      "rows": 116,
+      "sha256": "39c89339d5fe09561714c4ee4c09e3b6c2c2c48fd8dd919f9b17a7b7ea3e0b9b"
+    },
+    "metadata_summary.json": {
+      "bytes": 1268,
+      "sha256": "4ef02c8ee15e68e5f92fb33b6b0f1babd05e77f9b5c1f3e71cd9152ccc76a0b7"
+    },
+    "pseudobulk_de.csv": {
+      "bytes": 97087,
+      "rows": 705,
+      "sha256": "0fce9262a55bf97b5e8452208699421767cb0ce68a0a81aed9a00e24df97fd03"
+    }
+  },
+  "redistribution_note": "The compact projections preserve published table values and require citation to the source study. The source pages do not state a dataset-specific reuse license.",
+  "schema_version": "prospect.gse278572.source_manifest.v1",
+  "source_tables": {
+    "S14": {
+      "bytes": 29140658,
+      "columns": 32,
+      "filename": "S14_metadata_Treg_Teff_perturbseq.xlsx",
+      "rows": 100087,
+      "sha256": "ee33fc765234e073aaac9bf394ea067df63f196c22bb6c7b6dbbead09ee2343b",
+      "sheet": "metadata_Treg_total_Teff_total_"
+    },
+    "S8": {
+      "bytes": 21824,
+      "columns": 10,
+      "filename": "S8_perturb_seq_activation_scoring_summary_table.xlsx",
+      "rows": 116,
+      "sha256": "90c58844937d744465c6de4f3306c9b37c01983a72a6c1e816df1b7d7907ee57",
+      "sheet": "Perturb_seq_activation_scoring_"
+    },
+    "S9": {
+      "bytes": 91485,
+      "columns": 10,
+      "filename": "S9_pseudobulk_rnaseq_diff_expressed_regulators.xlsx",
+      "rows": 705,
+      "sha256": "962a17eefae7f720af2207f0d55065ab27f4f84e0abe6a2977fbb4e5f0ed7308",
+      "sheet": "20240517_pseudobulk_deseq2_resu"
+    }
+  },
+  "sources": {
+    "geo_barcodes": {
+      "bytes": 1121892,
+      "filename": "GSE278572_barcodes.tsv.gz",
+      "n_barcodes": 249799,
+      "sha256": "0c26723009bb4e507437c49ba92e382506f676c8e3c1ba19245db1208a2514b7",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE278nnn/GSE278572/suppl/GSE278572_barcodes.tsv.gz"
+    },
+    "zenodo_archive": {
+      "bytes": 57967623,
+      "filename": "data_tables.zip",
+      "sha256": "dc9e2efb04d24f1a6d4b8db6a8b1d5cd01c935777c3740088be339de5b5062b4",
+      "url": "https://zenodo.org/api/records/13924126/files/data_tables.zip/content"
+    }
+  },
+  "status": "computationally_reproduced",
+  "study": {
+    "doi": "10.1038/s41586-024-08314-y",
+    "geo_accession": "GSE278572",
+    "pmid": "39663454",
+    "title": "Central control of dynamic gene circuits governs T cell rest and activation",
+    "zenodo_record": "13924126"
+  }
+}

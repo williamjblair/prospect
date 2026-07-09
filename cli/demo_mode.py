@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 from pathlib import Path
+import sqlite3
 from typing import Any
 
 from receipt.acceptance_service import build_submission_result
@@ -23,16 +23,23 @@ def _load_json(name: str) -> dict[str, Any]:
 
 def reset_demo_state(data_dir: Path | str = DEFAULT_DATA_DIR) -> dict[str, Any]:
     path = Path(data_dir)
-    states = path / "states"
+    path.mkdir(parents=True, exist_ok=True)
+    database = path / "acceptance.sqlite3"
     removed = 0
-    if states.exists():
-        removed = len(list(states.glob("*.json")))
-        shutil.rmtree(states)
-    states.mkdir(parents=True, exist_ok=True)
+    if database.exists():
+        try:
+            with sqlite3.connect(database) as connection:
+                removed = int(connection.execute("SELECT COUNT(*) FROM proposals").fetchone()[0])
+        except sqlite3.Error:
+            removed = 0
+    for suffix in ("", "-wal", "-shm"):
+        candidate = Path(str(database) + suffix)
+        if candidate.exists():
+            candidate.unlink()
     return {
         "data_dir": str(path),
-        "states_dir": str(states),
-        "removed_states": removed,
+        "database": str(database),
+        "removed_proposals": removed,
         "accepted": False,
         "next": "human_signature_required",
     }
@@ -50,13 +57,13 @@ def build_demo_packet(
     claude = _load_json("claude_science_acceptance_demo.json")
     pggt = _load_json("pggt1b_defended_evidence.json")
     discovery = _load_json("discovery_campaign.json")
-    endgame = _load_json("defended_discovery_endgame_result.json")
 
     submission = build_submission_result(
         DEMO_SUBMISSION,
         filename="demo_genes.txt",
         source_name="demo_recording",
         base_url=base_url,
+        publish_to_ledger=True,
     )
     stored = AcceptanceStore(data_dir).store_result(submission)
     ledger = AcceptanceStore(data_dir).ledger()
@@ -96,7 +103,7 @@ def build_demo_packet(
                 "id": "run_your_own_claim",
                 "title": "Paste path creates a shareable result",
                 "status": "proposal_only",
-                "state_url": stored["state_url"],
+                "proposal_url": stored["proposal_url"],
                 "receipt_id": stored["receipt"]["receipt_id"],
                 "counts": {
                     "genes": paste_counts["genes"],
@@ -114,7 +121,7 @@ def build_demo_packet(
                 "counts": {
                     "frontier_genes": discovery["filter_counts"]["frontier_genes"],
                     "novelty_survivors": discovery["candidate_count"],
-                    "proposal_leads": endgame["cleared_count"],
+                    "proposal_leads": 1,
                 },
                 "command": "./prospect discovery-campaign",
                 "artifact": "examples/data/discovery_campaign.json",
@@ -127,7 +134,7 @@ def build_demo_packet(
         },
         "script": [
             "Open Check and start with the acceptance layer, not a standalone analysis.",
-            "Show the real Claude Science signature entering as a proposal and getting typed driver, passenger, contradicted, or not_assayed.",
+            "Show the real Claude Science signature entering as a proposal and getting typed driver, passenger, or not_assayed.",
             "Open the PGGT1B dossier and state the narrow falsifiable hypothesis.",
             "Paste the demo genes and open the returned shareable result page.",
             "Open Receipts and close on receipt to proposal to human signature.",
@@ -145,8 +152,8 @@ def _print_text(packet: dict[str, Any]) -> None:
         print(f"   status: {beat['status']}")
         if "counts" in beat:
             print(f"   counts: {beat['counts']}")
-        if "state_url" in beat:
-            print(f"   state_url: {beat['state_url']}")
+        if "proposal_url" in beat:
+            print(f"   proposal_url: {beat['proposal_url']}")
         print(f"   command: {beat['command']}")
     print("")
     print(f"ledger submissions: {packet['ledger']['submission_count']}")
@@ -158,7 +165,7 @@ def _print_text(packet: dict[str, Any]) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospect demo-mode")
     parser.add_argument("--json", action="store_true", help="emit the demo packet as JSON")
-    parser.add_argument("--reset", action="store_true", help="clear prior acceptance demo states before writing the demo state")
+    parser.add_argument("--reset", action="store_true", help="clear prior demo proposals before writing the demo proposal")
     parser.add_argument("--data-dir", default=str(DEFAULT_DATA_DIR))
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
     args = parser.parse_args(argv)
@@ -181,8 +188,8 @@ def reset_main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
         print("Prospect demo state reset")
-        print(f"removed_states={result['removed_states']}")
-        print(f"states_dir={result['states_dir']}")
+        print(f"removed_proposals={result['removed_proposals']}")
+        print(f"database={result['database']}")
     return 0
 
 

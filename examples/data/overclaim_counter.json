@@ -84,7 +84,7 @@
     }
   ],
   "next_phase": "surface the flagship and refusal ladder in the app",
-  "packet_id": "overclaim_counter_b86d7266064a8752",
+  "packet_id": "overclaim_counter_9d3183ee3d39c8c4",
   "phase": "phase_4_overclaim_counter",
   "replayability": "attested",
   "reproduce_command": "./prospect overclaim-counter",
@@ -129,9 +129,9 @@
       "claim_kind": "single_gene_hypothesis",
       "flagship_gene": "PGGT1B",
       "rung": "single_hypothesis_boundary",
-      "source": "examples/data/flagship_module.json",
+      "source": "examples/data/pggt1b_defended_evidence.json",
       "status": "evidence_attached",
-      "supported_alternatives": 3
+      "supported_alternatives": 0
     }
   ],
   "status": "evidence_attached",

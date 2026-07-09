@@ -1,0 +1,973 @@
+{
+  "accepted": false,
+  "claim": {
+    "ceiling": "Computation over released data, not wet-lab or clinical truth. This proposal does not change the signed frontier.",
+    "corrective_interpretation": "High Rest reach identifies broad, context-spanning regulators and general machinery. It is evidence against activation specificity, but is not sufficient by itself to label a gene housekeeping or an essentiality artifact. MED12 is the inspected exception.",
+    "current_interpretation": "High transcriptional reach at Rest identifies housekeeping or essentiality artifacts."
+  },
+  "comparison": {
+    "matched_conditions": {
+      "Resting-Teff": "Prospect Rest",
+      "Stimulated-Teff": "Prospect Stim48hr",
+      "Treg": "informative extension, not an exact Prospect match"
+    },
+    "not_in_prospect_backbone": [
+      "DNMT1",
+      "MED11",
+      "PRDM1",
+      "ZNF217"
+    ],
+    "overlap_genes": [
+      "ATXN7L3",
+      "BACH2",
+      "BATF",
+      "BPTF",
+      "CBFB",
+      "ETS1",
+      "FOXO1",
+      "IL2RA",
+      "IRF1",
+      "IRF2",
+      "IRF4",
+      "KLF13",
+      "KLF2",
+      "LEF1",
+      "MED12",
+      "MED24",
+      "MEF2D",
+      "MYB",
+      "MYC",
+      "NFKB2",
+      "SOCS3",
+      "STAT5B",
+      "TAF5L",
+      "USP22"
+    ],
+    "prospect_overlap": 24,
+    "rank_agreement": {
+      "resting_teff_vs_prospect_rest": {
+        "n": 24,
+        "spearman_rho": 0.456973
+      },
+      "stimulated_teff_vs_prospect_stim48hr": {
+        "n": 24,
+        "spearman_rho": 0.644507
+      }
+    },
+    "source_perturbation_targets": 28
+  },
+  "finding3_review": {
+    "decision": "Qualify the interpretation for MED12. Preserve the measured high Rest reach, but do not infer housekeeping or essentiality from that measurement alone.",
+    "does_not_meet_qualification_rule": [
+      "FOXO1",
+      "MED24",
+      "MYB",
+      "STAT5B",
+      "USP22"
+    ],
+    "high_rest_genes_in_overlap": [
+      "FOXO1",
+      "MED12",
+      "MED24",
+      "MYB",
+      "STAT5B",
+      "USP22"
+    ],
+    "n_high_rest_genes_in_overlap": 6,
+    "n_needs_qualification": 1,
+    "needs_qualification": [
+      "MED12"
+    ]
+  },
+  "next": "human_review_required",
+  "per_gene": [
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "ATXN7L3",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 24.837641,
+          "rest_padj": 0.0010609396,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -1.143031,
+          "stimulated_padj": 20.746699,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 21.261758,
+          "rest_padj": 3.5983654e-05,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 7.245912,
+          "stimulated_padj": 15.166591,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 545,
+      "prospect_stim48hr_de": 503,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "BACH2",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 15.195378,
+          "rest_padj": 0.15545199,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 15.723616,
+          "stimulated_padj": 0.59649324,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 15.47691,
+          "rest_padj": 0.7487471,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 29.119826,
+          "stimulated_padj": 0.075856554,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 0,
+      "prospect_stim48hr_de": 4,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "BATF",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 11.723185,
+          "rest_padj": 12.693793,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -42.954912,
+          "stimulated_padj": 0.00016423586,
+          "stimulated_pseudobulk_de": 30
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 8.693471,
+          "rest_padj": 8.1017992,
+          "rest_pseudobulk_de": 4,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -34.344902,
+          "stimulated_padj": 0.032338179,
+          "stimulated_pseudobulk_de": 16
+        }
+      ],
+      "prospect_rest_de": 377,
+      "prospect_stim48hr_de": 587,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "BPTF",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": -2.341852,
+          "rest_padj": 22.399504,
+          "rest_pseudobulk_de": 2,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -25.677086,
+          "stimulated_padj": 0.33668107,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 35.645648,
+          "rest_padj": 9.5410403e-07,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 18.416533,
+          "stimulated_padj": 10.692079,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 437,
+      "prospect_stim48hr_de": 386,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "CBFB",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": true,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 26.068039,
+          "rest_padj": 0.0049227506,
+          "rest_pseudobulk_de": 23,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": 41.640682,
+          "stimulated_padj": 2.4039564e-06,
+          "stimulated_pseudobulk_de": 39
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": true,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 5.797139,
+          "rest_padj": 0.4964005,
+          "rest_pseudobulk_de": 12,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 10.442962,
+          "stimulated_padj": 16.042922,
+          "stimulated_pseudobulk_de": 20
+        }
+      ],
+      "prospect_rest_de": 877,
+      "prospect_stim48hr_de": 1133,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "ETS1",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 47.503271,
+          "rest_padj": 0.00014133912,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 23.379271,
+          "stimulated_padj": 0.11613577,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 37.191525,
+          "rest_padj": 0.14735096,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 15.185382,
+          "stimulated_padj": 10.612098,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 5,
+      "prospect_stim48hr_de": 2,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "does_not_meet_qualification_rule",
+      "gene": "FOXO1",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 55.457605,
+          "rest_padj": 8.0183249e-07,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -7.224778,
+          "stimulated_padj": 16.398908,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 26.997938,
+          "rest_padj": 0.010193547,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -50.333717,
+          "stimulated_padj": 0.010382653,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 1328,
+      "prospect_stim48hr_de": 581,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "IL2RA",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 8.735865,
+          "rest_padj": 21.721392,
+          "rest_pseudobulk_de": 5,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -75.88283,
+          "stimulated_padj": 1.975428e-18,
+          "stimulated_pseudobulk_de": 13
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": -9.459769,
+          "rest_padj": 6.8510396,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -127.140484,
+          "stimulated_padj": 2.4639379e-22,
+          "stimulated_pseudobulk_de": 11
+        }
+      ],
+      "prospect_rest_de": 10,
+      "prospect_stim48hr_de": 25,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "IRF1",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 16.67694,
+          "rest_padj": 0.11833525,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 10.443158,
+          "stimulated_padj": 0.28620871,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 15.993514,
+          "rest_padj": 0.061899501,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 4.614536,
+          "stimulated_padj": 12.45962,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 271,
+      "prospect_stim48hr_de": 58,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "IRF2",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": -9.547444,
+          "rest_padj": 2.8210506,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 0.899338,
+          "stimulated_padj": 14.392818,
+          "stimulated_pseudobulk_de": 4
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 1.815715,
+          "rest_padj": 18.255706,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -6.799267,
+          "stimulated_padj": 8.7313525,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 87,
+      "prospect_stim48hr_de": 66,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "IRF4",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 31.891091,
+          "rest_padj": 0.0029957498,
+          "rest_pseudobulk_de": 1,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": -46.180683,
+          "stimulated_padj": 0.00021256831,
+          "stimulated_pseudobulk_de": 15
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 21.197906,
+          "rest_padj": 4.0589271,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -110.325285,
+          "stimulated_padj": 2.058545e-10,
+          "stimulated_pseudobulk_de": 12
+        }
+      ],
+      "prospect_rest_de": 325,
+      "prospect_stim48hr_de": 498,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "KLF13",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 11.101604,
+          "rest_padj": 0.93485887,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 7.757087,
+          "stimulated_padj": 8.6592029,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 9.333582,
+          "rest_padj": 3.2870496,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 15.572244,
+          "stimulated_padj": 5.6000646,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 284,
+      "prospect_stim48hr_de": 13,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "KLF2",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 68.498936,
+          "rest_padj": 8.8781051e-19,
+          "rest_pseudobulk_de": 5,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 17.382997,
+          "stimulated_padj": 0.62013906,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 114.888001,
+          "rest_padj": 4.7331427e-31,
+          "rest_pseudobulk_de": 10,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 20.610137,
+          "stimulated_padj": 0.30655886,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 987,
+      "prospect_stim48hr_de": 178,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "LEF1",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 15.971098,
+          "rest_padj": 0.39097612,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -1.915651,
+          "stimulated_padj": 10.690029,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": -0.838681,
+          "rest_padj": 19.868392,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -15.31487,
+          "stimulated_padj": 1.4406034,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 5,
+      "prospect_stim48hr_de": 2,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "needs_qualification",
+      "gene": "MED12",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": true,
+          "opposite_direction": true,
+          "qualifies_interpretation": true,
+          "rest_median_delta_vs_control": 97.132305,
+          "rest_padj": 8.8651311e-79,
+          "rest_pseudobulk_de": 28,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": -70.261674,
+          "stimulated_padj": 3.2624021e-36,
+          "stimulated_pseudobulk_de": 50
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": true,
+          "opposite_direction": true,
+          "qualifies_interpretation": true,
+          "rest_median_delta_vs_control": 53.375573,
+          "rest_padj": 2.0225325e-24,
+          "rest_pseudobulk_de": 22,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": -72.78651,
+          "stimulated_padj": 1.8868508e-27,
+          "stimulated_pseudobulk_de": 40
+        }
+      ],
+      "prospect_rest_de": 2843,
+      "prospect_stim48hr_de": 2046,
+      "qualifying_lineages": [
+        "Teff",
+        "Treg"
+      ]
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "does_not_meet_qualification_rule",
+      "gene": "MED24",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": true,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 34.126579,
+          "rest_padj": 1.3985057e-11,
+          "rest_pseudobulk_de": 11,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": 41.271706,
+          "stimulated_padj": 5.6330092e-08,
+          "stimulated_pseudobulk_de": 24
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 36.201284,
+          "rest_padj": 3.0598929e-12,
+          "rest_pseudobulk_de": 7,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -6.981337,
+          "stimulated_padj": 2.0548622,
+          "stimulated_pseudobulk_de": 6
+        }
+      ],
+      "prospect_rest_de": 1539,
+      "prospect_stim48hr_de": 1607,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "MEF2D",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 15.856315,
+          "rest_padj": 1.7170698,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 37.903157,
+          "stimulated_padj": 1.8844269e-08,
+          "stimulated_pseudobulk_de": 1
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 11.50788,
+          "rest_padj": 8.2573153,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 40.147739,
+          "stimulated_padj": 0.0017492099,
+          "stimulated_pseudobulk_de": 1
+        }
+      ],
+      "prospect_rest_de": 6,
+      "prospect_stim48hr_de": 35,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "does_not_meet_qualification_rule",
+      "gene": "MYB",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 89.816716,
+          "rest_padj": 2.4641616e-43,
+          "rest_pseudobulk_de": 8,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 3.720049,
+          "stimulated_padj": 8.8129336,
+          "stimulated_pseudobulk_de": 14
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 72.5696,
+          "rest_padj": 5.2525654e-22,
+          "rest_pseudobulk_de": 13,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -0.208411,
+          "stimulated_padj": 13.996768,
+          "stimulated_pseudobulk_de": 9
+        }
+      ],
+      "prospect_rest_de": 1325,
+      "prospect_stim48hr_de": 1222,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "MYC",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 40.917596,
+          "rest_padj": 2.1005795e-05,
+          "rest_pseudobulk_de": 7,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": -76.619765,
+          "stimulated_padj": 1.447817e-21,
+          "stimulated_pseudobulk_de": 16
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 56.388233,
+          "rest_padj": 8.0237866e-14,
+          "rest_pseudobulk_de": 9,
+          "significant_both": true,
+          "stimulated_median_delta_vs_control": -204.247703,
+          "stimulated_padj": 8.9947815e-50,
+          "stimulated_pseudobulk_de": 33
+        }
+      ],
+      "prospect_rest_de": 39,
+      "prospect_stim48hr_de": 41,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "NFKB2",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 75.362266,
+          "rest_padj": 5.5881753e-37,
+          "rest_pseudobulk_de": 8,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -17.776939,
+          "stimulated_padj": 1.5687583,
+          "stimulated_pseudobulk_de": 20
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 40.671361,
+          "rest_padj": 1.9650747e-09,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -16.909808,
+          "stimulated_padj": 0.45685189,
+          "stimulated_pseudobulk_de": 8
+        }
+      ],
+      "prospect_rest_de": 443,
+      "prospect_stim48hr_de": 738,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "SOCS3",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 76.176539,
+          "rest_padj": 9.8975545e-08,
+          "rest_pseudobulk_de": 4,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 3.585467,
+          "stimulated_padj": 8.6377139,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 58.058635,
+          "rest_padj": 0.032761179,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 21.523834,
+          "stimulated_padj": 8.5613602,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 94,
+      "prospect_stim48hr_de": 35,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "does_not_meet_qualification_rule",
+      "gene": "STAT5B",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 39.244231,
+          "rest_padj": 0.012556797,
+          "rest_pseudobulk_de": 2,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -88.398177,
+          "stimulated_padj": 1.1180613e-26,
+          "stimulated_pseudobulk_de": 22
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 12.707468,
+          "rest_padj": 4.995412,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -141.833057,
+          "stimulated_padj": 1.6068613e-30,
+          "stimulated_pseudobulk_de": 9
+        }
+      ],
+      "prospect_rest_de": 1135,
+      "prospect_stim48hr_de": 1060,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": false,
+      "finding3_assessment": "not_in_high_rest_scope",
+      "gene": "TAF5L",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 13.404913,
+          "rest_padj": 2.7222237,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 8.322583,
+          "stimulated_padj": 15.61424,
+          "stimulated_pseudobulk_de": 0
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": -8.388032,
+          "rest_padj": 16.147842,
+          "rest_pseudobulk_de": 0,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 0.690086,
+          "stimulated_padj": 23.35053,
+          "stimulated_pseudobulk_de": 0
+        }
+      ],
+      "prospect_rest_de": 609,
+      "prospect_stim48hr_de": 237,
+      "qualifying_lineages": []
+    },
+    {
+      "current_high_rest_label": true,
+      "finding3_assessment": "does_not_meet_qualification_rule",
+      "gene": "USP22",
+      "lineages": [
+        {
+          "lineage": "Teff",
+          "more_than_10_de_both": false,
+          "opposite_direction": false,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 40.017194,
+          "rest_padj": 5.248625e-08,
+          "rest_pseudobulk_de": 3,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": 18.274705,
+          "stimulated_padj": 0.93403703,
+          "stimulated_pseudobulk_de": 10
+        },
+        {
+          "lineage": "Treg",
+          "more_than_10_de_both": false,
+          "opposite_direction": true,
+          "qualifies_interpretation": false,
+          "rest_median_delta_vs_control": 20.051163,
+          "rest_padj": 0.017100323,
+          "rest_pseudobulk_de": 1,
+          "significant_both": false,
+          "stimulated_median_delta_vs_control": -37.274818,
+          "stimulated_padj": 0.034346268,
+          "stimulated_pseudobulk_de": 3
+        }
+      ],
+      "prospect_rest_de": 1783,
+      "prospect_stim48hr_de": 1849,
+      "qualifying_lineages": []
+    }
+  ],
+  "pre_registered_rule": {
+    "activation_effect": "median activation-score delta against same-context non-targeting control",
+    "activation_padj_lt": 0.01,
+    "direction_test": "opposite delta signs between Resting and Stimulated in the same lineage",
+    "inspected_positive_control": "MED12",
+    "missing_s9_rule": "count as zero only when S8 and S14 establish target-context coverage",
+    "pseudobulk_de_requirement": "more than 10 published significant DE genes in both states"
+  },
+  "proposal_id": "proposal_e33de6bedec7c950",
+  "replay": "python frontier/gse278572_comparator.py --check",
+  "schema_version": "prospect.gse278572.comparator.v1",
+  "source_integrity": {
+    "geo_barcodes_sha256": "0c26723009bb4e507437c49ba92e382506f676c8e3c1ba19245db1208a2514b7",
+    "s14_cells": 100087,
+    "s14_cells_missing_from_geo": 0,
+    "s8_rows": 116,
+    "s9_rows": 705,
+    "zenodo_archive_sha256": "dc9e2efb04d24f1a6d4b8db6a8b1d5cd01c935777c3740088be339de5b5062b4"
+  },
+  "status": "evidence_attached",
+  "trust_boundary": "proposal_only"
+}

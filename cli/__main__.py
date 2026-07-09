@@ -10,17 +10,8 @@
   prospect discovery-campaign build the whole-frontier novelty campaign packet
   prospect cross-validation build the independent cross-validation packet
   prospect defended-discovery-preregister build the defended discovery pre-registration packet
-  prospect defended-discovery-endgame-preregister build the stricter endgame pre-registration packet
   prospect pggt1b-defended-evidence build the rank-1 PGGT1B defended-evidence packet
-  prospect pggt1b-endgame-decision decide rank-1 PGGT1B under the endgame pre-registration
-  prospect defended-discovery-endgame-result build the fixed-bar endgame result ledger
   prospect substrate-coverage build the context-aware substrate routing packet
-  prospect defended-candidate-decisions build the defended-discovery decision ledger
-  prospect rcc1l-defended-evidence build the rank-2 RCC1L defended-evidence packet
-  prospect mcat-defended-evidence build the rank-3 MCAT defended-evidence packet
-  prospect rwdd2b-defended-evidence build the rank-4 RWDD2B defended-evidence packet
-  prospect ccdc22-defended-evidence build the rank-5 CCDC22 defended-evidence packet
-  prospect flagship-module build the flagship mechanistic module packet
   prospect overclaim-counter build the overclaim refusal counter packet
   prospect disease-overlay  attach external disease-genetics context (Open Targets)
   prospect pggt1b           build the PGGT1B evidence packet
@@ -28,17 +19,12 @@
   prospect writeback        build the lab writeback receipt shape
   prospect claude-science   build the real Claude Science acceptance-layer packet
   prospect findings-index   build the scannable finding index
-  prospect demo-mode        run the deterministic judge demo beats and write a shareable demo state
+  prospect demo-mode        run the deterministic judge demo beats and write a shareable proposal
   prospect demo-reset       clear local acceptance demo states
   prospect deploy-checklist print deploy readiness gates and Will's deploy commands
   prospect post-deploy-smoke submit a hosted acceptance-service smoke claim
   prospect rigor-audit      scan public surfaces for overclaiming and traceability
   prospect robustness-fuzz  fuzz public submissions for clean failure or honest typing
-  prospect overnight-preregister lock overnight scoring rules before scoring
-  prospect overnight-compute run the pre-registered overnight compute program
-  prospect exhaustive-compute run the multi-day exhaustive compute program
-  prospect exhaustive-coverage run the Day 2 exhaustive coverage expansion
-  prospect survivor-discovery build the three-survivor discovery packet
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
@@ -75,28 +61,10 @@ def main():
         from frontier.cross_validation import main as cross_validation_main; cross_validation_main()
     elif cmd == "defended-discovery-preregister":
         from frontier.defended_discovery_preregistration import main as preregister_main; preregister_main()
-    elif cmd == "defended-discovery-endgame-preregister":
-        from frontier.defended_discovery_endgame_preregistration import main as endgame_preregister_main; endgame_preregister_main()
     elif cmd == "pggt1b-defended-evidence":
         from frontier.pggt1b_defended_evidence import main as pggt1b_defended_main; sys.exit(pggt1b_defended_main(rest))
-    elif cmd == "pggt1b-endgame-decision":
-        from frontier.rank1_pggt1b_endgame_decision import main as pggt1b_endgame_main; pggt1b_endgame_main()
-    elif cmd == "defended-discovery-endgame-result":
-        from frontier.defended_discovery_endgame_result import main as endgame_result_main; endgame_result_main()
     elif cmd == "substrate-coverage":
         from frontier.substrate_coverage import main as substrate_coverage_main; sys.exit(substrate_coverage_main(rest))
-    elif cmd == "defended-candidate-decisions":
-        from frontier.defended_candidate_decisions import main as decisions_main; decisions_main()
-    elif cmd == "rcc1l-defended-evidence":
-        from frontier.rcc1l_defended_evidence import main as rcc1l_defended_main; rcc1l_defended_main()
-    elif cmd == "mcat-defended-evidence":
-        from frontier.mcat_defended_evidence import main as mcat_defended_main; mcat_defended_main()
-    elif cmd == "rwdd2b-defended-evidence":
-        from frontier.rwdd2b_defended_evidence import main as rwdd2b_defended_main; rwdd2b_defended_main()
-    elif cmd == "ccdc22-defended-evidence":
-        from frontier.ccdc22_defended_evidence import main as ccdc22_defended_main; ccdc22_defended_main()
-    elif cmd == "flagship-module":
-        from frontier.flagship_module import main as flagship_module_main; flagship_module_main()
     elif cmd == "overclaim-counter":
         from frontier.overclaim_counter import main as overclaim_counter_main; overclaim_counter_main()
     elif cmd == "disease-overlay":
@@ -131,16 +99,6 @@ def main():
         from cli.rigor_audit import main as rigor_audit_main; sys.exit(rigor_audit_main(rest))
     elif cmd == "robustness-fuzz":
         from cli.robustness_fuzz import main as robustness_fuzz_main; sys.exit(robustness_fuzz_main(rest))
-    elif cmd == "overnight-preregister":
-        from frontier.overnight_preregistration import main as overnight_preregister_main; sys.exit(overnight_preregister_main(rest))
-    elif cmd == "overnight-compute":
-        from frontier.overnight_compute import main as overnight_compute_main; sys.exit(overnight_compute_main(rest))
-    elif cmd == "exhaustive-compute":
-        from frontier.exhaustive_compute import main as exhaustive_compute_main; sys.exit(exhaustive_compute_main(rest))
-    elif cmd == "exhaustive-coverage":
-        from frontier.exhaustive_coverage import main as exhaustive_coverage_main; sys.exit(exhaustive_coverage_main(rest))
-    elif cmd == "survivor-discovery":
-        from frontier.survivor_discovery import main as survivor_discovery_main; sys.exit(survivor_discovery_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
     elif cmd == "submit-pack":

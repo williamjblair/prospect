@@ -18,7 +18,7 @@ PGGT1B advanced as one hypothesis because it survived the novelty filter, gained
 | mutation_floor | refuted | 0 | python benchmark/mutation_pack.py |
 | novelty_filter | evidence_attached | 11508 | examples/data/discovery_campaign.json |
 | external_screen_ladder | orthogonal_phenotype | 14 | examples/data/cross_validation.json |
-| single_hypothesis_boundary | evidence_attached | 3 | examples/data/flagship_module.json |
+| single_hypothesis_boundary | evidence_attached | 0 | examples/data/pggt1b_defended_evidence.json |
 
 Rebuild:
 

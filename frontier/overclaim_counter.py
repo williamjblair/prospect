@@ -15,7 +15,7 @@ PHANTOM_JSON = DATA / "phantom_summary.json"
 MODELS_JSON = DATA / "model_comparison.json"
 DISCOVERY_JSON = DATA / "discovery_campaign.json"
 CROSS_VALIDATION_JSON = DATA / "cross_validation.json"
-FLAGSHIP_JSON = DATA / "flagship_module.json"
+LEAD_JSON = DATA / "pggt1b_defended_evidence.json"
 OUT_JSON = DATA / "overclaim_counter.json"
 OUT_DOC = ROOT / "docs" / "OVERCLAIM_COUNTER.md"
 
@@ -36,8 +36,7 @@ def build_overclaim_counter() -> dict[str, Any]:
     models = _load(MODELS_JSON)
     discovery = _load(DISCOVERY_JSON)
     cross_validation = _load(CROSS_VALIDATION_JSON)
-    flagship = _load(FLAGSHIP_JSON)
-    hypothesis = flagship["flagship_hypothesis"]
+    lead = _load(LEAD_JSON)
     phase1_survivors = discovery["filter_counts"]["cell_type_specific_replogle"]
     phase1_refused_total = discovery["filter_counts"]["frontier_genes"] - phase1_survivors
     phase2_with_hit = cross_validation["counts"]["candidates_with_external_screen_hit"]
@@ -99,10 +98,10 @@ def build_overclaim_counter() -> dict[str, Any]:
         {
             "rung": "single_hypothesis_boundary",
             "status": "evidence_attached",
-            "flagship_gene": hypothesis["gene"],
-            "supported_alternatives": len(flagship["supported_alternatives"]),
+            "flagship_gene": lead["gene"],
+            "supported_alternatives": 0,
             "claim_kind": "single_gene_hypothesis",
-            "source": "examples/data/flagship_module.json",
+            "source": "examples/data/pggt1b_defended_evidence.json",
         },
     ]
     packet = {
@@ -118,7 +117,7 @@ def build_overclaim_counter() -> dict[str, Any]:
         "rungs": rungs,
         "model_breakdown": models,
         "flagship_boundary": {
-            "gene": hypothesis["gene"],
+            "gene": lead["gene"],
             "claim_kind": "single_gene_hypothesis",
             "accepted_state": "none",
             "next_acceptance_step": "human key signs only after a frozen re-derivation and review justify a state transition",
