@@ -434,7 +434,7 @@ def _literature_reason(atlas_row: dict[str, Any], status: str, comparability: st
     return "The gene lacks comparable on-target Marson coverage."
 
 
-def build_defended_leaderboard(limit: int = 100) -> dict[str, Any]:
+def build_defended_leaderboard(limit: int = 0) -> dict[str, Any]:
     prereg = _load_json(PREREG_JSON)
     atlas = _load_json(ATLAS_JSON) if ATLAS_JSON.exists() else build_genome_wide_atlas()
     cross_sources = _load_json(CROSS_VALIDATION_SOURCES)
@@ -452,7 +452,10 @@ def build_defended_leaderboard(limit: int = 100) -> dict[str, Any]:
         and int(row["collectri_target_count"]) == 0
     ]
     decisions = []
-    for row in sorted(candidates, key=lambda item: (-(item["strongest_n_total_de_genes"] or 0), item["gene"]))[:limit]:
+    ranked_candidates = sorted(candidates, key=lambda item: (-(item["strongest_n_total_de_genes"] or 0), item["gene"]))
+    if limit > 0:
+        ranked_candidates = ranked_candidates[:limit]
+    for row in ranked_candidates:
         gene = row["gene"]
         orthogonal = _orthogonal_dataset_count(row, screen_rows, string_network, dice_expression, disease_by_gene)
         kills = _kill_decisions(row, screen_rows.get(gene), string_network.get(gene), disease_by_gene.get(gene))

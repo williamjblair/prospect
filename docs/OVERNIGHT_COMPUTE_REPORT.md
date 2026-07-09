@@ -8,7 +8,7 @@ Ceiling: Computation over released data, not wet-lab or clinical truth.
 
 - Genome-wide atlas genes typed: 11526
 - Literature claims contradicted: 51 of 229
-- Defended leaderboard entries clearing the compute bar: 1 of 100
+- Defended leaderboard entries clearing the compute bar: 3 of 2734
 
 ## Phase 1
 
@@ -20,7 +20,7 @@ Ceiling: Computation over released data, not wet-lab or clinical truth.
 
 ## Phase 3
 
-`overnight_leaderboard_c4688e894be2594a` scored 100 candidate drivers absent from CollecTRI and standard annotations. Cleared compute bar: 1.
+`overnight_leaderboard_2a67e8fe8cc9de1d` scored 2734 candidate drivers absent from CollecTRI and standard annotations. Cleared compute bar: 3.
 
 ## Public Artifacts
 

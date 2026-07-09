@@ -26,7 +26,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
 - Defended-discovery fixed bar: 18 locked candidates, 1 proposal-only lead worth testing (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
-- Overnight compute: 11526 genes typed, 51 of 229 literature claims contradicted, 1 of 100 leaderboard rows cleared the compute bar
+- Overnight compute: 11526 genes typed, 51 of 229 literature claims contradicted, 3 of 2734 leaderboard rows cleared the compute bar
 
 ## Trust boundary
 

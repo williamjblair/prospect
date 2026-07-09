@@ -60,18 +60,17 @@ def test_overnight_defended_leaderboard_keeps_outputs_proposal_only():
 
     assert leaderboard["accepted"] is False
     assert leaderboard["next"] == "human_signature_required"
-    assert leaderboard["candidate_count_scored"] == 100
-    assert leaderboard["cleared_compute_bar_count"] == 1
+    assert leaderboard["candidate_count_scored"] == 2734
+    assert leaderboard["cleared_compute_bar_count"] == 3
     cleared = [
         row for row in leaderboard["leaderboard"]
         if row["leaderboard_status"] == "clears_pre_registered_compute_bar"
     ]
-    assert len(cleared) == 1
-    lead = cleared[0]
-    assert lead["gene"] == "PGGT1B"
-    assert lead["accepted"] is False
-    assert lead["orthogonal_dataset_count"] >= 5
-    assert all(kill["result"] == "survives_current_frozen_evidence" for kill in lead["kill_attempts"])
+    assert [row["gene"] for row in cleared] == ["PGGT1B", "CCDC22", "LETM2"]
+    for lead in cleared:
+        assert lead["accepted"] is False
+        assert lead["orthogonal_dataset_count"] >= 5
+        assert all(kill["result"] == "survives_current_frozen_evidence" for kill in lead["kill_attempts"])
 
 
 def test_overnight_report_states_the_ceiling_without_em_dash():
