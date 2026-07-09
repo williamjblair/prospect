@@ -106,6 +106,11 @@ For the web app, the same files are copied under:
 - `web/public/data/receipt_bridge/receipt_manifest.json`
 - `web/public/data/receipt_bridge/receipt_bundle.json`
 
+Every `prospect.receipt.v1` envelope in those exports is proposal-only and has
+`accepted=false`. The embedded `legacy_frontier_root_signature` records provenance for the
+unchanged signed frontier root. It is not a signature over the receipt envelope and does not
+constitute an `AcceptanceEvent`.
+
 This is the protocol point: Claude activity can produce a receipt, but the
 receipt is still only a proposal until the frozen gate and a human key accept
 the state change.

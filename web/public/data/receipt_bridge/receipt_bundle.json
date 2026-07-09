@@ -101,11 +101,11 @@
     "receipt_count": 6,
     "receipt_ids": [
       "rcpt_204a55aadad0acb6",
-      "rcpt_3a2cdddb663b96bc",
-      "rcpt_be62837b4fe0d926",
-      "rcpt_0bf5d6bad1e96ea8",
-      "rcpt_aaee46f42e944415",
-      "rcpt_83d76f63a5682657"
+      "rcpt_789f6deab754663b",
+      "rcpt_7a291c0181112e02",
+      "rcpt_6c3521a5b3908fe5",
+      "rcpt_d35f07132f5602a2",
+      "rcpt_b4f36fd7c042f0bb"
     ],
     "replay": "./prospect verify",
     "mcp_command": "./prospect mcp",
@@ -241,11 +241,11 @@
         "covered_root": "root_a8b0dcdd4024e12f"
       },
       "receipt_id": "rcpt_204a55aadad0acb6",
-      "accepted": true
+      "accepted": false
     },
     {
       "frontier": "prospect_marson_cd4_perturbseq",
-      "claim": "The T-cell genes the field targets most (immune checkpoints and effector cytokines) produce near-zero transcriptional change when knocked down, even under stimulation. They are outputs of the T-cell program, not its transcriptional drivers.",
+      "claim": "Eighteen field-targeted genes have effective knockdown but near-zero stimulated transcriptome reach in this assay. The result limits a broad causal-driver claim for this readout.",
       "kind": "regulator_vs_effector",
       "subject": [
         "BTLA",
@@ -301,7 +301,7 @@
         "method": "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
         "replay": "./prospect verify"
       },
-      "status": "contradicted",
+      "status": "computationally_reproduced",
       "replayability": "exact",
       "schema_version": "prospect.receipt.v1",
       "conditions": [
@@ -340,12 +340,12 @@
         "attestation_type": "legacy_frontier_root_signature",
         "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_3a2cdddb663b96bc",
-      "accepted": true
+      "receipt_id": "rcpt_789f6deab754663b",
+      "accepted": false
     },
     {
       "frontier": "prospect_marson_cd4_perturbseq",
-      "claim": "Ranking genes by raw transcriptional reach surfaces the cell's general machinery (SAGA, Mediator), not its immune biology. Reach at Rest separates housekeeping from activation-specific regulation. Cross-cell-type transfer (Replogle) tests this.",
+      "claim": "High Rest reach argues against activation specificity, but does not by itself establish housekeeping or essentiality. The GSE278572 proposal qualifies MED12.",
       "kind": "essentiality_artifact",
       "subject": [
         "ABI3",
@@ -383,12 +383,12 @@
       ],
       "evidence": [
         {
-          "fact": "TADA2B reshapes the transcriptome in a resting cell (housekeeping)",
+          "fact": "TADA2B has high transcriptome reach in a resting cell",
           "value": "4681 DE at Rest",
           "source": "MarsonPerturbseqChecker"
         },
         {
-          "fact": "UBXN1 reshapes the transcriptome in a resting cell (housekeeping)",
+          "fact": "UBXN1 has high transcriptome reach in a resting cell",
           "value": "4440 DE at Rest",
           "source": "MarsonPerturbseqChecker"
         }
@@ -437,12 +437,12 @@
         "attestation_type": "legacy_frontier_root_signature",
         "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_be62837b4fe0d926",
-      "accepted": true
+      "receipt_id": "rcpt_7a291c0181112e02",
+      "accepted": false
     },
     {
       "frontier": "prospect_marson_cd4_perturbseq",
-      "claim": "The same major-regulator claim, checked against Perturb-seq in two non-immune cells (Replogle K562 and RPE1). Essentiality-artifact regulators replicate across cell types (housekeeping, in both K562 and RPE1); the activation module does not (T-cell-specific). Independent cells validate findings #1 and #3.",
+      "claim": "K562 and covered RPE1 rows provide orthogonal evidence about cross-cell reach. Breadth is not an essentiality label, and noncoverage is not refutation.",
       "kind": "cross_cell_type_transfer",
       "subject": [
         "ABCA3",
@@ -490,12 +490,12 @@
       ],
       "evidence": [
         {
-          "fact": "essentiality artifacts replicate in non-immune K562",
+          "fact": "the high-Rest group has broader K562 reach among covered genes",
           "value": "median 71 DE",
           "source": "ReploglePerturbseqChecker"
         },
         {
-          "fact": "the activation module stays inert in K562 (T-cell-specific)",
+          "fact": "the activation module has low median K562 reach",
           "value": "median 4 DE",
           "source": "ReploglePerturbseqChecker"
         }
@@ -544,12 +544,12 @@
         "attestation_type": "legacy_frontier_root_signature",
         "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_0bf5d6bad1e96ea8",
-      "accepted": true
+      "receipt_id": "rcpt_6c3521a5b3908fe5",
+      "accepted": false
     },
     {
       "frontier": "prospect_marson_cd4_perturbseq",
-      "claim": "The frontier recovers known transcription-factor biology from perturbation alone, with no regulon supplied. Across 154 CollecTRI TFs that are major regulators here, their literature targets are 4.03x enriched among the genes their knockdown moved (Fisher combined p\u22481e-26), and when a data edge meets a known one the sign agrees 63% of the time. 19 individual regulons clear significance on their own, and the screen flags 82 known edges where the data overrules the literature's sign.",
+      "claim": "Known CollecTRI targets are enriched among moved genes. Sign disagreements remain context-sensitive review candidates.",
       "kind": "regulon_recovery",
       "subject": [
         "AHR",
@@ -645,12 +645,12 @@
         "attestation_type": "legacy_frontier_root_signature",
         "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_aaee46f42e944415",
-      "accepted": true
+      "receipt_id": "rcpt_d35f07132f5602a2",
+      "accepted": false
     },
     {
       "frontier": "prospect_marson_cd4_perturbseq",
-      "claim": "PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor.",
+      "claim": "PGGT1B is a proposal-only stimulated primary CD4+ activation-transcriptome hypothesis. Comparable independent replication and donor or batch specificity remain open.",
       "kind": "hypothesis",
       "subject": [
         "PGGT1B"
@@ -675,33 +675,33 @@
           "name": "CollecTRI regulons",
           "sha256": "9e065f57f3da52b1",
           "locator": "omnipathdb.org"
+        },
+        {
+          "name": "PGGT1B defended evidence",
+          "sha256": "615e41c0bf30214e",
+          "locator": "examples/data/pggt1b_defended_evidence.json"
         }
       ],
       "evidence": [
         {
-          "fact": "In the frozen screen PGGT1B is classed as a condition_specific_regulator with on-target KD",
-          "value": "frozen-data lookup",
-          "source": "frozen-data tool"
+          "fact": "PGGT1B has on-target knockdown and high Stim8hr reach",
+          "value": "3014 DE genes",
+          "source": "MarsonPerturbseqChecker"
         },
         {
-          "fact": "Near-inert at rest (175 DE) but 3014 DE genes at Stim8hr, i.e. a stimulation-gated effect",
-          "value": "frozen-data lookup",
-          "source": "frozen-data tool"
+          "fact": "PGGT1B has lower Rest reach",
+          "value": "175 DE genes",
+          "source": "MarsonPerturbseqChecker"
         },
         {
-          "fact": "Not a canonical T-cell gene, not an activation-module gene, not an essentiality artifact",
-          "value": "frozen-data lookup",
-          "source": "frozen-data tool"
+          "fact": "PGGT1B has low K562 reach",
+          "value": "1 DE gene",
+          "source": "ReploglePerturbseqChecker"
         },
         {
-          "fact": "Cell-type-specific: knockdown is inert in non-immune K562 (1 DE), verdict cell-type-specific",
-          "value": "frozen-data lookup",
-          "source": "frozen-data tool"
-        },
-        {
-          "fact": "Not an annotated TF and has no known regulon in CollecTRI (0 targets)",
-          "value": "frozen-data lookup",
-          "source": "frozen-data tool"
+          "fact": "public PGGT1B comparators use non-matching readouts",
+          "value": "Shifrut and Schmidt: orthogonal_phenotype",
+          "source": "frontier/pggt1b_comparability_audit.py"
         }
       ],
       "verifier": {
@@ -750,8 +750,8 @@
         "attestation_type": "legacy_frontier_root_signature",
         "covered_root": "hyp_0addda00f039f198"
       },
-      "receipt_id": "rcpt_83d76f63a5682657",
-      "accepted": true
+      "receipt_id": "rcpt_b4f36fd7c042f0bb",
+      "accepted": false
     }
   ]
 }

@@ -31,12 +31,54 @@ contradictions = jl(os.path.join(FR, "contradictions.jsonl"))
 openq = jl(os.path.join(FR, "open.jsonl"))
 findings = jl(os.path.join(FR, "findings.jsonl"))
 _receipts_raw = jl(os.path.join(ROOT, "receipts", "receipts.jsonl"))
-receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["replayability"],
-             "kind": r["kind"], "subject": r["subject"][:6], "claim": r["claim"],
-             "accepted": r.get("accepted", False), "producer": r["producer"],
-             "n_evidence": len(r.get("evidence", [])), "n_artifacts": len(r.get("artifacts", [])),
-             "verifier": r["verifier"]["name"], "replay": r["verifier"]["replay"],
-             "signer": (r.get("acceptance") or {}).get("signer")} for r in _receipts_raw]
+if any(r.get("accepted") is not False for r in _receipts_raw):
+    raise ValueError("Receipt v1 projection refused an accepted receipt; acceptance requires a separate event")
+
+PUBLIC_RECEIPT_CLAIMS = {
+    "regulator_vs_effector": (
+        "Eighteen field-targeted genes have effective knockdown but near-zero stimulated transcriptome "
+        "reach in this assay. The result limits a broad causal-driver claim for this readout."
+    ),
+    "essentiality_artifact": (
+        "High Rest reach argues against activation specificity, but does not by itself establish "
+        "housekeeping or essentiality. GSE278572 qualifies MED12."
+    ),
+    "cross_cell_type_transfer": (
+        "K562 and covered RPE1 rows provide orthogonal evidence about cross-cell reach. Breadth is not "
+        "an essentiality label, and noncoverage is not refutation."
+    ),
+    "regulon_recovery": (
+        "Known CollecTRI targets are enriched among moved genes. Sign disagreements remain "
+        "context-sensitive review candidates."
+    ),
+    "hypothesis": (
+        "PGGT1B is a proposal-only stimulated CD4+ activation-transcriptome hypothesis. Comparable "
+        "independent replication and donor or batch specificity remain open."
+    ),
+}
+PUBLIC_RECEIPT_STATUS = {"regulator_vs_effector": "computationally_reproduced"}
+
+receipts = []
+for r in _receipts_raw:
+    attestation = r.get("acceptance") or {}
+    receipts.append({
+        "id": r["receipt_id"],
+        "status": PUBLIC_RECEIPT_STATUS.get(r["kind"], r["status"]),
+        "replayability": r["replayability"],
+        "kind": r["kind"],
+        "subject": r["subject"][:6],
+        "claim": PUBLIC_RECEIPT_CLAIMS.get(r["kind"], r["claim"]),
+        "accepted": False,
+        "producer": r["producer"],
+        "n_evidence": len(r.get("evidence", [])),
+        "n_artifacts": len(r.get("artifacts", [])),
+        "verifier": r["verifier"]["name"],
+        "replay": r["verifier"]["replay"],
+        "legacy_attestation": attestation.get("attestation_type") == "legacy_frontier_root_signature",
+        "covered_root": attestation.get("covered_root", ""),
+        "attestor": attestation.get("signer", ""),
+        "interpretation_qualified": r["kind"] in PUBLIC_RECEIPT_CLAIMS,
+    })
 bridge = export_bridge(BRIDGE_OUT)["manifest"]
 external_run_receipt_demo = external_run_receipt_preview()
 

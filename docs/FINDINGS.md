@@ -71,11 +71,12 @@ source: PubMed):
 | IL2 | cytokine directing effector/memory fate | 2 | Kalia & Sarkar, Front Immunol 2018 · [10.3389/fimmu.2018.02987](https://doi.org/10.3389/fimmu.2018.02987) |
 | IFNG | defining Th1 effector cytokine | 1 | Zhu & Zhu, Int J Mol Sci 2020 · [10.3390/ijms21218011](https://doi.org/10.3390/ijms21218011) |
 
-Each becomes a literature-vs-data `Contradiction` in the frontier, with the PMID as the
-claimant on one side and the released DE count on the other. The frontier does not adjudicate;
-it holds both and marks the gene contested. The point is not that the literature is wrong (PD-1
-is a real drug target) but that "important therapeutic target" and "transcriptional regulator of
-CD4 state in this assay" are different claims, and a model that conflates them overclaims.
+The signed frontier preserves an early literature-vs-data `Contradiction` object for each row. The
+current public interpretation is narrower. These citations establish important biological or
+therapeutic roles, but do not necessarily assert the same broad transcriptome-driver claim. Prospect
+therefore uses the rows to limit that specific claim in this assay. It emits `contradicted` only when
+a submitter explicitly makes a comparable causal-driver claim. An associative signature containing
+the same genes receives `associative_only`, not `contradicted`.
 
 *Citation note: gene roles above are drawn from PubMed.*
 
@@ -83,15 +84,14 @@ CD4 state in this assay" are different claims, and a model that conflates them o
 
 ## Finding 3 - reach is not regulation
 
-**Claim.** Rank genes by raw transcriptional reach and the top of the list is the cell's general
-machinery, not its immune biology. Effect size alone cannot tell a T-cell regulator from an
-essential housekeeping gene. The frontier's discriminator is reach at Rest.
+**Current claim.** High Rest reach argues against activation specificity, but does not by itself
+establish housekeeping, essentiality, or irrelevance to immune biology. This wording qualifies the
+legacy signed finding without changing the accepted root.
 
-**Why effect size fails.** CD3E, LAT, and PLCG1 (Finding 1) each move 5,000+ genes at Stim8hr,
-the same magnitude as the SAGA and Mediator machinery. Magnitude does not separate them. Reach
-at Rest does: a gene that reorganizes the transcriptome in an unstimulated cell is doing
-housekeeping; one that only fires after TCR engagement is activation-specific. On the released
-table the two classes sit on opposite sides of a wide empty gap.
+**Why effect size needs context.** CD3E, LAT, and PLCG1 (Finding 1) each move 5,000+ genes at
+Stim8hr, similar in magnitude to SAGA and Mediator perturbations. Rest reach separates a
+stimulation-gated pattern from a broad cross-state pattern in this assay. It does not determine why
+the broad pattern occurs.
 
 **Definition** (`is_essentiality_artifact`): `Rest` DE > 1,000. 139 genes qualify.
 
@@ -107,39 +107,40 @@ table the two classes sit on opposite sides of a wide empty gap.
 | MED12 | 2,843 | Mediator |
 | MED19 | 2,012 | Mediator |
 
-Machinery genes sit at Rest DE 2,012–4,681. The activation module (Finding 1) sits at Rest DE
-1–7. Nothing lands in between. The frontier labels the high-Rest-reach genes
-`essentiality_artifact` and keeps them out of the "hidden regulator" surface, so a naive
-effect-size leaderboard cannot pass them off as immune findings.
+The displayed machinery examples sit at Rest DE 2,012 to 4,681. The activation module (Finding 1)
+sits at Rest DE 1 to 7. The frozen predicate retains the historical internal name
+`essentiality_artifact`, but the public finding is only about lack of activation specificity.
 
-**The cross-dataset test.** This definition is a hypothesis with a prediction: the high-Rest
-genes are housekeeping, so they should move the transcriptome in a non-immune cell too, while
-the activation module should not. Phase 3 (verifier transfer) tests it directly against the
-Replogle genome-scale Perturb-seq in K562, an unrelated cell type. A regulator that fires in
-both cells is housekeeping; one that fires only in stimulated CD4 T cells is immune-specific.
-The second dataset turns this finding from a caveat into independently corroborated computation.
+**The corrective test.** Replogle K562 provides genome-wide cross-cell context. RPE1 is sparse and
+noncoverage is `not_assayed`, never a failure. The independently frozen GSE278572 comparator then
+tests the interpretation in primary human CD4+ Teff and Treg contexts. MED12 meets the locked
+qualification rule: its high Rest reach coexists with context-dependent activation effects. The
+correction remains proposal-only and `accepted=false`.
 
 ---
 
 ## Finding 4 - verifier transfer
 
-**Claim.** The same major-regulator claim, checked against a second Perturb-seq dataset in a
-non-immune cell (Replogle K562), separates housekeeping from immune-specific regulation.
+**Current claim.** The same checker can compare perturbation reach across primary CD4+ cells and
+non-immune cell contexts. Cross-cell reach is orthogonal evidence about breadth, not a housekeeping
+or essentiality label.
 
 **Method** (`frontier/transfer.py`): run one `Claim` through `get_checker("marson")` and
 `get_checker("replogle")`. One verifier shape, two frozen datasets, two verdicts.
 
-Essentiality artifacts reshape the K562 transcriptome too (median 71 DE genes); the activation
-module stays inert (median 4). MED19 moves 3,716 genes in K562, BCL10 moves 2. The second dataset
-turns Finding 3 from a caveat into independently corroborated computation, and supports Finding 1's
-module is T-cell-specific.
+The historical high-Rest group has median 71 K562 DE genes among the compared rows; the activation
+module has median 4. MED19 moves 3,716 genes in K562 and BCL10 moves 2. This difference qualifies
+cell-context breadth. It does not establish that every high-Rest gene is housekeeping or that every
+K562-low gene is specific to T cells. Covered RPE1 rows are additional context; missing RPE1 rows
+remain `not_assayed`.
 
 ---
 
 ## Finding 5 - recovering known regulons from perturbation
 
-**Claim.** The frontier rebuilds known transcription-factor biology from perturbation alone, with
-no regulon supplied. It also flags edges where the data overrules the literature's sign.
+**Claim.** The frontier re-derives enrichment of known transcription-factor targets from
+perturbation alone, with no regulon supplied to the screen. It also surfaces sign disagreements for
+review.
 
 **Method** (`frontier/regulon_slice.py`, `regulon_recover.py`): for each CollecTRI TF that is a
 major regulator here, slice its data-derived target set from the frozen matrix and compare to its
@@ -148,17 +149,17 @@ direction uses the correct sign convention (a TF that activates a target should,
 it go down).
 
 Across 154 TFs, literature targets are **4.0x enriched** among the genes their knockdown moved
-(Fisher combined p ≈ 1e-26), and when a data edge meets a known one the sign agrees **63%** of the
-time. The Th1 and Th2 master factors **TBX21 (20x) and GATA3 (8x)** are recovered. The screen flags
-**82 known edges** where the measured direction contradicts the literature's sign.
+(Fisher combined p approximately 1e-26), and when a data edge meets a known one the sign agrees
+**63%** of the time. The Th1 and Th2 master factors **TBX21 (20x) and GATA3 (8x)** are recovered.
+The screen surfaces **82 sign-disagreement edges**. Those disagreements can reflect cell context,
+thresholds, or reference mismatch and do not by themselves overturn the literature.
 
 ---
 
 ## How they connect
 
-The frontier recovers known activation biology (Finding 1) and known TF regulons (Finding 5),
-which earns the trust to catch the field's most-hyped genes being mislabeled as regulators
-(Finding 2), while resisting the essentiality artifact a naive model surfaces instead (Finding 3),
-and an independent cell type confirms the split (Finding 4). Recover, catch, resist, confirm: a
-trust layer for machine-generated biology, grounded in real data and re-derivable from the released
-tables.
+The frontier recovers known activation biology (Finding 1) and regulon enrichment (Finding 5), then
+uses the same frozen rules to limit broad driver claims (Finding 2), separate Rest reach from
+activation specificity (Finding 3), and compare reach across cell contexts (Finding 4). The later
+GSE278572 proposal demonstrates the intended correction loop: new evidence qualifies the
+interpretation without silently rewriting accepted state.

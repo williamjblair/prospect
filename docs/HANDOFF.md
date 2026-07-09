@@ -13,6 +13,8 @@ with a comparable phenotype that the frozen assay refutes.
 The trust boundary is fixed: a producer emits activity, Prospect creates a Receipt v1 proposal,
 frozen code replays it, and only a human Ed25519 acceptance event can change accepted state. Every
 public submission is `accepted=false` with `next=human_signature_required`.
+Receipt v1 envelopes are also always `accepted=false`. Their legacy frontier-root attestations
+record provenance only and are not receipt acceptance events.
 
 - Web: https://prospect-sepia-six.vercel.app
 - Repo: https://github.com/williamjblair/prospect, branch `master`

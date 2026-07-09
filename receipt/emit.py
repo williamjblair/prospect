@@ -33,6 +33,26 @@ MARSON = _artifact("Marson CD4 DE table (classified)", "examples/data/atlas_back
 K562 = _artifact("Replogle K562 DE counts", "examples/data/replogle_k562_de.csv", "figshare:20029387")
 RPE1 = _artifact("Replogle RPE1 DE counts", "examples/data/replogle_rpe1_de.csv", "figshare:20029387")
 COLLECTRI = _artifact("CollecTRI regulons", "examples/data/collectri_human.csv", "omnipathdb.org")
+PGGT1B_DEFENDED = _artifact("PGGT1B defended evidence", "examples/data/pggt1b_defended_evidence.json")
+
+RECEIPT_CLAIMS = {
+    "regulator_vs_effector": (
+        "Eighteen field-targeted genes have effective knockdown but near-zero stimulated "
+        "transcriptome reach in this assay. The result limits a broad causal-driver claim for this readout."
+    ),
+    "essentiality_artifact": (
+        "High Rest reach argues against activation specificity, but does not by itself establish "
+        "housekeeping or essentiality. The GSE278572 proposal qualifies MED12."
+    ),
+    "cross_cell_type_transfer": (
+        "K562 and covered RPE1 rows provide orthogonal evidence about cross-cell reach. Breadth is not "
+        "an essentiality label, and noncoverage is not refutation."
+    ),
+    "regulon_recovery": (
+        "Known CollecTRI targets are enriched among moved genes. Sign disagreements remain "
+        "context-sensitive review candidates."
+    ),
+}
 
 def _root_acceptance():
     p = os.path.join(FR, "frontier.sig.json")
@@ -57,11 +77,11 @@ def _finding_atoms(f):
     if k == "essentiality_artifact":
         pg = e.get("per_gene", {})
         top = sorted(pg.items(), key=lambda x: -x[1]["rest_de"])[:2]
-        return [A(f"{g} reshapes the transcriptome in a resting cell (housekeeping)", f"{v['rest_de']} DE at Rest", "MarsonPerturbseqChecker") for g, v in top]
+        return [A(f"{g} has high transcriptome reach in a resting cell", f"{v['rest_de']} DE at Rest", "MarsonPerturbseqChecker") for g, v in top]
     if k == "cross_cell_type_transfer":
         m = e.get("median_k562_de", {})
-        return [A("essentiality artifacts replicate in non-immune K562", f"median {m.get('essentiality_artifact')} DE", "ReploglePerturbseqChecker"),
-                A("the activation module stays inert in K562 (T-cell-specific)", f"median {m.get('activation_module')} DE", "ReploglePerturbseqChecker")]
+        return [A("the high-Rest group has broader K562 reach among covered genes", f"median {m.get('essentiality_artifact')} DE", "ReploglePerturbseqChecker"),
+                A("the activation module has low median K562 reach", f"median {m.get('activation_module')} DE", "ReploglePerturbseqChecker")]
     if k == "regulon_recovery":
         return [A("known CollecTRI targets are enriched among the genes each TF knockdown moved", f"{e.get('pooled_fold_enrichment')}x, Fisher p={e.get('combined_p')}", "frontier/regulon_recover.py"),
                 A("Th1/Th2 master factors recovered from perturbation alone", "TBX21, GATA3", "hypergeometric test")]
@@ -75,14 +95,13 @@ def _finding_artifacts(kind):
 
 def from_finding(f):
     kind = f["kind"]
-    contested = kind in ("regulator_vs_effector",)
     return Receipt(
-        frontier=FRONTIER_ID, claim=f["claim"], kind=kind, subject=f["genes"][:20],
+        frontier=FRONTIER_ID, claim=RECEIPT_CLAIMS.get(kind, f["claim"]), kind=kind, subject=f["genes"][:20],
         producer={"kind": "finding_producer", "model": None, "run": "frontier/findings.py"},
         artifacts=_finding_artifacts(kind), evidence=_finding_atoms(f),
         verifier=Verifier(name="frontier/verify.py", method="re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
                           replay="./prospect verify"),
-        status="contradicted" if contested else "computationally_reproduced",
+        status="computationally_reproduced",
         replayability="exact",
         scope=["holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"],
         acceptance=_root_acceptance()).freeze()
@@ -95,13 +114,21 @@ def from_agent():
     if not h:
         return None
     sig = json.load(open(os.path.join(DATA, "agent_run.sig.json"))) if os.path.exists(os.path.join(DATA, "agent_run.sig.json")) else {}
-    atoms = [EvidenceAtom(fact=e, value="frozen-data lookup", source="frozen-data tool") for e in h.get("evidence", [])]
+    atoms = [
+        EvidenceAtom(fact="PGGT1B has on-target knockdown and high Stim8hr reach", value="3014 DE genes", source="MarsonPerturbseqChecker"),
+        EvidenceAtom(fact="PGGT1B has lower Rest reach", value="175 DE genes", source="MarsonPerturbseqChecker"),
+        EvidenceAtom(fact="PGGT1B has low K562 reach", value="1 DE gene", source="ReploglePerturbseqChecker"),
+        EvidenceAtom(fact="public PGGT1B comparators use non-matching readouts", value="Shifrut and Schmidt: orthogonal_phenotype", source="frontier/pggt1b_comparability_audit.py"),
+    ]
     acc = Acceptance(signer=sig.get("signer", ""), delta_id=sig.get("delta_id", ""),
                      pubkey=sig.get("pubkey", ""), signature=sig.get("signature", "")) if sig else None
     return Receipt(
-        frontier=FRONTIER_ID, claim=h["hypothesis"], kind="hypothesis", subject=[h["gene"]],
+        frontier=FRONTIER_ID,
+        claim=("PGGT1B is a proposal-only stimulated primary CD4+ activation-transcriptome hypothesis. "
+               "Comparable independent replication and donor or batch specificity remain open."),
+        kind="hypothesis", subject=[h["gene"]],
         producer={"kind": "autonomous_agent", "model": run["model"], "run": f"{run['tool_calls']} tool calls / {run['rounds']} rounds"},
-        artifacts=[MARSON, K562, COLLECTRI],
+        artifacts=[MARSON, K562, COLLECTRI, PGGT1B_DEFENDED],
         evidence=atoms,
         verifier=Verifier(name="frozen-data tools", method="every fact is a deterministic lookup against a released table; the agent cannot assert ungated biology",
                           replay="./prospect agent"),
@@ -117,6 +144,8 @@ def emit_all(outdir=OUTDIR):
     if a:
         receipts.append(a)
     os.makedirs(outdir, exist_ok=True)
+    for stale in glob.glob(os.path.join(outdir, "rcpt_*.json")):
+        os.remove(stale)
     for r in receipts:
         json.dump(r.to_dict(), open(os.path.join(outdir, r.receipt_id + ".json"), "w"), indent=2)
     with open(os.path.join(outdir, "receipts.jsonl"), "w") as fh:
@@ -135,7 +164,7 @@ def main(argv=None):
     receipts = emit_all(args.out_dir)
     print(f"emitted {len(receipts)} receipts -> {args.out_dir}/\n")
     for r in receipts:
-        acc = f"signed by {r.acceptance.signer}" if r.acceptance else "unsigned"
+        acc = f"legacy root attestation by {r.acceptance.signer}" if r.acceptance else "no root attestation"
         print(f"  {r.receipt_id}  {r.status:26s} {r.replayability:10s} {acc:22s} {r.kind}: {', '.join(r.subject[:3])}")
     if not args.no_bridge:
         bundle = export_bridge(args.bridge_out)

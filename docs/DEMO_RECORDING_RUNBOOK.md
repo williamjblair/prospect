@@ -26,6 +26,22 @@ Open the live or local site on Check. The local site should run on a port other 
 5. Run the returned `python receipt/replay_proposal.py <proposal-url>.json` command to re-derive the receipt identity and typed verdicts.
 6. Close on `root_a8b0dcdd4024e12f`, `accepted=false`, and the human-only acceptance step.
 
+## Live Claude Science call
+
+Use a writable `OPERON` session with the registered `prospect` connector and the real
+`signature_genes.json` export. Keep connector approvals on. Send one bounded instruction:
+
+```text
+Submit the attached signature through prospect.acceptance.submit_artifact as an
+associative_signature from claude_science_sade_feldman. Set publish_to_ledger=false.
+Do not accept or sign anything. Return the proposal id, receipt id, typed-status counts,
+proposal URL, and replay command exactly as returned by Prospect.
+```
+
+Approve only the Prospect submission tool. Capture the tool call and returned proposal. The expected
+split is 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15 `not_assayed`.
+Stop if the returned receipt or verdicts differ from the checked-in connector capture.
+
 ## Fixture fallback
 
 If the live Claude Science instance is unavailable, use the checked-in real export fixture under `examples/data/claude_science_real_export/` and the packet at `examples/data/claude_science_acceptance_demo.json`. Label it as a real export fixture, not a live session.

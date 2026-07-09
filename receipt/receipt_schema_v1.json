@@ -272,7 +272,8 @@
       ]
     },
     "accepted": {
-      "type": "boolean"
+      "const": false,
+      "description": "Receipt v1 is proposal-only. Acceptance is a separate human-signed event."
     }
   }
 }

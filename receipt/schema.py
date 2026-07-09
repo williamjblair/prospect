@@ -64,6 +64,8 @@ class Verifier:
 
 @dataclass
 class Acceptance:
+    """Legacy attestation over an earlier root, never acceptance of this receipt."""
+
     signer: str
     delta_id: str
     pubkey: str
@@ -182,7 +184,9 @@ class Receipt:
         if not self.receipt_id:
             self.freeze()
         d = asdict(self)
-        d["accepted"] = self.acceptance is not None
+        # Receipt v1 is always a proposal. A legacy root attestation may travel
+        # with it as provenance, but only a separate AcceptanceEvent can move state.
+        d["accepted"] = False
         if d["acceptance"] and not d["acceptance"].get("covered_root"):
             d["acceptance"]["covered_root"] = d["acceptance"].get("delta_id", "")
         return d

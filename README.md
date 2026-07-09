@@ -30,6 +30,12 @@ edges, five CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the 
 Prospect frames the signature as associative and separates drivers from passengers, which is exactly
 what an associative signature needs before it can become a biological claim.
 
+![Prospect registered in Claude Science with four proposal-only tools](docs/assets/claude_science_prospect_connector.png)
+
+The hosted Streamable HTTP connector is registered in Claude Science with per-call approval enabled.
+It exposes schema discovery, artifact submission, compatibility submission, and proposal retrieval.
+Every submission remains `accepted=false` until human review.
+
 ## The Sharp Evidence
 
 - **AI overclaiming:** 48% of confident major-regulator claims are contradicted by the measured data,

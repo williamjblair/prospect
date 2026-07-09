@@ -21,6 +21,7 @@ does the claim survive an independent frozen perturbation gate, and should it be
 
 - A paste-and-connector acceptance layer for gene lists, signatures, ranked markers, and DE tables.
 - A real Claude Science artifact flow using a Sade-Feldman melanoma ICB scRNA-seq signature.
+- A hosted Streamable HTTP connector registered in Claude Science with four proposal-only tools.
 - A frozen causal gate over the released Marson primary human CD4+ CRISPRi Perturb-seq screen.
 - Typed driver, passenger, contradicted, and not_assayed verdicts, always `accepted=false`.
 - A signed CD4+ evidence graph and MCP receipt bridge.
@@ -41,6 +42,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
   activation specificity, but does not alone establish housekeeping or essentiality.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
+
+![Prospect registered in Claude Science](assets/claude_science_prospect_connector.png)
 
 ## Judge Path
 

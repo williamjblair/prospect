@@ -29,7 +29,7 @@ LOCAL_GATE = [
 ]
 
 DEPLOY_COMMANDS = [
-    "cd web && vercel --prod --yes --scope constellate-dc388081",
+    'cd web && vercel --prod --yes --scope "$VERCEL_SCOPE"',
     "fly deploy --config fly.acceptance.toml",
 ]
 PREPARE_COMMAND = "./scripts/prepare_deploy.sh"

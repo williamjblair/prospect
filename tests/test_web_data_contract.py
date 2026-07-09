@@ -83,6 +83,26 @@ def test_frontier_json_keeps_only_the_consolidated_packet_surface():
         assert key not in data, f"cut packet key still embedded: {key}"
 
 
+def test_public_receipt_projection_never_launders_legacy_root_attestations():
+    data = json.loads(FRONTIER.read_text())
+    receipts = data["receipts"]
+
+    assert receipts
+    assert all(receipt["accepted"] is False for receipt in receipts)
+    assert all(receipt["legacy_attestation"] is True for receipt in receipts)
+    assert all(receipt["covered_root"] for receipt in receipts)
+    assert next(receipt for receipt in receipts if receipt["kind"] == "hypothesis")["status"] == "evidence_attached"
+    assert next(receipt for receipt in receipts if receipt["kind"] == "regulator_vs_effector")["status"] == "computationally_reproduced"
+    text = json.dumps(receipts).lower()
+    for phrase in [
+        "not immune biology",
+        "independent cells validate",
+        "data overrules the literature",
+        "cell-type-specific regulator",
+    ]:
+        assert phrase not in text
+
+
 def test_frontier_json_embeds_pggt1b_evidence_capsule():
     data = json.loads(FRONTIER.read_text())
     capsule = data["pggt1b_deep_dive"]["evidence_capsule"]
@@ -180,6 +200,7 @@ def test_frontier_json_embeds_substrate_coverage_report():
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_keeps_only_the_consolidated_packet_surface()
+    test_public_receipt_projection_never_launders_legacy_root_attestations()
     test_frontier_json_embeds_pggt1b_evidence_capsule()
     test_frontier_json_embeds_overclaim_counter_packet()
     test_frontier_json_embeds_external_run_receipt_demo()

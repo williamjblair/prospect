@@ -209,7 +209,8 @@ type Data = {
     transcript: { round: number; tool: string; input: any; result: any }[] } | null;
   receipts?: { id: string; status: string; replayability: string; kind: string; subject: string[];
     claim: string; accepted: boolean; producer: any; n_evidence: number; n_artifacts: number;
-    verifier: string; replay: string; signer?: string }[];
+    verifier: string; replay: string; legacy_attestation?: boolean; covered_root?: string;
+    attestor?: string; interpretation_qualified?: boolean }[];
   receipt_bridge?: {
     frontier_root: string; receipt_count: number; replay: string; mcp_command: string; exported_files: string[];
     protocol_path?: { step: number; method: string; action: string; result: string; accepted: boolean }[];
@@ -464,7 +465,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <a className="btn btn-secondary btn-sm" href="/data/gse278572_comparator.json">Open corrective proposal</a>
             <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-              {d.gse278572_comparator.replay}
+              python frontier/gse278572_comparator.py --check
             </span>
           </div>
         </section>
@@ -1174,7 +1175,11 @@ function Receipts({
                 <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
                   <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{r.id}</span>
                   <span className="t-body-sm" style={{ fontWeight: 600 }}>{r.kind === "hypothesis" ? "hypothesis" : r.kind.replace(/_/g, " ")}</span>
-                  <span className="t-caption" style={{ color: "var(--ink-3)" }}>· {r.producer?.kind === "autonomous_agent" ? `agent (${r.n_evidence} reproduced facts)` : `${r.n_evidence} atoms · ${r.n_artifacts} artifacts`}{r.accepted ? ` · signed ${r.signer}` : ""}</span>
+                  <span className="t-caption" style={{ color: "var(--ink-3)" }}>
+                    · {r.producer?.kind === "autonomous_agent" ? `agent (${r.n_evidence} reproduced facts)` : `${r.n_evidence} atoms · ${r.n_artifacts} artifacts`}
+                    {r.legacy_attestation ? ` · legacy root attestation ${r.covered_root}` : ""}
+                    {r.interpretation_qualified ? " · current interpretation qualified" : ""}
+                  </span>
                 </div>
                 <div className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-2)" }}>{r.claim}</div>
               </div>
@@ -1189,7 +1194,8 @@ function Receipts({
       </div>
       <p className="t-caption" style={{ margin: 0 }}>
         The status never collapses to a generic proof label. A hypothesis to test stays <b>evidence attached</b>; only what
-        re-derives from frozen data is <b>reproduced</b>; where the data disagrees it is <b>contradicted</b>. No model in the trust path.
+        re-derives from frozen data is <b>reproduced</b>; where a comparable causal claim disagrees it is <b>contradicted</b>.
+        Legacy root attestations are provenance, not receipt acceptance. Every Receipt v1 row above remains accepted=false.
       </p>
     </div>
   );
@@ -1251,24 +1257,39 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
 const FINDING_META: Record<string, { n: string; title: string; tone: string }> = {
   activation_module: { n: "01", title: "The activation module, rebuilt from perturbation", tone: "var(--moss)" },
-  regulator_vs_effector: { n: "02", title: "Regulator vs effector", tone: "var(--cinnabar)" },
-  essentiality_artifact: { n: "03", title: "Reach is not regulation", tone: "var(--brass)" },
-  cross_cell_type_transfer: { n: "04", title: "Verifier transfer, a second cell type", tone: "var(--field-blue)" },
-  regulon_recovery: { n: "05", title: "Recovering known regulons from perturbation", tone: "var(--brass-gold)" },
+  regulator_vs_effector: { n: "02", title: "Driver claim versus assay response", tone: "var(--field-blue)" },
+  essentiality_artifact: { n: "03", title: "Rest reach is not activation specificity", tone: "var(--brass)" },
+  cross_cell_type_transfer: { n: "04", title: "Cross-cell-context comparison", tone: "var(--field-blue)" },
+  regulon_recovery: { n: "05", title: "Regulon recovery and sign disagreements", tone: "var(--brass-gold)" },
+};
+
+const FINDING_PUBLIC_CLAIM: Record<string, string> = {
+  regulator_vs_effector:
+    "Eighteen field-targeted genes have effective knockdown but near-zero stimulated transcriptome reach in this assay. That result limits a broad causal-driver claim for this readout; it does not make the genes biologically irrelevant.",
+  essentiality_artifact:
+    "High Rest reach argues against activation specificity, but does not by itself establish housekeeping or essentiality. The independently frozen GSE278572 proposal qualifies MED12 under this exact rule.",
+  cross_cell_type_transfer:
+    "K562 and covered RPE1 rows test whether effects extend beyond primary CD4+ cells. Cross-cell reach is orthogonal evidence, not proof of housekeeping, and noncoverage is not a refutation.",
+  regulon_recovery:
+    "Known CollecTRI targets are enriched among moved genes. Sign disagreements identify context-sensitive edges for review; they do not by themselves overturn the literature.",
 };
 
 function FindingHead({ f }: { f: Finding }) {
   const m = FINDING_META[f.kind];
+  const publicClaim = FINDING_PUBLIC_CLAIM[f.kind] ?? f.claim;
   return (
     <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 8 }}>
       <span className="t-mono" style={{ fontSize: 13, color: m.tone, fontWeight: 700 }}>{m.n}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span className="h2-app">{m.title}</span>
-          <span className="chip" style={{ ["--tone" as any]: m.tone }}>{f.status}</span>
+          <span className="chip" style={{ ["--tone" as any]: m.tone }}>computationally_reproduced</span>
+          {f.kind === "essentiality_artifact" && (
+            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>evidence_attached qualification</span>
+          )}
           <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{f.n_genes} genes · {f.cid}</span>
         </div>
-        <p className="t-body-sm" style={{ marginTop: 6, maxWidth: "70ch" }}>{f.claim}</p>
+        <p className="t-body-sm" style={{ marginTop: 6, maxWidth: "70ch" }}>{publicClaim}</p>
       </div>
     </div>
   );
@@ -1313,19 +1334,19 @@ function ActivationEvidence({ f }: { f: Finding }) {
 
 function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: string) => void }) {
   const per: Record<string, { stim_condition: string; n_de: number }> = f.evidence.per_gene || {};
-  // cited genes first (they carry the literature-vs-data contradiction), then the rest
+  // Cited genes provide field context. The citation does not automatically assert this assay's causal readout.
   const cited = Object.keys(per).filter((g) => d.citations[g]).sort();
   const rest = Object.keys(per).filter((g) => !d.citations[g]).sort();
   return (
     <div style={{ display: "grid", gap: 10 }}>
       <FindingEvidencePanel>
-        <EvRow head cells={["gene", "the field calls it (cited)", "DE on KD"]} />
+        <EvRow head cells={["gene", "published role (cited)", "DE on KD"]} />
         {cited.map((g) => {
           const c = d.citations[g], p = per[g];
           return (
             <div key={g} className="finding-evidence-row">
               <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left",
-                background: "transparent", color: "var(--cinnabar)" }}>{g}</button>
+                background: "transparent", color: "var(--field-blue)" }}>{g}</button>
               <span className="t-body-sm" style={{ minWidth: 0 }}>
                 {c.canonical_role.split(":")[0]} ·{" "}
                 <a href={`https://doi.org/${c.doi}`} target="_blank" rel="noreferrer"
@@ -1333,7 +1354,7 @@ function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: s
                   {c.first_author} {c.year} <ExternalLink size={10} style={{ display: "inline", verticalAlign: "baseline" }} />
                 </a>
               </span>
-              <span className="t-mono fz-sm" style={{ textAlign: "right", fontWeight: 650, color: "var(--cinnabar)" }}>
+              <span className="t-mono fz-sm" style={{ textAlign: "right", fontWeight: 650, color: "var(--field-blue)" }}>
                 {p.n_de} <span className="t-caption">({p.stim_condition})</span>
               </span>
             </div>
@@ -1341,7 +1362,7 @@ function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: s
         })}
       </FindingEvidencePanel>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-        <span className="t-caption">also effectors:</span>
+        <span className="t-caption">other low-effect targets:</span>
         {rest.map((g) => (
           <button key={g} onClick={() => onGene(g)} className="chip"
             style={{ ["--tone" as any]: "var(--stone)", background: "transparent" }}>{g}</button>
@@ -1358,7 +1379,7 @@ function EssentialityEvidence({ f }: { f: Finding }) {
   return (
     <div style={{ display: "grid", gap: 10 }}>
       <FindingEvidencePanel>
-        <EvRow head cells={["gene", "general machinery, not immune biology", "Rest DE"]} />
+        <EvRow head cells={["gene", "high Rest reach in this assay", "Rest DE"]} />
         {rows.map(([g, v]) => (
           <EvRow key={g} cells={[g, "moves the transcriptome in a resting cell",
             <b key="n" style={{ color: "var(--brass)" }}>{fmt(v.rest_de)}</b>]} />
@@ -1366,9 +1387,9 @@ function EssentialityEvidence({ f }: { f: Finding }) {
       </FindingEvidencePanel>
       <div className="card-paper" style={{ padding: "10px 15px", background: "var(--state-open-tint)" }}>
         <p className="t-body-sm" style={{ margin: 0 }}>
-          The gap is decisive: machinery genes sit at Rest DE ≥ <b>{fmt(gap.machinery_rest_de_min ?? 0)}</b>; the
-          activation module (Finding 01) tops out at Rest DE <b>{gap.activation_module_rest_de_max ?? 0}</b>. Nothing
-          lands in between. Phase 3 tests this against a non-immune cell type.
+          The frozen threshold separates a high-Rest group at DE ≥ <b>{fmt(gap.machinery_rest_de_min ?? 0)}</b> from
+          the activation module, which tops out at Rest DE <b>{gap.activation_module_rest_de_max ?? 0}</b>. This is a
+          descriptive specificity screen, not a housekeeping classifier. GSE278572 supplies the proposal-only MED12 qualification.
         </p>
       </div>
     </div>
@@ -1381,13 +1402,13 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
   const per: Record<string, { marson: string; replogle: string; k562_de: number | null; finding: string }> = e.per_gene || {};
   const essRate = Math.round((e.essentiality_replication?.rate || 0) * 100);
   const actRate = Math.round((e.activation_specificity?.rate || 0) * 100);
-  // recognizable exemplars: strongest housekeeping replications + iconic TCR genes inert in K562
-  const house = (e.housekeeping_exemplar || []).slice(0, 4);
+  // Recognizable exemplars: strongest cross-cell effects plus iconic TCR genes with low K562 reach.
+  const broad = (e.housekeeping_exemplar || []).slice(0, 4);
   const immune = (e.immune_exemplar || []).slice(0, 4);
   const Row = ({ g, tone }: { g: string; tone: string }) => (
     <div className="finding-evidence-row">
       <button onClick={() => onGene(g)} className="t-mono" style={{ fontWeight: 650, textAlign: "left", background: "transparent", color: tone }}>{g}</button>
-      <span className="t-body-sm">T-cell regulator · {per[g].finding === "essentiality_artifact" ? "replicates in K562" : "inert in K562"}</span>
+      <span className="t-body-sm">{per[g].finding === "essentiality_artifact" ? "high-Rest group · broad in K562" : "activation module · low K562 reach"}</span>
       <span className="t-mono fz-sm" style={{ textAlign: "right" }}>K562 {per[g].k562_de ?? "·"} DE</span>
     </div>
   );
@@ -1396,23 +1417,23 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
       <div className="finding-metric-strip">
         <div className="card-paper" style={{ padding: "14px 16px" }}>
           <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "·"}</div>
-          <div className="t-label" style={{ marginTop: 4 }}>essentiality artifacts · median K562 DE</div>
-          <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% replicate, housekeeping, as predicted</div>
+          <div className="t-label" style={{ marginTop: 4 }}>high-Rest group · median K562 DE</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% have broad K562 reach among covered genes</div>
         </div>
         <div className="card-paper" style={{ padding: "14px 16px" }}>
           <div className="stat-figure" style={{ color: "var(--moss)" }}>{med.activation_module ?? "·"}</div>
           <div className="t-label" style={{ marginTop: 4 }}>activation module · median K562 DE</div>
-          <div className="t-caption" style={{ marginTop: 6 }}>{actRate}% are K562-inert, T-cell-specific</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>{actRate}% have low or unavailable K562 reach</div>
         </div>
       </div>
       <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
         The same major-regulator claim, run through <b>get_checker(&quot;marson&quot;)</b> and{" "}
-        <b>get_checker(&quot;replogle&quot;)</b>, one verifier shape, two frozen datasets. Essentiality
-        artifacts reshape the K562 transcriptome too (median {med.essentiality_artifact} DE); the activation
-        module stays inert (median {med.activation_module}). The second dataset supports findings 01 and 03.
+        <b>get_checker(&quot;replogle&quot;)</b>, one verifier shape, two frozen datasets. The high-Rest group has
+        median K562 reach {med.essentiality_artifact} DE; the activation module has median {med.activation_module}.
+        This qualifies cell-context breadth. It does not establish housekeeping, essentiality, or irrelevance to immune biology.
       </p>
       <FindingEvidencePanel>
-        {house.map((g: string) => <Row key={g} g={g} tone="var(--brass)" />)}
+        {broad.map((g: string) => <Row key={g} g={g} tone="var(--brass)" />)}
         {immune.map((g: string) => <Row key={g} g={g} tone="var(--moss)" />)}
       </FindingEvidencePanel>
     </div>
@@ -1440,15 +1461,15 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
         </div>
         <div className="card-paper" style={{ padding: "14px 16px" }}>
           <div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{e.n_wrong_direction_edges}</div>
-          <div className="t-label" style={{ marginTop: 4 }}>edges the data overrules</div>
-          <div className="t-caption" style={{ marginTop: 6 }}>known sign contradicted</div>
+          <div className="t-label" style={{ marginTop: 4 }}>sign-disagreement edges</div>
+          <div className="t-caption" style={{ marginTop: 6 }}>context-sensitive review candidates</div>
         </div>
       </div>
       <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
         Each TF's CollecTRI literature regulon, checked against the genes its knockdown actually moved,
         over the {e.n_tfs_tested} TFs that are major regulators here. {e.n_recovered} clear significance
-        on their own, including the Th1 and Th2 master factors TBX21 and GATA3. Prospect rebuilds
-        known transcription-factor biology from perturbation alone, with no regulon supplied.
+        on their own, including the Th1 and Th2 master factors TBX21 and GATA3. Prospect re-derives
+        regulon enrichment from perturbation alone, with no regulon supplied to the screen.
       </p>
       <FindingEvidencePanel>
         <div className="finding-evidence-row finding-evidence-row-head finding-evidence-row-four">
@@ -1467,7 +1488,7 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
       </FindingEvidencePanel>
       {wrong.length > 0 && (
         <div>
-          <div className="t-label" style={{ marginBottom: 6 }}>Where the data overrules the literature's sign</div>
+          <div className="t-label" style={{ marginBottom: 6 }}>Where the assay sign disagrees with CollecTRI</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {wrong.map((w, i) => (
               <span key={i} className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
@@ -1722,8 +1743,9 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Evidence</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
           Five deterministic CD4+ findings explain why the driver/passenger split is credible. The screen recovers
-          known activation biology, catches targeted genes being mislabeled as regulators, resists the essentiality
-          artifact a naive ranking surfaces, and checks the split against a second cell type.
+          known activation biology, limits broad driver claims for low-effect perturbations, distinguishes Rest reach
+          from activation specificity, and compares the same rule across cell contexts. Later proposal-only evidence
+          remains visible where it qualifies the signed wording.
         </p>
       </div>
       {d.finding_index && <FindingsIndex index={d.finding_index} />}
@@ -1765,8 +1787,8 @@ function FindingsIndex({ index }: { index: FindingIndex }) {
         <div>
           <div className="t-label" style={{ marginBottom: 5 }}>Scannable findings index</div>
           <p className="t-body-sm" style={{ maxWidth: "72ch", margin: 0 }}>
-            Five reproduced finding objects, ordered for the demo: recover known biology, catch overclaiming,
-            resist the housekeeping artifact, transfer the checker, then recover regulons.
+            Five reproduced finding objects, ordered for the demo: recover known biology, limit broad driver claims,
+            qualify Rest reach, compare cell contexts, then recover regulons.
           </p>
         </div>
         <a className="btn btn-secondary btn-sm" href="/data/finding_index.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>

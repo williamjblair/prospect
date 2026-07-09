@@ -189,8 +189,8 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
             if not verifier.get(key):
                 errors.append(f"verifier.{key} is required")
     accepted = receipt.get("accepted", False)
-    if accepted and not receipt.get("acceptance"):
-        errors.append("accepted receipt requires acceptance")
+    if accepted is not False:
+        errors.append("receipt proposal must keep accepted=false; use a separate AcceptanceEvent")
     if receipt.get("receipt_id") and not str(receipt["receipt_id"]).startswith("rcpt_"):
         errors.append("receipt_id must start with rcpt_")
     elif receipt.get("receipt_id"):

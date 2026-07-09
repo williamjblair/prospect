@@ -33,7 +33,7 @@ transition.
 - `replayability`: `exact`, `reanalysis`, `attested`, or `none`.
 - `state_diff`: the proposed effect on state. A model can never apply it.
 - `verdicts`: per-gene typed verdicts and comparability fields covered by the receipt id.
-- `accepted`: boolean acceptance marker.
+- `accepted`: fixed at `false`; Receipt v1 is always proposal-only.
 
 ## Lab writeback fields
 
@@ -61,7 +61,9 @@ refuting lab result uses status `contradicted` and enters as a new receipt propo
 A receipt can be structurally valid and still not accepted. The receipt id covers the complete
 proposal body but excludes later acceptance. A separate acceptance event signs the receipt id and
 root transition. Existing signed findings carry a typed `legacy_frontier_root_signature`
-attestation, which states exactly that the signature covers the frontier root.
+attestation, which states exactly that the signature covers the frontier root. That attestation is
+provenance for an earlier root, not acceptance of the Receipt v1 envelope. The receipt remains
+`accepted=false`.
 
 Accepted state requires:
 

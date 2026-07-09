@@ -48,6 +48,9 @@ def test_receipt_schema_v1_is_written_and_names_the_boundary():
 def test_receipt_emitter_outputs_schema_v1_receipts_without_state_mutation(tmp_path):
     before = RECEIPTS.read_text()
     out_dir = tmp_path / "receipts"
+    out_dir.mkdir()
+    stale = out_dir / "rcpt_stale.json"
+    stale.write_text("{}")
     proc = subprocess.run(
         [sys.executable, "-m", "receipt.emit", "--no-bridge", "--out-dir", str(out_dir)],
         cwd=ROOT,
@@ -62,11 +65,13 @@ def test_receipt_emitter_outputs_schema_v1_receipts_without_state_mutation(tmp_p
     validator = Draft202012Validator(schema)
     receipts = _receipts(out_dir / "receipts.jsonl")
     assert len(receipts) >= 6
+    assert not stale.exists()
     for receipt in receipts:
         errors = sorted(validator.iter_errors(receipt), key=lambda err: list(err.path))
         assert not errors, "\n".join(error.message for error in errors)
         assert receipt["schema_version"] == "prospect.receipt.v1"
         assert receipt["status"] in schema["properties"]["status"]["enum"]
+        assert receipt["accepted"] is False
         assert receipt["state_diff"]["model_can_apply"] is False
         assert receipt["replay_metadata"]["command"]
     assert RECEIPTS.read_text() == before

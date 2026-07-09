@@ -21,6 +21,10 @@ PUBLIC_SURFACES = [
     "docs/RUN_YOUR_OWN_CLAIM.md",
     "docs/PGGT1B_DEFENDED_EVIDENCE.md",
     "docs/FINDINGS.md",
+    "docs/FINDING_INDEX.md",
+    "frontier/finding_index.py",
+    "examples/data/finding_index.json",
+    "web/public/data/finding_index.json",
     "web/app/page.tsx",
 ]
 
@@ -34,6 +38,14 @@ BLOCKED_PHRASES = [
     "10 datasets",
     "0 cleared",
     "claims were wrong",
+    "not immune biology",
+    "confirms the housekeeping",
+    "validates findings",
+    "independent cells validate",
+    "data overrules the literature",
+    "edges the data overrules",
+    "replicate, housekeeping",
+    "independently corroborated computation",
 ]
 
 TRACEABLE_CLAIMS = [
@@ -67,6 +79,12 @@ TRACEABLE_CLAIMS = [
         "command": "python examples/receipt_bridge_client.py --json",
         "surface": "docs/RECEIPT_BRIDGE.md",
     },
+    {
+        "claim": "GSE278572 proposal qualifies the Rest-reach interpretation",
+        "artifact": "/data/gse278572_comparator.json",
+        "command": "python frontier/gse278572_comparator.py --check",
+        "surface": "web/app/page.tsx",
+    },
 ]
 
 DOWNGRADES = [
@@ -81,9 +99,14 @@ DOWNGRADES = [
         "after": "PGGT1B is retained as a proposal-only lead worth testing",
     },
     {
-        "surface": "docs/FINDINGS.md",
-        "before": "validation language for a computational comparison",
-        "after": "independently corroborated computation",
+        "surface": "web/app/page.tsx and docs/FINDINGS.md",
+        "before": "Rest reach proves housekeeping and cross-cell transfer validates the split",
+        "after": "Rest reach limits activation specificity; cross-cell reach is orthogonal context",
+    },
+    {
+        "surface": "web/app/page.tsx and docs/FINDINGS.md",
+        "before": "assay sign overrules the literature",
+        "after": "sign disagreements are context-sensitive review candidates",
     },
 ]
 
@@ -119,6 +142,9 @@ def build_audit() -> dict[str, Any]:
             "claude_science": "driver-versus-passenger, not signature-is-wrong",
             "pggt1b": "proposal-only lead worth testing, not accepted biology",
             "acceptance": "accepted=false until human_signature_required",
+            "rest_reach": "evidence against activation specificity, not a housekeeping or essentiality label",
+            "cross_cell": "orthogonal breadth evidence; missing coverage is not refutation",
+            "regulon_sign": "sign disagreement is a review candidate, not automatic literature refutation",
             "ceiling": "Computation over released data, not wet-lab or clinical truth.",
         },
         "passed": not blocked_hits and all(row["artifact_present"] and row["command_present"] for row in trace_results),

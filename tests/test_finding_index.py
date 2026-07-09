@@ -26,7 +26,8 @@ def test_finding_index_tracks_all_signed_findings_in_order():
     assert rows[0]["rank"] == 1
     assert rows[0]["n_genes"] == 245
     assert rows[0]["status"] == "computationally_reproduced"
-    assert rows[1]["challenge_status"] == "contradicted"
+    assert rows[1]["challenge_status"] == "none"
+    assert "broad driver claim" in rows[1]["takeaway"]
     assert all(r["cid"].startswith("cid_") for r in rows)
     assert "verified" not in json.dumps(index).lower()
     assert "true" not in json.dumps(index).lower()

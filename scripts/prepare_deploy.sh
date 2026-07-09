@@ -59,6 +59,6 @@ docker build -f Dockerfile.acceptance -t prospect-acceptance:local .
 echo ""
 echo "Prepared. Will runs deploy commands:"
 echo "export NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL=${ACCEPTANCE_URL}"
-echo "cd web && vercel --prod --yes --scope constellate-dc388081"
+echo 'cd web && vercel --prod --yes --scope "$VERCEL_SCOPE"'
 echo "fly deploy --config fly.acceptance.toml"
 echo "./prospect post-deploy-smoke --base-url ${ACCEPTANCE_URL}"

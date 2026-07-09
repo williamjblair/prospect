@@ -38,6 +38,9 @@ def test_export_bridge_writes_contract_manifest_and_bundle(tmp_path):
     assert "prospect.receipt.submit_artifact" in bundle["contract"]["methods"]
     assert len(bundle["receipts"]) >= 6
     assert all(r["receipt_id"].startswith("rcpt_") for r in bundle["receipts"])
+    assert all(r["accepted"] is False for r in bundle["receipts"])
+    assert all((r.get("acceptance") or {}).get("attestation_type") == "legacy_frontier_root_signature"
+               for r in bundle["receipts"])
 
 
 def test_validate_receipt_accepts_current_receipt_and_rejects_bad_status():
@@ -50,6 +53,11 @@ def test_validate_receipt_accepts_current_receipt_and_rejects_bad_status():
     bad["status"] = "verified"
     errors = validate_receipt(bad)
     assert any("status" in e for e in errors)
+
+    bad_acceptance = dict(receipt)
+    bad_acceptance["accepted"] = True
+    errors = validate_receipt(bad_acceptance)
+    assert any("accepted=false" in e for e in errors)
 
 
 def test_receipt_id_binds_every_trust_field(tmp_path):

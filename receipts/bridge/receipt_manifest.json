@@ -5,11 +5,11 @@
   "receipt_count": 6,
   "receipt_ids": [
     "rcpt_204a55aadad0acb6",
-    "rcpt_3a2cdddb663b96bc",
-    "rcpt_be62837b4fe0d926",
-    "rcpt_0bf5d6bad1e96ea8",
-    "rcpt_aaee46f42e944415",
-    "rcpt_83d76f63a5682657"
+    "rcpt_789f6deab754663b",
+    "rcpt_7a291c0181112e02",
+    "rcpt_6c3521a5b3908fe5",
+    "rcpt_d35f07132f5602a2",
+    "rcpt_b4f36fd7c042f0bb"
   ],
   "replay": "./prospect verify",
   "mcp_command": "./prospect mcp",
