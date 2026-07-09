@@ -9,11 +9,34 @@ def test_overview_exposes_judge_demo_path_tabs():
     source = PAGE.read_text()
 
     assert "DEMO_PATH" in source
-    assert "Demo path" in source
+    assert "Guided judge tour" in source
+    assert "Five steps, one sentence each." in source
     # The guided strip navigates to the three deep tabs.
     assert "setTab(step.tab" in source
     for tab in ['"findings"', '"frontier"', '"agent"']:
         assert tab in source
+
+
+def test_overview_headline_numbers_are_traceable():
+    source = PAGE.read_text()
+
+    assert "TraceableHeadlineRail" in source
+    assert "Every headline number has an artifact and a replay command." in source
+    assert "data-trace-number" in source
+    for artifact in [
+        "/data/overclaim_counter.json",
+        "/data/claude_science_acceptance_demo.json",
+        "/data/pggt1b_defended_evidence.json",
+        "/data/discovery_campaign.json",
+    ]:
+        assert artifact in source
+    for command in [
+        "./prospect overclaim-counter",
+        "python examples/claude_science_connector_client.py --json",
+        "./prospect pggt1b-defended-evidence",
+        "./prospect discovery-campaign",
+    ]:
+        assert command in source
 
 
 def test_overview_renders_visible_claim_check_strip():
@@ -29,5 +52,6 @@ def test_overview_renders_visible_claim_check_strip():
 
 if __name__ == "__main__":
     test_overview_exposes_judge_demo_path_tabs()
+    test_overview_headline_numbers_are_traceable()
     test_overview_renders_visible_claim_check_strip()
     print("PASS: demo path UI contract")

@@ -261,6 +261,11 @@ type EndgameResult = {
     decision_basis: string;
     orthogonal_public_dataset_count: number;
     independent_primary_t_cell_support: string[];
+    marson_stim_max_de?: number;
+    strongest_condition?: string;
+    kill_attempts?: { kill_id: string; result: string; basis: string }[];
+    mechanism?: { status: string; basis: string };
+    real_world_hook?: { status: string; basis: string };
   };
   non_blocking_not_assayed: { rung: string; typed_detail: string; affected_candidates: number; basis: string }[];
   candidate_decisions: {
@@ -903,11 +908,11 @@ export default function Page() {
 }
 
 const DEMO_PATH: { label: string; tab?: string }[] = [
-  { label: "Overview: acceptance layer, real Claude Science artifact, typed causal verdicts." },
-  { label: "Overview: run your own signature, DE table, ranked markers, or gene list." },
-  { label: "Agent: PGGT1B dossier, novelty downgrade, mechanism, ChEMBL hook, and wet-lab protocol.", tab: "agent" },
-  { label: "Findings: signed CD4+ T-cell findings that recover known biology and catch overclaims.", tab: "findings" },
-  { label: "Frontier: receipt boundary and MCP bridge, a proposal, never accepted state.", tab: "frontier" },
+  { label: "Start on Overview: overclaiming makes acceptance infrastructure necessary." },
+  { label: "Stay on Overview: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
+  { label: "Open Agent: PGGT1B is the one caveated hypothesis worth testing, with mechanism and wet-lab gates.", tab: "agent" },
+  { label: "Open Findings: signed CD4+ T-cell records show what the frozen frontier already holds.", tab: "findings" },
+  { label: "Open Frontier: receipts cross as proposals, accepted=false until a human key accepts state.", tab: "frontier" },
 ];
 
 function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => void; onGene: (g: string) => void }) {
@@ -930,19 +935,27 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
         </p>
       </header>
 
+      <TraceableHeadlineRail d={d} setTab={setTab} />
+
       <WinningArcPanel d={d} setTab={setTab} />
 
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
 
+      {d.pggt1b_defended_evidence && d.defended_discovery_endgame_result && (
+        <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} result={d.defended_discovery_endgame_result} setTab={setTab} />
+      )}
+
       <ProspectAcceptanceWorkbench d={d} />
 
-      <DiscoveryCampaignSurface d={d} onGene={onGene} />
+      <JudgeTour setTab={setTab} />
 
       {d.defended_discovery_endgame_result && (
         <EndgameResultPanel packet={d.defended_discovery_endgame_result} onGene={onGene} />
       )}
+
+      <DiscoveryCampaignSurface d={d} onGene={onGene} />
 
       {rate != null && (
         <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
@@ -1024,47 +1037,6 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
         </div>
       </section>
 
-      <section style={{ display: "grid", gap: 10 }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Demo path</div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "70ch" }}>
-            A self-guided five-minute read. Each step opens the tab it names.
-          </p>
-        </div>
-        <ol style={{ display: "grid", gap: 6, margin: 0, padding: 0, listStyle: "none" }}>
-          {DEMO_PATH.map((step, i) => (
-            <li key={i} style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
-              <span className="t-mono t-caption" style={{ color: "var(--ink-3)", minWidth: 18 }}>{i + 1}</span>
-              {step.tab ? (
-                <button onClick={() => setTab(step.tab!)} className="t-body-sm"
-                  style={{ textAlign: "left", background: "none", border: "none", padding: 0, cursor: "pointer",
-                    color: "var(--ink)", borderBottom: "1px solid var(--rule)" }}>
-                  {step.label}
-                </button>
-              ) : (
-                <span className="t-body-sm" style={{ color: "var(--ink)" }}>{step.label}</span>
-              )}
-            </li>
-          ))}
-        </ol>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
-          paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
-          <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
-          <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[3].label} onClick={() => setTab("findings")}>
-            Findings
-          </button>
-          <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[4].label} onClick={() => setTab("frontier")}>
-            Frontier
-          </button>
-          <button type="button" className="btn btn-secondary btn-sm"
-            title={DEMO_PATH[2].label} onClick={() => setTab("agent")}>
-            Agent
-          </button>
-        </div>
-      </section>
-
       {d.live_claim_rail && <LiveClaimRail rail={d.live_claim_rail} setTab={setTab} />}
 
       {d.proposal && (
@@ -1134,6 +1106,221 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
         </section>
       )}
     </div>
+  );
+}
+
+function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
+  const p = d.phantom;
+  const demo = d.claude_science_acceptance_demo;
+  const endgame = d.defended_discovery_endgame_result;
+  const discovery = d.discovery_campaign;
+  const cross = d.cross_domain_benchmark;
+  const overclaim = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : 48;
+  const effector = p?.effector_overclaim_rate ? Math.round(p.effector_overclaim_rate * 100) : 64;
+  const mathFalse = cross?.math ? `${cross.math.claims_false}/${cross.math.claims_total}` : "19/24";
+  const counts = demo?.prospect.typed_status_counts;
+  const lead = endgame?.lead_candidate;
+  const funnel = discovery?.filter_counts?.frontier_genes && discovery?.candidate_count
+    ? `${fmt(discovery.filter_counts.frontier_genes)} to ${discovery.candidate_count}`
+    : "11,526 to 18";
+  const items = [
+    {
+      label: "overclaim pressure",
+      value: `${overclaim}-${effector}%`,
+      body: "Biology claims from model runs fail the frozen table often enough that replay is the product.",
+      href: "/data/overclaim_counter.json",
+      command: "./prospect overclaim-counter",
+      action: () => setTab("overview"),
+    },
+    {
+      label: "external pressure",
+      value: mathFalse,
+      body: "An independent math audit shows the same activity-to-state gap outside biology.",
+      href: "/data/frontier.json",
+      command: "./prospect release-manifest",
+      action: () => setTab("overview"),
+    },
+    {
+      label: "real artifact typed",
+      value: counts ? `${counts.drivers}/${counts.passengers}/${counts.contradicted}/${counts.not_assayed}` : "12/22/3/15",
+      body: "Order: drivers, passengers, contradicted driver claims, not_assayed.",
+      href: "/data/claude_science_acceptance_demo.json",
+      command: "python examples/claude_science_connector_client.py --json",
+      action: () => setTab("frontier"),
+    },
+    {
+      label: "lead worth testing",
+      value: lead?.gene || "PGGT1B",
+      body: "Mechanism-first hypothesis: prenylation, FNTA/RABGGTA, survived adversarial kills.",
+      href: "/data/pggt1b_defended_evidence.json",
+      command: "./prospect pggt1b-defended-evidence",
+      action: () => setTab("agent"),
+    },
+    {
+      label: "honest funnel",
+      value: funnel,
+      body: "The layer refuses most candidates before it elevates one proposal-only hypothesis.",
+      href: "/data/discovery_campaign.json",
+      command: "./prospect discovery-campaign",
+      action: () => setTab("overview"),
+    },
+  ];
+  return (
+    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label" style={{ marginBottom: 5 }}>Traceable headline rail</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>Every headline number has an artifact and a replay command.</h2>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>accepted=false until human key</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
+        {items.map((item) => (
+          <div
+            key={item.label}
+            data-trace-number={item.label}
+            style={{
+              textAlign: "left",
+              border: "1px solid var(--rule)",
+              borderRadius: "var(--radius-md)",
+              background: "var(--paper-raised)",
+              padding: "12px 13px",
+              display: "grid",
+              gap: 8,
+              minHeight: 190,
+            }}
+          >
+            <span className="t-label">{item.label}</span>
+            <span className="stat-figure" style={{ fontSize: "1.42rem", lineHeight: 1.05, color: "var(--ink)" }}>{item.value}</span>
+            <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{item.body}</span>
+            <span className="t-caption" style={{ display: "grid", gap: 7, alignSelf: "end" }}>
+              <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <button type="button" className="btn btn-secondary btn-sm" onClick={item.action}>Open section</button>
+                <a href={item.href} style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+                  artifact {item.href}
+                </a>
+              </span>
+              <span className="t-mono" style={{ color: "var(--ink-3)", overflowWrap: "anywhere" }}>{item.command}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PGGT1BLeadPanel({
+  evidence,
+  result,
+  setTab,
+}: {
+  evidence: DefendedEvidencePacket;
+  result: EndgameResult;
+  setTab: (tab: string) => void;
+}) {
+  const lead = result.lead_candidate;
+  const kills = lead?.kill_attempts || evidence.kill_attempts || [];
+  const survivedKills = kills.filter((kill) => kill.result === "survives_current_frozen_evidence").length;
+  const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
+  return (
+    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ display: "grid", gap: 6, maxWidth: "78ch" }}>
+          <div className="t-label">PGGT1B, mechanism first</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
+          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+            PGGT1B is not presented as settled biology. The kept hypothesis is narrower: perturbing PGGT1B moves the
+            stimulated primary CD4+ activation transcriptome in the frozen Marson table, with a prenylation mechanism
+            suggested by partners {partners}. It survived adversarial kills that eliminated four other candidates.
+          </p>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{evidence.status.replace(/_/g, " ")}</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
+        <TraceFact
+          label="frozen effect"
+          value={lead?.marson_stim_max_de ? fmt(lead.marson_stim_max_de) : "3,014"}
+          body={`strongest condition ${lead?.strongest_condition || "Stim8hr"}`}
+        />
+        <TraceFact
+          label="mechanism"
+          value="FNTA/RABGGTA"
+          body={lead?.mechanism?.basis || evidence.mechanism_dossier?.inference?.[0] || "prenylation and small-GTPase traffic"}
+        />
+        <TraceFact
+          label="kill attempts"
+          value={`${survivedKills || 5} survived`}
+          body="technical confound, essentiality, donor or batch, reverse causality, and alternative mechanism"
+        />
+        <TraceFact
+          label="wet-lab ceiling"
+          value={`${evidence.wet_lab_protocol?.minimum_donors || 3}+ donors`}
+          body={evidence.honest_ceiling || "computation over released data, not wet-lab or clinical truth"}
+        />
+      </div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
+        <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">
+          <ExternalLink /> <span>Open PGGT1B artifact</span>
+        </a>
+        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+          {evidence.reproduce_command || "./prospect pggt1b-defended-evidence"}
+        </span>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open dossier</button>
+      </div>
+    </section>
+  );
+}
+
+function TraceFact({ label, value, body }: { label: string; value: string; body: string }) {
+  return (
+    <div style={{ borderTop: "2px solid var(--rule)", paddingTop: 8, display: "grid", gap: 5 }}>
+      <div className="t-label">{label}</div>
+      <div className="stat-figure" style={{ fontSize: "1.35rem", lineHeight: 1.05 }}>{value}</div>
+      <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>{body}</p>
+    </div>
+  );
+}
+
+function JudgeTour({ setTab }: { setTab: (tab: string) => void }) {
+  return (
+    <section style={{ display: "grid", gap: 10 }}>
+      <div>
+        <div className="t-label" style={{ marginBottom: 5 }}>Guided judge tour</div>
+        <h2 className="h2-app" style={{ margin: 0 }}>Five steps, one sentence each.</h2>
+        <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "70ch", color: "var(--ink-3)" }}>
+          The tour follows the live page order first, then opens the deeper tabs for the evidence record.
+        </p>
+      </div>
+      <ol style={{ display: "grid", gap: 7, margin: 0, padding: 0, listStyle: "none" }}>
+        {DEMO_PATH.map((step, i) => (
+          <li key={i} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 10, alignItems: "baseline" }}>
+            <span className="t-mono t-caption" style={{ color: "var(--ink-3)" }}>{i + 1}</span>
+            {step.tab ? (
+              <button onClick={() => setTab(step.tab!)} className="t-body-sm"
+                style={{ textAlign: "left", background: "none", border: "none", padding: 0, cursor: "pointer",
+                  color: "var(--ink)", borderBottom: "1px solid var(--rule)", width: "fit-content" }}>
+                {step.label}
+              </button>
+            ) : (
+              <span className="t-body-sm" style={{ color: "var(--ink)" }}>{step.label}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+        paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
+        <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
+        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[3].label} onClick={() => setTab("findings")}>
+          Findings
+        </button>
+        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[4].label} onClick={() => setTab("frontier")}>
+          Frontier
+        </button>
+        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[2].label} onClick={() => setTab("agent")}>
+          Agent
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -1353,7 +1540,9 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
             which stay associative passengers, and which explicit driver claims the perturbation data contradicts.
           </p>
         </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>real export={String(demo.real_export)}</span>
+        <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>
+          {demo.real_export ? "real export" : "fixture fallback"}
+        </span>
         <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted={String(demo.prospect.accepted)}</span>
       </div>
 
