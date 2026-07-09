@@ -51,6 +51,26 @@ class AcceptanceStore:
         result.setdefault("state_url", f"/state/{state_id}")
         result["accepted"] = False
         result["next"] = "human_signature_required"
+        result.setdefault("created_at", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+        producer = (
+            ((result.get("receipt") or {}).get("producer") or {}).get("name")
+            or result.get("producer")
+            or "external"
+        )
+        normalized = result.get("normalized_input") or {}
+        result["ledger_entry"] = {
+            "state_id": state_id,
+            "state_url": result.get("state_url"),
+            "receipt_id": ((result.get("receipt") or {}).get("receipt_id")),
+            "producer": producer,
+            "created_at": result["created_at"],
+            "input_kind": normalized.get("input_kind") or "unknown",
+            "gene_count": len(normalized.get("genes") or []),
+            "warning_count": len(result.get("warnings") or []),
+            "accepted": False,
+            "next": "human_signature_required",
+            "typed_status_counts": ((result.get("prospect") or {}).get("typed_status_counts") or {}),
+        }
         path = self._state_path(str(state_id))
         tmp = path.with_suffix(".json.tmp")
         payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
@@ -83,7 +103,8 @@ class AcceptanceStore:
                 or "external"
             )
             by_producer[str(producer)] += 1
-            recent.append({
+            entry = dict(result.get("ledger_entry") or {})
+            entry.update({
                 "state_id": result.get("state_id"),
                 "state_url": result.get("state_url"),
                 "receipt_id": ((result.get("receipt") or {}).get("receipt_id")),
@@ -92,6 +113,8 @@ class AcceptanceStore:
                 "next": "human_signature_required",
                 "typed_status_counts": counts,
             })
+            recent.append(entry)
+        recent.sort(key=lambda item: str(item.get("created_at") or ""))
         return {
             "submission_count": len(recent),
             "accepted": False,
@@ -170,6 +193,7 @@ def _read_json(handler: BaseHTTPRequestHandler) -> dict[str, Any]:
 
 def _render_state_page(result: dict[str, Any]) -> str:
     counts = result["prospect"]["typed_status_counts"]
+    ledger = result.get("ledger_entry") or {}
     rows = "\n".join(
         f"<tr><td>{html.escape(v['gene'])}</td><td>{html.escape(v['typed_status'])}</td>"
         f"<td>{html.escape(v.get('condition') or '')}</td><td>{html.escape(str(v.get('n_total_de_genes')))}</td>"
@@ -188,10 +212,11 @@ table {{ border-collapse: collapse; width: 100%; margin-top: 18px; }}
 th, td {{ border-top: 1px solid ButtonBorder; padding: 7px 8px; text-align: left; vertical-align: top; }}
 </style></head>
 <body>
-<p><a href="/">Prospect</a></p>
+<p><a href="/">Prospect</a> · <a href="/ledger">Ledger</a> · <a href="/guide">Run your own claim</a></p>
 <h1>Prospect acceptance result</h1>
 <p>accepted=false. next=human_signature_required. Computation over released data, not wet-lab or clinical truth.</p>
 <p>Receipt: <code>{html.escape(result['receipt']['receipt_id'])}</code></p>
+<p>Producer: <code>{html.escape(str(ledger.get('producer') or 'external'))}</code>. Input kind: <code>{html.escape(str(ledger.get('input_kind') or 'unknown'))}</code>. Genes typed: <code>{html.escape(str(ledger.get('gene_count') or len(result.get('verdicts') or [])))}</code>.</p>
 <div class="chips">
 <span class="chip">{counts['drivers']} drivers</span>
 <span class="chip">{counts['passengers']} associative_only passengers</span>
@@ -207,10 +232,13 @@ def _render_ledger_page(ledger: dict[str, Any]) -> str:
     rows = "\n".join(
         f"<tr><td><a href='{html.escape(item['state_url'])}'>{html.escape(str(item['state_id']))}</a></td>"
         f"<td>{html.escape(str(item['producer']))}</td>"
+        f"<td>{html.escape(str(item.get('input_kind') or 'unknown'))}</td>"
+        f"<td>{html.escape(str(item.get('gene_count') or 0))}</td>"
         f"<td>{html.escape(str((item.get('typed_status_counts') or {}).get('evidence_attached', 0)))}</td>"
         f"<td>{html.escape(str((item.get('typed_status_counts') or {}).get('associative_only', 0)))}</td>"
         f"<td>{html.escape(str((item.get('typed_status_counts') or {}).get('contradicted', 0)))}</td>"
-        f"<td>{html.escape(str((item.get('typed_status_counts') or {}).get('not_assayed', 0)))}</td></tr>"
+        f"<td>{html.escape(str((item.get('typed_status_counts') or {}).get('not_assayed', 0)))}</td>"
+        f"<td>{html.escape(str(item.get('warning_count') or 0))}</td></tr>"
         for item in ledger["recent"]
     )
     counts = ledger["typed_status_counts"]
@@ -224,11 +252,45 @@ table {{ border-collapse: collapse; width: 100%; margin-top: 18px; }}
 th, td {{ border-top: 1px solid ButtonBorder; padding: 7px 8px; text-align: left; vertical-align: top; }}
 </style></head>
 <body>
-<p><a href="/">Prospect</a></p>
+<p><a href="/">Prospect</a> · <a href="/guide">Run your own claim</a> · <a href="/ledger.json">JSON</a></p>
 <h1>Prospect acceptance ledger</h1>
 <p>accepted=false for submitted proposals until frozen replay passes and a human signature accepts state.</p>
 <p>{ledger['submission_count']} submissions. {counts.get('evidence_attached', 0)} evidence_attached, {counts.get('associative_only', 0)} associative_only, {counts.get('contradicted', 0)} contradicted, {counts.get('not_assayed', 0)} not_assayed.</p>
-<table><thead><tr><th>state</th><th>producer</th><th>drivers</th><th>passengers</th><th>contradicted</th><th>not_assayed</th></tr></thead><tbody>{rows}</tbody></table>
+<h2>Recent submissions</h2>
+<table><thead><tr><th>state</th><th>producer</th><th>input</th><th>genes</th><th>drivers</th><th>passengers</th><th>contradicted</th><th>not_assayed</th><th>warnings</th></tr></thead><tbody>{rows}</tbody></table>
+</body></html>"""
+
+
+def _render_guide_page(base_url: str) -> str:
+    base = html.escape(base_url.rstrip("/") or "http://127.0.0.1:8130")
+    return f"""<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Run your own claim through Prospect</title>
+<style>
+body {{ font-family: ui-sans-serif, system-ui, sans-serif; max-width: 920px; margin: 32px auto; padding: 0 18px; color: CanvasText; background: Canvas; }}
+code, pre {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }}
+pre {{ background: Field; border: 1px solid ButtonBorder; border-radius: 6px; padding: 12px; overflow-x: auto; }}
+li {{ margin: 8px 0; }}
+</style></head>
+<body>
+<p><a href="/">Prospect</a> · <a href="/ledger">Ledger</a></p>
+<h1>Run your own claim through Prospect</h1>
+<p>Submit a gene list, signature JSON, ranked markers, or a DE table. Prospect returns typed driver, passenger, contradicted, or not_assayed verdicts, accepted=false, and human_signature_required. Computation over released data, not wet-lab or clinical truth.</p>
+<h2>Paste path</h2>
+<pre>curl -s {base}/submit \\
+  -H 'content-type: application/json' \\
+  -d '{{"source_name":"your_team","filename":"genes.txt","text":"IL7R\\nCCR7\\nPD-1"}}'</pre>
+<p>The response includes <code>state_url</code>. Open that URL to share the result with a collaborator.</p>
+<h2>MCP path</h2>
+<pre>POST {base}/mcp
+{{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{{}}}}</pre>
+<p>Use <code>prospect.acceptance.discover_schema</code>, then <code>prospect.acceptance.submit_artifact</code>, then <code>prospect.acceptance.get_verdict</code>.</p>
+<h2>What the ledger counts</h2>
+<ul>
+<li>Producer identity from <code>source_name</code>.</li>
+<li>Recent shareable state pages.</li>
+<li>Typed breakdown: evidence_attached drivers, associative_only passengers, contradicted driver claims, and not_assayed genes.</li>
+</ul>
 </body></html>"""
 
 
@@ -325,6 +387,7 @@ def _mcp_response(req: dict[str, Any], store: AcceptanceStore, rate_limiter: Rat
                         args["text"],
                         filename=str(args.get("filename") or "submission.txt"),
                         source_name=str(args.get("source_name") or "external"),
+                        base_url=str(args.get("base_url") or ""),
                         claim_context=str(args.get("claim_context") or ""),
                     )
                 else:
@@ -350,6 +413,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/ledger":
             _html_response(self, 200, _render_ledger_page(_store(self).ledger()))
             return
+        if path == "/guide":
+            _html_response(self, 200, _render_guide_page(_host_base_url(self)))
+            return
         if path.startswith("/state/"):
             state_id = path.rsplit("/", 1)[-1]
             if state_id.endswith(".json"):
@@ -369,7 +435,7 @@ class Handler(BaseHTTPRequestHandler):
         _html_response(
             self,
             200,
-            "<h1>Prospect acceptance service</h1><p>POST /submit with text, filename, source_name. Use /mcp for connector tools and /ledger for submitted proposal state.</p>",
+            "<h1>Prospect acceptance service</h1><p>POST /submit with text, filename, source_name. Use /mcp for connector tools and /ledger for submitted proposal state.</p><p><a href='/guide'>Run your own claim through Prospect</a></p>",
         )
 
     def do_POST(self) -> None:
@@ -384,6 +450,7 @@ class Handler(BaseHTTPRequestHandler):
                     str(payload.get("text") or ""),
                     filename=str(payload.get("filename") or "submission.txt"),
                     source_name=str(payload.get("source_name") or "external"),
+                    base_url=_host_base_url(self),
                     claim_context=str(payload.get("claim_context") or ""),
                 )
                 _store_result(result, _store(self))

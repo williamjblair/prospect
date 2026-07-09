@@ -93,6 +93,10 @@ def test_acceptance_store_persists_states_and_public_ledger(tmp_path):
     assert ledger["typed_status_counts"]["evidence_attached"] == 1
     assert ledger["typed_status_counts"]["associative_only"] == 1
     assert ledger["typed_status_counts"]["contradicted"] == 1
+    assert ledger["recent"][0]["producer"] == "external_team"
+    assert ledger["recent"][0]["input_kind"] == "gene_list"
+    assert ledger["recent"][0]["gene_count"] == 3
+    assert reloaded["ledger_entry"]["next"] == "human_signature_required"
 
 
 def test_http_state_survives_restart_and_ledger_is_shareable(tmp_path):
@@ -107,22 +111,40 @@ def test_http_state_survives_restart_and_ledger_is_shareable(tmp_path):
         assert status == 200, text
         result = json.loads(text)
         state_url = result["state_url"]
+        assert state_url.startswith(f"http://127.0.0.1:{port}/state/")
     finally:
         _stop_service(proc)
 
     proc = _start_service(port, tmp_path)
     try:
-        status, page = _get(port, state_url)
+        state_path = "/" + state_url.split("/", 3)[3]
+        status, page = _get(port, state_path)
         assert status == 200
         assert "Prospect acceptance result" in page
         assert "accepted=false" in page
         assert "human_signature_required" in page
+        assert "Producer: <code>external_team</code>" in page
 
         status, ledger_text = _get(port, "/ledger.json")
         assert status == 200
         ledger = json.loads(ledger_text)
         assert ledger["submission_count"] == 1
         assert ledger["typed_status_counts"]["not_assayed"] == 1
+        assert ledger["recent"][0]["state_url"] == state_url
+        assert ledger["recent"][0]["producer"] == "external_team"
+
+        status, ledger_page = _get(port, "/ledger")
+        assert status == 200
+        assert "Prospect acceptance ledger" in ledger_page
+        assert "Recent submissions" in ledger_page
+        assert "external_team" in ledger_page
+        assert "not_assayed" in ledger_page
+
+        status, guide_page = _get(port, "/guide")
+        assert status == 200
+        assert "Run your own claim through Prospect" in guide_page
+        assert f"http://127.0.0.1:{port}/submit" in guide_page
+        assert "prospect.acceptance.submit_artifact" in guide_page
     finally:
         _stop_service(proc)
 
