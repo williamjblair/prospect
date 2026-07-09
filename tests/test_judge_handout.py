@@ -54,6 +54,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "What Prospect proves" in doc
     assert "What remains human-only" in doc
     assert "./prospect verify" in doc
+    assert "./prospect demo-mode --reset" in doc
     assert "/data/disease_genetics_overlay.json" in doc
     assert "/data/lab_packet.json" in doc
     assert "/data/substrate_coverage_report.json" in doc
@@ -65,7 +66,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
     assert "PGGT1B novelty downgraded against prior art" in doc
     assert "18 locked candidates" in doc
-    assert "1 fixed-bar lead (PGGT1B)" in doc
+    assert "1 proposal-only lead worth testing (PGGT1B)" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     # No cut surface leaks back in.
     for cut in ["final_submission_audit", "gladstone_pilot_design", "campaign_challenger", "release_manifest"]:

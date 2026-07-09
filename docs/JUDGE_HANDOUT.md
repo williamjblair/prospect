@@ -24,8 +24,8 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 17 public data artifacts
 - 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
 - Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
-- PGGT1B novelty downgraded against prior art: true, wet-lab protocol minimum donors 3
-- Defended-discovery fixed bar: 18 locked candidates, 1 fixed-bar lead (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
+- PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
+- Defended-discovery fixed bar: 18 locked candidates, 1 proposal-only lead worth testing (PGGT1B), 4 retained independent primary T-cell support, 18 retain RPE1 as not_assayed context
 
 ## Trust boundary
 
@@ -71,6 +71,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 - `./prospect verify`
 - `./prospect submit-pack`
+- `./prospect demo-mode --reset`
 - `./prospect claude-science`
 - `./prospect defended-discovery-endgame-preregister`
 - `./prospect pggt1b-endgame-decision`

@@ -39,6 +39,20 @@ Claude is valuable at proposing, searching, and producing reproducible activity.
 4. Open Agent. Inspect the PGGT1B dossier, novelty downgrade, ChEMBL hook, and wet-lab protocol.
 5. Open Frontier. Inspect the receipt bridge and MCP boundary.
 
+## Demo recording
+
+Start from a clean, deterministic state:
+
+```bash
+./prospect demo-mode --reset
+```
+
+This writes one shareable demo proposal to `var/acceptance_service`, prints the live beats, and keeps the fallback real Claude Science export clearly labeled as a fixture. The storyboard is in [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md).
+
+## Deep technical note
+
+For judges who inspect the trust boundary, use [JUDGE_TECHNICAL_NOTE.md](JUDGE_TECHNICAL_NOTE.md). It covers the typed ladder, the receipt shape, and why model review is not the acceptance step.
+
 ## Commands
 
 ```bash
@@ -48,6 +62,7 @@ python tests/test_skill_parity.py
 python tests/test_marson.py
 python -m pytest tests/ -q
 cd web && npm run build
+./prospect demo-mode --reset
 ./prospect claude-science
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
@@ -64,5 +79,12 @@ cd web && npm run build
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
+
+Acceptance-service public paths after launch:
+
+- `/guide`
+- `/ledger`
+- `/ledger.json`
+- `/state/<state_id>`
 
 Ceiling: computation over released data, not wet-lab or clinical truth.

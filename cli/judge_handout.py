@@ -104,6 +104,7 @@ def build_handout() -> dict[str, Any]:
         "commands": [
             "./prospect verify",
             "./prospect submit-pack",
+            "./prospect demo-mode --reset",
             "./prospect claude-science",
             "./prospect defended-discovery-endgame-preregister",
             "./prospect pggt1b-endgame-decision",
@@ -156,12 +157,12 @@ def _markdown(handout: dict[str, Any]) -> str:
         ),
         f"- Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
         (
-            f"- PGGT1B novelty downgraded against prior art: {str(counts['pggt1b_novelty_downgraded']).lower()}, "
+            f"- PGGT1B novelty downgraded against prior art: {'yes' if counts['pggt1b_novelty_downgraded'] else 'no'}, "
             f"wet-lab protocol minimum donors {counts['pggt1b_wet_lab_minimum_donors']}"
         ),
         (
             f"- Defended-discovery fixed bar: {counts['endgame_candidates']} locked candidates, "
-            f"{counts['endgame_cleared']} fixed-bar lead ({counts['endgame_lead']}), "
+            f"{counts['endgame_cleared']} proposal-only lead worth testing ({counts['endgame_lead']}), "
             f"{counts['endgame_with_t_cell_support']} retained independent primary T-cell support, "
             f"{counts['endgame_rpe1_not_assayed']} retain RPE1 as not_assayed context"
         ),
