@@ -8,6 +8,7 @@ treat them as proposals.
 import json
 import os
 import sys
+from copy import deepcopy
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -49,6 +50,27 @@ def test_validate_receipt_accepts_current_receipt_and_rejects_bad_status():
     bad["status"] = "verified"
     errors = validate_receipt(bad)
     assert any("status" in e for e in errors)
+
+
+def test_receipt_id_binds_every_trust_field(tmp_path):
+    from receipt.emit import emit_all
+
+    receipts = emit_all(outdir=str(tmp_path))
+    receipt = receipts[0].to_dict()
+    assert validate_receipt(receipt) == []
+    mutations = [
+        ("claim", "changed claim"),
+        ("producer", {"kind": "other"}),
+        ("conditions", ["other condition"]),
+        ("verifier", {**receipt["verifier"], "replay": "other command"}),
+        ("replay_metadata", {**receipt["replay_metadata"], "command": "other command"}),
+        ("state_diff", {**receipt["state_diff"], "effect": "other effect"}),
+        ("verdicts", [{"gene": "OTHER", "typed_status": "not_assayed"}]),
+    ]
+    for field, value in mutations:
+        changed = deepcopy(receipt)
+        changed[field] = value
+        assert any("receipt_id" in error for error in validate_receipt(changed)), field
 
 
 if __name__ == "__main__":

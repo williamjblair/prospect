@@ -6,11 +6,11 @@ or moves accepted state.
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import sys
 from typing import Any
 
+from receipt.acceptance_service import proposal_id_for
 from receipt.bridge import contract, manifest, validate_receipt
 from receipt.causal_bridge import submit_bundle
 
@@ -84,7 +84,7 @@ def _call_tool(name: str, args: dict[str, Any]) -> dict[str, Any]:
         if errors:
             return _text_result({"accepted": False, "errors": errors}, True)
         rid = receipt.get("receipt_id", "")
-        proposal_id = "proposal_" + hashlib.sha256(str(rid).encode()).hexdigest()[:16]
+        proposal_id = proposal_id_for(rid)
         return _text_result({
             "accepted": False,
             "proposal_id": proposal_id,
@@ -101,8 +101,7 @@ def _call_tool(name: str, args: dict[str, Any]) -> dict[str, Any]:
         except Exception as exc:
             return _text_result({"accepted": False, "errors": [str(exc)]}, True)
         receipt = packet.get("receipt", {})
-        rid = receipt.get("receipt_id", "")
-        packet["proposal_id"] = "proposal_" + hashlib.sha256(str(rid).encode()).hexdigest()[:16]
+        packet.setdefault("proposal_id", proposal_id_for(str(receipt.get("receipt_id", ""))))
         packet["accepted"] = False
         packet["next"] = "human_signature_required"
         return _text_result(packet)

@@ -79,7 +79,7 @@ Target: `CHEMBL4135`. Caveat: existing compounds and activity rows, not a valida
 
 ## Whole-signature driver/passenger summary
 
-52 genes: 12 `evidence_attached`, 22 `associative_only`, 3 `contradicted`, 15 `not_assayed` in the primary Marson substrate.
+52 genes: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, 15 `not_assayed` in the primary Marson substrate.
 Frozen ORCS primary T-cell context reduces uncovered genes to 5.
 
 ## Wet-lab protocol

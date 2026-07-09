@@ -13,7 +13,7 @@ def test_sade_feldman_signature_reports_contextual_coverage_drop():
     coverage = packet["prospect"]["coverage_report"]
 
     assert coverage["primary_substrate"] == "marson_cd4_activation"
-    assert coverage["routing_reason"] == "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate"
+    assert coverage["routing_reason"] == "the submitter selected this frozen substrate explicitly"
     assert coverage["before"]["not_assayed"] == 15
     assert coverage["after"]["not_assayed"] < coverage["before"]["not_assayed"]
     assert coverage["after"]["not_assayed"] == 5

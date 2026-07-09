@@ -19,14 +19,21 @@
     "required_fields": [
       "artifacts",
       "claim",
+      "conditions",
       "evidence",
       "frontier",
       "kind",
       "producer",
       "receipt_id",
+      "replay_metadata",
       "replayability",
+      "schema_version",
+      "state_diff",
       "status",
       "subject",
+      "submitter_identity",
+      "verdicts",
+      "verification_requirements",
       "verifier"
     ],
     "statuses": [
@@ -67,6 +74,17 @@
           "accepted": false,
           "next": "human signature over an accepted delta"
         }
+      },
+      "prospect.receipt.submit_artifact": {
+        "description": "Submit an external claim bundle or gene list and receive typed causal verdicts. This never moves accepted state by itself.",
+        "input": {
+          "bundle": "external claim bundle"
+        },
+        "output": {
+          "accepted": false,
+          "next": "human_signature_required",
+          "typed_verdicts": "list[dict]"
+        }
       }
     },
     "trust_path": [
@@ -82,12 +100,12 @@
     "signer": "williamblair",
     "receipt_count": 6,
     "receipt_ids": [
-      "rcpt_4b498e298f5a349d",
-      "rcpt_a2adbf2303d4b92c",
-      "rcpt_19d5e07b08f10701",
-      "rcpt_b93886216e70f075",
-      "rcpt_5fc079845283ef6e",
-      "rcpt_9b0c29c407ab05c8"
+      "rcpt_204a55aadad0acb6",
+      "rcpt_3a2cdddb663b96bc",
+      "rcpt_be62837b4fe0d926",
+      "rcpt_0bf5d6bad1e96ea8",
+      "rcpt_aaee46f42e944415",
+      "rcpt_83d76f63a5682657"
     ],
     "replay": "./prospect verify",
     "mcp_command": "./prospect mcp",
@@ -110,6 +128,13 @@
         "step": 3,
         "method": "prospect.receipt.submit",
         "action": "submit the receipt across the boundary",
+        "result": "proposal_only",
+        "accepted": false
+      },
+      {
+        "step": 4,
+        "method": "prospect.receipt.submit_artifact",
+        "action": "submit an external claim bundle for typed causal verdicts",
         "result": "proposal_only",
         "accepted": false
       }
@@ -178,6 +203,32 @@
       },
       "status": "computationally_reproduced",
       "replayability": "exact",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+      ],
+      "verification_requirements": [
+        "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+        "./prospect verify",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "finding_producer",
+        "model": null,
+        "run": "frontier/findings.py"
+      },
+      "replay_metadata": {
+        "command": "./prospect verify",
+        "verifier": "frontier/verify.py",
+        "replayability": "exact",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
       ],
@@ -185,9 +236,11 @@
         "signer": "williamblair",
         "delta_id": "root_a8b0dcdd4024e12f",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_4b498e298f5a349d",
+      "receipt_id": "rcpt_204a55aadad0acb6",
       "accepted": true
     },
     {
@@ -250,6 +303,32 @@
       },
       "status": "contradicted",
       "replayability": "exact",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+      ],
+      "verification_requirements": [
+        "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+        "./prospect verify",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "finding_producer",
+        "model": null,
+        "run": "frontier/findings.py"
+      },
+      "replay_metadata": {
+        "command": "./prospect verify",
+        "verifier": "frontier/verify.py",
+        "replayability": "exact",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
       ],
@@ -257,9 +336,11 @@
         "signer": "williamblair",
         "delta_id": "root_a8b0dcdd4024e12f",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_a2adbf2303d4b92c",
+      "receipt_id": "rcpt_3a2cdddb663b96bc",
       "accepted": true
     },
     {
@@ -319,6 +400,32 @@
       },
       "status": "computationally_reproduced",
       "replayability": "exact",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+      ],
+      "verification_requirements": [
+        "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+        "./prospect verify",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "finding_producer",
+        "model": null,
+        "run": "frontier/findings.py"
+      },
+      "replay_metadata": {
+        "command": "./prospect verify",
+        "verifier": "frontier/verify.py",
+        "replayability": "exact",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
       ],
@@ -326,9 +433,11 @@
         "signer": "williamblair",
         "delta_id": "root_a8b0dcdd4024e12f",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_19d5e07b08f10701",
+      "receipt_id": "rcpt_be62837b4fe0d926",
       "accepted": true
     },
     {
@@ -398,6 +507,32 @@
       },
       "status": "computationally_reproduced",
       "replayability": "exact",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+      ],
+      "verification_requirements": [
+        "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+        "./prospect verify",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "finding_producer",
+        "model": null,
+        "run": "frontier/findings.py"
+      },
+      "replay_metadata": {
+        "command": "./prospect verify",
+        "verifier": "frontier/verify.py",
+        "replayability": "exact",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
       ],
@@ -405,9 +540,11 @@
         "signer": "williamblair",
         "delta_id": "root_a8b0dcdd4024e12f",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_b93886216e70f075",
+      "receipt_id": "rcpt_0bf5d6bad1e96ea8",
       "accepted": true
     },
     {
@@ -471,6 +608,32 @@
       },
       "status": "computationally_reproduced",
       "replayability": "exact",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
+      ],
+      "verification_requirements": [
+        "re-derives every object's content id from frozen fields; 0 drift = EXACT lane",
+        "./prospect verify",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "finding_producer",
+        "model": null,
+        "run": "frontier/findings.py"
+      },
+      "replay_metadata": {
+        "command": "./prospect verify",
+        "verifier": "frontier/verify.py",
+        "replayability": "exact",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "holds in the released Marson CD4+ CRISPRi assay; not a wet-lab or clinical claim"
       ],
@@ -478,9 +641,11 @@
         "signer": "williamblair",
         "delta_id": "root_a8b0dcdd4024e12f",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600"
+        "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "root_a8b0dcdd4024e12f"
       },
-      "receipt_id": "rcpt_5fc079845283ef6e",
+      "receipt_id": "rcpt_aaee46f42e944415",
       "accepted": true
     },
     {
@@ -546,6 +711,33 @@
       },
       "status": "evidence_attached",
       "replayability": "attested",
+      "schema_version": "prospect.receipt.v1",
+      "conditions": [
+        "It has no annotated regulon and is not a known TF, yet its knockdown reshapes thousands of genes only upon stimulation and only in T cells, pointing to an under-appreciated, likely prenylation-mediated regulatory role rather than a housekeeping or canonical T-cell function.",
+        "a hypothesis to test, not an established result"
+      ],
+      "verification_requirements": [
+        "every fact is a deterministic lookup against a released table; the agent cannot assert ungated biology",
+        "./prospect agent",
+        "human_signature_required"
+      ],
+      "state_diff": {
+        "accepted": false,
+        "model_can_apply": false,
+        "effect": "proposal_only_no_state_mutation"
+      },
+      "submitter_identity": {
+        "kind": "autonomous_agent",
+        "model": "claude-opus-4-8",
+        "run": "12 tool calls / 3 rounds"
+      },
+      "replay_metadata": {
+        "command": "./prospect agent",
+        "verifier": "frozen-data tools",
+        "replayability": "attested",
+        "frontier": "prospect_marson_cd4_perturbseq"
+      },
+      "verdicts": [],
       "scope": [
         "It has no annotated regulon and is not a known TF, yet its knockdown reshapes thousands of genes only upon stimulation and only in T cells, pointing to an under-appreciated, likely prenylation-mediated regulatory role rather than a housekeeping or canonical T-cell function.",
         "a hypothesis to test, not an established result"
@@ -554,9 +746,11 @@
         "signer": "williamblair",
         "delta_id": "hyp_0addda00f039f198",
         "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
-        "signature": "59eb0b86c3d7e7f39083d6932e0a36e2f8508dc59623ad82f19a011209d50fc734c744f8e6a8e0391febaf5d52e54844b6faa4d9515cbff91b494825b94e6e0c"
+        "signature": "59eb0b86c3d7e7f39083d6932e0a36e2f8508dc59623ad82f19a011209d50fc734c744f8e6a8e0391febaf5d52e54844b6faa4d9515cbff91b494825b94e6e0c",
+        "attestation_type": "legacy_frontier_root_signature",
+        "covered_root": "hyp_0addda00f039f198"
       },
-      "receipt_id": "rcpt_9b0c29c407ab05c8",
+      "receipt_id": "rcpt_83d76f63a5682657",
       "accepted": true
     }
   ]

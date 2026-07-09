@@ -30,11 +30,7 @@ CAUSAL_RULE = {
     "not_assayed": "absent from the Marson table or no on-target knockdown in any Marson condition",
 }
 
-EXPLICIT_DRIVER_CLAIMS = {
-    "HAVCR2": "TIM-3 is cited as a co-inhibitory receptor regulating T-cell responses.",
-    "LAG3": "LAG-3 is cited as a co-inhibitory receptor and checkpoint target.",
-    "PDCD1": "PD-1 is cited as a central inhibitory checkpoint receptor.",
-}
+CLAIM_MODES = {"associative_signature", "explicit_driver_claim"}
 
 CONDITIONS = ["Rest", "Stim8hr", "Stim48hr"]
 
@@ -93,7 +89,16 @@ def causal_verdicts(
     *,
     marson_path: Path = MARSON_FULL,
     de_table_path: Path | None = None,
+    claim_mode: str = "associative_signature",
+    claim_source: str = "",
+    comparable_readout: bool = True,
+    comparability_status: str | None = None,
 ) -> list[dict[str, Any]]:
+    if claim_mode not in CLAIM_MODES:
+        raise ValueError(f"claim_mode must be one of {sorted(CLAIM_MODES)}")
+    comparability = comparability_status or ("comparable" if comparable_readout else "orthogonal_phenotype")
+    if comparability not in {"comparable", "orthogonal_phenotype", "not_declared"}:
+        raise ValueError("comparability_status must be comparable, orthogonal_phenotype, or not_declared")
     rows = _marson_rows(marson_path)
     de = _de_lookup(de_table_path) if de_table_path else {}
     verdicts: list[dict[str, Any]] = []
@@ -107,7 +112,7 @@ def causal_verdicts(
         condition_rows = [rows[(gene, cond)] for cond in CONDITIONS if (gene, cond) in rows]
         on_target_rows = [row for row in condition_rows if row["ontarget_effect_category"] == "on-target KD"]
         row = max(on_target_rows, key=lambda r: int(r["n_total_de_genes"])) if on_target_rows else None
-        explicit_driver_claim = EXPLICIT_DRIVER_CLAIMS.get(gene, "")
+        explicit_driver_claim = claim_source if claim_mode == "explicit_driver_claim" else ""
         if row is None:
             typed_status = "not_assayed"
             if condition_rows:
@@ -124,18 +129,23 @@ def causal_verdicts(
             if n_de > 10:
                 typed_status = "evidence_attached"
                 reason = f"{gene} has on-target knockdown and moves {_transcripts(n_de)} in {condition}, so Prospect types it as a candidate driver."
-            elif explicit_driver_claim:
+            elif explicit_driver_claim and comparable_readout:
                 typed_status = "contradicted"
                 reason = f"{gene} has an explicit driver claim, but on-target knockdown moves only {_transcripts(n_de)} at strongest effect in {condition}."
             else:
                 typed_status = "associative_only"
-                reason = f"{gene} is in the associative signature, but on-target knockdown moves only {_transcripts(n_de)} at strongest effect in {condition}."
+                if explicit_driver_claim:
+                    reason = f"{gene} has an explicit claim with a non-comparable phenotype, so Prospect keeps the result associative_only rather than contradicted."
+                else:
+                    reason = f"{gene} is in the associative signature, but on-target knockdown moves only {_transcripts(n_de)} at strongest effect in {condition}."
         de_row = de.get(gene, {})
         verdicts.append({
             "gene": gene,
             "signature_roles": roles,
             "typed_status": typed_status,
             "driver_claim": explicit_driver_claim,
+            "claim_mode": claim_mode,
+            "comparability": comparability,
             "condition": condition,
             "n_total_de_genes": n_de,
             "ontarget_effect_category": ontarget,
@@ -174,21 +184,31 @@ def _receipt_from_verdicts(
     artifacts: list[dict[str, str]],
     verdicts: list[dict[str, Any]],
     replay: str,
+    frontier: str = "prospect_marson_cd4_perturbseq",
+    source_label: str = "Marson frozen table",
+    conditions: list[str] | None = None,
+    rule: dict[str, Any] | None = None,
+    request_metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     counts = verdict_counts(verdicts)
-    status = "evidence_attached" if counts["evidence_attached"] else "contradicted"
+    if counts["evidence_attached"] or counts["associative_only"]:
+        status = "evidence_attached"
+    elif counts["contradicted"]:
+        status = "contradicted"
+    else:
+        status = "claimed"
     receipt = Receipt(
-        frontier="prospect_marson_cd4_perturbseq",
+        frontier=frontier,
         claim=claim,
         kind="external_causal_review",
         subject=[v["gene"] for v in verdicts],
         producer=producer,
         artifacts=[Artifact(**a) for a in artifacts],
         evidence=[
-            EvidenceAtom("signature genes typed as candidate drivers", str(counts["drivers"]), "Marson frozen table"),
-            EvidenceAtom("signature genes typed as associative passengers", str(counts["passengers"]), "Marson frozen table"),
-            EvidenceAtom("explicit driver claims contradicted", str(counts["contradicted"]), "Marson frozen table"),
-            EvidenceAtom("genes not assayed comparably", str(counts["not_assayed"]), "Marson frozen table"),
+            EvidenceAtom("signature genes typed as candidate drivers", str(counts["drivers"]), source_label),
+            EvidenceAtom("signature genes typed as associative passengers", str(counts["passengers"]), source_label),
+            EvidenceAtom("explicit driver claims contradicted", str(counts["contradicted"]), source_label),
+            EvidenceAtom("genes not assayed comparably", str(counts["not_assayed"]), source_label),
         ],
         verifier=Verifier(
             name="ProspectCausalReceiptBridge",
@@ -197,7 +217,7 @@ def _receipt_from_verdicts(
         ),
         status=status,
         replayability="exact",
-        conditions=["Rest", "Stim8hr", "Stim48hr", "released Marson DE table", "proposal only"],
+        conditions=conditions or ["Rest", "Stim8hr", "Stim48hr", "released Marson DE table", "proposal only"],
         verification_requirements=[
             "frozen_replay_passes",
             "reviewer_accepts_state_delta",
@@ -207,54 +227,73 @@ def _receipt_from_verdicts(
             "accepted": False,
             "model_can_apply": False,
             "effect": "proposal_only_no_state_mutation",
-            "target": "prospect_marson_cd4_perturbseq",
+            "target": frontier,
         },
         replay_metadata={
             "command": replay,
-            "rule": CAUSAL_RULE,
+            "verifier": "ProspectCausalReceiptBridge",
+            "replayability": "exact",
+            "frontier": frontier,
+            "rule": rule or CAUSAL_RULE,
+            "request": request_metadata or {},
             "ceiling": "Computation over released data, not wet-lab or clinical truth.",
         },
+        verdicts=verdicts,
     ).freeze()
     return receipt.to_dict()
 
 
-def build_claude_science_packet() -> dict[str, Any]:
+def claude_science_submission_request() -> dict[str, Any]:
     signature_path = CLAUDE_EXPORT / "signature_genes.json"
-    cd8_path = CLAUDE_EXPORT / "responder_DE_CD8.csv"
-    all_path = CLAUDE_EXPORT / "responder_DE_all.csv"
     provenance = _read_json(CLAUDE_EXPORT / "provenance.json")
-    signature = _read_json(signature_path)
-    genes = signature_genes(signature)
-    route = choose_route(source_name="Claude Science", filename="signature_genes.json", claim_context="immunotherapy T-cell")
-    verdicts = enrich_verdicts(causal_verdicts(genes, de_table_path=cd8_path), primary_substrate=route["primary_substrate"])
-    counts = verdict_counts(verdicts)
-    coverage = coverage_report(verdicts, route)
     artifacts = [
-        {"name": "signature_genes.json", "sha256": sha256_file(signature_path), "locator": "examples/data/claude_science_real_export/signature_genes.json"},
-        {"name": "responder_DE_CD8.csv", "sha256": sha256_file(cd8_path), "locator": "examples/data/claude_science_real_export/responder_DE_CD8.csv"},
-        {"name": "responder_DE_all.csv", "sha256": sha256_file(all_path), "locator": "examples/data/claude_science_real_export/responder_DE_all.csv"},
-        {"name": "marson_de_full.csv", "sha256": sha256_file(MARSON_FULL), "locator": "examples/data/marson_de_full.csv"},
+        {
+            "name": row["name"],
+            "sha256": row["sha256"],
+            "locator": f"examples/data/claude_science_real_export/{row['name']}",
+        }
+        for row in provenance["artifacts"]
     ]
-    claim = CAUSAL_RULE["claim_under_test"]
-    receipt = _receipt_from_verdicts(
-        producer={
+    artifacts.append({
+        "name": "provenance.json",
+        "sha256": sha256_file(CLAUDE_EXPORT / "provenance.json"),
+        "locator": "examples/data/claude_science_real_export/provenance.json",
+    })
+    return {
+        "input_text": signature_path.read_text(),
+        "filename": signature_path.name,
+        "producer": {
             "kind": "external_workbench",
             "name": "Claude Science",
             "run": "sade_feldman_signature_export",
             "real_export": True,
         },
-        claim=claim,
-        artifacts=artifacts,
-        verdicts=verdicts,
-        replay="python examples/claude_science_connector_client.py --json",
-    )
+        "substrate_id": "marson_cd4_activation",
+        "claim_mode": "associative_signature",
+        "claim_context": {},
+        "citations": ["GSE120575", "Sade-Feldman et al. 2018"],
+        "artifacts": artifacts,
+        "publish_to_ledger": False,
+    }
+
+
+def build_claude_science_packet() -> dict[str, Any]:
+    from receipt.acceptance_service import evaluate_submission
+
+    provenance = _read_json(CLAUDE_EXPORT / "provenance.json")
+    signature = _read_json(CLAUDE_EXPORT / "signature_genes.json")
+    canonical = evaluate_submission(claude_science_submission_request())
+    receipt = canonical["receipt"]
     return {
         "demo_id": "claude_science_acceptance_layer",
         "producer": "claude_science",
         "source_dataset": "Sade-Feldman 2018 melanoma ICB scRNA-seq, GSE120575",
         "real_export": True,
-        "claim_under_test": claim,
-        "causal_rule": CAUSAL_RULE,
+        "accepted": False,
+        "next": "human_signature_required",
+        "proposal_id": canonical["proposal_id"],
+        "claim_under_test": canonical["claim_under_test"],
+        "causal_rule": receipt["replay_metadata"]["rule"],
         "claude_science": {
             "artifact_status": "reproducible_export",
             "internal_review_status": provenance["claude_science_internal_review"]["status"],
@@ -263,20 +302,12 @@ def build_claude_science_packet() -> dict[str, Any]:
             "auc": signature.get("AUC", {}),
         },
         "prospect": {
-            "verifier": "ProspectCausalReceiptBridge",
-            "trust_path": "frozen Marson lookup plus human key",
-            "accepted": False,
-            "next": "human_signature_required",
-            "route": route,
-            "coverage_report": coverage,
-            "typed_status_counts": counts,
-            "receipt_id": receipt["receipt_id"],
-            "proposal_id": "proposal_" + hashlib.sha256(receipt["receipt_id"].encode()).hexdigest()[:16],
-            "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+            **canonical["prospect"],
+            "proposal_id": canonical["proposal_id"],
             "interpretation": "Prospect separates candidate causal drivers from associative passengers. It does not say the response signature is wrong.",
         },
-        "artifacts": artifacts,
-        "verdicts": verdicts,
+        "artifacts": receipt["artifacts"],
+        "verdicts": canonical["verdicts"],
         "receipt": receipt,
         "commands": {
             "claude_science": "python examples/claude_science_connector_client.py --json",
@@ -327,14 +358,19 @@ def build_openresearch_packet() -> dict[str, Any]:
 def submit_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
     case = bundle.get("case", "")
     if isinstance(bundle.get("text"), str):
-        from receipt.acceptance_service import build_submission_result
+        from receipt.acceptance_service import evaluate_submission
 
-        packet = build_submission_result(
-            bundle["text"],
-            filename=str(bundle.get("filename") or "submission.txt"),
-            source_name=str(bundle.get("source_name") or "generic_external"),
-            claim_context=str(bundle.get("claim_context") or ""),
-        )
+        packet = evaluate_submission({
+            "input_text": bundle["text"],
+            "filename": str(bundle.get("filename") or "submission.txt"),
+            "producer": bundle.get("producer") or bundle.get("source_name") or "generic_external",
+            "substrate_id": bundle.get("substrate_id") or "marson_cd4_activation",
+            "claim_mode": bundle.get("claim_mode") or "associative_signature",
+            "claim_context": bundle.get("claim_context") or {},
+            "citations": bundle.get("citations") or [],
+            "artifacts": bundle.get("artifacts") or [],
+            "publish_to_ledger": bool(bundle.get("publish_to_ledger", False)),
+        })
     elif case == "claude_science":
         packet = build_claude_science_packet()
     elif case == "openresearch":

@@ -6,7 +6,7 @@ and submit it as a proposal. Submission never moves accepted state. Accepted
 state still requires the frozen verifier and the human signing path.
 
 The written receipt shape is [RECEIPT_SCHEMA.md](RECEIPT_SCHEMA.md), backed by
-`receipt/receipt_schema_v0.json`.
+`receipt/receipt_schema_v1.json`.
 
 The public submit guide is [RUN_YOUR_OWN_CLAIM.md](RUN_YOUR_OWN_CLAIM.md).
 
@@ -58,8 +58,8 @@ the signature needs independent validation. Prospect does not say the signature
 is wrong. It separates candidate causal drivers from associative passengers by
 checking each gene against its strongest on-target effect across Rest, Stim8hr,
 and Stim48hr in the frozen Marson CRISPRi screen. The pinned result is 52
-submitted genes, 12 drivers typed `evidence_attached`, 22 `associative_only`
-passengers, 3 `contradicted` explicit checkpoint-driver claims, and 15
+submitted genes, 12 drivers typed `evidence_attached`, 25 `associative_only`
+passengers, 0 `contradicted` causal claims, and 15
 `not_assayed` comparably. The connector returns `accepted=false` and
 `next=human_signature_required`.
 
@@ -77,12 +77,12 @@ For arbitrary submissions without stdio setup:
 Then POST a signature JSON, DE CSV, ranked marker table, or plain gene list to
 `/submit`, or call `/mcp` with `prospect.acceptance.submit_artifact`. The service
 returns a receipt, typed driver/passenger/contradicted/not_assayed counts,
-`accepted=false`, `human_signature_required`, and a shareable `/state/<id>`
+`accepted=false`, `human_signature_required`, and a shareable `/proposal/<id>`
 page.
 
 The HTTP MCP endpoint also exposes `prospect.acceptance.discover_schema` and
-`prospect.acceptance.get_verdict`, while retaining
-`prospect.receipt.submit_artifact` as a compatibility alias. Stored states live
+`prospect.acceptance.get_proposal`, while retaining
+`prospect.receipt.submit_artifact` as a compatibility alias. Stored proposals live
 under the configured data directory and the public ledger is available at
 `/ledger.json`.
 

@@ -30,10 +30,10 @@ Every receipt carries:
 - artifact hashes
 - typed evidence atoms
 - replay command
-- state diff showing no model-applied mutation
+- proposed state diff showing no model-applied mutation
 - human signature requirement
 
-The schema lives at `receipt/receipt_schema_v0.json`, and the bridge contract is exported under `/data/receipt_bridge/`.
+The schema lives at `receipt/receipt_schema_v1.json`, and the bridge contract is exported under `/data/receipt_bridge/`.
 
 ## Judge commands
 
@@ -47,4 +47,4 @@ python examples/prospect_connector_client.py --case openresearch --json
 ./prospect demo-mode --reset
 ```
 
-The demo command creates one shareable proposal state through the same acceptance rule the service uses.
+The demo command creates one shareable proposal through the same acceptance rule the service uses.

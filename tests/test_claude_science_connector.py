@@ -11,6 +11,9 @@ EXPORT = ROOT / "examples" / "data" / "claude_science_real_export"
 FRONTIER_SIG = ROOT / "frontier" / "frontier.sig.json"
 RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 
+from receipt.acceptance_service import evaluate_submission
+from receipt.causal_bridge import claude_science_submission_request
+
 
 def _run_json(cmd):
     proc = subprocess.run(
@@ -55,18 +58,20 @@ def test_claude_science_connector_returns_two_typed_directions_and_no_state_writ
     assert summary["next"] == "human_signature_required"
     assert summary["receipt_id"].startswith("rcpt_")
     assert summary["proposal_id"].startswith("proposal_")
+    canonical = evaluate_submission(claude_science_submission_request())
+    assert summary["receipt_id"] == canonical["receipt"]["receipt_id"]
+    assert summary["proposal_id"] == canonical["proposal_id"]
     assert summary["typed_status_counts"] == {
         "genes": 52,
         "drivers": 12,
         "evidence_attached": 12,
-        "passengers": 22,
-        "associative_only": 22,
-        "contradicted": 3,
+        "passengers": 25,
+        "associative_only": 25,
+        "contradicted": 0,
         "not_assayed": 15,
     }
     assert {row["typed_status"] for row in summary["evidence_examples"]} == {"evidence_attached"}
-    assert {row["typed_status"] for row in summary["contradiction_examples"]} == {"contradicted"}
-    assert {row["gene"] for row in summary["contradiction_examples"]} == {"HAVCR2", "LAG3", "PDCD1"}
+    assert summary["contradiction_examples"] == []
     assert {row["typed_status"] for row in summary["passenger_examples"]} == {"associative_only"}
     assert "Computation over released data" in summary["ceiling"]
 

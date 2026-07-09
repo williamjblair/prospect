@@ -26,14 +26,14 @@ It cites the affected claim, carries the executed protocol and assay readout, an
 - Typed status: `independently_reanalyzed`
 - Accepted: `false`
 - State effect: `proposal_only_no_state_mutation`
-- Affected claim: `rcpt_9b0c29c407ab05c8`
+- Affected claim: `rcpt_83d76f63a5682657`
 
 ### refuting
 
 - Typed status: `contradicted`
 - Accepted: `false`
 - State effect: `proposal_only_no_state_mutation`
-- Affected claim: `rcpt_9b0c29c407ab05c8`
+- Affected claim: `rcpt_83d76f63a5682657`
 
 Rebuild:
 

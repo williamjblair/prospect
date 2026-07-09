@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "prospect.receipt.v0",
-  "title": "Prospect Receipt v0",
+  "$id": "prospect.receipt.v1",
+  "title": "Prospect Receipt v1",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -22,11 +22,12 @@
     "status",
     "replayability",
     "state_diff",
+    "verdicts",
     "accepted"
   ],
   "properties": {
     "schema_version": {
-      "const": "prospect.receipt.v0"
+      "const": "prospect.receipt.v1"
     },
     "receipt_id": {
       "type": "string",
@@ -179,7 +180,7 @@
     },
     "state_diff": {
       "type": "object",
-      "required": ["accepted", "model_can_apply", "delta_id", "effect"],
+      "required": ["accepted", "model_can_apply", "effect"],
       "properties": {
         "accepted": {
           "type": "boolean"
@@ -196,6 +197,23 @@
         }
       },
       "additionalProperties": true
+    },
+    "verdicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gene", "typed_status"],
+        "properties": {
+          "gene": {"type": "string", "minLength": 1},
+          "typed_status": {
+            "enum": ["evidence_attached", "associative_only", "contradicted", "not_assayed"]
+          },
+          "comparability": {
+            "enum": ["comparable", "orthogonal_phenotype", "not_declared"]
+          }
+        },
+        "additionalProperties": true
+      }
     },
     "executed_protocol": {
       "type": "object",
@@ -227,7 +245,7 @@
         },
         {
           "type": "object",
-          "required": ["signer", "delta_id", "pubkey", "signature"],
+          "required": ["signer", "delta_id", "pubkey", "signature", "attestation_type", "covered_root"],
           "properties": {
             "signer": {
               "type": "string"
@@ -240,6 +258,13 @@
             },
             "signature": {
               "type": "string"
+            },
+            "attestation_type": {
+              "const": "legacy_frontier_root_signature"
+            },
+            "covered_root": {
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": true

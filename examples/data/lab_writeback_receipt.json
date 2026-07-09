@@ -58,7 +58,7 @@
       },
       "affected_claims": [
         {
-          "receipt_id": "rcpt_9b0c29c407ab05c8",
+          "receipt_id": "rcpt_83d76f63a5682657",
           "gene": "PGGT1B",
           "prior_status": "evidence_attached",
           "prior_claim": "PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor."
@@ -124,7 +124,7 @@
       },
       "affected_claims": [
         {
-          "receipt_id": "rcpt_9b0c29c407ab05c8",
+          "receipt_id": "rcpt_83d76f63a5682657",
           "gene": "PGGT1B",
           "prior_status": "evidence_attached",
           "prior_claim": "PGGT1B (geranylgeranyltransferase-I beta subunit) is a stimulation-gated, cell-type-specific regulator of the CD4+ T-cell activation transcriptome, likely acting upstream via prenylation-dependent signaling rather than as a transcription factor."

@@ -225,7 +225,7 @@
     "status": "prior_art_established_narrowed_claim"
   },
   "orthogonal_public_dataset_count": 10,
-  "packet_id": "pggt1b_defended_50e3f9df85005ba7",
+  "packet_id": "pggt1b_defended_12df7e879a37812f",
   "phase": "rank_1_pggt1b_defended_evidence",
   "pre_registration_id": "prereg_9f31fbf1e6c1cf10",
   "real_world_hook": "ChEMBL has target and activity rows for geranylgeranyl transferase type-1 subunit beta. This is a druggability hook, not a therapeutic claim.",
@@ -251,14 +251,13 @@
         "not_assayed": 15,
         "not_assayed_fraction": 0.2885,
         "typed_status_counts": {
-          "associative_only": 22,
-          "contradicted": 3,
+          "associative_only": 25,
           "evidence_attached": 12,
           "not_assayed": 15
         }
       },
       "primary_substrate": "marson_cd4_activation",
-      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate",
+      "routing_reason": "the submitter selected this frozen substrate explicitly",
       "substrates": {
         "marson_cd4_activation": {
           "covered_genes": 37,
@@ -304,13 +303,13 @@
     "next": "human_signature_required",
     "source": "real Claude Science Sade-Feldman signature export",
     "typed_status_counts": {
-      "associative_only": 22,
-      "contradicted": 3,
+      "associative_only": 25,
+      "contradicted": 0,
       "drivers": 12,
       "evidence_attached": 12,
       "genes": 52,
       "not_assayed": 15,
-      "passengers": 22
+      "passengers": 25
     }
   },
   "scored_evidence": [

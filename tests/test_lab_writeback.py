@@ -9,7 +9,7 @@ DATA = ROOT / "examples" / "data" / "lab_writeback_receipt.json"
 DOC = ROOT / "docs" / "LAB_WRITEBACK_RECEIPT.md"
 FRONTIER = ROOT / "web" / "public" / "data" / "frontier.json"
 SCHEMA_DOC = ROOT / "docs" / "RECEIPT_SCHEMA.md"
-SCHEMA_JSON = ROOT / "receipt" / "receipt_schema_v0.json"
+SCHEMA_JSON = ROOT / "receipt" / "receipt_schema_v1.json"
 
 
 def _packet() -> dict:

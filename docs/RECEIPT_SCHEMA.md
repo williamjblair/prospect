@@ -1,4 +1,4 @@
-# Prospect receipt schema v0
+# Prospect receipt schema v1
 
 Status: `evidence_attached`. This document specifies the portable receipt shape used by Prospect
 producers and adapters.
@@ -14,7 +14,7 @@ transition.
 
 ## Required fields
 
-- `schema_version`: fixed at `prospect.receipt.v0`.
+- `schema_version`: fixed at `prospect.receipt.v1`.
 - `receipt_id`: content-addressed receipt identifier, prefixed with `rcpt_`.
 - `frontier`: the frontier or dataset namespace the receipt targets.
 - `claim`: the claim text carried across the boundary.
@@ -32,6 +32,7 @@ transition.
   `computationally_reproduced`, `independently_reanalyzed`, `contradicted`, or `refuted`.
 - `replayability`: `exact`, `reanalysis`, `attested`, or `none`.
 - `state_diff`: the proposed effect on state. A model can never apply it.
+- `verdicts`: per-gene typed verdicts and comparability fields covered by the receipt id.
 - `accepted`: boolean acceptance marker.
 
 ## Lab writeback fields
@@ -51,18 +52,22 @@ refuting lab result uses status `contradicted` and enters as a new receipt propo
 
 `state_diff` must include:
 
-- `accepted`: whether the receipt already has a human acceptance record.
+- `accepted`: always `false` for the proposal carried by the receipt.
 - `model_can_apply`: always `false`.
-- `delta_id`: the accepted frontier delta if one exists, otherwise empty.
-- `effect`: either existing accepted state or proposal-only no state mutation.
+- `effect`: proposal-only no state mutation.
 
 ## Acceptance rule
 
-A receipt can be structurally valid and still not accepted. Accepted state requires:
+A receipt can be structurally valid and still not accepted. The receipt id covers the complete
+proposal body but excludes later acceptance. A separate acceptance event signs the receipt id and
+root transition. Existing signed findings carry a typed `legacy_frontier_root_signature`
+attestation, which states exactly that the signature covers the frontier root.
+
+Accepted state requires:
 
 - frozen replay passes
 - reviewer accepts a state delta
 - human Ed25519 signature
 
-The JSON Schema is [receipt_schema_v0.json](../receipt/receipt_schema_v0.json). The emitter is pinned
+The JSON Schema is [receipt_schema_v1.json](../receipt/receipt_schema_v1.json). The emitter is pinned
 to it by `tests/test_receipt_schema_spec.py`.

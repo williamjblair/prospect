@@ -18,14 +18,21 @@
   "required_fields": [
     "artifacts",
     "claim",
+    "conditions",
     "evidence",
     "frontier",
     "kind",
     "producer",
     "receipt_id",
+    "replay_metadata",
     "replayability",
+    "schema_version",
+    "state_diff",
     "status",
     "subject",
+    "submitter_identity",
+    "verdicts",
+    "verification_requirements",
     "verifier"
   ],
   "statuses": [
@@ -65,6 +72,17 @@
       "output": {
         "accepted": false,
         "next": "human signature over an accepted delta"
+      }
+    },
+    "prospect.receipt.submit_artifact": {
+      "description": "Submit an external claim bundle or gene list and receive typed causal verdicts. This never moves accepted state by itself.",
+      "input": {
+        "bundle": "external claim bundle"
+      },
+      "output": {
+        "accepted": false,
+        "next": "human_signature_required",
+        "typed_verdicts": "list[dict]"
       }
     }
   },

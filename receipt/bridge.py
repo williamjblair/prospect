@@ -11,6 +11,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from receipt.schema import SCHEMA_VERSION, receipt_id_for
+
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 FRONTIER_SIG = ROOT / "frontier" / "frontier.sig.json"
@@ -26,6 +28,7 @@ STATUSES = {
 }
 REPLAYABILITY = {"exact", "reanalysis", "attested", "none"}
 REQUIRED = {
+    "schema_version",
     "receipt_id",
     "frontier",
     "claim",
@@ -37,6 +40,12 @@ REQUIRED = {
     "verifier",
     "status",
     "replayability",
+    "conditions",
+    "verification_requirements",
+    "state_diff",
+    "submitter_identity",
+    "replay_metadata",
+    "verdicts",
 }
 
 
@@ -55,7 +64,7 @@ def _frontier_sig() -> dict[str, Any]:
 def contract() -> dict[str, Any]:
     """Return the portable receipt contract for external producers."""
     return {
-        "schema_version": "prospect.receipt.v1",
+        "schema_version": SCHEMA_VERSION,
         "frontier": "prospect_marson_cd4_perturbseq",
         "mcp": {
             "transport": "stdio",
@@ -160,6 +169,8 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
     missing = sorted(k for k in REQUIRED if k not in receipt)
     if missing:
         errors.append("missing required fields: " + ", ".join(missing))
+    if receipt.get("schema_version") != SCHEMA_VERSION:
+        errors.append(f"schema_version must be {SCHEMA_VERSION}")
     if receipt.get("status") not in STATUSES:
         errors.append(f"status must be one of {sorted(STATUSES)}")
     if receipt.get("replayability") not in REPLAYABILITY:
@@ -182,6 +193,33 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
         errors.append("accepted receipt requires acceptance")
     if receipt.get("receipt_id") and not str(receipt["receipt_id"]).startswith("rcpt_"):
         errors.append("receipt_id must start with rcpt_")
+    elif receipt.get("receipt_id"):
+        expected = receipt_id_for(receipt)
+        if receipt["receipt_id"] != expected:
+            errors.append(f"receipt_id does not match canonical proposal body: expected {expected}")
+    if not isinstance(receipt.get("conditions"), list):
+        errors.append("conditions must be a list")
+    if not isinstance(receipt.get("verification_requirements"), list) or not receipt.get("verification_requirements"):
+        errors.append("verification_requirements must be a non-empty list")
+    state_diff = receipt.get("state_diff")
+    if not isinstance(state_diff, dict):
+        errors.append("state_diff must be an object")
+    else:
+        if state_diff.get("model_can_apply") is not False:
+            errors.append("state_diff.model_can_apply must be false")
+    if not isinstance(receipt.get("submitter_identity"), dict):
+        errors.append("submitter_identity must be an object")
+    replay = receipt.get("replay_metadata")
+    if not isinstance(replay, dict) or not replay.get("command"):
+        errors.append("replay_metadata.command is required")
+    if not isinstance(receipt.get("verdicts"), list):
+        errors.append("verdicts must be a list")
+    acceptance = receipt.get("acceptance")
+    if acceptance:
+        if acceptance.get("attestation_type") != "legacy_frontier_root_signature":
+            errors.append("existing acceptance must be typed as legacy_frontier_root_signature")
+        if not acceptance.get("covered_root"):
+            errors.append("acceptance.covered_root is required")
     return errors
 
 
@@ -215,3 +253,5 @@ def main(argv: list[str] | None = None) -> None:
 
 if __name__ == "__main__":
     main()
+    if receipt.get("schema_version") != SCHEMA_VERSION:
+        errors.append(f"schema_version must be {SCHEMA_VERSION}")

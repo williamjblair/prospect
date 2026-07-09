@@ -77,10 +77,10 @@ def test_mcp_submit_artifact_accepts_freeform_submission_text():
     assert res["result"]["isError"] is False
     assert payload["accepted"] is False
     assert payload["next"] == "human_signature_required"
-    assert payload["state_url"].startswith("/state/")
+    assert payload["proposal_url"].startswith("/proposal/")
     assert counts["drivers"] == 1
-    assert counts["passengers"] == 1
-    assert counts["contradicted"] == 1
+    assert counts["passengers"] == 2
+    assert counts["contradicted"] == 0
     assert counts["not_assayed"] == 1
 
 
