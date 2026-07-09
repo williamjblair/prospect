@@ -56,7 +56,8 @@ def build_demo_packet(
 
     claude = _load_json("claude_science_acceptance_demo.json")
     pggt = _load_json("pggt1b_defended_evidence.json")
-    discovery = _load_json("discovery_campaign.json")
+    overclaim = _load_json("overclaim_counter.json")
+    correction = _load_json("gse278572_comparator.json")
 
     submission = build_submission_result(
         DEMO_SUBMISSION,
@@ -92,6 +93,32 @@ def build_demo_packet(
                 "artifact": "examples/data/claude_science_acceptance_demo.json",
             },
             {
+                "id": "overclaim_benchmark",
+                "title": "Independent replay catches broad causal overclaims",
+                "status": "contradicted",
+                "counts": {
+                    "comparable_claims": overclaim["counts"]["model_checkable_claims"],
+                    "contradicted": overclaim["counts"]["model_contradicted_claims"],
+                    "rate": overclaim["counts"]["model_contradicted_rate"],
+                    "checkpoint_and_cytokine_rate": overclaim["counts"]["effector_overclaim_rate"],
+                },
+                "command": "./prospect overclaim-counter",
+                "artifact": "examples/data/overclaim_counter.json",
+            },
+            {
+                "id": "med12_correction",
+                "title": "Prospect qualifies its own Rest-reach interpretation",
+                "status": "evidence_attached",
+                "counts": {
+                    "overlap_genes": correction["comparison"]["prospect_overlap"],
+                    "high_rest_genes": correction["finding3_review"]["n_high_rest_genes_in_overlap"],
+                    "qualified": correction["finding3_review"]["n_needs_qualification"],
+                },
+                "subject": correction["finding3_review"]["needs_qualification"],
+                "command": "python frontier/gse278572_comparator.py --check",
+                "artifact": "examples/data/gse278572_comparator.json",
+            },
+            {
                 "id": "pggt1b_hypothesis",
                 "title": "PGGT1B is the one proposal-only lead worth testing",
                 "status": pggt["defended_discovery_status"],
@@ -114,18 +141,6 @@ def build_demo_packet(
                 },
                 "command": "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
             },
-            {
-                "id": "honest_funnel",
-                "title": "The gate refuses most candidates before one caveated lead",
-                "status": "proposal_only",
-                "counts": {
-                    "frontier_genes": discovery["filter_counts"]["frontier_genes"],
-                    "novelty_survivors": discovery["candidate_count"],
-                    "proposal_leads": 1,
-                },
-                "command": "./prospect discovery-campaign",
-                "artifact": "examples/data/discovery_campaign.json",
-            },
         ],
         "ledger": {
             "submission_count": ledger["submission_count"],
@@ -135,8 +150,9 @@ def build_demo_packet(
         "script": [
             "Open Check and start with the acceptance layer, not a standalone analysis.",
             "Show the real Claude Science signature entering as a proposal and getting typed driver, passenger, or not_assayed.",
-            "Open the PGGT1B dossier and state the narrow falsifiable hypothesis.",
             "Paste the demo genes and open the returned shareable result page.",
+            "Show the 48 percent benchmark, then the MED12 correction that qualifies Prospect's own interpretation.",
+            "Open the PGGT1B dossier and state the narrow falsifiable hypothesis.",
             "Open Receipts and close on receipt to proposal to human signature.",
         ],
     }

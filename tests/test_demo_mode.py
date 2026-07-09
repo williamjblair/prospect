@@ -38,11 +38,22 @@ def test_demo_mode_writes_shareable_state_and_live_script(tmp_path):
     assert packet["ceiling"] == "Computation over released data, not wet-lab or clinical truth."
     assert [beat["id"] for beat in packet["beats"]] == [
         "real_claude_science_export",
+        "overclaim_benchmark",
+        "med12_correction",
         "pggt1b_hypothesis",
         "run_your_own_claim",
-        "honest_funnel",
     ]
-    paste = packet["beats"][2]
+    benchmark = packet["beats"][1]
+    assert benchmark["counts"] == {
+        "comparable_claims": 96,
+        "contradicted": 46,
+        "rate": 0.4792,
+        "checkpoint_and_cytokine_rate": 0.6389,
+    }
+    correction = packet["beats"][2]
+    assert correction["subject"] == ["MED12"]
+    assert correction["counts"] == {"overlap_genes": 24, "high_rest_genes": 6, "qualified": 1}
+    paste = packet["beats"][4]
     assert paste["proposal_url"].startswith("http://demo.local/proposal/")
     assert paste["counts"] == {
         "genes": 5,
