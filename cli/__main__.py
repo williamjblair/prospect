@@ -28,6 +28,8 @@
   prospect writeback        build the lab writeback receipt shape
   prospect claude-science   build the real Claude Science acceptance-layer packet
   prospect findings-index   build the scannable finding index
+  prospect demo-mode        run the deterministic judge demo beats and write a shareable demo state
+  prospect demo-reset       clear local acceptance demo states
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
@@ -108,6 +110,10 @@ def main():
         )
     elif cmd == "findings-index":
         from frontier.finding_index import main as finding_index_main; finding_index_main()
+    elif cmd == "demo-mode":
+        from cli.demo_mode import main as demo_mode_main; sys.exit(demo_mode_main(rest))
+    elif cmd == "demo-reset":
+        from cli.demo_mode import reset_main; sys.exit(reset_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
     elif cmd == "submit-pack":

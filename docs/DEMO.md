@@ -4,6 +4,14 @@ Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Recording runbook: [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
 
+Clean deterministic run:
+
+```bash
+./prospect demo-mode --reset
+```
+
+This creates one shareable acceptance-service state in `var/acceptance_service`, prints the exact beats to record, and uses the real Claude Science export fixture if the live Claude Science instance is unavailable.
+
 ## Two-minute version
 
 **0:00, acceptance layer.** Open Overview. Start on the first-screen arc. The claim is not that Prospect is another analysis notebook. It is the acceptance layer for AI-generated biology: activity enters as a receipt, Prospect replays it against frozen released data, and every result stays `accepted=false` until a human key accepts state.
@@ -32,8 +40,10 @@ Recording runbook: [DEMO_RECORDING_RUNBOOK.md](DEMO_RECORDING_RUNBOOK.md)
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 ./prospect claude-science
+./prospect demo-mode --reset
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
+./prospect demo-reset
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --json
 ```

@@ -28,6 +28,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "python examples/claude_science_connector_client.py --json",
         "python examples/prospect_connector_client.py --case openresearch --json",
         "python examples/openresearch_receipt_client.py --json",
+        "./prospect demo-mode --reset",
+        "./prospect demo-reset",
         "./prospect substrate-coverage",
         "./prospect pggt1b-defended-evidence",
         "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
