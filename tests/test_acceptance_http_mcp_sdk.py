@@ -321,9 +321,18 @@ def test_judge_clients_use_official_hosted_connector_for_two_producers(tmp_path)
     port = _free_port()
     process = _start(port, tmp_path)
     url = f"http://127.0.0.1:{port}/mcp"
+    capture_path = tmp_path / "claude_science_connector_run.json"
     try:
         claude = subprocess.run(
-            [sys.executable, str(ROOT / "examples" / "claude_science_connector_client.py"), "--url", url, "--json"],
+            [
+                sys.executable,
+                str(ROOT / "examples" / "claude_science_connector_client.py"),
+                "--url",
+                url,
+                "--capture",
+                str(capture_path),
+                "--json",
+            ],
             cwd=ROOT,
             text=True,
             stdout=subprocess.PIPE,
@@ -345,6 +354,17 @@ def test_judge_clients_use_official_hosted_connector_for_two_producers(tmp_path)
         assert claude_result["transport"] == "streamable_http"
         assert claude_result["proposal_id"] == "proposal_3d6906d35b270017"
         assert claude_result["typed_status_counts"]["genes"] == 52
+        capture = json.loads(capture_path.read_text())
+        capture_body = {key: value for key, value in capture.items() if key != "capture_id"}
+        expected_capture_id = "connector_run_" + __import__("hashlib").sha256(
+            json.dumps(capture_body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+        ).hexdigest()[:16]
+        assert claude_result["capture_id"] == expected_capture_id == capture["capture_id"]
+        assert capture["tool"] == "prospect.acceptance.submit_artifact"
+        assert capture["originating_client"] == "examples/claude_science_connector_client.py"
+        assert capture["originating_claude_science_ui_call"] is False
+        assert capture["response"]["proposal_id"] == claude_result["proposal_id"]
+        assert capture["response"]["accepted"] is False
         assert external_result["transport"] == "streamable_http"
         assert external_result["producer"] == "openresearch_style_bundle"
         assert external_result["typed_status_counts"]["evidence_attached"] == 1

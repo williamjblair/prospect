@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import anyio
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -20,7 +21,7 @@ from receipt.causal_bridge import claude_science_submission_request
 EXPORT = ROOT / "examples" / "data" / "claude_science_real_export"
 
 
-async def _remote_call(url: str) -> tuple[dict[str, Any], list[str], dict[str, Any]]:
+async def _remote_call(url: str, request: dict[str, Any]) -> tuple[dict[str, Any], list[str], dict[str, Any]]:
     async with streamablehttp_client(url) as (read_stream, write_stream, _session_id):
         async with ClientSession(read_stream, write_stream) as session:
             initialized = await session.initialize()
@@ -28,7 +29,7 @@ async def _remote_call(url: str) -> tuple[dict[str, Any], list[str], dict[str, A
             schema = await session.call_tool("prospect.acceptance.discover_schema", {})
             submitted = await session.call_tool(
                 "prospect.acceptance.submit_artifact",
-                claude_science_submission_request(),
+                request,
             )
             if submitted.isError:
                 raise RuntimeError("hosted connector rejected the Claude Science artifact")
@@ -42,12 +43,36 @@ async def _remote_call(url: str) -> tuple[dict[str, Any], list[str], dict[str, A
             )
 
 
-def run(url: str = "") -> dict[str, Any]:
+def _write_capture(path: Path, *, url: str, request: dict[str, Any], response: dict[str, Any]) -> str:
+    body = {
+        "schema_version": "prospect.connector.run.v1",
+        "capture_scope": "prospect_example_client_submission_of_real_claude_science_export",
+        "originating_client": "examples/claude_science_connector_client.py",
+        "originating_claude_science_ui_call": False,
+        "transport": "streamable_http",
+        "endpoint": url,
+        "tool": "prospect.acceptance.submit_artifact",
+        "request": request,
+        "response": response,
+    }
+    encoded = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    capture_id = "connector_run_" + hashlib.sha256(encoded).hexdigest()[:16]
+    payload = {"capture_id": capture_id, **body}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    return capture_id
+
+
+def run(url: str = "", capture_path: Path | None = None) -> dict[str, Any]:
     if url:
-        init, tools, submit = anyio.run(_remote_call, url)
+        request = claude_science_submission_request()
+        init, tools, submit = anyio.run(_remote_call, url, request)
         server = init["server"]
         frontier_root = init["frontier_root"]
+        capture_id = _write_capture(capture_path, url=url, request=request, response=submit) if capture_path else ""
     else:
+        if capture_path:
+            raise ValueError("--capture requires --url so the artifact records an official MCP call")
         client = McpClient()
         try:
             initialized = client.call("initialize")
@@ -68,6 +93,7 @@ def run(url: str = "") -> dict[str, Any]:
         server = initialized["serverInfo"]["name"]
         frontier_root = schema["manifest"]["frontier_root"]
         tools = [tool["name"] for tool in tools_result["tools"]]
+        capture_id = ""
     provenance = json.loads((EXPORT / "provenance.json").read_text())
     counts = submit["prospect"]["typed_status_counts"]
     return {
@@ -81,6 +107,7 @@ def run(url: str = "") -> dict[str, Any]:
         "next": submit["next"],
         "proposal_id": submit["proposal_id"],
         "receipt_id": submit["receipt"]["receipt_id"],
+        "capture_id": capture_id,
         "typed_status_counts": counts,
         "evidence_examples": [
             v for v in submit["verdicts"] if v["typed_status"] == "evidence_attached"
@@ -103,8 +130,9 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="examples/claude_science_connector_client.py")
     parser.add_argument("--json", action="store_true", help="print machine-readable output")
     parser.add_argument("--url", default="", help="official Streamable HTTP MCP endpoint")
+    parser.add_argument("--capture", type=Path, help="write a content-addressed connector run artifact")
     args = parser.parse_args(argv)
-    summary = run(args.url)
+    summary = run(args.url, args.capture)
     if args.json:
         print(json.dumps(summary, indent=2, sort_keys=True))
         return

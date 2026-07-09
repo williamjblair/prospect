@@ -63,6 +63,13 @@ passengers, 0 `contradicted` causal claims, and 15
 `not_assayed` comparably. The connector returns `accepted=false` and
 `next=human_signature_required`.
 
+`examples/data/claude_science_connector_run.json` records one official Streamable HTTP MCP call
+using that real export. Capture `connector_run_055fa6c5da037bc6` contains the complete request and
+proposal response. It remains `accepted=false` and is internal connector evidence, not an accepted
+scientific record or an additional public-site artifact. The caller is Prospect's example client,
+not the authenticated Claude Science UI. Registering the endpoint and originating the call inside
+Claude Science remains a separate manual step.
+
 The OpenResearch-style client constructs a biology-shaped external run bundle,
 replays the VAV1 claim against the Marson checker through the same
 `prospect.receipt.submit_artifact` tool, and submits the resulting receipt as a

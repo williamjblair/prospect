@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLAUDE_CLIENT = ROOT / "examples" / "claude_science_connector_client.py"
 GENERIC_CLIENT = ROOT / "examples" / "prospect_connector_client.py"
 EXPORT = ROOT / "examples" / "data" / "claude_science_real_export"
+CONNECTOR_RUN = ROOT / "examples" / "data" / "claude_science_connector_run.json"
 FRONTIER_SIG = ROOT / "frontier" / "frontier.sig.json"
 RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 
@@ -41,6 +42,29 @@ def test_real_claude_science_export_fixture_hashes_are_pinned():
     for name, sha in expected.items():
         h = hashlib.sha256((EXPORT / name).read_bytes()).hexdigest()
         assert h == sha
+
+
+def test_checked_in_official_mcp_run_is_content_addressed_and_proposal_only():
+    import hashlib
+
+    capture = json.loads(CONNECTOR_RUN.read_text())
+    body = {key: value for key, value in capture.items() if key != "capture_id"}
+    expected = "connector_run_" + hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    ).hexdigest()[:16]
+    response = capture["response"]
+
+    assert capture["capture_id"] == expected
+    assert capture["transport"] == "streamable_http"
+    assert capture["endpoint"] == "https://prospect-acceptance.fly.dev/mcp"
+    assert capture["tool"] == "prospect.acceptance.submit_artifact"
+    assert capture["originating_client"] == "examples/claude_science_connector_client.py"
+    assert capture["originating_claude_science_ui_call"] is False
+    assert response["proposal_id"] == "proposal_3d6906d35b270017"
+    assert response["receipt"]["receipt_id"] == "rcpt_7a2a6b4a3fae9084"
+    assert response["accepted"] is False
+    assert response["next"] == "human_signature_required"
+    assert response["prospect"]["typed_status_counts"]["genes"] == 52
 
 
 def test_claude_science_connector_returns_two_typed_directions_and_no_state_write():
