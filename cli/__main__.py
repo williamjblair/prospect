@@ -37,6 +37,7 @@
   prospect overnight-preregister lock overnight scoring rules before scoring
   prospect overnight-compute run the pre-registered overnight compute program
   prospect exhaustive-compute run the multi-day exhaustive compute program
+  prospect exhaustive-coverage run the Day 2 exhaustive coverage expansion
   prospect survivor-discovery build the three-survivor discovery packet
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
@@ -136,6 +137,8 @@ def main():
         from frontier.overnight_compute import main as overnight_compute_main; sys.exit(overnight_compute_main(rest))
     elif cmd == "exhaustive-compute":
         from frontier.exhaustive_compute import main as exhaustive_compute_main; sys.exit(exhaustive_compute_main(rest))
+    elif cmd == "exhaustive-coverage":
+        from frontier.exhaustive_coverage import main as exhaustive_coverage_main; sys.exit(exhaustive_coverage_main(rest))
     elif cmd == "survivor-discovery":
         from frontier.survivor_discovery import main as survivor_discovery_main; sys.exit(survivor_discovery_main(rest))
     elif cmd == "judge-handout":

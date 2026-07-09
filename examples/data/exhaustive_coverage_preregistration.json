@@ -1,0 +1,39 @@
+{
+  "accepted": false,
+  "anthropic_budget_usd": 0,
+  "checkpoint_contract": {
+    "crash_loss_bound": "at most the current gene lookup",
+    "log_path": "output/exhaustive_coverage/coverage.log",
+    "resume_rule": "resume by loading completed gene symbols and continuing the sorted atlas gene list",
+    "rows_jsonl": "output/exhaustive_coverage/orcs_tcell_gene_rows.jsonl",
+    "snapshot_path": "output/exhaustive_coverage/coverage_snapshot.json",
+    "state_path": "output/exhaustive_coverage/coverage_state.json"
+  },
+  "coverage_rules": {
+    "covered": "NCBI maps the symbol and ORCS returns at least one T-cell filtered row",
+    "mapped_no_tcell_rows": "NCBI maps the symbol but ORCS returns zero T-cell filtered rows",
+    "network_error": "the lookup failed and must be retried before final freezing",
+    "noncoverage_policy": "noncoverage is never a contradiction",
+    "unmapped": "NCBI does not map the symbol to a human gene id"
+  },
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "gene_universe": {
+    "gene_count": 11526,
+    "sha256": "d3171af094de823131ecce0e10a957676f99522d7f689dcb60a97e7ac2251f53",
+    "source": "examples/data/overnight_genome_wide_atlas.json"
+  },
+  "honest_ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "next": "human_signature_required",
+  "no_model_in_trust_path": true,
+  "phase": "exhaustive_coverage_expansion_preregistration",
+  "pre_registered_on": "2026-07-09",
+  "pre_registration_id": "exhaustive_coverage_prereg_941caf798f718e0e",
+  "run_command": "./prospect exhaustive-coverage --phase run --checkpoint-every 100 --rate-limit-seconds 0.25",
+  "source": {
+    "name": "BioGRID ORCS T-cell rows plus NIH NCBI Genes mapping",
+    "ncbi_gene_url": "https://clinicaltables.nlm.nih.gov/api/ncbi_genes/v3/search",
+    "orcs_url": "https://orcs.thebiogrid.org/scripts/datatableTools.php"
+  },
+  "target_scale": "all 11,526 genes in the current frozen atlas",
+  "trust_boundary": "proposal_only"
+}

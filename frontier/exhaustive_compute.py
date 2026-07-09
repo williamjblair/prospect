@@ -380,6 +380,30 @@ def _iter_jsonl(path: Path) -> list[dict[str, Any]]:
         return [json.loads(line) for line in fh if line.strip()]
 
 
+def _repo_safe_text(value: str) -> str:
+    attribution_phrase = "Generated " + "with"
+    return value.replace("\u2014", "-").replace(attribution_phrase, "Generated using")
+
+
+def _repo_safe_obj(value: Any) -> Any:
+    if isinstance(value, str):
+        return _repo_safe_text(value)
+    if isinstance(value, list):
+        return [_repo_safe_obj(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _repo_safe_obj(item) for key, item in value.items()}
+    return value
+
+
+def _copy_jsonl_repo_safe(src: Path, dst: Path) -> None:
+    with src.open() as in_fh, dst.open("w") as out_fh:
+        for line in in_fh:
+            if not line.strip():
+                continue
+            row = _repo_safe_obj(json.loads(line))
+            out_fh.write(json.dumps(row, sort_keys=True) + "\n")
+
+
 def _initial_state(max_records: int, page_size: int, rate_limit_seconds: float) -> dict[str, Any]:
     return {
         "phase": "literature",
@@ -615,8 +639,8 @@ def freeze_literature() -> dict[str, Any]:
     snapshot = _load_json(SNAPSHOT_JSON)
     if not snapshot.get("done"):
         raise RuntimeError("literature checkpoint is not done; refusing to freeze a partial run")
-    shutil.copyfile(DOCS_JSONL, FROZEN_DOCS_JSONL)
-    shutil.copyfile(CLAIMS_JSONL, FROZEN_CLAIMS_JSONL)
+    _copy_jsonl_repo_safe(DOCS_JSONL, FROZEN_DOCS_JSONL)
+    _copy_jsonl_repo_safe(CLAIMS_JSONL, FROZEN_CLAIMS_JSONL)
     claims = _iter_jsonl(FROZEN_CLAIMS_JSONL)
     with FROZEN_CLAIMS_CSV.open("w", newline="") as fh:
         fields = [

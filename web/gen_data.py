@@ -104,6 +104,7 @@ overnight_literature_audit = load("overnight_literature_audit.json")
 overnight_defended_leaderboard = load("overnight_defended_leaderboard.json")
 exhaustive_compute_preregistration = load("exhaustive_compute_preregistration.json")
 exhaustive_literature_audit = load("exhaustive_literature_audit.json")
+exhaustive_coverage_preregistration = load("exhaustive_coverage_preregistration.json")
 survivor_discovery = load("survivor_discovery.json")
 
 citations = load("literature_citations.json")
@@ -251,6 +252,7 @@ data = {
     "public_robustness_fuzz": public_robustness_fuzz,
     "exhaustive_compute_preregistration": exhaustive_compute_preregistration,
     "exhaustive_literature_audit": exhaustive_literature_audit,
+    "exhaustive_coverage_preregistration": exhaustive_coverage_preregistration,
     "survivor_discovery": survivor_discovery,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
@@ -283,6 +285,7 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (overnight_defended_leaderboard, "overnight_defended_leaderboard.json"),
                   (exhaustive_compute_preregistration, "exhaustive_compute_preregistration.json"),
                   (exhaustive_literature_audit, "exhaustive_literature_audit.json"),
+                  (exhaustive_coverage_preregistration, "exhaustive_coverage_preregistration.json"),
                   (survivor_discovery, "survivor_discovery.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))

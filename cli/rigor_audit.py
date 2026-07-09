@@ -22,6 +22,7 @@ PUBLIC_SURFACES = [
     "docs/OVERNIGHT_COMPUTE_REPORT.md",
     "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
     "docs/EXHAUSTIVE_LITERATURE_AUDIT.md",
+    "docs/EXHAUSTIVE_COVERAGE_PREREGISTRATION.md",
     "docs/SURVIVOR_DISCOVERY.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RUN_YOUR_OWN_CLAIM.md",
@@ -98,6 +99,12 @@ TRACEABLE_CLAIMS = [
         "artifact": "/data/exhaustive_literature_audit.json",
         "command": "./prospect exhaustive-compute --phase freeze-literature",
         "surface": "docs/EXHAUSTIVE_LITERATURE_AUDIT.md",
+    },
+    {
+        "claim": "Day 2 coverage expansion is pre-registered before ORCS-scale fetching",
+        "artifact": "/data/exhaustive_coverage_preregistration.json",
+        "command": "./prospect exhaustive-coverage --phase preregister",
+        "surface": "docs/EXHAUSTIVE_COVERAGE_PREREGISTRATION.md",
     },
 ]
 

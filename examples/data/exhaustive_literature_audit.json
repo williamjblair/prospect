@@ -3,18 +3,18 @@
   "artifacts": {
     "claims_csv": {
       "path": "examples/data/exhaustive_literature_claims.csv",
-      "sha256": "5bbb0a9f5c7ee90612b77ac875cbbc60bfa70c81099b21014c2713ceac9ba653"
+      "sha256": "19764bc39ce78ccb0676dc181cef4ce6374f2315fa0b1d4c26dfcaef8e8afa46"
     },
     "claims_jsonl": {
       "path": "examples/data/exhaustive_literature_claims.jsonl",
-      "sha256": "da425bc6466374ac15e0195a8768256a90f790f67f1bf6a60988915ec507ca3e"
+      "sha256": "6149d526a1aa1e4e83e557b3b2477d25751aba25b52247931b0c532bb8c39343"
     },
     "documents_jsonl": {
       "path": "examples/data/exhaustive_literature_documents.jsonl",
-      "sha256": "b00bff0876f6138e00845af71967851015c945938f215c53fe30483be95d9e88"
+      "sha256": "d0b68fa31d933b539b922f5219a32f4d49fa26a09d0bbb306c797ace469221b0"
     }
   },
-  "audit_id": "exhaustive_literature_audit_ab767b7f88088745",
+  "audit_id": "exhaustive_literature_audit_0f320bf477801bdf",
   "claim_count": 5975,
   "configured_stop": 10000,
   "contradiction_rate": 0.2589,

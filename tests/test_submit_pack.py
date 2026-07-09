@@ -38,6 +38,8 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "./prospect exhaustive-compute --phase preregister",
         "./prospect exhaustive-compute --phase freeze-literature",
         "./prospect exhaustive-compute --phase status",
+        "./prospect exhaustive-coverage --phase preregister",
+        "./prospect exhaustive-coverage --phase status",
         "./prospect survivor-discovery",
         "./prospect substrate-coverage",
         "./prospect pggt1b-defended-evidence",
@@ -58,6 +60,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/OVERNIGHT_COMPUTE_REPORT.md",
         "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
         "docs/EXHAUSTIVE_LITERATURE_AUDIT.md",
+        "docs/EXHAUSTIVE_COVERAGE_PREREGISTRATION.md",
         "docs/SURVIVOR_DISCOVERY.md",
         "docs/FINDINGS.md",
         "docs/PROTOCOL.md",
@@ -103,6 +106,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/exhaustive_literature_claims.jsonl",
         "/data/exhaustive_literature_claims.csv",
         "/data/exhaustive_literature_documents.jsonl",
+        "/data/exhaustive_coverage_preregistration.json",
         "/data/survivor_discovery.json",
     ]
 
