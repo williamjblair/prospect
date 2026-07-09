@@ -67,8 +67,9 @@ passengers, 0 `contradicted` causal claims, and 15
 using that real export. Capture `connector_run_055fa6c5da037bc6` contains the complete request and
 proposal response. It remains `accepted=false` and is internal connector evidence, not an accepted
 scientific record or an additional public-site artifact. The caller is Prospect's example client,
-not the authenticated Claude Science UI. Registering the endpoint and originating the call inside
-Claude Science remains a separate manual step.
+not the authenticated Claude Science UI. The live endpoint is registered in the local Claude
+Science instance and attached to its `OPERON` agent, which discovers all four Prospect tools.
+Originating a model-driven tool call inside Claude Science remains a separate budgeted step.
 
 The OpenResearch-style client constructs a biology-shaped external run bundle,
 replays the VAV1 claim against the Marson checker through the same
