@@ -1,0 +1,169 @@
+{
+  "accepted": false,
+  "anthropic_budget_usd": 0,
+  "checkpoint_contract": {
+    "claims_jsonl": "output/exhaustive_compute/literature_claims.jsonl",
+    "crash_loss_bound": "at most the current Europe PMC page or current claim sentence",
+    "documents_jsonl": "output/exhaustive_compute/literature_documents.jsonl",
+    "log_path": "output/exhaustive_compute/run.log",
+    "resume_rule": "resume by loading state, skip existing PMID plus gene plus normalized sentence keys, continue the active cursor",
+    "snapshot_path": "output/exhaustive_compute/literature_audit_snapshot.json",
+    "state_path": "output/exhaustive_compute/literature_state.json"
+  },
+  "day_2_rules": {
+    "atlas_source": "reuse full Marson table and current overnight atlas rows as the baseline",
+    "coverage_expansion": "new public perturbation substrates must be downloaded or API-captured, frozen, sha256-addressed, and reported before they change coverage counts",
+    "noncoverage_rule": "not_assayed is reported, never counted as contradiction"
+  },
+  "day_3_rules": {
+    "candidate_source": "all atlas evidence_attached rows absent from CollecTRI and standard T-cell annotations",
+    "freshness_rule": "if no survivor beyond the known three clears, report that as the result without relabeling the known three as new",
+    "kill_attempts": [
+      "technical_confound",
+      "essentiality_or_proliferation_artifact",
+      "batch_or_donor_effect",
+      "reverse_causality_or_passenger_marker",
+      "better_alternative_mechanism"
+    ],
+    "known_survivor_baseline": [
+      "PGGT1B",
+      "CCDC22",
+      "LETM2"
+    ],
+    "minimum_orthogonal_datasets": 5
+  },
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "gate_commands": [
+    "./prospect verify",
+    "python benchmark/mutation_pack.py",
+    "python tests/test_skill_parity.py",
+    "python tests/test_marson.py",
+    "python -m pytest tests/ -q",
+    "cd web && npm run build"
+  ],
+  "honest_ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "launch_commands": [
+    "./prospect exhaustive-compute --phase literature --max-records 10000 --checkpoint-every 250",
+    "./prospect exhaustive-compute --phase status"
+  ],
+  "literature_audit_rules": {
+    "cd4_context_rule": "title or abstract must mention CD4, helper T, T helper subset, TCR, or a named CD4 subset",
+    "claim_sentence_rule": "title or abstract sentence must contain a mapped gene and a pre-registered driver word",
+    "comparability_rule": "comparable only when the sentence or abstract asserts activation, TCR stimulation, transcriptional program, proliferation, or differentiation in CD4 or helper T-cell context",
+    "contradiction_rule": "contradicted only when comparability is comparable and strongest Marson on-target effect is 10 or fewer DE genes",
+    "dedupe_key": "pmid plus approved gene symbol plus normalized claim sentence",
+    "default_max_records": 10000,
+    "gene_mapping": "frozen Marson symbols plus committed alias map",
+    "page_size": 100,
+    "query_plan": [
+      "CD4 T cell activation regulator",
+      "CD4 T-cell activation regulator",
+      "human CD4 T cell activation regulator",
+      "primary CD4 T cell activation regulator",
+      "CD4 T cell transcriptional regulator activation",
+      "CD4 T cell TCR activation regulator",
+      "TCR stimulated CD4 T cell regulator",
+      "helper T cell activation regulator",
+      "T helper cell activation regulator",
+      "Th1 differentiation regulator CD4 T cell",
+      "Th2 differentiation regulator CD4 T cell",
+      "Th17 differentiation regulator CD4 T cell",
+      "Tfh differentiation regulator CD4 T cell",
+      "Treg activation regulator CD4 T cell",
+      "CD4 T cell proliferation regulator",
+      "CD4 T cell CRISPR screen regulator activation",
+      "CRISPR CD4 T cell regulator activation",
+      "Perturb-seq T cell activation regulator",
+      "single cell CRISPR T cell activation regulator",
+      "CD4 T cell immune synapse regulator",
+      "CD4 T cell signaling regulator activation",
+      "NFAT CD4 T cell activation regulator",
+      "NF-kappaB CD4 T cell activation regulator",
+      "AP-1 CD4 T cell activation regulator",
+      "calcineurin CD4 T cell activation regulator",
+      "costimulation CD4 T cell activation regulator",
+      "CD28 CD4 T cell activation regulator",
+      "IL2 CD4 T cell activation regulator",
+      "checkpoint CD4 T cell activation regulator",
+      "human T cell activation transcriptional regulator CD4"
+    ],
+    "rate_limit_seconds": 0.35,
+    "source": "Europe PMC open API",
+    "support_rule": "evidence_attached only when comparability is comparable and strongest Marson on-target effect is greater than 10 DE genes"
+  },
+  "next": "human_signature_required",
+  "no_model_in_trust_path": true,
+  "phase": "exhaustive_compute_preregistration",
+  "pre_registered_on": "2026-07-09",
+  "pre_registration_id": "exhaustive_prereg_7460abbb6f7337c1",
+  "source_inventory": [
+    {
+      "exists": true,
+      "name": "frontier_signature",
+      "path": "frontier/frontier.sig.json",
+      "role": "signed root reference",
+      "sha256": "64bdb049ebfe0a6730f058919b69f556d19e9ef66adf6b3b7fcf663fe1f684b4"
+    },
+    {
+      "exists": true,
+      "name": "marson_de_full",
+      "path": "examples/data/marson_de_full.csv",
+      "role": "primary causal perturbation substrate",
+      "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+    },
+    {
+      "exists": true,
+      "name": "overnight_atlas",
+      "path": "examples/data/overnight_genome_wide_atlas.json",
+      "role": "current full-gene typed atlas",
+      "sha256": "d3171af094de823131ecce0e10a957676f99522d7f689dcb60a97e7ac2251f53"
+    },
+    {
+      "exists": true,
+      "name": "replogle_k562",
+      "path": "examples/data/replogle_k562_de.csv",
+      "role": "genome-wide non-immune specificity substrate",
+      "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+    },
+    {
+      "exists": true,
+      "name": "replogle_rpe1",
+      "path": "examples/data/replogle_rpe1_de.csv",
+      "role": "sparse non-immune context substrate",
+      "sha256": "fd4e03ea64616f45e3816e07e110badbfe98c313703f1e35372df1a163db3293"
+    },
+    {
+      "exists": true,
+      "name": "collectri",
+      "path": "examples/data/collectri_human.csv",
+      "role": "known regulator novelty exclusion",
+      "sha256": "9e065f57f3da52b12b0b114da4dada6d8b39bb54dbfa405ae2c583d94cde622f"
+    },
+    {
+      "exists": true,
+      "name": "cross_validation_sources",
+      "path": "examples/data/cross_validation_sources.json",
+      "role": "frozen orthogonal source bundle",
+      "sha256": "69d5f5e89f3d10a84003f1c89c8d348425e3c0e09d49c7253594ccf72f61d8d0"
+    },
+    {
+      "exists": true,
+      "name": "disease_overlay",
+      "path": "examples/data/disease_genetics_overlay.json",
+      "role": "disease-context overlay",
+      "sha256": "7955f52c8f019d6786f1d42f633957ce0e19dea8e9daa0319aac80ee51880179"
+    }
+  ],
+  "target_scale": {
+    "gene_atlas": "all 11,526 Marson genes, all Rest, Stim8hr, Stim48hr conditions",
+    "leaderboard": "all novel driver candidates absent from CollecTRI and standard T-cell annotations",
+    "literature_records": "target thousands, stop only at configured max_records or exhausted Europe PMC cursors"
+  },
+  "trust_boundary": "proposal_only",
+  "typed_status_ladder": {
+    "contradicted": "explicit causal activation-driver claim with comparable readout, but Marson on-target perturbation moves 10 or fewer transcripts at strongest effect",
+    "evidence_attached": "comparable causal activation-driver claim and Marson on-target perturbation moves more than 10 transcripts at strongest effect",
+    "not_assayed": "gene is absent from the frozen Marson atlas or lacks comparable on-target coverage",
+    "orthogonal_phenotype": "claim is about cytokine secretion, exhaustion, disease association, immunotherapy response, or another non-comparable readout"
+  }
+}

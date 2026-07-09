@@ -20,6 +20,7 @@ PUBLIC_SURFACES = [
     "docs/PUBLIC_ROBUSTNESS.md",
     "docs/OVERNIGHT_PREREGISTRATION.md",
     "docs/OVERNIGHT_COMPUTE_REPORT.md",
+    "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
     "docs/SURVIVOR_DISCOVERY.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RUN_YOUR_OWN_CLAIM.md",
@@ -84,6 +85,12 @@ TRACEABLE_CLAIMS = [
         "artifact": "/data/survivor_discovery.json",
         "command": "./prospect survivor-discovery",
         "surface": "docs/SURVIVOR_DISCOVERY.md",
+    },
+    {
+        "claim": "multi-day exhaustive compute is pre-registered before scoring",
+        "artifact": "/data/exhaustive_compute_preregistration.json",
+        "command": "./prospect exhaustive-compute --phase preregister",
+        "surface": "docs/EXHAUSTIVE_COMPUTE_PREREGISTRATION.md",
     },
 ]
 
