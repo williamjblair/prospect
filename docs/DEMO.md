@@ -62,6 +62,9 @@ cd web && npm run typecheck && npm run build
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
+python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
+python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json
+python receipt/replay_proposal.py <proposal.json-or-url>
 python examples/claude_science_connector_client.py --json
 python examples/receipt_bridge_client.py --json
 ```

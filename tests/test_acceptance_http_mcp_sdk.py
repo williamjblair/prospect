@@ -120,6 +120,11 @@ async def _exercise_mcp(url: str, request: dict) -> dict:
             assert schema.isError is False
             assert schema.structuredContent["schema_version"] == "prospect.receipt.v1"
             assert schema.structuredContent["accepted_default"] is False
+            assert schema.structuredContent["artifact_hash_policy"] == {
+                "submitted_input": "service_computed",
+                "frozen_substrate": "service_computed",
+                "supplemental_descriptors": "self_declared_until_fetched",
+            }
 
             submitted = await session.call_tool("prospect.acceptance.submit_artifact", request)
             assert submitted.isError is False

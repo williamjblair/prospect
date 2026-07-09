@@ -332,6 +332,11 @@ def _schema_payload() -> dict[str, Any]:
         "accepted_default": False,
         "next": "human_signature_required",
         "producer_identity": "self_declared",
+        "artifact_hash_policy": {
+            "submitted_input": "service_computed",
+            "frozen_substrate": "service_computed",
+            "supplemental_descriptors": "self_declared_until_fetched",
+        },
         "input_shapes": ["signature_json", "de_csv", "ranked_markers", "plain_gene_list"],
         "claim_modes": ["associative_signature", "explicit_driver_claim"],
         "typed_statuses": ["evidence_attached", "associative_only", "contradicted", "not_assayed"],
@@ -445,7 +450,9 @@ Producer: <code>{html.escape(str(producer))}</code>, identity: <code>self_declar
 <span class="chip">{int(counts.get('not_assayed', 0))} not_assayed</span>
 </div>
 <h2>Frozen replay</h2><p><code>{html.escape(str(result.get('replay_command') or ''))}</code></p>
-<h2>Bound artifacts</h2><ul>{artifacts}</ul>
+<h2>Bound artifacts</h2>
+<p>The submitted-input and frozen-substrate hashes are computed by Prospect. Supplemental hash descriptors are self_declared until fetched during human review.</p>
+<ul>{artifacts}</ul>
 <h2>Typed verdicts</h2>
 <table><thead><tr><th>Gene</th><th>Status</th><th>Condition</th><th>DE genes</th><th>Reason</th></tr></thead><tbody>{rows}</tbody></table>
 </body></html>"""
@@ -485,6 +492,7 @@ def _render_guide_page(base_url: str) -> str:
   -H 'content-type: application/json' \\
   -d '{{"producer":"your_team","filename":"genes.txt","input_text":"IL7R\\nCCR7\\nPD-1","claim_mode":"associative_signature","publish_to_ledger":false}}'</pre>
 <p>The response includes an immutable <code>proposal_url</code>. Set <code>publish_to_ledger=true</code> only when the self_declared producer may appear in the public ledger.</p>
+<p>Prospect computes the submitted-input and frozen-substrate hashes. Supplemental hash descriptors remain self_declared until fetched during review.</p>
 <p>Remote MCP endpoint: <code>{base}/mcp</code>. Tools: <code>prospect.acceptance.discover_schema</code>, <code>prospect.acceptance.submit_artifact</code>, and <code>prospect.acceptance.get_proposal</code>.</p>
 </body></html>"""
 

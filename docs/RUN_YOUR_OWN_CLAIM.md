@@ -17,6 +17,9 @@ The response links to a persistent proposal page containing the receipt, replay 
 hashes, typed verdicts, and human acceptance boundary. Producer identity is self-declared. Publish
 to the public ledger only when the submitter consents.
 
+Prospect computes the submitted-input and frozen-substrate hashes. Supplemental hash descriptors
+remain self-declared until fetched during human review.
+
 ## HTTP
 
 ```bash
