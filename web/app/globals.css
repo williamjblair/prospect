@@ -12,22 +12,23 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Prospect: observatory-notebook design tokens.
+  Prospect Lab Console design tokens.
 
-  The palette is "scientific cartography through restraint": warm paper canvas,
-  deep navy ink, brass-gold as kintsugi thread for calibration +
-  focus rings. Cards earn separation from a hairline rule plus a
-  faint cast, not from glow blur.
+  Prospect is an assay console for AI-generated biology claims. The palette is
+  clinical, pale, and data-first: lab glass surfaces, black-blue text, teal for
+  causal-driver evidence, vermilion only for contradicted driver claims, and
+  steel for passengers or unassayed gaps. Receipt mechanics stay available, but
+  the first impression is a working perturbation instrument.
 */
 
 :root {
-  /* Core palette , the Observatory (DESIGN.md). First-light paper (cool, not
-     cream , Hasui's blue hour, never the warm AI-default), cold indigo ink,
-     borrowed gold for the kintsugi seam. oklch throughout; no pure black,
+  /* Core palette , the Lab Console (DESIGN.md). First-light paper (cool, not
+     cream , clean-room's blue hour, never the warm AI-default), cold indigo ink,
+     clinical blue for the assay handoff seam. oklch throughout; no pure black,
      no pure white. */
-  --deep-observatory-navy: #12151b; /* ink-strong: rare maximum-contrast anchor */
+  --deep-console-navy: #12151b; /* ink-strong: rare maximum-contrast anchor */
   --paper-ivory: oklch(97.2% 0.008 248); /* first light , cool atmospheric paper */
-  --brass-gold: oklch(72% 0.13 86); /* the accent , borrowed gold, kept as the soul */
+  --brass-gold: oklch(72% 0.13 86); /* the accent , clinical blue, kept as the soul */
   --signal-cyan: oklch(68.5% 0.04 236); /* winter */
   --field-blue: oklch(45% 0.06 256);
   --terrain-green: oklch(43.5% 0.043 128); /* moss */
@@ -43,7 +44,7 @@
   --cinnabar: oklch(49.5% 0.128 35);
   --plum: oklch(49% 0.07 330); /* a clean 5th categorical hue (a 5th field/series); plum, kept off cinnabar's refutation red */
 
-  /* ── The five semantic state hue families (Observatory components) ──
+  /* ── The five semantic state hue families (Lab Console components) ──
      Three strengths each , solid / tint / line , every one a color-mix
      derivation over the named materials above, oklch-harmonized to paper
      and ink. No new hues enter the system here; dark mode follows the
@@ -71,7 +72,7 @@
 
   /* Canvas graph tokens. Sigma renders through canvas, so these are resolved
      token companions in sRGB syntax while the UI source still reads the
-     Observatory names instead of literals. */
+     Lab Console names instead of literals. */
   --graph-moss: rgb(78 122 68);
   --graph-blue: rgb(74 95 138);
   --graph-stone: rgb(138 130 114);
@@ -82,7 +83,7 @@
   --graph-label: rgb(42 47 58);
   --graph-edge: rgba(18, 21, 27, 0.1);
 
-  /* Hasui ambients , the night-band palette. Twilight indigo replaces the
+  /* clean-room ambients , the dark console palette. Twilight indigo replaces the
      raw hex hero background; snow is the cool surface for archival/stale
      (old reads as temperature, not greyout); lantern is mix-only, a wash
      behind sealed content at <=10%, never a fill; vermilion-bright marks
@@ -120,14 +121,14 @@
   --paper: var(--paper-ivory);
   --paper-raised: oklch(99.2% 0.004 248); /* cool white sheets, lift */
   --paper-recessed: oklch(95.7% 0.007 248); /* cool recessed well */
-  --paper-sumi: oklch(93.2% 0.011 250); /* the observatory frame (shell canvas) */
+  --paper-sumi: oklch(93.2% 0.011 250); /* the lab console frame (shell canvas) */
   --paper-hover: oklch(94.8% 0.008 248);
 
   /* Ink tones (text hierarchy) , indigo, high contrast on near-white. */
   --ink: oklch(25% 0.03 262); /* primary: body ink */
   --ink-2: oklch(43% 0.026 258); /* secondary: metadata */
   --ink-3: oklch(53.5% 0.018 250); /* quiet metadata , 4.76:1 paper / 4.55:1 recessed, the text floor */
-  /* --ink-4 is a NON-TEXT tone (Observatory rule 1.11): dividers,
+  /* --ink-4 is a NON-TEXT tone (Lab Console rule 1.11): dividers,
      sigils, placeholders, disabled glyphs. The old oklch(70% 0.012 250)
      measured ~2.3:1 on recessed paper and read near-grey. Retuned darker
      and held in the cold indigo-ink family (the whole light ink ramp is
@@ -136,9 +137,9 @@
   --ink-4: oklch(62% 0.018 254);
   --ink-on: oklch(99% 0.003 248);
 
-  /* Observatory accent layer: the gold splits into four jobs only ,
+  /* Lab Console accent layer: the gold splits into four jobs only ,
      luminous routing (--brass-gold), readable small labels (--gold-ink),
-     kintsugi hairlines (--gold-line), and the warm wash (--gold-soft:
+     assay handoff hairlines (--gold-line), and the warm wash (--gold-soft:
      selection, active-row wash, masthead glow). Never a second dominant
      color. The rgba grey --rule* holdout died at the Shell Constitution:
      every hairline derives from ink or gold (the never-grey law). */
@@ -170,7 +171,7 @@
   --night-chip-text: var(--gold-soft);
   --night-chip-line: color-mix(in oklab, var(--lantern) 40%, transparent);
 
-  /* Type , the Observatory identity. Space Grotesk is the technical
+  /* Type , the Lab Console identity. Space Grotesk is the technical
      grotesque workhorse (body, UI, headings), aliased onto --font-inter so
      every existing UI binding picks it up. --font-serif is Spectral, the
      editorial-scientific serif for the masthead and theorem prose; math
@@ -191,7 +192,7 @@
   --pillar-energy: var(--brass-gold);
   --pillar-compute: var(--field-blue);
 
-  /* Shadows: observatory depth, not SaaS glow. Cast in cool indigo ink
+  /* Shadows: lab console depth, not SaaS glow. Cast in cool indigo ink
      (hue 258, deep) rather than cold pure black, so a card reads as a sheet
      resting on the cool first-light paper. */
   --shadow-ink: 18% 0.02 258;
@@ -212,12 +213,12 @@
   --radius-xl: 16px;
 
   /* Lacquer: the darkest surface in either theme, the ProofWell ground
-     only (Observatory rule 1.1). A warm sumi-black; text on it is
+     only (Lab Console rule 1.1). A warm sumi-black; text on it is
      --ink-on, accents are --lantern and --gold-soft only. */
   --lacquer: oklch(20% 0.035 260);
 
   /* The row-height unit. Tables, catalogue rows, state rows, stat strips
-     all land on this grid (Observatory rule 1.4). The sidebar's
+     all land on this grid (Lab Console rule 1.4). The top workflow's
      28px rows are the one sanctioned exception. */
   --row-unit: 40px;
 
@@ -254,7 +255,7 @@
   --popover: var(--paper-raised);
   --popover-foreground: var(--ink);
   --primary: var(--brass-gold);
-  --primary-foreground: var(--deep-observatory-navy);
+  --primary-foreground: var(--deep-console-navy);
   --secondary: var(--paper-recessed);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-recessed);
@@ -267,7 +268,7 @@
   --input: var(--rule);
   --ring: var(--brass-gold);
 
-  /* Sidebar surface: shadcn token naming (--sidebar, --sidebar-*).
+  /* top workflow surface: shadcn token naming (--sidebar, --sidebar-*).
      The inset shell: the canvas behind everything is --sidebar
      (paper-sumi, one step below content); the content card floats on it
      as bg-background. Hover and active rows wash in gold-soft, never
@@ -290,9 +291,9 @@
 }
 
 .dark {
-  /* Observatory night: deep prussian indigo, Hasui's blue hour after dark.
+  /* Lab Console night: deep prussian indigo, clean-room's blue hour after dark.
      The neutrals hold real indigo (hue ~258) so night reads as the sky over
-     an observatory, not warm ink on paper. Clean elevation steps; the gold
+     an lab console, not warm ink on paper. Clean elevation steps; the gold
      lantern is the one warm light against the blue. */
   --paper: oklch(17.5% 0.035 258);
   --paper-raised: oklch(21% 0.04 258);
@@ -309,7 +310,7 @@
      here is dark-on-dark on every command well + destructive button. */
   --ink-on: oklch(98% 0.004 248);
 
-  /* On the night sheet, cards cast a deep contact shadow tuned to the
+  /* On the dark sheet, cards cast a deep contact shadow tuned to the
      prussian ground, never warm. */
   --shadow-ink: 6% 0.02 260;
 
@@ -336,8 +337,8 @@
   --graph-label: rgb(201 211 224);
   --graph-edge: rgba(255, 255, 255, 0.12);
 
-  /* Lacquer goes deeper still on the night sheet (the ProofWell stays the
-     darkest surface in both themes, Observatory rule 1.1). */
+  /* Lacquer goes deeper still on the dark sheet (the ProofWell stays the
+     darkest surface in both themes, Lab Console rule 1.1). */
   --lacquer: oklch(11% 0.03 260);
 
   --background: var(--paper);
@@ -347,7 +348,7 @@
   --popover: var(--paper-raised);
   --popover-foreground: var(--ink);
   --primary: var(--brass-gold);
-  --primary-foreground: var(--deep-observatory-navy);
+  --primary-foreground: var(--deep-console-navy);
   --secondary: var(--paper-recessed);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-recessed);
@@ -363,6 +364,121 @@
   --header-border: var(--rule);
 
   color-scheme: dark;
+}
+
+/* Prospect Lab Console override.
+   These variables deliberately supersede the older notebook palette above
+   while preserving token names already used by components and tests. */
+:root {
+  --deep-console-navy: oklch(20% 0.035 245);
+  --paper-ivory: oklch(98.5% 0.006 196);
+  --paper: oklch(98.2% 0.006 198);
+  --paper-raised: oklch(99.5% 0.002 198);
+  --paper-recessed: oklch(96.4% 0.009 198);
+  --paper-sumi: oklch(94.8% 0.012 202);
+  --paper-hover: oklch(95.8% 0.014 196);
+  --ink: oklch(22% 0.035 246);
+  --ink-2: oklch(38% 0.03 246);
+  --ink-3: oklch(50% 0.022 240);
+  --ink-4: oklch(66% 0.016 230);
+  --ink-on: oklch(99% 0.004 198);
+
+  --brass-gold: oklch(58% 0.08 212);
+  --gold-ink: oklch(42% 0.095 212);
+  --gold-line: oklch(76% 0.055 210);
+  --gold-soft: oklch(93.5% 0.025 205);
+  --moss: oklch(48% 0.095 155);
+  --brass: oklch(57% 0.105 82);
+  --winter: oklch(67% 0.06 220);
+  --field-blue: oklch(45% 0.075 232);
+  --stone: oklch(58% 0.018 235);
+  --cinnabar: oklch(51% 0.16 28);
+  --plum: oklch(50% 0.065 292);
+  --risk-ember: var(--cinnabar);
+  --terrain-green: var(--moss);
+  --signal-cyan: var(--winter);
+  --graph-slate: var(--stone);
+
+  --rule-faint: oklch(31% 0.03 240 / 0.06);
+  --rule: oklch(31% 0.03 240 / 0.11);
+  --rule-strong: oklch(31% 0.03 240 / 0.2);
+  --shadow-ink: 20% 0.025 240;
+  --shadow-xs: 0 1px 2px oklch(var(--shadow-ink) / 0.04);
+  --shadow-sm: 0 2px 5px -2px oklch(var(--shadow-ink) / 0.08);
+  --shadow: 0 8px 18px -12px oklch(var(--shadow-ink) / 0.14);
+  --shadow-lg: 0 14px 30px -18px oklch(var(--shadow-ink) / 0.18);
+
+  --lacquer: oklch(24% 0.035 245);
+  --header-bg: color-mix(in oklab, var(--paper-raised) 94%, transparent);
+  --header-border: var(--rule);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--field-blue);
+  --primary-foreground: var(--ink-on);
+  --secondary: var(--paper-recessed);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-recessed);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-recessed);
+  --accent-foreground: var(--ink);
+  --destructive: var(--cinnabar);
+  --destructive-foreground: var(--ink-on);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--field-blue);
+  --radius: 7px;
+  --radius-sm: 5px;
+  --radius-lg: 9px;
+  --radius-xl: 12px;
+}
+
+.dark {
+  --paper: oklch(16.5% 0.025 240);
+  --paper-raised: oklch(20.5% 0.028 240);
+  --paper-recessed: oklch(13.5% 0.024 240);
+  --paper-sumi: oklch(11.5% 0.022 240);
+  --paper-hover: oklch(24% 0.032 240);
+  --ink: oklch(94% 0.01 215);
+  --ink-2: oklch(79% 0.014 220);
+  --ink-3: oklch(64% 0.017 225);
+  --ink-4: oklch(50% 0.018 228);
+  --ink-on: oklch(98% 0.004 198);
+  --moss: oklch(65% 0.1 155);
+  --brass: oklch(72% 0.105 82);
+  --winter: oklch(76% 0.07 220);
+  --field-blue: oklch(72% 0.08 232);
+  --stone: oklch(70% 0.02 235);
+  --cinnabar: oklch(66% 0.16 28);
+  --brass-gold: var(--field-blue);
+  --gold-ink: var(--field-blue);
+  --gold-line: color-mix(in oklab, var(--field-blue) 40%, transparent);
+  --gold-soft: color-mix(in oklab, var(--field-blue) 18%, transparent);
+  --rule-faint: oklch(100% 0 0 / 0.06);
+  --rule: oklch(100% 0 0 / 0.11);
+  --rule-strong: oklch(100% 0 0 / 0.2);
+  --lacquer: oklch(10.5% 0.02 240);
+  --header-bg: color-mix(in oklab, var(--paper-raised) 90%, transparent);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--field-blue);
+  --primary-foreground: oklch(11.5% 0.022 240);
+  --secondary: var(--paper-recessed);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-recessed);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-hover);
+  --accent-foreground: var(--ink);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--field-blue);
 }
 
 @theme inline {
@@ -442,7 +558,7 @@ html {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  /* The observatory frame: the area around and beneath the inset content
+  /* The lab console frame: the area around and beneath the inset content
      card (and any overscroll/rubber-band reveal) shows the shell canvas,
      never a mismatched near-white. */
   background: var(--paper-sumi);
@@ -450,7 +566,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: var(--paper-sumi);
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--paper-raised) 92%, var(--paper-sumi)), var(--paper) 260px),
+    var(--paper);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -461,7 +579,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Typography utilities: atlas observatory style.
+/* Typography utilities: atlas lab console style.
    Source Serif for display + entity names; Inter for UI chrome; mono for code. */
 .h1-display {
   font-family: var(--font-serif), system-ui, sans-serif;
@@ -503,7 +621,7 @@ body {
 
 /* The display voice , the home masthead only. Drama from SIZE, not weight
    (the studio discipline: a restrained 500 weight at a large clamp, tight
-   leading). Spectral, the manuscript serif, at observatory scale. */
+   leading). Spectral, the manuscript serif, at lab console scale. */
 .t-display {
   font-family: var(--font-serif), Georgia, serif;
   font-size: clamp(2.2rem, 5vw, 3.9rem);
@@ -529,7 +647,7 @@ body {
    claims , the workhorse. */
 .t-body {
   font-family: var(--font-inter), system-ui, sans-serif;
-  /* 14px even, the instrument scale (Observatory rule 1.5). */
+  /* 14px even, the instrument scale (Lab Console rule 1.5). */
   font-size: 14px;
   line-height: 1.55;
   letter-spacing: var(--track-text);
@@ -576,7 +694,7 @@ body {
 
 /* The instrument voice: every state row and table cell. JetBrains Mono
    on the 40px grid, contextual alternates off so hashes never ligate
-   (Observatory rule 1.5). */
+   (Lab Console rule 1.5). */
 .t-instrument {
   font-family: var(--font-mono), ui-monospace, "JetBrains Mono", Menlo, monospace;
   font-size: 13px;
@@ -585,7 +703,7 @@ body {
   font-feature-settings: "tnum" 1, "calt" 0;
 }
 
-/* Evidence-type utilities (Observatory rule 1.6). Applied
+/* Evidence-type utilities (Lab Console rule 1.6). Applied
    mechanically: .plate-caption on every figure caption. */
 .plate-caption {
   font-family: var(--font-inter), system-ui, sans-serif;
@@ -615,7 +733,7 @@ body {
 .fz-lg  { font-size: 20px; }
 .fz-xl  { font-size: 28px; }
 
-/* The one shadow in the system (Observatory rule 1.10): the shell
+/* The one shadow in the system (Lab Console rule 1.10): the shell
    content card only. Warm ink, never black, never gold. In dark the card
    keeps only the 1px ring (the cast shadows resolve to transparent
    because --ink there is near-white at low alpha). */
@@ -629,7 +747,7 @@ body {
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 14%, transparent);
 }
 
-/* ── The button system (Observatory components §2.1) ────────────────────
+/* ── The button system (Lab Console components §2.1) ────────────────────
    Every action is a real Button. Four skins, three heights (28/32/40),
    radius 6. Press = deeper tint, NEVER movement , the motion doctrine
    holds. One .btn-primary per page (the adoption gesture, brass: the
@@ -750,7 +868,7 @@ body {
   background: var(--paper);
 }
 
-/* ── The chip recipe (Observatory components §2) ────────────────────────
+/* ── The chip recipe (Lab Console components §2) ────────────────────────
    One tint recipe over a tone custom property; tones come only from the
    named materials. StatusChip bodies must equal the signal's material;
    TagChip tones are taxonomy, never state. Chips are static, 1–2 words. */
@@ -805,7 +923,7 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 }
 
-/* Card surface: raised paper, kintsugi top-edge */
+/* Card surface: raised paper, assay handoff top-edge */
 .card-paper {
   background: var(--card);
   border: 1px solid var(--border);
@@ -1202,6 +1320,39 @@ a:hover > .card-paper {
     font-size: 13.5px;
   }
 
+  .console-topbar {
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .console-brand-sub {
+    white-space: normal;
+  }
+
+  .console-nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .console-nav-item {
+    min-width: max-content;
+    height: 36px;
+  }
+
+  .console-actions {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .console-main {
+    padding: 14px 12px 56px;
+  }
+
   .app-main {
     padding-inline: 1rem;
   }
@@ -1241,29 +1392,29 @@ a:hover > .card-paper {
   }
 }
 
-/* ── Kintsugi seam: print + colorblind safety ──────────────────────────────
+/* ── Assay handoff seam: print + colorblind safety ──────────────────────────────
    The on-screen seam encodes verification state partly by colour (gold =
    machine-sealed). Gold gradients vanish in B&W print and are hard for some
    colourblind viewers, so in print we re-encode each state as a distinct
    BORDER PATTERN (solid / dotted / double / dashed) , state survives without
    colour. !important is required to override the component's inline styles. */
 @media print {
-  .kintsugi-seam {
+  .assay handoff-seam {
     height: 0 !important;
     background: none !important;
     background-image: none !important;
     box-shadow: none !important;
   }
-  .kintsugi-seam[data-seam-state="sealed"] {
+  .assay handoff-seam[data-seam-state="sealed"] {
     border-top: 2px solid #111 !important; /* the seal: solid, firm */
   }
-  .kintsugi-seam[data-seam-state="raw"] {
+  .assay handoff-seam[data-seam-state="raw"] {
     border-top: 1px dotted #999 !important; /* unbound: faint, dotted */
   }
-  .kintsugi-seam[data-seam-state="stone"] {
+  .assay handoff-seam[data-seam-state="stone"] {
     border-top: 2px double #555 !important; /* settled: double rule */
   }
-  .kintsugi-seam[data-seam-state="fracture"] {
+  .assay handoff-seam[data-seam-state="fracture"] {
     border-top: 2px dashed #111 !important; /* break: dashed */
   }
 }
@@ -1298,7 +1449,7 @@ a:hover > .card-paper {
   font-feature-settings: "onum" 1;
 }
 
-/* The GitHub overlay-link (Observatory rule 4.1): a row's title is
+/* The GitHub overlay-link (Lab Console rule 4.1): a row's title is
    the anchor and stretches an invisible ::after over the whole row, so
    the row is clickable while the markup stays valid (no control nested
    in an anchor). Interactive children sit above it with `relative z-10`.
@@ -1310,14 +1461,14 @@ a:hover > .card-paper {
   z-index: 1;
 }
 
-/* Hash anchors land below the sticky chrome (Observatory rule 2.6):
+/* Hash anchors land below the sticky chrome (Lab Console rule 2.6):
    the content scrolls inside #main-content, so scroll-padding lives on
    the container, not html. The offset clears a ruler plus a date head. */
 #main-content {
   scroll-padding-top: 56px;
 }
 
-/* Display math never widens the page (Observatory rule 1.12): a long
+/* Display math never widens the page (Lab Console rule 1.12): a long
    Erdős statement scrolls inside its own block. The math-text component
    wraps every KaTeX display block in .math-scroll; this is the single
    overflow contract for math, replacing the one-off reproduce-line fix. */
@@ -1361,7 +1512,7 @@ a:hover > .card-paper {
   font-variant-numeric: tabular-nums;
 }
 /* The superseded step pairs the 300 weight with the existing seam
-   hairline (kintsugi-seam stone state); nothing extra is drawn here. */
+   hairline (assay handoff-seam stone state); nothing extra is drawn here. */
 
 /* Signal glyphs read at 11px row scale; they are pure geometry, so they
    survive print and colorblindness by SHAPE. In print, force ink. */
@@ -1374,17 +1525,17 @@ a:hover > .card-paper {
   }
 }
 
-/* ── The inset shell (shadcn sidebar, variant="inset") ───────────────────
-   The canvas is --sidebar (paper-sumi); the sidebar floats directly on
+/* ── The inset shell (shadcn top workflow, variant="inset") ───────────────────
+   The canvas is --sidebar (paper-sumi); the top workflow floats directly on
    it with no border of its own; the content is a rounded card
-   (bg-background, one hairline, observatory shadow) with the header
+   (bg-background, one hairline, lab console shadow) with the header
    inside and its own scroll region. Same anatomy as Prospect's
    layout-shell. */
 .peek-panel {
   top: 48px;
 }
 
-/* Row grammar inside the sidebar: hover = faint gold-soft wash, active
+/* Row grammar inside the top workflow: hover = faint gold-soft wash, active
    = stronger wash + full-ink label. No left bars, no bold-on-active. */
 [data-slot="sidebar-menu-button"] {
   transition: background-color 180ms var(--ease), color 180ms var(--ease);
@@ -1428,8 +1579,294 @@ a:hover > .card-paper {
    lets the already-filled content widen , no gutter balloon. Prose stays readable
    via --measure (41.5rem) on its own blocks, never the frame. `.page-wide` is a
    harmless no-op alias on pages that still carry it. */
+.prospect-console {
+  min-height: 100svh;
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--field-blue) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in oklab, var(--field-blue) 6%, transparent) 1px, transparent 1px),
+    var(--paper);
+  background-size: 48px 48px;
+}
+
+.console-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  min-height: 68px;
+  padding: 10px 22px;
+  border-bottom: 1px solid var(--header-border);
+  background: var(--header-bg);
+  backdrop-filter: blur(10px);
+}
+
+.console-brand {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.console-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border: 1px solid color-mix(in oklab, var(--field-blue) 36%, transparent);
+  border-radius: 999px;
+  color: var(--field-blue);
+  background: color-mix(in oklab, var(--field-blue) 8%, var(--paper-raised));
+}
+
+.console-brand-name {
+  display: block;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.console-brand-sub {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-3);
+  font-size: 10.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.console-nav {
+  display: flex;
+  flex: 999 1 360px;
+  gap: 6px;
+  align-items: stretch;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.console-nav-item {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+  min-width: max-content;
+  flex: 1 0 max-content;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--ink-2);
+  background: transparent;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
+}
+
+.console-nav-item svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  color: var(--ink-3);
+}
+
+.console-nav-item:hover {
+  background: color-mix(in oklab, var(--field-blue) 7%, transparent);
+  color: var(--ink);
+}
+
+.console-nav-item[data-active="true"] {
+  border-color: color-mix(in oklab, var(--field-blue) 32%, transparent);
+  background: color-mix(in oklab, var(--field-blue) 10%, var(--paper-raised));
+  color: var(--field-blue);
+}
+
+.console-nav-item[data-active="true"] svg {
+  color: var(--field-blue);
+}
+
+.console-actions {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 260px;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.console-status {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 9px;
+  border: 1px solid color-mix(in oklab, var(--cinnabar) 34%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--cinnabar) 8%, var(--paper-raised));
+  color: var(--cinnabar);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.console-main {
+  width: min(100%, 94rem);
+  max-width: 94rem;
+  margin: 0 auto;
+  padding: 18px 22px 72px;
+}
+
+.console-context-strip {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 34px;
+  margin-bottom: 18px;
+  padding: 7px 10px;
+  border: 1px solid var(--rule-faint);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--paper-raised) 82%, transparent);
+}
+
+.perturbation-matrix {
+  overflow-x: auto;
+  border: 1px solid var(--rule-faint);
+  border-radius: var(--radius-sm);
+  background: var(--paper-raised);
+}
+
+.perturbation-matrix__head,
+.perturbation-matrix__row {
+  display: grid;
+  grid-template-columns: minmax(82px, 0.75fr) repeat(3, minmax(86px, 0.7fr)) minmax(164px, 1fr);
+  min-width: 620px;
+  align-items: center;
+  gap: 8px;
+}
+
+.perturbation-matrix__head {
+  min-height: 34px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+}
+
+.perturbation-matrix__row {
+  min-height: 40px;
+  padding: 0 10px;
+  border-top: 1px solid var(--rule-faint);
+}
+
+.perturbation-matrix__row:first-of-type {
+  border-top: 0;
+}
+
+.perturbation-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 24px;
+  border: 1px solid var(--rule-faint);
+  border-radius: 4px;
+  color: var(--ink-4);
+  background: var(--paper-recessed);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.perturbation-cell[data-active="true"][data-status="evidence_attached"] {
+  color: var(--moss);
+  border-color: color-mix(in oklab, var(--moss) 35%, transparent);
+  background: color-mix(in oklab, var(--moss) 11%, transparent);
+}
+
+.perturbation-cell[data-active="true"][data-status="contradicted"] {
+  color: var(--cinnabar);
+  border-color: color-mix(in oklab, var(--cinnabar) 35%, transparent);
+  background: color-mix(in oklab, var(--cinnabar) 10%, transparent);
+}
+
+.perturbation-cell[data-active="true"][data-status="associative_only"] {
+  color: var(--stone);
+  border-color: color-mix(in oklab, var(--stone) 32%, transparent);
+  background: color-mix(in oklab, var(--stone) 9%, transparent);
+}
+
+.perturbation-cell[data-active="true"][data-status="not_assayed"] {
+  color: var(--ink-3);
+  border-style: dashed;
+}
+
 .app-main {
-  max-width: 78rem;
+  max-width: 94rem;
+}
+
+.card-paper {
+  box-shadow: none;
+}
+
+.card-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background: color-mix(in oklab, var(--field-blue) 26%, transparent);
+  opacity: 0;
+}
+
+.card-paper:focus-within::before,
+.card-paper:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .console-topbar {
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .console-brand-sub {
+    white-space: normal;
+  }
+
+  .console-nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .console-nav-item {
+    min-width: max-content;
+    height: 36px;
+  }
+
+  .console-actions {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .console-main {
+    padding: 14px 12px 56px;
+  }
 }
 
 /* Skeletons (the polish floor): async surfaces rest on paper-recessed,
@@ -1451,7 +1888,7 @@ a:hover > .card-paper {
   height: clamp(220px, 36vh, 360px);
   pointer-events: none;
   /* First light, not a gold glow: a barely-there cool luminance over the
-     masthead , dawn over the observatory. Kept faint so it reads as
+     masthead , dawn over the lab console. Kept faint so it reads as
      atmosphere, never as an AI glow. */
   background: radial-gradient(
     ellipse 70% 100% at 30% 0%,
@@ -1462,7 +1899,7 @@ a:hover > .card-paper {
   z-index: -1;
 }
 
-/* The night room (/chart hero): designed dark, identical in both modes.
+/* The dark room (/chart hero): designed dark, identical in both modes.
    Local re-pin of the material tokens so every figure drawn in CSS vars
    (star cores, labels, rings) resolves luminous on the twilight ground. */
 .night-room {
@@ -1597,7 +2034,7 @@ kbd {
     background: #fff !important;
   }
   /* The inset shell sheds its chrome on EVERY printed page
-     (Observatory rule 2.6.2): the sidebar, header, skip link, and
+     (Lab Console rule 2.6.2): the top workflow, header, skip link, and
      footer machine row go; the provider and the inner scroll region
      unwrap to natural height (window-based print pagination is dead
      inside an overflow:auto container otherwise); the content card drops
@@ -1639,7 +2076,7 @@ kbd {
   }
 }
 
-/* ── Forced colors (Windows High Contrast, Observatory rule 1.12) ────
+/* ── Forced colors (Windows High Contrast, Lab Console rule 1.12) ────
    The ink-percentage hairlines and the gold focus ring vanish under
    forced-colors; restore structure with system colors and real borders,
    and route the focus ring to the system Highlight. */

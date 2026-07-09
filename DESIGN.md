@@ -1,50 +1,47 @@
-# Prospect design system: the Observatory
+# Prospect design system: Lab Console
 
-Scientific cartography through restraint. A cool paper canvas, indigo ink, one borrowed-gold accent
-kept as the soul. Tokens live in `web/app/globals.css`; use them, never raw hex.
+Prospect should feel like a life-sciences instrument for checking AI gene predictions, not a protocol
+ledger. The first read is operational: submit a signature, inspect causal-driver evidence, share a
+typed result. Tokens live in `web/app/globals.css`; use them, never raw hex.
 
-## Color (OKLCH, no pure black/white)
+## Color
 
-- **Canvas:** `--paper` (cool first-light ivory, oklch 97.2% 0.008 248), `--paper-raised`,
-  `--paper-recessed`, `--paper-sumi` (the shell frame). Every step holds a whisper of indigo, never
-  warm grey or cream.
-- **Ink:** `--ink` (indigo body), `--ink-2` (metadata), `--ink-3` (quiet, the text floor at ~4.5:1),
-  `--ink-4` (non-text: dividers, placeholders).
-- **Accent (kintsugi):** `--brass-gold` / `--gold-ink`. Reserved for the seam where provenance
-  changes: the signed root, focus rings, the "Receipt" step. Never decoration, never a CTA glow.
-- **Semantic state hues** (diagrams and status badges only, not brand color): `--moss`
-  (computationally reproduced), `--brass` (open / evidence-attached), `--field-blue` (in-review / transfer),
-  `--cinnabar` (refuted / contradicted), `--stone` (deprecated / neutral). Each has `-tint` (~10%)
-  and `-line` (~35%) derivations.
-- **Dark mode = Hasui night-band:** `--twilight-indigo` grounds, `--lantern` washes sealed content,
-  `--vermilion-bright` marks refutation on dark. Old reads as temperature (`--snow`), not greyout.
+- **Canvas:** pale lab glass surfaces: `--paper`, `--paper-raised`, `--paper-recessed`,
+  `--paper-sumi`. They stay cool and clinical, not parchment, cream, or night-sky.
+- **Ink:** `--ink` for primary black-blue text, `--ink-2` and `--ink-3` for metadata, `--ink-4`
+  for disabled glyphs and quiet dividers.
+- **Action blue:** existing compatibility tokens `--brass-gold`, `--gold-ink`, `--gold-line`,
+  and `--gold-soft` now resolve to the clinical-blue action family. They are used for focus,
+  replay links, and active workflow states.
+- **Typed statuses:** `--moss` for `evidence_attached`, `--stone` for `associative_only`,
+  `--cinnabar` for `contradicted`, and `--ink-3` or dashed steel for `not_assayed`.
 
 ## Type
 
-- **Display:** Spectral (serif) for section titles and the hero. Restraint, editorial.
-- **Sans:** Space Grotesk for headings, labels, UI. `--font-mono` JetBrains Mono for genes, ids,
-  hashes, numbers.
-- Classes: `.h1-display` / `.t-display` (Spectral), `.h2-app`, `.t-lede`, `.t-body` / `.t-body-sm`,
-  `.t-label` (uppercase, tracked), `.t-caption`, `.t-mono`. Fixed rem scale, not fluid.
+- Sans-first product typography. `--font-inter` carries headings, labels, buttons, and prose.
+- Mono is reserved for genes, ids, counts, replay commands, and typed statuses.
+- Display type stays compact. This is a working console, not an editorial landing page.
 
-## Space and rule (ma)
+## Layout
 
-- Spacing ladder `--space-1..12`; the largest interval marks the boundary between a reading zone and
-  an instrument zone (the ma). Vary rhythm, do not pad everything equally.
-- **Rules, not borders:** `--rule-faint` inside a component, `--rule` at its edge, `--rule-strong` at
-  panel boundaries. Gold hairlines only at provenance thresholds. Cards earn separation from a
-  hairline plus a faint cast, never from glow or blur.
+- Top workflow, not a left rail: Check, Genes, Graph, Receipts, Evidence, Lead.
+- The first screen is an assay console: source artifact, Prospect lane, typed counts,
+  perturbation matrix, and result sharing.
+- Dense data belongs in grouped tables with row rules. Do not turn every row into a card.
+- Cards frame major tools only: claim checker, Claude Science panel, evidence inspector.
 
 ## Components
 
-- `.card-paper` (the primary surface, hairline + faint lift), `.chip` (state token, `--tone` var),
-  `.btn` (`.btn-secondary` / `.btn-ghost` / `.btn-sm`), `.stat-figure` (the number), state-row.
-- Shell: shadcn inset Sidebar on `--paper-sumi` with a `SidebarInset` content card; sticky header
-  with a breadcrumb and one search action.
-- Genes, ids, hashes, and DE counts are always mono. Status is always a typed chip in its state hue.
+- `.console-topbar`, `.console-nav`, `.console-main`, and `.console-context-strip` define the shell.
+- `.perturbation-matrix` is the signature visual primitive: rows are genes, columns are conditions,
+  final column is typed status.
+- `.card-paper`, `.chip`, `.btn`, `.state-row`, and `.stat-figure` remain the reusable primitives,
+  retuned to the Lab Console palette.
 
-## Laws for this project
+## Laws
 
-- Cards are not free. Group with rules and negative space before reaching for another `.card-paper`.
-- One accent. Gold is the only non-semantic color, and it is scarce.
-- Numbers carry weight; chrome does not. No gradients, no glows, no glass, no gradient text.
+- Lead with biology work: driver, passenger, contradicted, not_assayed.
+- Keep receipt mechanics available, but never make them the first visual idea.
+- Red is only for earned contradicted driver claims.
+- No cosmic motifs, parchment, gold seams, decorative blobs, gradient heroes, or protocol cosplay.
+- Every strong word traces to a frozen artifact and a replay command.

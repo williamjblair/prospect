@@ -22,11 +22,10 @@ let a skeptical scientist check a claim first, then inspect the replay and human
 
 ## Tone and brand
 
-Restraint. Concrete before abstract. Trust the reader. The visual language is Japanese aesthetics
-(wabi-sabi, kintsugi, ma) meeting scientific cartography: Cajal's line, Hasui's blue hour. A cool
-paper canvas, indigo ink, one borrowed-gold accent kept as the soul (the kintsugi seam at
-thresholds where provenance changes). The instrument should disappear into the science. Numbers
-carry the weight; chrome does not.
+Restraint. Concrete before abstract. Trust the reader. The visual language is a modern life-sciences
+assay console: pale lab-glass surfaces, black-blue ink, clinical-blue actions, teal causal-driver
+evidence, vermilion only for contradicted driver claims, and steel for passengers or unassayed gaps.
+The instrument should disappear into the biology work. Numbers carry the weight; chrome does not.
 
 ## Strategic principles
 
@@ -43,4 +42,5 @@ carry the weight; chrome does not.
 - The AI-tool aesthetic: purple/blue gradients, dark neon glows, glassmorphism, gradient text.
 - The hero-metric template (one giant number over supporting stats with a gradient accent).
 - ML-leaderboard density-for-its-own-sake. We are not a benchmark site; we are a scientific record.
-- Any warmth-by-default cream/beige "premium" palette. The canvas is cool first-light, not cream.
+- Any warmth-by-default cream/beige "premium" palette. The canvas is clinical and cool, not cream.
+- Cosmic, constellation, parchment, gold-seam, or protocol-ledger aesthetics.

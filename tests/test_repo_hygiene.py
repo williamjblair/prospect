@@ -53,7 +53,7 @@ def test_tracked_files_do_not_contain_prior_work_or_weak_status_markers():
     assert not offenders, "\n".join(offenders)
 
 
-def test_observatory_css_does_not_keep_retired_project_vocabulary():
+def test_lab_console_css_does_not_keep_retired_project_vocabulary():
     css = (ROOT / "web" / "app" / "globals.css").read_text()
     retired_terms = [
         "almanac",
@@ -66,13 +66,16 @@ def test_observatory_css_does_not_keep_retired_project_vocabulary():
         "scrub-",
         "star-core",
         "star-ring",
+        "Observatory",
+        "kintsugi",
+        "Hasui",
     ]
 
     offenders = [term for term in retired_terms if term in css]
     assert not offenders, ", ".join(offenders)
 
 
-def test_observatory_css_uses_typed_status_names_not_verified():
+def test_lab_console_css_uses_typed_status_names_not_verified():
     css = (ROOT / "web" / "app" / "globals.css").read_text()
     forbidden = [
         "state-verified",
@@ -84,7 +87,7 @@ def test_observatory_css_uses_typed_status_names_not_verified():
     assert not offenders, ", ".join(offenders)
 
 
-def test_observatory_interaction_motion_uses_deliberate_durations():
+def test_lab_console_interaction_motion_uses_deliberate_durations():
     css = (ROOT / "web" / "app" / "globals.css").read_text()
 
     assert "--transition-fast: 180ms var(--ease);" in css
@@ -93,7 +96,7 @@ def test_observatory_interaction_motion_uses_deliberate_durations():
     assert "transition: background-color 180ms var(--ease), color 180ms var(--ease);" in css
 
 
-def test_react_ui_uses_observatory_tokens_not_raw_hex():
+def test_react_ui_uses_lab_console_tokens_not_raw_hex():
     offenders: list[str] = []
     for path in [
         ROOT / "web" / "app" / "page.tsx",
@@ -110,8 +113,8 @@ def test_react_ui_uses_observatory_tokens_not_raw_hex():
 if __name__ == "__main__":
     test_tracked_files_do_not_contain_em_dash_or_attribution_footer()
     test_tracked_files_do_not_contain_prior_work_or_weak_status_markers()
-    test_observatory_css_does_not_keep_retired_project_vocabulary()
-    test_observatory_css_uses_typed_status_names_not_verified()
-    test_observatory_interaction_motion_uses_deliberate_durations()
-    test_react_ui_uses_observatory_tokens_not_raw_hex()
+    test_lab_console_css_does_not_keep_retired_project_vocabulary()
+    test_lab_console_css_uses_typed_status_names_not_verified()
+    test_lab_console_interaction_motion_uses_deliberate_durations()
+    test_react_ui_uses_lab_console_tokens_not_raw_hex()
     print("PASS: repo hygiene")

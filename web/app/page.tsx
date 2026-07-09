@@ -5,11 +5,6 @@ import {
   LayoutGrid, Rows3, Share2, Waypoints, Telescope, Search, ShieldCheck, ExternalLink, Bot,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import {
-  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
-  SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
-  SidebarProvider, SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { GraphView } from "@/components/graph-view";
 
@@ -568,59 +563,48 @@ export default function Page() {
   const goSearch = () => { setTab("atlas"); setTimeout(() => document.getElementById("gene-search")?.focus(), 60); };
 
   return (
-    <SidebarProvider>
-      <Sidebar variant="inset">
-        <SidebarHeader>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 8px" }}>
-            <span style={{ width: 9, height: 9, borderRadius: 999, background: "var(--brass-gold)",
-              boxShadow: "0 0 0 3px color-mix(in oklab, var(--brass-gold) 22%, transparent)" }} />
-            <span className="h2-app" style={{ fontSize: 15 }}>Prospect</span>
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {NAV.map((n) => {
-                  const Icon = n.icon;
-                  return (
-                    <SidebarMenuItem key={n.k}>
-                      <SidebarMenuButton isActive={tab === n.k} tooltip={n.label}
-                        onClick={() => setTab(n.k)} className="h-8 fz-sm">
-                        <Icon aria-hidden strokeWidth={1.75} />
-                        <span className="min-w-0 flex-1 truncate">{n.label}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 6px" }}>
-            <span className="t-caption" style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-              <ShieldCheck size={13} style={{ color: "var(--moss)" }} /> {d ? "frozen gate" : "frozen"}
-            </span>
-            <ThemeToggle />
-          </div>
-        </SidebarFooter>
-      </Sidebar>
-
-      <SidebarInset>
-        <header style={{ display: "flex", alignItems: "center", gap: 10, height: 48, padding: "0 16px",
-          borderBottom: "1px solid var(--header-border)", position: "sticky", top: 0, zIndex: 20,
-          background: "color-mix(in oklab, var(--header-bg) 88%, transparent)", backdropFilter: "blur(8px)" }}>
-          <SidebarTrigger className="btn btn-ghost btn-sm" />
-          <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>Prospect</span>
-          <span className="t-body-sm" style={{ color: "var(--ink-4)" }}>/</span>
-          <span className="t-body-sm" style={{ color: "var(--ink)", fontWeight: 600 }}>{label}</span>
-          <button onClick={goSearch} className="btn btn-secondary btn-sm" style={{ marginLeft: "auto" }}>
+    <div className="prospect-console">
+      <header className="console-topbar" aria-label="Prospect workflow">
+        <div className="console-brand">
+          <span className="console-mark"><ShieldCheck size={15} aria-hidden /></span>
+          <span>
+            <span className="console-brand-name">Prospect</span>
+            <span className="console-brand-sub">Computation over released data, not wet-lab truth.</span>
+          </span>
+        </div>
+        <nav className="console-nav" aria-label="Main sections">
+          {NAV.map((n) => {
+            const Icon = n.icon;
+            return (
+              <button
+                key={n.k}
+                type="button"
+                className="console-nav-item"
+                data-active={tab === n.k ? "true" : "false"}
+                aria-current={tab === n.k ? "page" : undefined}
+                onClick={() => setTab(n.k)}
+              >
+                <Icon aria-hidden strokeWidth={1.75} />
+                <span>{n.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+        <div className="console-actions">
+          <span className="console-status">accepted=false</span>
+          <button onClick={goSearch} className="btn btn-secondary btn-sm">
             <Search /> <span className="fz-xs">Search a gene</span>
           </button>
-        </header>
+          <ThemeToggle />
+        </div>
+      </header>
 
-        <main className="app-main" style={{ padding: "26px 28px 72px", maxWidth: "78rem", width: "100%", margin: "0 auto" }}>
+      <main className="app-main console-main">
+        <div className="console-context-strip">
+          <span className="t-label">{label}</span>
+          <span className="t-mono">root_a8b0dcdd4024e12f</span>
+          <span className="t-caption">human_signature_required before acceptance</span>
+        </div>
           {err ? (
             <div style={{ display: "grid", gap: 8, maxWidth: "48ch", paddingTop: 40 }}>
               <div className="h2-app">The frozen evidence did not load.</div>
@@ -651,11 +635,10 @@ export default function Page() {
               {tab === "agent" && <AgentView d={d} onGene={setGene} />}
             </>
           )}
-        </main>
-      </SidebarInset>
+      </main>
 
       {node && d && <Peek node={node} d={d} onClose={() => setGene(null)} />}
-    </SidebarProvider>
+    </div>
   );
 }
 
@@ -1313,6 +1296,8 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
         <VerdictExample title="not_assayed" tone="var(--stone)" rows={examples.open} />
       </div>
 
+      <PerturbationMatrix rows={demo.verdicts.slice(0, 12)} />
+
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
         <span className="t-label">judge commands</span>
         <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
@@ -1324,6 +1309,39 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
         <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open audit trail</button>
       </div>
     </section>
+  );
+}
+
+function PerturbationMatrix({ rows }: { rows: ClaudeScienceAcceptanceDemo["verdicts"] }) {
+  const conditions = ["Rest", "Stim8hr", "Stim48hr"];
+  return (
+    <div className="perturbation-matrix">
+      <div className="perturbation-matrix__head">
+        <span>gene</span>
+        {conditions.map((condition) => <span key={condition}>{condition}</span>)}
+        <span>typed status</span>
+      </div>
+      {rows.map((row) => (
+        <div key={`${row.gene}-${row.typed_status}`} className="perturbation-matrix__row">
+          <span className="t-mono">{row.gene}</span>
+          {conditions.map((condition) => {
+            const active = row.condition === condition;
+            const silent = row.n_total_de_genes == null || row.n_total_de_genes <= 10;
+            return (
+              <span
+                key={condition}
+                className="perturbation-cell"
+                data-active={active ? "true" : "false"}
+                data-status={active ? row.typed_status : silent ? "not_assayed" : "associative_only"}
+              >
+                {active ? row.n_total_de_genes ?? "na" : "·"}
+              </span>
+            );
+          })}
+          <span className="chip" style={{ ["--tone" as any]: statusTone(row.typed_status) }}>{row.typed_status}</span>
+        </div>
+      ))}
+    </div>
   );
 }
 
