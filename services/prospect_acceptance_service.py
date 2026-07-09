@@ -328,6 +328,7 @@ def _schema_payload() -> dict[str, Any]:
     return {
         "name": "Prospect receipt v1 acceptance service",
         "schema_version": "prospect.receipt.v1",
+        "signed_root": "root_a8b0dcdd4024e12f",
         "accepted_default": False,
         "next": "human_signature_required",
         "producer_identity": "self_declared",

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import anyio
 import json
 import sys
 from pathlib import Path
@@ -12,33 +13,70 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from examples.receipt_bridge_client import McpClient
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
+from receipt.causal_bridge import claude_science_submission_request
+
+EXPORT = ROOT / "examples" / "data" / "claude_science_real_export"
 
 
-def run() -> dict[str, Any]:
-    client = McpClient()
-    try:
-        init = client.call("initialize")
-        tools_result = client.call("tools/list")
-        schema = client.call(
-            "tools/call",
-            {"name": "prospect.receipt.schema", "arguments": {}},
-        )["structuredContent"]
-        submit = client.call(
-            "tools/call",
-            {
-                "name": "prospect.receipt.submit_artifact",
-                "arguments": {"bundle": {"case": "claude_science"}},
-            },
-        )["structuredContent"]
-    finally:
-        client.close()
+async def _remote_call(url: str) -> tuple[dict[str, Any], list[str], dict[str, Any]]:
+    async with streamablehttp_client(url) as (read_stream, write_stream, _session_id):
+        async with ClientSession(read_stream, write_stream) as session:
+            initialized = await session.initialize()
+            tools = await session.list_tools()
+            schema = await session.call_tool("prospect.acceptance.discover_schema", {})
+            submitted = await session.call_tool(
+                "prospect.acceptance.submit_artifact",
+                claude_science_submission_request(),
+            )
+            if submitted.isError:
+                raise RuntimeError("hosted connector rejected the Claude Science artifact")
+            return (
+                {
+                    "server": initialized.serverInfo.name,
+                    "frontier_root": schema.structuredContent["signed_root"],
+                },
+                [tool.name for tool in tools.tools],
+                submitted.structuredContent,
+            )
+
+
+def run(url: str = "") -> dict[str, Any]:
+    if url:
+        init, tools, submit = anyio.run(_remote_call, url)
+        server = init["server"]
+        frontier_root = init["frontier_root"]
+    else:
+        client = McpClient()
+        try:
+            initialized = client.call("initialize")
+            tools_result = client.call("tools/list")
+            schema = client.call(
+                "tools/call",
+                {"name": "prospect.receipt.schema", "arguments": {}},
+            )["structuredContent"]
+            submit = client.call(
+                "tools/call",
+                {
+                    "name": "prospect.receipt.submit_artifact",
+                    "arguments": {"bundle": {"case": "claude_science"}},
+                },
+            )["structuredContent"]
+        finally:
+            client.close()
+        server = initialized["serverInfo"]["name"]
+        frontier_root = schema["manifest"]["frontier_root"]
+        tools = [tool["name"] for tool in tools_result["tools"]]
+    provenance = json.loads((EXPORT / "provenance.json").read_text())
     counts = submit["prospect"]["typed_status_counts"]
     return {
-        "server": init["serverInfo"]["name"],
-        "frontier_root": schema["manifest"]["frontier_root"],
-        "tools": [tool["name"] for tool in tools_result["tools"]],
-        "producer": submit["producer"],
-        "real_export": submit["real_export"],
+        "server": server,
+        "transport": "streamable_http" if url else "stdio",
+        "frontier_root": frontier_root,
+        "tools": tools,
+        "producer": "claude_science",
+        "real_export": provenance["source"]["real_export"],
         "accepted": submit["accepted"],
         "next": submit["next"],
         "proposal_id": submit["proposal_id"],
@@ -56,7 +94,7 @@ def run() -> dict[str, Any]:
         "not_assayed_examples": [
             v for v in submit["verdicts"] if v["typed_status"] == "not_assayed"
         ][:3],
-        "session_caveat": submit["claude_science"]["session_caveat"],
+        "session_caveat": provenance["session_caveat"],
         "ceiling": submit["prospect"]["ceiling"],
     }
 
@@ -64,8 +102,9 @@ def run() -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="examples/claude_science_connector_client.py")
     parser.add_argument("--json", action="store_true", help="print machine-readable output")
+    parser.add_argument("--url", default="", help="official Streamable HTTP MCP endpoint")
     args = parser.parse_args(argv)
-    summary = run()
+    summary = run(args.url)
     if args.json:
         print(json.dumps(summary, indent=2, sort_keys=True))
         return

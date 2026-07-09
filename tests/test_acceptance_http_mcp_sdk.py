@@ -5,6 +5,7 @@ import http.client
 import json
 import socket
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -307,5 +308,41 @@ def test_real_claude_science_export_has_one_identity_across_all_transports(tmp_p
             "provenance.json",
             "marson_de_full.csv",
         }
+    finally:
+        _stop(process)
+
+
+def test_judge_clients_use_official_hosted_connector_for_two_producers(tmp_path):
+    port = _free_port()
+    process = _start(port, tmp_path)
+    url = f"http://127.0.0.1:{port}/mcp"
+    try:
+        claude = subprocess.run(
+            [sys.executable, str(ROOT / "examples" / "claude_science_connector_client.py"), "--url", url, "--json"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=20,
+        )
+        external = subprocess.run(
+            [sys.executable, str(ROOT / "examples" / "prospect_connector_client.py"), "--case", "openresearch", "--url", url, "--json"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=20,
+        )
+        assert claude.returncode == 0, claude.stderr
+        assert external.returncode == 0, external.stderr
+        claude_result = json.loads(claude.stdout)
+        external_result = json.loads(external.stdout)
+        assert claude_result["transport"] == "streamable_http"
+        assert claude_result["proposal_id"] == "proposal_3d6906d35b270017"
+        assert claude_result["typed_status_counts"]["genes"] == 52
+        assert external_result["transport"] == "streamable_http"
+        assert external_result["producer"] == "openresearch_style_bundle"
+        assert external_result["typed_status_counts"]["evidence_attached"] == 1
+        assert external_result["accepted"] is False
     finally:
         _stop(process)

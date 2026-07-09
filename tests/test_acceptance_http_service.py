@@ -113,7 +113,12 @@ def test_http_submit_returns_shareable_proposal(tmp_path):
         }
 
         path = urlparse(result["proposal_url"]).path
-        status, page, _ = _request(port, "GET", path)
+        status, page, _ = _request(
+            port,
+            "GET",
+            path,
+            headers={"x-forwarded-proto": "https"},
+        )
         assert status == 200
         assert "Prospect proposal" in page
         assert "accepted=false" in page
