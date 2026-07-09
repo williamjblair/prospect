@@ -17,6 +17,7 @@ PUBLIC_SURFACES = [
     "docs/JUDGE_HANDOUT.md",
     "docs/JUDGE_TECHNICAL_NOTE.md",
     "docs/DEPLOY_READINESS.md",
+    "docs/PUBLIC_ROBUSTNESS.md",
     "docs/RECEIPT_BRIDGE.md",
     "docs/RUN_YOUR_OWN_CLAIM.md",
     "docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md",
@@ -62,6 +63,12 @@ TRACEABLE_CLAIMS = [
         "artifact": "/data/discovery_campaign.json",
         "command": "./prospect discovery-campaign",
         "surface": "web/app/page.tsx",
+    },
+    {
+        "claim": "118 public robustness fuzz cases with clean failure or honest typing",
+        "artifact": "/data/public_robustness_fuzz.json",
+        "command": "./prospect robustness-fuzz",
+        "surface": "docs/PUBLIC_ROBUSTNESS.md",
     },
 ]
 

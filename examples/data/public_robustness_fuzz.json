@@ -1,0 +1,252 @@
+{
+  "accepted": false,
+  "case_count": 118,
+  "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "classes": {
+    "clean_failure": {
+      "clean_failure": 15
+    },
+    "context_routing": {
+      "typed": 1
+    },
+    "de_table": {
+      "typed": 1
+    },
+    "duplicates": {
+      "typed": 20
+    },
+    "huge_list": {
+      "typed": 14
+    },
+    "injection_strings": {
+      "typed": 14
+    },
+    "mixed_identifier_mapping": {
+      "typed": 1
+    },
+    "plain_gene_list": {
+      "typed": 1
+    },
+    "ranked_markers": {
+      "typed": 1
+    },
+    "signature_json": {
+      "typed": 14
+    },
+    "unknown_and_nonhuman": {
+      "typed": 36
+    }
+  },
+  "clean_failures": 15,
+  "crashes": 0,
+  "examples": {
+    "clean_failure": {
+      "accepted": false,
+      "case_id": "empty",
+      "class": "clean_failure",
+      "error": "submission is empty",
+      "next": "fix_submission",
+      "outcome": "clean_failure"
+    },
+    "context_routing": {
+      "accepted": false,
+      "case_id": "k562_context",
+      "class": "context_routing",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 0,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 3,
+        "not_assayed": 1,
+        "passengers": 1
+      },
+      "unique_genes": 3,
+      "warnings": 0
+    },
+    "de_table": {
+      "accepted": false,
+      "case_id": "de_csv",
+      "class": "de_table",
+      "input_kind": "table",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 3,
+        "not_assayed": 0,
+        "passengers": 1
+      },
+      "unique_genes": 3,
+      "warnings": 0
+    },
+    "duplicates": {
+      "accepted": false,
+      "case_id": "duplicates_00",
+      "class": "duplicates",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 3,
+        "not_assayed": 0,
+        "passengers": 1
+      },
+      "unique_genes": 3,
+      "warnings": 2
+    },
+    "huge_list": {
+      "accepted": false,
+      "case_id": "huge_00",
+      "class": "huge_list",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 163,
+        "not_assayed": 160,
+        "passengers": 1
+      },
+      "unique_genes": 163,
+      "warnings": 0
+    },
+    "injection_strings": {
+      "accepted": false,
+      "case_id": "injection_00",
+      "class": "injection_strings",
+      "input_kind": "table",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 0,
+        "contradicted": 1,
+        "drivers": 0,
+        "evidence_attached": 0,
+        "genes": 3,
+        "not_assayed": 2,
+        "passengers": 0
+      },
+      "unique_genes": 3,
+      "warnings": 0
+    },
+    "mixed_identifier_mapping": {
+      "accepted": false,
+      "case_id": "alias_and_ensembl",
+      "class": "mixed_identifier_mapping",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 0,
+        "contradicted": 0,
+        "drivers": 2,
+        "evidence_attached": 2,
+        "genes": 3,
+        "not_assayed": 1,
+        "passengers": 0
+      },
+      "unique_genes": 3,
+      "warnings": 1
+    },
+    "plain_gene_list": {
+      "accepted": false,
+      "case_id": "plain_gene_list",
+      "class": "plain_gene_list",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 4,
+        "not_assayed": 1,
+        "passengers": 1
+      },
+      "unique_genes": 4,
+      "warnings": 0
+    },
+    "ranked_markers": {
+      "accepted": false,
+      "case_id": "ranked_markers",
+      "class": "ranked_markers",
+      "input_kind": "table",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 3,
+        "not_assayed": 0,
+        "passengers": 1
+      },
+      "unique_genes": 3,
+      "warnings": 0
+    },
+    "signature_json": {
+      "accepted": false,
+      "case_id": "signature_json",
+      "class": "signature_json",
+      "input_kind": "signature_json",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 1,
+        "contradicted": 1,
+        "drivers": 1,
+        "evidence_attached": 1,
+        "genes": 3,
+        "not_assayed": 0,
+        "passengers": 1
+      },
+      "unique_genes": 3,
+      "warnings": 0
+    },
+    "unknown_and_nonhuman": {
+      "accepted": false,
+      "case_id": "unknown_00",
+      "class": "unknown_and_nonhuman",
+      "input_kind": "gene_list",
+      "next": "human_signature_required",
+      "outcome": "typed",
+      "typed_status_counts": {
+        "associative_only": 0,
+        "contradicted": 0,
+        "drivers": 0,
+        "evidence_attached": 0,
+        "genes": 12,
+        "not_assayed": 12,
+        "passengers": 0
+      },
+      "unique_genes": 12,
+      "warnings": 0
+    }
+  },
+  "max_unique_genes_in_case": 163,
+  "next": "human_signature_required",
+  "silent_wrong_answers": 0,
+  "typed_cases": 103,
+  "typed_status_totals": {
+    "associative_only": 40,
+    "contradicted": 65,
+    "evidence_attached": 54,
+    "not_assayed": 2679
+  }
+}

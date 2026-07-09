@@ -21,7 +21,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - 20 campaign rows overlaid with external disease context
 - 10 rows with selected immune or hematologic context
 - 5 proposal-only wet-lab assay rows
-- 17 public data artifacts
+- 18 public data artifacts
 - 52 real Claude Science signature genes typed by Prospect: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
 - Frozen ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
@@ -66,6 +66,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/disease_genetics_overlay.json`
 - `/data/lab_packet.json`
 - `/data/lab_writeback_receipt.json`
+- `/data/public_robustness_fuzz.json`
 
 ## Replay commands
 

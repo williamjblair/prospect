@@ -33,6 +33,7 @@
   prospect deploy-checklist print deploy readiness gates and Will's deploy commands
   prospect post-deploy-smoke submit a hosted acceptance-service smoke claim
   prospect rigor-audit      scan public surfaces for overclaiming and traceability
+  prospect robustness-fuzz  fuzz public submissions for clean failure or honest typing
   prospect judge-handout    build the one-page judge handout
   prospect submit-pack      print the copy-safe submission packet
   prospect receipt          emit portable receipts (activity to signed replayable state)
@@ -123,6 +124,8 @@ def main():
         from cli.deploy_readiness import smoke_main; sys.exit(smoke_main(rest))
     elif cmd == "rigor-audit":
         from cli.rigor_audit import main as rigor_audit_main; sys.exit(rigor_audit_main(rest))
+    elif cmd == "robustness-fuzz":
+        from cli.robustness_fuzz import main as robustness_fuzz_main; sys.exit(robustness_fuzz_main(rest))
     elif cmd == "judge-handout":
         from cli.judge_handout import main as judge_handout_main; sys.exit(judge_handout_main(rest))
     elif cmd == "submit-pack":

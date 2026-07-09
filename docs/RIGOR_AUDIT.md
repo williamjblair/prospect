@@ -13,6 +13,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `docs/JUDGE_HANDOUT.md`
 - `docs/JUDGE_TECHNICAL_NOTE.md`
 - `docs/DEPLOY_READINESS.md`
+- `docs/PUBLIC_ROBUSTNESS.md`
 - `docs/RECEIPT_BRIDGE.md`
 - `docs/RUN_YOUR_OWN_CLAIM.md`
 - `docs/DEFENDED_DISCOVERY_ENDGAME_RESULT.md`
@@ -33,6 +34,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - real Claude Science export typed as drivers, passengers, contradicted driver claims, and not_assayed: artifact `/data/claude_science_acceptance_demo.json`, command `python examples/claude_science_connector_client.py --json`
 - PGGT1B proposal-only lead worth testing: artifact `/data/pggt1b_defended_evidence.json`, command `./prospect pggt1b-defended-evidence`
 - 11,526 to 18 honest funnel: artifact `/data/discovery_campaign.json`, command `./prospect discovery-campaign`
+- 118 public robustness fuzz cases with clean failure or honest typing: artifact `/data/public_robustness_fuzz.json`, command `./prospect robustness-fuzz`
 
 ## Blocked phrase hits
 

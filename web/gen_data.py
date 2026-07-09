@@ -96,6 +96,7 @@ pggt1b_endgame_decision = load("pggt1b_endgame_decision.json")
 defended_discovery_endgame_result = load("defended_discovery_endgame_result.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
 substrate_coverage_report = load("substrate_coverage_report.json")
+public_robustness_fuzz = load("public_robustness_fuzz.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -239,6 +240,7 @@ data = {
     "defended_discovery_endgame_result": defended_discovery_endgame_result,
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
     "substrate_coverage_report": substrate_coverage_report,
+    "public_robustness_fuzz": public_robustness_fuzz,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -261,7 +263,8 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"), (pggt1b_matrix_sl
                   (pggt1b_endgame_decision, "pggt1b_endgame_decision.json"),
                   (defended_discovery_endgame_result, "defended_discovery_endgame_result.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),
-                  (substrate_coverage_report, "substrate_coverage_report.json")]:
+                  (substrate_coverage_report, "substrate_coverage_report.json"),
+                  (public_robustness_fuzz, "public_robustness_fuzz.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))
