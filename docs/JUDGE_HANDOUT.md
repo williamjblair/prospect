@@ -25,19 +25,19 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Five-minute judge path
 
-1. Overview: real Claude Science signature enters Prospect and receives typed causal verdicts.
-2. Overview: paste a gene list, DE table, or signature and copy the shareable state link.
-3. Overview: inspect the 48 and 64 percent overclaiming benchmark.
-4. Agent: PGGT1B is the caveated mechanism-first hypothesis worth testing.
-5. Findings: signed CD4+ T-cell records show the frozen frontier.
-6. Frontier: receipts and MCP bridge show accepted=false until a human key signs.
+1. Check: real Claude Science signature enters Prospect and receives typed causal verdicts.
+2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
+3. Check: inspect the 48 and 64 percent overclaiming benchmark.
+4. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
+5. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
+6. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
 
 ## Trust Boundary
 
 - Model role: propose, search, draft
 - Model in trust path: no
-- Accepted state: human_signed_replayable_root
-- Model accepted state mutations: 0
+- Accepted record: human_signed_replayable_root
+- Model accepted record mutations: 0
 
 ## Public Artifacts
 
@@ -68,7 +68,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## What remains human-only
 
-- sign the frontier root
+- sign the evidence root
 - accept a submitted receipt
-- accept a PGGT1B state change
+- accept a PGGT1B record change
 - wet-lab execution

@@ -10,11 +10,11 @@ Every AI biology tool can produce a signature, gene list, or differential-expres
 checks that activity against frozen perturbation data and returns typed verdicts: `evidence_attached`
 for causal-driver evidence, `associative_only` for passengers, `contradicted` for refuted driver
 claims, and `not_assayed` for genes the table cannot test. Reproducible is not verified. Every
-submission stays `accepted=false` until a frozen replay and a human key accept state.
+submission stays `accepted=false` until a frozen replay and a human key accept the record.
 
 The payload is primary human CD4+ T-cell activation. Prospect replays claims against the released
-Marson CRISPRi Perturb-seq screen, a signed frontier with 11,526 genes, 37,106 regulatory edges, five
-CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the trust path.
+Marson CRISPRi Perturb-seq screen, a frozen CD4+ evidence graph with 11,526 genes, 37,106 regulatory
+edges, five CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the trust path.
 
 ## What A Judge Sees
 
@@ -22,10 +22,10 @@ CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the trust path.
 2. Claude Science preserves the artifact and its internal review completes.
 3. Prospect asks the causal question: which signature genes move the activation program when perturbed?
 4. The result is typed: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed.
-5. A judge pastes any gene list and gets the same receipt, verdicts, and shareable state link.
+5. A judge pastes any gene list and gets the same receipt, verdicts, and shareable result link.
 
 Prospect frames the signature as associative and separates drivers from passengers, which is exactly
-what an associative signature needs before it becomes biological state.
+what an associative signature needs before it can become a biological claim.
 
 ## The Sharp Evidence
 
@@ -36,11 +36,11 @@ what an associative signature needs before it becomes biological state.
 - **PGGT1B:** one mechanism-first hypothesis worth testing, not accepted biology. The kept claim is a
   narrow CD4 activation-transcriptome hypothesis with prenylation partners, ChEMBL context, and a
   falsifiable primary CD4+ CRISPRi experiment.
-- **Signed frontier:** five deterministic CD4+ findings recover known activation biology, separate
+- **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology, separate
   effectors from drivers, catch essentiality artifacts, transfer the checker to K562, and recover
   CollecTRI regulons.
-- **Receipt boundary:** any external workbench can submit a receipt through the MCP bridge. The bridge
-  returns a proposal with `accepted=false`; accepted state requires a human key.
+- **Receipt bridge:** any external workbench can submit a receipt through the MCP bridge. The bridge
+  returns a proposal with `accepted=false`; an accepted record requires a human key.
 
 ## Public Artifacts
 
@@ -78,7 +78,7 @@ python examples/claude_science_connector_client.py --json
 - Frozen released data, never a live differential-expression recompute.
 - Typed status only, no wet-lab or clinical truth claim.
 - Content-addressed replay: `./prospect verify` re-derives 53k objects with zero drift.
-- Human Ed25519 signature over accepted state. No model moves the frontier.
+- Human Ed25519 signature over accepted records. No model makes the final call.
 - Mutation pack floor: zero tampered claim is admitted.
 - MCP bridge and acceptance service submit proposals only.
 

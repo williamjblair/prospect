@@ -10,7 +10,7 @@ Clean deterministic run:
 
 ## Two-Minute Version
 
-**0:00, the problem.** Open Overview. Say: every AI biology tool can produce a gene list. Prospect
+**0:00, the problem.** Open Check. Say: every AI biology tool can produce a gene list. Prospect
 tells you which genes are causal drivers. Reproducible is not verified.
 
 **0:15, the wow.** Stay on the first screen. A real Claude Science Sade-Feldman melanoma ICB
@@ -32,18 +32,18 @@ ENSG00000121410
 NOTGENE
 ```
 
-Copy the shareable state link. Point out the receipt id, typed verdicts, `accepted=false`, and
+Copy the shareable result link. Point out the receipt id, typed verdicts, `accepted=false`, and
 `human_signature_required`.
 
 **1:25, why it matters.** Show the overclaiming number: 48% of confident AI major-regulator claims
 are contradicted by the data, rising to 64% on famous checkpoints and cytokines.
 
-**1:40, one honest lead.** Open Agent. PGGT1B is the hypothesis worth testing, not accepted biology:
+**1:40, one honest lead.** Open Lead. PGGT1B is the hypothesis worth testing, not accepted biology:
 prenylation mechanism, FNTA/RABGGTA partners, ChEMBL target, and a primary CD4+ CRISPRi experiment
 that could refute it.
 
-**1:55, trust boundary.** Open Frontier. The receipt bridge and MCP path submit proposals only.
-Accepted state remains frozen replay plus a human key. Close on root `root_a8b0dcdd4024e12f`.
+**1:55, trust boundary.** Open Receipts. The receipt bridge and MCP path submit proposals only.
+Accepted records require frozen replay plus a human key. Close on root `root_a8b0dcdd4024e12f`.
 
 ## Commands To Mention
 

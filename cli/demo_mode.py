@@ -94,7 +94,7 @@ def build_demo_packet(
             },
             {
                 "id": "run_your_own_claim",
-                "title": "Paste path creates a shareable state",
+                "title": "Paste path creates a shareable result",
                 "status": "proposal_only",
                 "state_url": stored["state_url"],
                 "receipt_id": stored["receipt"]["receipt_id"],
@@ -109,7 +109,7 @@ def build_demo_packet(
             },
             {
                 "id": "honest_funnel",
-                "title": "The frontier refuses most candidates before one caveated lead",
+                "title": "The gate refuses most candidates before one caveated lead",
                 "status": "proposal_only",
                 "counts": {
                     "frontier_genes": discovery["filter_counts"]["frontier_genes"],
@@ -126,11 +126,11 @@ def build_demo_packet(
             "recent": ledger["recent"][-5:],
         },
         "script": [
-            "Open Overview and start with the acceptance layer, not a standalone analysis.",
+            "Open Check and start with the acceptance layer, not a standalone analysis.",
             "Show the real Claude Science signature entering as a proposal and getting typed driver, passenger, contradicted, or not_assayed.",
             "Open the PGGT1B dossier and state the narrow falsifiable hypothesis.",
-            "Paste the demo genes and open the returned shareable state page.",
-            "Open Frontier and close on receipt to proposal to human signature.",
+            "Paste the demo genes and open the returned shareable result page.",
+            "Open Receipts and close on receipt to proposal to human signature.",
         ],
     }
 

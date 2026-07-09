@@ -20,8 +20,8 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["repo_url"] == "https://github.com/williamjblair/prospect"
     assert handout["signed_root"] == "root_a8b0dcdd4024e12f"
     assert handout["trust_boundary"]["model_in_trust_path"] == "no"
-    assert handout["trust_boundary"]["accepted_state"] == "human_signed_replayable_root"
-    assert handout["trust_boundary"]["model_accepted_state_mutations"] == 0
+    assert handout["trust_boundary"]["accepted_record"] == "human_signed_replayable_root"
+    assert handout["trust_boundary"]["model_accepted_record_mutations"] == 0
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert handout["counts"]["findings"] >= 3
     assert handout["counts"]["claude_science_drivers"] == 12
@@ -32,7 +32,7 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["pggt1b_novelty_downgraded"] is True
     assert handout["counts"]["pggt1b_wet_lab_minimum_donors"] >= 3
     assert handout["counts"]["pggt1b_orthogonal_public_datasets"] >= 5
-    assert "sign the frontier root" in handout["human_only_actions"]
+    assert "sign the evidence root" in handout["human_only_actions"]
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
     assert "Reproducible is not verified." in handout["one_line"]

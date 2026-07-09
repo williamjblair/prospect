@@ -535,12 +535,12 @@ function decodeSharedAcceptanceState(): AcceptanceResult | null {
 }
 
 const NAV = [
-  { k: "overview", label: "Overview", icon: LayoutGrid },
-  { k: "atlas", label: "Atlas", icon: Rows3 },
-  { k: "network", label: "Network", icon: Share2 },
-  { k: "frontier", label: "Frontier", icon: Waypoints },
-  { k: "findings", label: "Findings", icon: Telescope },
-  { k: "agent", label: "Agent", icon: Bot },
+  { k: "overview", label: "Check", icon: LayoutGrid },
+  { k: "atlas", label: "Genes", icon: Rows3 },
+  { k: "network", label: "Graph", icon: Share2 },
+  { k: "frontier", label: "Receipts", icon: Waypoints },
+  { k: "findings", label: "Evidence", icon: Telescope },
+  { k: "agent", label: "Lead", icon: Bot },
 ];
 
 export default function Page() {
@@ -600,7 +600,7 @@ export default function Page() {
         <SidebarFooter>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 6px" }}>
             <span className="t-caption" style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-              <ShieldCheck size={13} style={{ color: "var(--moss)" }} /> {d ? `signed · ${d.frontier.signer}` : "signed"}
+              <ShieldCheck size={13} style={{ color: "var(--moss)" }} /> {d ? "frozen gate" : "frozen"}
             </span>
             <ThemeToggle />
           </div>
@@ -623,7 +623,7 @@ export default function Page() {
         <main className="app-main" style={{ padding: "26px 28px 72px", maxWidth: "78rem", width: "100%", margin: "0 auto" }}>
           {err ? (
             <div style={{ display: "grid", gap: 8, maxWidth: "48ch", paddingTop: 40 }}>
-              <div className="h2-app">The frontier didn’t load.</div>
+              <div className="h2-app">The frozen evidence did not load.</div>
               <p className="t-body-sm" style={{ color: "var(--ink-3)" }}>
                 Couldn’t fetch the signed data. Check your connection and reload.
               </p>
@@ -660,11 +660,11 @@ export default function Page() {
 }
 
 const DEMO_PATH: { label: string; tab?: string }[] = [
-  { label: "Start on Overview: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
-  { label: "Stay on Overview: paste any AI gene list and get the same typed acceptance result." },
-  { label: "Open Agent: PGGT1B is the one caveated hypothesis worth testing, with mechanism and wet-lab gates.", tab: "agent" },
-  { label: "Open Findings: signed CD4+ T-cell records show what the frozen frontier already holds.", tab: "findings" },
-  { label: "Open Frontier: receipts cross as proposals, accepted=false until a human key accepts state.", tab: "frontier" },
+  { label: "Start on Check: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
+  { label: "Stay on Check: paste any AI gene list and get the same typed result." },
+  { label: "Open Lead: PGGT1B is the one caveated hypothesis worth testing, with mechanism and wet-lab gates.", tab: "agent" },
+  { label: "Open Evidence: signed CD4+ T-cell findings show what the frozen gate already holds.", tab: "findings" },
+  { label: "Open Receipts: external claims enter as proposals, accepted=false until a human key signs.", tab: "frontier" },
 ];
 
 function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => void; onGene: (g: string) => void }) {
@@ -679,11 +679,11 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
     <div style={{ display: "grid", gap: 26 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
         <div className="t-label" style={{ marginBottom: 8 }}>Check your AI biology claim · CD4+ T cells</div>
-        <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions are causal drivers?</h1>
+          <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions are causal drivers?</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
           Every AI science tool can produce a gene list. Prospect tells a biologist which genes behave as
           drivers, which look like passengers, and which driver claims the perturbation data contradicts.
-          Reproducible is not verified. accepted=false until a human key accepts state.
+          Reproducible is not verified. Prospect returns a typed decision and keeps acceptance human-controlled.
         </p>
       </header>
 
@@ -712,7 +712,7 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
             </div>
           </div>
           <p className="t-body-sm" style={{ color: "var(--stone)", marginTop: 10, maxWidth: "72ch" }}>
-            {p.models ? `Across ${p.models} frontier models` : "Across frontier models"} on one frozen sample,
+            {p.models ? `Across ${p.models} Claude model runs` : "Across model runs"} on one frozen sample,
             {" "}{p.refuted} of {fmt(p.checkable)} checkable claims were contradicted by the frozen table. Claims the screen couldn’t test
             (no knockdown) are excluded, not counted against the model.
           </p>
@@ -747,7 +747,7 @@ function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => voi
       </div>
 
       <section style={{ display: "grid", gap: 12 }}>
-        <h2 className="h2-app">Reproduced regulatory state across the genome</h2>
+        <h2 className="h2-app">What the frozen perturbation data says across the genome</h2>
         <div style={{ display: "flex", height: 12, borderRadius: 6, overflow: "hidden" }}>
           {order.map((k) => <div key={k} style={{ flex: dist[k] || 0, background: CLASS[k][0] }} />)}
         </div>
@@ -1041,13 +1041,13 @@ function JudgeTour({ setTab }: { setTab: (tab: string) => void }) {
         paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
         <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
         <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[3].label} onClick={() => setTab("findings")}>
-          Findings
+          Evidence
         </button>
         <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[4].label} onClick={() => setTab("frontier")}>
-          Frontier
+          Receipts
         </button>
         <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[2].label} onClick={() => setTab("agent")}>
-          Agent
+          Lead
         </button>
       </div>
     </section>
@@ -1077,7 +1077,7 @@ function WinningArcPanel({ d, setTab }: { d: Data; setTab: (tab: string) => void
     {
       label: "Typed verdicts",
       value: counts ? `${counts.evidence_attached}/${counts.associative_only}/${counts.contradicted}/${counts.not_assayed}` : "12/22/3/15",
-      body: "The compact count order is evidence_attached, associative_only, contradicted, not_assayed. No model moves accepted state.",
+      body: "The compact count order is evidence_attached, associative_only, contradicted, not_assayed. No model makes the final call.",
       action: () => setTab("frontier"),
     },
     {
@@ -1091,7 +1091,7 @@ function WinningArcPanel({ d, setTab }: { d: Data; setTab: (tab: string) => void
     {
       label: "Run your own",
       value: "paste or MCP",
-      body: "External teams can submit a gene list, signature JSON, ranked markers, or a DE table and get a receipt plus shareable state page.",
+      body: "External teams can submit a gene list, signature JSON, ranked markers, or a DE table and get a receipt plus shareable result page.",
       action: () => setTab("overview"),
     },
   ];
@@ -1178,9 +1178,9 @@ function CrossDomainBenchmarkPanel({ cross }: { cross: CrossDomainBenchmark }) {
           </p>
         </div>
         <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
-          <div className="t-label">boundary</div>
+          <div className="t-label">gate</div>
           <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-            frozen re-derivation plus a human key. accepted_state_mutation={cross.accepted_state_mutation}.
+            Frozen re-derivation plus a human key. No accepted record changes in this comparison.
           </p>
         </div>
       </div>
@@ -1194,10 +1194,10 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
     <section style={{ display: "grid", gap: 10 }}>
       <div>
         <div className="t-label" style={{ marginBottom: 5 }}>{rail.title || LIVE_CLAIM_RAIL_TITLE}</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>{rail.gene}: receipt to proposed state</h2>
+        <h2 className="h2-app" style={{ margin: 0 }}>{rail.gene}: why the claim stays a hypothesis</h2>
         <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "72ch" }}>
-          One addressable claim crosses the boundary as a receipt. It has a typed status and a proposed
-          state diff, but the diff is proposal only until the open obligation is satisfied.
+          One addressable claim gets a typed status, replay command, and remaining obligation. It is
+          reviewable, but not accepted biology.
         </p>
       </div>
       <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
@@ -1205,7 +1205,7 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
           <span className="t-mono" style={{ fontWeight: 700 }}>{rail.gene}</span>
           <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{rail.status.replace(/_/g, " ")}</span>
           <span className="chip" style={{ ["--tone" as any]: rail.accepted_state ? "var(--moss)" : "var(--cinnabar)" }}>
-            accepted state={String(rail.accepted_state)}
+            accepted={String(rail.accepted_state)}
           </span>
           <span className="t-mono fz-2xs" style={{ color: "var(--ink-3)" }}>{rail.receipt_id}</span>
         </div>
@@ -1221,9 +1221,9 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
           <div>
-            <div className="t-label">state_diff</div>
+            <div className="t-label">review result</div>
             <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-              {rail.state_diff.effect}. model_can_apply={String(rail.state_diff.model_can_apply)}.
+              {rail.state_diff.effect}. model cannot apply result.
             </p>
           </div>
           <div>
@@ -1233,7 +1233,7 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
             </p>
           </div>
           <div>
-            <div className="t-label">open_obligation</div>
+            <div className="t-label">missing evidence</div>
             <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>{rail.open_obligation}</p>
           </div>
         </div>
@@ -1241,8 +1241,8 @@ function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: st
           {rail.why_not_state} Next task: {rail.next_task}.
         </p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipt</button>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open assay packet</button>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open audit trail</button>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open lead hypothesis</button>
         </div>
       </div>
     </section>
@@ -1321,7 +1321,7 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
         <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
           {demo.commands.generic || GENERIC_CONNECTOR_COMMAND}
         </span>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipt bridge</button>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open audit trail</button>
       </div>
     </section>
   );
@@ -1366,7 +1366,7 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
           <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)", maxWidth: "78ch" }}>
             Prospect normalizes symbols, common checkpoint aliases like PD-1, Ensembl IDs from the frozen table,
             duplicates, and unknowns. It returns driver, passenger, contradicted, and not_assayed verdicts,
-            plus a receipt and shareable state page. accepted=false until a human signature.
+            plus a receipt and shareable result page. accepted=false until a human signature.
           </p>
         </div>
         <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
@@ -1442,7 +1442,7 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
                     navigator.clipboard?.writeText(shareUrl);
                     setCopied(true);
                   }}>
-                  <ExternalLink /> <span>{copied ? "Copied state link" : "Copy state link"}</span>
+                  <ExternalLink /> <span>{copied ? "Copied result link" : "Copy result link"}</span>
                 </button>
                 <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", overflowWrap: "anywhere" }}>{shareUrl}</span>
               </div>
@@ -1520,7 +1520,7 @@ function Atlas({ d, q, setQ, onGene }: { d: Data; q: string; setQ: (s: string) =
   }, [d, q]);
   return (
     <div>
-      <h2 className="h1-display" style={{ marginBottom: 4 }}>Atlas</h2>
+      <h2 className="h1-display" style={{ marginBottom: 4 }}>Genes</h2>
       <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "62ch" }}>
         Search a gene. Each row shows its frozen-data class and per-condition status (R rest · 8 8h · 48 48h stim).
         Open a gene for its regulatory neighborhood, what it regulates, and the claims the data refused.
@@ -1566,7 +1566,7 @@ function NetworkView({ d, focus, setFocus, dark, onGene }:
   };
   return (
     <div>
-      <h2 className="h1-display" style={{ marginBottom: 6 }}>Regulatory network</h2>
+      <h2 className="h1-display" style={{ marginBottom: 6 }}>Causal graph</h2>
       <p className="t-body-sm" style={{ marginBottom: 14, maxWidth: "66ch" }}>
         The neighborhood around <b>{focus}</b>, {out.length} genes it regulates, {inn.length} that regulate it, and the
         cross-links between them. Edges by direction (<span style={{ color: "var(--moss)" }}>up</span> /{" "}
@@ -1598,7 +1598,7 @@ const RCPT_STATUS: Record<string, [string, string]> = {
   orthogonal_phenotype: ["var(--field-blue)", "orthogonal phenotype"],
   claimed: ["var(--stone)", "claimed"],
 };
-const BOUNDARY = ["Activity", "Receipt", "Proposal", "Review", "Verification", "Accepted", "State"];
+const BOUNDARY = ["AI output", "Receipt", "Proposal", "Review", "Replay", "Human sign-off", "Shared record"];
 const BRIDGE_METHOD_ORDER = [
   "prospect.receipt.schema",
   "prospect.receipt.validate",
@@ -1632,11 +1632,11 @@ function Receipts({
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <div>
-        <div className="t-label" style={{ marginBottom: 4 }}>How activity becomes state</div>
+        <div className="t-label" style={{ marginBottom: 4 }}>How an AI claim becomes reviewable</div>
         <p className="t-body-sm" style={{ maxWidth: "70ch", margin: 0 }}>
-          A model can assert anything in a second. A receipt is the portable proposal that records what
-          was claimed, which frozen artifacts it stands on, which facts a verifier confirms, how to replay
-          it, and whether a human accepted it. Any producer can emit one; the same frozen gate decides.
+          A model can assert anything in a second. A receipt records what was claimed, which frozen artifacts
+          it stands on, which facts the replay confirms, and what a human would need before accepting it.
+          Any producer can emit one; the same frozen gate decides.
         </p>
       </div>
       <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 4, padding: "10px 0" }}>
@@ -1656,8 +1656,8 @@ function Receipts({
             <div style={{ minWidth: 220, flex: 1 }}>
               <div className="t-label">Executable bridge path</div>
               <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-                An external workbench can discover the schema, validate a receipt, and submit it as proposal only.
-                Accepted state still requires the human key.
+                An external workbench can discover the schema, validate a receipt, and submit it as a proposal.
+                The result stays accepted=false until a human key signs.
               </p>
             </div>
             <a className="btn btn-secondary btn-sm" href="/data/receipt_bridge/receipt_contract.json" target="_blank" rel="noreferrer">
@@ -1700,10 +1700,10 @@ function Receipts({
         <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
           <div style={{ display: "flex", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
             <div style={{ minWidth: 240, flex: 1 }}>
-              <div className="t-label">External run to receipt</div>
+              <div className="t-label">External producer example</div>
               <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-                An external auto-research producer submits a biology-shaped Perturb-seq reproduction as a receipt.
-                The Marson checker re-derives the local facts, then the bridge still holds it as proposal only.
+                An external auto-research producer submits a biology-shaped Perturb-seq reproduction.
+                The Marson checker re-derives the local facts, then Prospect still holds it as proposal only.
               </p>
             </div>
             <span className="chip" style={{ ["--tone" as any]: "var(--moss)" }}>
@@ -1793,10 +1793,10 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div className="frontier-pane" style={{ display: "grid", gap: 24 }}>
       <div>
-        <h2 className="h1-display" style={{ marginBottom: 6 }}>The frontier</h2>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>Receipts</h2>
         <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-          The signed graph is accepted state, re-derived from frozen data and signed by a human. Contradictions
-          and open questions are kept as first-class, citable terrain.
+          Every submitted claim keeps its evidence, replay command, typed status, and human-only acceptance step.
+          This is the audit trail behind the simple driver/passenger result.
         </p>
       </div>
       <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
@@ -1804,7 +1804,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <div><div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{fmt(d.frontier.n_contra)}</div><div className="t-label">contradictions</div></div>
         <div><div className="stat-figure" style={{ color: "var(--brass)" }}>{fmt(d.frontier.n_open)}</div><div className="t-label">open questions</div></div>
         <div style={{ marginLeft: "auto", textAlign: "right" }} className="t-caption">
-          signed <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.frontier.root}</span><br />
+          root <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.frontier.root}</span><br />
           by {d.frontier.signer} · no model in the trust path
         </div>
       </div>
@@ -1831,7 +1831,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       </div>
       <div>
-        <div className="t-label" style={{ marginBottom: 6 }}>Open frontier, the screen couldn’t test these</div>
+        <div className="t-label" style={{ marginBottom: 6 }}>Not assayed, the screen could not test these</div>
         <p className="t-body-sm" style={{ marginBottom: 10, maxWidth: "64ch" }}>
           Knockdown never succeeded, so the data is silent, honest gaps, and the demand surface for the next experiments.
         </p>
@@ -2003,7 +2003,7 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
         The same major-regulator claim, run through <b>get_checker(&quot;marson&quot;)</b> and{" "}
         <b>get_checker(&quot;replogle&quot;)</b>, one verifier shape, two frozen datasets. Essentiality
         artifacts reshape the K562 transcriptome too (median {med.essentiality_artifact} DE); the activation
-        module stays inert (median {med.activation_module}). The second dataset validates findings 01 and 03.
+        module stays inert (median {med.activation_module}). The second dataset supports findings 01 and 03.
       </p>
       <FindingEvidencePanel>
         {house.map((g: string) => <Row key={g} g={g} tone="var(--brass)" />)}
@@ -2041,7 +2041,7 @@ function RegulonEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => voi
       <p className="t-body-sm" style={{ maxWidth: "72ch", margin: "2px 0" }}>
         Each TF's CollecTRI literature regulon, checked against the genes its knockdown actually moved,
         over the {e.n_tfs_tested} TFs that are major regulators here. {e.n_recovered} clear significance
-        on their own, including the Th1 and Th2 master factors TBX21 and GATA3. The frontier rebuilds
+        on their own, including the Th1 and Th2 master factors TBX21 and GATA3. Prospect rebuilds
         known transcription-factor biology from perturbation alone, with no regulon supplied.
       </p>
       <FindingEvidencePanel>
@@ -2091,25 +2091,24 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <div>
-        <h2 className="h1-display" style={{ marginBottom: 6 }}>The agent</h2>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>Lead hypothesis</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          Claude ({a.model.replace("claude-", "").replace(/-/g, " ")}) pursues a research goal by calling
-          frozen-data tools. Every fact it reasons over is a deterministic lookup against a released table,
-          so it cannot hallucinate its evidence. It converges on a hypothesis; a human signs it.
+          PGGT1B is the strongest caveated hypothesis Prospect surfaced for follow-up. Claude helped search,
+          but every supporting fact below is a deterministic lookup against released data.
         </p>
       </div>
       <div className="card-paper" style={{ padding: "14px 18px", background: "var(--lacquer)", border: "none" }}>
         <div className="t-label" style={{ color: "var(--stone)", marginBottom: 6 }}>Goal</div>
         <div className="t-body-sm" style={{ color: "var(--ink-on)" }}>{a.goal}</div>
         <div className="t-caption" style={{ color: "var(--stone)", marginTop: 8 }}>
-          {a.tool_calls} frozen-data tool calls over {a.rounds} rounds · ${a.cost_usd}
+          Search provenance: {a.tool_calls} frozen-data calls over {a.rounds} rounds · ${a.cost_usd}
         </div>
       </div>
 
       {h && (
         <div className="card-paper" style={{ padding: "18px 20px", borderColor: "var(--moss)" }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
-            <span className="t-label" style={{ color: "var(--moss)" }}>Signed hypothesis</span>
+            <span className="t-label" style={{ color: "var(--moss)" }}>Proposal worth testing</span>
             <button onClick={() => onGene(h.gene)} className="t-mono" style={{ fontSize: 17, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{h.gene}</button>
           </div>
           <p className="t-lede" style={{ fontSize: "1.05rem", marginBottom: 10 }}>{h.hypothesis}</p>
@@ -2125,8 +2124,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
             <b>Why novel:</b> {h.why_novel}
           </p>
           <p className="t-caption" style={{ marginTop: 8 }}>
-            signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{a.delta_id}</span>
-            {a.signer ? ` · accepted by ${a.signer}` : ""} · no model in the trust path
+            proposal id <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{a.delta_id}</span>
+            {a.signer ? ` · signed by ${a.signer}` : ""} · no model in the trust path
           </p>
         </div>
       )}
@@ -2134,7 +2133,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
 
       <div>
-        <div className="t-label" style={{ marginBottom: 8 }}>How it got there, every step a frozen-data tool call</div>
+        <div className="t-label" style={{ marginBottom: 8 }}>Search trail, every step a frozen-data tool call</div>
         <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
           {a.transcript.map((t, i) => (
             <div key={i} style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 10, alignItems: "center",
@@ -2168,7 +2167,7 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
         </a>
       </div>
       <p className="t-body-sm" style={{ maxWidth: "74ch", margin: 0 }}>
-        {dive.prospect_read} External literature makes the prenylation mechanism plausible; it does not move accepted state.
+        {dive.prospect_read} External literature makes the prenylation mechanism plausible; it does not turn the hypothesis into biological truth.
       </p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))", gap: 8 }}>
         {[
@@ -2268,7 +2267,7 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
             </div>
           </div>
           <p className="t-caption" style={{ margin: 0 }}>
-            Trust boundary: {dive.matrix_slice.trust_boundary.replace(/_/g, " ")}. The slice supports assay design; it does not move accepted state.
+            Trust boundary: {dive.matrix_slice.trust_boundary.replace(/_/g, " ")}. The slice supports assay design; it does not turn the hypothesis into biological truth.
           </p>
         </div>
       )}
@@ -2314,11 +2313,11 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 30 }}>
       <div>
-        <h2 className="h1-display" style={{ marginBottom: 6 }}>Findings</h2>
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>Evidence</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          Findings mined deterministically from the released table and signed into the frontier. The screen recovers
-          known activation biology, catches the field’s most-targeted genes being mislabeled as regulators, resists the
-          essentiality artifact a naive ranking surfaces, and confirms the split against a second cell type.
+          Five deterministic CD4+ findings explain why the driver/passenger split is credible. The screen recovers
+          known activation biology, catches targeted genes being mislabeled as regulators, resists the essentiality
+          artifact a naive ranking surfaces, and checks the split against a second cell type.
         </p>
       </div>
       {d.finding_index && <FindingsIndex index={d.finding_index} />}

@@ -4,11 +4,11 @@ register: product
 
 ## Product purpose
 
-A computationally reproduced regulatory frontier of human CD4+ T-cell biology. Prospect is a trust layer for
-AI-generated science: it holds a linked, signed graph of gene regulation re-derived from released
-CRISPRi Perturb-seq data, and it refuses to let a model's claim enter that graph on the model's
-word. The interface exists to let a skeptical scientist see what the data actually holds, and to
-show the boundary where AI activity becomes replayable, human-accepted state.
+Prospect tells a biologist which genes in an AI-generated prediction list behave as causal drivers,
+which are passengers, and which driver claims the perturbation data contradicts. Under the hood it
+holds a linked, signed graph of gene regulation re-derived from released CRISPRi Perturb-seq data,
+and it refuses to let a model's claim enter that graph on the model's word. The interface exists to
+let a skeptical scientist check a claim first, then inspect the replay and human acceptance boundary.
 
 ## Users
 

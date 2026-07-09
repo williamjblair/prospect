@@ -15,7 +15,7 @@ which are passengers, and which driver claims the perturbation data contradicts.
 
 Reproducible is not verified. Claude Science and similar tools can preserve an artifact, its code,
 environment, and review trail. That makes the activity reproducible. Prospect asks the next question:
-does the claim survive an independent frozen perturbation gate, and should it become accepted state?
+does the claim survive an independent frozen perturbation gate, and should it become an accepted record?
 
 ## What We Built
 
@@ -23,7 +23,7 @@ does the claim survive an independent frozen perturbation gate, and should it be
 - A real Claude Science artifact flow using a Sade-Feldman melanoma ICB scRNA-seq signature.
 - A frozen causal gate over the released Marson primary human CD4+ CRISPRi Perturb-seq screen.
 - Typed driver, passenger, contradicted, and not_assayed verdicts, always `accepted=false`.
-- A signed CD4+ regulatory frontier and MCP receipt bridge.
+- A signed CD4+ evidence graph and MCP receipt bridge.
 - One honest PGGT1B hypothesis worth testing, with mechanism, prior-art caveats, and a refutation experiment.
 
 ## Results
@@ -35,19 +35,19 @@ does the claim survive an independent frozen perturbation gate, and should it be
 - PGGT1B: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS
   support, STRING partners including FNTA and RABGGTA, ChEMBL target `CHEMBL4135`, and a primary
   CD4+ CRISPRi protocol with at least 3 donors.
-- Signed frontier: 11,526 genes, 37,106 regulatory edges, five signed CD4+ findings, root
+- Signed evidence graph: 11,526 genes, 37,106 regulatory edges, five signed CD4+ findings, root
   `root_a8b0dcdd4024e12f`.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
 ## Judge Path
 
-1. Open Overview. The first screen is the real Claude Science artifact and Prospect's causal verdicts.
+1. Open Check. The first screen is the real Claude Science artifact and Prospect's causal verdicts.
 2. Paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE` into the check-your-claim box.
-3. Inspect the shareable state link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
+3. Inspect the shareable result link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
 4. Read the 48 and 64 percent overclaiming benchmark.
-5. Open Agent for the PGGT1B mechanism and CRISPRi refutation experiment.
-6. Open Frontier for the receipt boundary and MCP bridge.
+5. Open Lead for the PGGT1B mechanism and CRISPRi refutation experiment.
+6. Open Receipts for the audit trail and MCP bridge.
 
 ## Public Artifacts
 
@@ -84,4 +84,4 @@ python examples/claude_science_connector_client.py --json
 
 Claude proposes, searches, and produces reproducible activity. Prospect's acceptance layer is frozen
 code over frozen released data plus a human signing key. A model can submit a receipt; it cannot move
-accepted state.
+accepted records.

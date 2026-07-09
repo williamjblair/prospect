@@ -11,6 +11,10 @@ def test_overview_exposes_judge_demo_path_tabs():
     assert "DEMO_PATH" in source
     assert "Guided judge tour" in source
     assert "Five moves, no setup." in source
+    for label in ['label: "Check"', 'label: "Genes"', 'label: "Graph"', 'label: "Receipts"', 'label: "Evidence"', 'label: "Lead"']:
+        assert label in source
+    for old_label in ['label: "Overview"', 'label: "Atlas"', 'label: "Network"', 'label: "Frontier"', 'label: "Findings"', 'label: "Agent"']:
+        assert old_label not in source
     # The guided strip navigates to the three deep tabs.
     assert "setTab(step.tab" in source
     for tab in ['"findings"', '"frontier"', '"agent"']:

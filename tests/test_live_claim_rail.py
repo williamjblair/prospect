@@ -28,10 +28,10 @@ def test_overview_surfaces_live_claim_rail():
 
     assert "LiveClaimRail" in source
     assert "Follow one claim" in source
-    assert "state_diff" in source
-    assert "open_obligation" in source
+    assert "review result" in source
+    assert "missing evidence" in source
     assert "next_task" in source
-    assert "proposal only" in source
+    assert "reviewable, but not accepted biology" in source
 
 
 if __name__ == "__main__":

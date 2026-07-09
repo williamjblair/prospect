@@ -15,9 +15,9 @@ RECEIPTS = ROOT / "receipts" / "receipts.jsonl"
 OUT_DOC = ROOT / "docs" / "JUDGE_HANDOUT.md"
 
 HUMAN_ONLY_ACTIONS = [
-    "sign the frontier root",
+    "sign the evidence root",
     "accept a submitted receipt",
-    "accept a PGGT1B state change",
+    "accept a PGGT1B record change",
     "wet-lab execution",
 ]
 
@@ -72,16 +72,16 @@ def build_handout() -> dict[str, Any]:
         "trust_boundary": {
             "model_role": "propose, search, draft",
             "model_in_trust_path": "no",
-            "accepted_state": "human_signed_replayable_root",
-            "model_accepted_state_mutations": 0,
+            "accepted_record": "human_signed_replayable_root",
+            "model_accepted_record_mutations": 0,
         },
         "judge_path": [
-            "Overview: real Claude Science signature enters Prospect and receives typed causal verdicts.",
-            "Overview: paste a gene list, DE table, or signature and copy the shareable state link.",
-            "Overview: inspect the 48 and 64 percent overclaiming benchmark.",
-            "Agent: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
-            "Findings: signed CD4+ T-cell records show the frozen frontier.",
-            "Frontier: receipts and MCP bridge show accepted=false until a human key signs.",
+            "Check: real Claude Science signature enters Prospect and receives typed causal verdicts.",
+            "Check: paste a gene list, DE table, or signature and copy the shareable result link.",
+            "Check: inspect the 48 and 64 percent overclaiming benchmark.",
+            "Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
+            "Evidence: signed CD4+ T-cell findings show the frozen evidence graph.",
+            "Receipts: receipts and MCP bridge show accepted=false until a human key signs.",
         ],
         "public_artifacts_to_open": PUBLIC_ARTIFACTS,
         "commands": [
@@ -148,8 +148,8 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
         f"- Model role: {handout['trust_boundary']['model_role']}",
         f"- Model in trust path: {handout['trust_boundary']['model_in_trust_path']}",
-        f"- Accepted state: {handout['trust_boundary']['accepted_state']}",
-        f"- Model accepted state mutations: {handout['trust_boundary']['model_accepted_state_mutations']}",
+        f"- Accepted record: {handout['trust_boundary']['accepted_record']}",
+        f"- Model accepted record mutations: {handout['trust_boundary']['model_accepted_record_mutations']}",
         "",
         "## Public Artifacts",
         "",
