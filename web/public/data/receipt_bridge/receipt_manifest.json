@@ -4,12 +4,12 @@
   "signer": "williamblair",
   "receipt_count": 6,
   "receipt_ids": [
-    "rcpt_4b498e298f5a349d",
-    "rcpt_a2adbf2303d4b92c",
-    "rcpt_19d5e07b08f10701",
-    "rcpt_b93886216e70f075",
-    "rcpt_5fc079845283ef6e",
-    "rcpt_9b0c29c407ab05c8"
+    "rcpt_204a55aadad0acb6",
+    "rcpt_3a2cdddb663b96bc",
+    "rcpt_be62837b4fe0d926",
+    "rcpt_0bf5d6bad1e96ea8",
+    "rcpt_aaee46f42e944415",
+    "rcpt_83d76f63a5682657"
   ],
   "replay": "./prospect verify",
   "mcp_command": "./prospect mcp",

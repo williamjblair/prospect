@@ -16,8 +16,9 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Numbers To Inspect
 
-- Real Claude Science signature: 52 genes, 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed
+- Real Claude Science signature: 52 genes, 12 drivers, 25 passengers, 0 contradicted driver claims, 15 not assayed
 - ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
+- GSE278572: 24 overlapping regulators, 1 pre-registered interpretation qualification
 - PGGT1B carries 10 orthogonal public evidence sources
 - PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
 - 5 signed CD4+ findings and 6 receipts
@@ -28,9 +29,10 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 1. Check: real Claude Science signature enters Prospect and receives typed causal verdicts.
 2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
 3. Check: inspect the 48 and 64 percent overclaiming benchmark.
-4. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
-5. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
-6. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
+4. Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
+5. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
+6. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
+7. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
 
 ## Trust Boundary
 
@@ -41,15 +43,15 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Public Artifacts
 
+- `/data/check.json`
 - `/data/frontier.json`
 - `/data/finding_index.json`
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/claude_science_acceptance_demo.json`
-- `/data/substrate_coverage_report.json`
+- `/data/gse278572_comparator.json`
 - `/data/pggt1b_defended_evidence.json`
-- `/data/pggt1b_deep_dive.json`
 - `/data/overclaim_counter.json`
 
 ## Commands

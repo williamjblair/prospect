@@ -6,23 +6,23 @@
 ./prospect demo-mode --reset
 ```
 
-Open the live or local site on Overview. The local site should run on a port other than 3000.
+Open the live or local site on Check. The local site should run on a port other than 3000.
 
 ## Two-minute storyboard
 
-1. Overview, first screen: Prospect is the acceptance layer for AI-generated biology. Reproducible activity is not accepted state.
-2. Traceable headline rail: show that the overclaim, real artifact, PGGT1B, and funnel numbers each have an artifact and command.
-3. Claude Science panel: a real scRNA-seq immunotherapy signature enters as a proposal. Prospect separates drivers, passengers, contradicted driver claims, and not_assayed genes.
-4. Run your own claim: paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE`. Open the returned state page.
-5. Agent tab: PGGT1B is the proposal-only hypothesis worth testing, with prenylation mechanism, prior-art downgrade, and a primary CD4+ CRISPRi refutation experiment.
-6. Frontier tab: receipts cross the boundary, but accepted state waits for frozen replay and a human key.
+1. Check, first screen: Prospect is the acceptance layer for AI-generated biology. Reproducible activity is not accepted state.
+2. Claude Science panel: a real scRNA-seq immunotherapy signature enters as a proposal. Show the exact split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15 `not_assayed`.
+3. Run your own claim: paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE`. Open the returned proposal page.
+4. Evidence: show the 48% and 64% overclaiming benchmark, then the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
+5. Lead: PGGT1B is the proposal-only hypothesis worth testing, with prenylation mechanism, comparability limits, and a primary CD4+ CRISPRi refutation experiment.
+6. Receipts: receipts cross the boundary, but accepted state waits for frozen replay and a human key.
 
 ## Five-minute extension
 
-1. Open `/guide` on the acceptance service and show the paste path plus MCP path.
-2. Open `/ledger` after the demo submission and show producer attribution plus typed counts.
+1. Open `/guide` on the acceptance service and show the paste path plus official Streamable HTTP MCP path.
+2. Open `/ledger` after a submission with `publish_to_ledger=true` and show the self-declared producer plus typed counts.
 3. Run `python examples/claude_science_connector_client.py --json` and point to the same 52-gene typed breakdown.
-4. Run `python examples/prospect_connector_client.py --case openresearch --json` to show a second producer using the same connector.
+4. Run `python examples/prospect_connector_client.py --case openresearch --json` to show a second producer using the same evaluator.
 5. Close on `root_a8b0dcdd4024e12f`, `accepted=false`, and the human-only acceptance step.
 
 ## Fixture fallback

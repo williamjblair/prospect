@@ -44,7 +44,7 @@ TRACEABLE_CLAIMS = [
         "surface": "web/app/page.tsx",
     },
     {
-        "claim": "real Claude Science export typed as drivers, passengers, contradicted driver claims, and not_assayed",
+        "claim": "real Claude Science export typed as drivers, passengers, and not_assayed",
         "artifact": "/data/claude_science_acceptance_demo.json",
         "command": "python examples/claude_science_connector_client.py --json",
         "surface": "web/app/page.tsx",

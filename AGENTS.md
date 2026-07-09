@@ -43,17 +43,13 @@ Verification < Accepted < State`. See [docs/PROTOCOL.md](docs/PROTOCOL.md) for t
 ## Run, verify, deploy
 
 ```bash
-# one CLI for the whole loop: build|verify|sign|check|propose|agent|campaign|disease-overlay|pggt1b|lab-pack|findings-index|judge-handout|submit-pack|receipt|mcp
 ./prospect verify                   # re-derive 53k objects from frozen data, 0 drift (the gate)
 python benchmark/mutation_pack.py   # the floor: zero tampered claim ever admitted
 python tests/test_skill_parity.py   # the Skill checker matches the engine (112 claims, 0 drift)
 python tests/test_marson.py         # the frozen-table checker over the released DE object
 python -m pytest tests/ -q          # the full test suite
-./prospect campaign                 # builds the proposal-only campaign leaderboard (20 rows)
-./prospect disease-overlay          # external disease-context overlay, no accepted-state mutation
-./prospect pggt1b                   # builds the PGGT1B evidence packet
-./prospect lab-pack                 # builds the wet-lab assay packet
-./prospect findings-index           # builds the scannable finding index
+./prospect claude-science           # rebuild the real 52-gene connector artifact
+./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 ./prospect judge-handout            # builds the one-page judge handout
 ./prospect submit-pack              # prints copy-safe upload fields and public artifact links
 ./prospect propose                  # Claude proposes, the frozen verifier decides, a human signs
@@ -67,22 +63,19 @@ python frontier/build.py && python frontier/verify.py && python frontier/sign.py
 python receipt/emit.py && cd web && python gen_data.py
 
 # web app (Next.js 16 + Tailwind v4 + shadcn + sigma.js):
-cd web && npm run build             # must pass; static export
+cd web && npm run typecheck && npm run build
 cd web && vercel --prod --yes --scope constellate-dc388081   # deploy
 ```
 
-The AI loops (`propose`, `agent`, the benchmark) need `ANTHROPIC_API_KEY` in `.env`. Default model
-`claude-opus-4-8`. The web app reads one static `web/public/data/frontier.json`; it runs offline and
-credential-free.
+The AI loops need `ANTHROPIC_API_KEY` in `.env`; the acceptance path does not. Check loads
+`web/public/data/check.json`; the full graph is lazy-loaded from `frontier.json` only in Explorer.
 
 ## Design
 
-This is a **product** register (design serves the task). The design system is the Observatory
-(cool first-light paper, indigo ink, one scarce kintsugi-gold accent, Hasui night-band dark mode).
-Tokens in `web/app/globals.css`; system documented in [DESIGN.md](DESIGN.md) and [PRODUCT.md](PRODUCT.md).
-Never raw hex; use tokens.
+This is a **product** register. The design system is Lab Console: cool clinical surfaces, black-blue
+ink, clinical-blue actions, teal driver evidence, vermilion only for earned contradictions, and steel
+for passengers or gaps. Tokens live in `web/app/globals.css`; see [DESIGN.md](DESIGN.md).
 
 ## Where the state is
 
-Everything is committed and live. Nothing is mid-flight. Start from [docs/HANDOFF.md](docs/HANDOFF.md)
-for the file map, what each phase shipped, the remaining opportunities, and the winning demo.
+Start from [docs/HANDOFF.md](docs/HANDOFF.md) for current service, science, deployment, and demo state.

@@ -18,14 +18,21 @@
   "required_fields": [
     "artifacts",
     "claim",
+    "conditions",
     "evidence",
     "frontier",
     "kind",
     "producer",
     "receipt_id",
+    "replay_metadata",
     "replayability",
+    "schema_version",
+    "state_diff",
     "status",
     "subject",
+    "submitter_identity",
+    "verdicts",
+    "verification_requirements",
     "verifier"
   ],
   "statuses": [

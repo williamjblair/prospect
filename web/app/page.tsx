@@ -2,16 +2,13 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  LayoutGrid, Rows3, Share2, Waypoints, Telescope, Search, ShieldCheck, ExternalLink, Bot,
+  LayoutGrid, Waypoints, Telescope, Search, ShieldCheck, ExternalLink, Bot,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { GraphView } from "@/components/graph-view";
 
 const LIVE_CLAIM_RAIL_TITLE = "Follow one claim";
-const CROSS_DOMAIN_BENCHMARK_TITLE = "Two domains, one trust boundary";
-const CROSS_DOMAIN_BENCHMARK_RANGE = "48-79%";
-const OPENRESEARCH_AUDIT_NAME = "Adversarial falsification audit: 19 of 24 verification claims fail";
 
 type Cond = { s: string; de: number; dn: number; es: number };
 type Node = { g: string; cls: string; st: string; od: number; id: number; C: Record<string, Cond> };
@@ -128,49 +125,6 @@ type DefendedEvidencePacket = {
   };
   reproduce_command: string;
 };
-type LiveClaimRail = {
-  title: string;
-  gene: string;
-  claim: string;
-  status: string;
-  receipt_id: string;
-  receipt_kind: string;
-  reproduce_command: string;
-  accepted_event: string;
-  accepted_state: boolean;
-  why_not_state: string;
-  state_diff: { accepted: boolean; model_can_apply: boolean; effect: string; target: string };
-  open_obligation: string;
-  next_task: string;
-  stages: { stage: string; text: string }[];
-};
-type CrossDomainBenchmark = {
-  title: string;
-  status: string;
-  accepted_state_mutation: string;
-  range: string;
-  biology: {
-    domain: string;
-    source_name: string;
-    overclaim_rate: number;
-    effector_overclaim_rate: number;
-    claims_contradicted: number;
-    claims_checked: number;
-  };
-  math: {
-    domain: string;
-    source_name: string;
-    platform: string;
-    platform_url: string;
-    claims_false: number;
-    claims_total: number;
-    false_claim_rate: number;
-    audit_method: string;
-  };
-  boundary: string;
-  claim: string;
-  why_it_matters: string;
-};
 type OverclaimCounterPacket = {
   phase: string;
   status: string;
@@ -230,7 +184,7 @@ type ClaudeScienceAcceptanceDemo = {
   verdicts: {
     gene: string;
     signature_roles: string[];
-    typed_status: string;
+    typed_status: AcceptanceStatus;
     condition: string;
     n_total_de_genes: number | null;
     ontarget_effect_category: string;
@@ -244,12 +198,6 @@ type ClaudeScienceAcceptanceDemo = {
 type Data = {
   stats: { n_genes: number; n_perturbations: number; dist: Record<string, number>; n_edges: number };
   atlas: Node[]; out: Record<string, Edge[]>; in: Record<string, Edge[]>;
-  gene_id_map?: { ensembl_to_symbol: Record<string, string> };
-  acceptance_rule?: {
-    aliases: Record<string, string>;
-    explicit_driver_claims: Record<string, string>;
-    lookup: Record<string, AcceptanceLookup>;
-  };
   contra: Contra[]; open: string[];
   surprises: { hidden_regulators: any[]; demoted_famous: any[]; untested_famous: any[] };
   finding_index?: FindingIndex | null;
@@ -272,11 +220,10 @@ type Data = {
     verifier_replay: string; human_acceptance_requires: string[];
   };
   pggt1b_deep_dive?: PGGT1BDeepDive | null;
-  live_claim_rail?: LiveClaimRail | null;
-  cross_domain_benchmark?: CrossDomainBenchmark | null;
   overclaim_counter?: OverclaimCounterPacket | null;
   claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
   pggt1b_defended_evidence?: DefendedEvidencePacket | null;
+  gse278572_comparator?: any;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -303,32 +250,25 @@ const fmt = (n: number) => n.toLocaleString();
 type AcceptanceStatus = "evidence_attached" | "associative_only" | "contradicted" | "not_assayed";
 type AcceptanceVerdict = {
   gene: string;
-  submitted: string;
   typed_status: AcceptanceStatus;
   condition: string;
   n_total_de_genes: number | null;
   reason: string;
 };
 type AcceptanceResult = {
-  input_kind: string;
-  submitted_gene_count: number;
-  receipt_id: string;
-  state_id: string;
-  state_url: string;
+  proposal_id: string;
+  proposal_url: string;
   accepted: false;
   next: "human_signature_required";
-  counts: Record<AcceptanceStatus | "drivers" | "passengers" | "genes", number>;
+  prospect: {
+    receipt_id: string;
+    typed_status_counts: Record<AcceptanceStatus | "drivers" | "passengers" | "genes", number>;
+    ceiling: string;
+  };
+  comparability: { status: string; reason: string };
   verdicts: AcceptanceVerdict[];
   warnings: string[];
-  ceiling: string;
 };
-type AcceptanceLookup = {
-  on_target: boolean;
-  condition: string;
-  n_total_de_genes: number | null;
-};
-const ACCEPTANCE_CEILING = "Computation over released data, not wet-lab or clinical truth.";
-const ACCEPTANCE_HASH_PREFIX = `${String.fromCharCode(35)}prospect-state=`;
 const PUBLIC_ACCEPTANCE_SERVICE_URL = (process.env.NEXT_PUBLIC_PROSPECT_ACCEPTANCE_URL || "").replace(/\/$/, "");
 const ACCEPTANCE_EXAMPLE = `IL7R
 CCR7
@@ -336,206 +276,11 @@ PD-1
 ENSG00000121410
 NOTGENE`;
 
-function stableHash(text: string) {
-  let h = 2166136261;
-  for (let i = 0; i < text.length; i += 1) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
-  return (h >>> 0).toString(16).padStart(8, "0");
-}
-
-function splitDelimited(line: string, delimiter: string) {
-  return line.split(delimiter).map((x) => x.trim().replace(/^["']|["']$/g, ""));
-}
-
-function collectJsonGenes(value: any, out: string[]) {
-  if (typeof value === "string") {
-    out.push(value);
-    return;
-  }
-  if (Array.isArray(value)) {
-    value.forEach((v) => collectJsonGenes(v, out));
-    return;
-  }
-  if (value && typeof value === "object") {
-    Object.entries(value).forEach(([key, v]) => {
-      if (["AUC", "metrics", "metadata"].includes(key)) return;
-      if (["gene", "symbol", "marker", "target", "name"].includes(key.toLowerCase()) && typeof v === "string") out.push(v);
-      else if (Array.isArray(v)) collectJsonGenes(v, out);
-    });
-  }
-}
-
-function normalizeSubmittedGene(raw: string, symbols: Set<string>, ensemblToSymbol: Record<string, string>, aliases: Record<string, string>) {
-  const trimmed = raw.trim().replace(/^["']|["']$/g, "");
-  if (!trimmed) return "";
-  const upper = trimmed.toUpperCase().replace(/\.\d+$/, "");
-  const alias = aliases[upper] || aliases[trimmed] || "";
-  if (alias) return alias;
-  if (ensemblToSymbol[upper]) return ensemblToSymbol[upper];
-  if (symbols.has(upper)) return upper;
-  return upper;
-}
-
-function parseAcceptanceInput(text: string, d: Data) {
-  const source = text.trim();
-  if (!source) throw new Error("submission is empty");
-  const symbols = new Set(d.atlas.map((n) => n.g));
-  const ensemblToSymbol = d.gene_id_map?.ensembl_to_symbol || {};
-  const aliases = d.acceptance_rule?.aliases || {};
-  const warnings: string[] = [];
-  let rawGenes: string[] = [];
-  let inputKind = "gene_list";
-
-  if (source.startsWith("{") || source.startsWith("[")) {
-    const parsed = JSON.parse(source);
-    collectJsonGenes(parsed, rawGenes);
-    inputKind = "signature_json";
-  } else {
-    const lines = source.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    const delimiter = lines[0]?.includes("\t") ? "\t" : lines[0]?.includes(",") ? "," : "";
-    if (delimiter) {
-      const header = splitDelimited(lines[0], delimiter).map((x) => x.toLowerCase().replace(/[^a-z0-9]+/g, "_"));
-      const geneCol = header.findIndex((h) => ["gene", "genes", "symbol", "gene_symbol", "marker", "markers", "feature", "target", "name"].includes(h));
-      if (geneCol < 0) throw new Error("table needs a gene, symbol, marker, target, feature, or name column");
-      rawGenes = lines.slice(1).map((line) => splitDelimited(line, delimiter)[geneCol]).filter(Boolean);
-      inputKind = "table";
-    } else {
-      rawGenes = source.split(/[\s,;]+/).filter(Boolean);
-    }
-  }
-
-  const seen = new Set<string>();
-  const genes: { gene: string; submitted: string }[] = [];
-  rawGenes.forEach((raw) => {
-    const gene = normalizeSubmittedGene(raw, symbols, ensemblToSymbol, aliases);
-    if (!gene) return;
-    if (seen.has(gene)) {
-      warnings.push(`duplicate gene ignored: ${gene}`);
-      return;
-    }
-    seen.add(gene);
-    genes.push({ gene, submitted: raw });
-  });
-  if (!genes.length) throw new Error("submission contained no genes");
-  return { inputKind, genes, warnings };
-}
-
-function classifyAcceptanceGene(
-  item: { gene: string; submitted: string },
-  lookup: Record<string, AcceptanceLookup>,
-  explicitDriverClaims: Record<string, string>,
-): AcceptanceVerdict {
-  const row = lookup[item.gene];
-  if (!row) {
-    return {
-      gene: item.gene,
-      submitted: item.submitted,
-      typed_status: "not_assayed",
-      condition: "",
-      n_total_de_genes: null,
-      reason: `${item.gene} is absent from the frozen Marson table.`,
-    };
-  }
-  if (!row.on_target) {
-    return {
-      gene: item.gene,
-      submitted: item.submitted,
-      typed_status: "not_assayed",
-      condition: "",
-      n_total_de_genes: null,
-      reason: `${item.gene} lacks on-target knockdown in all Marson conditions.`,
-    };
-  }
-  const n = row.n_total_de_genes ?? 0;
-  if (n > 10) {
-    return {
-      gene: item.gene,
-      submitted: item.submitted,
-      typed_status: "evidence_attached",
-      condition: row.condition,
-      n_total_de_genes: n,
-      reason: `${item.gene} has on-target knockdown and moves ${fmt(n)} transcripts in ${row.condition}.`,
-    };
-  }
-  if (explicitDriverClaims[item.gene]) {
-    return {
-      gene: item.gene,
-      submitted: item.submitted,
-      typed_status: "contradicted",
-      condition: row.condition,
-      n_total_de_genes: n,
-      reason: `${item.gene} has an explicit driver claim, but on-target knockdown moves only ${fmt(n)} transcripts at strongest effect.`,
-    };
-  }
-  return {
-    gene: item.gene,
-    submitted: item.submitted,
-    typed_status: "associative_only",
-    condition: row.condition,
-    n_total_de_genes: n,
-    reason: `${item.gene} is in the submitted signature, but perturbation moves only ${fmt(n)} transcripts at strongest effect.`,
-  };
-}
-
-function buildAcceptanceResult(text: string, d: Data): AcceptanceResult {
-  const parsed = parseAcceptanceInput(text, d);
-  const lookup = d.acceptance_rule?.lookup || {};
-  const explicitDriverClaims = d.acceptance_rule?.explicit_driver_claims || {};
-  const verdicts = parsed.genes.map((gene) => classifyAcceptanceGene(gene, lookup, explicitDriverClaims));
-  const counts = verdicts.reduce((acc, row) => {
-    acc[row.typed_status] += 1;
-    return acc;
-  }, { genes: verdicts.length, drivers: 0, passengers: 0, evidence_attached: 0, associative_only: 0, contradicted: 0, not_assayed: 0 } as Record<AcceptanceStatus | "drivers" | "passengers" | "genes", number>);
-  counts.drivers = counts.evidence_attached;
-  counts.passengers = counts.associative_only;
-  const frozen = JSON.stringify({ genes: parsed.genes, verdicts: verdicts.map((v) => [v.gene, v.typed_status, v.n_total_de_genes]) });
-  const id = stableHash(frozen);
-  return {
-    input_kind: parsed.inputKind,
-    submitted_gene_count: parsed.genes.length,
-    receipt_id: `receipt_${id}`,
-    state_id: `state_${id}`,
-    state_url: `${ACCEPTANCE_HASH_PREFIX}${encodeURIComponent(btoa(JSON.stringify({ receipt_id: `receipt_${id}`, verdicts, counts })))}`,
-    accepted: false,
-    next: "human_signature_required",
-    counts,
-    verdicts,
-    warnings: parsed.warnings,
-    ceiling: ACCEPTANCE_CEILING,
-  };
-}
-
-function decodeSharedAcceptanceState(): AcceptanceResult | null {
-  if (typeof window === "undefined") return null;
-  if (!window.location.hash.startsWith(ACCEPTANCE_HASH_PREFIX)) return null;
-  const encoded = window.location.hash.slice(ACCEPTANCE_HASH_PREFIX.length);
-  try {
-    const payload = JSON.parse(atob(decodeURIComponent(encoded)));
-    const stateId = String(payload.receipt_id || "receipt_shared").replace(/^receipt_/, "state_");
-    return {
-      input_kind: "shared_link",
-      submitted_gene_count: payload.verdicts?.length || 0,
-      receipt_id: payload.receipt_id || "receipt_shared",
-      state_id: stateId,
-      state_url: window.location.href,
-      accepted: false,
-      next: "human_signature_required",
-      counts: payload.counts,
-      verdicts: payload.verdicts || [],
-      warnings: [],
-      ceiling: ACCEPTANCE_CEILING,
-    };
-  } catch {
-    return null;
-  }
-}
-
 const NAV = [
   { k: "overview", label: "Check", icon: LayoutGrid },
-  { k: "atlas", label: "Genes", icon: Rows3 },
-  { k: "network", label: "Graph", icon: Share2 },
-  { k: "frontier", label: "Receipts", icon: Waypoints },
   { k: "findings", label: "Evidence", icon: Telescope },
   { k: "agent", label: "Lead", icon: Bot },
+  { k: "frontier", label: "Receipts", icon: Waypoints },
 ];
 
 export default function Page() {
@@ -545,9 +290,18 @@ export default function Page() {
   const [q, setQ] = useState("");
   const [gene, setGene] = useState<string | null>(null);
   const [focus, setFocus] = useState<string>("");
+  const [graphLoading, setGraphLoading] = useState(false);
   const { resolvedTheme } = useTheme();
   const dark = resolvedTheme === "dark";
   useEffect(() => {
+    fetch("/data/check.json")
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((x: Data) => setD(x))
+      .catch(() => setErr(true));
+  }, []);
+  useEffect(() => {
+    if (!d || (tab !== "atlas" && tab !== "network") || d.atlas.length || graphLoading) return;
+    setGraphLoading(true);
     fetch("/data/frontier.json")
       .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
       .then((x: Data) => {
@@ -555,10 +309,11 @@ export default function Page() {
         const hub = [...x.atlas].sort((a, b) => b.od - a.od)[0];
         setFocus(x.out["VAV1"] ? "VAV1" : hub ? hub.g : "VAV1");
       })
-      .catch(() => setErr(true));
-  }, []);
+      .catch(() => setErr(true))
+      .finally(() => setGraphLoading(false));
+  }, [d, graphLoading, tab]);
   const node = useMemo(() => (d && gene ? d.atlas.find((n) => n.g === gene) : null), [d, gene]);
-  const label = NAV.find((n) => n.k === tab)?.label ?? "";
+  const label = NAV.find((n) => n.k === tab)?.label ?? (tab === "atlas" || tab === "network" ? "Explorer" : "");
 
   const goSearch = () => { setTab("atlas"); setTimeout(() => document.getElementById("gene-search")?.focus(), 60); };
 
@@ -627,9 +382,13 @@ export default function Page() {
             </div>
           ) : (
             <>
-              {tab === "overview" && <Overview d={d} setTab={setTab} onGene={setGene} />}
-              {tab === "atlas" && <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />}
-              {tab === "network" && <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />}
+              {tab === "overview" && <Overview d={d} setTab={setTab} />}
+              {tab === "atlas" && (graphLoading || !d.atlas.length
+                ? <div className="t-body-sm" aria-busy="true">Loading the frozen gene explorer...</div>
+                : <Atlas d={d} q={q} setQ={setQ} onGene={setGene} />)}
+              {tab === "network" && (graphLoading || !d.atlas.length
+                ? <div className="t-body-sm" aria-busy="true">Loading the frozen graph...</div>
+                : <NetworkView d={d} focus={focus} setFocus={setFocus} dark={dark} onGene={setGene} />)}
               {tab === "frontier" && <Frontier d={d} onGene={setGene} />}
               {tab === "findings" && <Findings d={d} onGene={setGene} />}
               {tab === "agent" && <AgentView d={d} onGene={setGene} />}
@@ -642,286 +401,92 @@ export default function Page() {
   );
 }
 
-const DEMO_PATH: { label: string; tab?: string }[] = [
-  { label: "Start on Check: a real Claude Science export becomes typed driver, passenger, contradicted, or not_assayed verdicts." },
-  { label: "Stay on Check: paste any AI gene list and get the same typed result." },
-  { label: "Open Lead: PGGT1B is the one caveated hypothesis worth testing, with mechanism and wet-lab gates.", tab: "agent" },
-  { label: "Open Evidence: signed CD4+ T-cell findings show what the frozen gate already holds.", tab: "findings" },
-  { label: "Open Receipts: external claims enter as proposals, accepted=false until a human key signs.", tab: "frontier" },
-];
-
-function Overview({ d, setTab, onGene }: { d: Data; setTab: (tab: string) => void; onGene: (g: string) => void }) {
-  const p = d.phantom, dist = d.stats.dist;
-  const order = ["constitutive_regulator", "condition_specific_regulator", "reproduced_non_regulator", "unverifiable_no_kd"];
-  const demoClaims = [...d.demo].sort((a, b) => {
-    const rank: Record<string, number> = { unsupported: 0, refuted: 1, needs_qualification: 2, asserted: 3, supported: 4 };
-    return (rank[a.status] ?? 9) - (rank[b.status] ?? 9);
-  });
+function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
+  const p = d.phantom;
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
   return (
-    <div style={{ display: "grid", gap: 26 }}>
+    <div className="overview-stack" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 22 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
         <div className="t-label" style={{ marginBottom: 8 }}>Check your AI biology claim · CD4+ T cells</div>
-          <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions are causal drivers?</h1>
+        <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions behave as causal drivers?</h1>
         <p className="reading" style={{ marginTop: 12, maxWidth: "58ch", fontSize: "1rem" }}>
-          Every AI science tool can produce a gene list. Prospect tells a biologist which genes behave as
-          drivers, which look like passengers, and which driver claims the perturbation data contradicts.
-          Reproducible is not verified. Prospect returns a typed decision and keeps acceptance human-controlled.
+          Reproducible is not verified. Prospect checks an AI-generated gene list against frozen perturbation data,
+          separates candidate drivers from passengers, and keeps every result proposal-only until a human key accepts it.
         </p>
       </header>
+
+      <ProspectAcceptanceWorkbench />
 
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
 
-      <ProspectAcceptanceWorkbench d={d} />
+      {rate != null && (
+        <section className="benchmark-band" style={{ display: "grid", gap: 18,
+          padding: "18px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+          <div>
+            <div className="stat-figure" style={{ fontSize: "2.6rem", color: "var(--cinnabar)" }}>{rate}%</div>
+            <div className="t-label">AI major-regulator claims contradicted</div>
+          </div>
+          <div>
+            <h2 className="h2-app" style={{ margin: 0 }}>The gate catches confident overclaims.</h2>
+            <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
+              {p.refuted} of {fmt(p.checkable)} comparable claims were contradicted by the frozen assay. Unassayed genes were excluded.
+              On famous checkpoints and cytokines the rate is {Math.round((p.effector_overclaim_rate || 0) * 100)}%.
+            </p>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginTop: 10 }}>
+              <a className="btn btn-secondary btn-sm" href="/data/overclaim_counter.json">Open benchmark artifact</a>
+              <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+                ./prospect overclaim-counter
+              </span>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("findings")}>Open evidence</button>
+            </div>
+          </div>
+        </section>
+      )}
 
-      <TraceableHeadlineRail d={d} setTab={setTab} />
-
-      <WinningArcPanel d={d} setTab={setTab} />
+      {d.gse278572_comparator && (
+        <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+            <div>
+              <div className="t-label">Prospect corrected itself</div>
+              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>MED12 qualifies the Rest-reach interpretation.</h2>
+            </div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+              {d.gse278572_comparator.status.replace(/_/g, " ")}
+            </span>
+          </div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
+            An independently frozen GSE278572 comparison covers {d.gse278572_comparator.comparison.prospect_overlap} overlapping regulators.
+            High resting reach is evidence against activation specificity, but is not sufficient by itself to label a gene housekeeping
+            or an essentiality artifact. MED12 is the one pre-registered qualification. This remains accepted=false.
+          </p>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <a className="btn btn-secondary btn-sm" href="/data/gse278572_comparator.json">Open corrective proposal</a>
+            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+              {d.gse278572_comparator.replay}
+            </span>
+          </div>
+        </section>
+      )}
 
       {d.pggt1b_defended_evidence && (
         <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} setTab={setTab} />
       )}
 
-      <JudgeTour setTab={setTab} />
-
-      {rate != null && (
-        <div className="card-paper" style={{ padding: "22px 24px", background: "var(--lacquer)", border: "none" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
-            <div className="stat-figure" style={{ fontSize: "3rem", color: "var(--lantern)" }}>{rate}%</div>
-            <div className="t-lede" style={{ color: "var(--ink-on)", fontSize: "1.15rem", maxWidth: "40ch" }}>
-              of confident AI “major regulator” claims are contradicted by the measured data.
-            </div>
-          </div>
-          <p className="t-body-sm" style={{ color: "var(--stone)", marginTop: 10, maxWidth: "72ch" }}>
-            {p.models ? `Across ${p.models} Claude model runs` : "Across model runs"} on one frozen sample,
-            {" "}{p.refuted} of {fmt(p.checkable)} checkable claims were contradicted by the frozen table. Claims the screen couldn’t test
-            (no knockdown) are excluded, not counted against the model.
-          </p>
-          {p.effector_total > 0 && (
-            <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid color-mix(in oklab, var(--stone) 30%, transparent)" }}>
-              <p className="t-body-sm" style={{ color: "var(--ink-on)", margin: 0, maxWidth: "72ch" }}>
-                And on the <b style={{ color: "var(--lantern)" }}>{p.effector_total} genes the field targets most</b>,
-                the checkpoints and cytokines like PD-1, TIM-3, IL-2, models called them a major regulator{" "}
-                <b style={{ color: "var(--lantern)" }}>{p.effector_overclaimed}</b> times.{" "}
-                The data shows near-zero transcriptional change: they are effectors, not drivers (Finding 02).
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {d.cross_domain_benchmark && <CrossDomainBenchmarkPanel cross={d.cross_domain_benchmark} />}
-
-      <div style={{ display: "flex", gap: 44, flexWrap: "wrap", padding: "18px 2px",
-        borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
-        {([
-          [d.stats.n_genes, "genes mapped", "var(--ink)"],
-          [d.stats.n_edges, "regulatory edges", "var(--moss)"],
-          [(dist.constitutive_regulator || 0) + (dist.condition_specific_regulator || 0), "reproduced regulators", "var(--ink)"],
-          [d.frontier.n_contra, "contradictions", "var(--cinnabar)"],
-        ] as [number, string, string][]).map(([n, label, tone]) => (
-          <div key={label}>
-            <div className="stat-figure" style={{ color: tone, fontSize: "1.7rem", lineHeight: 1 }}>{fmt(n)}</div>
-            <div className="t-label" style={{ marginTop: 6 }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <section style={{ display: "grid", gap: 12 }}>
-        <h2 className="h2-app">What the frozen perturbation data says across the genome</h2>
-        <div style={{ display: "flex", height: 12, borderRadius: 6, overflow: "hidden" }}>
-          {order.map((k) => <div key={k} style={{ flex: dist[k] || 0, background: CLASS[k][0] }} />)}
-        </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-          {order.map((k) => (
-            <span key={k} className="t-body-sm" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-              <span style={{ width: 10, height: 10, borderRadius: 3, background: CLASS[k][0] }} />
-              {CLASS[k][1]} · {fmt(dist[k] || 0)}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section style={{ display: "grid", gap: 10 }}>
+      <section className="card-paper" style={{ padding: "16px 18px", display: "flex", gap: 16, alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
         <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Opening claim checks</div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "70ch" }}>
-            Start with claims a model can assert quickly. The checker keeps each verdict typed and grounded in the frozen table.
+          <div className="t-label">Human acceptance boundary</div>
+          <p className="t-body-sm" style={{ margin: "5px 0 0", maxWidth: "66ch", color: "var(--ink-3)" }}>
+            The model proposes. Frozen code replays. A human Ed25519 key decides whether a proposal becomes shared state.
           </p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 10 }}>
-          {demoClaims.slice(0, 3).map((x) => (
-            <div key={`${x.gene}-${x.status}`} style={{ padding: "12px 14px", border: "1px solid var(--rule)", borderRadius: "var(--radius-md)",
-              background: "var(--paper-raised)", display: "grid", gap: 8 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                <span className="t-mono" style={{ fontWeight: 700 }}>{x.gene}</span>
-                <span className="chip" style={{ ["--tone" as any]: DEMOC[x.status] }}>{x.status.replace(/_/g, " ")}</span>
-              </div>
-              <p className="t-body-sm" style={{ margin: 0, color: "var(--ink)" }}>{x.text}</p>
-              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{x.reason}</p>
-            </div>
-          ))}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipts</button>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("atlas")}>Explore genes</button>
         </div>
       </section>
-
-      {d.live_claim_rail && <LiveClaimRail rail={d.live_claim_rail} setTab={setTab} />}
-
-      {d.proposal && (
-        <section style={{ display: "grid", gap: 10 }}>
-          <h2 className="h2-app">Claude proposes, the frozen verifier decides</h2>
-          <p className="t-body-sm" style={{ maxWidth: "68ch", marginTop: -2 }}>
-            Claude ({d.proposal.model.replace("claude-", "").replace(/-/g, " ")}) proposed{" "}
-            {d.proposal.proposed} candidate regulators. The frozen verifier admitted{" "}
-            <b style={{ color: "var(--moss)" }}>{d.proposal.admitted}</b> and rejected{" "}
-            <b style={{ color: "var(--cinnabar)" }}>{d.proposal.rejected}</b>, with no model in the trust path.
-          </p>
-          <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
-            {d.proposal.items.map((p, i) => {
-              const admit = p.verdict === "supported";
-              const tone = admit ? "var(--moss)" : p.verdict === "needs_qualification" ? "var(--brass)" : "var(--cinnabar)";
-              const lab = admit ? "admit" : p.verdict === "needs_qualification" ? "qualify" : "reject";
-              return (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "72px 84px 1fr", gap: 10, alignItems: "center",
-                  padding: "7px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none" }}>
-                  <span className="chip" style={{ ["--tone" as any]: tone, justifySelf: "start" }}>{lab}</span>
-                  <span className="t-mono" style={{ fontWeight: 650 }}>{p.gene}</span>
-                  <span className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-3)" }}>{p.rationale}</span>
-                </div>
-              );
-            })}
-          </div>
-          <p className="t-caption" style={{ marginTop: 8 }}>
-            Signed delta <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.proposal.delta_id}</span>.
-            Claude is useful at proposing; the admission decision stays frozen re-derivation plus a human key.
-          </p>
-        </section>
-      )}
-
-      {d.models.length > 0 && (
-        <section style={{ display: "grid", gap: 10 }}>
-          <h2 className="h2-app">The same blind test, across model tiers</h2>
-          <p className="t-body-sm" style={{ maxWidth: "66ch", marginTop: -2 }}>
-            The cost of generating the claims is trivial and the rate at which they fail the data barely moves.
-            Verification is the bottleneck, not generation.
-          </p>
-          <div className="card-paper" style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse" }}>
-              <thead>
-                <tr className="t-label">
-                  {["model", "cost", "verifiable", "contradicted", "effectors overclaimed"].map((h) => (
-                    <th key={h} style={{ textAlign: "left", padding: "10px 14px", borderBottom: "1px solid var(--rule)" }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="t-mono" style={{ fontSize: 13 }}>
-                {d.models.map((m) => (
-                  <tr key={m.tag} style={{ borderTop: "1px solid var(--rule-faint)" }}>
-                    <td style={{ padding: "9px 14px", fontWeight: 600 }}>{m.label}</td>
-                    <td style={{ padding: "9px 14px" }}>${m.cost_usd.toFixed(3)}</td>
-                    <td style={{ padding: "9px 14px" }}>{m.checkable}</td>
-                    <td style={{ padding: "9px 14px", color: "var(--cinnabar)", fontWeight: 600 }}>
-                      {m.refuted_rate != null ? Math.round(m.refuted_rate * 100) + "%" : "·"}
-                    </td>
-                    <td style={{ padding: "9px 14px", color: "var(--cinnabar)" }}>
-                      {m.effector_total ? `${m.effector_overclaimed}/${m.effector_total}` : "·"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
     </div>
-  );
-}
-
-function TraceableHeadlineRail({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
-  const p = d.phantom;
-  const demo = d.claude_science_acceptance_demo;
-  const cross = d.cross_domain_benchmark;
-  const overclaim = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : 48;
-  const effector = p?.effector_overclaim_rate ? Math.round(p.effector_overclaim_rate * 100) : 64;
-  const mathFalse = cross?.math ? `${cross.math.claims_false}/${cross.math.claims_total}` : "19/24";
-  const counts = demo?.prospect.typed_status_counts;
-  const lead = d.pggt1b_defended_evidence;
-  const items = [
-    {
-      label: "overclaim pressure",
-      value: `${overclaim}-${effector}%`,
-      body: "Biology claims from model runs fail the frozen table often enough that replay is the product.",
-      href: "/data/overclaim_counter.json",
-      command: "./prospect overclaim-counter",
-      action: () => setTab("overview"),
-    },
-    {
-      label: "external pressure",
-      value: mathFalse,
-      body: "An independent math audit shows the same activity-to-state gap outside biology.",
-      href: "/data/frontier.json",
-      command: "./prospect verify",
-      action: () => setTab("overview"),
-    },
-    {
-      label: "real artifact typed",
-      value: counts ? `${counts.drivers}/${counts.passengers}/${counts.contradicted}/${counts.not_assayed}` : "12/22/3/15",
-      body: "Order: drivers, passengers, contradicted driver claims, not_assayed.",
-      href: "/data/claude_science_acceptance_demo.json",
-      command: "python examples/claude_science_connector_client.py --json",
-      action: () => setTab("frontier"),
-    },
-    {
-      label: "lead worth testing",
-      value: lead?.gene || "PGGT1B",
-      body: "Mechanism-first hypothesis: prenylation, FNTA/RABGGTA, survived adversarial kills.",
-      href: "/data/pggt1b_defended_evidence.json",
-      command: "./prospect pggt1b-defended-evidence",
-      action: () => setTab("agent"),
-    },
-  ];
-  return (
-    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Traceable headline rail</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>Four claims, four artifacts, no packet pile.</h2>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>accepted=false until human key</span>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
-        {items.map((item) => (
-          <div
-            key={item.label}
-            data-trace-number={item.label}
-            style={{
-              textAlign: "left",
-              border: "1px solid var(--rule)",
-              borderRadius: "var(--radius-md)",
-              background: "var(--paper-raised)",
-              padding: "12px 13px",
-              display: "grid",
-              gap: 8,
-              minHeight: 190,
-            }}
-          >
-            <span className="t-label">{item.label}</span>
-            <span className="stat-figure" style={{ fontSize: "1.42rem", lineHeight: 1.05, color: "var(--ink)" }}>{item.value}</span>
-            <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{item.body}</span>
-            <span className="t-caption" style={{ display: "grid", gap: 7, alignSelf: "end" }}>
-              <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                <button type="button" className="btn btn-secondary btn-sm" onClick={item.action}>Open section</button>
-                <a href={item.href} style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-                  artifact {item.href}
-                </a>
-              </span>
-              <span className="t-mono" style={{ color: "var(--ink-3)", overflowWrap: "anywhere" }}>{item.command}</span>
-            </span>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -944,7 +509,7 @@ function PGGT1BLeadPanel({
           <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
             PGGT1B is not presented as settled biology. The kept hypothesis is narrower: perturbing PGGT1B moves the
             stimulated primary CD4+ activation transcriptome in the frozen Marson table, with a prenylation mechanism
-            suggested by partners {partners}. It survived adversarial kills that eliminated four other candidates.
+            suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch specificity remains open.
           </p>
         </div>
         <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{evidence.status.replace(/_/g, " ")}</span>
@@ -962,8 +527,8 @@ function PGGT1BLeadPanel({
         />
         <TraceFact
           label="kill attempts"
-          value={`${survivedKills || 5} survived`}
-          body="technical confound, essentiality, donor or batch, reverse causality, and alternative mechanism"
+          value={`${survivedKills || 3} non-fatal`}
+          body="technical confound, essentiality, and alternative mechanism checked; donor and batch specificity remains open"
         />
         <TraceFact
           label="wet-lab ceiling"
@@ -991,244 +556,6 @@ function TraceFact({ label, value, body }: { label: string; value: string; body:
       <div className="stat-figure" style={{ fontSize: "1.35rem", lineHeight: 1.05 }}>{value}</div>
       <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>{body}</p>
     </div>
-  );
-}
-
-function JudgeTour({ setTab }: { setTab: (tab: string) => void }) {
-  return (
-    <section style={{ display: "grid", gap: 10 }}>
-      <div>
-        <div className="t-label" style={{ marginBottom: 5 }}>Guided judge tour</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>Five moves, no setup.</h2>
-        <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "70ch", color: "var(--ink-3)" }}>
-          The tour follows the live page order first, then opens the deeper tabs for the evidence record.
-        </p>
-      </div>
-      <ol style={{ display: "grid", gap: 7, margin: 0, padding: 0, listStyle: "none" }}>
-        {DEMO_PATH.map((step, i) => (
-          <li key={i} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 10, alignItems: "baseline" }}>
-            <span className="t-mono t-caption" style={{ color: "var(--ink-3)" }}>{i + 1}</span>
-            {step.tab ? (
-              <button onClick={() => setTab(step.tab!)} className="t-body-sm"
-                style={{ textAlign: "left", background: "none", border: "none", padding: 0, cursor: "pointer",
-                  color: "var(--ink)", borderBottom: "1px solid var(--rule)", width: "fit-content" }}>
-                {step.label}
-              </button>
-            ) : (
-              <span className="t-body-sm" style={{ color: "var(--ink)" }}>{step.label}</span>
-            )}
-          </li>
-        ))}
-      </ol>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
-        paddingTop: 8, borderTop: "1px solid var(--rule-faint)" }}>
-        <span className="t-label" style={{ marginRight: 2 }}>Jump to</span>
-        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[3].label} onClick={() => setTab("findings")}>
-          Evidence
-        </button>
-        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[4].label} onClick={() => setTab("frontier")}>
-          Receipts
-        </button>
-        <button type="button" className="btn btn-secondary btn-sm" title={DEMO_PATH[2].label} onClick={() => setTab("agent")}>
-          Lead
-        </button>
-      </div>
-    </section>
-  );
-}
-
-function WinningArcPanel({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
-  const demo = d.claude_science_acceptance_demo;
-  const pggt = d.pggt1b_defended_evidence;
-  const overclaim = d.phantom?.checkable ? Math.round((d.phantom.refuted / d.phantom.checkable) * 100) : 48;
-  const effector = d.phantom?.effector_overclaim_rate ? Math.round(d.phantom.effector_overclaim_rate * 100) : 64;
-  const counts = demo?.prospect.typed_status_counts;
-  const pggtCounts = pggt?.sade_feldman_signature_summary?.typed_status_counts;
-  const steps = [
-    {
-      label: "Overclaim floor",
-      value: `${overclaim}-${effector}%`,
-      body: "AI biology claims fail often enough that a replayable acceptance layer is infrastructure, not decoration.",
-      action: () => setTab("overview"),
-    },
-    {
-      label: "Real artifact",
-      value: counts ? `${counts.genes} genes` : "52 genes",
-      body: "A real Claude Science signature enters Prospect and is split into drivers, passengers, contradicted driver claims, and not_assayed genes.",
-      action: () => setTab("overview"),
-    },
-    {
-      label: "Typed verdicts",
-      value: counts ? `${counts.evidence_attached}/${counts.associative_only}/${counts.contradicted}/${counts.not_assayed}` : "12/22/3/15",
-      body: "The compact count order is evidence_attached, associative_only, contradicted, not_assayed. No model makes the final call.",
-      action: () => setTab("frontier"),
-    },
-    {
-      label: "PGGT1B payload",
-      value: pggt?.gene || "PGGT1B",
-      body: pggt?.novelty_assessment?.downgraded_novelty
-        ? "Prior art already links PGGT1B to T-cell biology, so the kept claim is a narrower hypothesis worth testing."
-        : "The lead remains a proposal worth testing, not settled biology.",
-      action: () => setTab("agent"),
-    },
-    {
-      label: "Run your own",
-      value: "paste or MCP",
-      body: "External teams can submit a gene list, signature JSON, ranked markers, or a DE table and get a receipt plus shareable result page.",
-      action: () => setTab("overview"),
-    },
-  ];
-  return (
-    <section style={{ display: "grid", gap: 12 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "end", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>Five-minute judge arc</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>Acceptance layer first, PGGT1B as the payload.</h2>
-        </div>
-        {pggtCounts && (
-          <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
-            Sade-Feldman: {pggtCounts.evidence_attached} drivers, {pggtCounts.associative_only} passengers
-          </span>
-        )}
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10 }}>
-        {steps.map((step) => (
-          <button
-            key={step.label}
-            type="button"
-            onClick={step.action}
-            style={{
-              textAlign: "left",
-              border: "1px solid var(--rule)",
-              borderRadius: "var(--radius-md)",
-              background: "var(--paper-raised)",
-              padding: "12px 13px",
-              display: "grid",
-              gap: 7,
-              cursor: "pointer",
-              minHeight: 156,
-            }}
-          >
-            <span className="t-label">{step.label}</span>
-            <span className="stat-figure" style={{ fontSize: "1.35rem", lineHeight: 1.05, color: "var(--ink)" }}>{step.value}</span>
-            <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{step.body}</span>
-          </button>
-        ))}
-      </div>
-      {pggt?.mechanism_dossier && (
-        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 10, display: "grid", gap: 6 }}>
-          <div className="t-label">PGGT1B caveat and mechanism</div>
-          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)", maxWidth: "82ch" }}>
-            Data: {pggt.mechanism_dossier.data_shows[0]}. Inference: {pggt.mechanism_dossier.inference[0]}
-            {" "}ChEMBL target {pggt.druggability?.target_chembl_id}; wet-lab test in {pggt.wet_lab_protocol?.system}
-            {" "}with {pggt.wet_lab_protocol?.minimum_donors} or more donors.
-          </p>
-        </div>
-      )}
-    </section>
-  );
-}
-
-function CrossDomainBenchmarkPanel({ cross }: { cross: CrossDomainBenchmark }) {
-  const sourceName = cross.math.source_name || OPENRESEARCH_AUDIT_NAME;
-  return (
-    <section className="card-paper" style={{ padding: "14px 16px", display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label" style={{ marginBottom: 5 }}>{cross.title || CROSS_DOMAIN_BENCHMARK_TITLE}</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>{cross.range || CROSS_DOMAIN_BENCHMARK_RANGE} overclaiming across biology and math</h2>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{cross.status.replace(/_/g, " ")}</span>
-      </div>
-      <p className="t-body-sm" style={{ margin: 0, maxWidth: "74ch", color: "var(--ink-3)" }}>
-        {cross.claim} Prospect measures biology at {Math.round(cross.biology.overclaim_rate * 100)}%,
-        and {Math.round(cross.biology.effector_overclaim_rate * 100)}% on canonical effectors. The external
-        math report, <a href={cross.math.platform_url} target="_blank" rel="noreferrer"
-          style={{ color: "var(--field-blue)", fontWeight: 650 }}>{sourceName}</a>, found{" "}
-        {cross.math.claims_false} of {cross.math.claims_total} claims false under {cross.math.audit_method}.
-      </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
-        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
-          <div className="t-label">biology</div>
-          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-            {cross.biology.claims_contradicted}/{cross.biology.claims_checked} checkable claims contradicted.
-          </p>
-        </div>
-        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
-          <div className="t-label">math</div>
-          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-            {cross.math.claims_false}/{cross.math.claims_total} claims false in an independent audit.
-          </p>
-        </div>
-        <div style={{ borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
-          <div className="t-label">gate</div>
-          <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-            Frozen re-derivation plus a human key. No accepted record changes in this comparison.
-          </p>
-        </div>
-      </div>
-      <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{cross.why_it_matters}</p>
-    </section>
-  );
-}
-
-function LiveClaimRail({ rail, setTab }: { rail: LiveClaimRail; setTab: (tab: string) => void }) {
-  return (
-    <section style={{ display: "grid", gap: 10 }}>
-      <div>
-        <div className="t-label" style={{ marginBottom: 5 }}>{rail.title || LIVE_CLAIM_RAIL_TITLE}</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>{rail.gene}: why the claim stays a hypothesis</h2>
-        <p className="t-body-sm" style={{ margin: "6px 0 0", maxWidth: "72ch" }}>
-          One addressable claim gets a typed status, replay command, and remaining obligation. It is
-          reviewable, but not accepted biology.
-        </p>
-      </div>
-      <div className="card-paper" style={{ padding: "12px 14px", display: "grid", gap: 12 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          <span className="t-mono" style={{ fontWeight: 700 }}>{rail.gene}</span>
-          <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{rail.status.replace(/_/g, " ")}</span>
-          <span className="chip" style={{ ["--tone" as any]: rail.accepted_state ? "var(--moss)" : "var(--cinnabar)" }}>
-            accepted={String(rail.accepted_state)}
-          </span>
-          <span className="t-mono fz-2xs" style={{ color: "var(--ink-3)" }}>{rail.receipt_id}</span>
-        </div>
-        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink)" }}>{rail.claim}</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 }}>
-          {rail.stages.map((step) => (
-            <div key={step.stage} style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)",
-              borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 4 }}>
-              <span className="t-label">{step.stage}</span>
-              <span className="t-body-sm" style={{ color: "var(--ink-3)" }}>{step.text}</span>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
-          <div>
-            <div className="t-label">review result</div>
-            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>
-              {rail.state_diff.effect}. model cannot apply result.
-            </p>
-          </div>
-          <div>
-            <div className="t-label">reproduce command</div>
-            <p className="t-mono fz-2xs" style={{ margin: "4px 0 0", color: "var(--field-blue)", fontWeight: 700 }}>
-              {rail.reproduce_command}
-            </p>
-          </div>
-          <div>
-            <div className="t-label">missing evidence</div>
-            <p className="t-body-sm" style={{ margin: "4px 0 0", color: "var(--ink-3)" }}>{rail.open_obligation}</p>
-          </div>
-        </div>
-        <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-          {rail.why_not_state} Next task: {rail.next_task}.
-        </p>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open audit trail</button>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open lead hypothesis</button>
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -1300,6 +627,9 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
 
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
         <span className="t-label">judge commands</span>
+        <a className="btn btn-secondary btn-sm" href="/data/claude_science_acceptance_demo.json">
+          Open real export result
+        </a>
         <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
           {demo.commands.claude_science || CLAUDE_SCIENCE_CONNECTOR_COMMAND}
         </span>
@@ -1345,35 +675,65 @@ function PerturbationMatrix({ rows }: { rows: ClaudeScienceAcceptanceDemo["verdi
   );
 }
 
-function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
+function ProspectAcceptanceWorkbench() {
   const [text, setText] = useState(ACCEPTANCE_EXAMPLE);
   const [result, setResult] = useState<AcceptanceResult | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [claimMode, setClaimMode] = useState<"associative_signature" | "explicit_driver_claim">("associative_signature");
+  const [claimSource, setClaimSource] = useState("");
+  const [phenotype, setPhenotype] = useState("activation_transcriptome");
+  const [publishToLedger, setPublishToLedger] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const shared = decodeSharedAcceptanceState();
-    if (shared) setResult(shared);
-  }, []);
-
-  const run = () => {
+  const run = async () => {
+    const localService = typeof window !== "undefined" && ["localhost", "127.0.0.1"].includes(window.location.hostname)
+      ? "http://127.0.0.1:8130"
+      : "";
+    const service = PUBLIC_ACCEPTANCE_SERVICE_URL || localService;
+    if (!service) {
+      setError("The hosted acceptance service is not configured.");
+      return;
+    }
+    setLoading(true);
     try {
-      const next = buildAcceptanceResult(text, d);
-      setResult(next);
+      const response = await fetch(`${service}/submit`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          text,
+          filename: "submission.txt",
+          source_name: "public_web_submitter",
+          substrate_id: "marson_cd4_activation",
+          claim_mode: claimMode,
+          claim_context: claimMode === "explicit_driver_claim" ? {
+            cell_type: "primary human CD4+ T cells",
+            condition: "strongest",
+            phenotype,
+            source: claimSource,
+          } : {},
+          publish_to_ledger: publishToLedger,
+        }),
+      });
+      const next = await response.json();
+      if (!response.ok || next.error) throw new Error(next.error || `submission failed (${response.status})`);
+      setResult(next as AcceptanceResult);
       setError("");
       setCopied(false);
-      if (typeof window !== "undefined") window.history.replaceState(null, "", next.state_url);
     } catch (err) {
       setResult(null);
       setError(err instanceof Error ? err.message : "submission failed");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const shareUrl = result && typeof window !== "undefined"
-    ? `${window.location.origin}${window.location.pathname}${result.state_url}`
-    : "";
+  const shareUrl = result ? (result.proposal_url.startsWith("http")
+    ? result.proposal_url
+    : `${PUBLIC_ACCEPTANCE_SERVICE_URL}${result.proposal_url}`) : "";
   const serviceGuideUrl = PUBLIC_ACCEPTANCE_SERVICE_URL ? `${PUBLIC_ACCEPTANCE_SERVICE_URL}/guide` : "";
   const serviceLedgerUrl = PUBLIC_ACCEPTANCE_SERVICE_URL ? `${PUBLIC_ACCEPTANCE_SERVICE_URL}/ledger` : "";
+  const counts = result?.prospect.typed_status_counts;
 
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
@@ -1382,9 +742,8 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
           <div className="t-label" style={{ marginBottom: 5 }}>Run your own claim through Prospect</div>
           <h2 className="h2-app" style={{ margin: 0 }}>Paste a signature, DE table, ranked markers, or gene list.</h2>
           <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)", maxWidth: "78ch" }}>
-            Prospect normalizes symbols, common checkpoint aliases like PD-1, Ensembl IDs from the frozen table,
-            duplicates, and unknowns. It returns driver, passenger, contradicted, and not_assayed verdicts,
-            plus a receipt and shareable result page. accepted=false until a human signature.
+            The canonical service normalizes identifiers and returns a cryptographic receipt plus a persistent proposal page.
+            A contradicted verdict is possible only when you submit an explicit causal claim with a comparable phenotype.
           </p>
         </div>
         <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
@@ -1392,6 +751,24 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 12 }}>
         <div style={{ display: "grid", gap: 8 }}>
+          <div role="group" aria-label="Claim mode" style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            <button type="button" className="btn btn-secondary btn-sm" data-active={claimMode === "associative_signature"}
+              onClick={() => setClaimMode("associative_signature")}>Associative signature</button>
+            <button type="button" className="btn btn-secondary btn-sm" data-active={claimMode === "explicit_driver_claim"}
+              onClick={() => setClaimMode("explicit_driver_claim")}>Explicit causal claim</button>
+          </div>
+          {claimMode === "explicit_driver_claim" && (
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 8 }}>
+              <input className="t-mono fz-xs" value={claimSource} onChange={(event) => setClaimSource(event.target.value)}
+                aria-label="Causal claim source" placeholder="Claim or citation source" />
+              <select className="t-mono fz-xs" value={phenotype} onChange={(event) => setPhenotype(event.target.value)}
+                aria-label="Claim phenotype">
+                <option value="activation_transcriptome">Activation transcriptome</option>
+                <option value="cytokine_production">Cytokine production</option>
+                <option value="clinical_response">Clinical response</option>
+              </select>
+            </div>
+          )}
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -1411,25 +788,34 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
             className="t-mono fz-xs"
           />
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={run}>Submit to Prospect</button>
+            <button type="button" className="btn btn-secondary btn-sm" onClick={run} disabled={loading || (claimMode === "explicit_driver_claim" && !claimSource.trim())}>
+              {loading ? "Submitting" : "Submit to Prospect"}
+            </button>
             <button type="button" className="btn btn-secondary btn-sm" onClick={() => setText(ACCEPTANCE_EXAMPLE)}>Load example</button>
             {error && <span className="t-caption" style={{ color: "var(--cinnabar)" }}>{error}</span>}
           </div>
+          <label className="t-caption" style={{ display: "flex", gap: 8, alignItems: "center", color: "var(--ink-3)" }}>
+            <input type="checkbox" checked={publishToLedger} onChange={(event) => setPublishToLedger(event.target.checked)} />
+            Publish this proposal and self-declared producer name to the public ledger
+          </label>
+          <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+            Leave publication off for private testing. Published artifacts are visible to anyone with the ledger URL.
+          </p>
         </div>
 
         <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)", display: "grid", gap: 10 }}>
           {result ? (
             <>
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                <span className="t-mono" style={{ fontWeight: 700 }}>{result.receipt_id}</span>
+                <span className="t-mono" style={{ fontWeight: 700 }}>{result.prospect.receipt_id}</span>
                 <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
                 <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{result.next}</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(86px, 1fr))", gap: 8 }}>
-                <AcceptanceCount label="drivers" value={result.counts.drivers} tone="var(--brass)" />
-                <AcceptanceCount label="passengers" value={result.counts.passengers} tone="var(--stone)" />
-                <AcceptanceCount label="contradicted" value={result.counts.contradicted} tone="var(--cinnabar)" />
-                <AcceptanceCount label="not_assayed" value={result.counts.not_assayed} tone="var(--ink-3)" />
+                <AcceptanceCount label="drivers" value={counts?.drivers || 0} tone="var(--brass)" />
+                <AcceptanceCount label="passengers" value={counts?.passengers || 0} tone="var(--stone)" />
+                <AcceptanceCount label="contradicted" value={counts?.contradicted || 0} tone="var(--cinnabar)" />
+                <AcceptanceCount label="not_assayed" value={counts?.not_assayed || 0} tone="var(--ink-3)" />
               </div>
               <div style={{ overflowX: "auto", borderTop: "1px solid var(--rule-faint)", paddingTop: 8 }}>
                 <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse" }}>
@@ -1462,19 +848,21 @@ function ProspectAcceptanceWorkbench({ d }: { d: Data }) {
                   }}>
                   <ExternalLink /> <span>{copied ? "Copied result link" : "Copy result link"}</span>
                 </button>
-                <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", overflowWrap: "anywhere" }}>{shareUrl}</span>
+                <a className="t-mono fz-2xs" href={shareUrl} target="_blank" rel="noreferrer"
+                  style={{ color: "var(--field-blue)", overflowWrap: "anywhere" }}>{shareUrl}</a>
               </div>
               {result.warnings.length > 0 && (
                 <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{result.warnings.slice(0, 3).join("; ")}</p>
               )}
-              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{result.ceiling}</p>
+              <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+                comparability={result.comparability.status}. {result.prospect.ceiling}
+              </p>
             </>
           ) : (
             <div style={{ display: "grid", gap: 8, alignContent: "center", minHeight: 180 }}>
               <div className="t-label">No local setup required</div>
               <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-                The same frozen rule is also exposed by <span className="t-mono">./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service</span>
-                {" "}and by the MCP tools <span className="t-mono">prospect.acceptance.submit_artifact</span> and <span className="t-mono">prospect.acceptance.get_verdict</span>.
+                The same frozen rule is exposed by the hosted service and MCP tools. The browser contains no classifier or receipt hashing code.
               </p>
               {PUBLIC_ACCEPTANCE_SERVICE_URL && (
                 <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>

@@ -1,6 +1,6 @@
 """Assemble the frontier into a single JSON the Next.js app fetches from /data/frontier.json.
 Mirrors atlas/build.py's data section. Run from prospect/web/."""
-import csv, json, os, sys
+import json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from collections import Counter, defaultdict
@@ -8,14 +8,13 @@ from loop.find_surprises import mine
 from engine.schema import Claim
 from engine.checkers.marson_perturbseq import MarsonPerturbseqChecker
 from examples.openresearch_receipt_client import preview as external_run_receipt_preview
-from receipt.causal_bridge import CAUSAL_RULE, EXPLICIT_DRIVER_CLAIMS
 from receipt.bridge import export_bridge
-from receipt.input_normalizer import ALIASES
 
 DATA = os.path.join(ROOT, "examples", "data")
 FR = os.path.join(ROOT, "frontier")
 PUB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public", "data")
 OUT = os.path.join(PUB, "frontier.json")
+CHECK_OUT = os.path.join(PUB, "check.json")
 BRIDGE_OUT = os.path.join(PUB, "receipt_bridge")
 
 def jl(p): return [json.loads(l) for l in open(p)] if os.path.exists(p) else []
@@ -41,41 +40,6 @@ receipts = [{"id": r["receipt_id"], "status": r["status"], "replayability": r["r
 bridge = export_bridge(BRIDGE_OUT)["manifest"]
 external_run_receipt_demo = external_run_receipt_preview()
 
-pggt1b_receipt = next(
-    (r for r in _receipts_raw if r.get("kind") == "hypothesis" and "PGGT1B" in r.get("subject", [])),
-    None,
-)
-live_claim_rail = None
-if pggt1b_receipt:
-    live_claim_rail = {
-        "title": "Follow one claim",
-        "gene": "PGGT1B",
-        "claim": pggt1b_receipt["claim"],
-        "status": pggt1b_receipt["status"],
-        "receipt_id": pggt1b_receipt["receipt_id"],
-        "receipt_kind": pggt1b_receipt["kind"],
-        "reproduce_command": pggt1b_receipt["verifier"]["replay"],
-        "accepted_event": (pggt1b_receipt.get("acceptance") or {}).get("delta_id", ""),
-        "accepted_state": False,
-        "why_not_state": "The receipt binds replayable evidence, but the biological claim remains a proposal until orthogonal wet-lab evidence and a human state-signing step.",
-        "state_diff": {
-            "accepted": False,
-            "model_can_apply": False,
-            "effect": "proposal_only_no_state_mutation",
-            "target": "prospect_marson_cd4_perturbseq",
-        },
-        "open_obligation": "orthogonal wet-lab evidence before accepted biological state",
-        "next_task": "run stimulated primary CD4+ follow-up assay",
-        "stages": [
-            {"stage": "Claim", "text": pggt1b_receipt["claim"]},
-            {"stage": "Receipt", "text": pggt1b_receipt["receipt_id"]},
-            {"stage": "State diff", "text": "proposal_only_no_state_mutation"},
-            {"stage": "Replay", "text": pggt1b_receipt["verifier"]["replay"]},
-            {"stage": "Obligation", "text": "orthogonal wet-lab evidence"},
-            {"stage": "Next task", "text": "stimulated primary CD4+ follow-up assay"},
-        ],
-    }
-
 # Kept packets surfaced in the app.
 pggt1b_deep_dive = load("pggt1b_deep_dive.json")
 overclaim_counter = load("overclaim_counter.json")
@@ -83,6 +47,7 @@ finding_index = load("finding_index.json")
 pggt1b_defended_evidence = load("pggt1b_defended_evidence.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
 substrate_coverage_report = load("substrate_coverage_report.json")
+gse278572_comparator = load("gse278572_comparator.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -108,36 +73,6 @@ def compact(n):
             "id": n.get("in_degree", 0), "C": C}
 
 atlas = [compact(n) for n in nodes]
-gene_id_map = {"ensembl_to_symbol": {}}
-_seen_gene_ids = set()
-_assay_rows = defaultdict(list)
-with open(os.path.join(DATA, "marson_de_full.csv"), newline="") as f:
-    for row in csv.DictReader(f):
-        ensembl = row.get("target_contrast", "")
-        symbol = row.get("target_contrast_gene_name", "")
-        if ensembl and symbol and ensembl not in _seen_gene_ids:
-            gene_id_map["ensembl_to_symbol"][ensembl.upper()] = symbol
-            _seen_gene_ids.add(ensembl)
-        if symbol:
-            _assay_rows[symbol].append(row)
-acceptance_lookup = {}
-for symbol, rows_for_symbol in _assay_rows.items():
-    on_target = [r for r in rows_for_symbol if r.get("ontarget_effect_category") == "on-target KD"]
-    if on_target:
-        best = max(on_target, key=lambda r: int(r["n_total_de_genes"]))
-        acceptance_lookup[symbol] = {
-            "on_target": True,
-            "condition": best["culture_condition"],
-            "n_total_de_genes": int(best["n_total_de_genes"]),
-        }
-    else:
-        acceptance_lookup[symbol] = {"on_target": False, "condition": "", "n_total_de_genes": None}
-acceptance_rule = {
-    "causal_rule": CAUSAL_RULE,
-    "aliases": ALIASES,
-    "explicit_driver_claims": EXPLICIT_DRIVER_CLAIMS,
-    "lookup": acceptance_lookup,
-}
 dist = Counter(public_class(n["type"]) for n in nodes)
 OUTa, INa = defaultdict(list), defaultdict(list)
 for e in edges:
@@ -152,47 +87,10 @@ demo = [{"text": v.claim.text, "gene": v.claim.gene, "status": v.status, "reason
         for v in (ck.check(Claim(**c)) for c in json.load(open(os.path.join(ROOT, "examples", "claims_demo.json"))))]
 phantom = load("phantom_summary.json") or {}
 models = load("model_comparison.json") or []
-cross_domain_benchmark = None
-if phantom:
-    biology_rate = round(float(phantom.get("refuted_rate", 0)), 2)
-    effector_rate = round(float(phantom.get("effector_overclaim_rate", 0)), 2)
-    math_false = 19
-    math_total = 24
-    math_rate = round(math_false / math_total, 2)
-    cross_domain_benchmark = {
-        "title": "Two domains, one trust boundary",
-        "status": "evidence_attached",
-        "accepted_state_mutation": "none",
-        "range": f"{round(biology_rate * 100)}-{round(math_rate * 100)}%",
-        "biology": {
-            "domain": "biology",
-            "source_name": "Prospect Marson CD4+ T-cell overclaiming benchmark",
-            "overclaim_rate": biology_rate,
-            "effector_overclaim_rate": effector_rate,
-            "claims_contradicted": phantom.get("refuted"),
-            "claims_checked": phantom.get("checkable"),
-        },
-        "math": {
-            "domain": "math",
-            "source_name": "Adversarial falsification audit: 19 of 24 verification claims fail",
-            "platform": "OpenResearch, an alphaXiv project",
-            "platform_url": "https://openresearch.sh/",
-            "claims_false": math_false,
-            "claims_total": math_total,
-            "false_claim_rate": math_rate,
-            "audit_method": "exact-arithmetic re-derivation",
-        },
-        "boundary": "frozen_rederivation_plus_human_key",
-        "claim": "AI-generated scientific claims fail at similar rates when an independent re-derivation checks them.",
-        "why_it_matters": "The producer can create activity, but a separate frozen checker and human key decide whether a state transition is accepted.",
-    }
-
 data = {
     "stats": {"n_genes": len(nodes), "n_perturbations": sum(len(n["conditions"]) for n in nodes),
               "dist": dict(dist), "n_edges": len(edges)},
     "atlas": atlas, "out": out_adj, "in": in_adj,
-    "gene_id_map": gene_id_map,
-    "acceptance_rule": acceptance_rule,
     "contra": [{"gene": c["subject"], "claimant": c["claimant"], "claim": c["claim"],
                 "verdict": c["data_verdict"], "reason": c["reason"]} for c in contradictions],
     "open": [o["gene"] for o in openq[:80]],
@@ -209,13 +107,12 @@ data = {
                             for p in proposal["proposals"]]} if proposal else None),
     "agent": agent, "receipts": receipts, "receipt_bridge": bridge,
     "external_run_receipt_demo": external_run_receipt_demo,
-    "live_claim_rail": live_claim_rail,
-    "cross_domain_benchmark": cross_domain_benchmark,
     "pggt1b_deep_dive": pggt1b_deep_dive,
     "overclaim_counter": overclaim_counter,
     "pggt1b_defended_evidence": pggt1b_defended_evidence,
     "claude_science_acceptance_demo": claude_science_acceptance_demo,
     "substrate_coverage_report": substrate_coverage_report,
+    "gse278572_comparator": gse278572_comparator,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -228,9 +125,13 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"),
                   (finding_index, "finding_index.json"),
                   (pggt1b_defended_evidence, "pggt1b_defended_evidence.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),
-                  (substrate_coverage_report, "substrate_coverage_report.json")]:
+                  (substrate_coverage_report, "substrate_coverage_report.json"),
+                  (gse278572_comparator, "gse278572_comparator.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))
+check_data = {**data, "atlas": [], "out": {}, "in": {}}
+json.dump(check_data, open(CHECK_OUT, "w"))
 print(f"wrote {OUT} ({os.path.getsize(OUT)//1024} KB), {len(atlas)} nodes, {len(edges)} edges, "
       f"{len(out_adj)} genes with out-edges, {len(data['contra'])} contradictions")
+print(f"wrote {CHECK_OUT} ({os.path.getsize(CHECK_OUT)//1024} KB), graph deferred until explorer opens")

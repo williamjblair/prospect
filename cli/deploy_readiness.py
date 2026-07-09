@@ -11,6 +11,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from receipt.replay_proposal import replay
+
 ROOT = Path(__file__).resolve().parents[1]
 
 LOCAL_GATE = [
@@ -125,6 +127,8 @@ def post_deploy_smoke(base_url: str, *, source_name: str = "post_deploy_smoke") 
     if proposal_url.startswith("/"):
         proposal_url = base + proposal_url
     proposal_status, proposal_page = _request("GET", proposal_url)
+    proposal_json_status, proposal_json_text = _request("GET", proposal_url + ".json")
+    replay_result = replay(json.loads(proposal_json_text)) if proposal_json_status == 200 else {}
     ledger_status, ledger_text = _request("GET", f"{base}/ledger.json")
     time.sleep(0.2)
     second_proposal_status, _ = _request("GET", proposal_url)
@@ -133,6 +137,7 @@ def post_deploy_smoke(base_url: str, *, source_name: str = "post_deploy_smoke") 
         "health_status": health_status,
         "submit_status": submit_status,
         "proposal_status": proposal_status,
+        "proposal_json_status": proposal_json_status,
         "second_proposal_status": second_proposal_status,
         "ledger_status": ledger_status,
         "proposal_url": proposal_url,
@@ -141,6 +146,9 @@ def post_deploy_smoke(base_url: str, *, source_name: str = "post_deploy_smoke") 
         "typed_status_counts": result["prospect"]["typed_status_counts"],
         "ledger_submission_count": json.loads(ledger_text)["submission_count"] if ledger_status == 200 else None,
         "proposal_page_has_ceiling": "Computation over released data" in proposal_page,
+        "proposal_page_has_replay": "python receipt/replay_proposal.py" in proposal_page,
+        "receipt_id_matches": replay_result.get("receipt_id_matches", False),
+        "verdicts_reproduced": replay_result.get("verdicts_reproduced", False),
     }
 
 
@@ -154,11 +162,15 @@ def smoke_main(argv: list[str] | None = None) -> int:
         result["health_status"] == 200
         and result["submit_status"] == 200
         and result["proposal_status"] == 200
+        and result["proposal_json_status"] == 200
         and result["second_proposal_status"] == 200
         and result["ledger_status"] == 200
         and result["accepted"] is False
         and result["next"] == "human_signature_required"
         and result["proposal_page_has_ceiling"]
+        and result["proposal_page_has_replay"]
+        and result["receipt_id_matches"]
+        and result["verdicts_reproduced"]
     )
     if args.json:
         print(json.dumps(result, indent=2, sort_keys=True))

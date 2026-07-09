@@ -25,8 +25,8 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["public_artifacts"] == len(PUBLIC_ARTIFACTS)
     assert handout["counts"]["findings"] >= 3
     assert handout["counts"]["claude_science_drivers"] == 12
-    assert handout["counts"]["claude_science_passengers"] == 22
-    assert handout["counts"]["claude_science_contradicted"] == 3
+    assert handout["counts"]["claude_science_passengers"] == 25
+    assert handout["counts"]["claude_science_contradicted"] == 0
     assert handout["counts"]["claude_science_not_assayed"] == 15
     assert handout["counts"]["substrate_after_not_assayed"] == 5
     assert handout["counts"]["pggt1b_novelty_downgraded"] is True
@@ -50,7 +50,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "What remains human-only" in doc
     assert "./prospect verify" in doc
     assert "./prospect demo-mode --reset" in doc
-    assert "/data/substrate_coverage_report.json" in doc
+    assert "/data/gse278572_comparator.json" in doc
     assert "/data/pggt1b_defended_evidence.json" in doc
     assert "./prospect substrate-coverage" in doc
     assert "./prospect pggt1b-defended-evidence" in doc

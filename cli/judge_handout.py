@@ -38,6 +38,7 @@ def build_handout() -> dict[str, Any]:
     claude_science = _json(DATA / "claude_science_acceptance_demo.json")
     substrate = _json(DATA / "substrate_coverage_report.json")
     pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
+    comparator = _json(DATA / "gse278572_comparator.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
@@ -68,6 +69,8 @@ def build_handout() -> dict[str, Any]:
             "pggt1b_novelty_downgraded": pggt1b["novelty_assessment"]["downgraded_novelty"],
             "pggt1b_wet_lab_minimum_donors": pggt1b["wet_lab_protocol"]["minimum_donors"],
             "pggt1b_orthogonal_public_datasets": pggt1b["orthogonal_public_dataset_count"],
+            "gse278572_overlap": comparator["comparison"]["prospect_overlap"],
+            "gse278572_qualified_genes": comparator["finding3_review"]["n_needs_qualification"],
         },
         "trust_boundary": {
             "model_role": "propose, search, draft",
@@ -79,6 +82,7 @@ def build_handout() -> dict[str, Any]:
             "Check: real Claude Science signature enters Prospect and receives typed causal verdicts.",
             "Check: paste a gene list, DE table, or signature and copy the shareable result link.",
             "Check: inspect the 48 and 64 percent overclaiming benchmark.",
+            "Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.",
             "Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
             "Evidence: signed CD4+ T-cell findings show the frozen evidence graph.",
             "Receipts: receipts and MCP bridge show accepted=false until a human key signs.",
@@ -130,6 +134,10 @@ def _markdown(handout: dict[str, Any]) -> str:
             f"{counts['claude_science_not_assayed']} not assayed"
         ),
         f"- ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
+        (
+            f"- GSE278572: {counts['gse278572_overlap']} overlapping regulators, "
+            f"{counts['gse278572_qualified_genes']} pre-registered interpretation qualification"
+        ),
         f"- PGGT1B carries {counts['pggt1b_orthogonal_public_datasets']} orthogonal public evidence sources",
         (
             f"- PGGT1B novelty downgraded against prior art: {'yes' if counts['pggt1b_novelty_downgraded'] else 'no'}, "

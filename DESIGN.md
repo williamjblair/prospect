@@ -24,7 +24,7 @@ typed result. Tokens live in `web/app/globals.css`; use them, never raw hex.
 
 ## Layout
 
-- Top workflow, not a left rail: Check, Genes, Graph, Receipts, Evidence, Lead.
+- Top workflow, not a left rail: Check, Evidence, Lead, Receipts. Genes and Graph live behind Explorer.
 - The first screen is an assay console: source artifact, Prospect lane, typed counts,
   perturbation matrix, and result sharing.
 - Dense data belongs in grouped tables with row rules. Do not turn every row into a card.

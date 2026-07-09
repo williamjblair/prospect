@@ -47,8 +47,8 @@ const classColor = (cls: string, pal: ReturnType<typeof graphPalette>) =>
 
 type GData = {
   atlas: { g: string; cls: string; od: number; id: number }[];
-  out: Record<string, { t: string; d: string; e: number }[]>;
-  in: Record<string, { s: string; d: string; e: number }[]>;
+  out: Record<string, { t?: string; d: string; e: number }[]>;
+  in: Record<string, { s?: string; d: string; e: number }[]>;
 };
 
 export function GraphView({
@@ -65,7 +65,8 @@ export function GraphView({
       if (cancelled || !ref.current) return;
 
       const meta = new Map(data.atlas.map((n) => [n.g, n]));
-      const out = data.out[focus] || [], inn = data.in[focus] || [];
+      const out = (data.out[focus] || []).filter((edge): edge is { t: string; d: string; e: number } => Boolean(edge.t));
+      const inn = (data.in[focus] || []).filter((edge): edge is { s: string; d: string; e: number } => Boolean(edge.s));
       const ids = new Set<string>([focus, ...out.map((x) => x.t), ...inn.map((x) => x.s)]);
       const pal = graphPalette(dark);
 
@@ -87,7 +88,7 @@ export function GraphView({
       for (const x of out) addEdge(focus, x.t, x.d);
       for (const x of inn) addEdge(x.s, focus, x.d);
       // second-hop links among the neighborhood - reveals the local module
-      for (const id of ids) for (const x of data.out[id] || []) if (ids.has(x.t)) addEdge(id, x.t, x.d);
+      for (const id of ids) for (const x of data.out[id] || []) if (x.t && ids.has(x.t)) addEdge(id, x.t, x.d);
 
       forceAtlas2.assign(g, {
         iterations: 300,

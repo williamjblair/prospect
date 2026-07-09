@@ -59,15 +59,15 @@ def test_submit_pack_includes_copy_safe_submission_fields():
 def test_submit_pack_lists_the_consolidated_public_artifact_surface():
     packet = build_packet()
     expected = [
+        "/data/check.json",
         "/data/frontier.json",
         "/data/finding_index.json",
         "/data/receipt_bridge/receipt_contract.json",
         "/data/receipt_bridge/receipt_manifest.json",
         "/data/receipt_bridge/receipt_bundle.json",
         "/data/claude_science_acceptance_demo.json",
-        "/data/substrate_coverage_report.json",
+        "/data/gse278572_comparator.json",
         "/data/pggt1b_defended_evidence.json",
-        "/data/pggt1b_deep_dive.json",
         "/data/overclaim_counter.json",
     ]
 

@@ -26,6 +26,7 @@ SOURCE_DOCS = [
     "docs/RECEIPT_SCHEMA.md",
     "docs/SUBSTRATE_COVERAGE.md",
     "docs/PGGT1B_DEFENDED_EVIDENCE.md",
+    "docs/GSE278572_COMPARATOR.md",
     "docs/JUDGE_HANDOUT.md",
 ]
 
@@ -47,15 +48,15 @@ VERIFICATION_COMMANDS = [
 ]
 
 PUBLIC_ARTIFACTS = [
+    "/data/check.json",
     "/data/frontier.json",
     "/data/finding_index.json",
     "/data/receipt_bridge/receipt_contract.json",
     "/data/receipt_bridge/receipt_manifest.json",
     "/data/receipt_bridge/receipt_bundle.json",
     "/data/claude_science_acceptance_demo.json",
-    "/data/substrate_coverage_report.json",
+    "/data/gse278572_comparator.json",
     "/data/pggt1b_defended_evidence.json",
-    "/data/pggt1b_deep_dive.json",
     "/data/overclaim_counter.json",
 ]
 

@@ -21,8 +21,11 @@ edges, five CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the 
 1. A real Claude Science scRNA-seq immunotherapy signature enters Prospect.
 2. Claude Science preserves the artifact and its internal review completes.
 3. Prospect asks the causal question: which signature genes move the activation program when perturbed?
-4. The result is typed: 12 drivers, 22 passengers, 3 contradicted driver claims, 15 not assayed.
-5. A judge pastes any gene list and gets the same receipt, verdicts, and shareable result link.
+4. Because the export is associative, the result is 12 `evidence_attached`, 25 `associative_only`,
+   0 `contradicted`, and 15 `not_assayed`.
+5. A judge can switch to an explicit causal claim. Only a comparable refuted driver claim can earn
+   `contradicted`.
+6. A pasted input receives the same receipt and verdicts through Python, HTTP, stdio MCP, or hosted MCP.
 
 Prospect frames the signature as associative and separates drivers from passengers, which is exactly
 what an associative signature needs before it can become a biological claim.
@@ -36,6 +39,9 @@ what an associative signature needs before it can become a biological claim.
 - **PGGT1B:** one mechanism-first hypothesis worth testing, not accepted biology. The kept claim is a
   narrow CD4 activation-transcriptome hypothesis with prenylation partners, ChEMBL context, and a
   falsifiable primary CD4+ CRISPRi experiment.
+- **MED12 correction:** an independently frozen GSE278572 comparison qualifies Prospect's own
+  interpretation. High resting reach is evidence against activation specificity, but is not enough
+  to call a gene housekeeping or an essentiality artifact.
 - **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology, separate
   effectors from drivers, catch essentiality artifacts, transfer the checker to K562, and recover
   CollecTRI regulons.
@@ -44,11 +50,11 @@ what an associative signature needs before it can become a biological claim.
 
 ## Public Artifacts
 
+- `/data/check.json`
 - `/data/frontier.json`
 - `/data/claude_science_acceptance_demo.json`
-- `/data/substrate_coverage_report.json`
+- `/data/gse278572_comparator.json`
 - `/data/pggt1b_defended_evidence.json`
-- `/data/pggt1b_deep_dive.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
 - `/data/receipt_bridge/receipt_contract.json`
@@ -63,7 +69,7 @@ python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 python tests/test_marson.py
 python -m pytest tests/ -q
-cd web && npm run build
+cd web && npm run typecheck && npm run build
 ./prospect demo-mode --reset
 ./prospect claude-science
 ./prospect substrate-coverage
@@ -81,6 +87,7 @@ python examples/claude_science_connector_client.py --json
 - Human Ed25519 signature over accepted records. No model makes the final call.
 - Mutation pack floor: zero tampered claim is admitted.
 - MCP bridge and acceptance service submit proposals only.
+- `prospect.receipt.v1` binds the complete proposal body. Acceptance is a separate event.
 
 ## Data
 

@@ -15,8 +15,6 @@ KEPT_PACKET_KEYS = [
     "receipts",
     "receipt_bridge",
     "external_run_receipt_demo",
-    "live_claim_rail",
-    "cross_domain_benchmark",
     "claude_science_acceptance_demo",
     "pggt1b_defended_evidence",
     "substrate_coverage_report",
@@ -143,13 +141,14 @@ def test_frontier_json_embeds_claude_science_acceptance_demo():
         "genes": 52,
         "drivers": 12,
         "evidence_attached": 12,
-        "passengers": 22,
-        "associative_only": 22,
-        "contradicted": 3,
+        "passengers": 25,
+        "associative_only": 25,
+        "contradicted": 0,
         "not_assayed": 15,
     }
     assert demo["causal_rule"]["comparison"] == "driver_vs_passenger"
-    assert {row["gene"] for row in demo["verdicts"] if row["typed_status"] == "contradicted"} == {"HAVCR2", "LAG3", "PDCD1"}
+    assert not [row for row in demo["verdicts"] if row["typed_status"] == "contradicted"]
+    assert {row["gene"] for row in demo["verdicts"] if row["typed_status"] == "associative_only"} >= {"HAVCR2", "LAG3", "PDCD1"}
     assert demo["commands"]["claude_science"] == "python examples/claude_science_connector_client.py --json"
     assert demo["commands"]["generic"] == "python examples/prospect_connector_client.py --case openresearch --json"
     assert ("veri" + "fied") not in json.dumps(demo).lower()
@@ -178,17 +177,6 @@ def test_frontier_json_embeds_substrate_coverage_report():
     assert "Computation over released data" in report["ceiling"]
 
 
-def test_frontier_json_embeds_live_claim_rail():
-    data = json.loads(FRONTIER.read_text())
-    rail = data["live_claim_rail"]
-
-    assert rail["gene"] == "PGGT1B"
-    assert rail["status"] == "evidence_attached"
-    assert rail["accepted_state"] is False
-    assert rail["state_diff"]["model_can_apply"] is False
-    assert rail["reproduce_command"] == "./prospect agent"
-
-
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_keeps_only_the_consolidated_packet_surface()
@@ -198,5 +186,4 @@ if __name__ == "__main__":
     test_frontier_json_embeds_claude_science_acceptance_demo()
     test_frontier_json_embeds_pggt1b_defended_evidence()
     test_frontier_json_embeds_substrate_coverage_report()
-    test_frontier_json_embeds_live_claim_rail()
     print("PASS: web data contract")

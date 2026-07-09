@@ -18,9 +18,10 @@ signature enters Prospect. Claude Science preserved the artifact and its interna
 Prospect asks the causal question the session leaves open: which signature genes move the activation
 program when perturbed?
 
-**0:40, the two verdicts.** Read the counts: 52 genes, 12 `evidence_attached`, 22
-`associative_only`, 3 `contradicted`, 15 `not_assayed`. The signature is not called wrong. Prospect
-separates drivers from passengers and keeps `accepted=false`.
+**0:40, the two verdicts.** Read the counts: 52 genes, 12 `evidence_attached`, 25
+`associative_only`, 0 `contradicted`, 15 `not_assayed`. The signature is associative, so Prospect
+does not manufacture contradictions. It separates candidate drivers from passengers and keeps
+`accepted=false`.
 
 **1:00, run your own claim.** Paste:
 
@@ -42,6 +43,10 @@ are contradicted by the data, rising to 64% on famous checkpoints and cytokines.
 prenylation mechanism, FNTA/RABGGTA partners, ChEMBL target, and a primary CD4+ CRISPRi experiment
 that could refute it.
 
+Mention the corrective check: GSE278572 qualifies Prospect's own MED12 interpretation. High Rest
+reach argues against activation specificity, but does not by itself establish housekeeping or
+essentiality.
+
 **1:55, trust boundary.** Open Receipts. The receipt bridge and MCP path submit proposals only.
 Accepted records require frozen replay plus a human key. Close on root `root_a8b0dcdd4024e12f`.
 
@@ -51,6 +56,8 @@ Accepted records require frozen replay plus a human key. Close on root `root_a8b
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
+python -m pytest tests/ -q
+cd web && npm run typecheck && npm run build
 ./prospect claude-science
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence

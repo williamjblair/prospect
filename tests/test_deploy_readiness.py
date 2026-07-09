@@ -138,9 +138,13 @@ def test_acceptance_service_cors_and_post_deploy_smoke(tmp_path):
         assert payload["accepted"] is False
         assert payload["next"] == "human_signature_required"
         assert payload["proposal_status"] == 200
+        assert payload["proposal_json_status"] == 200
         assert payload["second_proposal_status"] == 200
         assert payload["ledger_status"] == 200
         assert payload["typed_status_counts"]["drivers"] == 1
+        assert payload["proposal_page_has_replay"] is True
+        assert payload["receipt_id_matches"] is True
+        assert payload["verdicts_reproduced"] is True
     finally:
         proc.terminate()
         try:

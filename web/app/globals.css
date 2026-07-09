@@ -925,6 +925,8 @@ body {
 
 /* Card surface: raised paper, assay handoff top-edge */
 .card-paper {
+  min-width: 0;
+  max-width: 100%;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -936,6 +938,10 @@ body {
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast);
+}
+
+.card-paper > * {
+  min-width: 0;
 }
 
 /* Row and card hover: background tint only. Nothing on this site moves
@@ -2191,3 +2197,30 @@ kbd {
 .nb{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
 .nbh{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink)}
 .mut{color:var(--ink-3);font-weight:400;font-size:12px}
+
+/* Keep dense assay tools inside their responsive grid cell. Wide tables and
+   perturbation matrices scroll within the tool instead of widening the page. */
+.prospect-console .card-paper {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.prospect-console .card-paper > * {
+  min-width: 0;
+}
+
+.overview-stack {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.benchmark-band {
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+}
+
+@media (max-width: 720px) {
+  .benchmark-band {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

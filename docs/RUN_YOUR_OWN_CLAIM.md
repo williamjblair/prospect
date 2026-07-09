@@ -31,6 +31,15 @@ Open the returned `proposal_url`. The SQLite database stores immutable proposals
 submission events, and separate acceptance events. `/ledger` and `/ledger.json` expose only events
 submitted with `publish_to_ledger=true`.
 
+Re-derive a saved or hosted proposal with frozen code:
+
+```bash
+python receipt/replay_proposal.py <proposal.json-or-url>
+```
+
+The replay recomputes the receipt identity and each trust-path verdict. It exits nonzero if the
+receipt or a typed verdict drifted.
+
 ## MCP
 
 Hosted Streamable HTTP endpoint: `http://127.0.0.1:8130/mcp`.

@@ -196,7 +196,7 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
         claim = f"Explicit causal-driver claim from {claim_source}"
     else:
         claim = "Which genes in the submitted associative signature behave as candidate causal drivers in the selected frozen substrate?"
-    replay = "python examples/prospect_connector_client.py --case inline --json"
+    replay = "python receipt/replay_proposal.py <proposal.json-or-url>"
     rule = {**CAUSAL_RULE, "claim_mode": claim_mode, "comparability": comparability}
     citations = _citations(request.get("citations"))
     receipt = _receipt_from_verdicts(

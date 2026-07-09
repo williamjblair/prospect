@@ -62,7 +62,7 @@
   "demo_id": "claude_science_acceptance_layer",
   "next": "human_signature_required",
   "producer": "claude_science",
-  "proposal_id": "proposal_5ee40e09b26643e9",
+  "proposal_id": "proposal_3d6906d35b270017",
   "prospect": {
     "accepted": false,
     "ceiling": "Computation over released data, not wet-lab or clinical truth.",
@@ -135,8 +135,8 @@
     },
     "interpretation": "Prospect separates candidate causal drivers from associative passengers. It does not say the response signature is wrong.",
     "next": "human_signature_required",
-    "proposal_id": "proposal_5ee40e09b26643e9",
-    "receipt_id": "rcpt_54bdd2025d96ce47",
+    "proposal_id": "proposal_3d6906d35b270017",
+    "receipt_id": "rcpt_7a2a6b4a3fae9084",
     "route": {
       "primary_substrate": "marson_cd4_activation",
       "routing_reason": "the submitter selected this frozen substrate explicitly"
@@ -222,10 +222,10 @@
       "real_export": true,
       "run": "sade_feldman_signature_export"
     },
-    "receipt_id": "rcpt_54bdd2025d96ce47",
+    "receipt_id": "rcpt_7a2a6b4a3fae9084",
     "replay_metadata": {
       "ceiling": "Computation over released data, not wet-lab or clinical truth.",
-      "command": "python examples/prospect_connector_client.py --case inline --json",
+      "command": "python receipt/replay_proposal.py <proposal.json-or-url>",
       "frontier": "prospect_marson_cd4_perturbseq",
       "replayability": "exact",
       "request": {
@@ -6098,7 +6098,7 @@
     "verifier": {
       "method": "frozen lookup over the strongest Marson on-target condition and DE count",
       "name": "ProspectCausalReceiptBridge",
-      "replay": "python examples/prospect_connector_client.py --case inline --json"
+      "replay": "python receipt/replay_proposal.py <proposal.json-or-url>"
     }
   },
   "source_dataset": "Sade-Feldman 2018 melanoma ICB scRNA-seq, GSE120575",

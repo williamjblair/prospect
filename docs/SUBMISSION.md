@@ -29,7 +29,7 @@ does the claim survive an independent frozen perturbation gate, and should it be
 ## Results
 
 - Real Claude Science export: 52 genes typed by Prospect.
-- Driver/passenger split: 12 `evidence_attached`, 22 `associative_only`, 3 `contradicted`, 15 `not_assayed`.
+- Associative-signature split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, 15 `not_assayed`.
 - Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data,
   64% on famous checkpoints and cytokines.
 - PGGT1B: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS
@@ -37,6 +37,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
   CD4+ CRISPRi protocol with at least 3 donors.
 - Signed evidence graph: 11,526 genes, 37,106 regulatory edges, five signed CD4+ findings, root
   `root_a8b0dcdd4024e12f`.
+- Corrective comparison: GSE278572 qualifies the MED12 interpretation. High Rest reach weakens
+  activation specificity, but does not alone establish housekeeping or essentiality.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
@@ -51,11 +53,11 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 
 ## Public Artifacts
 
+- `/data/check.json`
 - `/data/frontier.json`
 - `/data/claude_science_acceptance_demo.json`
-- `/data/substrate_coverage_report.json`
+- `/data/gse278572_comparator.json`
 - `/data/pggt1b_defended_evidence.json`
-- `/data/pggt1b_deep_dive.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
 - `/data/receipt_bridge/receipt_contract.json`
@@ -70,7 +72,7 @@ python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 python tests/test_marson.py
 python -m pytest tests/ -q
-cd web && npm run build
+cd web && npm run typecheck && npm run build
 ./prospect demo-mode --reset
 ./prospect claude-science
 ./prospect substrate-coverage

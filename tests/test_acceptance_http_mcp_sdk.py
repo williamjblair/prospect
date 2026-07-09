@@ -289,8 +289,8 @@ def test_real_claude_science_export_has_one_identity_across_all_transports(tmp_p
             remote_mcp["receipt"]["receipt_id"],
             stdio_mcp["receipt"]["receipt_id"],
         }
-        assert proposal_ids == {"proposal_5ee40e09b26643e9"}
-        assert receipt_ids == {"rcpt_54bdd2025d96ce47"}
+        assert proposal_ids == {"proposal_3d6906d35b270017"}
+        assert receipt_ids == {"rcpt_7a2a6b4a3fae9084"}
         assert direct["prospect"]["typed_status_counts"] == {
             "genes": 52,
             "drivers": 12,
