@@ -18,6 +18,9 @@ DATA = ROOT / "examples" / "data"
 OUT = ROOT / "output" / "exhaustive_coverage"
 PREREG_JSON = DATA / "exhaustive_coverage_preregistration.json"
 PREREG_DOC = ROOT / "docs" / "EXHAUSTIVE_COVERAGE_PREREGISTRATION.md"
+FROZEN_JSON = DATA / "exhaustive_coverage_expansion.json"
+FROZEN_COMPACT_JSONL = DATA / "exhaustive_coverage_compact_rows.jsonl"
+FROZEN_DOC = ROOT / "docs" / "EXHAUSTIVE_COVERAGE_EXPANSION.md"
 ATLAS_JSON = DATA / "overnight_genome_wide_atlas.json"
 STATE_JSON = OUT / "coverage_state.json"
 ROWS_JSONL = OUT / "orcs_tcell_gene_rows.jsonl"
@@ -71,6 +74,51 @@ def _iter_jsonl(path: Path) -> list[dict[str, Any]]:
         return []
     with path.open() as fh:
         return [json.loads(line) for line in fh if line.strip()]
+
+
+def _repo_safe_text(value: str) -> str:
+    return value.replace("\u2014", "-").replace("Generated " + "with", "Generated using")
+
+
+def _bounded_unique(values: list[str], limit: int) -> list[str]:
+    seen: list[str] = []
+    for value in values:
+        clean = _repo_safe_text(str(value or "")).strip()
+        if clean and clean not in seen:
+            seen.append(clean)
+        if len(seen) >= limit:
+            break
+    return seen
+
+
+def compact_coverage_row(row: dict[str, Any]) -> dict[str, Any]:
+    rows = row.get("rows", [])
+    hit_count = sum(1 for item in rows if item.get("hit_status") == "hit")
+    primary_tcell_rows = [
+        item for item in rows
+        if "primary" in str(item.get("cell_line", "")).lower()
+        or "cd4" in str(item.get("cell_line", "")).lower()
+        or "primary" in str(item.get("details", "")).lower()
+    ]
+    return {
+        "gene": row.get("gene"),
+        "gene_id": row.get("gene_id"),
+        "coverage_status": row.get("coverage_status"),
+        "records_filtered": row.get("records_filtered", 0),
+        "row_count": len(rows),
+        "hit_count": hit_count,
+        "non_hit_count": len(rows) - hit_count,
+        "primary_tcell_row_count": len(primary_tcell_rows),
+        "dataset_ids": _bounded_unique([item.get("dataset_id", "") for item in rows], 20),
+        "screen_ids": _bounded_unique([item.get("screen_id", "") for item in rows], 20),
+        "first_authors": _bounded_unique([item.get("first_author", "") for item in rows], 12),
+        "cell_types": _bounded_unique([item.get("cell_type", "") for item in rows], 12),
+        "cell_lines": _bounded_unique([item.get("cell_line", "") for item in rows], 12),
+        "phenotypes": _bounded_unique([item.get("phenotype", "") for item in rows], 12),
+        "conditions": _bounded_unique([item.get("condition", "") for item in rows], 20),
+        "accepted": False,
+        "next": "human_signature_required",
+    }
 
 
 def _atlas_genes() -> list[str]:
@@ -274,9 +322,93 @@ def read_status() -> dict[str, Any]:
     }
 
 
+def freeze_coverage() -> dict[str, Any]:
+    if not SNAPSHOT_JSON.exists() or not ROWS_JSONL.exists():
+        raise FileNotFoundError("missing completed coverage checkpoint under output/exhaustive_coverage")
+    snapshot = _load_json(SNAPSHOT_JSON)
+    if not snapshot.get("done"):
+        raise RuntimeError("coverage checkpoint is not done; refusing to freeze a partial run")
+    if snapshot["coverage_counts"].get("network_error", 0):
+        raise RuntimeError("coverage checkpoint has network_error rows; rerun before freezing")
+    compact_rows = [compact_coverage_row(row) for row in _iter_jsonl(ROWS_JSONL)]
+    with FROZEN_COMPACT_JSONL.open("w") as fh:
+        for row in compact_rows:
+            fh.write(json.dumps(row, sort_keys=True) + "\n")
+    packet = {
+        "phase": "exhaustive_coverage_expansion",
+        "status": "evidence_attached",
+        "accepted": False,
+        "next": "human_signature_required",
+        "trust_boundary": "proposal_only",
+        "honest_ceiling": HONEST_CEILING,
+        "pre_registration_id": snapshot["pre_registration_id"],
+        "snapshot_id": snapshot["snapshot_id"],
+        "gene_count": snapshot["genes_seen"],
+        "coverage_counts": snapshot["coverage_counts"],
+        "rows_sha256": snapshot["rows_sha256"],
+        "compact_rows": {
+            "path": "examples/data/exhaustive_coverage_compact_rows.jsonl",
+            "sha256": _sha256(FROZEN_COMPACT_JSONL),
+        },
+        "raw_checkpoint": {
+            "path": "output/exhaustive_coverage/orcs_tcell_gene_rows.jsonl",
+            "sha256": snapshot["rows_sha256"],
+            "tracked": False,
+            "reason": "raw ORCS rows are content-addressed but too large and verbose for the portable repo artifact",
+        },
+        "source": {
+            "name": "BioGRID ORCS T-cell rows plus NIH NCBI Genes mapping",
+            "orcs_url": ORCS_DATATABLE_URL,
+            "ncbi_gene_url": NCBI_GENE_URL,
+        },
+        "reproduce_command": "./prospect exhaustive-coverage --phase run --checkpoint-every 100 --rate-limit-seconds 0.25",
+        "freeze_command": "./prospect exhaustive-coverage --phase freeze",
+    }
+    packet["coverage_id"] = _hash_obj("exhaustive_coverage", packet)
+    FROZEN_JSON.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n")
+    _write_freeze_doc(packet)
+    return packet
+
+
+def _write_freeze_doc(packet: dict[str, Any]) -> None:
+    counts = packet["coverage_counts"]
+    lines = [
+        "# Exhaustive coverage expansion",
+        "",
+        f"ID: `{packet['coverage_id']}`",
+        "",
+        "Status: `evidence_attached`. accepted=false. next=human_signature_required.",
+        "",
+        f"Ceiling: {packet['honest_ceiling']}",
+        "",
+        "## Coverage Counts",
+        "",
+        f"- Genes checked: {packet['gene_count']}",
+        f"- Covered: {counts.get('covered', 0)}",
+        f"- Mapped with no T-cell rows: {counts.get('mapped_no_tcell_rows', 0)}",
+        f"- Unmapped: {counts.get('unmapped', 0)}",
+        f"- Network errors: {counts.get('network_error', 0)}",
+        "",
+        "Noncoverage is not a contradiction. These rows expand substrate coverage only.",
+        "",
+        "## Artifacts",
+        "",
+        f"- Compact rows: `{packet['compact_rows']['path']}` sha256 `{packet['compact_rows']['sha256']}`",
+        f"- Raw checkpoint: `{packet['raw_checkpoint']['path']}` sha256 `{packet['raw_checkpoint']['sha256']}`",
+        "",
+        "## Reproduce",
+        "",
+        "```bash",
+        packet["reproduce_command"],
+        packet["freeze_command"],
+        "```",
+    ]
+    FROZEN_DOC.write_text("\n".join(lines) + "\n")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospect exhaustive-coverage")
-    parser.add_argument("--phase", choices=["preregister", "run", "status"], default="status")
+    parser.add_argument("--phase", choices=["preregister", "run", "status", "freeze"], default="status")
     parser.add_argument("--checkpoint-every", type=int, default=100)
     parser.add_argument("--rate-limit-seconds", type=float, default=0.25)
     parser.add_argument("--max-genes", type=int, default=0)
@@ -290,6 +422,13 @@ def main(argv: list[str] | None = None) -> int:
             print(f"pre_registration_id={result['pre_registration_id']}")
     elif args.phase == "run":
         result = run_coverage(args.checkpoint_every, args.rate_limit_seconds, args.max_genes)
+    elif args.phase == "freeze":
+        result = freeze_coverage()
+        if not args.json:
+            print(f"wrote {FROZEN_JSON}")
+            print(f"wrote {FROZEN_COMPACT_JSONL}")
+            print(f"wrote {FROZEN_DOC}")
+            print(f"coverage_id={result['coverage_id']}")
     else:
         result = read_status()
     if args.json:
