@@ -1,0 +1,130 @@
+{
+  "accepted": false,
+  "analysis_kind": "secondary_activation_specificity_sensitivity",
+  "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "comparability": {
+    "contradicted_allowed": false,
+    "reason": "The independent study measures transcriptomic reach after eight days of activation, while Marson measures Rest, Stim8hr, and Stim48hr. This sensitivity analysis can attach evidence about incremental activation-specific reach but cannot refute a Marson condition claim.",
+    "status": "orthogonal_activation_context"
+  },
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "goalpost_policy": "No population rule, transform, endpoint, inference method, threshold, covariate, missing-row rule, or kill criterion may change after this pre-registration is committed.",
+  "hypothesis": "Marson Stim48hr transcriptomic reach retains positive association with independent day-eight activated primary-CD4 knockout reach after controlling for Marson Rest reach and independent-study batch.",
+  "kill_rules": [
+    {
+      "kill_id": "batch_direction",
+      "passes_when": "The partial association is positive in each frozen batch with enough complete cases to estimate the model.",
+      "status_determining": true
+    },
+    {
+      "kill_id": "general_machinery",
+      "passes_when": "After excluding targets with Replogle K562 reach above 25, the partial association remains positive. K562 gaps are reported as not_assayed and are not imputed.",
+      "status_determining": true
+    },
+    {
+      "kill_id": "influential_target",
+      "passes_when": "Every leave-one-target-out partial association remains positive.",
+      "status_determining": true
+    },
+    {
+      "kill_id": "subset_instability",
+      "passes_when": "At least 95 percent of 10000 seeded leave-five-target-out partial associations are positive.",
+      "status_determining": true
+    },
+    {
+      "kill_id": "cell_count_confound",
+      "passes_when": "The partial association remains positive after residualizing both ranked outcomes on ranked Rest reach, batch, and ranked median live-cell count.",
+      "status_determining": true
+    }
+  ],
+  "missingness": {
+    "editing_efficiency": "Report the available subset descriptively. Do not impute and do not use it to determine status because the older GSE171737 batch is systematically missing editing efficiency.",
+    "k562": "Report missing K562 coverage as not_assayed. Do not treat missing coverage as zero or as exclusion.",
+    "marson_rest": "Exclude targets missing Rest from the complete-case model. Do not replace missing Rest values with zero.",
+    "published_rows": "Treat an absent required published row as not_assayed, never zero."
+  },
+  "next": "execute_frozen_analysis",
+  "population": {
+    "derive_complete_cases": true,
+    "expected_complete_cases": 76,
+    "frozen_batches": [
+      "gse171737_il2ra_regulators",
+      "gse271788_iei_background"
+    ],
+    "starting_targets": 79,
+    "starting_targets_source": "examples/data/gse271788/target_reach.csv targets overlapping the frozen Marson table"
+  },
+  "pre_registration_id": "prereg_2fd47506461840d1",
+  "primary_analysis": {
+    "alternative": "partial_rho_greater_than_zero",
+    "bootstrap": {
+      "confidence_interval": "percentile_95_percent",
+      "method": "sample targets with replacement within each batch while preserving each batch size",
+      "samples": 10000
+    },
+    "independent_measure": "published_mashr_lfsr_lt_0_005, the count of downstream genes with authors' mashr LFSR below 0.005",
+    "marson_measure": "frozen released n_total_de_genes",
+    "permutation": {
+      "method": "Freedman-Lane residual permutation within each frozen batch",
+      "p_value": "(count_permuted_at_least_observed + 1) / 10001",
+      "samples": 10000
+    },
+    "procedure": [
+      "Rank independent reach, Stim48hr reach, and Rest reach with average ranks for ties.",
+      "Encode independent-study batch as one binary fixed-effect column.",
+      "Regress ranked Stim48hr reach on an intercept, ranked Rest reach, and batch.",
+      "Regress ranked independent reach on the same design matrix.",
+      "Compute Pearson correlation between the two residual vectors.",
+      "Report the result as partial Spearman rho."
+    ],
+    "prohibited_changes": [
+      "log transform",
+      "winsorization",
+      "trimming",
+      "threshold changes after observing the result"
+    ],
+    "seed": 271789,
+    "status_condition": "Stim48hr",
+    "statistic": "partial_spearman_rho"
+  },
+  "replay": "python frontier/gse271788_activation_specificity.py --check",
+  "schema_version": "prospect.gse271788.activation_specificity.preregistration.v1",
+  "source_bindings": [
+    {
+      "path": "examples/data/gse271788/source_manifest.json",
+      "role": "independent-study source manifest",
+      "sha256": "d124fcfc89656dddd1896080376385b278a9230d3a7dd47c113dc99e3bf95748"
+    },
+    {
+      "path": "examples/data/gse271788/target_reach.csv",
+      "role": "independent target reach, batch, editing-efficiency, and live-cell-count projection",
+      "sha256": "699bf26b2789b45a6e16ff0ecf3eefa9ba3f9169e9196355b40c766d0be04e18"
+    },
+    {
+      "path": "examples/data/gse271788/metadata_summary.json",
+      "role": "independent-study cardinality and donor metadata",
+      "sha256": "e46850f33d850f41d626ef95c2aa8bda842e239bc3f140e00bec9d61f21a6448"
+    },
+    {
+      "path": "examples/data/marson_de_full.csv",
+      "role": "frozen Marson condition-specific transcriptomic reach",
+      "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+    },
+    {
+      "path": "examples/data/replogle_k562_de.csv",
+      "role": "frozen K562 general-machinery comparator",
+      "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+    },
+    {
+      "path": "examples/data/gse271788_preregistration.json",
+      "role": "sealed primary cross-study calibration protocol",
+      "sha256": "3b125228953c1d224d5d175a6c8331aebbe7f6e348dfd182dad1ce1721a83c9e"
+    }
+  ],
+  "status": "evidence_attached",
+  "status_rule": {
+    "evidence_attached": "The one-sided permutation P value is at most 0.01, the lower bootstrap bound is above zero, and all five status-determining kills pass.",
+    "orthogonal_phenotype": "The primary threshold, bootstrap threshold, or any status-determining kill fails. Report that broad reach replicates while incremental activation-specific reach is not established."
+  },
+  "trust_boundary": "proposal_only"
+}
