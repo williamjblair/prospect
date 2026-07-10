@@ -9,6 +9,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from receipt.frozen_io import sha256_file
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "examples" / "data"
 MARSON = DATA / "marson_de_full.csv"
@@ -23,16 +25,6 @@ SUBSTRATE_LABELS = {
     "replogle_rpe1": "Replogle RPE1 Perturb-seq",
     "orcs_primary_tcell": "BioGRID ORCS primary T-cell perturbation rows",
 }
-
-
-def sha256_file(path: Path) -> str:
-    import hashlib
-
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
 
 
 def choose_route(*, source_name: str = "", filename: str = "", claim_context: str = "", claim: str = "") -> dict[str, str]:

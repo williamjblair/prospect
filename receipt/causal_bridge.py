@@ -6,12 +6,13 @@ Perturb-seq table. It never calls a model and never mutates accepted state.
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from collections import Counter, defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from receipt.frozen_io import sha256_file
 from receipt.schema import Artifact, EvidenceAtom, Receipt, Verifier
 from receipt.substrate_router import choose_route, coverage_report, enrich_verdicts
 
@@ -36,24 +37,28 @@ CLAIM_MODES = {"associative_signature", "explicit_driver_claim"}
 CONDITIONS = ["Rest", "Stim8hr", "Stim48hr"]
 
 
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
 
 
-def _marson_rows(path: Path = MARSON_FULL) -> dict[tuple[str, str], dict[str, str]]:
+@lru_cache(maxsize=4)
+def _marson_rows_at_version(
+    path_text: str,
+    size: int,
+    modified_ns: int,
+) -> dict[tuple[str, str], dict[str, str]]:
+    del size, modified_ns
     rows: dict[tuple[str, str], dict[str, str]] = {}
-    with path.open(newline="") as f:
+    with Path(path_text).open(newline="") as f:
         for row in csv.DictReader(f):
             rows[(row["target_contrast_gene_name"], row["culture_condition"])] = row
     return rows
+
+
+def _marson_rows(path: Path = MARSON_FULL) -> dict[tuple[str, str], dict[str, str]]:
+    resolved = path.resolve()
+    stat = resolved.stat()
+    return _marson_rows_at_version(str(resolved), stat.st_size, stat.st_mtime_ns)
 
 
 def _de_lookup(path: Path) -> dict[str, dict[str, str]]:

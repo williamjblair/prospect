@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from dataclasses import asdict, dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from receipt.frozen_io import sha256_file
 from receipt.substrate_router import (
     CONDITIONS,
     K562,
@@ -28,14 +28,6 @@ GSE278572_RESULT = DATA / "gse278572_comparator.json"
 GSE271788_MANIFEST = DATA / "gse271788" / "source_manifest.json"
 GSE271788_REACH = DATA / "gse271788" / "target_reach.csv"
 EVIDENCE_MODES = {"primary_only", "all_frozen"}
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 @dataclass(frozen=True)

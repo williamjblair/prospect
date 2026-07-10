@@ -1,0 +1,135 @@
+{
+  "accepted": false,
+  "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "concurrency": {
+    "accepted_responses": 0,
+    "duplicate_proposal_ids": 1,
+    "duplicate_requests": 500,
+    "elapsed_seconds": 1.575,
+    "requests": 1000,
+    "unique_proposal_ids": 500,
+    "unique_requests": 500,
+    "workers": 32
+  },
+  "failures": {
+    "acceptance_events": 0,
+    "accepted_responses": 0,
+    "silent_wrong_answers": 0,
+    "transport_identity_mismatches": 0,
+    "unexpected_parser_exceptions": 0
+  },
+  "genome_parity": {
+    "accepted_responses": 0,
+    "batch_digest": "4cff695272d27ffe270188d46ef7bfe479dfd60b072c25e6a2ccfdc5a0cfc661",
+    "claim_modes": 2,
+    "elapsed_seconds": 63.976,
+    "evidence_modes": 2,
+    "frontier_genes": 11526,
+    "gene_mode_evidence_evaluations": 46104,
+    "identity_mismatches": 0,
+    "parity_batches": 12,
+    "transport_count": 4,
+    "transports": [
+      "direct_python",
+      "http",
+      "stdio_mcp",
+      "streamable_http_mcp"
+    ],
+    "typed_status_totals": {
+      "associative_only": 9612,
+      "contradicted": 9612,
+      "evidence_attached": 12124,
+      "not_assayed": 14756
+    }
+  },
+  "http_fuzz": {
+    "accepted_responses": 0,
+    "clean_failures": 3000,
+    "elapsed_seconds": 15.753,
+    "status_codes": {
+      "200": 7000,
+      "400": 3000
+    },
+    "submissions": 10000,
+    "typed": 7000
+  },
+  "limit_probes": {
+    "maximum_genes_accepted_in_parity_batch": 5000,
+    "over_byte_limit": {
+      "accepted": false,
+      "status_code": 413,
+      "submitted_bytes": 1000001
+    },
+    "over_gene_limit": {
+      "accepted": false,
+      "status_code": 413,
+      "submitted_genes": 5001
+    }
+  },
+  "next": "human_signature_required",
+  "parser_fuzz": {
+    "cases": 100000,
+    "clean_failures": 18750,
+    "corpus_digest": "b7c02f5de0982569a9f7c397a0dcbde2eab95860b087cb74be2c205aba954eac",
+    "elapsed_seconds": 32.052,
+    "families": {
+      "bom_header": 6250,
+      "de_csv": 6250,
+      "duplicates": 6250,
+      "empty": 6250,
+      "ensembl_and_alias": 6250,
+      "injection_like": 6250,
+      "large_parser_list": 6250,
+      "malformed_json": 6250,
+      "nested_json": 6250,
+      "plain_symbols": 6250,
+      "quoted_csv": 6250,
+      "ranked_tsv": 6250,
+      "signature_json": 6250,
+      "unicode_confusable": 6250,
+      "unknown_and_nonhuman": 6250,
+      "wrong_columns": 6250
+    },
+    "identifier_kinds": {
+      "alias": 31250,
+      "ensembl": 106250,
+      "symbol": 87500,
+      "unknown": 6293750
+    },
+    "typed": 81250,
+    "unexpected_exceptions": 0
+  },
+  "receipt_mutations": {
+    "bound_fields": 17,
+    "mutation_digest": "45e036e3258bbec254c6977328025b09f5f11561edf6dbe16aea8eb5968294c3",
+    "mutations": 17,
+    "source_receipt_id": "rcpt_5fd1fc5f39d1868d",
+    "unchanged_receipt_ids": 0
+  },
+  "replay": "python cli/acceptance_soak.py",
+  "restart_persistence": {
+    "accepted_responses": 0,
+    "elapsed_seconds": 128.258,
+    "forced_restarts": 100,
+    "identity_mismatches": 0,
+    "successful_fetches": 100
+  },
+  "scale": {
+    "concurrent_requests": 1000,
+    "concurrent_workers": 32,
+    "genome_batch_size": 5000,
+    "genome_limit": null,
+    "http_submissions": 10000,
+    "parser_cases": 100000,
+    "restarts": 100
+  },
+  "schema_version": "prospect.acceptance_soak.v1",
+  "signed_root": "root_a8b0dcdd4024e12f",
+  "storage": {
+    "acceptance_events": 0,
+    "proposals": 1519,
+    "published_events": 0,
+    "submission_events": 8024
+  },
+  "total_elapsed_seconds": 242.648
+}

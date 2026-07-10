@@ -118,7 +118,7 @@ def _parse_table(text: str) -> tuple[list[tuple[str, str]], str]:
         dialect = csv.excel
     reader = csv.DictReader(io.StringIO(text), dialect=dialect)
     fields = reader.fieldnames or []
-    lower = {field.lower().strip(): field for field in fields}
+    lower = {field.lstrip("\ufeff").lower().strip(): field for field in fields}
     gene_col = next((lower[col] for col in GENE_COLUMNS if col in lower), None)
     if not gene_col:
         raise ValueError("table input needs a gene, symbol, marker, target, feature, or name column")
