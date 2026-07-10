@@ -3,6 +3,8 @@
 Read [AGENTS.md](../AGENTS.md) first. This file is the current implementation map for the Jul 13,
 2026 Built with Claude: Life Sciences submission.
 
+Active execution memo: [Final Compute and Evidence Hardening](plans/2026-07-10-final-compute-and-evidence-hardening.md).
+
 ## Product
 
 Prospect tells a biologist which genes in an AI-generated list behave as candidate causal drivers in
