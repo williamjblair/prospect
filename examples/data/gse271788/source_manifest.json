@@ -1,0 +1,70 @@
+{
+  "cell_type": "primary human CD4+ T cells",
+  "comparability": "orthogonal_activation_context",
+  "condition": "CD3/CD28/CD2 activation with IL-2, RNA collected day 8",
+  "coverage": {
+    "marson_not_assayed": 5,
+    "marson_overlap": 79,
+    "targets": 84
+  },
+  "identifier_namespace": "HGNC gene symbol",
+  "missing_semantics": "not_assayed",
+  "organism": "Homo sapiens",
+  "perturbation": "arrayed CRISPR knockout",
+  "phenotype": "activated transcriptome",
+  "projections": {
+    "metadata_summary.json": {
+      "sha256": "e46850f33d850f41d626ef95c2aa8bda842e239bc3f140e00bec9d61f21a6448"
+    },
+    "target_reach.csv": {
+      "rows": 84,
+      "sha256": "699bf26b2789b45a6e16ff0ecf3eefa9ba3f9169e9196355b40c766d0be04e18"
+    }
+  },
+  "replay": "python frontier/gse271788_calibration.py --check",
+  "schema_version": "prospect.substrate_manifest.v1",
+  "scoring_rule": "published mashr downstream-effect count at LFSR below 0.005",
+  "sources": {
+    "counts.gz": {
+      "bytes": 11013556,
+      "sha256": "24f49fc8480a4b7b79fd2fd3ee03a2ca1429a6822f3b6d1ea6c30b13d02bf67c",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE271nnn/GSE271788/suppl/GSE271788_dedup_counts.txt.gz"
+    },
+    "gse171737.soft": {
+      "bytes": 12465,
+      "sha256": "0b527f6b974e9ea2bce2f6001f3d2c213bec0cfd090cc671296cdd9aa1a7d80a",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171737&targ=self&view=full&form=text"
+    },
+    "gse271788.soft": {
+      "bytes": 10290,
+      "sha256": "ddc41b0ca6e7d3a04a12696ed349959ad7f3857d25e035c9b76a6c5a45bbe936",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE271788&targ=self&view=full&form=text"
+    },
+    "mmc12.xlsx": {
+      "bytes": 17282,
+      "sha256": "51a1e2dd79c3f24e14a637f451877128d07d981296ee03e66838cba8850ccec5",
+      "url": "PMC11605694 supplementary Table S11"
+    },
+    "mmc13.xlsx": {
+      "bytes": 17168,
+      "sha256": "d828c2faff2de3bea7089b4c2e0b6f0c77a7f9ac6640a7845ba2fa7deebae790",
+      "url": "PMC11605694 supplementary Table S12"
+    },
+    "mmc5.xlsx": {
+      "bytes": 14695692,
+      "sha256": "c0a22be718bec3a113fe3a2d543111efcf799b00693001d790358455c3d880c1",
+      "url": "PMC11605694 supplementary Table S4"
+    },
+    "mmc6.xlsx": {
+      "bytes": 15312290,
+      "sha256": "c5ab39e21057549e34451b17ef41be2018b7141a3ff455b0f8e4465aaabed2de",
+      "url": "PMC11605694 supplementary Table S5"
+    },
+    "supp.zip": {
+      "bytes": 83444327,
+      "sha256": "1ea94ce18c5d2e0e05b3602c4b788c76488264dae82b8046f9146daa30d83e6f",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11605694/supplementaryFiles"
+    }
+  },
+  "substrate_id": "weinstock_freimer_activated_cd4_ko"
+}

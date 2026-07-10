@@ -1,0 +1,30 @@
+{
+  "batch_target_counts": {
+    "gse171737_il2ra_regulators": 24,
+    "gse271788_iei_background": 60
+  },
+  "control_columns": 59,
+  "count_columns": 311,
+  "deseq2_rows": 129727,
+  "donors_per_target": 3,
+  "editing_efficiency_rows": 212,
+  "featurecounts_command_sha256": "7679ee80d8ec7193a87b1e2b76d0b40c354c700f35fcfd04d3ce687e76490a5e",
+  "live_cell_count_rows": 310,
+  "marson_not_assayed": [
+    "JAK3",
+    "POU2F1",
+    "SON",
+    "ZNF217",
+    "ZNF341"
+  ],
+  "marson_overlap": 79,
+  "mashr_rows_lfsr_lt_0_005": 226763,
+  "schema_version": "prospect.gse271788.metadata.v1",
+  "targets": 84,
+  "unique_donors": [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
+}
