@@ -1,0 +1,102 @@
+{
+  "accepted": false,
+  "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+  "comparability": {
+    "contradicted_allowed": false,
+    "reason": "The independent cells were activated for eight days, while Marson measures Rest, Stim8hr, and Stim48hr. The study can calibrate broad activated-CD4 reach but cannot earn contradicted for a Marson condition claim.",
+    "status": "orthogonal_activation_context"
+  },
+  "content_signature": "prereg_sig_3c8226ccc9c0773d7e9b165893eb4b0b0cac004e3afc94b7f708dfb12610e174",
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "goalpost_policy": "No threshold, endpoint, missing-row rule, or kill criterion may change after this pre-registration is committed. A failed source contract aborts the analysis.",
+  "hypothesis": "Perturbations with broader transcriptomic reach at Marson Stim48hr also have broader reach in the independent day-eight activated primary-CD4 knockout study.",
+  "kill_rules": [
+    {
+      "axis": "independent experimental batch",
+      "kill_id": "batch_specificity",
+      "rule": "Spearman rho must be positive in both the 24-target and 60-target batches."
+    },
+    {
+      "axis": "broad K562 transcriptomic effect",
+      "kill_id": "general_machinery",
+      "rule": "After excluding targets with Replogle K562 reach above 25, Spearman rho must remain positive."
+    },
+    {
+      "axis": "single-target leverage",
+      "kill_id": "influential_target",
+      "rule": "Every leave-one-target-out Spearman rho must remain positive."
+    }
+  ],
+  "named_result_policy": "MED12 is an inspected calibration control, not a newly selected discovery. Any other named result must emerge from a rule sealed before its effect is inspected.",
+  "next": "freeze_sources_before_scoring",
+  "phase": "independent_primary_cd4_calibration",
+  "pre_registration_id": "prereg_3c8226ccc9c0773d",
+  "primary_analysis": {
+    "bootstrap_samples": 10000,
+    "decision_condition": "Stim48hr",
+    "expected_n": 79,
+    "independent_measure": "count of downstream genes with published mashr LFSR below 0.005",
+    "marson_measure": "released n_total_de_genes at Stim48hr",
+    "permutations": 10000,
+    "population": "targets present in both the frozen Marson table and the published effect table",
+    "positive_rule": "permutation_p_value_at_most_0.01",
+    "reporting_conditions": [
+      "Rest",
+      "Stim8hr",
+      "Stim48hr",
+      "strongest_condition"
+    ],
+    "seed": 271788,
+    "statistic": "spearman_rho"
+  },
+  "replay": "python frontier/gse271788_preregistration.py --check",
+  "schema_version": "prospect.gse271788.preregistration.v1",
+  "signature_scope": "content seal only, not accepted frontier state",
+  "source_contract": {
+    "abort_if_unpinned": [
+      "published LFSR table",
+      "batch labels",
+      "target mapping",
+      "source hashes"
+    ],
+    "expected_count_columns": 311,
+    "expected_donors_per_target": 3,
+    "expected_marson_overlap": 79,
+    "expected_not_assayed": 5,
+    "expected_targets": 84,
+    "missing_row_semantics": "not_assayed",
+    "raw_counts_filename": "GSE271788_dedup_counts.txt.gz",
+    "raw_counts_sha256": "24f49fc8480a4b7b79fd2fd3ee03a2ca1429a6822f3b6d1ea6c30b13d02bf67c",
+    "required_published_tables": [
+      "S4",
+      "S5",
+      "S11",
+      "S12"
+    ]
+  },
+  "sources": [
+    {
+      "accession": "GSE271788",
+      "role": "60-target primary human CD4 knockout batch and combined count matrix",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE271788"
+    },
+    {
+      "accession": "GSE171737",
+      "role": "24-target IL2RA-regulator primary human CD4 knockout batch",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171737"
+    },
+    {
+      "accession": "PMID:39395408",
+      "role": "published methods and supplementary effect tables",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39395408/"
+    }
+  ],
+  "status": "evidence_attached",
+  "trust_boundary": "proposal_only",
+  "typing_rule": {
+    "contradicted": "not available for this cross-context calibration",
+    "evidence_attached": "The primary permutation P value is at most 0.01 and all three kill rules pass.",
+    "not_assayed": "The target or required published effect row is absent.",
+    "orthogonal_phenotype": "The primary rule or any kill rule fails."
+  }
+}
