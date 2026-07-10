@@ -8,13 +8,16 @@ import re
 import urllib.parse
 import urllib.request
 from pathlib import Path
+import sys
 from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from receipt.acceptance_service import build_submission_result
 from receipt.causal_bridge import build_claude_science_packet
 from receipt.substrate_router import DATA, ORCS_TCELL, artifact_hashes, clear_caches
 
-ROOT = Path(__file__).resolve().parents[1]
 OUT_JSON = DATA / "substrate_coverage_report.json"
 OUT_DOC = ROOT / "docs" / "SUBSTRATE_COVERAGE.md"
 ORCS_DATATABLE_URL = "https://orcs.thebiogrid.org/scripts/datatableTools.php"

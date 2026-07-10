@@ -1,7 +1,14 @@
 """Verifier breadth and substrate routing contracts."""
+import subprocess
+import sys
+from pathlib import Path
+
 from receipt.acceptance_service import build_submission_result
 from receipt.causal_bridge import build_claude_science_packet
 from frontier.substrate_coverage import build_packet
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _by_gene(verdicts):
@@ -69,3 +76,18 @@ def test_substrate_coverage_packet_is_content_addressed():
     assert packet["route_examples"]["k562"]["primary_substrate"] == "replogle_k562"
     assert packet["artifacts"]["orcs_primary_tcell"]["sha256"]
     assert packet["artifacts"]["marson_cd4_activation"]["sha256"]
+    assert packet["typed_counts"]["sade_feldman_signature"]["associative_only"] == 25
+    assert packet["typed_counts"]["sade_feldman_signature"]["contradicted"] == 0
+
+
+def test_registered_direct_replay_command_runs_from_repo_root():
+    proc = subprocess.run(
+        [sys.executable, "frontier/substrate_coverage.py"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    assert "wrote examples/data/substrate_coverage_report.json" in proc.stdout

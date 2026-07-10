@@ -44,14 +44,13 @@
         "not_assayed": 15,
         "not_assayed_fraction": 0.2885,
         "typed_status_counts": {
-          "associative_only": 22,
-          "contradicted": 3,
+          "associative_only": 25,
           "evidence_attached": 12,
           "not_assayed": 15
         }
       },
       "primary_substrate": "marson_cd4_activation",
-      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate",
+      "routing_reason": "the submitter selected this frozen substrate explicitly",
       "substrates": {
         "marson_cd4_activation": {
           "covered_genes": 37,
@@ -99,15 +98,15 @@
   "route_examples": {
     "k562": {
       "primary_substrate": "replogle_k562",
-      "routing_reason": "K562 claim routes first to the Replogle K562 perturbation substrate"
+      "routing_reason": "the submitter selected this frozen substrate explicitly"
     },
     "rpe1": {
       "primary_substrate": "replogle_rpe1",
-      "routing_reason": "RPE1 claim routes first to the Replogle RPE1 perturbation substrate"
+      "routing_reason": "the submitter selected this frozen substrate explicitly"
     },
     "tcell_immunotherapy": {
       "primary_substrate": "marson_cd4_activation",
-      "routing_reason": "immunotherapy or T-cell claim routes first to the primary CD4+ perturbation substrate"
+      "routing_reason": "the submitter selected this frozen substrate explicitly"
     }
   },
   "status": "evidence_attached",
@@ -131,13 +130,13 @@
       "passengers": 0
     },
     "sade_feldman_signature": {
-      "associative_only": 22,
-      "contradicted": 3,
+      "associative_only": 25,
+      "contradicted": 0,
       "drivers": 12,
       "evidence_attached": 12,
       "genes": 52,
       "not_assayed": 15,
-      "passengers": 22
+      "passengers": 25
     }
   }
 }
