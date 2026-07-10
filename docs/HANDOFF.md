@@ -23,6 +23,11 @@ record provenance only and are not receipt acceptance events.
 - Signed root: `root_a8b0dcdd4024e12f`
 - Ceiling: computation over released data, not wet-lab or clinical truth
 
+Live adoption check on 2026-07-10 at 06:37 UTC: the public ledger has 0 published external-team
+submissions. The production store has 21 private or demo submission events across 11 proposals and
+0 acceptance events. The generic second-producer fixture demonstrates interoperability only and is
+not adoption evidence.
+
 ## Judge Flow
 
 1. Check opens on a real Claude Science Sade-Feldman scRNA-seq export.
@@ -51,6 +56,8 @@ record provenance only and are not receipt acceptance events.
 - `web/public/data/check.json`: compact first load. `frontier.json` is lazy-loaded only for Explorer.
 - `frontier/gse278572_comparator.py`: pre-registered corrective comparator.
 - `frontier/gse271788_calibration.py`: pre-registered 79-target independent primary-CD4 calibration.
+- `frontier/gse271788_activation_specificity.py`: pre-registered Rest-adjusted sensitivity that
+  keeps broad cross-study reach separate from activation specificity.
 - `frontier/pggt1b_comparability_audit.py`: frozen PGGT1B coverage and readout audit.
 - `receipt/substrate_manifest.py`: six frozen substrate manifests exposed through HTTP and MCP.
 
@@ -95,6 +102,7 @@ python tests/test_marson.py
 python -m pytest tests/ -q
 cd web && npm run typecheck && npm run build
 docker build -f Dockerfile.acceptance -t prospect-acceptance .
+python cli/acceptance_soak.py --check
 ```
 
 The acceptance path is secret-free. `.env` is only needed for optional Claude proposal loops. Never

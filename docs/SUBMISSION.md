@@ -66,6 +66,8 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 3. Inspect the shareable result link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
 4. Read the 48 and 64 percent overclaiming benchmark.
 5. Open Evidence for the independent 79-target calibration and its three adversarial kills.
+   Read the Rest-adjusted sensitivity beside it: incremental activation-specific reach does not
+   clear the locked bar.
 6. Open Lead for the PGGT1B mechanism and the still-open replication gap.
 7. Open Receipts for the audit trail and MCP bridge.
 
@@ -76,6 +78,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
 - `/data/gse271788_calibration.json`
+- `/data/gse271788_activation_specificity.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
@@ -97,6 +100,7 @@ cd web && npm run typecheck && npm run build
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
 python frontier/gse271788_calibration.py --check
+python frontier/gse271788_activation_specificity.py --check
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json
@@ -104,6 +108,13 @@ python receipt/replay_proposal.py <proposal.json-or-url>
 python examples/receipt_bridge_client.py --json
 python examples/claude_science_connector_client.py --json
 ```
+
+## External usage state
+
+As of 2026-07-10 at 06:37 UTC, the live public ledger contains 0 published external-team
+submissions. The production store contains 21 private or demo events across 11 proposals and 0
+acceptance events. The second-producer fixture is a genericity demonstration, not adoption
+evidence. This count should be refreshed immediately before submission.
 
 ## Trust Boundary
 

@@ -7,6 +7,12 @@ perturbation evaluator. Every result is a proposal with `accepted=false` and
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
+Hosted paths:
+
+- Web: `https://prospect-sepia-six.vercel.app`
+- MCP: `https://prospect-acceptance.fly.dev/mcp`
+- Public ledger: `https://prospect-acceptance.fly.dev/ledger`
+
 ## Web
 
 Open Check, choose the claim mode, paste the artifact, and submit. Associative signature is the
@@ -47,6 +53,8 @@ receipt or a typed verdict drifted.
 
 Hosted Streamable HTTP endpoint: `http://127.0.0.1:8130/mcp`.
 
+Production Streamable HTTP endpoint: `https://prospect-acceptance.fly.dev/mcp`.
+
 Tools:
 
 - `prospect.acceptance.discover_schema`
@@ -70,3 +78,10 @@ The service uses the official Python MCP SDK. Stdio compatibility remains availa
 
 Unknown genes and sparse comparator coverage become `not_assayed`, never silent failures or
 contradictions.
+
+## External trial record
+
+For a real team trial, preserve the self-declared producer label, submitted artifact SHA-256, claim
+mode and context, proposal id, receipt id, typed counts, and proposal URL. Keep
+`publish_to_ledger=false` unless the submitter explicitly consents to public ledger publication.
+The proposal remains `accepted=false` in either case.
