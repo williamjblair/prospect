@@ -45,7 +45,9 @@ record provenance only and are not receipt acceptance events.
   browser receipt hashing exists.
 - `web/public/data/check.json`: compact first load. `frontier.json` is lazy-loaded only for Explorer.
 - `frontier/gse278572_comparator.py`: pre-registered corrective comparator.
+- `frontier/gse271788_calibration.py`: pre-registered 79-target independent primary-CD4 calibration.
 - `frontier/pggt1b_comparability_audit.py`: frozen PGGT1B coverage and readout audit.
+- `receipt/substrate_manifest.py`: six frozen substrate manifests exposed through HTTP and MCP.
 
 ## Science State
 
@@ -59,6 +61,18 @@ The accepted frontier remains unchanged. New analyses are proposals only.
 - GSE278572 correction: 24 overlapping regulators. MED12 meets the locked qualification rule in both
   Teff and Treg. High Rest reach argues against activation specificity, but cannot alone establish
   housekeeping or essentiality. Proposal `proposal_e33de6bedec7c950` remains unaccepted.
+- GSE171737/GSE271788 calibration: 84 published targets, 79 overlapping Marson, five `not_assayed`.
+  The pre-registered Stim48hr comparison has Spearman `rho=0.373895`, one-sided 10,000-permutation
+  `P=0.00039996`, bootstrap 95% interval `[0.169361, 0.547610]`, and all three adversarial kills
+  pass. Proposal `proposal_e32e34a8d41b10ab` remains unaccepted.
+- PGGT1B registry audit: seven candidate accessions were inspected. No source directly perturbs
+  PGGT1B with a comparable stimulated primary-human-CD4 transcriptomic readout, so the independent
+  batch-specificity kill remains open.
+
+`evidence_mode=primary_only` preserves the original canonical receipt identity. New Check requests
+use `evidence_mode=all_frozen`, which binds all consulted manifests, dataset-specific verdicts,
+comparability decisions, hashes, and replay commands into the receipt. `GET /substrates`, hosted MCP
+`discover_substrates`, and stdio MCP `prospect.receipt.substrates` expose the same registry.
 
 ## Gate
 

@@ -39,6 +39,7 @@ def build_handout() -> dict[str, Any]:
     substrate = _json(DATA / "substrate_coverage_report.json")
     pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
     comparator = _json(DATA / "gse278572_comparator.json")
+    calibration = _json(DATA / "gse271788_calibration.json")
     index = _json(DATA / "finding_index.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
@@ -71,6 +72,12 @@ def build_handout() -> dict[str, Any]:
             "pggt1b_orthogonal_public_datasets": pggt1b["orthogonal_public_dataset_count"],
             "gse278572_overlap": comparator["comparison"]["prospect_overlap"],
             "gse278572_qualified_genes": comparator["finding3_review"]["n_needs_qualification"],
+            "gse271788_overlap": calibration["primary_result"]["n"],
+            "gse271788_rho": calibration["primary_result"]["spearman_rho"],
+            "gse271788_permutation_p": calibration["primary_result"]["permutation_p_value_one_sided"],
+            "gse271788_kills_passed": sum(
+                1 for kill in calibration["adversarial_kills"].values() if kill["passed"]
+            ),
         },
         "trust_boundary": {
             "model_role": "propose, search, draft",
@@ -83,6 +90,7 @@ def build_handout() -> dict[str, Any]:
             "Check: paste a gene list, DE table, or signature and copy the shareable result link.",
             "Check: inspect the 48 and 64 percent overclaiming benchmark.",
             "Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.",
+            "Evidence: inspect the 79-target independent primary-CD4 calibration and its three adversarial kills.",
             "Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
             "Evidence: signed CD4+ T-cell findings show the frozen evidence graph.",
             "Receipts: receipts and MCP bridge show accepted=false until a human key signs.",
@@ -97,6 +105,7 @@ def build_handout() -> dict[str, Any]:
             "./prospect claude-science",
             "./prospect substrate-coverage",
             "./prospect pggt1b-defended-evidence",
+            "python frontier/gse271788_calibration.py --check",
             "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
             "python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json",
             "python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json",
@@ -140,6 +149,11 @@ def _markdown(handout: dict[str, Any]) -> str:
         (
             f"- GSE278572: {counts['gse278572_overlap']} overlapping regulators, "
             f"{counts['gse278572_qualified_genes']} pre-registered interpretation qualification"
+        ),
+        (
+            f"- GSE171737/GSE271788: {counts['gse271788_overlap']} shared primary-CD4 perturbations, "
+            f"rho {counts['gse271788_rho']:.6f}, permutation P {counts['gse271788_permutation_p']:.8f}, "
+            f"{counts['gse271788_kills_passed']} of 3 adversarial kills passed"
         ),
         f"- PGGT1B carries {counts['pggt1b_orthogonal_public_datasets']} orthogonal public evidence sources",
         (

@@ -27,6 +27,8 @@ SOURCE_DOCS = [
     "docs/SUBSTRATE_COVERAGE.md",
     "docs/PGGT1B_DEFENDED_EVIDENCE.md",
     "docs/GSE278572_COMPARATOR.md",
+    "docs/GSE271788_PREREGISTRATION.md",
+    "docs/GSE271788_CALIBRATION.md",
     "docs/JUDGE_HANDOUT.md",
 ]
 
@@ -47,6 +49,7 @@ VERIFICATION_COMMANDS = [
     "./prospect rigor-audit",
     "./prospect substrate-coverage",
     "./prospect pggt1b-defended-evidence",
+    "python frontier/gse271788_calibration.py --check",
     "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
 ]
 
@@ -59,6 +62,7 @@ PUBLIC_ARTIFACTS = [
     "/data/receipt_bridge/receipt_bundle.json",
     "/data/claude_science_acceptance_demo.json",
     "/data/gse278572_comparator.json",
+    "/data/gse271788_calibration.json",
     "/data/pggt1b_defended_evidence.json",
     "/data/overclaim_counter.json",
 ]

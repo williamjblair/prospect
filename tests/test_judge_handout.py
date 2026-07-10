@@ -32,6 +32,8 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["pggt1b_novelty_downgraded"] is True
     assert handout["counts"]["pggt1b_wet_lab_minimum_donors"] >= 3
     assert handout["counts"]["pggt1b_orthogonal_public_datasets"] >= 5
+    assert handout["counts"]["gse271788_overlap"] == 79
+    assert handout["counts"]["gse271788_kills_passed"] == 3
     assert "sign the evidence root" in handout["human_only_actions"]
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
@@ -51,12 +53,14 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect verify" in doc
     assert "./prospect demo-mode --reset" in doc
     assert "/data/gse278572_comparator.json" in doc
+    assert "/data/gse271788_calibration.json" in doc
     assert "/data/pggt1b_defended_evidence.json" in doc
     assert "./prospect substrate-coverage" in doc
     assert "./prospect pggt1b-defended-evidence" in doc
     assert "ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
     assert "PGGT1B novelty downgraded against prior art" in doc
     assert "Real Claude Science signature" in doc
+    assert "79 shared primary-CD4 perturbations" in doc
     assert "driver/passenger/contradicted" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     # No cut surface leaks back in.

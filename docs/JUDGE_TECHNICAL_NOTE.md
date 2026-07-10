@@ -18,6 +18,7 @@ In this submission, public external submissions remain `accepted=false` and `hum
 - `associative_only`: the gene appears in an associative signature, but perturbation does not support a driver claim.
 - `contradicted`: a causal or driver claim was explicitly made, and the frozen perturbation rule refutes that driver claim in this assay.
 - `not_assayed`: the gene is not covered comparably by the frozen rule.
+- `orthogonal_phenotype`: a supplemental dataset measures a non-equivalent condition or readout.
 
 Prospect does not claim wet-lab or clinical truth. It proves computation over released data.
 
@@ -35,6 +36,10 @@ Every receipt carries:
 
 The schema lives at `receipt/receipt_schema_v1.json`, and the bridge contract is exported under `/data/receipt_bridge/`.
 
+Each `all_frozen` proposal also binds `consulted_substrates[]` and `dataset_verdicts[]`. The same six
+content-addressed manifests are discoverable through `GET /substrates`, hosted MCP
+`discover_substrates`, and stdio MCP `prospect.receipt.substrates`.
+
 ## Judge commands
 
 ```bash
@@ -44,6 +49,7 @@ python tests/test_skill_parity.py
 python tests/test_marson.py
 python examples/claude_science_connector_client.py --json
 python examples/prospect_connector_client.py --case openresearch --json
+python frontier/gse271788_calibration.py --check
 ./prospect demo-mode --reset
 ```
 

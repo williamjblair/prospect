@@ -25,6 +25,7 @@ does the claim survive an independent frozen perturbation gate, and should it be
 - A frozen causal gate over the released Marson primary human CD4+ CRISPRi Perturb-seq screen.
 - Typed driver, passenger, contradicted, and not_assayed verdicts, always `accepted=false`.
 - A signed CD4+ evidence graph and MCP receipt bridge.
+- A six-substrate, content-addressed evidence registry with per-dataset comparability decisions.
 - One honest PGGT1B hypothesis worth testing, with mechanism, prior-art caveats, and a refutation experiment.
 
 ## Results
@@ -40,6 +41,13 @@ does the claim survive an independent frozen perturbation gate, and should it be
   `root_a8b0dcdd4024e12f`.
 - Corrective comparison: GSE278572 qualifies the MED12 interpretation. High Rest reach weakens
   activation specificity, but does not alone establish housekeeping or essentiality.
+- Independent calibration: 79 shared perturbations between Marson and the published
+  GSE171737/GSE271788 day-eight activated primary-CD4 knockout study. Stim48hr reach correlates with
+  independent reach at `rho=0.373895`, one-sided 10,000-permutation `P=0.00039996`; both study
+  batches, the K562-filtered subset, and every leave-one-target-out rerun remain positive.
+- PGGT1B registry audit: seven candidate accessions inspected across GEO, SRA, BioStudies, PubMed,
+  and ORCS. None directly perturbs PGGT1B in a comparable stimulated primary-CD4 transcriptomic
+  assay, so the batch-specificity kill remains open.
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
@@ -51,8 +59,9 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 2. Paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE` into the check-your-claim box.
 3. Inspect the shareable result link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
 4. Read the 48 and 64 percent overclaiming benchmark.
-5. Open Lead for the PGGT1B mechanism and CRISPRi refutation experiment.
-6. Open Receipts for the audit trail and MCP bridge.
+5. Open Evidence for the independent 79-target calibration and its three adversarial kills.
+6. Open Lead for the PGGT1B mechanism and the still-open replication gap.
+7. Open Receipts for the audit trail and MCP bridge.
 
 ## Public Artifacts
 
@@ -60,6 +69,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `/data/frontier.json`
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
+- `/data/gse271788_calibration.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
@@ -80,6 +90,7 @@ cd web && npm run typecheck && npm run build
 ./prospect claude-science
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
+python frontier/gse271788_calibration.py --check
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json

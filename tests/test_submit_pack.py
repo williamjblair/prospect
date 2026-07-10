@@ -67,6 +67,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/receipt_bridge/receipt_bundle.json",
         "/data/claude_science_acceptance_demo.json",
         "/data/gse278572_comparator.json",
+        "/data/gse271788_calibration.json",
         "/data/pggt1b_defended_evidence.json",
         "/data/overclaim_counter.json",
     ]

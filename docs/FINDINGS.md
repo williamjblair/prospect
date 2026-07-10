@@ -52,7 +52,7 @@ validation finding: it earns trust for the two that follow.
 produce near-zero transcriptional change when knocked down, even under stimulation. They are
 outputs of the T-cell program, not its transcriptional drivers. A frontier model asked whether
 PD-1 is a key regulator of CD4 T-cell state says yes; the released data says no in this assay.
-This is where AI overclaiming and the ground truth part ways.
+This is where a broad AI driver claim and this frozen assay part ways.
 
 **Definition** (`regulator_vs_effector`): a canonical immune gene (in the curated `CANON` set)
 with a confirmed on-target knockdown in a stimulated condition, fewer than 3 DE genes there, and
@@ -162,4 +162,7 @@ The frontier recovers known activation biology (Finding 1) and regulon enrichmen
 uses the same frozen rules to limit broad driver claims (Finding 2), separate Rest reach from
 activation specificity (Finding 3), and compare reach across cell contexts (Finding 4). The later
 GSE278572 proposal demonstrates the intended correction loop: new evidence qualifies the
-interpretation without silently rewriting accepted state.
+interpretation without silently rewriting accepted state. The separately pre-registered
+GSE171737/GSE271788 calibration adds an independent result across 79 shared primary-CD4
+perturbations. Its positive Stim48hr association passes three adversarial kills, while the different
+activation times keep it cross-context evidence rather than condition-level equivalence.

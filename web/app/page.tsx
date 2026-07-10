@@ -1750,10 +1750,9 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Evidence</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          Five deterministic CD4+ findings explain why the driver/passenger split is credible. The screen recovers
-          known activation biology, limits broad driver claims for low-effect perturbations, distinguishes Rest reach
-          from activation specificity, and compares the same rule across cell contexts. Later proposal-only evidence
-          remains visible where it qualifies the signed wording.
+          Five signed CD4+ findings establish the frozen evidence graph. A separately pre-registered comparison across
+          79 shared primary-CD4 perturbations tests whether broad activation reach carries across studies. Dataset-level
+          comparability and missing coverage remain visible, and every new result stays proposal-only.
         </p>
       </div>
       {d.gse271788_calibration && (

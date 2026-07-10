@@ -19,10 +19,11 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - Real Claude Science signature: 52 genes, 12 drivers, 25 passengers, 0 contradicted driver claims, 15 not assayed
 - ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - GSE278572: 24 overlapping regulators, 1 pre-registered interpretation qualification
+- GSE171737/GSE271788: 79 shared primary-CD4 perturbations, rho 0.373895, permutation P 0.00039996, 3 of 3 adversarial kills passed
 - PGGT1B carries 10 orthogonal public evidence sources
 - PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
 - 5 signed CD4+ findings and 6 receipts
-- 10 public data artifacts
+- 11 public data artifacts
 
 ## Five-minute judge path
 
@@ -30,9 +31,10 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
 3. Check: inspect the 48 and 64 percent overclaiming benchmark.
 4. Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
-5. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
-6. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
-7. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
+5. Evidence: inspect the 79-target independent primary-CD4 calibration and its three adversarial kills.
+6. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
+7. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
+8. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
 
 ## Trust Boundary
 
@@ -51,6 +53,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/receipt_bridge/receipt_bundle.json`
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
+- `/data/gse271788_calibration.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/overclaim_counter.json`
 
@@ -64,6 +67,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect claude-science`
 - `./prospect substrate-coverage`
 - `./prospect pggt1b-defended-evidence`
+- `python frontier/gse271788_calibration.py --check`
 - `./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service`
 - `python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json`
 - `python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json`

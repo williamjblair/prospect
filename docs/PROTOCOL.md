@@ -64,13 +64,17 @@ refuses it structurally. Status is typed, and never collapses to "verified" or "
 
 - `computationally_reproduced`: re-derives bit-for-bit from frozen released inputs (the EXACT lane)
 - `evidence_attached`: the supporting facts are reproduced, but the claim itself is a proposal to test
-- `contradicted`: the data disagrees
-- `refuted`: a stronger claim the data overturns
+- `associative_only`: an associative gene is covered, but its perturbation does not support a driver interpretation
+- `contradicted`: an explicit causal-driver claim is refuted by a comparable frozen readout
+- `not_assayed`: the frozen substrate cannot test the submitted gene or context
+- `orthogonal_phenotype`: evidence exists, but its readout or condition cannot adjudicate the submitted claim
+- `refuted`: a stronger, explicitly comparable claim the data overturns
 
 The agent's PGGT1B hypothesis is `evidence_attached`, not reproduced: every fact it rests on is a
-reproduced lookup, and the hypothesis is a proposal a human accepted as worth testing, not an
-established result. The four re-derivable findings are `computationally_reproduced`. The
-regulator-vs-effector finding is `contradicted`. The words match the evidence exactly.
+reproduced lookup, and the hypothesis is a proposal awaiting human review, not an established
+result. The five signed frontier findings are legacy `computationally_reproduced` records. Current
+external submissions use the narrower driver, passenger, and comparability rules above. The words
+match the evidence exactly.
 
 ## Replayability is the strongest currency
 

@@ -13,8 +13,8 @@ Open the live or local site on Check. The local site should run on a port other 
 1. Check, first screen: Prospect is the acceptance layer for AI-generated biology. Reproducible activity is not accepted state.
 2. Claude Science panel: a real scRNA-seq immunotherapy signature enters as a proposal. Show the exact split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15 `not_assayed`.
 3. Run your own claim: paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE`. Open the returned proposal page.
-4. Evidence: show the 48% and 64% overclaiming benchmark, then the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
-5. Lead: PGGT1B is the proposal-only hypothesis worth testing, with prenylation mechanism, comparability limits, and a primary CD4+ CRISPRi refutation experiment.
+4. Evidence: show the 48% and 64% overclaiming benchmark, then the 79-target independent primary-CD4 calibration and its three passed adversarial kills. State that different activation times prevent condition-level equivalence.
+5. Lead: PGGT1B is the proposal-only hypothesis worth testing, with prenylation mechanism, a bounded registry audit that found no direct comparable replication, and a primary CD4+ CRISPRi refutation experiment.
 6. Receipts: receipts cross the boundary, but accepted state waits for frozen replay and a human key.
 
 ## Five-minute extension
@@ -33,7 +33,8 @@ Use a writable `OPERON` session with the registered `prospect` connector and the
 
 ```text
 Submit the attached signature through prospect.acceptance.submit_artifact as an
-associative_signature from claude_science_sade_feldman. Set publish_to_ledger=false.
+associative_signature from claude_science_sade_feldman. Set evidence_mode=all_frozen
+and publish_to_ledger=false.
 Do not accept or sign anything. Return the proposal id, receipt id, typed-status counts,
 proposal URL, and replay command exactly as returned by Prospect.
 ```

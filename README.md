@@ -48,9 +48,13 @@ Every submission remains `accepted=false` until human review.
 - **MED12 correction:** an independently frozen GSE278572 comparison qualifies Prospect's own
   interpretation. High resting reach is evidence against activation specificity, but is not enough
   to call a gene housekeeping or an essentiality artifact.
-- **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology, separate
-  effectors from drivers, catch essentiality artifacts, transfer the checker to K562, and recover
-  CollecTRI regulons.
+- **Independent primary-CD4 calibration:** across 79 shared perturbations, Marson Stim48hr reach
+  correlates with published day-eight activated-CD4 knockout reach (`rho=0.373895`, one-sided
+  10,000-permutation `P=0.00039996`). All three pre-registered adversarial kills pass. Different
+  activation times make this cross-context evidence, not condition-level equivalence.
+- **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology,
+  separate effectors from drivers, distinguish Rest reach from activation specificity, compare
+  covered K562 and RPE1 contexts, and recover CollecTRI regulons.
 - **Receipt bridge:** any external workbench can submit a receipt through the MCP bridge. The bridge
   returns a proposal with `accepted=false`; an accepted record requires a human key.
 
@@ -60,6 +64,7 @@ Every submission remains `accepted=false` until human review.
 - `/data/frontier.json`
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
+- `/data/gse271788_calibration.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
@@ -80,6 +85,7 @@ cd web && npm run typecheck && npm run build
 ./prospect claude-science
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
+python frontier/gse271788_calibration.py --check
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json
@@ -103,6 +109,8 @@ python examples/claude_science_connector_client.py --json
 - Marson CD4+ T-cell CRISPRi Perturb-seq, Zhu, Dann, Marson 2025.
 - Replogle genome-scale Perturb-seq, K562 and RPE1, Replogle et al. Cell 2022, PMID 35688146.
 - CollecTRI regulons and frozen public context used only as evidence, never as automatic acceptance.
+- Weinstock/Freimer GSE171737 and GSE271788 primary human CD4+ knockout reach, reduced from the
+  authors' published LFSR tables under a committed pre-registration.
 
 ## License
 
