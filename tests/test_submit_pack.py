@@ -33,6 +33,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "./prospect rigor-audit",
         "./prospect substrate-coverage",
         "./prospect pggt1b-defended-evidence",
+        "python frontier/gse271788_activation_specificity.py --check",
         "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
     ]:
         assert command in packet["verification_commands"]
@@ -44,6 +45,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/DEMO_RECORDING_RUNBOOK.md",
         "docs/DEPLOY_READINESS.md",
         "docs/RIGOR_AUDIT.md",
+        "docs/FINAL_RED_TEAM.md",
         "docs/FINDINGS.md",
         "docs/PROTOCOL.md",
         "docs/JUDGE_TECHNICAL_NOTE.md",
@@ -51,6 +53,7 @@ def test_submit_pack_includes_copy_safe_submission_fields():
         "docs/RECEIPT_SCHEMA.md",
         "docs/SUBSTRATE_COVERAGE.md",
         "docs/PGGT1B_DEFENDED_EVIDENCE.md",
+        "docs/GSE271788_ACTIVATION_SPECIFICITY.md",
         "docs/JUDGE_HANDOUT.md",
     ]:
         assert path in packet["source_docs"]
@@ -68,6 +71,7 @@ def test_submit_pack_lists_the_consolidated_public_artifact_surface():
         "/data/claude_science_acceptance_demo.json",
         "/data/gse278572_comparator.json",
         "/data/gse271788_calibration.json",
+        "/data/gse271788_activation_specificity.json",
         "/data/pggt1b_defended_evidence.json",
         "/data/overclaim_counter.json",
     ]

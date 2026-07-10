@@ -240,6 +240,7 @@ type Data = {
   pggt1b_defended_evidence?: DefendedEvidencePacket | null;
   gse278572_comparator?: any;
   gse271788_calibration?: any;
+  gse271788_activation_specificity?: any;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -1787,9 +1788,16 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
               <div className="t-label">Independent primary-CD4 calibration</div>
               <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Broad perturbation reach carries across studies, with limits.</h2>
             </div>
-            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
-              {d.gse271788_calibration.status.replace(/_/g, " ")}
-            </span>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+                broad reach: {d.gse271788_calibration.status.replace(/_/g, " ")}
+              </span>
+              {d.gse271788_activation_specificity && (
+                <span className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>
+                  activation-specific: {d.gse271788_activation_specificity.status.replace(/_/g, " ")}
+                </span>
+              )}
+            </div>
           </div>
           <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
             Across {d.gse271788_calibration.primary_result.n} shared perturbations, Marson Stim48hr reach and the independent
@@ -1798,10 +1806,21 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
             all three pre-registered adversarial kills pass. Different activation times keep this cross-context evidence,
             not condition-level equivalence. accepted=false.
           </p>
+          {d.gse271788_activation_specificity && (
+            <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
+              The committed sensitivity asks the narrower question. After controlling for Rest reach and study batch,
+              the partial rho is {d.gse271788_activation_specificity.primary_result.partial_spearman_rho.toFixed(3)}
+              {" "}with permutation P {d.gse271788_activation_specificity.primary_result.permutation_p_value_one_sided.toFixed(3)}.
+              Four of five adversarial kills fail, so incremental activation-specific reach does not clear the pre-registered bar.
+            </p>
+          )}
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <a className="btn btn-secondary btn-sm" href="/data/gse271788_calibration.json">Open calibration proposal</a>
+            {d.gse271788_activation_specificity && (
+              <a className="btn btn-secondary btn-sm" href="/data/gse271788_activation_specificity.json">Open sensitivity proposal</a>
+            )}
             <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-              python frontier/gse271788_calibration.py --check
+              python frontier/gse271788_activation_specificity.py --check
             </span>
           </div>
         </section>

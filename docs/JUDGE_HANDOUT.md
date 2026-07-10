@@ -20,10 +20,11 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - GSE278572: 24 overlapping regulators, 1 pre-registered interpretation qualification
 - GSE171737/GSE271788: 79 shared primary-CD4 perturbations, rho 0.373895, permutation P 0.00039996, 3 of 3 adversarial kills passed
+- Activation-specific sensitivity: partial rho 0.045808, permutation P 0.35246475, 1 of 5 kills passed, status orthogonal_phenotype
 - PGGT1B registry audit: 7 candidate accessions inspected, direct comparable replication found: no
 - PGGT1B remains proposal-only; independent batch-specificity kill not cleared, protocol minimum donors 3
 - 5 signed CD4+ findings and 6 receipts
-- 11 public data artifacts
+- 12 public data artifacts
 
 ## Five-minute judge path
 
@@ -31,7 +32,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
 3. Check: inspect the 48 and 64 percent overclaiming benchmark.
 4. Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
-5. Evidence: inspect the 79-target independent primary-CD4 calibration and its three adversarial kills.
+5. Evidence: inspect the broad 79-target calibration, then its activation-specific sensitivity that does not clear the locked bar.
 6. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
 7. Evidence: signed CD4+ T-cell findings show the frozen evidence graph.
 8. Receipts: receipts and MCP bridge show accepted=false until a human key signs.
@@ -54,6 +55,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
 - `/data/gse271788_calibration.json`
+- `/data/gse271788_activation_specificity.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/overclaim_counter.json`
 
@@ -68,6 +70,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect substrate-coverage`
 - `./prospect pggt1b-defended-evidence`
 - `python frontier/gse271788_calibration.py --check`
+- `python frontier/gse271788_activation_specificity.py --check`
 - `./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service`
 - `python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json`
 - `python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json`

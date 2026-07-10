@@ -57,7 +57,10 @@ Every submission remains `accepted=false` until human review.
 - **Independent primary-CD4 calibration:** across 79 shared perturbations, Marson Stim48hr reach
   correlates with published day-eight activated-CD4 knockout reach (`rho=0.373895`, one-sided
   10,000-permutation `P=0.00039996`). All three pre-registered adversarial kills pass. Different
-  activation times make this cross-context evidence, not condition-level equivalence.
+  activation times make this cross-context evidence, not condition-level equivalence. A committed
+  sensitivity controls for Marson Rest reach and study batch: partial `rho=0.045808`, permutation
+  `P=0.35246475`, and four of five kills fail. Broad reach replicates, but incremental
+  activation-specific reach does not clear the locked bar.
 - **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology,
   separate effectors from drivers, distinguish Rest reach from activation specificity, compare
   covered K562 and RPE1 contexts, and recover CollecTRI regulons.
@@ -71,6 +74,7 @@ Every submission remains `accepted=false` until human review.
 - `/data/claude_science_acceptance_demo.json`
 - `/data/gse278572_comparator.json`
 - `/data/gse271788_calibration.json`
+- `/data/gse271788_activation_specificity.json`
 - `/data/pggt1b_defended_evidence.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
@@ -92,6 +96,7 @@ cd web && npm run typecheck && npm run build
 ./prospect substrate-coverage
 ./prospect pggt1b-defended-evidence
 python frontier/gse271788_calibration.py --check
+python frontier/gse271788_activation_specificity.py --check
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json

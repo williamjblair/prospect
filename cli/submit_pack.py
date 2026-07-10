@@ -19,6 +19,7 @@ SOURCE_DOCS = [
     "docs/DEMO_RECORDING_RUNBOOK.md",
     "docs/DEPLOY_READINESS.md",
     "docs/RIGOR_AUDIT.md",
+    "docs/FINAL_RED_TEAM.md",
     "docs/FINDINGS.md",
     "docs/PROTOCOL.md",
     "docs/JUDGE_TECHNICAL_NOTE.md",
@@ -29,6 +30,8 @@ SOURCE_DOCS = [
     "docs/GSE278572_COMPARATOR.md",
     "docs/GSE271788_PREREGISTRATION.md",
     "docs/GSE271788_CALIBRATION.md",
+    "docs/GSE271788_ACTIVATION_SPECIFICITY_PREREGISTRATION.md",
+    "docs/GSE271788_ACTIVATION_SPECIFICITY.md",
     "docs/JUDGE_HANDOUT.md",
 ]
 
@@ -50,6 +53,7 @@ VERIFICATION_COMMANDS = [
     "./prospect substrate-coverage",
     "./prospect pggt1b-defended-evidence",
     "python frontier/gse271788_calibration.py --check",
+    "python frontier/gse271788_activation_specificity.py --check",
     "./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service",
 ]
 
@@ -63,6 +67,7 @@ PUBLIC_ARTIFACTS = [
     "/data/claude_science_acceptance_demo.json",
     "/data/gse278572_comparator.json",
     "/data/gse271788_calibration.json",
+    "/data/gse271788_activation_specificity.json",
     "/data/pggt1b_defended_evidence.json",
     "/data/overclaim_counter.json",
 ]

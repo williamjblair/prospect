@@ -39,6 +39,10 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["pggt1b_batch_kill"] == "not_cleared"
     assert handout["counts"]["gse271788_overlap"] == 79
     assert handout["counts"]["gse271788_kills_passed"] == 3
+    assert handout["counts"]["gse271788_partial_rho"] == 0.045808
+    assert handout["counts"]["gse271788_partial_p"] == 0.35246475
+    assert handout["counts"]["gse271788_sensitivity_status"] == "orthogonal_phenotype"
+    assert handout["counts"]["gse271788_sensitivity_kills_passed"] == 1
     assert "sign the evidence root" in handout["human_only_actions"]
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
@@ -59,6 +63,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect demo-mode --reset" in doc
     assert "/data/gse278572_comparator.json" in doc
     assert "/data/gse271788_calibration.json" in doc
+    assert "/data/gse271788_activation_specificity.json" in doc
     assert "/data/pggt1b_defended_evidence.json" in doc
     assert "./prospect substrate-coverage" in doc
     assert "./prospect pggt1b-defended-evidence" in doc
@@ -67,6 +72,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "independent batch-specificity kill not cleared" in doc
     assert "Real Claude Science signature" in doc
     assert "79 shared primary-CD4 perturbations" in doc
+    assert "Activation-specific sensitivity: partial rho 0.045808" in doc
     assert "driver/passenger/contradicted" in doc
     assert "Prospect proves computation over released data, not wet-lab or clinical truth." in doc
     # No cut surface leaks back in.

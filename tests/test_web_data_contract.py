@@ -18,6 +18,8 @@ KEPT_PACKET_KEYS = [
     "claude_science_acceptance_demo",
     "pggt1b_defended_evidence",
     "substrate_coverage_report",
+    "gse271788_calibration",
+    "gse271788_activation_specificity",
 ]
 
 CUT_PACKET_KEYS = [
@@ -213,7 +215,33 @@ def test_frontier_json_embeds_substrate_coverage_report():
     coverage = report["coverage"]["sade_feldman_signature"]
     assert coverage["before"]["not_assayed"] == 15
     assert coverage["after"]["not_assayed"] == 5
+    assert report["typed_counts"]["sade_feldman_signature"]["associative_only"] == 25
+    assert report["typed_counts"]["sade_feldman_signature"]["contradicted"] == 0
     assert "Computation over released data" in report["ceiling"]
+
+
+def test_frontier_json_keeps_broad_reach_separate_from_activation_specificity():
+    data = json.loads(FRONTIER.read_text())
+    broad = data["gse271788_calibration"]
+    sensitivity = data["gse271788_activation_specificity"]
+
+    assert broad["status"] == "evidence_attached"
+    assert broad["primary_result"]["n"] == 79
+    assert broad["primary_result"]["spearman_rho"] == 0.373895
+    assert sensitivity["status"] == "orthogonal_phenotype"
+    assert sensitivity["accepted"] is False
+    assert sensitivity["primary_result"] == {
+        "n": 76,
+        "partial_spearman_rho": 0.045808,
+        "permutation_p_value_one_sided": 0.35246475,
+        "bootstrap_95_percent_interval": [-0.166003, 0.260058],
+        "bootstrap_discarded_singular_samples": 0,
+        "permutations": 10000,
+        "bootstrap_samples": 10000,
+        "seed": 271789,
+        "passed": False,
+    }
+    assert sum(row["passed"] for row in sensitivity["adversarial_kills"].values()) == 1
 
 
 if __name__ == "__main__":

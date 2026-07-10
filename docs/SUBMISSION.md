@@ -47,7 +47,10 @@ does the claim survive an independent frozen perturbation gate, and should it be
 - Independent calibration: 79 shared perturbations between Marson and the published
   GSE171737/GSE271788 day-eight activated primary-CD4 knockout study. Stim48hr reach correlates with
   independent reach at `rho=0.373895`, one-sided 10,000-permutation `P=0.00039996`; both study
-  batches, the K562-filtered subset, and every leave-one-target-out rerun remain positive.
+  batches, the K562-filtered subset, and every leave-one-target-out rerun remain positive. A second
+  pre-registered sensitivity controls for Rest reach and study batch. Its partial `rho=0.045808`,
+  permutation `P=0.35246475`, and four of five kills fail. This supports broad cross-study reach,
+  not incremental activation specificity.
 - PGGT1B registry audit: seven candidate accessions inspected across GEO, SRA, BioStudies, PubMed,
   and ORCS. None directly perturbs PGGT1B in a comparable stimulated primary-CD4 transcriptomic
   assay, so the batch-specificity kill remains open.

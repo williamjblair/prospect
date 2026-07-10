@@ -165,4 +165,8 @@ GSE278572 proposal demonstrates the intended correction loop: new evidence quali
 interpretation without silently rewriting accepted state. The separately pre-registered
 GSE171737/GSE271788 calibration adds an independent result across 79 shared primary-CD4
 perturbations. Its positive Stim48hr association passes three adversarial kills, while the different
-activation times keep it cross-context evidence rather than condition-level equivalence.
+activation times keep it cross-context evidence rather than condition-level equivalence. The later
+pre-registered sensitivity controls for Rest reach and study batch. Its partial rho is 0.045808 with
+one-sided permutation P 0.35246475, and four of five kills fail. The combined interpretation is
+narrower: broad perturbation reach carries across studies, but incremental activation-specific reach
+does not clear the locked bar.

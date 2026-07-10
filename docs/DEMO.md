@@ -42,7 +42,9 @@ are contradicted by the data, rising to 64% on famous checkpoints and cytokines.
 
 **1:38, independent check.** Open Evidence. The locked 79-target comparison finds positive
 cross-study agreement in perturbation reach (`rho=0.374`, permutation `P=0.0004`), and all three
-adversarial kills pass. Different activation times keep it cross-context evidence, not equivalence.
+adversarial kills pass. Then show the narrower sensitivity: controlling for Rest reach and batch
+reduces partial rho to `0.046` with `P=0.352`, and four of five kills fail. Broad reach carries
+across studies; incremental activation-specific reach does not clear the locked bar.
 
 **1:50, one honest lead.** Open Lead. PGGT1B is the hypothesis worth testing, not accepted biology:
 prenylation mechanism, FNTA/RABGGTA partners, ChEMBL target, and a primary CD4+ CRISPRi experiment

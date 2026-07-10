@@ -752,13 +752,46 @@ def write_outputs(report: dict[str, Any]) -> None:
     OUT_DOC.write_text(render_markdown(report))
 
 
+def validate_full_report(report: dict[str, Any]) -> None:
+    required = {
+        "genome_parity": ("frontier_genes", 11_526),
+        "parser_fuzz": ("cases", 100_000),
+        "http_fuzz": ("submissions", 10_000),
+        "concurrency": ("requests", 1_000),
+        "restart_persistence": ("forced_restarts", 100),
+    }
+    for section, (field, expected) in required.items():
+        if report.get(section, {}).get(field) != expected:
+            raise AssertionError(f"acceptance soak scale drift: {section}.{field}")
+    if report["genome_parity"].get("gene_mode_evidence_evaluations") != 46_104:
+        raise AssertionError("acceptance soak genome evaluation count drift")
+    if any(report.get("failures", {}).values()):
+        raise AssertionError("acceptance soak contains a failed invariant")
+    if report.get("storage", {}).get("acceptance_events") != 0:
+        raise AssertionError("acceptance soak contains an acceptance event")
+    if report.get("accepted") is not False or report.get("next") != "human_signature_required":
+        raise AssertionError("acceptance soak trust-boundary drift")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quick", action="store_true", help="run a small development-scale soak")
+    parser.add_argument("--full", action="store_true", help="run the committed full scale")
+    parser.add_argument("--resume", action="store_true", help="reuse a completed matching full report")
+    parser.add_argument("--check", action="store_true", help="check the committed full report without rerunning")
     parser.add_argument("--no-write", action="store_true", help="do not update committed report artifacts")
     parser.add_argument("--data-dir", type=Path)
     parser.add_argument("--checkpoint-dir", type=Path, default=DEFAULT_CHECKPOINT)
     args = parser.parse_args(argv)
+    if args.quick and (args.full or args.check):
+        parser.error("--quick cannot be combined with --full or --check")
+    if args.check:
+        report = json.loads(OUT_JSON.read_text())
+        validate_full_report(report)
+        if OUT_DOC.read_text() != render_markdown(report):
+            raise SystemExit("acceptance soak document drift")
+        print("acceptance soak report: full scale, failures=0, accepted=false")
+        return 0
     scale = QUICK_SCALE if args.quick else SoakScale()
     if args.data_dir:
         data_dir = args.data_dir
@@ -766,7 +799,16 @@ def main(argv: list[str] | None = None) -> int:
         data_dir = Path(tempfile.mkdtemp(prefix="prospect-acceptance-soak-"))
     else:
         data_dir = DEFAULT_CHECKPOINT / "service"
-    report = run_soak(scale=scale, data_dir=data_dir, checkpoint_dir=args.checkpoint_dir)
+    completed = args.checkpoint_dir / "checkpoint.json"
+    if args.resume and not args.quick and completed.exists() and OUT_JSON.exists():
+        checkpoint = json.loads(completed.read_text())
+        report = json.loads(OUT_JSON.read_text())
+        if checkpoint.get("phase") == "complete":
+            validate_full_report(report)
+        else:
+            report = run_soak(scale=scale, data_dir=data_dir, checkpoint_dir=args.checkpoint_dir)
+    else:
+        report = run_soak(scale=scale, data_dir=data_dir, checkpoint_dir=args.checkpoint_dir)
     if not args.no_write and not args.quick:
         write_outputs(report)
     print(

@@ -10,6 +10,7 @@ from cli.acceptance_soak import (
     run_parser_fuzz,
     run_receipt_mutations,
     run_soak,
+    validate_full_report,
 )
 from receipt.frozen_io import sha256_file
 from receipt.input_normalizer import parse_submission_text
@@ -99,6 +100,8 @@ def test_quick_soak_exercises_transports_storage_and_restarts(tmp_path):
 
 def test_committed_full_report_records_required_scale():
     report = json.loads(OUT_JSON.read_text())
+
+    validate_full_report(report)
 
     assert report["genome_parity"]["frontier_genes"] == 11_526
     assert report["genome_parity"]["gene_mode_evidence_evaluations"] == 46_104

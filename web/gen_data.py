@@ -91,6 +91,7 @@ claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
 substrate_coverage_report = load("substrate_coverage_report.json")
 gse278572_comparator = load("gse278572_comparator.json")
 gse271788_calibration = load("gse271788_calibration.json")
+gse271788_activation_specificity = load("gse271788_activation_specificity.json")
 
 citations = load("literature_citations.json")
 citations = citations["citations"] if citations else {}
@@ -157,6 +158,7 @@ data = {
     "substrate_coverage_report": substrate_coverage_report,
     "gse278572_comparator": gse278572_comparator,
     "gse271788_calibration": gse271788_calibration,
+    "gse271788_activation_specificity": gse271788_activation_specificity,
     "demo": demo, "phantom": phantom, "models": models,
     "frontier": {"root": sig.get("root", ""), "signer": sig.get("signer", ""),
                  "n_nodes": len(nodes), "n_edges": len(edges),
@@ -171,7 +173,8 @@ for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),
                   (substrate_coverage_report, "substrate_coverage_report.json"),
                   (gse278572_comparator, "gse278572_comparator.json"),
-                  (gse271788_calibration, "gse271788_calibration.json")]:
+                  (gse271788_calibration, "gse271788_calibration.json"),
+                  (gse271788_activation_specificity, "gse271788_activation_specificity.json")]:
     if obj:
         json.dump(obj, open(os.path.join(PUB, name), "w"))
 json.dump(data, open(OUT, "w"))

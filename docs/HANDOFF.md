@@ -71,7 +71,10 @@ The accepted frontier remains unchanged. New analyses are proposals only.
 - GSE171737/GSE271788 calibration: 84 published targets, 79 overlapping Marson, five `not_assayed`.
   The pre-registered Stim48hr comparison has Spearman `rho=0.373895`, one-sided 10,000-permutation
   `P=0.00039996`, bootstrap 95% interval `[0.169361, 0.547610]`, and all three adversarial kills
-  pass. Proposal `proposal_e32e34a8d41b10ab` remains unaccepted.
+  pass. Proposal `proposal_e32e34a8d41b10ab` remains unaccepted. The committed activation-specific
+  sensitivity controls for Rest reach and study batch across 76 complete cases. Partial
+  `rho=0.045808`, permutation `P=0.35246475`, and four of five kills fail, so it is typed
+  `orthogonal_phenotype`. Proposal `proposal_bd7167ea0cbbb182` remains unaccepted.
 - PGGT1B registry audit: seven candidate accessions were inspected. No source directly perturbs
   PGGT1B with a comparable stimulated primary-human-CD4 transcriptomic readout, so the independent
   batch-specificity kill remains open.

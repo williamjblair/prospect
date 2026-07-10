@@ -52,6 +52,20 @@ def test_rigor_audit_cli_emits_json_and_writes_doc():
     assert (ROOT / "docs" / "RIGOR_AUDIT.md").exists()
 
 
+def test_final_red_team_records_landed_and_rejected_attacks():
+    text = (ROOT / "docs" / "FINAL_RED_TEAM.md").read_text()
+
+    assert "SRC-02" in text
+    assert "STAT-01" in text
+    assert "PROTO-01" in text
+    assert "NARR-01" in text
+    assert "rho is `0.045808`" in text
+    assert "Accepted responses: 0. Acceptance events: 0." in text
+    assert "not_run_no_budget" not in text
+    assert "No model-proposed attack lane ran" in text
+    assert "\N{EM DASH}" not in text
+
+
 if __name__ == "__main__":
     test_rigor_audit_has_no_blocked_public_overclaim_phrases()
     test_rigor_audit_writes_markdown_without_boolean_slop(Path("/tmp/prospect-rigor-audit-test"))

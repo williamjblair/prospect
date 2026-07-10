@@ -18,6 +18,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `docs/PGGT1B_DEFENDED_EVIDENCE.md`
 - `docs/FINDINGS.md`
 - `docs/FINDING_INDEX.md`
+- `docs/GSE271788_ACTIVATION_SPECIFICITY.md`
 - `frontier/finding_index.py`
 - `examples/data/finding_index.json`
 - `web/public/data/finding_index.json`
@@ -38,6 +39,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - five signed CD4+ findings: artifact `/data/finding_index.json`, command `./prospect findings-index`
 - receipt bridge returns proposal-only state: artifact `/data/receipt_bridge/receipt_contract.json`, command `python examples/receipt_bridge_client.py --json`
 - GSE278572 proposal qualifies the Rest-reach interpretation: artifact `/data/gse278572_comparator.json`, command `python frontier/gse278572_comparator.py --check`
+- activation-specific incremental reach does not clear the locked sensitivity bar: artifact `/data/gse271788_activation_specificity.json`, command `python frontier/gse271788_activation_specificity.py --check`
 
 ## Blocked phrase hits
 
