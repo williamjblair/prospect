@@ -1,0 +1,443 @@
+{
+  "accepted": false,
+  "adversarial_kills": {
+    "batch_direction": {
+      "batches": {
+        "gse171737_il2ra_regulators": {
+          "n": 21,
+          "partial_spearman_rho": 0.107485
+        },
+        "gse271788_iei_background": {
+          "n": 55,
+          "partial_spearman_rho": -0.023537
+        }
+      },
+      "passed": false
+    },
+    "cell_count_confound": {
+      "covariate": "ranked median live-cell count",
+      "n": 76,
+      "partial_spearman_rho": 0.055116,
+      "passed": true
+    },
+    "general_machinery": {
+      "excluded_k562_above_25": [
+        "ATXN7L3",
+        "CLOCK",
+        "DR1",
+        "ETS1",
+        "FOXK1",
+        "LCOR",
+        "MED12",
+        "MYB",
+        "MYSM1",
+        "PTEN",
+        "SETDB1",
+        "STAT5B",
+        "TCF3",
+        "TTF1",
+        "YBX1",
+        "YBX3",
+        "YY1",
+        "ZBTB14"
+      ],
+      "k562_not_assayed": [
+        "IL2RA",
+        "TNFAIP3"
+      ],
+      "missing_coverage_policy": "retained in the model and reported as not_assayed",
+      "n": 58,
+      "partial_spearman_rho": -0.07209,
+      "passed": false
+    },
+    "influential_target": {
+      "maximum_partial_spearman_rho": 0.094092,
+      "minimum_leave_one_out": {
+        "excluded_gene": "RBCK1",
+        "partial_spearman_rho": -0.010307
+      },
+      "passed": false,
+      "runs": 76
+    },
+    "subset_instability": {
+      "leave_five": 5,
+      "maximum_partial_spearman_rho": 0.171429,
+      "median_partial_spearman_rho": 0.046579,
+      "minimum_partial_spearman_rho": -0.092327,
+      "passed": false,
+      "positive_fraction": 0.9362,
+      "positive_runs": 9362,
+      "runs": 10000,
+      "seed": 271789
+    }
+  },
+  "claim": {
+    "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+    "comparability": "orthogonal_activation_context",
+    "contradicted_allowed": false,
+    "interpretation": "Broad cross-study perturbation reach remains reproduced, but incremental activation-specific reach is not established under the locked sensitivity rule.",
+    "text": "Stim48hr transcriptomic reach retains positive association with independent day-eight activated primary-CD4 knockout reach after controlling for Rest reach and independent-study batch."
+  },
+  "coverage": {
+    "batch_complete_cases": {
+      "gse171737_il2ra_regulators": 21,
+      "gse271788_iei_background": 55
+    },
+    "complete_case_targets": [
+      "AIRE",
+      "AKAP8",
+      "ARID5A",
+      "ATMIN",
+      "ATXN7L3",
+      "BACH2",
+      "BPTF",
+      "CBFB",
+      "CLOCK",
+      "DR1",
+      "EGR3",
+      "ELK4",
+      "EPAS1",
+      "ETS1",
+      "FOXK1",
+      "FOXP1",
+      "FOXP3",
+      "GATA3",
+      "GFI1",
+      "HIVEP2",
+      "HIVEP3",
+      "IKZF1",
+      "IL2RA",
+      "IRF1",
+      "IRF2",
+      "IRF3",
+      "IRF4",
+      "IRF7",
+      "IRF8",
+      "IRF9",
+      "KLF2",
+      "KLF9",
+      "LCOR",
+      "MBD2",
+      "MED12",
+      "MYB",
+      "MYSM1",
+      "NFAT5",
+      "NFE2L2",
+      "NFE2L3",
+      "NFKB1",
+      "NFKB2",
+      "PTEN",
+      "RBCK1",
+      "REL",
+      "RELA",
+      "RELB",
+      "RFX5",
+      "RORC",
+      "SETDB1",
+      "SP110",
+      "STAT1",
+      "STAT2",
+      "STAT3",
+      "STAT5A",
+      "STAT5B",
+      "TBX21",
+      "TCF3",
+      "TET2",
+      "TNFAIP3",
+      "TP53",
+      "TTF1",
+      "YBX1",
+      "YBX3",
+      "YY1",
+      "ZBTB14",
+      "ZBTB24",
+      "ZFP3",
+      "ZKSCAN1",
+      "ZNF319",
+      "ZNF329",
+      "ZNF331",
+      "ZNF575",
+      "ZNF655",
+      "ZNF708",
+      "ZNF791"
+    ],
+    "complete_cases": 76,
+    "missing_complete_case_rows": [
+      {
+        "gene": "BCL11B",
+        "missing_conditions": [
+          "Rest"
+        ]
+      },
+      {
+        "gene": "KMT2A",
+        "missing_conditions": [
+          "Rest"
+        ]
+      },
+      {
+        "gene": "SREBF1",
+        "missing_conditions": [
+          "Rest"
+        ]
+      }
+    ],
+    "starting_targets": 79
+  },
+  "editing_efficiency_sensitivity": {
+    "batches": [
+      "gse271788_iei_background"
+    ],
+    "decision_role": "descriptive_only_systematically_missing_in_older_batch",
+    "n": 55,
+    "partial_spearman_rho_with_editing_covariate": -0.016593,
+    "partial_spearman_rho_without_editing_covariate": -0.023537
+  },
+  "frontier_root": "root_a8b0dcdd4024e12f",
+  "next": "human_signature_required",
+  "pre_registration_id": "prereg_2fd47506461840d1",
+  "primary_result": {
+    "bootstrap_95_percent_interval": [
+      -0.166003,
+      0.260058
+    ],
+    "bootstrap_discarded_singular_samples": 0,
+    "bootstrap_samples": 10000,
+    "n": 76,
+    "partial_spearman_rho": 0.045808,
+    "passed": false,
+    "permutation_p_value_one_sided": 0.35246475,
+    "permutations": 10000,
+    "seed": 271789
+  },
+  "proposal_id": "proposal_bd7167ea0cbbb182",
+  "receipt": {
+    "acceptance": null,
+    "accepted": false,
+    "artifacts": [
+      {
+        "locator": "examples/data/gse271788_activation_specificity_preregistration.json",
+        "name": "gse271788_activation_specificity_preregistration.json",
+        "sha256": "e9e40e957fdc3e7762b9391a65a5c18d077504eac605a8782deb0b8512ba6571"
+      },
+      {
+        "locator": "examples/data/gse271788/source_manifest.json",
+        "name": "source_manifest.json",
+        "sha256": "d124fcfc89656dddd1896080376385b278a9230d3a7dd47c113dc99e3bf95748"
+      },
+      {
+        "locator": "examples/data/gse271788/target_reach.csv",
+        "name": "target_reach.csv",
+        "sha256": "699bf26b2789b45a6e16ff0ecf3eefa9ba3f9169e9196355b40c766d0be04e18"
+      },
+      {
+        "locator": "examples/data/gse271788/metadata_summary.json",
+        "name": "metadata_summary.json",
+        "sha256": "e46850f33d850f41d626ef95c2aa8bda842e239bc3f140e00bec9d61f21a6448"
+      },
+      {
+        "locator": "examples/data/marson_de_full.csv",
+        "name": "marson_de_full.csv",
+        "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+      },
+      {
+        "locator": "examples/data/replogle_k562_de.csv",
+        "name": "replogle_k562_de.csv",
+        "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+      }
+    ],
+    "claim": "Stim48hr transcriptomic reach retains positive association with independent day-eight activated primary-CD4 knockout reach after controlling for Rest reach and independent-study batch.",
+    "conditions": [
+      "Marson Stim48hr outcome",
+      "Marson Rest and independent-study batch covariates",
+      "day-eight activated primary-CD4 knockout comparator",
+      "orthogonal activation context",
+      "proposal only"
+    ],
+    "evidence": [
+      {
+        "fact": "complete-case perturbation targets",
+        "source": "frozen source join",
+        "value": "76"
+      },
+      {
+        "fact": "partial Spearman rho",
+        "source": "locked residual-rank analysis",
+        "value": "0.045808"
+      },
+      {
+        "fact": "one-sided permutation P value",
+        "source": "10000 within-batch Freedman-Lane permutations",
+        "value": "0.35246475"
+      },
+      {
+        "fact": "bootstrap lower bound",
+        "source": "10000 within-batch bootstrap samples",
+        "value": "-0.166003"
+      },
+      {
+        "fact": "status-determining kills passed",
+        "source": "five frozen kill rules",
+        "value": "1"
+      }
+    ],
+    "frontier": "prospect_independent_cd4_activation_specificity",
+    "kind": "cross_study_sensitivity",
+    "producer": {
+      "kind": "deterministic_analysis",
+      "name": "ProspectActivationSpecificityAudit"
+    },
+    "receipt_id": "rcpt_7ed7d05f121995c9",
+    "replay_metadata": {
+      "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+      "command": "python frontier/gse271788_activation_specificity.py --check",
+      "pre_registration_id": "prereg_2fd47506461840d1",
+      "replayability": "exact",
+      "verifier": "ProspectActivationSpecificityAudit"
+    },
+    "replayability": "exact",
+    "schema_version": "prospect.receipt.v1",
+    "scope": [],
+    "state_diff": {
+      "accepted": false,
+      "effect": "proposal_only_no_state_mutation",
+      "model_can_apply": false,
+      "target": "prospect_independent_cd4_activation_specificity"
+    },
+    "status": "orthogonal_phenotype",
+    "subject": [
+      "AIRE",
+      "AKAP8",
+      "ARID5A",
+      "ATMIN",
+      "ATXN7L3",
+      "BACH2",
+      "BPTF",
+      "CBFB",
+      "CLOCK",
+      "DR1",
+      "EGR3",
+      "ELK4",
+      "EPAS1",
+      "ETS1",
+      "FOXK1",
+      "FOXP1",
+      "FOXP3",
+      "GATA3",
+      "GFI1",
+      "HIVEP2",
+      "HIVEP3",
+      "IKZF1",
+      "IL2RA",
+      "IRF1",
+      "IRF2",
+      "IRF3",
+      "IRF4",
+      "IRF7",
+      "IRF8",
+      "IRF9",
+      "KLF2",
+      "KLF9",
+      "LCOR",
+      "MBD2",
+      "MED12",
+      "MYB",
+      "MYSM1",
+      "NFAT5",
+      "NFE2L2",
+      "NFE2L3",
+      "NFKB1",
+      "NFKB2",
+      "PTEN",
+      "RBCK1",
+      "REL",
+      "RELA",
+      "RELB",
+      "RFX5",
+      "RORC",
+      "SETDB1",
+      "SP110",
+      "STAT1",
+      "STAT2",
+      "STAT3",
+      "STAT5A",
+      "STAT5B",
+      "TBX21",
+      "TCF3",
+      "TET2",
+      "TNFAIP3",
+      "TP53",
+      "TTF1",
+      "YBX1",
+      "YBX3",
+      "YY1",
+      "ZBTB14",
+      "ZBTB24",
+      "ZFP3",
+      "ZKSCAN1",
+      "ZNF319",
+      "ZNF329",
+      "ZNF331",
+      "ZNF575",
+      "ZNF655",
+      "ZNF708",
+      "ZNF791"
+    ],
+    "submitter_identity": {
+      "kind": "deterministic_analysis",
+      "name": "ProspectActivationSpecificityAudit"
+    },
+    "verdicts": [],
+    "verification_requirements": [
+      "frozen_source_hashes_match",
+      "committed_pre_registration_matches",
+      "locked_partial_rank_analysis_rederives",
+      "human_ed25519_signature"
+    ],
+    "verifier": {
+      "method": "frozen partial-rank analysis plus five pre-registered adversarial kills",
+      "name": "ProspectActivationSpecificityAudit",
+      "replay": "python frontier/gse271788_activation_specificity.py --check"
+    }
+  },
+  "replay": "python frontier/gse271788_activation_specificity.py --check",
+  "schema_version": "prospect.gse271788.activation_specificity.v1",
+  "source_integrity": {
+    "bindings": [
+      {
+        "path": "examples/data/gse271788/source_manifest.json",
+        "role": "independent-study source manifest",
+        "sha256": "d124fcfc89656dddd1896080376385b278a9230d3a7dd47c113dc99e3bf95748"
+      },
+      {
+        "path": "examples/data/gse271788/target_reach.csv",
+        "role": "independent target reach, batch, editing-efficiency, and live-cell-count projection",
+        "sha256": "699bf26b2789b45a6e16ff0ecf3eefa9ba3f9169e9196355b40c766d0be04e18"
+      },
+      {
+        "path": "examples/data/gse271788/metadata_summary.json",
+        "role": "independent-study cardinality and donor metadata",
+        "sha256": "e46850f33d850f41d626ef95c2aa8bda842e239bc3f140e00bec9d61f21a6448"
+      },
+      {
+        "path": "examples/data/marson_de_full.csv",
+        "role": "frozen Marson condition-specific transcriptomic reach",
+        "sha256": "ef33a498f6dad50c2fb464cdbfcd558c0a17b5ac48f7efb07ac38068c20ede7b"
+      },
+      {
+        "path": "examples/data/replogle_k562_de.csv",
+        "role": "frozen K562 general-machinery comparator",
+        "sha256": "a6a39225748fc6833f2204b67ed4993629cd3d6dfebd277c2cbbffb38615d204"
+      },
+      {
+        "path": "examples/data/gse271788_preregistration.json",
+        "role": "sealed primary cross-study calibration protocol",
+        "sha256": "3b125228953c1d224d5d175a6c8331aebbe7f6e348dfd182dad1ce1721a83c9e"
+      }
+    ],
+    "source_manifest_sha256": "d124fcfc89656dddd1896080376385b278a9230d3a7dd47c113dc99e3bf95748",
+    "substrate_id": "weinstock_freimer_activated_cd4_ko"
+  },
+  "status": "orthogonal_phenotype",
+  "trust_boundary": "proposal_only"
+}
