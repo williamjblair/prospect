@@ -13,6 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from receipt.mcp_server import handle_request
+from receipt.acceptance_service import evaluate_submission
 
 
 def test_mcp_lists_receipt_tools():
@@ -21,6 +22,7 @@ def test_mcp_lists_receipt_tools():
     tools = {t["name"]: t for t in res["result"]["tools"]}
 
     assert "prospect.receipt.schema" in tools
+    assert "prospect.receipt.substrates" in tools
     assert "prospect.receipt.validate" in tools
     assert "prospect.receipt.submit" in tools
     assert "prospect.receipt.submit_artifact" in tools
@@ -54,6 +56,20 @@ def test_mcp_validate_and_submit_never_accepts_state():
     assert submit_res["result"]["structuredContent"]["next"] == "human_signature_required"
 
 
+def test_mcp_discovers_six_frozen_substrates():
+    req = {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "method": "tools/call",
+        "params": {"name": "prospect.receipt.substrates", "arguments": {}},
+    }
+    payload = handle_request(req)["result"]["structuredContent"]
+
+    assert payload["accepted"] is False
+    assert payload["next"] == "human_signature_required"
+    assert len(payload["substrates"]) == 6
+
+
 def test_mcp_submit_artifact_accepts_freeform_submission_text():
     req = {
         "jsonrpc": "2.0",
@@ -84,6 +100,38 @@ def test_mcp_submit_artifact_accepts_freeform_submission_text():
     assert counts["not_assayed"] == 1
 
 
+def test_stdio_all_frozen_matches_direct_evaluator():
+    bundle = {
+        "text": "FOXP1\nMED12\nIL7R",
+        "filename": "genes.txt",
+        "source_name": "external_team",
+        "evidence_mode": "all_frozen",
+    }
+    req = {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "tools/call",
+        "params": {"name": "prospect.receipt.submit_artifact", "arguments": {"bundle": bundle}},
+    }
+    stdio = handle_request(req)["result"]["structuredContent"]
+    direct = evaluate_submission({
+        "input_text": bundle["text"],
+        "filename": bundle["filename"],
+        "producer": bundle["source_name"],
+        "substrate_id": "marson_cd4_activation",
+        "claim_mode": "associative_signature",
+        "claim_context": {},
+        "citations": [],
+        "artifacts": [],
+        "evidence_mode": "all_frozen",
+        "publish_to_ledger": False,
+    })
+
+    assert stdio["proposal_id"] == direct["proposal_id"]
+    assert stdio["receipt"]["receipt_id"] == direct["receipt"]["receipt_id"]
+    assert stdio["dataset_verdicts"] == direct["dataset_verdicts"]
+
+
 def test_prospect_mcp_stdio_roundtrip():
     payload = {"jsonrpc": "2.0", "id": 4, "method": "tools/list", "params": {}}
     proc = subprocess.run(
@@ -99,7 +147,7 @@ def test_prospect_mcp_stdio_roundtrip():
     assert proc.returncode == 0, proc.stderr
     res = json.loads(proc.stdout.strip())
     assert res["id"] == 4
-    assert len(res["result"]["tools"]) == 4
+    assert len(res["result"]["tools"]) == 5
 
 
 if __name__ == "__main__":

@@ -187,6 +187,9 @@ def test_health_reports_frozen_hashes_and_writable_sqlite(tmp_path):
             "marson_cd4_activation",
             "replogle_k562",
             "replogle_rpe1",
+            "gse278572_manifest",
+            "gse271788_manifest",
+            "gse271788_target_reach",
         }
         assert all(len(item["sha256"]) == 64 for item in health["data_hashes"].values())
     finally:

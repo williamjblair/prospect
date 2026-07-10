@@ -13,6 +13,7 @@ from typing import Any
 from receipt.acceptance_service import proposal_id_for
 from receipt.bridge import contract, manifest, validate_receipt
 from receipt.causal_bridge import submit_bundle
+from receipt.substrate_manifest import list_substrates
 
 PROTOCOL_VERSION = "2025-11-25"
 
@@ -51,6 +52,12 @@ def _tool_schema() -> list[dict[str, Any]]:
             "inputSchema": {"type": "object", "additionalProperties": False},
         },
         {
+            "name": "prospect.receipt.substrates",
+            "title": "Discover frozen Prospect substrates",
+            "description": "Return substrate coverage, comparability, hashes, and replay commands.",
+            "inputSchema": {"type": "object", "additionalProperties": False},
+        },
+        {
             "name": "prospect.receipt.validate",
             "title": "Validate a Prospect receipt",
             "description": "Validate receipt shape, typed status, replay fields, and acceptance fields.",
@@ -74,6 +81,12 @@ def _tool_schema() -> list[dict[str, Any]]:
 def _call_tool(name: str, args: dict[str, Any]) -> dict[str, Any]:
     if name == "prospect.receipt.schema":
         return _text_result({"contract": contract(), "manifest": manifest()})
+    if name == "prospect.receipt.substrates":
+        return _text_result({
+            "accepted": False,
+            "next": "human_signature_required",
+            "substrates": list_substrates(),
+        })
     if name == "prospect.receipt.validate":
         receipt = args.get("receipt")
         errors = validate_receipt(receipt) if isinstance(receipt, dict) else ["receipt must be an object"]

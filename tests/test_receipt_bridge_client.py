@@ -31,6 +31,7 @@ def test_receipt_bridge_client_roundtrip_is_proposal_only():
     assert summary["frontier_root"] == "root_a8b0dcdd4024e12f"
     assert summary["tools"] == [
         "prospect.receipt.schema",
+        "prospect.receipt.substrates",
         "prospect.receipt.validate",
         "prospect.receipt.submit",
         "prospect.receipt.submit_artifact",

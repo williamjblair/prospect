@@ -225,6 +225,7 @@ type Data = {
   claude_science_acceptance_demo?: ClaudeScienceAcceptanceDemo | null;
   pggt1b_defended_evidence?: DefendedEvidencePacket | null;
   gse278572_comparator?: any;
+  gse271788_calibration?: any;
   demo: { text: string; gene: string; status: string; reason: string }[];
   phantom: any; models: any[];
   frontier: { root: string; signer: string; n_nodes: number; n_edges: number; n_contra: number; n_open: number; n_findings: number };
@@ -267,6 +268,12 @@ type AcceptanceResult = {
     ceiling: string;
   };
   comparability: { status: string; reason: string };
+  evidence_mode: "primary_only" | "all_frozen";
+  consulted_substrates: { substrate_id: string; label: string; comparability: string }[];
+  dataset_verdicts: {
+    gene: string; substrate_id: string; typed_status: AcceptanceStatus;
+    comparability: string; magnitude: number | null; reason: string;
+  }[];
   verdicts: AcceptanceVerdict[];
   warnings: string[];
 };
@@ -713,6 +720,7 @@ function ProspectAcceptanceWorkbench() {
             phenotype,
             source: claimSource,
           } : {},
+          evidence_mode: "all_frozen",
           publish_to_ledger: publishToLedger,
         }),
       });
@@ -856,7 +864,7 @@ function ProspectAcceptanceWorkbench() {
                 <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>{result.warnings.slice(0, 3).join("; ")}</p>
               )}
               <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-                comparability={result.comparability.status}. {result.prospect.ceiling}
+                comparability={result.comparability.status}. {result.consulted_substrates.length} frozen substrates consulted, each with its own comparability. {result.prospect.ceiling}
               </p>
             </>
           ) : (
@@ -1748,6 +1756,32 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           remains visible where it qualifies the signed wording.
         </p>
       </div>
+      {d.gse271788_calibration && (
+        <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+            <div>
+              <div className="t-label">Independent primary-CD4 calibration</div>
+              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Broad perturbation reach carries across studies, with limits.</h2>
+            </div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+              {d.gse271788_calibration.status.replace(/_/g, " ")}
+            </span>
+          </div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
+            Across {d.gse271788_calibration.primary_result.n} shared perturbations, Marson Stim48hr reach and the independent
+            day-eight activated-CD4 knockout reach have Spearman rho {d.gse271788_calibration.primary_result.spearman_rho.toFixed(3)}.
+            The 10,000-permutation P value is {d.gse271788_calibration.primary_result.permutation_p_value_one_sided.toFixed(4)};
+            all three pre-registered adversarial kills pass. Different activation times keep this cross-context evidence,
+            not condition-level equivalence. accepted=false.
+          </p>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <a className="btn btn-secondary btn-sm" href="/data/gse271788_calibration.json">Open calibration proposal</a>
+            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+              python frontier/gse271788_calibration.py --check
+            </span>
+          </div>
+        </section>
+      )}
       {d.finding_index && <FindingsIndex index={d.finding_index} />}
       {order.map((k) => {
         const f = byKind[k] as Finding | undefined;

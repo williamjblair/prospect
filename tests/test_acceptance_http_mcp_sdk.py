@@ -111,6 +111,7 @@ async def _exercise_mcp(url: str, request: dict) -> dict:
             names = {tool.name for tool in tools.tools}
             assert names == {
                 "prospect.acceptance.discover_schema",
+                "prospect.acceptance.discover_substrates",
                 "prospect.acceptance.submit_artifact",
                 "prospect.acceptance.get_proposal",
                 "prospect.receipt.submit_artifact",
@@ -120,11 +121,17 @@ async def _exercise_mcp(url: str, request: dict) -> dict:
             assert schema.isError is False
             assert schema.structuredContent["schema_version"] == "prospect.receipt.v1"
             assert schema.structuredContent["accepted_default"] is False
+            assert schema.structuredContent["evidence_modes"] == ["primary_only", "all_frozen"]
             assert schema.structuredContent["artifact_hash_policy"] == {
                 "submitted_input": "service_computed",
                 "frozen_substrate": "service_computed",
                 "supplemental_descriptors": "self_declared_until_fetched",
             }
+
+            substrates = await session.call_tool("prospect.acceptance.discover_substrates", {})
+            assert substrates.isError is False
+            assert len(substrates.structuredContent["substrates"]) == 6
+            assert substrates.structuredContent["accepted"] is False
 
             submitted = await session.call_tool("prospect.acceptance.submit_artifact", request)
             assert submitted.isError is False
@@ -211,6 +218,44 @@ def test_direct_http_and_official_mcp_return_identical_ids(tmp_path):
         parsed = json.loads(ledger)
         assert parsed["submission_count"] == 0
         assert parsed["total_event_count"] == 3
+    finally:
+        _stop(process)
+
+
+def test_all_frozen_direct_http_and_official_mcp_have_identical_evidence(tmp_path):
+    port = _free_port()
+    process = _start(port, tmp_path)
+    request = {
+        "input_text": "FOXP1\nMED12\nIL7R",
+        "filename": "genes.txt",
+        "producer": "external_team",
+        "substrate_id": "marson_cd4_activation",
+        "claim_mode": "associative_signature",
+        "claim_context": {},
+        "evidence_mode": "all_frozen",
+        "publish_to_ledger": False,
+    }
+    try:
+        direct = evaluate_submission(request)
+        status, http_result = _post(port, "/submit", request)
+        assert status == 200
+        mcp_result = anyio.run(_exercise_mcp, f"http://127.0.0.1:{port}/mcp", request)
+
+        assert {direct["proposal_id"], http_result["proposal_id"], mcp_result["proposal_id"]} == {
+            direct["proposal_id"]
+        }
+        assert {
+            direct["receipt"]["receipt_id"],
+            http_result["receipt"]["receipt_id"],
+            mcp_result["receipt"]["receipt_id"],
+        } == {direct["receipt"]["receipt_id"]}
+        assert direct["dataset_verdicts"] == http_result["dataset_verdicts"] == mcp_result["dataset_verdicts"]
+
+        status, substrate_text = _get(port, "/substrates")
+        assert status == 200
+        substrates = json.loads(substrate_text)
+        assert substrates["accepted"] is False
+        assert len(substrates["substrates"]) == 6
     finally:
         _stop(process)
 

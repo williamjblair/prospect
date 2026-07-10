@@ -28,6 +28,7 @@ from starlette.responses import HTMLResponse, JSONResponse, Response
 import uvicorn
 
 from receipt.acceptance_service import clear_error, evaluate_submission
+from receipt.substrate_manifest import list_substrates
 
 DEFAULT_DATA_DIR = ROOT / "var" / "acceptance_service"
 DEFAULT_MAX_REQUEST_BYTES = 1_000_000
@@ -38,6 +39,9 @@ DATASETS = {
     "marson_cd4_activation": ROOT / "examples" / "data" / "marson_de_full.csv",
     "replogle_k562": ROOT / "examples" / "data" / "replogle_k562_de.csv",
     "replogle_rpe1": ROOT / "examples" / "data" / "replogle_rpe1_de.csv",
+    "gse278572_manifest": ROOT / "examples" / "data" / "gse278572" / "source_manifest.json",
+    "gse271788_manifest": ROOT / "examples" / "data" / "gse271788" / "source_manifest.json",
+    "gse271788_target_reach": ROOT / "examples" / "data" / "gse271788" / "target_reach.csv",
 }
 
 
@@ -339,7 +343,10 @@ def _schema_payload() -> dict[str, Any]:
         },
         "input_shapes": ["signature_json", "de_csv", "ranked_markers", "plain_gene_list"],
         "claim_modes": ["associative_signature", "explicit_driver_claim"],
+        "evidence_modes": ["primary_only", "all_frozen"],
         "typed_statuses": ["evidence_attached", "associative_only", "contradicted", "not_assayed"],
+        "substrates_path": "/substrates",
+        "substrates": list_substrates(),
         "public_path": "/proposal/{proposal_id}",
         "ceiling": CEILING,
     }
@@ -357,6 +364,7 @@ def _normalize_request(payload: dict[str, Any]) -> dict[str, Any]:
     request.setdefault("substrate_id", "marson_cd4_activation")
     request.setdefault("claim_mode", "associative_signature")
     request.setdefault("claim_context", {})
+    request.setdefault("evidence_mode", "primary_only")
     request.setdefault("publish_to_ledger", False)
     return request
 
@@ -425,6 +433,17 @@ def _render_proposal_page(result: dict[str, Any]) -> str:
         f"<li><code>{html.escape(str(item.get('name') or 'artifact'))}</code>: <code>{html.escape(str(item.get('sha256') or ''))}</code></li>"
         for item in ((result.get("receipt") or {}).get("artifacts") or [])
     )
+    dataset_rows = "\n".join(
+        "<tr>"
+        f"<td>{html.escape(str(row.get('gene') or ''))}</td>"
+        f"<td>{html.escape(str(row.get('substrate_id') or ''))}</td>"
+        f"<td>{html.escape(str(row.get('typed_status') or ''))}</td>"
+        f"<td>{html.escape(str(row.get('comparability') or ''))}</td>"
+        f"<td>{html.escape(str(row.get('magnitude') if row.get('magnitude') is not None else ''))}</td>"
+        f"<td>{html.escape(str(row.get('reason') or ''))}</td>"
+        "</tr>"
+        for row in (result.get("dataset_verdicts") or [])[:3000]
+    )
     receipt_id = str((result.get("receipt") or {}).get("receipt_id") or "")
     producer = ((result.get("receipt") or {}).get("producer") or {}).get("name") or "external"
     return f"""<!doctype html>
@@ -451,8 +470,11 @@ Producer: <code>{html.escape(str(producer))}</code>, identity: <code>self_declar
 </div>
 <h2>Frozen replay</h2><p><code>{html.escape(str(result.get('replay_command') or ''))}</code></p>
 <h2>Bound artifacts</h2>
-<p>The submitted-input and frozen-substrate hashes are computed by Prospect. Supplemental hash descriptors are self_declared until fetched during human review.</p>
+<p>The submitted-input and registered frozen-substrate hashes are computed by Prospect. Producer-supplied external artifact descriptors remain self_declared until fetched during human review.</p>
 <ul>{artifacts}</ul>
+<h2>Per-dataset evidence</h2>
+<p>Evidence mode: <code>{html.escape(str(result.get('evidence_mode') or 'primary_only'))}</code>. Supplemental rows retain their own comparability and never silently upgrade the primary verdict.</p>
+<table><thead><tr><th>Gene</th><th>Substrate</th><th>Status</th><th>Comparability</th><th>Magnitude</th><th>Reason</th></tr></thead><tbody>{dataset_rows}</tbody></table>
 <h2>Typed verdicts</h2>
 <table><thead><tr><th>Gene</th><th>Status</th><th>Condition</th><th>DE genes</th><th>Reason</th></tr></thead><tbody>{rows}</tbody></table>
 </body></html>"""
@@ -492,8 +514,9 @@ def _render_guide_page(base_url: str) -> str:
   -H 'content-type: application/json' \\
   -d '{{"producer":"your_team","filename":"genes.txt","input_text":"IL7R\\nCCR7\\nPD-1","claim_mode":"associative_signature","publish_to_ledger":false}}'</pre>
 <p>The response includes an immutable <code>proposal_url</code>. Set <code>publish_to_ledger=true</code> only when the self_declared producer may appear in the public ledger.</p>
-<p>Prospect computes the submitted-input and frozen-substrate hashes. Supplemental hash descriptors remain self_declared until fetched during review.</p>
-<p>Remote MCP endpoint: <code>{base}/mcp</code>. Tools: <code>prospect.acceptance.discover_schema</code>, <code>prospect.acceptance.submit_artifact</code>, and <code>prospect.acceptance.get_proposal</code>.</p>
+<p>Set <code>evidence_mode=all_frozen</code> to retain per-dataset evidence and comparability from every registered substrate.</p>
+<p>Prospect computes the submitted-input and registered frozen-substrate hashes. Producer-supplied external artifact descriptors remain self_declared until fetched during review.</p>
+<p>Remote MCP endpoint: <code>{base}/mcp</code>. Tools: <code>prospect.acceptance.discover_schema</code>, <code>prospect.acceptance.discover_substrates</code>, <code>prospect.acceptance.submit_artifact</code>, and <code>prospect.acceptance.get_proposal</code>.</p>
 </body></html>"""
 
 
@@ -609,6 +632,7 @@ def create_application(
         substrate_id: str = "",
         claim_mode: str = "",
         claim_context: dict[str, Any] | None = None,
+        evidence_mode: str = "",
         citations: list[str] | None = None,
         artifacts: list[dict[str, Any]] | None = None,
         publish_to_ledger: bool | None = None,
@@ -624,6 +648,7 @@ def create_application(
                 "substrate_id": substrate_id or payload.get("substrate_id") or "marson_cd4_activation",
                 "claim_mode": claim_mode or payload.get("claim_mode") or "associative_signature",
                 "claim_context": claim_context if claim_context is not None else payload.get("claim_context") or {},
+                "evidence_mode": evidence_mode or payload.get("evidence_mode") or "primary_only",
                 "citations": citations if citations is not None else payload.get("citations") or [],
                 "artifacts": artifacts if artifacts is not None else payload.get("artifacts") or [],
                 "publish_to_ledger": (
@@ -653,6 +678,19 @@ def create_application(
         return _schema_payload()
 
     @mcp.tool(
+        name="prospect.acceptance.discover_substrates",
+        description="Return frozen substrate manifests, coverage, comparability, hashes, and replay commands.",
+        structured_output=True,
+    )
+    def discover_substrates() -> dict[str, Any]:
+        return {
+            "accepted": False,
+            "next": "human_signature_required",
+            "substrates": list_substrates(),
+            "ceiling": CEILING,
+        }
+
+    @mcp.tool(
         name="prospect.acceptance.submit_artifact",
         description="Submit a gene list, signature, ranked marker table, or DE table for frozen evaluation.",
         structured_output=True,
@@ -666,6 +704,7 @@ def create_application(
         substrate_id: str = "",
         claim_mode: str = "",
         claim_context: dict[str, Any] | None = None,
+        evidence_mode: str = "",
         citations: list[str] | None = None,
         artifacts: list[dict[str, Any]] | None = None,
         publish_to_ledger: bool | None = None,
@@ -681,6 +720,7 @@ def create_application(
             substrate_id=substrate_id,
             claim_mode=claim_mode,
             claim_context=claim_context,
+            evidence_mode=evidence_mode,
             citations=citations,
             artifacts=artifacts,
             publish_to_ledger=publish_to_ledger,
@@ -735,6 +775,15 @@ def create_application(
             },
             status_code=200 if healthy else 503,
         )
+
+    @mcp.custom_route("/substrates", methods=["GET"])
+    async def substrates(_request: Request) -> Response:
+        return JSONResponse({
+            "accepted": False,
+            "next": "human_signature_required",
+            "substrates": list_substrates(),
+            "ceiling": CEILING,
+        })
 
     @mcp.custom_route("/submit", methods=["POST"])
     async def submit_http(request: Request) -> Response:

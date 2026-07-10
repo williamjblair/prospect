@@ -367,6 +367,7 @@ def submit_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
             "substrate_id": bundle.get("substrate_id") or "marson_cd4_activation",
             "claim_mode": bundle.get("claim_mode") or "associative_signature",
             "claim_context": bundle.get("claim_context") or {},
+            "evidence_mode": bundle.get("evidence_mode") or "primary_only",
             "citations": bundle.get("citations") or [],
             "artifacts": bundle.get("artifacts") or [],
             "publish_to_ledger": bool(bundle.get("publish_to_ledger", False)),

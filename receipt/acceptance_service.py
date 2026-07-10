@@ -15,6 +15,12 @@ from receipt.causal_bridge import (
     verdict_counts,
 )
 from receipt.input_normalizer import parse_submission_text
+from receipt.substrate_manifest import (
+    EVIDENCE_MODES,
+    build_dataset_verdicts,
+    consulted_artifacts,
+    consulted_substrates,
+)
 from receipt.substrate_router import (
     K562,
     RPE1,
@@ -136,13 +142,16 @@ def _comparability(substrate_id: str, context: dict[str, Any]) -> dict[str, str]
     return {"status": "orthogonal_phenotype", "reason": "submitted cell type, phenotype, or condition does not match the frozen substrate"}
 
 
-def _validate_request(request: dict[str, Any]) -> tuple[str, str, dict[str, Any], str]:
+def _validate_request(request: dict[str, Any]) -> tuple[str, str, dict[str, Any], str, str]:
     claim_mode = str(request.get("claim_mode") or "associative_signature")
     if claim_mode not in CLAIM_MODES:
         raise ValueError(f"claim_mode must be one of {sorted(CLAIM_MODES)}")
     substrate_id = str(request.get("substrate_id") or "marson_cd4_activation")
     if substrate_id not in SUBSTRATES:
         raise ValueError(f"substrate_id must be one of {sorted(SUBSTRATES)}")
+    evidence_mode = str(request.get("evidence_mode") or "primary_only")
+    if evidence_mode not in EVIDENCE_MODES:
+        raise ValueError(f"evidence_mode must be one of {sorted(EVIDENCE_MODES)}")
     context = _context(request.get("claim_context"))
     claim_source = str(context.get("source") or context.get("claim") or "").strip()
     if claim_mode == "explicit_driver_claim":
@@ -151,7 +160,7 @@ def _validate_request(request: dict[str, Any]) -> tuple[str, str, dict[str, Any]
             missing.append("source")
         if missing:
             raise ValueError("explicit_driver_claim requires claim_context fields: " + ", ".join(missing))
-    return claim_mode, substrate_id, context, claim_source
+    return claim_mode, substrate_id, context, claim_source, evidence_mode
 
 
 def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
@@ -163,7 +172,7 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
     producer = dict(producer_value) if isinstance(producer_value, dict) else {"name": str(producer_value)}
     producer.setdefault("kind", "external_workbench")
     producer["identity_status"] = "self_declared"
-    claim_mode, substrate_id, context, claim_source = _validate_request(request)
+    claim_mode, substrate_id, context, claim_source, evidence_mode = _validate_request(request)
     parsed = parse_submission_text(text, filename=filename)
     comparability = _comparability(substrate_id, context)
 
@@ -178,6 +187,13 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
     else:
         verdicts = replogle_verdicts(parsed["genes"], substrate_id)
     verdicts = enrich_verdicts(verdicts, primary_substrate=substrate_id)
+    manifests = consulted_substrates(substrate_id, evidence_mode)
+    dataset_verdicts = build_dataset_verdicts(
+        verdicts,
+        primary_substrate=substrate_id,
+        primary_comparability=comparability["status"],
+        evidence_mode=evidence_mode,
+    )
     counts = verdict_counts(verdicts)
     route = {
         "primary_substrate": substrate_id,
@@ -192,6 +208,10 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
         input_sha=input_sha,
         substrate_path=cfg["path"],
     )
+    if evidence_mode == "all_frozen":
+        combined = [*artifacts, *consulted_artifacts(substrate_id, evidence_mode)]
+        unique = {(row["name"], row["sha256"], row["locator"]): row for row in combined}
+        artifacts = [unique[key] for key in sorted(unique)]
     if claim_mode == "explicit_driver_claim":
         claim = f"Explicit causal-driver claim from {claim_source}"
     else:
@@ -199,6 +219,18 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
     replay = "python receipt/replay_proposal.py <proposal.json-or-url>"
     rule = {**CAUSAL_RULE, "claim_mode": claim_mode, "comparability": comparability}
     citations = _citations(request.get("citations"))
+    request_metadata = {
+        "claim_mode": claim_mode,
+        "claim_context": context,
+        "citations": citations,
+        "substrate_id": substrate_id,
+    }
+    if evidence_mode == "all_frozen":
+        request_metadata.update({
+            "evidence_mode": evidence_mode,
+            "consulted_substrates": manifests,
+            "dataset_verdicts": dataset_verdicts,
+        })
     receipt = _receipt_from_verdicts(
         producer=producer,
         claim=claim,
@@ -209,12 +241,7 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
         source_label=SUBSTRATE_LABELS[substrate_id],
         conditions=[*cfg["conditions"], "proposal only"],
         rule=rule,
-        request_metadata={
-            "claim_mode": claim_mode,
-            "claim_context": context,
-            "citations": citations,
-            "substrate_id": substrate_id,
-        },
+        request_metadata=request_metadata,
     )
     proposal_id = proposal_id_for(receipt["receipt_id"])
     return {
@@ -225,8 +252,11 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
         "claim_under_test": claim,
         "claim_mode": claim_mode,
         "claim_context": context,
+        "evidence_mode": evidence_mode,
         "citations": citations,
         "comparability": comparability,
+        "consulted_substrates": manifests,
+        "dataset_verdicts": dataset_verdicts,
         "normalized_input": parsed,
         "prospect": {
             "verifier": "ProspectCausalReceiptBridge",
@@ -235,6 +265,8 @@ def evaluate_submission(request: dict[str, Any]) -> dict[str, Any]:
             "next": "human_signature_required",
             "route": route,
             "coverage_report": coverage,
+            "evidence_mode": evidence_mode,
+            "consulted_substrate_count": len(manifests),
             "typed_status_counts": counts,
             "receipt_id": receipt["receipt_id"],
             "ceiling": "Computation over released data, not wet-lab or clinical truth.",
@@ -260,6 +292,7 @@ def build_submission_result(
     claim_context: dict[str, Any] | str | None = None,
     claim_mode: str = "associative_signature",
     substrate_id: str = "marson_cd4_activation",
+    evidence_mode: str = "primary_only",
     publish_to_ledger: bool = False,
 ) -> dict[str, Any]:
     if isinstance(claim_context, str):
@@ -276,6 +309,7 @@ def build_submission_result(
         "substrate_id": substrate_id,
         "claim_mode": claim_mode,
         "claim_context": claim_context or {},
+        "evidence_mode": evidence_mode,
         "publish_to_ledger": publish_to_ledger,
     })
     if base_url:
