@@ -14,14 +14,15 @@ Clean deterministic run:
 tells you which genes are causal drivers. Reproducible is not verified.
 
 **0:15, the wow.** Stay on the first screen. A real Claude Science Sade-Feldman melanoma ICB
-signature enters Prospect. Claude Science preserved the artifact and its internal review completed.
+signature enters Prospect. Claude Science preserved the artifact and its reviewer reported no issues.
 Prospect asks the causal question the session leaves open: which signature genes move the activation
 program when perturbed?
 
 **0:40, the two verdicts.** Read the counts: 52 genes, 12 `evidence_attached`, 25
 `associative_only`, 0 `contradicted`, 15 `not_assayed`. The signature is associative, so Prospect
 does not manufacture contradictions. It separates candidate drivers from passengers and keeps
-`accepted=false`.
+`accepted=false`. The live run is `proposal_f07c2c5c7578bbdb`, with receipt
+`rcpt_f844b7e8206d9a8d` and six consulted frozen substrates.
 
 **1:00, run your own claim.** Paste:
 

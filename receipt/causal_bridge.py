@@ -18,6 +18,7 @@ from receipt.substrate_router import choose_route, coverage_report, enrich_verdi
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "examples" / "data"
 CLAUDE_EXPORT = DATA / "claude_science_real_export"
+CLAUDE_CONNECTOR_RUN = DATA / "claude_science_connector_run.json"
 MARSON_FULL = DATA / "marson_de_full.csv"
 
 CAUSAL_RULE = {
@@ -282,6 +283,8 @@ def build_claude_science_packet() -> dict[str, Any]:
 
     provenance = _read_json(CLAUDE_EXPORT / "provenance.json")
     signature = _read_json(CLAUDE_EXPORT / "signature_genes.json")
+    connector_run = _read_json(CLAUDE_CONNECTOR_RUN)
+    connector_response = connector_run["response"]
     canonical = evaluate_submission(claude_science_submission_request())
     receipt = canonical["receipt"]
     return {
@@ -300,6 +303,20 @@ def build_claude_science_packet() -> dict[str, Any]:
             "internal_review_findings": provenance["claude_science_internal_review"]["findings"],
             "session_caveat": provenance["session_caveat"],
             "auc": signature.get("AUC", {}),
+        },
+        "live_connector": {
+            "capture_id": connector_run["capture_id"],
+            "originating_claude_science_ui_call": connector_run["originating_claude_science_ui_call"],
+            "reviewer_result": connector_run["reviewer"]["result"],
+            "proposal_id": connector_response["proposal_id"],
+            "proposal_url": connector_response["proposal_url"],
+            "receipt_id": connector_response["receipt"]["receipt_id"],
+            "evidence_mode": connector_response["evidence_mode"],
+            "consulted_substrate_count": len(connector_response["consulted_substrates"]),
+            "accepted": connector_response["accepted"],
+            "next": connector_response["next"],
+            "incremental_cost_usd": connector_run["api_budget"]["incremental_cost_usd"],
+            "api_cap_usd": connector_run["api_budget"]["cap_usd"],
         },
         "prospect": {
             **canonical["prospect"],

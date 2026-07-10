@@ -16,12 +16,12 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Numbers To Inspect
 
-- Real Claude Science signature: 52 genes, 12 drivers, 25 passengers, 0 contradicted driver claims, 15 not assayed
+- Real Claude Science signature: reviewer reported no issues; Prospect returned 12 drivers, 25 passengers, 0 contradicted driver claims, 15 not assayed, and `accepted=false`
 - ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - GSE278572: 24 overlapping regulators, 1 pre-registered interpretation qualification
 - GSE171737/GSE271788: 79 shared primary-CD4 perturbations, rho 0.373895, permutation P 0.00039996, 3 of 3 adversarial kills passed
-- PGGT1B carries 10 orthogonal public evidence sources
-- PGGT1B novelty downgraded against prior art: yes, wet-lab protocol minimum donors 3
+- PGGT1B registry audit: 7 candidate accessions inspected, no direct comparable replication found
+- PGGT1B remains proposal-only; independent batch-specificity kill open, protocol minimum donors 3
 - 5 signed CD4+ findings and 6 receipts
 - 11 public data artifacts
 

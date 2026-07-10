@@ -158,6 +158,20 @@ type ClaudeScienceAcceptanceDemo = {
     session_caveat: string;
     auc: Record<string, number>;
   };
+  live_connector?: {
+    capture_id: string;
+    originating_claude_science_ui_call: boolean;
+    reviewer_result: string;
+    proposal_id: string;
+    proposal_url: string;
+    receipt_id: string;
+    evidence_mode: string;
+    consulted_substrate_count: number;
+    accepted: boolean;
+    next: string;
+    incremental_cost_usd: number;
+    api_cap_usd: number;
+  };
   prospect: {
     verifier: string;
     trust_path: string;
@@ -582,8 +596,8 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
           <div className="t-label" style={{ marginBottom: 5 }}>Acceptance layer for AI-generated biology</div>
           <h2 className="h2-app" style={{ margin: 0 }}>Prospect separates drivers from passengers.</h2>
           <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "76ch", color: "var(--ink-3)" }}>
-            A real Claude Science export from {demo.source_dataset} submits a responder signature. Claude Science
-            preserved the artifact and internal review completed with {demo.claude_science.internal_review_findings} findings.
+            A real Claude Science export from {demo.source_dataset} submits a responder signature. In the authenticated
+            connector run, its reviewer reported {demo.live_connector?.reviewer_result.replace(/_/g, " ") || "no issues"}.
             Prospect does not reject the signature. It asks which signature genes behave as causal drivers,
             which stay associative passengers, and which explicit driver claims the perturbation data contradicts.
           </p>
@@ -615,6 +629,12 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
           <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
             next={demo.prospect.next}. {demo.prospect.ceiling}
           </p>
+          {demo.live_connector && (
+            <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
+              Live connector: {demo.live_connector.consulted_substrate_count} frozen substrates,
+              {" "}accepted={String(demo.live_connector.accepted)}, next={demo.live_connector.next}.
+            </p>
+          )}
           {demo.prospect.coverage_report && (
             <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
               ORCS primary T-cell context shrinks uncovered genes from {demo.prospect.coverage_report.before.not_assayed}
@@ -638,6 +658,11 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
         <a className="btn btn-secondary btn-sm" href="/data/claude_science_acceptance_demo.json">
           Open real export result
         </a>
+        {demo.live_connector && (
+          <a className="btn btn-secondary btn-sm" href={demo.live_connector.proposal_url}>
+            Open live proposal
+          </a>
+        )}
         <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
           {demo.commands.claude_science || CLAUDE_SCIENCE_CONNECTOR_COMMAND}
         </span>

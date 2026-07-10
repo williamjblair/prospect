@@ -21,7 +21,8 @@ Open the live or local site on Check. The local site should run on a port other 
 
 1. Open `/guide` on the acceptance service and show the paste path plus official Streamable HTTP MCP path.
 2. Open `/ledger` after a submission with `publish_to_ledger=true` and show the self-declared producer plus typed counts.
-3. Run `python examples/claude_science_connector_client.py --url <acceptance-service>/mcp --capture examples/data/claude_science_connector_run.json --json` and point to the same 52-gene typed breakdown plus the content-addressed call capture.
+3. Open `examples/data/claude_science_connector_run.json` and point to the authenticated Claude
+   Science UI call, its reviewer result, and the same 52-gene typed breakdown.
 4. Run `python examples/prospect_connector_client.py --case openresearch --url <acceptance-service>/mcp --json` to show a second producer using the same evaluator.
 5. Run the returned `python receipt/replay_proposal.py <proposal-url>.json` command to re-derive the receipt identity and typed verdicts.
 6. Close on `root_a8b0dcdd4024e12f`, `accepted=false`, and the human-only acceptance step.
@@ -32,16 +33,20 @@ Use a writable `OPERON` session with the registered `prospect` connector and the
 `signature_genes.json` export. Keep connector approvals on. Send one bounded instruction:
 
 ```text
-Submit the attached signature through prospect.acceptance.submit_artifact as an
-associative_signature from claude_science_sade_feldman. Set evidence_mode=all_frozen
+Use the real project artifact signature_genes.json from the existing scRNA-seq Immunotherapy Tumor
+Response Analysis session. Submit it through prospect.acceptance.submit_artifact as an
+associative_signature from claude_science_sade_feldman. Set the top-level evidence_mode=all_frozen
 and publish_to_ledger=false.
 Do not accept or sign anything. Return the proposal id, receipt id, typed-status counts,
 proposal URL, and replay command exactly as returned by Prospect.
 ```
 
-Approve only the Prospect submission tool. Capture the tool call and returned proposal. The expected
-split is 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15 `not_assayed`.
-Stop if the returned receipt or verdicts differ from the checked-in connector capture.
+Approve only the artifact lookup and Prospect submission path. Capture the tool call and returned
+proposal. The pinned live result is `proposal_f07c2c5c7578bbdb` with receipt
+`rcpt_f844b7e8206d9a8d`: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15
+`not_assayed`. Six frozen substrates were consulted. The Claude Science reviewer reported no issues,
+while Prospect still returned `accepted=false` and `human_signature_required`. Stop if the returned
+receipt or verdicts differ from the checked-in connector capture.
 
 ## Fixture fallback
 

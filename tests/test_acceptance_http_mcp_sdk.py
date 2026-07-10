@@ -122,6 +122,12 @@ async def _exercise_mcp(url: str, request: dict) -> dict:
             assert schema.structuredContent["schema_version"] == "prospect.receipt.v1"
             assert schema.structuredContent["accepted_default"] is False
             assert schema.structuredContent["evidence_modes"] == ["primary_only", "all_frozen"]
+            assert schema.structuredContent["submission_fields"]["evidence_mode"] == {
+                "location": "top_level",
+                "default": "primary_only",
+                "allowed": ["primary_only", "all_frozen"],
+                "note": "Do not place evidence_mode inside claim_context.",
+            }
             assert schema.structuredContent["artifact_hash_policy"] == {
                 "submitted_input": "service_computed",
                 "frozen_substrate": "service_computed",
@@ -149,6 +155,15 @@ async def _exercise_mcp(url: str, request: dict) -> dict:
             assert fetched.structuredContent["proposal_id"] == result["proposal_id"]
             assert fetched.structuredContent["receipt"]["receipt_id"] == result["receipt"]["receipt_id"]
             return result
+
+
+async def _submit_tool_schema(url: str) -> dict:
+    async with streamablehttp_client(url) as (read_stream, write_stream, _session_id):
+        async with ClientSession(read_stream, write_stream) as session:
+            await session.initialize()
+            tools = await session.list_tools()
+            tool = next(item for item in tools.tools if item.name == "prospect.acceptance.submit_artifact")
+            return {"description": tool.description, "input_schema": tool.inputSchema}
 
 
 async def _exercise_alias(url: str, request: dict) -> dict:
@@ -256,6 +271,17 @@ def test_all_frozen_direct_http_and_official_mcp_have_identical_evidence(tmp_pat
         substrates = json.loads(substrate_text)
         assert substrates["accepted"] is False
         assert len(substrates["substrates"]) == 6
+    finally:
+        _stop(process)
+
+
+def test_hosted_tool_makes_top_level_evidence_mode_explicit(tmp_path):
+    port = _free_port()
+    process = _start(port, tmp_path)
+    try:
+        tool = anyio.run(_submit_tool_schema, f"http://127.0.0.1:{port}/mcp")
+        assert "top-level argument" in tool["description"]
+        assert tool["input_schema"]["properties"]["evidence_mode"]["type"] == "string"
     finally:
         _stop(process)
 

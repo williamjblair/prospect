@@ -50,8 +50,13 @@ Hosted Streamable HTTP endpoint: `http://127.0.0.1:8130/mcp`.
 Tools:
 
 - `prospect.acceptance.discover_schema`
+- `prospect.acceptance.discover_substrates`
 - `prospect.acceptance.submit_artifact`
 - `prospect.acceptance.get_proposal`
+
+Set `evidence_mode` directly on `prospect.acceptance.submit_artifact`. Use `primary_only` for the
+Marson causal typing substrate alone, or `all_frozen` for per-dataset evidence from every frozen
+manifest. Do not place `evidence_mode` inside `claim_context`.
 
 The service uses the official Python MCP SDK. Stdio compatibility remains available through
 `./prospect mcp`.

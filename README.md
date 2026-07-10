@@ -19,13 +19,18 @@ edges, five CD4+ findings, and root `root_a8b0dcdd4024e12f`. No model is in the 
 ## What A Judge Sees
 
 1. A real Claude Science scRNA-seq immunotherapy signature enters Prospect.
-2. Claude Science preserves the artifact and its internal review completes.
+2. In the authenticated run, Claude Science preserves the artifact and its reviewer reports no issues.
 3. Prospect asks the causal question: which signature genes move the activation program when perturbed?
 4. Because the export is associative, the result is 12 `evidence_attached`, 25 `associative_only`,
    0 `contradicted`, and 15 `not_assayed`.
 5. A judge can switch to an explicit causal claim. Only a comparable refuted driver claim can earn
    `contradicted`.
 6. A pasted input receives the same receipt and verdicts through Python, HTTP, stdio MCP, or hosted MCP.
+
+The live Claude Science call returned `proposal_f07c2c5c7578bbdb` and
+`rcpt_f844b7e8206d9a8d`. Prospect consulted six frozen substrates, returned
+`accepted=false`, and required a human signature. The complete content-addressed capture is
+`examples/data/claude_science_connector_run.json`.
 
 Prospect frames the signature as associative and separates drivers from passengers, which is exactly
 what an associative signature needs before it can become a biological claim.
@@ -40,8 +45,9 @@ Every submission remains `accepted=false` until human review.
 
 - **AI overclaiming:** 48% of confident major-regulator claims are contradicted by the measured data,
   rising to 64% on famous checkpoints and cytokines.
-- **Real Claude Science artifact:** 52 genes typed as drivers, passengers, contradicted driver claims,
-  or not assayed against frozen Marson perturbation data.
+- **Real Claude Science artifact:** 52 genes typed as 12 drivers, 25 passengers, 0 contradicted
+  driver claims, and 15 not assayed. Its reviewer reported no issues, while Prospect independently
+  retained the result as a proposal.
 - **PGGT1B:** one mechanism-first hypothesis worth testing, not accepted biology. The kept claim is a
   narrow CD4 activation-transcriptome hypothesis with prenylation partners, ChEMBL context, and a
   falsifiable primary CD4+ CRISPRi experiment.

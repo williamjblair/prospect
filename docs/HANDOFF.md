@@ -26,11 +26,14 @@ record provenance only and are not receipt acceptance events.
 1. Check opens on a real Claude Science Sade-Feldman scRNA-seq export.
 2. The associative 52-gene signature types as 12 `evidence_attached`, 25 `associative_only`,
    0 `contradicted`, and 15 `not_assayed`.
-3. A judge pastes a gene list, signature JSON, ranked marker table, or DE CSV. The canonical service
+3. The authenticated Claude Science run reported no reviewer issues, then Prospect independently
+   returned proposal `proposal_f07c2c5c7578bbdb`, `accepted=false`, and
+   `human_signature_required` after consulting all six frozen substrates.
+4. A judge pastes a gene list, signature JSON, ranked marker table, or DE CSV. The canonical service
    returns an immutable proposal, receipt, replay command, and shareable HTTPS page.
-4. An explicit causal claim can earn `contradicted` only when cell type, condition, phenotype, and
+5. An explicit causal claim can earn `contradicted` only when cell type, condition, phenotype, and
    source are declared and comparable.
-5. Evidence shows the 48% and 64% overclaiming benchmark. Lead shows PGGT1B as one proposal-only
+6. Evidence shows the 48% and 64% overclaiming benchmark. Lead shows PGGT1B as one proposal-only
    experiment worth running. Receipts closes on the human acceptance boundary.
 
 ## Canonical Architecture
@@ -54,6 +57,8 @@ record provenance only and are not receipt acceptance events.
 The accepted frontier remains unchanged. New analyses are proposals only.
 
 - Real Claude Science export: 52 genes, 12 drivers, 25 passengers, 0 contradictions, 15 not assayed.
+  The authenticated UI run and its reviewer completed within a $5 cap. Reviewer result:
+  `no_issues_found`. Prospect result: `accepted=false`, receipt `rcpt_f844b7e8206d9a8d`.
 - Benchmark: 46 of 96 comparable major-regulator claims contradicted, 48%; 64% on the canonical
   checkpoint and cytokine subset.
 - PGGT1B: `evidence_attached`. Shifrut and Schmidt cover PGGT1B only under non-matching readouts, so
@@ -73,6 +78,7 @@ The accepted frontier remains unchanged. New analyses are proposals only.
 use `evidence_mode=all_frozen`, which binds all consulted manifests, dataset-specific verdicts,
 comparability decisions, hashes, and replay commands into the receipt. `GET /substrates`, hosted MCP
 `discover_substrates`, and stdio MCP `prospect.receipt.substrates` expose the same registry.
+For hosted MCP, `evidence_mode` is a top-level submit field, not part of `claim_context`.
 
 ## Gate
 

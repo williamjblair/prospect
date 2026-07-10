@@ -366,6 +366,14 @@ def _schema_payload() -> dict[str, Any]:
         "input_shapes": ["signature_json", "de_csv", "ranked_markers", "plain_gene_list"],
         "claim_modes": ["associative_signature", "explicit_driver_claim"],
         "evidence_modes": ["primary_only", "all_frozen"],
+        "submission_fields": {
+            "evidence_mode": {
+                "location": "top_level",
+                "default": "primary_only",
+                "allowed": ["primary_only", "all_frozen"],
+                "note": "Do not place evidence_mode inside claim_context.",
+            },
+        },
         "typed_statuses": ["evidence_attached", "associative_only", "contradicted", "not_assayed"],
         "substrates_path": "/substrates",
         "substrates": list_substrates(),
@@ -714,7 +722,10 @@ def create_application(
 
     @mcp.tool(
         name="prospect.acceptance.submit_artifact",
-        description="Submit a gene list, signature, ranked marker table, or DE table for frozen evaluation.",
+        description=(
+            "Submit a gene list, signature, ranked marker table, or DE table for frozen evaluation. "
+            "Set evidence_mode as a top-level argument: primary_only or all_frozen."
+        ),
         structured_output=True,
     )
     def submit_artifact(

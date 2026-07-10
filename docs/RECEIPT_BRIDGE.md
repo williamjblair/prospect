@@ -63,13 +63,16 @@ passengers, 0 `contradicted` causal claims, and 15
 `not_assayed` comparably. The connector returns `accepted=false` and
 `next=human_signature_required`.
 
-`examples/data/claude_science_connector_run.json` records one official Streamable HTTP MCP call
-using that real export. Capture `connector_run_055fa6c5da037bc6` contains the complete request and
-proposal response. It remains `accepted=false` and is internal connector evidence, not an accepted
-scientific record or an additional public-site artifact. The caller is Prospect's example client,
-not the authenticated Claude Science UI. The live endpoint is registered in the local Claude
-Science instance and attached to its `OPERON` agent, which discovers all four Prospect tools.
-Originating a model-driven tool call inside Claude Science remains a separate budgeted step.
+`examples/data/claude_science_connector_run.json` records the authenticated Claude Science UI run
+using that real export. The content-addressed capture contains the model prompt, artifact version and
+hash, exact top-level `evidence_mode=all_frozen` call, complete proposal response, reviewer result,
+and API cost. The Claude Science reviewer reported no issues. Prospect still returned
+`accepted=false` and `next=human_signature_required`. This is internal connector evidence, not an
+accepted scientific record or an additional public-site artifact.
+
+The run also exposed an interface ambiguity: placing `evidence_mode` inside `claim_context` used the
+`primary_only` default. The connector contract now states that `evidence_mode` is a top-level submit
+field with values `primary_only` or `all_frozen`.
 
 The OpenResearch-style client constructs a biology-shaped external run bundle,
 replays the VAV1 claim against the Marson checker through the same

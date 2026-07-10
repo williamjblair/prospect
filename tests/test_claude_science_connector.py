@@ -44,7 +44,7 @@ def test_real_claude_science_export_fixture_hashes_are_pinned():
         assert h == sha
 
 
-def test_checked_in_official_mcp_run_is_content_addressed_and_proposal_only():
+def test_checked_in_claude_science_ui_run_is_content_addressed_and_proposal_only():
     import hashlib
 
     capture = json.loads(CONNECTOR_RUN.read_text())
@@ -55,16 +55,23 @@ def test_checked_in_official_mcp_run_is_content_addressed_and_proposal_only():
     response = capture["response"]
 
     assert capture["capture_id"] == expected
-    assert capture["transport"] == "streamable_http"
+    assert capture["transport"] == "registered_streamable_http_mcp"
     assert capture["endpoint"] == "https://prospect-acceptance.fly.dev/mcp"
     assert capture["tool"] == "prospect.acceptance.submit_artifact"
-    assert capture["originating_client"] == "examples/claude_science_connector_client.py"
-    assert capture["originating_claude_science_ui_call"] is False
-    assert response["proposal_id"] == "proposal_3d6906d35b270017"
-    assert response["receipt"]["receipt_id"] == "rcpt_7a2a6b4a3fae9084"
+    assert capture["originating_client"] == "Claude Science OPERON session"
+    assert capture["originating_claude_science_ui_call"] is True
+    assert capture["artifact_origin"]["sha256"] == "ef62f55fee51f51dc0f32b8d651c58f4ebbe5b1069402ad4fce74334a0e89b91"
+    assert capture["reviewer"]["result"] == "no_issues_found"
+    assert capture["api_budget"]["incremental_cost_usd"] <= capture["api_budget"]["cap_usd"] == 5.0
+    assert capture["request"]["evidence_mode"] == "all_frozen"
+    assert response["proposal_id"] == "proposal_f07c2c5c7578bbdb"
+    assert response["receipt"]["receipt_id"] == "rcpt_f844b7e8206d9a8d"
     assert response["accepted"] is False
     assert response["next"] == "human_signature_required"
+    assert response["evidence_mode"] == "all_frozen"
+    assert len(response["consulted_substrates"]) == 6
     assert response["prospect"]["typed_status_counts"]["genes"] == 52
+    assert response["prospect"]["typed_status_counts"]["contradicted"] == 0
 
 
 def test_claude_science_connector_returns_two_typed_directions_and_no_state_write():

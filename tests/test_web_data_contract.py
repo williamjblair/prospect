@@ -171,6 +171,20 @@ def test_frontier_json_embeds_claude_science_acceptance_demo():
         "contradicted": 0,
         "not_assayed": 15,
     }
+    assert demo["live_connector"] == {
+        "capture_id": "connector_run_676a452562b59969",
+        "originating_claude_science_ui_call": True,
+        "reviewer_result": "no_issues_found",
+        "proposal_id": "proposal_f07c2c5c7578bbdb",
+        "proposal_url": "https://prospect-acceptance.fly.dev/proposal/proposal_f07c2c5c7578bbdb",
+        "receipt_id": "rcpt_f844b7e8206d9a8d",
+        "evidence_mode": "all_frozen",
+        "consulted_substrate_count": 6,
+        "accepted": False,
+        "next": "human_signature_required",
+        "incremental_cost_usd": 1.4838265,
+        "api_cap_usd": 5.0,
+    }
     assert demo["causal_rule"]["comparison"] == "driver_vs_passenger"
     assert not [row for row in demo["verdicts"] if row["typed_status"] == "contradicted"]
     assert {row["gene"] for row in demo["verdicts"] if row["typed_status"] == "associative_only"} >= {"HAVCR2", "LAG3", "PDCD1"}

@@ -21,6 +21,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
 
 - A paste-and-connector acceptance layer for gene lists, signatures, ranked markers, and DE tables.
 - A real Claude Science artifact flow using a Sade-Feldman melanoma ICB scRNA-seq signature.
+- An authenticated Claude Science UI call whose reviewer reported no issues before Prospect returned
+  a six-substrate proposal with `accepted=false` and `human_signature_required`.
 - A hosted Streamable HTTP connector registered in Claude Science with four proposal-only tools.
 - A frozen causal gate over the released Marson primary human CD4+ CRISPRi Perturb-seq screen.
 - Typed driver, passenger, contradicted, and not_assayed verdicts, always `accepted=false`.
@@ -30,7 +32,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
 
 ## Results
 
-- Real Claude Science export: 52 genes typed by Prospect.
+- Real Claude Science export: 52 genes typed by Prospect. Live proposal
+  `proposal_f07c2c5c7578bbdb`, receipt `rcpt_f844b7e8206d9a8d`.
 - Associative-signature split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, 15 `not_assayed`.
 - Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data,
   64% on famous checkpoints and cytokines.

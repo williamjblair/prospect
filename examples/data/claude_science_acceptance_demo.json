@@ -60,12 +60,27 @@
     "server": "./prospect mcp"
   },
   "demo_id": "claude_science_acceptance_layer",
+  "live_connector": {
+    "accepted": false,
+    "api_cap_usd": 5.0,
+    "capture_id": "connector_run_676a452562b59969",
+    "consulted_substrate_count": 6,
+    "evidence_mode": "all_frozen",
+    "incremental_cost_usd": 1.4838265,
+    "next": "human_signature_required",
+    "originating_claude_science_ui_call": true,
+    "proposal_id": "proposal_f07c2c5c7578bbdb",
+    "proposal_url": "https://prospect-acceptance.fly.dev/proposal/proposal_f07c2c5c7578bbdb",
+    "receipt_id": "rcpt_f844b7e8206d9a8d",
+    "reviewer_result": "no_issues_found"
+  },
   "next": "human_signature_required",
   "producer": "claude_science",
   "proposal_id": "proposal_3d6906d35b270017",
   "prospect": {
     "accepted": false,
     "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+    "consulted_substrate_count": 1,
     "coverage_report": {
       "after": {
         "basis": "primary T-cell ORCS rows shrink uncovered genes, but remain orthogonal context unless readouts are comparable",
@@ -133,6 +148,7 @@
         }
       }
     },
+    "evidence_mode": "primary_only",
     "interpretation": "Prospect separates candidate causal drivers from associative passengers. It does not say the response signature is wrong.",
     "next": "human_signature_required",
     "proposal_id": "proposal_3d6906d35b270017",
