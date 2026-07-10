@@ -140,6 +140,23 @@ class AcceptanceStore:
         payload.pop("published_to_ledger", None)
         return payload
 
+    @staticmethod
+    def _matches_legacy_primary_only_payload(
+        existing_payload: dict[str, Any],
+        current_payload: dict[str, Any],
+    ) -> bool:
+        """Recognize the additive substrate-metadata migration without rewriting history."""
+        if current_payload.get("evidence_mode") != "primary_only":
+            return False
+        legacy_shape = deepcopy(current_payload)
+        legacy_shape.pop("evidence_mode", None)
+        legacy_shape.pop("consulted_substrates", None)
+        legacy_shape.pop("dataset_verdicts", None)
+        prospect = legacy_shape.get("prospect") or {}
+        prospect.pop("evidence_mode", None)
+        prospect.pop("consulted_substrate_count", None)
+        return existing_payload == legacy_shape
+
     def store_result(
         self,
         result: dict[str, Any],
@@ -173,13 +190,18 @@ class AcceptanceStore:
                 (proposal_id,),
             ).fetchone()
             if existing:
-                if existing["receipt_id"] != receipt_id or existing["payload_json"] != payload_json:
+                existing_payload = json.loads(existing["payload_json"])
+                same_payload = existing["payload_json"] == payload_json
+                legacy_replay = self._matches_legacy_primary_only_payload(existing_payload, payload)
+                if existing["receipt_id"] != receipt_id or not (same_payload or legacy_replay):
                     raise ValueError("proposal id already exists with different immutable content")
+                stored_payload = existing_payload
             else:
                 connection.execute(
                     "INSERT INTO proposals(proposal_id, receipt_id, payload_json, created_at) VALUES (?, ?, ?, ?)",
                     (proposal_id, receipt_id, payload_json, created_at),
                 )
+                stored_payload = payload
             cursor = connection.execute(
                 """
                 INSERT INTO submission_events(
@@ -201,7 +223,7 @@ class AcceptanceStore:
             )
             event_id = int(cursor.lastrowid)
 
-        response = deepcopy(payload)
+        response = deepcopy(stored_payload)
         response["created_at"] = created_at
         response["submission_event_id"] = event_id
         response["published_to_ledger"] = published

@@ -62,6 +62,42 @@ def test_store_rejects_content_change_under_existing_proposal_id(tmp_path):
     assert store.table_counts()["submission_events"] == 1
 
 
+def test_store_replays_exact_legacy_primary_only_proposal_without_mutation(tmp_path):
+    store = AcceptanceStore(tmp_path)
+    result = _result()
+    current_payload = store._proposal_payload(result)
+    legacy_payload = json.loads(json.dumps(current_payload))
+    legacy_payload.pop("evidence_mode")
+    legacy_payload.pop("consulted_substrates")
+    legacy_payload.pop("dataset_verdicts")
+    legacy_payload["prospect"].pop("evidence_mode")
+    legacy_payload["prospect"].pop("consulted_substrate_count")
+
+    with sqlite3.connect(store.db_path) as connection:
+        connection.execute(
+            "INSERT INTO proposals(proposal_id, receipt_id, payload_json, created_at) VALUES (?, ?, ?, ?)",
+            (
+                result["proposal_id"],
+                result["receipt"]["receipt_id"],
+                json.dumps(legacy_payload, sort_keys=True, separators=(",", ":")),
+                "2026-07-09T00:00:00Z",
+            ),
+        )
+
+    replayed = store.store_result(result)
+    persisted = store.get(result["proposal_id"])
+
+    assert replayed["receipt"] == result["receipt"]
+    assert "evidence_mode" not in replayed
+    assert persisted is not None
+    assert "evidence_mode" not in persisted
+    assert store.table_counts() == {
+        "proposals": 1,
+        "submission_events": 1,
+        "acceptance_events": 0,
+    }
+
+
 def test_publish_to_ledger_controls_visibility_not_persistence(tmp_path):
     store = AcceptanceStore(tmp_path)
     private = store.store_result(_result(publish=False, producer="public_team"))
