@@ -28,10 +28,15 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert handout["counts"]["claude_science_passengers"] == 25
     assert handout["counts"]["claude_science_contradicted"] == 0
     assert handout["counts"]["claude_science_not_assayed"] == 15
+    assert handout["counts"]["claude_science_reviewer_result"] == "no_issues_found"
+    assert handout["counts"]["claude_science_live_accepted"] is False
     assert handout["counts"]["substrate_after_not_assayed"] == 5
     assert handout["counts"]["pggt1b_novelty_downgraded"] is True
     assert handout["counts"]["pggt1b_wet_lab_minimum_donors"] >= 3
     assert handout["counts"]["pggt1b_orthogonal_public_datasets"] >= 5
+    assert handout["counts"]["pggt1b_registry_accessions"] == 7
+    assert handout["counts"]["pggt1b_comparable_replication_found"] is False
+    assert handout["counts"]["pggt1b_batch_kill"] == "not_cleared"
     assert handout["counts"]["gse271788_overlap"] == 79
     assert handout["counts"]["gse271788_kills_passed"] == 3
     assert "sign the evidence root" in handout["human_only_actions"]
@@ -58,7 +63,8 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert "./prospect substrate-coverage" in doc
     assert "./prospect pggt1b-defended-evidence" in doc
     assert "ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5" in doc
-    assert "PGGT1B novelty downgraded against prior art" in doc
+    assert "PGGT1B registry audit: 7 candidate accessions inspected" in doc
+    assert "independent batch-specificity kill not cleared" in doc
     assert "Real Claude Science signature" in doc
     assert "79 shared primary-CD4 perturbations" in doc
     assert "driver/passenger/contradicted" in doc

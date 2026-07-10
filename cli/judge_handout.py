@@ -38,6 +38,7 @@ def build_handout() -> dict[str, Any]:
     claude_science = _json(DATA / "claude_science_acceptance_demo.json")
     substrate = _json(DATA / "substrate_coverage_report.json")
     pggt1b = _json(DATA / "pggt1b_defended_evidence.json")
+    pggt1b_audit = _json(DATA / "pggt1b_comparability_audit.json")
     comparator = _json(DATA / "gse278572_comparator.json")
     calibration = _json(DATA / "gse271788_calibration.json")
     index = _json(DATA / "finding_index.json")
@@ -66,10 +67,18 @@ def build_handout() -> dict[str, Any]:
             "claude_science_passengers": counts["passengers"],
             "claude_science_contradicted": counts["contradicted"],
             "claude_science_not_assayed": counts["not_assayed"],
+            "claude_science_reviewer_result": claude_science["live_connector"]["reviewer_result"],
+            "claude_science_live_accepted": claude_science["live_connector"]["accepted"],
             "substrate_after_not_assayed": substrate["coverage"]["sade_feldman_signature"]["after"]["not_assayed"],
             "pggt1b_novelty_downgraded": pggt1b["novelty_assessment"]["downgraded_novelty"],
             "pggt1b_wet_lab_minimum_donors": pggt1b["wet_lab_protocol"]["minimum_donors"],
             "pggt1b_orthogonal_public_datasets": pggt1b["orthogonal_public_dataset_count"],
+            "pggt1b_registry_accessions": len(
+                pggt1b_audit["registry_searches"]["candidate_accession_audit"]
+            ),
+            "pggt1b_comparable_replication_found": pggt1b_audit["determination"]
+            ["comparable_pggt1b_transcriptomic_reproduction_found"],
+            "pggt1b_batch_kill": pggt1b_audit["determination"]["batch_or_dataset_specificity_kill"],
             "gse278572_overlap": comparator["comparison"]["prospect_overlap"],
             "gse278572_qualified_genes": comparator["finding3_review"]["n_needs_qualification"],
             "gse271788_overlap": calibration["primary_result"]["n"],
@@ -140,10 +149,12 @@ def _markdown(handout: dict[str, Any]) -> str:
         "## Numbers To Inspect",
         "",
         (
-            f"- Real Claude Science signature: {counts['claude_science_genes']} genes, "
+            f"- Real Claude Science signature: reviewer {counts['claude_science_reviewer_result'].replace('_', ' ')}, "
+            f"Prospect returned {counts['claude_science_genes']} genes, "
             f"{counts['claude_science_drivers']} drivers, {counts['claude_science_passengers']} passengers, "
             f"{counts['claude_science_contradicted']} contradicted driver claims, "
-            f"{counts['claude_science_not_assayed']} not assayed"
+            f"{counts['claude_science_not_assayed']} not assayed, and "
+            f"accepted={str(counts['claude_science_live_accepted']).lower()}"
         ),
         f"- ORCS primary T-cell context reduces uncovered Sade-Feldman genes to {counts['substrate_after_not_assayed']}",
         (
@@ -155,10 +166,15 @@ def _markdown(handout: dict[str, Any]) -> str:
             f"rho {counts['gse271788_rho']:.6f}, permutation P {counts['gse271788_permutation_p']:.8f}, "
             f"{counts['gse271788_kills_passed']} of 3 adversarial kills passed"
         ),
-        f"- PGGT1B carries {counts['pggt1b_orthogonal_public_datasets']} orthogonal public evidence sources",
         (
-            f"- PGGT1B novelty downgraded against prior art: {'yes' if counts['pggt1b_novelty_downgraded'] else 'no'}, "
-            f"wet-lab protocol minimum donors {counts['pggt1b_wet_lab_minimum_donors']}"
+            f"- PGGT1B registry audit: {counts['pggt1b_registry_accessions']} candidate accessions inspected, "
+            f"direct comparable replication found: "
+            f"{'yes' if counts['pggt1b_comparable_replication_found'] else 'no'}"
+        ),
+        (
+            f"- PGGT1B remains proposal-only; independent batch-specificity kill "
+            f"{counts['pggt1b_batch_kill'].replace('_', ' ')}, protocol minimum donors "
+            f"{counts['pggt1b_wet_lab_minimum_donors']}"
         ),
         f"- {counts['findings']} signed CD4+ findings and {counts['receipts']} receipts",
         f"- {counts['public_artifacts']} public data artifacts",
