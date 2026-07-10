@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT))
 from frontier.pggt1b_comparability_audit import (
     ORCS_SHA256,
     ORCS_SNAPSHOT,
+    REGISTRY_SEARCHES_SHA256,
     OUT_DOC,
     OUT_JSON,
     build_pggt1b_comparability_audit,
@@ -48,6 +49,7 @@ def test_audit_pins_exact_public_source_hashes():
     assert ORCS_SNAPSHOT.exists()
     assert sources["biogrid_orcs_pggt1b_tcell_rows"]["sha256"] == ORCS_SHA256
     assert sources["biogrid_orcs_pggt1b_tcell_rows"]["bytes"] == 47826
+    assert sources["pggt1b_registry_searches"]["sha256"] == REGISTRY_SEARCHES_SHA256
     assert sources["shifrut_gse119450_d1_no_stim_guide_assignments"]["sha256"] == (
         "5a64ffdc48c03466f30d6734112e671626f1cf77e12f140b3308c6a3bc3e663d"
     )
@@ -110,6 +112,24 @@ def test_audit_records_no_comparable_reproduction_and_stop_rule():
         stop["resume_only_if_one_accession_meets_all"]
     )
     assert "cytokine abundance alone" in stop["nonqualifying_readouts"]
+    assert "viral infection alone" in stop["nonqualifying_readouts"]
+
+
+def test_bounded_registry_search_preserves_near_misses_as_gaps_or_orthogonal():
+    packet = build_pggt1b_comparability_audit()
+    searches = packet["registry_searches"]
+    candidates = {row["accession"]: row for row in searches["candidate_accession_audit"]}
+
+    assert len(searches["queries"]) == 5
+    assert len(candidates) == 7
+    assert searches["determination"]["qualifying_accessions"] == []
+    assert candidates["E-MTAB-13324"]["typed_status"] == "not_assayed"
+    assert candidates["GSE171737/GSE271788"]["typed_status"] == "not_assayed"
+    assert candidates["GSE278572"]["typed_status"] == "not_assayed"
+    assert candidates["GSE249595"]["typed_status"] == "orthogonal_phenotype"
+    assert "Jurkat" in candidates["GSE249595"]["system"]
+    assert candidates["GSE318876"]["typed_status"] == "orthogonal_phenotype"
+    assert "HIV infection" in candidates["GSE318876"]["readout"]
 
 
 def test_committed_artifacts_are_deterministic_and_clean():

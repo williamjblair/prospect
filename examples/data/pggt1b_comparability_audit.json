@@ -1,6 +1,6 @@
 {
   "accepted": false,
-  "audit_id": "pggt1b_comparability_10254d4606b26f25",
+  "audit_id": "pggt1b_comparability_a401904e58059576",
   "audit_question": "Does an independent public primary human T-cell dataset directly perturb PGGT1B and measure a matched stimulated activation transcriptome?",
   "determination": {
     "batch_or_dataset_specificity_kill": "not_cleared",
@@ -10,12 +10,161 @@
     "status_effects": [
       "Shifrut proliferation results remain orthogonal_phenotype, not transcriptomic reproduction.",
       "Schmidt cytokine-production results remain orthogonal_phenotype, not contradiction.",
-      "Both transcriptomic panels type PGGT1B as not_assayed because their target manifests omit it."
+      "Both transcriptomic panels type PGGT1B as not_assayed because their target manifests omit it.",
+      "E-MTAB-13324, GSE171737/GSE271788, and GSE278572 also omit PGGT1B from primary-human-CD4 transcriptomic panels.",
+      "GSE249595 uses Jurkat cells; GSE318876 uses an HIV-infection readout. Both remain orthogonal_phenotype."
     ]
   },
   "gene": "PGGT1B",
   "honest_ceiling": "computation over released data, not wet-lab or clinical truth",
   "next": "human_signature_required",
+  "registry_searches": {
+    "accepted": false,
+    "candidate_accession_audit": [
+      {
+        "accession": "E-MTAB-13324",
+        "comparability": "potentially comparable design, but PGGT1B absent from the target manifest",
+        "perturbation": "CRISPRi",
+        "pggt1b_coverage": "not_assayed",
+        "readout": "single-cell transcriptome",
+        "source_url": "https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-13324",
+        "system": "primary human CD4+ T cells",
+        "target_manifest_sha256": "32cd780f27f00c69ea31cb6d5be3755aa73ecf44507bc1fff67871ab6382d4f9",
+        "target_scope": "35 transcription start sites and 45 non-coding elements",
+        "typed_status": "not_assayed"
+      },
+      {
+        "accession": "GSE119450",
+        "comparability": "PGGT1B absent from target manifest",
+        "perturbation": "CRISPR knockout",
+        "pggt1b_coverage": "not_assayed",
+        "readout": "stimulated and unstimulated single-cell transcriptome",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE119450",
+        "system": "primary human CD8+ T cells",
+        "target_scope": "20 genes",
+        "typed_status": "not_assayed"
+      },
+      {
+        "accession": "GSE190604",
+        "comparability": "PGGT1B absent from target manifest and perturbation mode differs",
+        "perturbation": "CRISPR activation",
+        "pggt1b_coverage": "not_assayed",
+        "readout": "resting and restimulated single-cell transcriptome",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE190604",
+        "system": "primary human T cells",
+        "target_scope": "73 genes",
+        "typed_status": "not_assayed"
+      },
+      {
+        "accession": "GSE171737/GSE271788",
+        "comparability": "orthogonal activation context and PGGT1B absent from target manifest",
+        "perturbation": "arrayed CRISPR knockout",
+        "pggt1b_coverage": "not_assayed",
+        "readout": "day-eight activated bulk transcriptome",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE271788",
+        "system": "primary human CD4+ T cells",
+        "target_scope": "84 genes",
+        "typed_status": "not_assayed"
+      },
+      {
+        "accession": "GSE278572",
+        "comparability": "potentially comparable design, but PGGT1B absent from target manifest",
+        "perturbation": "CRISPRi",
+        "pggt1b_coverage": "not_assayed",
+        "readout": "resting and stimulated Perturb-CITE-seq",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE278572",
+        "system": "primary human CD4+ Teff and Treg",
+        "target_scope": "28 genes",
+        "typed_status": "not_assayed"
+      },
+      {
+        "accession": "GSE249595",
+        "comparability": "cell-line and targeted-readout mismatch",
+        "perturbation": "genome-scale CRISPRi",
+        "pggt1b_coverage": "genome-scale library coverage not promoted to comparable evidence",
+        "readout": "stimulated and unstimulated targeted transcript panel",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE249595",
+        "system": "Jurkat T-cell line",
+        "target_scope": "18,595 genes with 374 measured transcripts",
+        "typed_status": "orthogonal_phenotype"
+      },
+      {
+        "accession": "GSE318876",
+        "comparability": "viral-infection and marker readout mismatch; no matched transcriptome",
+        "perturbation": "genome-wide CRISPR knockout and activation",
+        "pggt1b_coverage": "genome-wide library coverage not promoted to comparable evidence",
+        "readout": "HIV infection with activation-marker follow-up",
+        "source_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE318876",
+        "system": "primary human CD4+ T cells",
+        "target_scope": "genome-wide",
+        "typed_status": "orthogonal_phenotype"
+      }
+    ],
+    "ceiling": "Computation over released data, not wet-lab or clinical truth.",
+    "determination": {
+      "batch_or_dataset_specificity_kill": "not_cleared",
+      "comparable_pggt1b_transcriptomic_reproduction_found": false,
+      "next": "retain the pre-registered primary-CD4 CRISPRi experiment",
+      "qualifying_accessions": [],
+      "status_after_search": "evidence_attached"
+    },
+    "gene": "PGGT1B",
+    "queries": [
+      {
+        "determination": "No result reports a direct PGGT1B perturbation with a matched transcriptomic readout in primary human CD4+ cells. Direct T-cell deletion papers in the result set use mouse models.",
+        "query": "(PGGT1B OR geranylgeranyltransferase type I beta) AND (T cell OR T-cell OR CD4) AND (CRISPR OR perturbation OR knockout)",
+        "registry": "Europe PMC",
+        "response_sha256": "74946644dd69dacc87af3557bf1e9643cfdd5713a930cf45c2e65e06ea74a724",
+        "result_count": 46,
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28PGGT1B+OR+%22geranylgeranyltransferase+type+I+beta%22%29+AND+%28%22T+cell%22+OR+%22T-cell%22+OR+CD4%29+AND+%28CRISPR+OR+perturbation+OR+knockout%29&format=json&pageSize=100"
+      },
+      {
+        "determination": "The hits are endothelial statin work and appendiceal-neoplasm expression records, not primary T-cell PGGT1B perturbation datasets.",
+        "query": "PGGT1B[All Fields] AND Homo sapiens[Organism]",
+        "registry": "NCBI GEO DataSets",
+        "response_sha256": "277284a8e62d423371ed175bdc70a95dd1af2a36f0ed244fbd1c495426a9c162",
+        "result_count": 3,
+        "result_ids": [
+          "GSE212878",
+          "GSE244031",
+          "GSM7805182"
+        ],
+        "summary_response_sha256": "be676419e4d6c82aa608d52aaa3b992982c721fb6751a773189c1c1efabdf856",
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gds&term=PGGT1B%5BAll+Fields%5D+AND+%22Homo+sapiens%22%5BOrganism%5D&retmode=json&retmax=100"
+      },
+      {
+        "determination": "The hit is appendiceal-neoplasm single-cell RNA-seq, not a PGGT1B perturbation experiment.",
+        "query": "PGGT1B[All Fields] AND Homo sapiens[Organism]",
+        "registry": "NCBI SRA",
+        "response_sha256": "2a0a122e4331a846f76302c2e953cca72f143614837abcd7741a43b42143f72d",
+        "result_count": 1,
+        "result_ids": [
+          "SRX21895781"
+        ],
+        "summary_response_sha256": "f0b82ee0b7b6cc080a33baead7077e97bb98fd21a811f46df7f9f7c2c456135e",
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=sra&term=PGGT1B%5BAll+Fields%5D+AND+%22Homo+sapiens%22%5BOrganism%5D&retmode=json&retmax=100"
+      },
+      {
+        "determination": "The broad text search is dominated by papers and expression studies. No returned accession establishes the required primary-human-CD4 matched perturbation transcriptome.",
+        "query": "PGGT1B",
+        "registry": "EBI BioStudies",
+        "response_sha256": "52432a022efdc285a821b56a5edef0bc01deb700b3c2ce805ee4d1ee34c7effa",
+        "result_count": 310,
+        "url": "https://www.ebi.ac.uk/biostudies/api/v1/search?query=PGGT1B&pageSize=100"
+      },
+      {
+        "determination": "Five frozen primary-T-cell screen rows cover PGGT1B, but their readouts are proliferation or cytokine abundance and remain orthogonal_phenotype.",
+        "query": "human PGGT1B screens, gene id 5229",
+        "registry": "BioGRID ORCS",
+        "response_sha256": "b217f04249e6a39eb7d9b0b622337004c9e50340a67f29e86eae546c33abff48",
+        "result_count": 5,
+        "url": "https://orcs.thebiogrid.org/Gene/5229"
+      }
+    ],
+    "schema_version": "prospect.pggt1b_registry_searches.v1",
+    "searched_on": "2026-07-09",
+    "status": "evidence_attached"
+  },
   "schema_version": "prospect.pggt1b_comparability_audit.v1",
   "source_files": [
     {
@@ -24,6 +173,13 @@
       "sha256": "b217f04249e6a39eb7d9b0b622337004c9e50340a67f29e86eae546c33abff48",
       "source_id": "biogrid_orcs_pggt1b_tcell_rows",
       "url": "https://orcs.thebiogrid.org/Gene/5229"
+    },
+    {
+      "bytes": 7344,
+      "derivation": "frozen Europe PMC, GEO, SRA, BioStudies, ORCS, and accession coverage audit",
+      "path": "examples/data/pggt1b_registry_searches.json",
+      "sha256": "035bb3187b4827941c611f74b1a5934cb51ecc788a653ea99b6e3f5ed872c036",
+      "source_id": "pggt1b_registry_searches"
     },
     {
       "bytes": 51063,
@@ -47,7 +203,8 @@
       "proliferation alone",
       "cytokine abundance alone",
       "FOXP3 abundance alone",
-      "activation-marker abundance alone"
+      "activation-marker abundance alone",
+      "viral infection alone"
     ],
     "resume_only_if_one_accession_meets_all": [
       "primary human CD4+ T cells",

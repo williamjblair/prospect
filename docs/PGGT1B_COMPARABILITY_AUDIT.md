@@ -33,6 +33,20 @@ Schmidt GSE190604 contains 73 non-control target labels plus `NO-TARGET` in the 
 - PGGT1B screen rows: [BioGRID ORCS gene 5229](https://orcs.thebiogrid.org/Gene/5229) and the frozen Prospect snapshot named in the JSON artifact.
 - Exact source URLs, byte sizes, SHA-256 hashes, and extraction rules are frozen in the JSON artifact.
 
+## Bounded registry search
+
+The frozen registry packet records exact queries over Europe PMC, NCBI GEO, NCBI SRA, EBI BioStudies, and BioGRID ORCS. No accession clears every stop criterion.
+
+| accession | system | readout | PGGT1B status | comparability |
+|---|---|---|---|---|
+| E-MTAB-13324 | primary human CD4+ T cells | single-cell transcriptome | `not_assayed` | potentially comparable design, but PGGT1B absent from the target manifest |
+| GSE119450 | primary human CD8+ T cells | stimulated and unstimulated single-cell transcriptome | `not_assayed` | PGGT1B absent from target manifest |
+| GSE190604 | primary human T cells | resting and restimulated single-cell transcriptome | `not_assayed` | PGGT1B absent from target manifest and perturbation mode differs |
+| GSE171737/GSE271788 | primary human CD4+ T cells | day-eight activated bulk transcriptome | `not_assayed` | orthogonal activation context and PGGT1B absent from target manifest |
+| GSE278572 | primary human CD4+ Teff and Treg | resting and stimulated Perturb-CITE-seq | `not_assayed` | potentially comparable design, but PGGT1B absent from target manifest |
+| GSE249595 | Jurkat T-cell line | stimulated and unstimulated targeted transcript panel | `orthogonal_phenotype` | cell-line and targeted-readout mismatch |
+| GSE318876 | primary human CD4+ T cells | HIV infection with activation-marker follow-up | `orthogonal_phenotype` | viral-infection and marker readout mismatch; no matched transcriptome |
+
 ## Stop criteria
 
 Stop the public search and retain `evidence_attached` unless one accession meets every criterion:

@@ -8,11 +8,13 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 ORCS_SNAPSHOT = ROOT / "examples" / "data" / "pggt1b_defended_sources" / "orcs_gene_tcell_rows.json"
+REGISTRY_SEARCHES = ROOT / "examples" / "data" / "pggt1b_registry_searches.json"
 OUT_JSON = ROOT / "examples" / "data" / "pggt1b_comparability_audit.json"
 OUT_DOC = ROOT / "docs" / "PGGT1B_COMPARABILITY_AUDIT.md"
 
 HONEST_CEILING = "computation over released data, not wet-lab or clinical truth"
 ORCS_SHA256 = "b217f04249e6a39eb7d9b0b622337004c9e50340a67f29e86eae546c33abff48"
+REGISTRY_SEARCHES_SHA256 = "035bb3187b4827941c611f74b1a5934cb51ecc788a653ea99b6e3f5ed872c036"
 
 SHIFRUT_CROPSEQ_TARGETS = (
     "ARID1A", "BTLA", "C10orf54", "CBLB", "CD3D", "CD5", "CDKN1B", "DGKA", "DGKZ",
@@ -88,6 +90,9 @@ def _screen_record(row: dict[str, Any], readout: str) -> dict[str, Any]:
 
 def build_pggt1b_comparability_audit() -> dict[str, Any]:
     rows = _load_screen_rows()
+    if _sha256(REGISTRY_SEARCHES) != REGISTRY_SEARCHES_SHA256:
+        raise RuntimeError("PGGT1B registry search packet does not match the frozen audit source")
+    registry_searches = json.loads(REGISTRY_SEARCHES.read_text())
     body: dict[str, Any] = {
         "schema_version": "prospect.pggt1b_comparability_audit.v1",
         "gene": "PGGT1B",
@@ -107,6 +112,13 @@ def build_pggt1b_comparability_audit() -> dict[str, Any]:
                 "url": "https://orcs.thebiogrid.org/Gene/5229",
                 "sha256": ORCS_SHA256,
                 "bytes": ORCS_SNAPSHOT.stat().st_size,
+            },
+            {
+                "source_id": "pggt1b_registry_searches",
+                "path": str(REGISTRY_SEARCHES.relative_to(ROOT)),
+                "sha256": REGISTRY_SEARCHES_SHA256,
+                "bytes": REGISTRY_SEARCHES.stat().st_size,
+                "derivation": "frozen Europe PMC, GEO, SRA, BioStudies, ORCS, and accession coverage audit",
             },
             {
                 "source_id": "shifrut_gse119450_d1_no_stim_guide_assignments",
@@ -178,6 +190,7 @@ def build_pggt1b_comparability_audit() -> dict[str, Any]:
                 },
             },
         ],
+        "registry_searches": registry_searches,
         "determination": {
             "comparable_pggt1b_transcriptomic_reproduction_found": False,
             "batch_or_dataset_specificity_kill": "not_cleared",
@@ -190,6 +203,8 @@ def build_pggt1b_comparability_audit() -> dict[str, Any]:
                 "Shifrut proliferation results remain orthogonal_phenotype, not transcriptomic reproduction.",
                 "Schmidt cytokine-production results remain orthogonal_phenotype, not contradiction.",
                 "Both transcriptomic panels type PGGT1B as not_assayed because their target manifests omit it.",
+                "E-MTAB-13324, GSE171737/GSE271788, and GSE278572 also omit PGGT1B from primary-human-CD4 transcriptomic panels.",
+                "GSE249595 uses Jurkat cells; GSE318876 uses an HIV-infection readout. Both remain orthogonal_phenotype.",
             ],
         },
         "stop_criteria": {
@@ -208,6 +223,7 @@ def build_pggt1b_comparability_audit() -> dict[str, Any]:
                 "cytokine abundance alone",
                 "FOXP3 abundance alone",
                 "activation-marker abundance alone",
+                "viral infection alone",
             ],
         },
     }
@@ -266,6 +282,19 @@ def render_markdown(packet: dict[str, Any]) -> str:
         "- [Schmidt et al. 2022](https://pubmed.ncbi.nlm.nih.gov/35113687/): DOI 10.1126/science.abj4008, [GEO GSE190604](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE190604).",
         "- PGGT1B screen rows: [BioGRID ORCS gene 5229](https://orcs.thebiogrid.org/Gene/5229) and the frozen Prospect snapshot named in the JSON artifact.",
         "- Exact source URLs, byte sizes, SHA-256 hashes, and extraction rules are frozen in the JSON artifact.",
+        "",
+        "## Bounded registry search",
+        "",
+        "The frozen registry packet records exact queries over Europe PMC, NCBI GEO, NCBI SRA, EBI BioStudies, and BioGRID ORCS. No accession clears every stop criterion.",
+        "",
+        "| accession | system | readout | PGGT1B status | comparability |",
+        "|---|---|---|---|---|",
+    ])
+    for row in packet["registry_searches"]["candidate_accession_audit"]:
+        lines.append(
+            f"| {row['accession']} | {row['system']} | {row['readout']} | `{row['typed_status']}` | {row['comparability']} |"
+        )
+    lines.extend([
         "",
         "## Stop criteria",
         "",
