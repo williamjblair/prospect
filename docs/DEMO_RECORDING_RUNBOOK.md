@@ -10,7 +10,7 @@ Open the live or local site on Check. The local site should run on a port other 
 
 ## Two-minute storyboard
 
-1. Check, first screen: Prospect is the acceptance layer for AI-generated biology. Reproducible activity is not accepted state.
+1. Check, first screen: lead with the number. About half of confident AI major-regulator claims here are contradicted by the frozen data (46 of 96), and an autonomous Claude Opus agent generated the claims Prospect measures. Prospect is the acceptance layer for AI-generated biology; reproducible activity is not accepted state.
 2. Claude Science panel: a real scRNA-seq immunotherapy signature enters as a proposal. Show the exact split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, and 15 `not_assayed`.
 3. Run your own claim: paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE`. Open the returned proposal page.
 4. Check: show the reliability benchmark on the overclaim band. About half of confident major-regulator claims are contradicted (46 of 96, 47.9%, 95% CI 38 to 58 percent; fresh Opus 4.8 51.7%); famous genes are overclaimed 63.9% versus 7.0% baseline, permutation p 0.0001; stated confidence does not track correctness. Then open Evidence for the reliability benchmark section and the 79-target independent primary-CD4 calibration with its three passed adversarial kills. Show the sensitivity beside it: after controlling for Rest reach and batch, partial rho is 0.046, P is 0.352, and four of five kills fail. State that broad reach carries across studies, but incremental activation specificity does not clear the locked bar.

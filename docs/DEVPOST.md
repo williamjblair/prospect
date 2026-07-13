@@ -6,9 +6,10 @@ Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app) ·
 Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prospect) ·
 Signed root: `root_a8b0dcdd4024e12f`
 
-> Reproducible is not verified. Prospect checks an AI-generated gene list against frozen
-> perturbation data, separates candidate drivers from passengers, and keeps every result
-> `accepted=false` until a human key signs.
+> About half of confident AI major-regulator claims in this frozen assay are contradicted by the
+> measured data: 46 of 96, and a fresh Claude Opus 4.8 run lands at 51.7%. Prospect is the layer that
+> catches them. It checks an AI-generated gene list against frozen perturbation data, separates
+> candidate drivers from passengers, and keeps every result `accepted=false` until a human key signs.
 
 ![Paste a claim, get a signed receipt, accepted=false](assets/prospect_demo.gif)
 
@@ -51,7 +52,10 @@ claims, and 15 not assayed, still `accepted=false`.
 
 ## How we used Claude
 
-Claude is on the generative side of the boundary, and never on the trust side.
+Claude does the science on the generative side. An autonomous Claude Opus 4.8 agent proposes gene
+lists, searches the literature for prior art, and drafts mechanism hypotheses; a Claude Science
+connector sends real exports straight into the frozen gate. Claude is maximally useful where it
+generates, and never on the trust side.
 
 - **A Claude Science connector.** Prospect registers a hosted Streamable HTTP MCP connector inside
   Claude Science with proposal-only tools. A Claude Science session can send its real export straight

@@ -8,6 +8,8 @@ Signed root: `root_a8b0dcdd4024e12f`
 
 ## What Prospect proves
 
+About half of confident AI major-regulator claims are contradicted by the frozen data: 46 of 96 (47.9%, 95% CI 38 to 58 percent), famous genes overclaimed 63.9% versus 7.0% baseline. An autonomous Claude Opus agent generated the claims Prospect measures; a Claude Science connector sends real exports through the same frozen gate.
+
 Prospect tells a biologist which genes in an AI-generated prediction list behave as causal drivers, which are passengers, and which driver claims the perturbation data contradicts. The first-screen output is a driver/passenger/contradicted split.
 
 Reproducible is not verified.
@@ -16,6 +18,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Numbers To Inspect
 
+- Reliability benchmark: 46 of 96 confident major-regulator claims contradicted (47.9%, 95% CI 38 to 58 percent); famous genes overclaimed 63.9% versus 7.0% baseline, permutation p 0.0001; stated confidence does not track correctness
 - Real Claude Science signature: reviewer no issues found, Prospect returned 52 genes, 12 drivers, 25 passengers, 0 contradicted driver claims, 15 not assayed, and accepted=false
 - ORCS primary T-cell context reduces uncovered Sade-Feldman genes to 5
 - GSE278572: 24 overlapping regulators, 1 pre-registered interpretation qualification
@@ -25,7 +28,6 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - PGGT1B remains proposal-only; independent batch-specificity kill not cleared, protocol minimum donors 3
 - 5 signed CD4+ findings and 7 receipts
 - 12 public data artifacts
-- Reliability benchmark: 46 of 96 confident major-regulator claims contradicted (47.9%, 95% CI 38 to 58 percent); famous genes overclaimed 63.9% versus 7.0% baseline, permutation p 0.0001; stated confidence does not track correctness
 
 ## Five-minute judge path
 

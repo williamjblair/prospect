@@ -47,6 +47,8 @@ def test_judge_handout_summarizes_the_kept_surface_without_overclaiming():
     assert "accept a submitted receipt" in handout["human_only_actions"]
     assert "wet-lab execution" in handout["human_only_actions"]
     assert "Reproducible is not verified." in handout["one_line"]
+    assert "contradicted by the frozen data" in handout["headline"]
+    assert "autonomous Claude Opus" in handout["headline"]
 
 
 def test_judge_handout_writes_print_friendly_markdown(tmp_path):
@@ -58,6 +60,7 @@ def test_judge_handout_writes_print_friendly_markdown(tmp_path):
     assert handout["title"] in doc
     assert "Five-minute judge path" in doc
     assert "What Prospect proves" in doc
+    assert "About half of confident AI major-regulator claims are contradicted by the frozen data" in doc
     assert "What remains human-only" in doc
     assert "./prospect verify" in doc
     assert "./prospect demo-mode --reset" in doc

@@ -13,8 +13,10 @@ Clean deterministic run:
 
 ## Two-Minute Version
 
-**0:00, the problem.** Open Check. Say: every AI biology tool can produce a gene list. Prospect
-tells you which genes are causal drivers. Reproducible is not verified.
+**0:00, the hook.** Open Check. Say: a model can produce a confident list of disease-gene regulators
+in a second, and about half of the confident ones are contradicted by the data. An autonomous Claude
+Opus agent generated the claims we measured, and Prospect is the layer that catches them. Reproducible
+is not verified.
 
 **0:15, the wow.** Stay on the first screen. A real Claude Science Sade-Feldman melanoma ICB
 signature enters Prospect. Claude Science preserved the artifact and its reviewer reported no issues.

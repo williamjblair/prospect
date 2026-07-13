@@ -436,6 +436,20 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
           Reproducible is not verified. Prospect checks an AI-generated gene list against frozen perturbation data,
           separates candidate drivers from passengers, and keeps every result proposal-only until a human key accepts it.
         </p>
+        {rate != null && (
+          <p className="t-body-sm" style={{ marginTop: 14, maxWidth: "58ch", color: "var(--ink-3)" }}>
+            In this frozen assay,{" "}
+            <strong style={{ color: "var(--cinnabar)", fontWeight: 700 }}>{rate}%</strong>{" "}
+            of confident AI major-regulator claims are contradicted by the measured data.{" "}
+            <button
+              type="button"
+              onClick={() => setTab("findings")}
+              style={{ color: "var(--field-blue)", fontWeight: 600, background: "none", border: "none", padding: 0, cursor: "pointer", textDecoration: "underline", font: "inherit" }}
+            >
+              See the reliability benchmark.
+            </button>
+          </p>
+        )}
       </header>
 
       {d.agent && (

@@ -1,6 +1,8 @@
 # Prospect
 
-The tool that tells a biologist which genes in an AI prediction list behave as causal drivers.
+About half of confident AI major-regulator claims here are contradicted by the frozen data. Prospect
+is the acceptance layer that catches them, telling a biologist which genes in an AI prediction list
+behave as causal drivers.
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
@@ -11,11 +13,13 @@ Reliability benchmark: [docs/RELIABILITY_BENCHMARK.md](docs/RELIABILITY_BENCHMAR
 
 ![The trust boundary: a model produces everything on the left; only a human Ed25519 key produces acceptance.](docs/assets/trust_boundary.png)
 
-Every AI biology tool can produce a signature, gene list, or differential-expression table. Prospect
-checks that activity against frozen perturbation data and returns typed verdicts: `evidence_attached`
-for causal-driver evidence, `associative_only` for passengers, `contradicted` for refuted driver
-claims, and `not_assayed` for genes the table cannot test. Reproducible is not verified. Every
-submission stays `accepted=false` until a frozen replay and a human key accept the record.
+A model can produce a confident signature, gene list, or differential-expression table in a second,
+and in this frozen CD4+ assay about half of confident major-regulator claims are contradicted by the
+data (46 of 96). Prospect checks that activity against frozen perturbation data and returns typed
+verdicts: `evidence_attached` for causal-driver evidence, `associative_only` for passengers,
+`contradicted` for refuted driver claims, and `not_assayed` for genes the table cannot test.
+Reproducible is not verified. Every submission stays `accepted=false` until a frozen replay and a
+human key accept the record.
 
 The payload is primary human CD4+ T-cell activation. Prospect replays claims against the released
 Marson CRISPRi Perturb-seq screen, a frozen CD4+ evidence graph with 11,526 genes, 37,106 regulatory
@@ -48,8 +52,13 @@ Every submission remains `accepted=false` until human review.
 
 ## The Sharp Evidence
 
-- **AI overclaiming:** 48% of confident major-regulator claims are contradicted by the measured data,
-  rising to 64% on famous checkpoints and cytokines.
+- **AI overclaiming, measured:** about half of confident major-regulator claims are contradicted by
+  the frozen data (46 of 96; 47.9%, 95% CI 38 to 58 percent; a fresh Claude Opus 4.8 run at 51.7%),
+  rising to 63.9% on famous checkpoints and cytokines versus 7.0% on data-confirmed non-regulators
+  (permutation p 0.0001). Stated confidence does not track correctness.
+- **Autonomous Claude Opus agent:** a Claude Opus 4.8 agent ran a dozen frozen-data tool calls,
+  searched for prior art, and drafted the PGGT1B mechanism, every output landing proposal-only. The
+  model proposes; a frozen gate and a human key accept.
 - **Real Claude Science artifact:** 52 genes typed as 12 drivers, 25 passengers, 0 contradicted
   driver claims, and 15 not assayed. Its reviewer reported no issues, while Prospect independently
   retained the result as a proposal.

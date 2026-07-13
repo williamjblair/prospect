@@ -60,6 +60,16 @@ def build_handout() -> dict[str, Any]:
             "drivers, which are passengers, and which driver claims the perturbation data contradicts. "
             "The first-screen output is a driver/passenger/contradicted split."
         ),
+        "headline": (
+            "About half of confident AI major-regulator claims are contradicted by the frozen data: "
+            f"{rel_core['refuted']} of {rel_core['checkable']} "
+            f"({round(rel_core['contradiction_rate'] * 100, 1)}%, 95% CI {round(rel_core['ci95'][0] * 100)} "
+            f"to {round(rel_core['ci95'][1] * 100)} percent), famous genes overclaimed "
+            f"{round(rel_effect['famous_overclaim_rate'] * 100, 1)}% versus "
+            f"{round(rel_effect['baseline_overclaim_rate'] * 100, 1)}% baseline. An autonomous Claude Opus "
+            "agent generated the claims Prospect measures; a Claude Science connector sends real exports "
+            "through the same frozen gate."
+        ),
         "one_line": "Reproducible is not verified.",
         "counts": {
             "public_artifacts": len(PUBLIC_ARTIFACTS),
@@ -190,6 +200,8 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
         "## What Prospect proves",
         "",
+        handout["headline"],
+        "",
         handout["thesis"],
         "",
         handout["one_line"],
@@ -198,6 +210,14 @@ def _markdown(handout: dict[str, Any]) -> str:
         "",
         "## Numbers To Inspect",
         "",
+        (
+            f"- Reliability benchmark: {counts['reliability_refuted']} of {counts['reliability_checkable']} confident "
+            f"major-regulator claims contradicted ({round(counts['reliability_contradiction_rate']*100, 1)}%, "
+            f"95% CI {round(counts['reliability_ci_low']*100)} to {round(counts['reliability_ci_high']*100)} percent); "
+            f"famous genes overclaimed {round(counts['reliability_famous_rate']*100, 1)}% versus "
+            f"{round(counts['reliability_baseline_rate']*100, 1)}% baseline, permutation p {counts['reliability_famous_p']}; "
+            f"stated confidence does not track correctness"
+        ),
         (
             f"- Real Claude Science signature: reviewer {counts['claude_science_reviewer_result'].replace('_', ' ')}, "
             f"Prospect returned {counts['claude_science_genes']} genes, "
@@ -234,14 +254,6 @@ def _markdown(handout: dict[str, Any]) -> str:
         ),
         f"- {counts['findings']} signed CD4+ findings and {counts['receipts']} receipts",
         f"- {counts['public_artifacts']} public data artifacts",
-        (
-            f"- Reliability benchmark: {counts['reliability_refuted']} of {counts['reliability_checkable']} confident "
-            f"major-regulator claims contradicted ({round(counts['reliability_contradiction_rate']*100, 1)}%, "
-            f"95% CI {round(counts['reliability_ci_low']*100)} to {round(counts['reliability_ci_high']*100)} percent); "
-            f"famous genes overclaimed {round(counts['reliability_famous_rate']*100, 1)}% versus "
-            f"{round(counts['reliability_baseline_rate']*100, 1)}% baseline, permutation p {counts['reliability_famous_p']}; "
-            f"stated confidence does not track correctness"
-        ),
         "",
         "## Five-minute judge path",
         "",

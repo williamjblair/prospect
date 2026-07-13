@@ -11,14 +11,18 @@ Reproducibility: [REPRODUCIBILITY.md](REPRODUCIBILITY.md). All nine offline comm
 
 ## One Sentence
 
-Prospect tells biologists which genes in an AI-generated prediction list behave as causal drivers,
-which are passengers, and which driver claims the perturbation data contradicts.
+About half of confident AI major-regulator claims in a frozen CD4+ T-cell assay are contradicted by
+the measured data. Prospect is the acceptance layer that catches them: it tells biologists which
+genes in an AI-generated prediction list behave as causal drivers, which are passengers, and which
+driver claims the perturbation data contradicts.
 
 ## Why It Matters
 
-Reproducible is not verified. Claude Science and similar tools can preserve an artifact, its code,
-environment, and review trail. That makes the activity reproducible. Prospect asks the next question:
-does the claim survive an independent frozen perturbation gate, and should it become an accepted record?
+Reproducible is not verified. A model can produce a confident list of disease-gene regulators in a
+second, and about half of the confident ones here do not survive the data. Claude Science and similar
+tools preserve an artifact, its code, environment, and review trail, which makes the activity
+reproducible. Prospect asks the next question: does the claim survive an independent frozen
+perturbation gate, and should it become an accepted record?
 
 ## What We Built
 
