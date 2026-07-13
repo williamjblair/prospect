@@ -1618,17 +1618,6 @@ a:hover > .card-paper {
   min-width: 0;
 }
 
-.console-mark {
-  display: inline-grid;
-  place-items: center;
-  width: 31px;
-  height: 31px;
-  border: 1px solid color-mix(in oklab, var(--field-blue) 36%, transparent);
-  border-radius: 999px;
-  color: var(--field-blue);
-  background: color-mix(in oklab, var(--field-blue) 8%, var(--paper-raised));
-}
-
 .console-brand-name {
   display: block;
   font-weight: 700;

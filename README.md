@@ -13,13 +13,10 @@ Reliability benchmark: [docs/RELIABILITY_BENCHMARK.md](docs/RELIABILITY_BENCHMAR
 
 ![The trust boundary: a model produces everything on the left; only a human Ed25519 key produces acceptance.](docs/assets/trust_boundary.png)
 
-A model can produce a confident signature, gene list, or differential-expression table in a second,
-and in this frozen CD4+ assay about half of confident major-regulator claims are contradicted by the
-data (46 of 96). Prospect checks that activity against frozen perturbation data and returns typed
-verdicts: `evidence_attached` for causal-driver evidence, `associative_only` for passengers,
-`contradicted` for refuted driver claims, and `not_assayed` for genes the table cannot test.
-Reproducible is not verified. Every submission stays `accepted=false` until a frozen replay and a
-human key accept the record.
+Prospect checks that activity against frozen perturbation data and returns a typed verdict per gene:
+`evidence_attached` (behaves like a driver), `associative_only` (a passenger), `contradicted` (a
+refuted driver claim), or `not_assayed` (absent from the table). Reproducible is not verified: every
+submission stays `accepted=false` until a frozen replay and a human key accept the record.
 
 The payload is primary human CD4+ T-cell activation. Prospect replays claims against the released
 Marson CRISPRi Perturb-seq screen, a frozen CD4+ evidence graph with 11,526 genes, 37,106 regulatory
@@ -41,14 +38,10 @@ The live Claude Science call returned `proposal_f07c2c5c7578bbdb` and
 `accepted=false`, and required a human signature. The complete content-addressed capture is
 `examples/data/claude_science_connector_run.json`.
 
-Prospect frames the signature as associative and separates drivers from passengers, which is exactly
-what an associative signature needs before it can become a biological claim.
-
 ![Prospect registered in Claude Science with four proposal-only tools](docs/assets/claude_science_prospect_connector.png)
 
-The hosted Streamable HTTP connector is registered in Claude Science with per-call approval enabled.
-It exposes schema discovery, artifact submission, compatibility submission, and proposal retrieval.
-Every submission remains `accepted=false` until human review.
+The hosted Streamable HTTP connector is registered in Claude Science with four proposal-only tools and
+per-call approval. It can propose; it cannot accept.
 
 ## The Sharp Evidence
 
@@ -68,13 +61,10 @@ Every submission remains `accepted=false` until human review.
 - **MED12 correction:** an independently frozen GSE278572 comparison qualifies Prospect's own
   interpretation. High resting reach is evidence against activation specificity, but is not enough
   to call a gene housekeeping or an essentiality artifact.
-- **Independent primary-CD4 calibration:** across 79 shared perturbations, Marson Stim48hr reach
-  correlates with published day-eight activated-CD4 knockout reach (`rho=0.373895`, one-sided
-  10,000-permutation `P=0.00039996`). All three pre-registered adversarial kills pass. Different
-  activation times make this cross-context evidence, not condition-level equivalence. A committed
-  sensitivity controls for Marson Rest reach and study batch: partial `rho=0.045808`, permutation
-  `P=0.35246475`, and four of five kills fail. Broad reach replicates, but incremental
-  activation-specific reach does not clear the locked bar.
+- **Independent primary-CD4 calibration:** across 79 shared perturbations, Marson reach agrees with a
+  published knockout study (`rho=0.373895`, permutation `P=0.00039996`, all three pre-registered kills
+  pass). The narrower activation-specific claim fails four of five kills (partial `rho=0.045808`,
+  `P=0.35246475`): broad reach replicates, the incremental claim does not clear the locked bar.
 - **Signed evidence graph:** five deterministic CD4+ findings recover known activation biology,
   separate effectors from drivers, distinguish Rest reach from activation specificity, compare
   covered K562 and RPE1 contexts, and recover CollecTRI regulons.
@@ -133,13 +123,9 @@ python receipt/replay_proposal.py <hosted-proposal-url>
 
 ## Guarantees
 
-- Frozen released data, never a live differential-expression recompute.
-- Typed status only, no wet-lab or clinical truth claim.
-- Content-addressed replay: `./prospect verify` re-derives 53,485 objects with zero drift.
-- Human Ed25519 signature over accepted records. No model makes the final call.
-- Mutation pack floor: zero tampered claim is admitted.
-- MCP bridge and acceptance service submit proposals only.
-- `prospect.receipt.v1` binds the complete proposal body. Acceptance is a separate event.
+- Frozen released data only, never a live recompute; typed status, never a wet-lab or clinical claim.
+- `./prospect verify` re-derives 53,485 objects with zero drift; the mutation pack admits zero tampered claim.
+- Acceptance needs a human Ed25519 signature. No model makes the final call; the bridge and service only propose.
 
 ## Data
 

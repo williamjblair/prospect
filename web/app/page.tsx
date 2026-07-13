@@ -344,7 +344,6 @@ export default function Page() {
     <div className="prospect-console">
       <header className="console-topbar" aria-label="Prospect workflow">
         <div className="console-brand">
-          <span className="console-mark"><ShieldCheck size={15} aria-hidden /></span>
           <span>
             <span className="console-brand-name">Prospect</span>
             <span className="console-brand-sub">Released data, not clinical truth.</span>

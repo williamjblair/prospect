@@ -23,10 +23,9 @@ driver claims the perturbation data contradicts.
 ## Why It Matters
 
 Reproducible is not verified. A model can produce a confident list of disease-gene regulators in a
-second, and about half of the confident ones here do not survive the data. Claude Science and similar
-tools preserve an artifact, its code, environment, and review trail, which makes the activity
-reproducible. Prospect asks the next question: does the claim survive an independent frozen
-perturbation gate, and should it become an accepted record?
+second, and about half of the confident ones here do not survive the data. Claude Science makes the
+activity reproducible; Prospect asks the next question: does the claim survive an independent frozen
+gate, and should it become an accepted record?
 
 ## What We Built
 
@@ -57,13 +56,10 @@ perturbation gate, and should it become an accepted record?
   `root_a8b0dcdd4024e12f`.
 - Corrective comparison: GSE278572 qualifies the MED12 interpretation. High Rest reach weakens
   activation specificity, but does not alone establish housekeeping or essentiality.
-- Independent calibration: 79 shared perturbations between Marson and the published
-  GSE171737/GSE271788 day-eight activated primary-CD4 knockout study. Stim48hr reach correlates with
-  independent reach at `rho=0.373895`, one-sided 10,000-permutation `P=0.00039996`; both study
-  batches, the K562-filtered subset, and every leave-one-target-out rerun remain positive. A second
-  pre-registered sensitivity controls for Rest reach and study batch. Its partial `rho=0.045808`,
-  permutation `P=0.35246475`, and four of five kills fail. This supports broad cross-study reach,
-  not incremental activation specificity.
+- Independent calibration: across 79 shared Marson/GSE271788 perturbations, reach correlates at
+  `rho=0.373895` (`P=0.00039996`), and all three pre-registered kills pass. A committed sensitivity
+  controlling for Rest reach and batch fails four of five kills (partial `rho=0.045808`,
+  `P=0.35246475`): broad cross-study reach holds, incremental activation specificity does not.
 - PGGT1B registry audit: seven candidate accessions inspected across GEO, SRA, BioStudies, PubMed,
   and ORCS. None directly perturbs PGGT1B in a comparable stimulated primary-CD4 transcriptomic
   assay, so the batch-specificity kill remains open.
