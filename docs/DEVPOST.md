@@ -108,6 +108,10 @@ The benchmark replays offline from committed frozen model runs with no API calls
 
 ![The AI biology claim reliability benchmark](assets/reliability_benchmark.png)
 
+The same result renders live on the Evidence tab:
+
+![The reliability benchmark on the Evidence tab](assets/screenshot_06_reliability.png)
+
 Prospect also corrects itself. An independently frozen GSE278572 comparison qualifies Prospect's own
 MED12 interpretation: high resting reach argues against activation specificity, but does not by
 itself establish housekeeping or essentiality. The qualification is pre-registered and the record

@@ -62,6 +62,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
 
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
+![The AI biology claim reliability benchmark](assets/reliability_benchmark.png)
+
 ![Prospect registered in Claude Science](assets/claude_science_prospect_connector.png)
 
 ![The kept PGGT1B lead, mechanism first](assets/screenshot_04_pggt1b_lead.png)
