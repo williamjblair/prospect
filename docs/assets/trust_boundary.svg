@@ -1,0 +1,81 @@
+<svg width="1280" height="620" viewBox="0 0 1280 620" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.5,3 L0,6 z" fill="#8a8577"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1280" height="620" fill="#f7f4ee"/>
+
+  <!-- Title -->
+  <text x="64" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="38" fill="#21201d">The trust boundary</text>
+  <text x="64" y="108" font-size="18" fill="#6f6a60">A model can produce everything on the left. Only a human Ed25519 key produces acceptance.</text>
+
+  <!-- Region labels -->
+  <text x="64" y="168" font-size="13" letter-spacing="1.5" fill="#8a8577">MACHINE SIDE · ANY MODEL, ANY PRODUCER</text>
+  <text x="1024" y="168" font-size="13" letter-spacing="1.5" fill="#8a8577" text-anchor="middle">HUMAN CUSTODY</text>
+
+  <!-- Node A: MODEL -->
+  <rect x="64" y="190" width="196" height="176" rx="10" fill="#ffffff" stroke="#e4ddd0" stroke-width="1.5"/>
+  <text x="84" y="222" font-size="12" letter-spacing="1.2" fill="#8a8577">MODEL</text>
+  <text x="84" y="252" font-family="Georgia, serif" font-size="21" fill="#21201d">Claude proposes</text>
+  <text x="84" y="286" font-size="14" fill="#6f6a60">A gene list or a causal</text>
+  <text x="84" y="306" font-size="14" fill="#6f6a60">driver claim. Anything</text>
+  <text x="84" y="326" font-size="14" fill="#6f6a60">can be asserted in a</text>
+  <text x="84" y="346" font-size="14" fill="#6f6a60">second.</text>
+
+  <!-- Node B: RECEIPT -->
+  <rect x="300" y="190" width="196" height="176" rx="10" fill="#ffffff" stroke="#e4ddd0" stroke-width="1.5"/>
+  <text x="320" y="222" font-size="12" letter-spacing="1.2" fill="#8a8577">RECEIPT</text>
+  <text x="320" y="252" font-family="Georgia, serif" font-size="21" fill="#21201d">Recorded</text>
+  <text x="320" y="286" font-size="14" fill="#6f6a60">Content-addressed.</text>
+  <text x="320" y="306" font-size="14" fill="#6f6a60">Typed status per gene.</text>
+  <text x="320" y="326" font-size="14" fill="#6f6a60">Carries the frozen</text>
+  <text x="320" y="346" font-size="14" fill="#6f6a60">replay command.</text>
+
+  <!-- Node C: FROZEN GATE -->
+  <rect x="536" y="190" width="196" height="176" rx="10" fill="#ffffff" stroke="#e4ddd0" stroke-width="1.5"/>
+  <text x="556" y="222" font-size="12" letter-spacing="1.2" fill="#8a8577">FROZEN GATE</text>
+  <text x="556" y="252" font-family="Georgia, serif" font-size="21" fill="#21201d">Re-derived</text>
+  <text x="556" y="286" font-size="14" fill="#6f6a60">Hashes the claim</text>
+  <text x="556" y="306" font-size="14" fill="#6f6a60">against frozen Marson</text>
+  <text x="556" y="326" font-size="14" fill="#6f6a60">data. No judgment.</text>
+  <text x="556" y="346" font-size="14" fill="#6f6a60">No model in the path.</text>
+
+  <!-- Node D: PROPOSAL (machine work ends here) -->
+  <rect x="772" y="190" width="196" height="176" rx="10" fill="#fbf1ee" stroke="#e2c3b8" stroke-width="1.5"/>
+  <text x="792" y="222" font-size="12" letter-spacing="1.2" fill="#b8442b">PROPOSAL</text>
+  <text x="792" y="252" font-family="Georgia, serif" font-size="21" fill="#21201d">Pending</text>
+  <text x="792" y="286" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#b8442b">accepted=false</text>
+  <text x="792" y="312" font-size="14" fill="#6f6a60">next =</text>
+  <text x="792" y="332" font-family="SF Mono, Menlo, monospace" font-size="12.5" fill="#6f6a60">human_signature_</text>
+  <text x="792" y="350" font-family="SF Mono, Menlo, monospace" font-size="12.5" fill="#6f6a60">required</text>
+
+  <!-- TRUST BOUNDARY -->
+  <line x1="992" y1="150" x2="992" y2="410" stroke="#b8442b" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="992" y="440" font-size="12.5" letter-spacing="1" fill="#b8442b" text-anchor="middle">TRUST BOUNDARY · NO MODEL CROSSES</text>
+
+  <!-- Node E: HUMAN Ed25519 -->
+  <rect x="1016" y="190" width="200" height="176" rx="10" fill="#ffffff" stroke="#c3d6c8" stroke-width="1.5"/>
+  <text x="1036" y="222" font-size="12" letter-spacing="1.2" fill="#2f6b4a">HUMAN · Ed25519</text>
+  <text x="1036" y="252" font-family="Georgia, serif" font-size="21" fill="#21201d">Signs, or not</text>
+  <text x="1036" y="286" font-size="14" fill="#6f6a60">One key, one ceremony.</text>
+  <text x="1036" y="306" font-size="14" fill="#6f6a60">The only thing that</text>
+  <text x="1036" y="326" font-size="14" fill="#6f6a60">flips accepted. Verified</text>
+  <text x="1036" y="346" font-size="14" fill="#6f6a60">by replay, then trust.</text>
+
+  <!-- Arrows -->
+  <line x1="260" y1="278" x2="298" y2="278" stroke="#8a8577" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="496" y1="278" x2="534" y2="278" stroke="#8a8577" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="732" y1="278" x2="770" y2="278" stroke="#8a8577" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="968" y1="278" x2="1014" y2="278" stroke="#2f6b4a" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Accepted terminal -->
+  <rect x="64" y="486" width="1152" height="84" rx="10" fill="#ffffff" stroke="#e4ddd0" stroke-width="1.5"/>
+  <text x="88" y="522" font-family="Georgia, serif" font-size="20" fill="#2f6b4a">Accepted state · a signed shared record</text>
+  <text x="88" y="550" font-size="14.5" fill="#6f6a60">Only reachable across the boundary. The receipt keeps its evidence, its replay command, and its human sign-off — anyone can re-derive it.</text>
+  <text x="1192" y="536" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#8a8577" text-anchor="end">root_a8b0dcdd4024e12f</text>
+
+  <!-- boundary arrow to accepted -->
+  <path d="M1116,366 L1116,486" stroke="#2f6b4a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+</svg>

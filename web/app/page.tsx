@@ -728,8 +728,8 @@ function ProspectAcceptanceWorkbench() {
     const service = PUBLIC_ACCEPTANCE_SERVICE_URL || localService;
     setLoading(true);
     // If the hosted service is unreachable or unset, degrade to the committed
-    // frozen fixture — the identical verdict the service returns for the default
-    // example — rather than a bare error. The demo never dead-ends, and the
+    // frozen fixture (the identical verdict the service returns for the default
+    // example) rather than a bare error. The demo never dead-ends, and the
     // note below is explicit that this is the canned example, not a live check.
     const loadFallback = async () => {
       try {
@@ -863,7 +863,7 @@ function ProspectAcceptanceWorkbench() {
             <>
               {fromFallback && (
                 <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
-                  Hosted service unreachable — showing the identical frozen verdict for the default example from a committed fixture. Run <span className="t-mono">./prospect serve-acceptance</span> locally to check your own input.
+                  Hosted service unreachable. Showing the identical frozen verdict for the default example from a committed fixture. Run <span className="t-mono">./prospect serve-acceptance</span> locally to check your own input.
                 </p>
               )}
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>

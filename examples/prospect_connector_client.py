@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import anyio
 import json
 import sys
 from pathlib import Path
@@ -13,8 +12,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from examples.receipt_bridge_client import McpClient
-from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
 from receipt.causal_bridge import claude_science_submission_request
 
 
@@ -38,6 +35,11 @@ def _remote_request(case: str) -> dict[str, Any]:
 
 
 async def _remote_submit(url: str, case: str) -> tuple[str, dict[str, Any]]:
+    # mcp is only needed for the hosted (--url) path; importing it lazily keeps
+    # the offline `--json` path working on a partial install (no mcp/anyio).
+    from mcp import ClientSession
+    from mcp.client.streamable_http import streamablehttp_client
+
     async with streamablehttp_client(url) as (read_stream, write_stream, _session_id):
         async with ClientSession(read_stream, write_stream) as session:
             initialized = await session.initialize()
@@ -52,6 +54,8 @@ async def _remote_submit(url: str, case: str) -> tuple[str, dict[str, Any]]:
 
 def run(case: str, url: str = "") -> dict[str, Any]:
     if url:
+        import anyio
+
         server, submit = anyio.run(_remote_submit, url, case)
     else:
         client = McpClient()

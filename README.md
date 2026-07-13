@@ -5,6 +5,9 @@ The tool that tells a biologist which genes in an AI prediction list behave as c
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Demo script: [docs/DEMO.md](docs/DEMO.md). Judge handout: [docs/JUDGE_HANDOUT.md](docs/JUDGE_HANDOUT.md).
+Devpost writeup: [docs/DEVPOST.md](docs/DEVPOST.md). Silent walkthrough: [docs/assets/prospect_demo.mp4](docs/assets/prospect_demo.mp4).
+
+![The trust boundary: a model produces everything on the left; only a human Ed25519 key produces acceptance.](docs/assets/trust_boundary.png)
 
 Every AI biology tool can produce a signature, gene list, or differential-expression table. Prospect
 checks that activity against frozen perturbation data and returns typed verdicts: `evidence_attached`
@@ -85,6 +88,7 @@ Every submission remains `accepted=false` until human review.
 ## Run It
 
 ```bash
+# Offline: bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
@@ -97,12 +101,20 @@ cd web && npm run typecheck && npm run build
 ./prospect pggt1b-defended-evidence
 python frontier/gse271788_calibration.py --check
 python frontier/gse271788_activation_specificity.py --check
+python examples/claude_science_connector_client.py --json   # real 52-gene split over the stdio MCP
+python examples/receipt_bridge_client.py --json
+python receipt/replay_proposal.py <local-proposal.json>
+
+# Needs a local acceptance service: start it first, then point the connectors at it.
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json
-python receipt/replay_proposal.py <proposal.json-or-url>
-python examples/receipt_bridge_client.py --json
-python examples/claude_science_connector_client.py --json
+
+# Hosted (already live): the paste box + the hosted MCP at prospect-acceptance.fly.dev run the same frozen gate.
+python receipt/replay_proposal.py <hosted-proposal-url>
+
+# Verify the signature; do not re-sign. root_a8b0dcdd4024e12f is committed; a fresh clone mints
+# its own local key, so a signing command would produce a different root. Re-derive and compare instead.
 ```
 
 ## Guarantees

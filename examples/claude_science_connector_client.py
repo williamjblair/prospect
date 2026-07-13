@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import anyio
 import hashlib
 import json
 import sys
@@ -14,14 +13,17 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from examples.receipt_bridge_client import McpClient
-from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
 from receipt.causal_bridge import claude_science_submission_request
 
 EXPORT = ROOT / "examples" / "data" / "claude_science_real_export"
 
 
 async def _remote_call(url: str, request: dict[str, Any]) -> tuple[dict[str, Any], list[str], dict[str, Any]]:
+    # mcp is only needed for the hosted (--url) path; importing it lazily keeps
+    # the offline `--json` path working on a partial install (no mcp/anyio).
+    from mcp import ClientSession
+    from mcp.client.streamable_http import streamablehttp_client
+
     async with streamablehttp_client(url) as (read_stream, write_stream, _session_id):
         async with ClientSession(read_stream, write_stream) as session:
             initialized = await session.initialize()
@@ -65,6 +67,8 @@ def _write_capture(path: Path, *, url: str, request: dict[str, Any], response: d
 
 def run(url: str = "", capture_path: Path | None = None) -> dict[str, Any]:
     if url:
+        import anyio
+
         request = claude_science_submission_request()
         init, tools, submit = anyio.run(_remote_call, url, request)
         server = init["server"]

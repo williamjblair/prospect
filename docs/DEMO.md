@@ -2,6 +2,9 @@
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
+Silent screen-capture backup of this walkthrough: [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4)
+(36s, records the live site through the arc below).
+
 Clean deterministic run:
 
 ```bash
@@ -35,7 +38,9 @@ NOTGENE
 ```
 
 Copy the shareable result link. Point out the receipt id, typed verdicts, `accepted=false`, and
-`human_signature_required`.
+`human_signature_required`. If the hosted service is ever unreachable, the box degrades to the
+identical frozen verdict for the default example from a committed fixture (with a visible note), so
+the demo never shows a dead error.
 
 **1:25, why it matters.** Show the overclaiming number: 48% of confident AI major-regulator claims
 are contradicted by the data, rising to 64% on famous checkpoints and cytokines.

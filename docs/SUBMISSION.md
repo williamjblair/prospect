@@ -89,6 +89,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 ## Commands
 
 ```bash
+# Offline: bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.
 ./prospect verify
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
@@ -101,20 +102,31 @@ cd web && npm run typecheck && npm run build
 ./prospect pggt1b-defended-evidence
 python frontier/gse271788_calibration.py --check
 python frontier/gse271788_activation_specificity.py --check
+python examples/claude_science_connector_client.py --json   # real 52-gene split over the stdio MCP
+python examples/receipt_bridge_client.py --json
+python receipt/replay_proposal.py <local-proposal.json>
+
+# Needs a local acceptance service: start it first, then point the connectors at it.
 ./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service
 python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json
 python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json
-python receipt/replay_proposal.py <proposal.json-or-url>
-python examples/receipt_bridge_client.py --json
-python examples/claude_science_connector_client.py --json
+
+# Hosted (already live): the paste box + the hosted MCP at prospect-acceptance.fly.dev run the same frozen gate.
+python receipt/replay_proposal.py <hosted-proposal-url>
 ```
+
+**Verify the signature; do not re-sign.** The signed root `root_a8b0dcdd4024e12f` is committed. A
+fresh clone auto-generates its own local key, so a signing command would mint a *different* key and
+root. To check trust, re-derive and compare the committed root, never re-sign.
 
 ## External usage state
 
-As of 2026-07-10 at 06:37 UTC, the live public ledger contains 0 published external-team
-submissions. The production store contains 21 private or demo events across 11 proposals and 0
-acceptance events. The second-producer fixture is a genericity demonstration, not adoption
-evidence. This count should be refreshed immediately before submission.
+As of 2026-07-13 (submission day), the live public ledger holds 0 published external-team
+submissions: `submission_count` 0, `proposal_count` 0, and an empty `by_producer` map. The hosted
+store has logged 30 total events and 0 acceptance events; those events are demo, private, and
+pre-submission smoke runs, not outside adoption. The second-producer connector case is a genericity
+demonstration, not adoption evidence. Prospect reports this number plainly because the whole point is
+that unaccepted activity stays visibly unaccepted: `accepted=false`, `next=human_signature_required`.
 
 ## Trust Boundary
 

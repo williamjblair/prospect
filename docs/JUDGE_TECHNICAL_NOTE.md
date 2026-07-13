@@ -42,6 +42,9 @@ content-addressed manifests are discoverable through `GET /substrates`, hosted M
 
 ## Judge commands
 
+All of these run offline from a bare `git clone` + `pip install -r requirements.txt`: no API key,
+no network, no hosted service (the connector clients use the stdio MCP, not the hosted `--url` path):
+
 ```bash
 ./prospect verify
 python benchmark/mutation_pack.py
@@ -54,3 +57,5 @@ python frontier/gse271788_calibration.py --check
 ```
 
 The demo command creates one shareable proposal through the same acceptance rule the service uses.
+The signed root `root_a8b0dcdd4024e12f` is committed; verify it by re-derivation, do not re-sign (a
+fresh clone mints its own key and would produce a different root).

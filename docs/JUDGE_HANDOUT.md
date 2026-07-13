@@ -61,6 +61,8 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 ## Commands
 
+**Offline: a bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.**
+
 - `./prospect verify`
 - `python benchmark/mutation_pack.py`
 - `python tests/test_skill_parity.py`
@@ -71,12 +73,21 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - `./prospect pggt1b-defended-evidence`
 - `python frontier/gse271788_calibration.py --check`
 - `python frontier/gse271788_activation_specificity.py --check`
+- `python examples/claude_science_connector_client.py --json`
+- `python examples/receipt_bridge_client.py --json`
+- `python receipt/replay_proposal.py <local-proposal.json>`
+
+**Needs a local acceptance service: start it first, then point the connectors at it.**
+
 - `./prospect serve-acceptance --port 8130 --data-dir var/acceptance_service`
 - `python examples/claude_science_connector_client.py --url http://127.0.0.1:8130/mcp --json`
 - `python examples/prospect_connector_client.py --case openresearch --url http://127.0.0.1:8130/mcp --json`
-- `python receipt/replay_proposal.py <proposal.json-or-url>`
-- `python examples/receipt_bridge_client.py --json`
-- `python examples/claude_science_connector_client.py --json`
+
+**Hosted (already live): the paste box and the hosted MCP at prospect-acceptance.fly.dev run the same frozen gate.**
+
+- `python receipt/replay_proposal.py <hosted-proposal-url>`
+
+Verify the signature, do not re-sign. The signed root is committed; a fresh clone auto-generates its own local key, so a signing command would mint a different root. Re-derive and compare the committed root instead.
 
 ## What remains human-only
 
