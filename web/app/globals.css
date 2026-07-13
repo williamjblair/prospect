@@ -928,9 +928,9 @@ body {
   min-width: 0;
   max-width: 100%;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
   position: relative;
   /* Paint-only: the hover rule below tints the background and nothing
      else. No transform, no shadow growth , stillness is the trust posture
@@ -1587,11 +1587,12 @@ a:hover > .card-paper {
    harmless no-op alias on pages that still carry it. */
 .prospect-console {
   min-height: 100svh;
+  /* Clean, quiet surface with a single soft atmospheric wash at the top,
+     no grid texture. Kawase, not graph paper. */
   background:
-    linear-gradient(90deg, color-mix(in oklab, var(--field-blue) 8%, transparent) 1px, transparent 1px),
-    linear-gradient(180deg, color-mix(in oklab, var(--field-blue) 6%, transparent) 1px, transparent 1px),
+    radial-gradient(140% 90% at 50% -20%, color-mix(in oklab, var(--field-blue) 5%, transparent), transparent 62%),
     var(--paper);
-  background-size: 48px 48px;
+  background-attachment: fixed;
 }
 
 .console-topbar {
@@ -1710,22 +1711,25 @@ a:hover > .card-paper {
 .console-status {
   display: inline-flex;
   align-items: center;
+  flex: none;
+  white-space: nowrap;
   height: 28px;
-  padding: 0 9px;
-  border: 1px solid color-mix(in oklab, var(--cinnabar) 34%, transparent);
-  border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--cinnabar) 8%, var(--paper-raised));
+  padding: 0 11px;
+  border: 1px solid color-mix(in oklab, var(--cinnabar) 30%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--cinnabar) 7%, var(--paper-raised));
   color: var(--cinnabar);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .console-main {
-  width: min(100%, 94rem);
-  max-width: 94rem;
+  width: min(100%, 88rem);
+  max-width: 88rem;
   margin: 0 auto;
-  padding: 18px 22px 72px;
+  padding: 34px 32px 96px;
 }
 
 .console-context-strip {
