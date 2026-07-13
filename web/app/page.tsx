@@ -424,6 +424,15 @@ export default function Page() {
   );
 }
 
+function Reproduce({ children }: { children: ReactNode }) {
+  return (
+    <details className="reproduce">
+      <summary>Reproduce</summary>
+      <div className="t-caption" style={{ display: "grid", gap: 4, color: "var(--ink-4)" }}>{children}</div>
+    </details>
+  );
+}
+
 function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom;
   const ratePct = p?.checkable ? ((p.refuted / p.checkable) * 100).toFixed(1) : null;
@@ -477,7 +486,7 @@ function PGGT1BLeadPanel({ evidence }: { evidence: DefendedEvidencePacket }) {
       </div>
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
         <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">Open PGGT1B artifact</a>
-        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>./prospect pggt1b-defended-evidence</span>
+        <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>./prospect pggt1b-defended-evidence</span>
       </div>
     </section>
   );
@@ -493,61 +502,18 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
   };
   return (
     <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
-      <div style={{ display: "flex", alignItems: "start", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ minWidth: 260, flex: 1 }}>
-          <div className="t-label" style={{ marginBottom: 5 }}>Acceptance layer for AI-generated biology</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>Prospect separates drivers from passengers.</h2>
-          <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "76ch", color: "var(--ink-3)" }}>
-            A real Claude Science export from {demo.source_dataset} submits a responder signature. In the authenticated
-            connector run, its reviewer reported {demo.live_connector?.reviewer_result.replace(/_/g, " ") || "no issues"}.
-            Prospect does not reject the signature. It asks which signature genes behave as causal drivers,
-            which stay associative passengers, and which explicit driver claims the perturbation data contradicts.
-          </p>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>
-          {demo.real_export ? "real export" : "fixture fallback"}
-        </span>
-        <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted={String(demo.prospect.accepted)}</span>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
-        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)" }}>
-          <div className="t-label">Claude Science lane</div>
-          <p className="t-body-sm" style={{ margin: "5px 0 0", color: "var(--ink-3)" }}>
-            artifact_status={demo.claude_science.artifact_status}. Internal review status={demo.claude_science.internal_review_status}.
-            AUC LOO={demo.claude_science.auc.LOO_CV_data_driven}.
-          </p>
-          <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-            {demo.claude_science.session_caveat}
-          </p>
-        </div>
-        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)" }}>
-          <div className="t-label">Prospect lane</div>
-          <p className="t-body-sm" style={{ margin: "5px 0 0", color: "var(--ink-3)" }}>
-            {counts.genes} genes checked against the frozen Marson table: {counts.drivers} drivers,
-            {" "}{counts.passengers} associative passengers, {counts.contradicted} contradicted driver claims,
-            {" "}{counts.not_assayed} not assayed comparably.
-          </p>
-          <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-            next={demo.prospect.next}. {demo.prospect.ceiling}
-          </p>
-          {demo.live_connector && (
-            <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-              Live connector: {demo.live_connector.consulted_substrate_count} frozen substrates,
-              {" "}accepted={String(demo.live_connector.accepted)}, next={demo.live_connector.next}.
-            </p>
-          )}
-          {demo.prospect.coverage_report && (
-            <p className="t-caption" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-              ORCS primary T-cell context shrinks uncovered genes from {demo.prospect.coverage_report.before.not_assayed}
-              {" "}to {demo.prospect.coverage_report.after.not_assayed}, while staying proposal-only.
-            </p>
-          )}
-        </div>
+      <div>
+        <div className="t-label" style={{ marginBottom: 5 }}>A real Claude Science export, gated</div>
+        <h2 className="h2-app" style={{ margin: 0 }}>Prospect separates drivers from passengers.</h2>
+        <p className="t-body-sm" style={{ margin: "7px 0 0", maxWidth: "62ch", color: "var(--ink-3)" }}>
+          A real Claude Science export from {demo.source_dataset} passed its own review with no issues. Prospect checked its
+          {" "}{counts.genes} genes against the frozen Marson table: {counts.drivers} drivers, {counts.passengers} passengers,
+          {" "}{counts.contradicted} contradicted, {counts.not_assayed} not assayed. accepted={String(demo.prospect.accepted)}.
+        </p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 8 }}>
-        <VerdictExample title="evidence_attached" tone="var(--brass)" rows={examples.supported} />
+        <VerdictExample title="evidence_attached" tone="var(--moss)" rows={examples.supported} />
         <VerdictExample title="associative_only" tone="var(--stone)" rows={examples.passengers} />
         <VerdictExample title="contradicted" tone="var(--cinnabar)" rows={examples.contradicted} />
         <VerdictExample title="not_assayed" tone="var(--stone)" rows={examples.open} />
@@ -556,22 +522,12 @@ function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcc
       <PerturbationMatrix rows={demo.verdicts.slice(0, 12)} />
 
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
-        <span className="t-label">judge commands</span>
-        <a className="btn btn-secondary btn-sm" href="/data/claude_science_acceptance_demo.json">
-          Open real export result
-        </a>
-        {demo.live_connector && (
-          <a className="btn btn-secondary btn-sm" href={demo.live_connector.proposal_url}>
-            Open live proposal
-          </a>
-        )}
-        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-          {demo.commands.claude_science || CLAUDE_SCIENCE_CONNECTOR_COMMAND}
-        </span>
-        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-          {demo.commands.generic || GENERIC_CONNECTOR_COMMAND}
-        </span>
         <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open audit trail</button>
+        <Reproduce>
+          <div><a href="/data/claude_science_acceptance_demo.json" style={{ color: "inherit" }}>/data/claude_science_acceptance_demo.json</a>{demo.live_connector ? <> · <a href={demo.live_connector.proposal_url} style={{ color: "inherit" }}>live proposal</a></> : null}</div>
+          <div><span className="t-mono">{demo.commands.claude_science || CLAUDE_SCIENCE_CONNECTOR_COMMAND}</span></div>
+          <div><span className="t-mono">{demo.commands.generic || GENERIC_CONNECTOR_COMMAND}</span></div>
+        </Reproduce>
       </div>
     </section>
   );
@@ -770,7 +726,7 @@ function ProspectAcceptanceWorkbench() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                 <span className="t-mono" style={{ fontWeight: 700 }}>{result.prospect.receipt_id}</span>
                 <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
-                <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{result.next}</span>
+                <span className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>{result.next}</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(86px, 1fr))", gap: 8 }}>
                 <AcceptanceCount label="drivers" value={counts?.drivers || 0} tone="var(--brass)" />
@@ -1045,7 +1001,7 @@ function Receipts({
               <div key={step.method} style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)",
                 borderRadius: "var(--radius-sm)", background: "var(--paper-recessed)", display: "grid", gap: 4 }}>
                 <div className="t-caption" style={{ color: "var(--ink-4)" }}>step {step.step}</div>
-                <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>{step.method}</div>
+                <div className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>{step.method}</div>
                 <div className="t-body-sm" style={{ color: "var(--ink-3)" }}>
                   {step.result === "proposal_only" ? "submit returns proposal only" : step.action}
                 </div>
@@ -1056,7 +1012,7 @@ function Receipts({
             padding: "9px 10px", border: "1px solid var(--rule-faint)",
             borderRadius: "var(--radius-sm)", background: "var(--gold-tint, var(--state-open-tint))" }}>
             <span className="t-label" style={{ color: "var(--gold-ink)" }}>Try the boundary</span>
-            <span className="t-mono fz-2xs" style={{ color: "var(--gold-ink)", fontWeight: 700 }}>{boundaryCommand}</span>
+            <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>{boundaryCommand}</span>
             <span className="t-caption" style={{ color: "var(--ink-3)" }}>
               expected accepted=false, next={boundaryNext}
             </span>
@@ -1091,19 +1047,19 @@ function Receipts({
             <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
               background: "var(--paper-recessed)" }}>
               <div className="t-label">frozen replay</div>
-              <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>{externalDemo.verifier_replay}</div>
+              <div className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>{externalDemo.verifier_replay}</div>
             </div>
             <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
               background: "var(--paper-recessed)" }}>
               <div className="t-label">bridge result</div>
-              <div className="t-mono fz-2xs" style={{ color: "var(--gold-ink)", fontWeight: 700 }}>
+              <div className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>
                 accepted=false · next={externalDemo.next}
               </div>
             </div>
             <div style={{ padding: "8px 9px", border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)",
               background: "var(--paper-recessed)" }}>
               <div className="t-label">judge command</div>
-              <div className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+              <div className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>
                 {externalDemo.command || EXTERNAL_RUN_COMMAND}
               </div>
             </div>
@@ -1112,7 +1068,7 @@ function Receipts({
             <div className="t-label" style={{ marginBottom: 5 }}>Human-only acceptance requires</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {externalDemo.human_acceptance_requires.map((item) => (
-                <span key={item} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+                <span key={item} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>
                   {item.replace(/_/g, " ")}
                 </span>
               ))}
@@ -1174,7 +1130,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
       <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
         <div><div className="stat-figure">{fmt(d.frontier.n_edges)}</div><div className="t-label">reproduced edges</div></div>
         <div><div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{fmt(d.frontier.n_contra)}</div><div className="t-label">contradictions</div></div>
-        <div><div className="stat-figure" style={{ color: "var(--brass)" }}>{fmt(d.frontier.n_open)}</div><div className="t-label">open questions</div></div>
+        <div><div className="stat-figure">{fmt(d.frontier.n_open)}</div><div className="t-label">open questions</div></div>
         <div style={{ marginLeft: "auto", textAlign: "right" }} className="t-caption">
           root <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.frontier.root}</span><br />
           by {d.frontier.signer} · no model in the trust path
@@ -1208,7 +1164,7 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           Knockdown never succeeded, so the data is silent, honest gaps, and the demand surface for the next experiments.
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-          {d.open.map((g) => <span key={g} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{g}</span>)}
+          {d.open.map((g) => <span key={g} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>{g}</span>)}
         </div>
       </div>
     </div>
@@ -1245,7 +1201,7 @@ function FindingHead({ f }: { f: Finding }) {
           <span className="h2-app">{m.title}</span>
           <span className="chip" style={{ ["--tone" as any]: m.tone }}>computationally_reproduced</span>
           {f.kind === "essentiality_artifact" && (
-            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>evidence_attached qualification</span>
+            <span className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>evidence_attached qualification</span>
           )}
           <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>{f.n_genes} genes · {f.cid}</span>
         </div>
@@ -1314,7 +1270,7 @@ function EffectorEvidence({ f, d, onGene }: { f: Finding; d: Data; onGene: (g: s
                   {c.first_author} {c.year} <ExternalLink size={10} style={{ display: "inline", verticalAlign: "baseline" }} />
                 </a>
               </span>
-              <span className="t-mono fz-sm" style={{ textAlign: "right", fontWeight: 650, color: "var(--field-blue)" }}>
+              <span className="t-mono fz-sm" style={{ textAlign: "right", fontWeight: 650, color: "var(--ink-3)"}}>
                 {p.n_de} <span className="t-caption">({p.stim_condition})</span>
               </span>
             </div>
@@ -1376,7 +1332,7 @@ function TransferEvidence({ f, onGene }: { f: Finding; onGene: (g: string) => vo
     <div style={{ display: "grid", gap: 12 }}>
       <div className="finding-metric-strip">
         <div className="card-paper" style={{ padding: "14px 16px" }}>
-          <div className="stat-figure" style={{ color: "var(--brass)" }}>{med.essentiality_artifact ?? "·"}</div>
+          <div className="stat-figure">{med.essentiality_artifact ?? "·"}</div>
           <div className="t-label" style={{ marginTop: 4 }}>high-Rest group · median K562 DE</div>
           <div className="t-caption" style={{ marginTop: 6 }}>{essRate}% have broad K562 reach among covered genes</div>
         </div>
@@ -1478,7 +1434,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <div>
-        <div className="t-label" style={{ marginBottom: 6, color: "var(--field-blue)" }}>Autonomous agent · Claude Opus 4.8</div>
+        <div className="t-label" style={{ marginBottom: 6 }}>Autonomous agent · Claude Opus 4.8</div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Lead hypothesis</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
           PGGT1B is the strongest caveated hypothesis Prospect surfaced for follow-up. A Claude Opus agent
@@ -1531,7 +1487,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
               padding: "7px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none" }}>
               <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)" }}>r{t.round}</span>
               <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap", minWidth: 0 }}>
-                <span className="t-mono fz-sm" style={{ fontWeight: 650, color: "var(--field-blue)" }}>{t.tool}</span>
+                <span className="t-mono fz-sm" style={{ fontWeight: 650, color: "var(--ink-3)"}}>{t.tool}</span>
                 {t.input?.gene && <button onClick={() => onGene(t.input.gene)} className="t-mono fz-sm" style={{ background: "transparent", color: "var(--ink)" }}>{t.input.gene}</button>}
                 <span className="t-caption" style={{ color: "var(--ink-3)" }}>{summarize(t.tool, t.result)}</span>
               </div>
@@ -1552,7 +1508,7 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
         <button onClick={() => onGene(dive.gene)} className="t-mono" style={{ fontSize: 16, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>
           {dive.gene}
         </button>
-        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{dive.status.replace(/_/g, " ")}</span>
+        <span className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>{dive.status.replace(/_/g, " ")}</span>
         <a className="btn btn-secondary btn-sm" href="/data/pggt1b_deep_dive.json" target="_blank" rel="noreferrer" style={{ marginLeft: "auto" }}>
           JSON <ExternalLink size={13} />
         </a>
@@ -1709,71 +1665,36 @@ function ReliabilityBenchmark() {
   if (!rb) return null;
   const core = rb.metrics?.contradiction_rate?.pooled_core;
   const eff = rb.famous_gene_effect;
-  const bins = (rb.confidence_calibration?.bins || []).filter((b: any) => b.n);
   const current = rb.current_model?.core_contradiction;
   const perModel = (rb.per_model || []).filter((m: any) => m?.core_contradiction?.checkable);
   const cal = rb.confidence_calibration?.summary;
   if (!core || !eff) return null;
   const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
   return (
-    <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label">AI biology claim reliability benchmark</div>
-          <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Confident claims survive the frozen data about half the time.</h2>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>reproducible, no model in the loop</span>
-      </div>
-      <p className="t-body-sm" style={{ margin: 0, maxWidth: "80ch", color: "var(--ink-3)" }}>
-        Of {core.checkable} confident major-regulator claims the frozen assay could check, {core.refuted} were
-        contradicted: {pct(core.contradiction_rate)}, 95% CI {pct(core.ci95[0])} to {pct(core.ci95[1])}
-        {current ? ` (a fresh Claude Opus 4.8 run: ${pct(current.contradiction_rate)})` : ""}. Famous checkpoint and
-        cytokine genes are overclaimed {pct(eff.famous_overclaim_rate)}, far above the {pct(eff.baseline_overclaim_rate)}
-        {" "}rate on genes the data classes as non-regulators, one-sided permutation p {eff.permutation_p_one_sided}.
+    <section style={{ display: "grid", gap: 12, padding: "18px 0", borderTop: "1px solid var(--rule)" }}>
+      <div className="t-label">AI biology claim reliability benchmark</div>
+      <h2 className="h2-app" style={{ margin: 0, maxWidth: "24ch" }}>Half of confident AI claims are contradicted by the data.</h2>
+      <p className="t-body-sm" style={{ margin: 0, maxWidth: "60ch", color: "var(--ink-3)" }}>
+        {core.refuted} of {core.checkable} checkable claims ({pct(core.contradiction_rate)}, 95% CI {pct(core.ci95[0])} to {pct(core.ci95[1])})
+        {current ? `. A fresh Claude Opus 4.8 run: ${pct(current.contradiction_rate)}` : ""}. Every model overclaims; the strongest still 2 in 5.
       </p>
       {perModel.length > 1 && (
-        <div style={{ display: "grid", gap: 5 }}>
-          <div className="t-label">Every model contradicts about half its own confident claims; the strongest still 2 in 5</div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {perModel.map((m: any, i: number) => (
-              <span key={i} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>
-                {m.label}: {pct(m.core_contradiction.contradiction_rate)} ({m.core_contradiction.refuted}/{m.core_contradiction.checkable})
-              </span>
-            ))}
-            {current && (
-              <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
-                Opus 4.8 fresh run: {pct(current.contradiction_rate)} ({current.refuted}/{current.checkable})
-              </span>
-            )}
-          </div>
-          <p className="t-caption" style={{ margin: "2px 0 0", color: "var(--ink-4)" }}>
-            A stronger model does not close the gap. Reprocessed from the committed frozen runs, no model in the loop.
-          </p>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          {perModel.map((m: any, i: number) => (
+            <span key={i} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>{m.label} {pct(m.core_contradiction.contradiction_rate)}</span>
+          ))}
+          {current && <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>Opus 4.8 fresh {pct(current.contradiction_rate)}</span>}
         </div>
       )}
-      {bins.length > 0 && (
-        <div style={{ display: "grid", gap: 5 }}>
-          <div className="t-label">Contradiction rate by the model&apos;s stated confidence</div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {bins.map((b: any, i: number) => (
-              <span key={i} className="chip" style={{ ["--tone" as any]: b.contradiction_rate >= 0.7 ? "var(--cinnabar)" : "var(--stone)" }}>
-                conf {b.stated_confidence}: {pct(b.contradiction_rate)} (n {b.n})
-              </span>
-            ))}
-          </div>
-          <p className="t-caption" style={{ margin: "2px 0 0", color: "var(--ink-4)" }}>
-            Higher stated confidence does not lower the contradiction rate. Confidence is not a safety signal.
-            {cal ? ` Across these ${cal.n} claims, stated confidence averages ${pct(cal.mean_stated_confidence)} while only ${pct(cal.correct_rate)} survive the data, an overconfidence gap of ${(cal.overconfidence_gap * 100).toFixed(1)} points (point-biserial r ${cal.point_biserial_r}).` : ""}
-          </p>
-        </div>
-      )}
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <a className="btn btn-secondary btn-sm" href="/data/reliability_benchmark.json">Open benchmark artifact</a>
-        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>./prospect reliability-benchmark</span>
-      </div>
-      <div className="t-caption" style={{ color: "var(--ink-4)" }}>
-        Refusal ladder: <a href="/data/overclaim_counter.json" style={{ color: "inherit" }}>/data/overclaim_counter.json</a>, <span className="t-mono">./prospect overclaim-counter</span>
-      </div>
+      <p className="t-body-sm" style={{ margin: 0, maxWidth: "60ch", color: "var(--ink-3)" }}>
+        Famous genes are called major regulators {pct(eff.famous_overclaim_rate)} of the time, versus {pct(eff.baseline_overclaim_rate)} for
+        data-confirmed non-regulators (permutation p {eff.permutation_p_one_sided}). Stated confidence does not track correctness
+        {cal ? `, overshooting the true rate by ${(cal.overconfidence_gap * 100).toFixed(1)} points` : ""}.
+      </p>
+      <Reproduce>
+        <div><a href="/data/reliability_benchmark.json" style={{ color: "inherit" }}>/data/reliability_benchmark.json</a> · <span className="t-mono">./prospect reliability-benchmark</span></div>
+        <div><a href="/data/overclaim_counter.json" style={{ color: "inherit" }}>/data/overclaim_counter.json</a> · <span className="t-mono">./prospect overclaim-counter</span></div>
+      </Reproduce>
     </section>
   );
 }
@@ -1785,109 +1706,72 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
     <div style={{ display: "grid", gap: 30 }}>
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Evidence</h2>
-        <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          Five signed CD4+ findings establish the frozen evidence graph. A separately pre-registered comparison across
-          79 shared primary-CD4 perturbations tests whether broad activation reach carries across studies. Dataset-level
-          comparability and missing coverage remain visible, and every new result stays proposal-only.
+        <p className="reading" style={{ maxWidth: "56ch", fontSize: "1rem" }}>
+          What the frozen data shows, and where Prospect limits its own claims.
         </p>
       </div>
       <ReliabilityBenchmark />
       {d.gse278572_comparator && (
         <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 10 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-            <div>
-              <div className="t-label">Prospect corrected itself</div>
-              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>MED12 qualifies the Rest-reach interpretation.</h2>
-            </div>
-            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
-              {d.gse278572_comparator.status.replace(/_/g, " ")}
-            </span>
-          </div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
-            An independently frozen GSE278572 comparison covers {d.gse278572_comparator.comparison.prospect_overlap} overlapping regulators.
-            High resting reach is evidence against activation specificity, but is not sufficient by itself to label a gene housekeeping
-            or an essentiality artifact. MED12 is the one pre-registered qualification. This remains accepted=false.
+          <div className="t-label">Prospect corrected itself</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>MED12 qualifies Prospect&apos;s own read.</h2>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "60ch", color: "var(--ink-3)" }}>
+            A separately frozen GSE278572 comparison shows MED12&apos;s high resting reach argues against activation specificity.
+            Prospect flags its own overreach and keeps it accepted=false.
           </p>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <a className="btn btn-secondary btn-sm" href="/data/gse278572_comparator.json">Open corrective proposal</a>
-            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-              python frontier/gse278572_comparator.py --check
-            </span>
-          </div>
+          <Reproduce>
+            <div><a href="/data/gse278572_comparator.json" style={{ color: "inherit" }}>/data/gse278572_comparator.json</a> · <span className="t-mono">python frontier/gse278572_comparator.py --check</span></div>
+          </Reproduce>
         </section>
       )}
       {d.gse271788_calibration && (
-        <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-            <div>
-              <div className="t-label">Independent primary-CD4 calibration</div>
-              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Broad perturbation reach carries across studies, with limits.</h2>
-            </div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
-                broad reach: {d.gse271788_calibration.status.replace(/_/g, " ")}
-              </span>
-              {d.gse271788_activation_specificity && (
-                <span className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>
-                  activation-specific: {d.gse271788_activation_specificity.status.replace(/_/g, " ")}
-                </span>
-              )}
-            </div>
-          </div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
-            Across {d.gse271788_calibration.primary_result.n} shared perturbations, Marson Stim48hr reach and the independent
-            day-eight activated-CD4 knockout reach have Spearman rho {d.gse271788_calibration.primary_result.spearman_rho.toFixed(3)}.
-            The 10,000-permutation P value is {d.gse271788_calibration.primary_result.permutation_p_value_one_sided.toFixed(4)};
-            all three pre-registered adversarial kills pass. Different activation times keep this cross-context evidence,
-            not condition-level equivalence. accepted=false.
+        <section style={{ display: "grid", gap: 10, padding: "18px 0", borderTop: "1px solid var(--rule)" }}>
+          <div className="t-label">Independent primary-CD4 calibration</div>
+          <h2 className="h2-app" style={{ margin: 0, maxWidth: "28ch" }}>Broad reach carries across studies; the narrow claim does not.</h2>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "60ch", color: "var(--ink-3)" }}>
+            Across {d.gse271788_calibration.primary_result.n} shared perturbations, broad reach agrees with an independent study
+            (Spearman rho {d.gse271788_calibration.primary_result.spearman_rho.toFixed(3)}, p {d.gse271788_calibration.primary_result.permutation_p_value_one_sided.toFixed(4)}, all three kills pass).
+            The narrower activation-specific claim fails four of five kills, so it does not clear the pre-registered bar. accepted=false.
           </p>
-          {d.gse271788_activation_specificity && (
-            <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
-              The committed sensitivity asks the narrower question. After controlling for Rest reach and study batch,
-              the partial rho is {d.gse271788_activation_specificity.primary_result.partial_spearman_rho.toFixed(3)}
-              {" "}with permutation P {d.gse271788_activation_specificity.primary_result.permutation_p_value_one_sided.toFixed(3)}.
-              Four of five adversarial kills fail, so incremental activation-specific reach does not clear the pre-registered bar.
-            </p>
+          <Reproduce>
+            <div><a href="/data/gse271788_calibration.json" style={{ color: "inherit" }}>/data/gse271788_calibration.json</a> · <a href="/data/gse271788_activation_specificity.json" style={{ color: "inherit" }}>/data/gse271788_activation_specificity.json</a></div>
+            <div><span className="t-mono">python frontier/gse271788_activation_specificity.py --check</span></div>
+          </Reproduce>
+        </section>
+      )}
+      <details className="reproduce" style={{ borderTop: "1px solid var(--rule)", paddingTop: 16 }}>
+        <summary>The five signed CD4+ findings, in detail</summary>
+        <div style={{ display: "grid", gap: 26, marginTop: 16 }}>
+          {d.finding_index && <FindingsIndex index={d.finding_index} />}
+          {order.map((k) => {
+            const f = byKind[k] as Finding | undefined;
+            if (!f) return null;
+            return (
+              <section key={k} style={{ display: "grid", gap: 12 }}>
+                <FindingHead f={f} />
+                {k === "activation_module" && <ActivationEvidence f={f} />}
+                {k === "regulator_vs_effector" && <EffectorEvidence f={f} d={d} onGene={onGene} />}
+                {k === "essentiality_artifact" && <EssentialityEvidence f={f} />}
+                {k === "cross_cell_type_transfer" && <TransferEvidence f={f} onGene={onGene} />}
+                {k === "regulon_recovery" && <RegulonEvidence f={f} onGene={onGene} />}
+              </section>
+            );
+          })}
+          {d.surprises.untested_famous?.length > 0 && (
+            <section style={{ display: "grid", gap: 8 }}>
+              <div className="t-label">Famous genes the screen could not test</div>
+              <p className="t-body-sm" style={{ maxWidth: "66ch", margin: 0 }}>
+                No effective knockdown, so the assay is silent on these, honest gaps, not evidence of absence.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
+                {d.surprises.untested_famous.map((x: any) => (
+                  <span key={x.gene} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>{x.gene}</span>
+                ))}
+              </div>
+            </section>
           )}
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <a className="btn btn-secondary btn-sm" href="/data/gse271788_calibration.json">Open calibration proposal</a>
-            {d.gse271788_activation_specificity && (
-              <a className="btn btn-secondary btn-sm" href="/data/gse271788_activation_specificity.json">Open sensitivity proposal</a>
-            )}
-            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-              python frontier/gse271788_activation_specificity.py --check
-            </span>
-          </div>
-        </section>
-      )}
-      {d.finding_index && <FindingsIndex index={d.finding_index} />}
-      {order.map((k) => {
-        const f = byKind[k] as Finding | undefined;
-        if (!f) return null;
-        return (
-          <section key={k} style={{ display: "grid", gap: 12 }}>
-            <FindingHead f={f} />
-            {k === "activation_module" && <ActivationEvidence f={f} />}
-            {k === "regulator_vs_effector" && <EffectorEvidence f={f} d={d} onGene={onGene} />}
-            {k === "essentiality_artifact" && <EssentialityEvidence f={f} />}
-            {k === "cross_cell_type_transfer" && <TransferEvidence f={f} onGene={onGene} />}
-            {k === "regulon_recovery" && <RegulonEvidence f={f} onGene={onGene} />}
-          </section>
-        );
-      })}
-      {d.surprises.untested_famous?.length > 0 && (
-        <section style={{ display: "grid", gap: 8 }}>
-          <div className="t-label">Famous genes the screen could not test</div>
-          <p className="t-body-sm" style={{ maxWidth: "66ch", margin: 0 }}>
-            No effective knockdown, so the assay is silent on these, honest gaps, not evidence of absence.
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
-            {d.surprises.untested_famous.map((x: any) => (
-              <span key={x.gene} className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{x.gene}</span>
-            ))}
-          </div>
-        </section>
-      )}
+        </div>
+      </details>
     </div>
   );
 }

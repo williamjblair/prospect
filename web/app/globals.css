@@ -1707,6 +1707,24 @@ a:hover > .card-paper {
   min-width: max-content;
 }
 
+.reproduce {
+  margin-top: 6px;
+}
+.reproduce > summary {
+  cursor: pointer;
+  width: max-content;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  color: var(--ink-4);
+  padding: 2px 0;
+}
+.reproduce > summary:hover {
+  color: var(--ink-2);
+}
+.reproduce[open] > summary {
+  margin-bottom: 4px;
+}
+
 .console-status {
   display: inline-flex;
   align-items: center;
