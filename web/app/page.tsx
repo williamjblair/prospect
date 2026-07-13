@@ -719,17 +719,37 @@ function ProspectAcceptanceWorkbench() {
   const [phenotype, setPhenotype] = useState("activation_transcriptome");
   const [publishToLedger, setPublishToLedger] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fromFallback, setFromFallback] = useState(false);
 
   const run = async () => {
     const localService = typeof window !== "undefined" && ["localhost", "127.0.0.1"].includes(window.location.hostname)
       ? "http://127.0.0.1:8130"
       : "";
     const service = PUBLIC_ACCEPTANCE_SERVICE_URL || localService;
+    setLoading(true);
+    // If the hosted service is unreachable or unset, degrade to the committed
+    // frozen fixture — the identical verdict the service returns for the default
+    // example — rather than a bare error. The demo never dead-ends, and the
+    // note below is explicit that this is the canned example, not a live check.
+    const loadFallback = async () => {
+      try {
+        const res = await fetch("/data/acceptance_fallback.json");
+        if (!res.ok) throw new Error("fallback missing");
+        setResult((await res.json()) as AcceptanceResult);
+        setFromFallback(true);
+        setError("");
+        setCopied(false);
+      } catch {
+        setResult(null);
+        setFromFallback(false);
+        setError("The hosted acceptance service is unreachable.");
+      }
+    };
     if (!service) {
-      setError("The hosted acceptance service is not configured.");
+      await loadFallback();
+      setLoading(false);
       return;
     }
-    setLoading(true);
     try {
       const response = await fetch(`${service}/submit`, {
         method: "POST",
@@ -753,11 +773,11 @@ function ProspectAcceptanceWorkbench() {
       const next = await response.json();
       if (!response.ok || next.error) throw new Error(next.error || `submission failed (${response.status})`);
       setResult(next as AcceptanceResult);
+      setFromFallback(false);
       setError("");
       setCopied(false);
-    } catch (err) {
-      setResult(null);
-      setError(err instanceof Error ? err.message : "submission failed");
+    } catch {
+      await loadFallback();
     } finally {
       setLoading(false);
     }
@@ -841,6 +861,11 @@ function ProspectAcceptanceWorkbench() {
         <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)", display: "grid", gap: 10 }}>
           {result ? (
             <>
+              {fromFallback && (
+                <p className="t-caption" style={{ margin: 0, color: "var(--ink-3)" }}>
+                  Hosted service unreachable — showing the identical frozen verdict for the default example from a committed fixture. Run <span className="t-mono">./prospect serve-acceptance</span> locally to check your own input.
+                </p>
+              )}
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                 <span className="t-mono" style={{ fontWeight: 700 }}>{result.prospect.receipt_id}</span>
                 <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>accepted=false</span>
