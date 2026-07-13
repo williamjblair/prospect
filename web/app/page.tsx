@@ -471,27 +471,6 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   );
 }
 
-function PGGT1BLeadPanel({ evidence }: { evidence: DefendedEvidencePacket }) {
-  const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
-  return (
-    <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 12 }}>
-      <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
-        <div className="t-label">PGGT1B, mechanism first</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
-        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-          Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
-          mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
-          specificity remains open.
-        </p>
-      </div>
-      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-        <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">Open PGGT1B artifact</a>
-        <span className="t-mono fz-2xs" style={{ color: "var(--ink-4)"}}>./prospect pggt1b-defended-evidence</span>
-      </div>
-    </section>
-  );
-}
-
 function ClaudeScienceAcceptancePanel({ demo, setTab }: { demo: ClaudeScienceAcceptanceDemo; setTab: (tab: string) => void }) {
   const counts = demo.prospect.typed_status_counts;
   const examples = {
@@ -1122,9 +1101,8 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
     <div className="frontier-pane" style={{ display: "grid", gap: 24 }}>
       <div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Receipts</h2>
-        <p className="reading" style={{ maxWidth: "58ch", fontSize: "1rem" }}>
-          Every submitted claim keeps its evidence, replay command, typed status, and human-only acceptance step.
-          This is the audit trail behind the simple driver/passenger result.
+        <p className="reading" style={{ maxWidth: "56ch", fontSize: "1rem" }}>
+          The audit trail behind the result. A model can assert anything; an accepted record needs a frozen replay and a human key.
         </p>
       </div>
       <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
@@ -1132,13 +1110,18 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         <div><div className="stat-figure" style={{ color: "var(--cinnabar)" }}>{fmt(d.frontier.n_contra)}</div><div className="t-label">contradictions</div></div>
         <div><div className="stat-figure">{fmt(d.frontier.n_open)}</div><div className="t-label">open questions</div></div>
         <div style={{ marginLeft: "auto", textAlign: "right" }} className="t-caption">
-          root <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{d.frontier.root}</span><br />
+          root <span className="t-mono">{d.frontier.root}</span><br />
           by {d.frontier.signer} · no model in the trust path
         </div>
       </div>
 
       {d.receipts && d.receipts.length > 0 && (
-        <Receipts receipts={d.receipts} bridge={d.receipt_bridge} externalDemo={d.external_run_receipt_demo} />
+        <details className="reproduce">
+          <summary>How a claim becomes a receipt, and an external-producer example</summary>
+          <div style={{ marginTop: 12 }}>
+            <Receipts receipts={d.receipts} bridge={d.receipt_bridge} externalDemo={d.external_run_receipt_demo} />
+          </div>
+        </details>
       )}
 
       <div>
@@ -1173,10 +1156,10 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
 
 const FINDING_META: Record<string, { n: string; title: string; tone: string }> = {
   activation_module: { n: "01", title: "The activation module, rebuilt from perturbation", tone: "var(--moss)" },
-  regulator_vs_effector: { n: "02", title: "Driver claim versus assay response", tone: "var(--field-blue)" },
-  essentiality_artifact: { n: "03", title: "Rest reach is not activation specificity", tone: "var(--brass)" },
-  cross_cell_type_transfer: { n: "04", title: "Cross-cell-context comparison", tone: "var(--field-blue)" },
-  regulon_recovery: { n: "05", title: "Regulon recovery and sign disagreements", tone: "var(--brass-gold)" },
+  regulator_vs_effector: { n: "02", title: "Driver claim versus assay response", tone: "var(--moss)" },
+  essentiality_artifact: { n: "03", title: "Rest reach is not activation specificity", tone: "var(--moss)" },
+  cross_cell_type_transfer: { n: "04", title: "Cross-cell-context comparison", tone: "var(--moss)" },
+  regulon_recovery: { n: "05", title: "Regulon recovery and sign disagreements", tone: "var(--moss)" },
 };
 
 const FINDING_PUBLIC_CLAIM: Record<string, string> = {
@@ -1435,53 +1418,47 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
     <div style={{ display: "grid", gap: 24 }}>
       <div>
         <div className="t-label" style={{ marginBottom: 6 }}>Autonomous agent · Claude Opus 4.8</div>
-        <h2 className="h1-display" style={{ marginBottom: 6 }}>Lead hypothesis</h2>
-        <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          PGGT1B is the strongest caveated hypothesis Prospect surfaced for follow-up. A Claude Opus agent
-          (<span className="t-mono">{a.model}</span>) searched, but every supporting fact below is a deterministic
-          lookup against released data.
+        <h2 className="h1-display" style={{ marginBottom: 6 }}>The Claude Opus agent&apos;s one lead.</h2>
+        <p className="reading" style={{ maxWidth: "60ch", fontSize: "1rem" }}>
+          A Claude Opus agent searched for an under-appreciated CD4+ regulator over {a.tool_calls} frozen-data
+          tool calls. Every fact below is a deterministic lookup; no model is in the trust path.
         </p>
-      </div>
-      <div className="card-paper" style={{ padding: "14px 18px", background: "var(--lacquer)", border: "none" }}>
-        <div className="t-label" style={{ color: "var(--stone)", marginBottom: 6 }}>Goal</div>
-        <div className="t-body-sm" style={{ color: "var(--ink-on)" }}>{a.goal}</div>
-        <div className="t-caption" style={{ color: "var(--stone)", marginTop: 8 }}>
-          Search provenance: <span className="t-mono">{a.model}</span> · {a.tool_calls} frozen-data calls over {a.rounds} rounds · ${a.cost_usd}
-        </div>
       </div>
 
       {h && (
-        <div className="card-paper" style={{ padding: "18px 20px", borderColor: "var(--moss)" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+        <div className="card-paper" style={{ padding: "18px 20px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
             <span className="t-label" style={{ color: "var(--moss)" }}>Proposal worth testing</span>
             <button onClick={() => onGene(h.gene)} className="t-mono" style={{ fontSize: 17, fontWeight: 700, background: "transparent", color: "var(--ink)" }}>{h.gene}</button>
+            <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)", marginLeft: "auto" }}>accepted=false</span>
           </div>
-          <p className="t-lede" style={{ fontSize: "1.05rem", marginBottom: 10 }}>{h.hypothesis}</p>
-          <div className="t-label" style={{ marginBottom: 6 }}>Reproduced evidence</div>
-          <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "grid", gap: 4 }}>
+          <p className="t-lede" style={{ fontSize: "1.05rem", marginBottom: 12 }}>{h.hypothesis}</p>
+          <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "grid", gap: 5 }}>
             {h.evidence.map((e, i) => (
               <li key={i} className="t-body-sm" style={{ display: "flex", gap: 8 }}>
                 <ShieldCheck size={14} style={{ color: "var(--moss)", flexShrink: 0, marginTop: 3 }} /> {e}
               </li>
             ))}
           </ul>
-          <p className="t-caption" style={{ marginTop: 10 }}>
-            <b>Why novel:</b> {h.why_novel}
-          </p>
-          <p className="t-caption" style={{ marginTop: 8 }}>
-            proposal id <span className="t-mono" style={{ color: "var(--gold-ink)" }}>{a.delta_id}</span>
-            {a.signer ? ` · signed by ${a.signer}` : ""} · no model in the trust path
-          </p>
+          <Reproduce>
+            <div><a href="/data/pggt1b_defended_evidence.json" style={{ color: "inherit" }}>/data/pggt1b_defended_evidence.json</a> · <span className="t-mono">./prospect pggt1b-defended-evidence</span></div>
+            <div>Goal: {a.goal}. Proposal {a.delta_id}{a.signer ? `, signed by ${a.signer}` : ""}, {a.rounds} rounds, ${a.cost_usd}. Why novel: {h.why_novel}</div>
+          </Reproduce>
         </div>
       )}
 
-      {d.pggt1b_defended_evidence && <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} />}
+      {d.pggt1b_deep_dive && (
+        <details className="reproduce">
+          <summary>PGGT1B, in detail</summary>
+          <div style={{ marginTop: 12 }}>
+            <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />
+          </div>
+        </details>
+      )}
 
-      {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
-
-      <div>
-        <div className="t-label" style={{ marginBottom: 8 }}>Search trail, every step a frozen-data tool call</div>
-        <div className="card-paper" style={{ padding: 0, overflow: "hidden" }}>
+      <details className="reproduce">
+        <summary>Search trail, {a.tool_calls} frozen-data tool calls</summary>
+        <div className="card-paper" style={{ padding: 0, overflow: "hidden", marginTop: 12 }}>
           {a.transcript.map((t, i) => (
             <div key={i} style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 10, alignItems: "center",
               padding: "7px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none" }}>
@@ -1494,7 +1471,7 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
             </div>
           ))}
         </div>
-      </div>
+      </details>
     </div>
   );
 }
