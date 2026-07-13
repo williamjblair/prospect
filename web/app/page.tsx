@@ -1132,9 +1132,9 @@ function Frontier({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
               style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", textAlign: "left",
                 padding: "8px 14px", borderTop: i ? "1px solid var(--rule-faint)" : "none", background: "transparent",
                 ["--state" as any]: "var(--cinnabar)" } as any}>
-              <span className="t-mono" style={{ width: 84, fontWeight: 650 }}>{x.gene}</span>
-              <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>{x.verdict}</span>
-              <span className="t-body-sm" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <span className="t-mono" style={{ width: 84, flexShrink: 0, fontWeight: 650 }}>{x.gene}</span>
+              <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)", flexShrink: 0 }}>{x.verdict}</span>
+              <span className="t-body-sm" style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--ink-2)" }}>
                 {x.claimant}: “{x.claim}”
               </span>
             </button>
