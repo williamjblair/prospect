@@ -1637,6 +1637,17 @@ a:hover > .card-paper {
   color: var(--ink);
 }
 
+.console-brand > span:not(.console-mark) {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.console-brand-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .console-brand-sub {
   display: block;
   margin-top: 3px;
@@ -1644,6 +1655,8 @@ a:hover > .card-paper {
   font-size: 10.5px;
   line-height: 1.2;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .console-nav {
