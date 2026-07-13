@@ -2,8 +2,8 @@
 
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
-Silent screen-capture backup of this walkthrough: [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4)
-(36s, records the live site through the arc below).
+Silent captioned walkthrough: [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4)
+(53s, records the live site through the arc below with on-screen title cards).
 
 Clean deterministic run:
 

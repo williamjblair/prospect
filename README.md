@@ -121,7 +121,7 @@ python receipt/replay_proposal.py <hosted-proposal-url>
 
 - Frozen released data, never a live differential-expression recompute.
 - Typed status only, no wet-lab or clinical truth claim.
-- Content-addressed replay: `./prospect verify` re-derives 53k objects with zero drift.
+- Content-addressed replay: `./prospect verify` re-derives 53,485 objects with zero drift.
 - Human Ed25519 signature over accepted records. No model makes the final call.
 - Mutation pack floor: zero tampered claim is admitted.
 - MCP bridge and acceptance service submit proposals only.

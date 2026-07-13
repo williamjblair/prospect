@@ -438,6 +438,31 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         </p>
       </header>
 
+      {d.agent && (
+        <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+            <div>
+              <div className="t-label">How Claude is used</div>
+              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Claude proposes. A frozen gate and a human key accept.</h2>
+            </div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>no model in the trust path</span>
+          </div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "80ch", color: "var(--ink-3)" }}>
+            Claude proposes gene lists, searches the literature, and drafts hypotheses. Frozen code replays every claim
+            against released data, and a human Ed25519 key decides what becomes accepted state. The model never sits in the trust path.
+          </p>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <span className="t-body-sm" style={{ color: "var(--ink-2)" }}>
+              An autonomous Claude Opus agent (<span className="t-mono">{d.agent.model}</span>) ran {d.agent.tool_calls} frozen-data
+              tool calls over {d.agent.rounds} rounds and converged on {d.agent.hypothesis?.gene ?? "a lead"}, proposal-only.
+            </span>
+            <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>
+              See the agent&apos;s {d.agent.tool_calls} tool calls
+            </button>
+          </div>
+        </section>
+      )}
+
       <ProspectAcceptanceWorkbench />
 
       {d.claude_science_acceptance_demo && (
@@ -1577,17 +1602,19 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <div>
+        <div className="t-label" style={{ marginBottom: 6, color: "var(--field-blue)" }}>Autonomous agent · Claude Opus 4.8</div>
         <h2 className="h1-display" style={{ marginBottom: 6 }}>Lead hypothesis</h2>
         <p className="reading" style={{ maxWidth: "62ch", fontSize: "1rem" }}>
-          PGGT1B is the strongest caveated hypothesis Prospect surfaced for follow-up. Claude helped search,
-          but every supporting fact below is a deterministic lookup against released data.
+          PGGT1B is the strongest caveated hypothesis Prospect surfaced for follow-up. A Claude Opus agent
+          (<span className="t-mono">{a.model}</span>) searched, but every supporting fact below is a deterministic
+          lookup against released data.
         </p>
       </div>
       <div className="card-paper" style={{ padding: "14px 18px", background: "var(--lacquer)", border: "none" }}>
         <div className="t-label" style={{ color: "var(--stone)", marginBottom: 6 }}>Goal</div>
         <div className="t-body-sm" style={{ color: "var(--ink-on)" }}>{a.goal}</div>
         <div className="t-caption" style={{ color: "var(--stone)", marginTop: 8 }}>
-          Search provenance: {a.tool_calls} frozen-data calls over {a.rounds} rounds · ${a.cost_usd}
+          Search provenance: <span className="t-mono">{a.model}</span> · {a.tool_calls} frozen-data calls over {a.rounds} rounds · ${a.cost_usd}
         </div>
       </div>
 

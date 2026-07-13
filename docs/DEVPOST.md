@@ -10,6 +10,10 @@ Signed root: `root_a8b0dcdd4024e12f`
 > perturbation data, separates candidate drivers from passengers, and keeps every result
 > `accepted=false` until a human key signs.
 
+![Paste a claim, get a signed receipt, accepted=false](assets/prospect_demo.gif)
+
+A 53-second captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
+
 ![The trust boundary](assets/trust_boundary.png)
 
 ## Inspiration

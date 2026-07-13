@@ -35,8 +35,8 @@ does the claim survive an independent frozen perturbation gate, and should it be
 - Real Claude Science export: 52 genes typed by Prospect. Live proposal
   `proposal_f07c2c5c7578bbdb`, receipt `rcpt_f844b7e8206d9a8d`.
 - Associative-signature split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, 15 `not_assayed`.
-- Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data,
-  64% on famous checkpoints and cytokines.
+- Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data
+  (46 of 96 comparable claims), 64% on famous checkpoints and cytokines.
 - PGGT1B: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS
   support, STRING partners including FNTA and RABGGTA, ChEMBL target `CHEMBL4135`, and a primary
   CD4+ CRISPRi protocol with at least 3 donors.
@@ -58,6 +58,10 @@ does the claim survive an independent frozen perturbation gate, and should it be
 Ceiling: computation over released data, not wet-lab or clinical truth.
 
 ![Prospect registered in Claude Science](assets/claude_science_prospect_connector.png)
+
+![The kept PGGT1B lead, mechanism first](assets/screenshot_04_pggt1b_lead.png)
+
+![The receipts audit trail and signed root](assets/screenshot_05_receipts.png)
 
 ## Judge Path
 

@@ -73,7 +73,7 @@
   <!-- Accepted terminal -->
   <rect x="64" y="486" width="1152" height="84" rx="10" fill="#ffffff" stroke="#e4ddd0" stroke-width="1.5"/>
   <text x="88" y="522" font-family="Georgia, serif" font-size="20" fill="#2f6b4a">Accepted state · a signed shared record</text>
-  <text x="88" y="550" font-size="14.5" fill="#6f6a60">Only reachable across the boundary. The receipt keeps its evidence, its replay command, and its human sign-off — anyone can re-derive it.</text>
+  <text x="88" y="550" font-size="14.5" fill="#6f6a60">Only reachable across the boundary. The receipt keeps its evidence, its replay command, and its human sign-off. Anyone can re-derive it.</text>
   <text x="1192" y="536" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#8a8577" text-anchor="end">root_a8b0dcdd4024e12f</text>
 
   <!-- boundary arrow to accepted -->
