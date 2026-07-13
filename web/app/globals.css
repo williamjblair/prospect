@@ -120,7 +120,7 @@
      warm grey. */
   --paper: var(--paper-ivory);
   --paper-raised: oklch(99.2% 0.004 248); /* cool white sheets, lift */
-  --paper-recessed: oklch(95.7% 0.007 248); /* cool recessed well */
+  --paper-recessed: oklch(96.5% 0.006 248); /* cool recessed well, barely inset */
   --paper-sumi: oklch(93.2% 0.011 250); /* the lab console frame (shell canvas) */
   --paper-hover: oklch(94.8% 0.008 248);
 
@@ -818,7 +818,7 @@ body {
 .btn-secondary {
   background: var(--paper);
   color: var(--ink);
-  border-color: var(--border);
+  border-color: color-mix(in oklab, var(--border) 62%, transparent);
 }
 .btn-secondary:hover {
   background: var(--paper-hover);
@@ -1590,9 +1590,9 @@ a:hover > .card-paper {
   /* Clean, quiet surface with a single soft atmospheric wash at the top,
      no grid texture. Kawase, not graph paper. */
   background:
-    radial-gradient(140% 90% at 50% -20%, color-mix(in oklab, var(--field-blue) 5%, transparent), transparent 62%),
+    radial-gradient(120% 520px at 50% -140px, color-mix(in oklab, var(--field-blue) 5%, transparent), transparent 72%),
     var(--paper);
-  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 .console-topbar {
@@ -1703,9 +1703,8 @@ a:hover > .card-paper {
   gap: 8px;
   align-items: center;
   justify-content: flex-end;
-  flex: 1 1 260px;
-  min-width: 0;
-  overflow-x: auto;
+  flex: 0 0 auto;
+  min-width: max-content;
 }
 
 .console-status {
@@ -2041,7 +2040,7 @@ kbd {
   .dark {
     --paper: var(--paper-ivory);
     --paper-raised: oklch(99.2% 0.004 248);
-    --paper-recessed: oklch(95.7% 0.007 248);
+    --paper-recessed: oklch(96.5% 0.006 248);
     --paper-sumi: oklch(93.2% 0.011 250);
     --paper-hover: oklch(94.8% 0.008 248);
     --ink: oklch(25% 0.03 262);

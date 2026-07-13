@@ -369,7 +369,6 @@ export default function Page() {
           })}
         </nav>
         <div className="console-actions">
-          <span className="console-status">accepted=false</span>
           <button onClick={goSearch} className="btn btn-secondary btn-sm">
             <Search /> <span className="fz-xs">Search a gene</span>
           </button>
@@ -382,6 +381,7 @@ export default function Page() {
           <span className="t-label">{label}</span>
           <span className="t-mono">root_a8b0dcdd4024e12f</span>
           <span className="t-caption">human_signature_required before acceptance</span>
+          <span className="console-status" style={{ marginLeft: "auto" }}>accepted=false</span>
         </div>
           {err ? (
             <div style={{ display: "grid", gap: 8, maxWidth: "48ch", paddingTop: 40 }}>
@@ -828,7 +828,7 @@ function ProspectAcceptanceWorkbench() {
           </p>
         </div>
 
-        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)", display: "grid", gap: 10 }}>
+        <div style={{ border: "1px solid var(--rule-faint)", borderRadius: "var(--radius-sm)", padding: "10px 11px", background: "var(--paper-recessed)", display: "grid", gap: 10, alignSelf: "start" }}>
           {result ? (
             <>
               {fromFallback && (
@@ -889,7 +889,7 @@ function ProspectAcceptanceWorkbench() {
               </p>
             </>
           ) : (
-            <div style={{ display: "grid", gap: 8, alignContent: "center", minHeight: 180 }}>
+            <div style={{ display: "grid", gap: 8, alignContent: "start" }}>
               <div className="t-label">No local setup required</div>
               <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
                 The same frozen rule is exposed by the hosted service and MCP tools. The browser contains no classifier or receipt hashing code.
