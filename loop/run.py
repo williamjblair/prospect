@@ -100,11 +100,12 @@ def main(argv=None):
     ap.add_argument("--batch", type=int, default=20)
     ap.add_argument("--out", default=None)
     ap.add_argument("--corpus", default=None, help="frozen benchmark_corpus.json - grade exactly these genes")
+    ap.add_argument("--tag", default=None, help="output tag override (default derived from model); use to avoid clobbering a historical run")
     a = ap.parse_args(argv)
     load_env()
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set. Put it in ~/personal/prospect/.env")
-    tag = tag_for(a.model)
+    tag = a.tag or tag_for(a.model)
     prefix = "bench" if a.corpus else "claims"
     out = a.out or os.path.join(ROOT, "examples", "data", f"{prefix}_{tag}.jsonl")
 

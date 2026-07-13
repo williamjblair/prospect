@@ -39,7 +39,9 @@ does the claim survive an independent frozen perturbation gate, and should it be
   `proposal_f07c2c5c7578bbdb`, receipt `rcpt_f844b7e8206d9a8d`.
 - Associative-signature split: 12 `evidence_attached`, 25 `associative_only`, 0 `contradicted`, 15 `not_assayed`.
 - Overclaiming benchmark: 48% of confident AI major-regulator claims contradicted by the measured data
-  (46 of 96 comparable claims), 64% on famous checkpoints and cytokines.
+  (46 of 96 comparable claims, 95% CI 38 to 58 percent), 64% on famous checkpoints and cytokines. Models
+  overclaim famous genes far above the 7% rate on data-confirmed non-regulators (permutation p 0.0001),
+  and stated confidence does not track correctness. See [RELIABILITY_BENCHMARK.md](RELIABILITY_BENCHMARK.md).
 - PGGT1B: 3,014 Stim8hr DE genes, 175 Rest DE genes, 1 K562 DE gene, Shifrut primary T-cell ORCS
   support, STRING partners including FNTA and RABGGTA, ChEMBL target `CHEMBL4135`, and a primary
   CD4+ CRISPRi protocol with at least 3 donors.

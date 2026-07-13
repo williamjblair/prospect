@@ -470,15 +470,21 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
           <div>
             <h2 className="h2-app" style={{ margin: 0 }}>The gate catches confident overclaims.</h2>
             <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-              {p.refuted} of {fmt(p.checkable)} comparable claims were contradicted by the frozen assay. Unassayed genes were excluded.
-              On famous checkpoints and cytokines the rate is {Math.round((p.effector_overclaim_rate || 0) * 100)}%.
+              {p.refuted} of {fmt(p.checkable)} comparable claims were contradicted by the frozen assay
+              (95% CI 38 to 58 percent). On famous checkpoints and cytokines the overclaim rate is{" "}
+              {Math.round((p.effector_overclaim_rate || 0) * 100)}%, far above the 7% rate on data-confirmed
+              non-regulators (permutation p = 0.0001). A model's stated confidence does not track whether
+              the data contradicts the claim.
             </p>
             <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginTop: 10 }}>
-              <a className="btn btn-secondary btn-sm" href="/data/overclaim_counter.json">Open benchmark artifact</a>
+              <a className="btn btn-secondary btn-sm" href="/data/reliability_benchmark.json">Open benchmark artifact</a>
               <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-                ./prospect overclaim-counter
+                ./prospect reliability-benchmark
               </span>
               <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("findings")}>Open evidence</button>
+            </div>
+            <div className="t-caption" style={{ color: "var(--ink-4)", marginTop: 4 }}>
+              Refusal ladder: <a href="/data/overclaim_counter.json" style={{ color: "inherit" }}>/data/overclaim_counter.json</a>, <span className="t-mono">./prospect overclaim-counter</span>
             </div>
           </div>
         </section>
@@ -525,17 +531,23 @@ function PGGT1BLeadPanel({
 }) {
   const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
   return (
-    <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "flex", gap: 18, alignItems: "start", justifyContent: "space-between", flexWrap: "wrap" }}>
-      <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
-        <div className="t-label">PGGT1B, mechanism first</div>
-        <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
-        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-          Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
-          mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
-          specificity remains open.
-        </p>
+    <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 18, alignItems: "start", justifyContent: "space-between", flexWrap: "wrap" }}>
+        <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
+          <div className="t-label">PGGT1B, mechanism first</div>
+          <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
+          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+            Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
+            mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
+            specificity remains open.
+          </p>
+        </div>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open the dossier</button>
       </div>
-      <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open the dossier</button>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">Open PGGT1B artifact</a>
+        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>./prospect pggt1b-defended-evidence</span>
+      </div>
     </section>
   );
 }

@@ -13,6 +13,7 @@
   prospect pggt1b-defended-evidence build the rank-1 PGGT1B defended-evidence packet
   prospect substrate-coverage build the context-aware substrate routing packet
   prospect overclaim-counter build the overclaim refusal counter packet
+  prospect reliability-benchmark  measure LLM biology-claim reliability with CIs + calibration (offline replay)
   prospect disease-overlay  attach external disease-genetics context (Open Targets)
   prospect pggt1b           build the PGGT1B evidence packet
   prospect lab-pack         build the wet-lab assay packet
@@ -68,6 +69,8 @@ def main():
         from frontier.substrate_coverage import main as substrate_coverage_main; sys.exit(substrate_coverage_main(rest))
     elif cmd == "overclaim-counter":
         from frontier.overclaim_counter import main as overclaim_counter_main; overclaim_counter_main()
+    elif cmd == "reliability-benchmark":
+        from frontier.reliability_benchmark import main as reliability_main; sys.exit(reliability_main(rest))
     elif cmd == "disease-overlay":
         from frontier.disease_genetics_overlay import main as disease_main; sys.exit(disease_main(rest))
     elif cmd == "pggt1b":

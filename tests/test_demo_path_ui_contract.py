@@ -24,7 +24,10 @@ def test_overview_headline_numbers_are_traceable():
     assert "p.refuted" in source
     assert "p.effector_overclaim_rate" in source
     assert "PGGT1B" in source
-    assert "Human acceptance boundary" in source
+    # The human acceptance boundary stays traceable on the Overview even after the standalone card
+    # was folded into the hero and the "How Claude is used" strip.
+    assert "human_signature_required" in source
+    assert "No model sits in the trust path" in source
 
 
 def test_overview_keeps_the_canonical_check_surface_first():
