@@ -6,6 +6,9 @@ Repo: [github.com/williamjblair/prospect](https://github.com/williamjblair/prosp
 
 Signed root: `root_a8b0dcdd4024e12f`
 
+Reproducibility: [REPRODUCIBILITY.md](REPRODUCIBILITY.md). All nine offline commands pass from a bare
+`git clone` + `pip install -r requirements.txt`, captured from a fresh clone.
+
 ## One Sentence
 
 Prospect tells biologists which genes in an AI-generated prediction list behave as causal drivers,

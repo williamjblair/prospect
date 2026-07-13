@@ -6,6 +6,7 @@ Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Demo script: [docs/DEMO.md](docs/DEMO.md). Judge handout: [docs/JUDGE_HANDOUT.md](docs/JUDGE_HANDOUT.md).
 Devpost writeup: [docs/DEVPOST.md](docs/DEVPOST.md). Silent walkthrough: [docs/assets/prospect_demo.mp4](docs/assets/prospect_demo.mp4).
+Reproducibility: [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) (nine offline commands pass from a bare clone).
 
 ![The trust boundary: a model produces everything on the left; only a human Ed25519 key produces acceptance.](docs/assets/trust_boundary.png)
 
