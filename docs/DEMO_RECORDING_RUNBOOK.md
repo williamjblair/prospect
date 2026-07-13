@@ -51,3 +51,13 @@ receipt or verdicts differ from the checked-in connector capture.
 ## Fixture fallback
 
 If the live Claude Science instance is unavailable, use the checked-in real export fixture under `examples/data/claude_science_real_export/` and the packet at `examples/data/claude_science_acceptance_demo.json`. Label it as a real export fixture, not a live session.
+
+## Pre-demo checks (last hour)
+
+Run these before judging. The Vercel site is the only hard single point of failure; every hosted dependency has a committed static fallback in the app.
+
+1. `curl -sI https://prospect-sepia-six.vercel.app/` returns 200.
+2. Pre-warm the acceptance service so the first paste is not a cold start: `curl -s -o /dev/null -w "%{http_code}\n" https://prospect-acceptance.fly.dev/` and the same for `/health` and one `/proposal/proposal_1530a2e027558a61`; expect 200 on each.
+3. On the live site, paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, `NOTGENE` and Submit. Confirm a receipt id, typed verdicts, `accepted=false`, and `human_signature_required`, then open the shareable proposal link and confirm the Fly page loads.
+4. Offline sanity, no network or key: `./prospect verify` and `./prospect reliability-benchmark` both pass.
+5. If the acceptance service is ever unreachable, the paste box shows the identical frozen verdict for the default example from the committed fixture with a visible note, so the demo never dead-ends. The fallback renders the default example, not custom pasted input.
