@@ -1875,6 +1875,24 @@ a:hover > .card-paper {
   }
 }
 
+/* Narrow phones: tighten the nav so all four sections fit without clipping. */
+@media (max-width: 430px) {
+  .console-nav {
+    gap: 3px;
+  }
+
+  .console-nav-item {
+    padding: 0 7px;
+    gap: 5px;
+    font-size: 12.5px;
+  }
+
+  .console-nav-item svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 /* Skeletons (the polish floor): async surfaces rest on paper-recessed,
    never grey, never shimmering. */
 .skeleton {
