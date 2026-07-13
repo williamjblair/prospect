@@ -428,7 +428,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom;
   const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
   return (
-    <div className="overview-stack" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 22 }}>
+    <div className="overview-stack" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 30 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
         <div className="t-label" style={{ marginBottom: 8 }}>Check your AI biology claim · CD4+ T cells</div>
         <h1 className="t-display" style={{ maxWidth: "19ch" }}>Which gene predictions behave as causal drivers?</h1>
@@ -439,27 +439,18 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
       </header>
 
       {d.agent && (
-        <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 12 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-            <div>
-              <div className="t-label">How Claude is used</div>
-              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Claude proposes. A frozen gate and a human key accept.</h2>
-            </div>
-            <span className="chip" style={{ ["--tone" as any]: "var(--field-blue)" }}>no model in the trust path</span>
+        <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "flex", gap: 18, alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap" }}>
+          <div>
+            <div className="t-label" style={{ marginBottom: 6 }}>How Claude is used</div>
+            <p className="t-body-sm" style={{ margin: 0, maxWidth: "74ch", color: "var(--ink-3)" }}>
+              Claude proposes and searches. An autonomous Claude Opus agent (<span className="t-mono">{d.agent.model}</span>) ran{" "}
+              {d.agent.tool_calls} frozen-data tool calls and converged on {d.agent.hypothesis?.gene ?? "a lead"}, proposal-only.
+              No model sits in the trust path.
+            </p>
           </div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "80ch", color: "var(--ink-3)" }}>
-            Claude proposes gene lists, searches the literature, and drafts hypotheses. Frozen code replays every claim
-            against released data, and a human Ed25519 key decides what becomes accepted state. The model never sits in the trust path.
-          </p>
-          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            <span className="t-body-sm" style={{ color: "var(--ink-2)" }}>
-              An autonomous Claude Opus agent (<span className="t-mono">{d.agent.model}</span>) ran {d.agent.tool_calls} frozen-data
-              tool calls over {d.agent.rounds} rounds and converged on {d.agent.hypothesis?.gene ?? "a lead"}, proposal-only.
-            </span>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>
-              See the agent&apos;s {d.agent.tool_calls} tool calls
-            </button>
-          </div>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>
+            See the {d.agent.tool_calls} tool calls
+          </button>
         </section>
       )}
 
@@ -494,7 +485,7 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
       )}
 
       {d.gse278572_comparator && (
-        <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 10 }}>
+        <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 10 }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
             <div>
               <div className="t-label">Prospect corrected itself</div>
@@ -521,19 +512,6 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
       {d.pggt1b_defended_evidence && (
         <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} setTab={setTab} />
       )}
-
-      <section className="card-paper" style={{ padding: "16px 18px", display: "flex", gap: 16, alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
-        <div>
-          <div className="t-label">Human acceptance boundary</div>
-          <p className="t-body-sm" style={{ margin: "5px 0 0", maxWidth: "66ch", color: "var(--ink-3)" }}>
-            The model proposes. Frozen code replays. A human Ed25519 key decides whether a proposal becomes shared state.
-          </p>
-        </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("frontier")}>Open receipts</button>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("atlas")}>Explore genes</button>
-        </div>
-      </section>
     </div>
   );
 }
@@ -545,65 +523,20 @@ function PGGT1BLeadPanel({
   evidence: DefendedEvidencePacket;
   setTab: (tab: string) => void;
 }) {
-  const kills = evidence.kill_attempts || [];
-  const survivedKills = kills.filter((kill) => kill.result === "survives_current_frozen_evidence").length;
   const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
   return (
-    <section className="card-paper" style={{ padding: "16px 18px", display: "grid", gap: 14 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "grid", gap: 6, maxWidth: "78ch" }}>
-          <div className="t-label">PGGT1B, mechanism first</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
-          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-            PGGT1B is not presented as settled biology. The kept hypothesis is narrower: perturbing PGGT1B moves the
-            stimulated primary CD4+ activation transcriptome in the frozen Marson table, with a prenylation mechanism
-            suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch specificity remains open.
-          </p>
-        </div>
-        <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>{evidence.status.replace(/_/g, " ")}</span>
+    <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "flex", gap: 18, alignItems: "start", justifyContent: "space-between", flexWrap: "wrap" }}>
+      <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
+        <div className="t-label">PGGT1B, mechanism first</div>
+        <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
+        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+          Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
+          mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
+          specificity remains open.
+        </p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
-        <TraceFact
-          label="frozen effect"
-          value="3,014"
-          body="strongest condition Stim8hr"
-        />
-        <TraceFact
-          label="mechanism"
-          value="FNTA/RABGGTA"
-          body={evidence.mechanism_dossier?.inference?.[0] || "prenylation and small-GTPase traffic"}
-        />
-        <TraceFact
-          label="kill attempts"
-          value={`${survivedKills || 3} non-fatal`}
-          body="technical confound, essentiality, and alternative mechanism checked; donor and batch specificity remains open"
-        />
-        <TraceFact
-          label="wet-lab ceiling"
-          value={`${evidence.wet_lab_protocol?.minimum_donors || 3}+ donors`}
-          body={evidence.honest_ceiling || "computation over released data, not wet-lab or clinical truth"}
-        />
-      </div>
-      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", borderTop: "1px solid var(--rule-faint)", paddingTop: 10 }}>
-        <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">
-          <ExternalLink /> <span>Open PGGT1B artifact</span>
-        </a>
-        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-          {evidence.reproduce_command || "./prospect pggt1b-defended-evidence"}
-        </span>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open dossier</button>
-      </div>
+      <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open the dossier</button>
     </section>
-  );
-}
-
-function TraceFact({ label, value, body }: { label: string; value: string; body: string }) {
-  return (
-    <div style={{ borderTop: "2px solid var(--rule)", paddingTop: 8, display: "grid", gap: 5 }}>
-      <div className="t-label">{label}</div>
-      <div className="stat-figure" style={{ fontSize: "1.35rem", lineHeight: 1.05 }}>{value}</div>
-      <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>{body}</p>
-    </div>
   );
 }
 
