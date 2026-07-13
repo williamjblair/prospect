@@ -13,6 +13,8 @@ confidence-calibration curve, and the whole pipeline replays offline from commit
 ./prospect reliability-benchmark      # reproduce every number below, no API key, no re-grading
 ```
 
+![The AI biology claim reliability benchmark](assets/reliability_benchmark.png)
+
 ## Method
 
 - **Ground truth:** the released Marson primary human CD4+ CRISPRi Perturb-seq DE table

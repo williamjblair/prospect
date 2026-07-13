@@ -23,14 +23,15 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 - Activation-specific sensitivity: partial rho 0.045808, permutation P 0.35246475, 1 of 5 kills passed, status orthogonal_phenotype
 - PGGT1B registry audit: 7 candidate accessions inspected, direct comparable replication found: no
 - PGGT1B remains proposal-only; independent batch-specificity kill not cleared, protocol minimum donors 3
-- 5 signed CD4+ findings and 6 receipts
+- 5 signed CD4+ findings and 7 receipts
 - 12 public data artifacts
+- Reliability benchmark: 46 of 96 confident major-regulator claims contradicted (47.9%, 95% CI 38 to 58 percent); famous genes overclaimed 63.9% versus 7.0% baseline, permutation p 0.0001; stated confidence does not track correctness
 
 ## Five-minute judge path
 
 1. Check: real Claude Science signature enters Prospect and receives typed causal verdicts.
 2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
-3. Check: inspect the 48 and 64 percent overclaiming benchmark.
+3. Check: inspect the reliability benchmark, about half of confident claims contradicted (95% CI 38 to 58 percent), 64% on famous genes at permutation p 0.0001.
 4. Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
 5. Evidence: inspect the broad 79-target calibration, then its activation-specific sensitivity that does not clear the locked bar.
 6. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.
@@ -64,6 +65,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 **Offline: a bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.**
 
 - `./prospect verify`
+- `./prospect reliability-benchmark`
 - `python benchmark/mutation_pack.py`
 - `python tests/test_skill_parity.py`
 - `python tests/test_marson.py`

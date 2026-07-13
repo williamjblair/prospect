@@ -43,9 +43,12 @@ def build_handout() -> dict[str, Any]:
     calibration = _json(DATA / "gse271788_calibration.json")
     activation_specificity = _json(DATA / "gse271788_activation_specificity.json")
     index = _json(DATA / "finding_index.json")
+    reliability = _json(DATA / "reliability_benchmark.json")
     findings = _jsonl(FRONTIER / "findings.jsonl")
     receipts = _jsonl(RECEIPTS)
     counts = claude_science["prospect"]["typed_status_counts"]
+    rel_core = reliability["metrics"]["contradiction_rate"]["pooled_core"]
+    rel_effect = reliability["famous_gene_effect"]
 
     return {
         "title": "Prospect one-page judge handout",
@@ -94,6 +97,14 @@ def build_handout() -> dict[str, Any]:
             "gse271788_sensitivity_kills_passed": sum(
                 1 for kill in activation_specificity["adversarial_kills"].values() if kill["passed"]
             ),
+            "reliability_refuted": rel_core["refuted"],
+            "reliability_checkable": rel_core["checkable"],
+            "reliability_contradiction_rate": rel_core["contradiction_rate"],
+            "reliability_ci_low": rel_core["ci95"][0],
+            "reliability_ci_high": rel_core["ci95"][1],
+            "reliability_famous_rate": rel_effect["famous_overclaim_rate"],
+            "reliability_baseline_rate": rel_effect["baseline_overclaim_rate"],
+            "reliability_famous_p": rel_effect["permutation_p_one_sided"],
         },
         "trust_boundary": {
             "model_role": "propose, search, draft",
@@ -104,7 +115,7 @@ def build_handout() -> dict[str, Any]:
         "judge_path": [
             "Check: real Claude Science signature enters Prospect and receives typed causal verdicts.",
             "Check: paste a gene list, DE table, or signature and copy the shareable result link.",
-            "Check: inspect the 48 and 64 percent overclaiming benchmark.",
+            "Check: inspect the reliability benchmark, about half of confident claims contradicted (95% CI 38 to 58 percent), 64% on famous genes at permutation p 0.0001.",
             "Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.",
             "Evidence: inspect the broad 79-target calibration, then its activation-specific sensitivity that does not clear the locked bar.",
             "Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.",
@@ -120,6 +131,7 @@ def build_handout() -> dict[str, Any]:
                 ),
                 "commands": [
                     "./prospect verify",
+                    "./prospect reliability-benchmark",
                     "python benchmark/mutation_pack.py",
                     "python tests/test_skill_parity.py",
                     "python tests/test_marson.py",
@@ -222,6 +234,14 @@ def _markdown(handout: dict[str, Any]) -> str:
         ),
         f"- {counts['findings']} signed CD4+ findings and {counts['receipts']} receipts",
         f"- {counts['public_artifacts']} public data artifacts",
+        (
+            f"- Reliability benchmark: {counts['reliability_refuted']} of {counts['reliability_checkable']} confident "
+            f"major-regulator claims contradicted ({round(counts['reliability_contradiction_rate']*100, 1)}%, "
+            f"95% CI {round(counts['reliability_ci_low']*100)} to {round(counts['reliability_ci_high']*100)} percent); "
+            f"famous genes overclaimed {round(counts['reliability_famous_rate']*100, 1)}% versus "
+            f"{round(counts['reliability_baseline_rate']*100, 1)}% baseline, permutation p {counts['reliability_famous_p']}; "
+            f"stated confidence does not track correctness"
+        ),
         "",
         "## Five-minute judge path",
         "",

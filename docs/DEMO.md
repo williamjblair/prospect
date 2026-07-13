@@ -42,8 +42,12 @@ Copy the shareable result link. Point out the receipt id, typed verdicts, `accep
 identical frozen verdict for the default example from a committed fixture (with a visible note), so
 the demo never shows a dead error.
 
-**1:25, why it matters.** Show the overclaiming number: 48% of confident AI major-regulator claims
-are contradicted by the data, rising to 64% on famous checkpoints and cytokines.
+**1:25, why it matters.** Show the reliability benchmark on the overclaim band. About half of
+confident AI major-regulator claims are contradicted by the frozen data: 46 of 96, a 47.9% rate with
+a 95% confidence interval of 38 to 58 percent (a fresh Claude Opus 4.8 run: 51.7%). Famous checkpoint
+and cytokine genes are overclaimed 63.9% of the time, far above the 7.0% rate on data-confirmed
+non-regulators, one-sided permutation p 0.0001. Stated confidence does not track correctness. It
+replays offline: `./prospect reliability-benchmark`.
 
 **1:38, independent check.** Open Evidence. The locked 79-target comparison finds positive
 cross-study agreement in perturbation reach (`rho=0.374`, permutation `P=0.0004`), and all three
@@ -67,6 +71,7 @@ Accepted records require frozen replay plus a human key. Close on root `root_a8b
 
 ```bash
 ./prospect verify
+./prospect reliability-benchmark
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 python -m pytest tests/ -q

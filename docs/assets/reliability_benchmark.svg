@@ -1,0 +1,54 @@
+<svg width="1000" height="640" viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif">
+  <rect x="0" y="0" width="1000" height="640" fill="#f7f4ee"/>
+
+  <text x="60" y="66" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#21201d">AI biology claim reliability</text>
+  <text x="60" y="96" font-size="16" fill="#6f6a60">How often confident AI major-regulator claims survive the frozen CRISPRi Perturb-seq data.</text>
+
+  <!-- 50% reference line across the plot -->
+  <line x1="600" y1="120" x2="600" y2="512" stroke="#e4ddd0" stroke-width="1" stroke-dasharray="4 5"/>
+  <text x="600" y="536" font-size="11" fill="#8a8577" text-anchor="middle">50%</text>
+
+  <!-- Section A: contradiction rate with CI -->
+  <text x="60" y="150" font-size="12.5" letter-spacing="1.2" fill="#8a8577">CONFIDENT MAJOR-REGULATOR CLAIMS CONTRADICTED</text>
+  <rect x="300" y="162" width="287" height="28" rx="3" fill="#b8442b"/>
+  <!-- 95% CI whisker 38 to 58 percent -->
+  <line x1="528" y1="176" x2="648" y2="176" stroke="#21201d" stroke-width="2"/>
+  <line x1="528" y1="169" x2="528" y2="183" stroke="#21201d" stroke-width="2"/>
+  <line x1="648" y1="169" x2="648" y2="183" stroke="#21201d" stroke-width="2"/>
+  <text x="662" y="181" font-size="15" font-weight="700" fill="#21201d">47.9%</text>
+  <!-- current-model marker at 51.7% -->
+  <line x1="610" y1="158" x2="610" y2="194" stroke="#4a5f88" stroke-width="2"/>
+  <text x="614" y="210" font-size="12" fill="#4a5f88">Claude Opus 4.8, fresh run: 51.7%</text>
+  <text x="60" y="181" font-size="14" fill="#6f6a60">46 of 96</text>
+  <text x="60" y="234" font-size="13.5" fill="#6f6a60">95% confidence interval 38 to 58 percent. About half of confident claims do not survive the data.</text>
+
+  <!-- Section B: famous vs baseline overclaim -->
+  <text x="60" y="286" font-size="12.5" letter-spacing="1.2" fill="#8a8577">OVERCLAIM RATE: FAMOUS GENES vs DATA-CONFIRMED NON-REGULATORS</text>
+  <text x="290" y="316" font-size="14" fill="#21201d" text-anchor="end">Famous</text>
+  <rect x="300" y="300" width="383" height="26" rx="3" fill="#b8442b"/>
+  <text x="695" y="318" font-size="14" font-weight="700" fill="#21201d">63.9%</text>
+  <text x="290" y="350" font-size="14" fill="#21201d" text-anchor="end">Non-regulators</text>
+  <rect x="300" y="334" width="42" height="26" rx="3" fill="#3a6b4f"/>
+  <text x="352" y="352" font-size="14" font-weight="700" fill="#21201d">7.0%</text>
+  <text x="60" y="392" font-size="13.5" fill="#6f6a60">Fame, not biology, drives the confident wrong call. One-sided permutation p = 0.0001.</text>
+
+  <!-- Section C: calibration -->
+  <text x="60" y="440" font-size="12.5" letter-spacing="1.2" fill="#8a8577">CONTRADICTION RATE BY THE MODEL'S STATED CONFIDENCE</text>
+  <text x="290" y="470" font-size="13" fill="#6f6a60" text-anchor="end">confidence 0.00 to 0.60</text>
+  <rect x="300" y="456" width="180" height="18" rx="2" fill="#8a8577"/>
+  <text x="488" y="470" font-size="12.5" fill="#6f6a60">50.0%</text>
+  <text x="290" y="494" font-size="13" fill="#6f6a60" text-anchor="end">0.60 to 0.80</text>
+  <rect x="300" y="480" width="207" height="18" rx="2" fill="#8a8577"/>
+  <text x="515" y="494" font-size="12.5" fill="#6f6a60">57.4%</text>
+  <text x="290" y="518" font-size="13" fill="#21201d" text-anchor="end">0.80 to 0.95</text>
+  <rect x="300" y="504" width="258" height="18" rx="2" fill="#b8442b"/>
+  <text x="566" y="518" font-size="12.5" font-weight="700" fill="#b8442b">71.7%</text>
+  <text x="290" y="542" font-size="13" fill="#6f6a60" text-anchor="end">0.95 to 1.00</text>
+  <rect x="300" y="528" width="160" height="18" rx="2" fill="#8a8577"/>
+  <text x="468" y="542" font-size="12.5" fill="#6f6a60">44.4%</text>
+  <text x="60" y="576" font-size="13.5" fill="#6f6a60">Higher stated confidence does not lower the contradiction rate. Confidence is not a safety signal.</text>
+
+  <!-- Footer -->
+  <line x1="60" y1="600" x2="940" y2="600" stroke="#e4ddd0" stroke-width="1"/>
+  <text x="60" y="622" font-size="12.5" fill="#8a8577">Computation over released data, not wet-lab or clinical truth. accepted=false. Replays offline: ./prospect reliability-benchmark</text>
+</svg>

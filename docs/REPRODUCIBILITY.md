@@ -14,10 +14,11 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Then the nine offline commands, each of which reads only committed inputs:
+Then the ten offline commands, each of which reads only committed inputs:
 
 ```bash
 ./prospect verify
+./prospect reliability-benchmark
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 python tests/test_marson.py
@@ -33,6 +34,7 @@ python -m pytest tests/ -q
 | Command | Result |
 |---|---|
 | `./prospect verify` | `verified 53485 objects · 0 drift`, frontier root `root_a8b0dcdd4024e12f`, EXACT-lane PASS |
+| `./prospect reliability-benchmark` | reproduces 46/96 = 47.9% [CI 38 to 58], famous 63.9% vs 7.0% (p 0.0001), calibration; rewrites the packet with no git diff |
 | `python benchmark/mutation_pack.py` | `0` false admissions, clean recall `10/10`, PASS |
 | `python tests/test_skill_parity.py` | PASS (skill mirrors the engine, 0 mismatch) |
 | `python tests/test_marson.py` | PASS |
@@ -40,7 +42,7 @@ python -m pytest tests/ -q
 | `python examples/receipt_bridge_client.py --json` | PASS: receipt bridge over the stdio MCP |
 | `./prospect claude-science` | PASS: regenerates the Claude Science acceptance demo |
 | `./prospect demo-mode --reset` | PASS: builds a shareable proposal packet, local sqlite only |
-| `python -m pytest tests/ -q` | `213 passed` |
+| `python -m pytest tests/ -q` | `221 passed` |
 
 No command reaches S3, figshare, an API, or an environment secret. The connector clients spawn the
 local `./prospect mcp` stdio server, which imports only the standard library and this repo. A fresh

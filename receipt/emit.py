@@ -34,6 +34,9 @@ K562 = _artifact("Replogle K562 DE counts", "examples/data/replogle_k562_de.csv"
 RPE1 = _artifact("Replogle RPE1 DE counts", "examples/data/replogle_rpe1_de.csv", "figshare:20029387")
 COLLECTRI = _artifact("CollecTRI regulons", "examples/data/collectri_human.csv", "omnipathdb.org")
 PGGT1B_DEFENDED = _artifact("PGGT1B defended evidence", "examples/data/pggt1b_defended_evidence.json")
+BENCH_CORPUS = _artifact("frozen benchmark corpus (seed 7)", "examples/data/benchmark_corpus.json", "loop/make_corpus.py")
+MARSON_DE = _artifact("Marson CD4 DE table", "examples/data/marson_de_full.csv",
+                      "s3://genome-scale-tcell-perturb-seq/marson2025_data/")
 
 RECEIPT_CLAIMS = {
     "regulator_vs_effector": (
@@ -137,12 +140,55 @@ def from_agent():
         scope=[h.get("why_novel", ""), "a hypothesis to test, not an established result"],
         acceptance=acc).freeze()
 
+def from_benchmark():
+    p = os.path.join(DATA, "reliability_benchmark.json")
+    if not os.path.exists(p):
+        return None
+    b = json.load(open(p))
+    core = b["metrics"]["contradiction_rate"]["pooled_core"]
+    eff = b["famous_gene_effect"]
+    bins = [x for x in b["confidence_calibration"]["bins"] if x.get("contradiction_rate") is not None]
+    peak = max(bins, key=lambda x: x["contradiction_rate"]) if bins else None
+    atoms = [
+        EvidenceAtom(fact="confident major-regulator claims contradicted by the frozen assay",
+                     value=f"{core['refuted']}/{core['checkable']} = {round(core['contradiction_rate']*100, 1)}%, "
+                           f"95% CI {round(core['ci95'][0]*100)} to {round(core['ci95'][1]*100)} percent",
+                     source="engine/checkers/marson_perturbseq.py"),
+        EvidenceAtom(fact="famous checkpoint and cytokine genes overclaimed far above data-confirmed non-regulators",
+                     value=f"{round(eff['famous_overclaim_rate']*100, 1)}% vs {round(eff['baseline_overclaim_rate']*100, 1)}%, "
+                           f"one-sided permutation p={eff['permutation_p_one_sided']}",
+                     source="seeded 10,000-iteration permutation test"),
+    ]
+    if peak:
+        atoms.append(EvidenceAtom(fact="stated confidence does not track correctness",
+                                  value=f"contradiction rate peaks at {round(peak['contradiction_rate']*100, 1)}% "
+                                        f"in the {peak['stated_confidence']} stated-confidence band",
+                                  source="confidence-calibration analysis"))
+    return Receipt(
+        frontier=FRONTIER_ID,
+        claim=("A measurement of how often confident LLM biology claims survive the frozen assay. "
+               "It is a benchmark result, reproducible offline, not an accepted biological claim."),
+        kind="reliability_benchmark", subject=b["method"]["models_pooled"],
+        producer={"kind": "benchmark", "model": None, "run": "frontier/reliability_benchmark.py"},
+        artifacts=[BENCH_CORPUS, MARSON_DE],
+        evidence=atoms,
+        verifier=Verifier(name="engine/checkers/marson_perturbseq.py",
+                          method="deterministic checker over the frozen DE table, with Wilson intervals and a seeded permutation test; the committed packet re-derives bit-for-bit from committed runs",
+                          replay="./prospect reliability-benchmark"),
+        status="computationally_reproduced",
+        replayability="exact",
+        scope=["computation over released data, not wet-lab or clinical truth"],
+        acceptance=_root_acceptance()).freeze()
+
 def emit_all(outdir=OUTDIR):
     findings = [json.loads(l) for l in open(os.path.join(FR, "findings.jsonl"))] if os.path.exists(os.path.join(FR, "findings.jsonl")) else []
     receipts = [from_finding(f) for f in findings]
     a = from_agent()
     if a:
         receipts.append(a)
+    bench = from_benchmark()
+    if bench:
+        receipts.append(bench)
     os.makedirs(outdir, exist_ok=True)
     for stale in glob.glob(os.path.join(outdir, "rcpt_*.json")):
         os.remove(stale)

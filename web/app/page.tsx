@@ -1765,6 +1765,60 @@ function PGGT1BDeepDiveCard({ dive, onGene }: { dive: PGGT1BDeepDive; onGene: (g
   );
 }
 
+function ReliabilityBenchmark() {
+  const [rb, setRb] = useState<any>(null);
+  useEffect(() => {
+    fetch("/data/reliability_benchmark.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then(setRb)
+      .catch(() => setRb(null));
+  }, []);
+  if (!rb) return null;
+  const core = rb.metrics?.contradiction_rate?.pooled_core;
+  const eff = rb.famous_gene_effect;
+  const bins = (rb.confidence_calibration?.bins || []).filter((b: any) => b.n);
+  const current = rb.current_model?.core_contradiction;
+  if (!core || !eff) return null;
+  const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
+  return (
+    <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+        <div>
+          <div className="t-label">AI biology claim reliability benchmark</div>
+          <h2 className="h2-app" style={{ margin: "5px 0 0" }}>Confident claims survive the frozen data about half the time.</h2>
+        </div>
+        <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>reproducible, no model in the loop</span>
+      </div>
+      <p className="t-body-sm" style={{ margin: 0, maxWidth: "80ch", color: "var(--ink-3)" }}>
+        Of {core.checkable} confident major-regulator claims the frozen assay could check, {core.refuted} were
+        contradicted: {pct(core.contradiction_rate)}, 95% CI {pct(core.ci95[0])} to {pct(core.ci95[1])}
+        {current ? ` (a fresh Claude Opus 4.8 run: ${pct(current.contradiction_rate)})` : ""}. Famous checkpoint and
+        cytokine genes are overclaimed {pct(eff.famous_overclaim_rate)}, far above the {pct(eff.baseline_overclaim_rate)}
+        {" "}rate on genes the data classes as non-regulators, one-sided permutation p {eff.permutation_p_one_sided}.
+      </p>
+      {bins.length > 0 && (
+        <div style={{ display: "grid", gap: 5 }}>
+          <div className="t-label">Contradiction rate by the model&apos;s stated confidence</div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {bins.map((b: any, i: number) => (
+              <span key={i} className="chip" style={{ ["--tone" as any]: b.contradiction_rate >= 0.7 ? "var(--cinnabar)" : "var(--stone)" }}>
+                conf {b.stated_confidence}: {pct(b.contradiction_rate)} (n {b.n})
+              </span>
+            ))}
+          </div>
+          <p className="t-caption" style={{ margin: "2px 0 0", color: "var(--ink-4)" }}>
+            Higher stated confidence does not lower the contradiction rate. Confidence is not a safety signal.
+          </p>
+        </div>
+      )}
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <a className="btn btn-secondary btn-sm" href="/data/reliability_benchmark.json">Open benchmark artifact</a>
+        <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>./prospect reliability-benchmark</span>
+      </div>
+    </section>
+  );
+}
+
 function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
   const byKind = Object.fromEntries(d.findings.map((f) => [f.kind, f]));
   const order = ["activation_module", "regulator_vs_effector", "essentiality_artifact", "cross_cell_type_transfer", "regulon_recovery"];
@@ -1778,6 +1832,7 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
           comparability and missing coverage remain visible, and every new result stays proposal-only.
         </p>
       </div>
+      <ReliabilityBenchmark />
       {d.gse271788_calibration && (
         <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>

@@ -73,7 +73,9 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 1. Open Check. The first screen is the real Claude Science artifact and Prospect's causal verdicts.
 2. Paste `IL7R`, `CCR7`, `PD-1`, `ENSG00000121410`, and `NOTGENE` into the check-your-claim box.
 3. Inspect the shareable result link: receipt, typed verdicts, `accepted=false`, `human_signature_required`.
-4. Read the 48 and 64 percent overclaiming benchmark.
+4. Read the reliability benchmark on the overclaim band: about half of confident claims contradicted
+   (46 of 96, 95% CI 38 to 58 percent), 64% on famous genes at permutation p 0.0001, and a
+   confidence-calibration curve. The full section is on the Evidence tab.
 5. Open Evidence for the independent 79-target calibration and its three adversarial kills.
    Read the Rest-adjusted sensitivity beside it: incremental activation-specific reach does not
    clear the locked bar.
@@ -91,6 +93,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 - `/data/pggt1b_defended_evidence.json`
 - `/data/finding_index.json`
 - `/data/overclaim_counter.json`
+- `/data/reliability_benchmark.json`
 - `/data/receipt_bridge/receipt_contract.json`
 - `/data/receipt_bridge/receipt_manifest.json`
 - `/data/receipt_bridge/receipt_bundle.json`
@@ -100,6 +103,7 @@ Ceiling: computation over released data, not wet-lab or clinical truth.
 ```bash
 # Offline: bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.
 ./prospect verify
+./prospect reliability-benchmark
 python benchmark/mutation_pack.py
 python tests/test_skill_parity.py
 python tests/test_marson.py

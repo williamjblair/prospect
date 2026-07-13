@@ -1,4 +1,5 @@
 """The AI Biology Reliability Benchmark reproduces from committed data, with correct statistics."""
+import json
 import sys
 from pathlib import Path
 
@@ -81,6 +82,14 @@ def test_packet_stays_proposal_only_under_the_ceiling():
     assert packet["honest_ceiling"] == "computation over released data, not wet-lab or clinical truth"
 
 
+def test_committed_packet_matches_a_fresh_build():
+    # The committed artifact must be computed, not hand-edited: a fresh build from the committed
+    # frozen runs reproduces it exactly. This is the benchmark's own thesis applied to itself.
+    built = build_reliability_benchmark()
+    committed = json.loads((ROOT / "examples" / "data" / "reliability_benchmark.json").read_text())
+    assert built == committed, "reliability_benchmark.json is stale; run ./prospect reliability-benchmark"
+
+
 if __name__ == "__main__":
     test_wilson_ci_is_a_correct_95_percent_interval()
     test_headline_reproduces_from_committed_frozen_runs()
@@ -88,4 +97,5 @@ if __name__ == "__main__":
     test_famous_gene_effect_is_significant()
     test_calibration_bins_are_well_formed()
     test_packet_stays_proposal_only_under_the_ceiling()
+    test_committed_packet_matches_a_fresh_build()
     print("PASS: reliability benchmark")

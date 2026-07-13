@@ -1,0 +1,91 @@
+{
+  "frontier": "prospect_marson_cd4_perturbseq",
+  "claim": "A measurement of how often confident LLM biology claims survive the frozen assay. It is a benchmark result, reproducible offline, not an accepted biological claim.",
+  "kind": "reliability_benchmark",
+  "subject": [
+    "Haiku 4.5",
+    "Sonnet 5",
+    "Opus 4.8",
+    "Fable 5"
+  ],
+  "producer": {
+    "kind": "benchmark",
+    "model": null,
+    "run": "frontier/reliability_benchmark.py"
+  },
+  "artifacts": [
+    {
+      "name": "frozen benchmark corpus (seed 7)",
+      "sha256": "055e5b9bfddfd5ad",
+      "locator": "loop/make_corpus.py"
+    },
+    {
+      "name": "Marson CD4 DE table",
+      "sha256": "ef33a498f6dad50c",
+      "locator": "s3://genome-scale-tcell-perturb-seq/marson2025_data/"
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "confident major-regulator claims contradicted by the frozen assay",
+      "value": "46/96 = 47.9%, 95% CI 38 to 58 percent",
+      "source": "engine/checkers/marson_perturbseq.py"
+    },
+    {
+      "fact": "famous checkpoint and cytokine genes overclaimed far above data-confirmed non-regulators",
+      "value": "63.9% vs 7.0%, one-sided permutation p=0.0001",
+      "source": "seeded 10,000-iteration permutation test"
+    },
+    {
+      "fact": "stated confidence does not track correctness",
+      "value": "contradiction rate peaks at 71.7% in the 0.80 to 0.95 stated-confidence band",
+      "source": "confidence-calibration analysis"
+    }
+  ],
+  "verifier": {
+    "name": "engine/checkers/marson_perturbseq.py",
+    "method": "deterministic checker over the frozen DE table, with Wilson intervals and a seeded permutation test; the committed packet re-derives bit-for-bit from committed runs",
+    "replay": "./prospect reliability-benchmark"
+  },
+  "status": "computationally_reproduced",
+  "replayability": "exact",
+  "schema_version": "prospect.receipt.v1",
+  "conditions": [
+    "computation over released data, not wet-lab or clinical truth"
+  ],
+  "verification_requirements": [
+    "deterministic checker over the frozen DE table, with Wilson intervals and a seeded permutation test; the committed packet re-derives bit-for-bit from committed runs",
+    "./prospect reliability-benchmark",
+    "human_signature_required"
+  ],
+  "state_diff": {
+    "accepted": false,
+    "model_can_apply": false,
+    "effect": "proposal_only_no_state_mutation"
+  },
+  "submitter_identity": {
+    "kind": "benchmark",
+    "model": null,
+    "run": "frontier/reliability_benchmark.py"
+  },
+  "replay_metadata": {
+    "command": "./prospect reliability-benchmark",
+    "verifier": "engine/checkers/marson_perturbseq.py",
+    "replayability": "exact",
+    "frontier": "prospect_marson_cd4_perturbseq"
+  },
+  "verdicts": [],
+  "scope": [
+    "computation over released data, not wet-lab or clinical truth"
+  ],
+  "acceptance": {
+    "signer": "williamblair",
+    "delta_id": "root_a8b0dcdd4024e12f",
+    "pubkey": "a864befc0235135dedc81a05c81d256df5b9f69292e5d9a888e3d2d1ec33ae81",
+    "signature": "65fdf176afb4ba35158a76ff25ff6bdddad989fa22e171d6b033ec57a29dd44470239c2eea863ce3579fbd14bb1bba5824b92288954adc14566238dee280f600",
+    "attestation_type": "legacy_frontier_root_signature",
+    "covered_root": "root_a8b0dcdd4024e12f"
+  },
+  "receipt_id": "rcpt_11cbbbd040980a16",
+  "accepted": false
+}

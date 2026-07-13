@@ -85,6 +85,7 @@ external_run_receipt_demo = external_run_receipt_preview()
 # Kept packets surfaced in the app.
 pggt1b_deep_dive = load("pggt1b_deep_dive.json")
 overclaim_counter = load("overclaim_counter.json")
+reliability_benchmark = load("reliability_benchmark.json")
 finding_index = load("finding_index.json")
 pggt1b_defended_evidence = load("pggt1b_defended_evidence.json")
 claude_science_acceptance_demo = load("claude_science_acceptance_demo.json")
@@ -168,6 +169,7 @@ data = {
 os.makedirs(PUB, exist_ok=True)
 for obj, name in [(pggt1b_deep_dive, "pggt1b_deep_dive.json"),
                   (overclaim_counter, "overclaim_counter.json"),
+                  (reliability_benchmark, "reliability_benchmark.json"),
                   (finding_index, "finding_index.json"),
                   (pggt1b_defended_evidence, "pggt1b_defended_evidence.json"),
                   (claude_science_acceptance_demo, "claude_science_acceptance_demo.json"),

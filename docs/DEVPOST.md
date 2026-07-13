@@ -79,17 +79,34 @@ model has mutated is zero.
   from frozen data with zero drift.
 - **Ed25519 signing** as the only path to an accepted record. A fresh clone auto-generates its own
   local key, so the committed root can be verified by re-derivation but never silently re-signed.
+- **A statistically rigorous reliability benchmark.** Pure standard-library statistics (Wilson score
+  intervals, a seeded 10,000-iteration permutation test, a confidence-calibration curve) over the
+  committed frozen model runs. The model generations are frozen, so the whole benchmark replays
+  offline with no API calls and no re-grading.
 - **A static, reproducible narrative.** The entire on-site judge story is served from committed JSON.
   The core science reproduces from a bare `git clone` plus `pip install -r requirements.txt`: no API
   key, no cloud storage, no large data download. CI runs the same path.
 
 ## The number that made the case
 
-We built an overclaiming benchmark from confident AI major-regulator claims. Of 96 claims comparable
-to the frozen assay, 46 were contradicted by the measured data. That is 48 percent, and it rises to
-64 percent on the famous checkpoints and cytokines that show up most in generated lists.
+We turned this into a rigorous, reproducible measurement: the AI Biology Claim Reliability Benchmark.
+A model, blind to the answer, judges genes as major regulators; a deterministic checker grades every
+confident claim against the frozen assay; the result carries confidence intervals, a significance
+test, and a calibration curve.
 
-![The overclaim benchmark and a self-correction](assets/screenshot_03_overclaim.png)
+About half of confident major-regulator claims are contradicted by the measured data: 46 of 96
+comparable claims, a 47.9% contradiction rate with a 95% confidence interval of 38 to 58 percent. A
+fresh Claude Opus 4.8 run lands at 51.7%. Famous checkpoint and cytokine genes are called major
+regulators 63.9% of the time, far above the 7.0% rate on genes the data classes as non-regulators
+(one-sided permutation p = 0.0001). And a model's stated confidence does not track whether the data
+contradicts it: the contradiction rate peaks at 71.7% in the 0.80 to 0.95 confidence band. Fame, not
+biology, drives the confident wrong call.
+
+The benchmark replays offline from committed frozen model runs with no API calls
+(`./prospect reliability-benchmark`). Full method and results:
+[`docs/RELIABILITY_BENCHMARK.md`](RELIABILITY_BENCHMARK.md).
+
+![The AI biology claim reliability benchmark](assets/reliability_benchmark.png)
 
 Prospect also corrects itself. An independently frozen GSE278572 comparison qualifies Prospect's own
 MED12 interpretation: high resting reach argues against activation specificity, but does not by
@@ -99,7 +116,10 @@ stays `accepted=false`. A trust layer that cannot flag its own overreach is not 
 ## Accomplishments
 
 - A real Claude Science artifact submitted through an in-product connector and gated, end to end.
-- A measured, reproducible overclaiming rate on AI biology claims rather than an anecdote.
+- A measured, reproducible reliability result on AI biology claims rather than an anecdote: about
+  half of confident major-regulator claims contradicted (95% CI 38 to 58 percent), a fame-driven
+  overclaiming effect at permutation p 0.0001, and evidence that stated confidence is not a safety
+  signal.
 - One honest, proposal-only lead: PGGT1B, presented with its prenylation mechanism, its partners, a
   refutation experiment, and an open batch-specificity question rather than as settled biology.
 - A frozen gate that re-derives with zero drift and a signing boundary with zero model mutations.

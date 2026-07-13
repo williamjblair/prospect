@@ -2,14 +2,15 @@
   "frontier": "prospect_marson_cd4_perturbseq",
   "frontier_root": "root_a8b0dcdd4024e12f",
   "signer": "williamblair",
-  "receipt_count": 6,
+  "receipt_count": 7,
   "receipt_ids": [
     "rcpt_204a55aadad0acb6",
     "rcpt_789f6deab754663b",
     "rcpt_7a291c0181112e02",
     "rcpt_6c3521a5b3908fe5",
     "rcpt_d35f07132f5602a2",
-    "rcpt_b4f36fd7c042f0bb"
+    "rcpt_b4f36fd7c042f0bb",
+    "rcpt_11cbbbd040980a16"
   ],
   "replay": "./prospect verify",
   "mcp_command": "./prospect mcp",
