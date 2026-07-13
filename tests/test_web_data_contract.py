@@ -244,6 +244,25 @@ def test_frontier_json_keeps_broad_reach_separate_from_activation_specificity():
     assert sum(row["passed"] for row in sensitivity["adversarial_kills"].values()) == 1
 
 
+def test_frontier_json_embeds_a_well_formed_autonomous_agent_run():
+    data = json.loads(FRONTIER.read_text())
+    agent = data["agent"]
+
+    # The autonomous Claude agent is the Built-with-Claude centerpiece; keep its
+    # committed run well-formed so the Lead tab always renders from static data.
+    assert agent["model"] == "claude-opus-4-8"
+    assert agent["tool_calls"] == 12
+    assert agent["rounds"] == 3
+    assert isinstance(agent["transcript"], list)
+    assert len(agent["transcript"]) == agent["tool_calls"]
+    for step in agent["transcript"]:
+        assert {"round", "tool", "input", "result"} <= set(step)
+    assert agent["hypothesis"]["gene"] == "PGGT1B"
+    assert agent["hypothesis"]["evidence"]
+    assert agent["delta_id"].startswith("hyp_")
+    assert agent["signer"] == "williamblair"
+
+
 if __name__ == "__main__":
     test_frontier_json_uses_public_typed_class_names()
     test_frontier_json_keeps_only_the_consolidated_packet_surface()
@@ -255,4 +274,5 @@ if __name__ == "__main__":
     test_frontier_json_embeds_claude_science_acceptance_demo()
     test_frontier_json_embeds_pggt1b_defended_evidence()
     test_frontier_json_embeds_substrate_coverage_report()
+    test_frontier_json_embeds_a_well_formed_autonomous_agent_run()
     print("PASS: web data contract")

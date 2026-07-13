@@ -57,9 +57,11 @@ Claude is on the generative side of the boundary, and never on the trust side.
   Claude Science with proposal-only tools. A Claude Science session can send its real export straight
   into Prospect's frozen gate and get back a receipt and a persistent proposal page. The connector
   cannot accept anything; it can only propose.
-- **A Claude agent loop.** A Claude agent proposes gene lists, searches the literature for prior art,
-  and drafts mechanism hypotheses. Each output lands as a proposal with `accepted=false`. The model
-  does the proposing, searching, and drafting; a frozen gate and a human key do the accepting.
+- **A Claude agent loop** (`./prospect agent`). A Claude Opus agent proposes gene lists, searches the
+  literature for prior art, and drafts mechanism hypotheses. Each output lands as a proposal with
+  `accepted=false`. The model does the proposing, searching, and drafting; a frozen gate and a human
+  key do the accepting. The committed run of this loop (12 tool calls, converging on PGGT1B) is on the
+  Lead tab; `./prospect agent` reruns it live with an Anthropic API key.
 
 This is the deliberate design: the model is maximally useful where it generates, and structurally
 excluded where the record becomes true. Across the whole system, the count of accepted records a
@@ -116,7 +118,7 @@ without us in the middle.
 
 ## Try it out
 
-A 36-second silent walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
+A 53-second silent, captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
 The one-page judge handout is [`docs/JUDGE_HANDOUT.md`](JUDGE_HANDOUT.md); the two-minute demo script
 is [`docs/DEMO.md`](DEMO.md).
 

@@ -347,7 +347,7 @@ export default function Page() {
           <span className="console-mark"><ShieldCheck size={15} aria-hidden /></span>
           <span>
             <span className="console-brand-name">Prospect</span>
-            <span className="console-brand-sub">Computation over released data, not wet-lab truth.</span>
+            <span className="console-brand-sub">Computation over released data, not wet-lab or clinical truth.</span>
           </span>
         </div>
         <nav className="console-nav" aria-label="Main sections">

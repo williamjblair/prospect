@@ -88,6 +88,9 @@ Every submission remains `accepted=false` until human review.
 
 ## Run It
 
+Requires Python 3.10+ (tested on 3.12). Clone rather than "Download ZIP": a ZIP strips the executable
+bit on `./prospect`, so from a ZIP run `bash prospect verify` (or `python3 -m cli verify`) instead.
+
 ```bash
 # Offline: bare `git clone` + `pip install -r requirements.txt`. No API key, no network, no hosted service.
 ./prospect verify

@@ -129,11 +129,11 @@ root. To check trust, re-derive and compare the committed root, never re-sign.
 ## External usage state
 
 As of 2026-07-13 (submission day), the live public ledger holds 0 published external-team
-submissions: `submission_count` 0, `proposal_count` 0, and an empty `by_producer` map. The hosted
-store has logged 30 total events and 0 acceptance events; those events are demo, private, and
-pre-submission smoke runs, not outside adoption. The second-producer connector case is a genericity
-demonstration, not adoption evidence. Prospect reports this number plainly because the whole point is
-that unaccepted activity stays visibly unaccepted: `accepted=false`, `next=human_signature_required`.
+submissions: `submission_count` 0, `proposal_count` 0, `acceptance_events` 0, and an empty
+`by_producer` map. The only events the hosted store has seen are demo, private, and pre-submission
+smoke runs, not outside adoption. The second-producer connector case is a genericity demonstration,
+not adoption evidence. Prospect reports this plainly because the whole point is that unaccepted
+activity stays visibly unaccepted: `accepted=false`, `next=human_signature_required`.
 
 ## Trust Boundary
 
