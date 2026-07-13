@@ -75,6 +75,11 @@ confidence, the contradiction rate does not fall as confidence rises:
 The highest contradiction rate sits in the 0.80 to 0.95 band. A model that expresses more confidence
 here is not more likely to be right.
 
+Across these 131 confident claims, stated confidence averages 74.4% while only 38.9% survive the
+frozen data: an overconfidence gap of 35.5 points. The point-biserial correlation between stated
+confidence and being correct is -0.0807, so confidence is not merely uninformative here, it is faintly
+anti-correlated with correctness.
+
 ## Why this matters
 
 Reproducible is not verified. A model can produce a fluent, confident regulatory claim in a second,

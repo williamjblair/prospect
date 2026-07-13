@@ -75,6 +75,27 @@ def test_calibration_bins_are_well_formed():
             assert b["ci95"][0] <= b["contradiction_rate"] <= b["ci95"][1]
 
 
+def test_per_model_rate_holds_across_every_model():
+    per_model = build_reliability_benchmark()["per_model"]
+    # Every historical model is present and every one contradicts a large share of its own confident
+    # claims, so the effect is not an artifact of one weak model.
+    assert len(per_model) == 4
+    for m in per_model:
+        core = m["core_contradiction"]
+        assert core["checkable"] > 0
+        assert 0.35 < core["contradiction_rate"] < 0.65  # the strongest still ~2 in 5
+
+
+def test_calibration_scalar_shows_overconfidence():
+    cal = build_reliability_benchmark()["confidence_calibration"]["summary"]
+    # Stated confidence overshoots the actual correct rate, and confidence does not positively track
+    # correctness (point-biserial r is near zero or negative).
+    assert cal["n"] > 0
+    assert cal["mean_stated_confidence"] > cal["correct_rate"]
+    assert cal["overconfidence_gap"] > 0.2
+    assert cal["point_biserial_r"] < 0.1
+
+
 def test_packet_stays_proposal_only_under_the_ceiling():
     packet = build_reliability_benchmark()
     assert packet["accepted"] is False
@@ -96,6 +117,8 @@ if __name__ == "__main__":
     test_two_metrics_are_defined_and_distinct()
     test_famous_gene_effect_is_significant()
     test_calibration_bins_are_well_formed()
+    test_per_model_rate_holds_across_every_model()
+    test_calibration_scalar_shows_overconfidence()
     test_packet_stays_proposal_only_under_the_ceiling()
     test_committed_packet_matches_a_fresh_build()
     print("PASS: reliability benchmark")

@@ -33,7 +33,7 @@ Prospect proves computation over released data, not wet-lab or clinical truth.
 
 1. Check: real Claude Science signature enters Prospect and receives typed causal verdicts.
 2. Check: paste a gene list, DE table, or signature and copy the shareable result link.
-3. Check: inspect the reliability benchmark, about half of confident claims contradicted (95% CI 38 to 58 percent), 64% on famous genes at permutation p 0.0001.
+3. Check: inspect the reliability benchmark, 46 of 96 confident claims contradicted (47.9%, 95% CI 38 to 58 percent), 63.9% on famous genes at permutation p 0.0001.
 4. Check: inspect the GSE278572 correction that qualifies Prospect's own MED12 interpretation.
 5. Evidence: inspect the broad 79-target calibration, then its activation-specific sensitivity that does not clear the locked bar.
 6. Lead: PGGT1B is the caveated mechanism-first hypothesis worth testing.

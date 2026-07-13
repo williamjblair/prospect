@@ -426,7 +426,7 @@ export default function Page() {
 
 function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
   const p = d.phantom;
-  const rate = p?.checkable ? Math.round((p.refuted / p.checkable) * 100) : null;
+  const ratePct = p?.checkable ? ((p.refuted / p.checkable) * 100).toFixed(1) : null;
   return (
     <div className="overview-stack" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 30 }}>
       <header className="detail-hero" style={{ paddingBottom: 4 }}>
@@ -436,11 +436,11 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
           Reproducible is not verified. Prospect checks an AI-generated gene list against frozen perturbation data,
           separates candidate drivers from passengers, and keeps every result proposal-only until a human key accepts it.
         </p>
-        {rate != null && (
+        {ratePct != null && (
           <p className="t-body-sm" style={{ marginTop: 14, maxWidth: "58ch", color: "var(--ink-3)" }}>
             In this frozen assay,{" "}
-            <strong style={{ color: "var(--cinnabar)", fontWeight: 700 }}>{rate}%</strong>{" "}
-            of confident AI major-regulator claims are contradicted by the measured data.{" "}
+            <strong style={{ color: "var(--cinnabar)", fontWeight: 700 }}>{ratePct}%</strong>{" "}
+            of confident AI major-regulator claims are contradicted by the measured data. No model sits in the trust path.{" "}
             <button
               type="button"
               onClick={() => setTab("findings")}
@@ -452,111 +452,28 @@ function Overview({ d, setTab }: { d: Data; setTab: (tab: string) => void }) {
         )}
       </header>
 
-      {d.agent && (
-        <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "flex", gap: 18, alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <div>
-            <div className="t-label" style={{ marginBottom: 6 }}>How Claude is used</div>
-            <p className="t-body-sm" style={{ margin: 0, maxWidth: "74ch", color: "var(--ink-3)" }}>
-              Claude proposes and searches. An autonomous Claude Opus agent (<span className="t-mono">{d.agent.model}</span>) ran{" "}
-              {d.agent.tool_calls} frozen-data tool calls and converged on {d.agent.hypothesis?.gene ?? "a lead"}, proposal-only.
-              No model sits in the trust path.
-            </p>
-          </div>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>
-            See the {d.agent.tool_calls} tool calls
-          </button>
-        </section>
-      )}
-
       <ProspectAcceptanceWorkbench />
 
       {d.claude_science_acceptance_demo && (
         <ClaudeScienceAcceptancePanel demo={d.claude_science_acceptance_demo} setTab={setTab} />
       )}
 
-      {rate != null && (
-        <section className="benchmark-band" style={{ display: "grid", gap: 18,
-          padding: "18px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
-          <div>
-            <div className="stat-figure" style={{ fontSize: "2.6rem", color: "var(--cinnabar)" }}>{rate}%</div>
-            <div className="t-label">AI major-regulator claims contradicted</div>
-          </div>
-          <div>
-            <h2 className="h2-app" style={{ margin: 0 }}>The gate catches confident overclaims.</h2>
-            <p className="t-body-sm" style={{ margin: "7px 0 0", color: "var(--ink-3)" }}>
-              {p.refuted} of {fmt(p.checkable)} comparable claims were contradicted by the frozen assay
-              (95% CI 38 to 58 percent). On famous checkpoints and cytokines the overclaim rate is{" "}
-              {Math.round((p.effector_overclaim_rate || 0) * 100)}%, far above the 7% rate on data-confirmed
-              non-regulators (permutation p = 0.0001). A model's stated confidence does not track whether
-              the data contradicts the claim.
-            </p>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginTop: 10 }}>
-              <a className="btn btn-secondary btn-sm" href="/data/reliability_benchmark.json">Open benchmark artifact</a>
-              <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-                ./prospect reliability-benchmark
-              </span>
-              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("findings")}>Open evidence</button>
-            </div>
-            <div className="t-caption" style={{ color: "var(--ink-4)", marginTop: 4 }}>
-              Refusal ladder: <a href="/data/overclaim_counter.json" style={{ color: "inherit" }}>/data/overclaim_counter.json</a>, <span className="t-mono">./prospect overclaim-counter</span>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {d.gse278572_comparator && (
-        <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 10 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-            <div>
-              <div className="t-label">Prospect corrected itself</div>
-              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>MED12 qualifies the Rest-reach interpretation.</h2>
-            </div>
-            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
-              {d.gse278572_comparator.status.replace(/_/g, " ")}
-            </span>
-          </div>
-          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
-            An independently frozen GSE278572 comparison covers {d.gse278572_comparator.comparison.prospect_overlap} overlapping regulators.
-            High resting reach is evidence against activation specificity, but is not sufficient by itself to label a gene housekeeping
-            or an essentiality artifact. MED12 is the one pre-registered qualification. This remains accepted=false.
-          </p>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <a className="btn btn-secondary btn-sm" href="/data/gse278572_comparator.json">Open corrective proposal</a>
-            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
-              python frontier/gse278572_comparator.py --check
-            </span>
-          </div>
-        </section>
-      )}
-
-      {d.pggt1b_defended_evidence && (
-        <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} setTab={setTab} />
-      )}
     </div>
   );
 }
 
-function PGGT1BLeadPanel({
-  evidence,
-  setTab,
-}: {
-  evidence: DefendedEvidencePacket;
-  setTab: (tab: string) => void;
-}) {
+function PGGT1BLeadPanel({ evidence }: { evidence: DefendedEvidencePacket }) {
   const partners = evidence.mechanism_dossier?.partners?.slice(0, 4).join(", ") || "FNTA, RABGGTA";
   return (
     <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 12 }}>
-      <div style={{ display: "flex", gap: 18, alignItems: "start", justifyContent: "space-between", flexWrap: "wrap" }}>
-        <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
-          <div className="t-label">PGGT1B, mechanism first</div>
-          <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
-          <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
-            Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
-            mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
-            specificity remains open.
-          </p>
-        </div>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setTab("agent")}>Open the dossier</button>
+      <div style={{ display: "grid", gap: 6, maxWidth: "76ch" }}>
+        <div className="t-label">PGGT1B, mechanism first</div>
+        <h2 className="h2-app" style={{ margin: 0 }}>The layer surfaced one proposal-only lead worth testing.</h2>
+        <p className="t-body-sm" style={{ margin: 0, color: "var(--ink-3)" }}>
+          Perturbing PGGT1B moves 3,014 transcripts in the stimulated primary CD4+ table, with a prenylation
+          mechanism suggested by partners {partners}. Three frozen kill checks are non-fatal; donor and batch
+          specificity remains open.
+        </p>
       </div>
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
         <a className="btn btn-secondary btn-sm" href="/data/pggt1b_defended_evidence.json">Open PGGT1B artifact</a>
@@ -1602,6 +1519,8 @@ function AgentView({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </div>
       )}
 
+      {d.pggt1b_defended_evidence && <PGGT1BLeadPanel evidence={d.pggt1b_defended_evidence} />}
+
       {d.pggt1b_deep_dive && <PGGT1BDeepDiveCard dive={d.pggt1b_deep_dive} onGene={onGene} />}
 
       <div>
@@ -1792,6 +1711,8 @@ function ReliabilityBenchmark() {
   const eff = rb.famous_gene_effect;
   const bins = (rb.confidence_calibration?.bins || []).filter((b: any) => b.n);
   const current = rb.current_model?.core_contradiction;
+  const perModel = (rb.per_model || []).filter((m: any) => m?.core_contradiction?.checkable);
+  const cal = rb.confidence_calibration?.summary;
   if (!core || !eff) return null;
   const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
   return (
@@ -1810,6 +1731,26 @@ function ReliabilityBenchmark() {
         cytokine genes are overclaimed {pct(eff.famous_overclaim_rate)}, far above the {pct(eff.baseline_overclaim_rate)}
         {" "}rate on genes the data classes as non-regulators, one-sided permutation p {eff.permutation_p_one_sided}.
       </p>
+      {perModel.length > 1 && (
+        <div style={{ display: "grid", gap: 5 }}>
+          <div className="t-label">Every model contradicts about half its own confident claims; the strongest still 2 in 5</div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {perModel.map((m: any, i: number) => (
+              <span key={i} className="chip" style={{ ["--tone" as any]: "var(--stone)" }}>
+                {m.label}: {pct(m.core_contradiction.contradiction_rate)} ({m.core_contradiction.refuted}/{m.core_contradiction.checkable})
+              </span>
+            ))}
+            {current && (
+              <span className="chip" style={{ ["--tone" as any]: "var(--cinnabar)" }}>
+                Opus 4.8 fresh run: {pct(current.contradiction_rate)} ({current.refuted}/{current.checkable})
+              </span>
+            )}
+          </div>
+          <p className="t-caption" style={{ margin: "2px 0 0", color: "var(--ink-4)" }}>
+            A stronger model does not close the gap. Reprocessed from the committed frozen runs, no model in the loop.
+          </p>
+        </div>
+      )}
       {bins.length > 0 && (
         <div style={{ display: "grid", gap: 5 }}>
           <div className="t-label">Contradiction rate by the model&apos;s stated confidence</div>
@@ -1822,12 +1763,16 @@ function ReliabilityBenchmark() {
           </div>
           <p className="t-caption" style={{ margin: "2px 0 0", color: "var(--ink-4)" }}>
             Higher stated confidence does not lower the contradiction rate. Confidence is not a safety signal.
+            {cal ? ` Across these ${cal.n} claims, stated confidence averages ${pct(cal.mean_stated_confidence)} while only ${pct(cal.correct_rate)} survive the data, an overconfidence gap of ${(cal.overconfidence_gap * 100).toFixed(1)} points (point-biserial r ${cal.point_biserial_r}).` : ""}
           </p>
         </div>
       )}
       <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
         <a className="btn btn-secondary btn-sm" href="/data/reliability_benchmark.json">Open benchmark artifact</a>
         <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>./prospect reliability-benchmark</span>
+      </div>
+      <div className="t-caption" style={{ color: "var(--ink-4)" }}>
+        Refusal ladder: <a href="/data/overclaim_counter.json" style={{ color: "inherit" }}>/data/overclaim_counter.json</a>, <span className="t-mono">./prospect overclaim-counter</span>
       </div>
     </section>
   );
@@ -1847,6 +1792,30 @@ function Findings({ d, onGene }: { d: Data; onGene: (g: string) => void }) {
         </p>
       </div>
       <ReliabilityBenchmark />
+      {d.gse278572_comparator && (
+        <section style={{ borderTop: "1px solid var(--rule)", paddingTop: 22, display: "grid", gap: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+            <div>
+              <div className="t-label">Prospect corrected itself</div>
+              <h2 className="h2-app" style={{ margin: "5px 0 0" }}>MED12 qualifies the Rest-reach interpretation.</h2>
+            </div>
+            <span className="chip" style={{ ["--tone" as any]: "var(--brass)" }}>
+              {d.gse278572_comparator.status.replace(/_/g, " ")}
+            </span>
+          </div>
+          <p className="t-body-sm" style={{ margin: 0, maxWidth: "78ch", color: "var(--ink-3)" }}>
+            An independently frozen GSE278572 comparison covers {d.gse278572_comparator.comparison.prospect_overlap} overlapping regulators.
+            High resting reach is evidence against activation specificity, but is not sufficient by itself to label a gene housekeeping
+            or an essentiality artifact. MED12 is the one pre-registered qualification. This remains accepted=false.
+          </p>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <a className="btn btn-secondary btn-sm" href="/data/gse278572_comparator.json">Open corrective proposal</a>
+            <span className="t-mono fz-2xs" style={{ color: "var(--field-blue)", fontWeight: 700 }}>
+              python frontier/gse278572_comparator.py --check
+            </span>
+          </div>
+        </section>
+      )}
       {d.gse271788_calibration && (
         <section style={{ display: "grid", gap: 12, padding: "14px 0", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>

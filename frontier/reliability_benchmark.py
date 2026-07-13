@@ -163,6 +163,41 @@ def _calibration(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return table
 
 
+def _calibration_scalar(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Single-number calibration over the same confident-major checkable claims the bins use.
+
+    overconfidence_gap = mean stated confidence minus the actual correct (not-contradicted) rate.
+    point_biserial_r = correlation between stated confidence and being correct; near zero or negative
+    means stated confidence does not track whether the frozen data contradicts the claim.
+    """
+    claims = [
+        r
+        for r in rows
+        if r["ai_major"]
+        and r["verdict"] in ("supported", "refuted")
+        and isinstance(r.get("ai_confidence"), (int, float))
+    ]
+    n = len(claims)
+    if n == 0:
+        return None
+    conf = [float(r["ai_confidence"]) for r in claims]
+    correct = [1 if r["verdict"] == "supported" else 0 for r in claims]
+    mean_conf = sum(conf) / n
+    correct_rate = sum(correct) / n
+    num = sum((c - mean_conf) * (y - correct_rate) for c, y in zip(conf, correct))
+    den = math.sqrt(
+        sum((c - mean_conf) ** 2 for c in conf) * sum((y - correct_rate) ** 2 for y in correct)
+    )
+    r = num / den if den else 0.0
+    return {
+        "n": n,
+        "mean_stated_confidence": round(mean_conf, 4),
+        "correct_rate": round(correct_rate, 4),
+        "overconfidence_gap": round(mean_conf - correct_rate, 4),
+        "point_biserial_r": round(r, 4),
+    }
+
+
 def _per_model(tags: list[str]) -> list[dict[str, Any]]:
     out = []
     for tag in tags:
@@ -272,6 +307,7 @@ def build_reliability_benchmark() -> dict[str, Any]:
                 "stated confidence."
             ),
             "bins": _calibration(pooled),
+            "summary": _calibration_scalar(pooled),
         },
         "per_model": _per_model(historical),
         "input_sha": {t: _sha(t) for t in historical},
@@ -316,6 +352,13 @@ def main(argv: list[str] | None = None) -> int:
                 f"    conf {b['stated_confidence']}: {b['contradicted']}/{b['n']} = "
                 f"{b['contradiction_rate']*100:.1f}%"
             )
+    cal = packet["confidence_calibration"].get("summary")
+    if cal:
+        print(
+            f"  calibration: stated confidence {cal['mean_stated_confidence']*100:.1f}% vs correct "
+            f"{cal['correct_rate']*100:.1f}%, overconfidence gap {cal['overconfidence_gap']*100:.1f} points, "
+            f"point-biserial r {cal['point_biserial_r']}"
+        )
     if "current_model" in packet:
         cm = packet["current_model"]["core_contradiction"]
         print(

@@ -22,10 +22,12 @@ def test_overview_headline_numbers_are_traceable():
     assert "Reproducible is not verified" in source
     assert "real Claude Science export" in source
     assert "p.refuted" in source
-    assert "p.effector_overclaim_rate" in source
+    # The contradiction rate now leads the hero as a one-decimal stat line; the full overclaim band
+    # and its effector rate moved to the Evidence reliability benchmark.
+    assert "contradicted by the measured data" in source
     assert "PGGT1B" in source
-    # The human acceptance boundary stays traceable on the Overview even after the standalone card
-    # was folded into the hero and the "How Claude is used" strip.
+    # The human acceptance boundary stays traceable on the Overview: human_signature_required in the
+    # context strip and the trust-path line folded into the hero.
     assert "human_signature_required" in source
     assert "No model sits in the trust path" in source
 
