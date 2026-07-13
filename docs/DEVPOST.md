@@ -13,7 +13,7 @@ Signed root: `root_a8b0dcdd4024e12f`
 
 ![Paste a claim, get a signed receipt, accepted=false](assets/prospect_demo.gif)
 
-A 53-second captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
+A 60-second captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
 
 ![The trust boundary](assets/trust_boundary.png)
 
@@ -146,7 +146,7 @@ without us in the middle.
 
 ## Try it out
 
-A 53-second silent, captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
+A 60-second silent, captioned walkthrough is at [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4).
 The one-page judge handout is [`docs/JUDGE_HANDOUT.md`](JUDGE_HANDOUT.md); the two-minute demo script
 is [`docs/DEMO.md`](DEMO.md).
 

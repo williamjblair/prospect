@@ -3,7 +3,7 @@
 Live: [prospect-sepia-six.vercel.app](https://prospect-sepia-six.vercel.app)
 
 Silent captioned walkthrough: [`docs/assets/prospect_demo.mp4`](assets/prospect_demo.mp4)
-(53s, records the live site through the arc below with on-screen title cards).
+(60s, records the live site through the arc below with on-screen title cards).
 
 Clean deterministic run:
 
